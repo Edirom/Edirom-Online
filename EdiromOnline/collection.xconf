@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<collection xmlns="http://exist-db.org/collection-config/1.0">
+    <index xmlns:mei="http://www.music-encoding.org/ns/mei">
+        <fulltext default="none" attributes="no"/>
+        <lucene>
+            <analyzer class="org.apache.lucene.analysis.standard.StandardAnalyzer"/>
+            <analyzer id="ws" class="org.apache.lucene.analysis.WhitespaceAnalyzer"/>
+            <text qname="@type" analyzer="ws"/>
+            <text qname="@dbkey"/>
+            <text qname="@role"/>
+            <text qname="@facs"/>
+            <text qname="@target"/>
+            <text qname="@plist" analyzer="ws"/>
+            <text qname="@label"/>
+        </lucene>
+        <create qname="@type" type="xs:string"/>
+        <create qname="@plist" type="xs:string"/>
+        <create qname="@facs" type="xs:string"/>
+        
+        <!--
+        
+        <create qname="@dbkey" type="xs:string"/>
+        <create qname="@role" type="xs:string"/>
+        <create qname="@target" type="xs:string"/>
+        <create qname="@label" type="xs:string"/>
+		<create qname="mei:title" type="xs:string"/>
+        <create qname="mei:name" type="xs:string"/>
+        <create qname="mei:persname" type="xs:string"/>
+        <create qname="@endid" type="xs:string"/>
+        <create qname="@endto" type="xs:string"/>
+        <create qname="@facs" type="xs:string"/>
+        <create qname="@label" type="xs:string"/>
+        <create qname="@n" type="xs:string"/>
+        <create qname="@reg" type="xs:string"/>
+        <create qname="@rel" type="xs:string"/>
+        <create qname="@role" type="xs:string"/>
+        <create qname="@staff" type="xs:string"/>
+        <create qname="@startid" type="xs:string"/>
+        <create qname="@startto" type="xs:string"/>
+        <create qname="@target" type="xs:string"/>
+        <create qname="@type" type="xs:string"/>
+        <create qname="@xlink:href" type="xs:string"/>
+        <create qname="@source" type="xs:string"/>
+        <create qname="@classcode" type="xs:string"/>
+-->
+    </index>
+</collection>

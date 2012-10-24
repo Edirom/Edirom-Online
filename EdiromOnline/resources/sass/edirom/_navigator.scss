@@ -1,0 +1,50 @@
+@import '_variables.scss';
+
+/***Navigator***/
+
+#navigator {
+	@include border-corner-radius(top, left, 0px);
+	@include border-corner-radius(top, right, 0px);
+	@include border-corner-radius(bottom, right, 0px);
+	padding-top: 0px;
+	padding-right: 0px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+}
+
+#navigator-body {
+	padding-top: 3px;
+	overflow: auto;
+}
+
+.navigatorItem {
+	padding: 1px 5px;
+	margin-bottom: 1px;
+	cursor: pointer;
+	font-family: $content_baseFont;
+	font-size: $content_baseFont_size;
+	color: $content_baseFont_color;
+}
+
+.navigatorSeparator {
+	margin: 10px 30px 7px;
+	height: 1px;
+	border-bottom: 1px solid #999999;
+}
+
+.navigatorCategoryTitle {
+	padding: 2px 5px 2px 5px;
+	color: lighten($label_baseFont_color,30%);
+	font-family: $label_baseFont;
+	font-size: $label_baseFont_size;
+}
+
+/*
+//Usable when categories can be minimized
+.navigatorCategoryTitle:hover {
+	@include background(linear-gradient(left, #cccccc, #eeeeee 30%, #f5f5f5));
+}
+*/
+.navigatorCategory .navigatorItem {
+	padding-left: 15px;
+}

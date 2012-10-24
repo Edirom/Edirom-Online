@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/teilite.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Summary View</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Publication information</p>        
+      </publicationStmt>
+      <sourceDesc>
+        <p>Information about the source</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+        <div xml:lang="en">
+            <p>The <term type="eol">Facsimile View</term> shows digital copies of the <term type="eol">Edirom Online Object</term>; if there are no digital facsimiles associated with the object, the view will not be offered for that specific object.</p>
+            <p>View specific toolbar items:
+                <list type="gloss">
+                    <label><graphic url=""><desc>horizontal slider</desc></graphic></label>
+                    <item>use for zoom settings of the current facsimile page</item>
+                    <label><graphic url=""><desc>left arrow head, input field, right arrow head</desc></graphic></label>
+                    <item>use arrow heads to flip pages, use input field to enter page number or label directly; when inputting a page number or label a filtered list will appear showing all pages starting with the entered string.</item>
+                    <label><term type="label">Darstellung</term></label>
+                    <item>this submenu provides functionality for superimposing layers such as bar numbers fitting the page to the current window size.</item>
+                    <label><term type="label">Anmerkungen</term></label>
+                    <item>this submenu provides functionality for superimposing annotations by priority and/or category</item>
+                    <label><term type="label">Gehe zu…</term></label>
+                    <item>this submenu offers options to jump to a supplied bar number or the first bar of a movement</item>
+                </list>
+            </p>
+        </div>
+    </body>
+  </text>
+</TEI>

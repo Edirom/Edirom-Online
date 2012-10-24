@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/teilite.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Summary View</title>
+      </titleStmt>
+      <publicationStmt>
+        <p>Publication information</p>        
+      </publicationStmt>
+      <sourceDesc>
+        <p>Information about the source</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+        <div xml:lang="en">
+            <p>The <term>Metadata View</term> provides a hierarchical gloss list, encompassing all of the Edirom Online Object's metadata. Be it a MEI or TEI based object, all contents of the meiHead resp. teiHeader will be listed.</p>
+        </div>
+    </body>
+  </text>
+</TEI>

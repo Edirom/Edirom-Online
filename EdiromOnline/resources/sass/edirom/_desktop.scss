@@ -1,0 +1,11 @@
+@import '_variables.scss';
+
+/***Desktop***/
+
+$backgroundTop: #eeeeee;
+$backgroundBottom: #ccddff;
+
+.ediromDesktop.x-panel-body-default {
+	
+	@include background(linear-gradient(top, $backgroundTop, $backgroundBottom));
+}

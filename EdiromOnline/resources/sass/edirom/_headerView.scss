@@ -1,0 +1,52 @@
+.headerViewContent {
+	div.section {
+		margin: 30px 10px 10px 10px;
+		border-top: 2px solid #99bbe8;
+		
+		div.section {
+			margin: 30px 0px 10px 25px;
+		}
+	}
+	
+	div.section h1 {
+		font-weight: bold;
+		color: #3764a0;
+		position: relative;
+		top: -18px;
+		padding-left: 0px;
+		font-family: $ui_baseFont;
+		font-size: 14px;
+	}
+	
+	div.propertyList {
+		position: relative;
+		top: -20px;
+	}
+	
+	div.property {
+		clear: both;
+		margin-bottom: 5px;
+		min-height: 19px;
+	}
+	
+	div.key {
+		width: 150px;
+		float: left;
+		margin-right: 20px;
+		margin-bottom: 5px;
+		padding-top: 2px;
+		text-align: right;
+		color: #999999;
+		font-family: $label_baseFont;
+		font-size: 12px;
+		font-weight: 600;
+		line-height: 15px;		
+	}
+	
+	div.value {
+		margin-left: 170px;
+		font-family: $content_baseFont;
+		font-size: $content_baseFont_size;
+	}
+
+}

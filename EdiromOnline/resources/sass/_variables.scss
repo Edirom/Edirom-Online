@@ -1,0 +1,66 @@
+/*
+ *	The variables in this file will only affect the scss files in the 'edirom'-folder,
+ *	but not the extJS defaults. If you want to access these variables, use the file 
+ *	'extOverride.scss' instead.
+ */
+
+
+@import "compass/css3/images";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+
+/***Basics***/
+
+$base-color: #666666;
+$neutral-color: #eeeeee; 
+
+/***UI Fonts***/
+
+$ui_baseFont: 'Open Sans', 'Courier New', Courier, sans-serif;
+$ui_baseFont_size: 14px;
+$ui_baseFont_color: #ffffff;
+$ui_baseFont_contrast: #999999;
+
+/***Content Fonts***/
+
+$content_baseFont: 'Caudex', Arial, sans-serif;
+$content_baseFont_size: 14px;
+$content_baseFont_color: #000000;
+$content_baseFont_contrast: #999999;
+
+/***Label Fonts***/
+
+$label_baseFont: 'Open Sans', Arial, sans-serif;
+$label_baseFont_size: 12px;
+$label_baseFont_color: #000000;
+$label_baseFont_contrast: #999999;
+
+
+
+
+/***Content***/
+
+.content, .content * {
+	font-family: $content_baseFont;
+	font-size: $content_baseFont_size;
+	color: $content_baseFont_color;
+}
+
+.ui, .ui * {
+	font-family: $ui_baseFont;
+	font-size:$ui_baseFont_size;
+	color: $ui_baseFont_color;
+}
+
+.label, .label *, .key, .key * {
+	font-family: $label_baseFont;
+	font-size: $label_baseFont_size;
+	color: $label_baseFont_color;
+}
+
+/***Headings***/
+
+$headerBackgroundsBoxed: true;
+$headerBackgroundsTopColor: #87e0fd;
+$headerBackgroundsBottomColor: #05abe0;

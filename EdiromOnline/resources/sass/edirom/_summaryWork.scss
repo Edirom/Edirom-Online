@@ -1,0 +1,98 @@
+@import '../variables.scss';
+
+$titleBox_bg: #e5e5e5;
+
+.summaryViewWork {
+	margin: 10px 10px 60px;
+	
+	.titleBox {
+		
+		text-align: center;
+		
+		.resps {
+		
+			.label {
+				font-family: $ui_baseFont;
+				font-size: $ui_baseFont_size;
+				color: #666666;
+			}
+			
+			.name {
+				font-family: $content_baseFont;
+				font-size: $content_baseFont_size * 1.2;
+				margin-bottom: 10px;
+				text-align: center;
+				width: 100%;
+			}
+		
+		}
+		
+		h1 {
+			font-family: $content_baseFont;
+			font-size: $content_baseFont_size * 1.6;			
+			margin: 30px 10px;
+			padding: 10px;
+			border: 1px solid #666666;
+			@include border-radius(5px,5px);
+			@include box-shadow();
+			@include background(linear-gradient(top, $titleBox_bg, darken($titleBox_bg, 20%)));
+		}
+		
+		.identifiers {
+			
+			margin: 30px 80px 10px;
+		
+			.identifier {
+				width: 240px;
+				margin-right: 10px;
+				float: left;
+				text-align: left;
+	
+				.label {
+					font-family: $ui_baseFont;
+					font-size: $ui_baseFont_size;
+					line-height: $content_baseFont_size * 1.2 * 1.5;
+					padding-right: 5px;
+					color: #666666;
+					float: left;
+					clear: both;
+				}
+				.value {
+					font-family: $content_baseFont;
+					font-size: $content_baseFont_size * 1.2;
+					margin-bottom: 10px;
+				}
+			}
+		}
+		
+	}
+	
+	.expressions {
+			
+			clear: both;
+			margin: 100px 80px 10px;
+			
+			.expression {
+				margin: 20px 0px 10px;
+				
+				h1 {
+					font-family: $content_baseFont;
+					font-size: $content_baseFont_size * 1.2;
+					border-bottom: 1px solid #666666;
+				
+				}
+				
+				.manifestations {
+					
+					.manifestation {
+						font-family: $content_baseFont;
+						font-size: $content_baseFont_size;
+						padding: 3px 0px;						
+						margin: 0px 20px;
+					}
+				}
+				
+			}
+		}
+		
+}

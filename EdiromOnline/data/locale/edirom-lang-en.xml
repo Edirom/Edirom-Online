@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *  Edirom Online
+ *  Copyright (C) 2011 The Edirom Project
+ *  http://www.edirom.de
+ *
+ *  Edirom Online is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Edirom Online is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  ID: $Id$
+ -->
+<langFile>
+    <lang>en</lang>
+    <version>1.0</version>
+    <entries>
+        
+        <!-- *** APPLICATION-UI *** -->
+
+        <entry key="global_cancel" value="Cancel"/>
+        <entry key="global_execute" value="Execute"/>
+        <entry key="global_loading" value="Loading…"/>
+        <entry key="global_unknown" value="Unknown"/>
+
+        <entry key="controller.window.Window_annotationView" value="Annotations"/>
+        <entry key="controller.window.Window_headerView" value="Meta data"/>
+        <entry key="controller.window.Window_renderingView" value="Rendering"/>
+        <entry key="controller.window.Window_searchView" value="Search"/>
+        <entry key="controller.window.Window_sourceView" value="Facsimile"/>
+        <entry key="controller.window.Window_summaryView" value="Summary"/>
+        <entry key="controller.window.Window_textView" value="Text"/>
+        <entry key="controller.window.Window_xmlView" value="XML-View"/>
+        
+        <entry key="view.desktop.Desktop_Cascade" value="Cascade"/>
+        <entry key="view.desktop.Desktop_Close" value="Close"/>
+        <entry key="view.desktop.Desktop_CloseAll" value="Close All"/>
+        <entry key="view.desktop.Desktop_CloseOther" value="Close Other"/>
+        <entry key="view.desktop.Desktop_Maximize" value="Maximize"/>
+        <entry key="view.desktop.Desktop_Minimize" value="Minimize"/>
+        <entry key="view.desktop.Desktop_Restore" value="Restore"/>
+        <entry key="view.desktop.Desktop_Tile" value="Tile"/>
+        
+        <entry key="view.desktop.TaskBar_concordanceNav" value="Open concordance navigator"/>
+        <entry key="view.desktop.TaskBar_measureNumbers" value="Show measure numbers"/>
+        <entry key="view.desktop.TaskBar_annotations" value="Show annotations"/>
+        <entry key="view.desktop.TaskBar_help" value="Help"/>
+        <entry key="view.desktop.TaskBar_pref" value="Preferences"/>
+        <entry key="view.desktop.TaskBar_home" value="Home"/>
+        <entry key="view.desktop.TaskBar_search" value="Search"/>
+        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
+        <entry key="view.desktop.TaskBar_searchWin" value="Open search window"/>
+        <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Sort windows vertically"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
+        
+        <entry key="view.window.AnnotationView_Title" value="Annotation"/>
+        <entry key="view.window.AnnotationView_No" value="No"/>
+        <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
+        <entry key="view.window.AnnotationView_Categories" value="Categories"/>
+        <entry key="view.window.AnnotationView_Priority" value="Priority"/>
+        <entry key="view.window.AnnotationView_Participants" value="Participants"/>
+        <entry key="view.window.AnnotationView_Source" value="Source"/>
+        <entry key="view.window.AnnotationView_List" value="List"/>
+        <entry key="view.window.AnnotationView_Display" value="Display"/>
+        <entry key="view.window.AnnotationView_Grid" value="Grid view"/>
+        <entry key="view.window.AnnotationView_Single" value="Single view"/>
+        <entry key="view.window.AnnotationView_ListView" value="List view"/>
+        
+        <entry key="view.window.TobBar_View" value="View"/>
+        
+        <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Concordances"/>
+        <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Show" value="Show"/>
+        
+        <entry key="view.window.source.SourceView_categoriesMenu" value="Categories…"/>
+        <entry key="view.window.source.SourceView_prioMenu" value="Priorities…"/>
+        <entry key="view.window.source.SourceView_gotoMovement" value="Go to movement/number…"/>
+        <entry key="view.window.source.SourceView_layersMenu" value="Layers…"/>
+        <entry key="view.window.source.SourceView_showMeasures" value="Show/Hide measures"/>
+        <entry key="view.window.source.SourceView_fitView" value="Fit facsimile"/>
+        <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
+        <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>
+        <entry key="view.window.source.SourceView_gotoMenu" value="Go to…"/>
+        <entry key="view.window.source.SourceView_gotoMeasure" value="Go to measure…"/>
+        <entry key="view.window.source.SourceView_GotoMsg_Title" value="Go to measure…"/>
+        <entry key="view.window.source.SourceView_GotoMsg_MovmentNumber" value="Movement/Number"/>
+        <entry key="view.window.source.SourceView_GotoMsg_Measure" value="Measure"/>
+        <entry key="view.window.source.SourceView_viewMenu" value="Display"/>
+        
+        <entry key="view.window.text.TextView_annotMenu" value="Annotations"/>
+        <entry key="view.window.text.TextView_showAnnotations" value="Show/Hide annotations"/>
+        <entry key="view.window.text.TextView_gotoMenu" value="Go to…"/>
+        <entry key="view.window.text.TextView_prioMenu" value="Priorities…"/>
+        <entry key="view.window.text.TextView_categoriesMenu" value="Categories…"/>
+        <entry key="view.window.text.TextView_gotoChapter" value="Go to chapter/number…"/>
+        <entry key="view.window.text.TextView_viewMenu" value="Display"/>
+        
+        
+        <!-- DATA -->
+        <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
+        <entry key="Bars_from_to" value="Bars {0} to {1}"/>
+        <entry key="Bar_n" value="Bar {0}"/>
+    </entries>
+</langFile>

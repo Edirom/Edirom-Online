@@ -1,0 +1,248 @@
+/**
+ *  Edirom Online
+ *  Copyright (C) 2011 The Edirom Project
+ *  http://www.edirom.de
+ *
+ *  Edirom Online is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Edirom Online is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  ID: $Id: edirom.css 1403 2012-08-23 13:01:59Z daniel $
+ */
+
+@import url("compiled.css");
+
+/*@import url("sourceView.css");*/
+@import url("xmlView.css");
+/*@import url("meiHeaderView.css");*/
+/*@import url("annotView.css");
+@import url("summaryWork.css");
+@import url("summarySource.css");*/
+
+/*TODO: Folgende Einträge in SASS einbauen:*/
+
+.taskbarMenu {
+    z-index: 50001 !important;
+}
+
+#ediromTaskbar {
+    z-index: 50000;
+}
+
+.summaryViewText .metaData {
+    float:left;
+    width:auto;
+}
+
+.ediromWindow div.textViewContent {
+    font-size: 1em;
+}
+
+.ediromWindow div.textViewContent span.annotation {
+
+}
+
+.navigatorItem {
+    font-size: 13px;
+}
+
+.annotationViewContent .contentBox {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: inherit;
+}
+
+.annotationViewContent .metaBox {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: inherit;
+    max-height: inherit;
+    margin: 10px;
+}
+
+.annotationViewContent .previewArea {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+}
+
+.annotView .x-splitter-vertical {
+	background-image: -moz-radial-gradient(50% 50% , ellipse cover, #999999, #ffffff 50%);
+	cursor: ew-resize;
+}
+
+.annotView .x-splitter-horizontal {
+	background-image: -moz-radial-gradient(50% 50% , ellipse cover, #999999, #ffffff 50%);
+	cursor: ns-resize;
+}
+
+.annotationViewContent .stepLeft {
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	left: -10px;
+	width: 50px;
+	height: 80px;
+	background-image: url('../pix/annotPreviewBackward.png');
+	z-index: 20000;
+}
+
+.annotationViewContent .stepRight {
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	right: -10px;
+	width: 50px;
+	height: 80px;
+	background-image: url('../pix/annotPreviewForward.png');
+	z-index: 20000;
+}
+
+.annotView .previewArea .previewItem .txtBox {
+    background-color: white;
+    bottom: 30px;
+    box-shadow: 0 0 5px #333333;
+    left: 10px;
+    padding: 4px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    overflow: auto;
+}
+
+.renderingViewContent {
+	height: 100%;
+	width: 100%;
+	border: none;
+}
+
+
+/* LIGHTBOX */
+
+#ux-lightbox {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    z-index: 55000;
+    text-align: center;
+    line-height: 0;
+}
+
+#ux-lightbox img {
+    width: auto;
+    height: auto;
+}
+
+#ux-lightbox a img {
+    border: none;
+}
+
+#ux-lightbox-outerImageContainer {
+    position: relative;
+    background-color: #f3efec;
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+}
+
+#ux-lightbox-imageContainer {
+    padding: 10px;
+}
+
+#ux-lightbox-loading{
+    position: absolute;
+    top: 40%;
+    left: 0%;
+    height: 25%;
+    width: 100%;
+    text-align: center;
+    line-height: 0;
+    background: url(images/lb-load.gif) no-repeat center 15%;
+}
+
+#ux-lightbox-hoverNav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+#ux-lightbox-imageContainer > #ux-lightbox-hoverNav {
+    left: 0;
+}
+
+#ux-lightbox-hoverNav a{
+    outline: none;
+}
+
+#ux-lightbox-navPrev,
+#ux-lightbox-navNext {
+    width: 49%;
+    height: 100%;
+    *background-image: url(data:image/gif;base64,AAAA); /* Trick IE into showing hover *//* the * is there to avoid errors in other browsers*/
+    display: block;
+}
+
+#ux-lightbox-navPrev { left: 0; float: left;}
+#ux-lightbox-navNext { right: 0; float: right;}
+#ux-lightbox-navPrev:hover, #ux-lightbox-navPrev:visited:hover { background: url(images/lb-prev.png) left 33% no-repeat; }
+#ux-lightbox-navNext:hover, #ux-lightbox-navNext:visited:hover { background: url(images/lb-next.png) right 33% no-repeat; }
+
+#ux-lightbox-outerDataContainer {
+    margin: 0 auto;
+    width: 100%;
+}
+
+#ux-lightbox-dataContainer{
+    font: 10px Verdana, Helvetica, sans-serif;
+    background-color: #f3efec;
+    overflow: auto;
+    line-height: 1.4em;
+}
+
+#ux-lightbox-data{    padding:0 10px; color: #666; }
+#ux-lightbox-data #ux-lightbox-details{ width: 80%; float: left; text-align: left; }
+#ux-lightbox-data #ux-lightbox-caption{ font-weight: bold;    }
+#ux-lightbox-data #ux-lightbox-imageNumber{ display: block; clear: left; padding-bottom: 1.0em;    }
+#ux-lightbox-data #ux-lightbox-navClose{ background: url(images/lb-close.gif) no-repeat; width: 66px; height: 22px; float: right;  padding-bottom: 0.7em; outline: none;}
+#ux-lightbox-data #ux-lightbox-navClose:hover{ background-image: url(images/lb-close-over.gif);}
+
+#ux-lightbox-overlay,
+#ux-lightbox-shim{
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 54999 !important;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+}
+
+#ux-lightbox-shim {
+    z-index: 89;
+    background-color: transparent;
+    filter: alpha(opacity=0);
+}
+
+/* the box-sizing stuff is there to overload the .x-border-box modified by extjs' theme */
+#ux-lightbox-bottomNav, #ux-lightbox-bottomNav *{    box-sizing:content-box;-moz-box-sizing:content-box;-ms-box-sizing:content-box;-webkit-box-sizing:content-box }

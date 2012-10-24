@@ -1,0 +1,41 @@
+/**
+ *  Edirom Online
+ *  Copyright (C) 2011 The Edirom Project
+ *  http://www.edirom.de
+ *
+ *  Edirom Online is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  Edirom Online is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  ID: $Id: sourceView.css 1261 2012-02-28 15:50:45Z daniel $
+ */
+
+div.annotation.highlighted {
+    border-radius: 3px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+}
+
+div.annotIcon {
+    z-index: 1;
+}
+
+div.facsContEvents {
+    top:0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    position:absolute;
+}
+
+div.facsContEvents.hiddenShapes div {
+    display: none;
+}
