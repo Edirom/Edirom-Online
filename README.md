@@ -101,7 +101,7 @@ Setup Content
 
 The easiest solution is to use our tool _Edirom Editor_ (download at <http://www.edirom.de/software>) and export contents for _Edirom Online_. You will get an output containing the MEI files (in `contents`) and the referenced images (in `images`).
 
-The content of `contents` should go into the collection `/db/contents` in the eXist database. For a more detailed description of the MEI and Edirom structures read [here](<docs/Content.md>).
+The content of `contents` should go into the collection `/db/contents` in the eXist database. For a more detailed description of the MEI and Edirom structures read [here](<Edirom-Online/docs/Content.md>).
 
 Put the content of `images` in the folder you specified in Digilib's configuration file `digilib/WEB-INF/digilib-config.xml` for parameter `basedir-list` (e.g. `webapps/digilib/images`). You may want to add reduced versions of the images here, too. You probably have to restart Jetty to make these images available in Digilib.
 
@@ -111,7 +111,7 @@ Point your browser at <http://localhost:8080/exist/apps/EdiromOnline/> and you s
 Development
 -----------
 
-For instructions how to contribute and how to set up a development environment for Edirom Online extensions and modifications read [here](<docs/Development.md>)
+For instructions how to contribute and how to set up a development environment for Edirom Online extensions and modifications read [here](<Edirom-Online/docs/Development.md>)
 
 
 License
