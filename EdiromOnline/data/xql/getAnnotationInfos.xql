@@ -47,7 +47,7 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
-let $annots := //mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $annots := collection('/db/contents')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 return concat('{categories: [',
         string-join(
