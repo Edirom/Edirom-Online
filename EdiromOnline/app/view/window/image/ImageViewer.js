@@ -48,6 +48,11 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
     shapesHidden: false,
 
     svgOverlays: null,
+    
+    annotTipWidth: 500,
+    annotTipMaxWidth: 500,
+    annotTipHeight: 300,
+    annotTipMaxHeight: 300,
 
     initComponent: function () {
 
@@ -182,9 +187,10 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
                 var tip = Ext.create('Ext.tip.ToolTip', {
                     target: me.id + '_' + id + '_inner',
                     cls: 'annotationTip',
-                    width: 500,
-                    maxWidth: 500,
-                    height: 300,
+                    width: me.annotTipWidth,
+                    maxWidth: me.annotTipMaxWidth,
+                    height: me.annotTipHeight,
+                    maxHeight: me.annotTipMaxHeight,
                     dismissDelay: 0,
                     anchor: 'left',
                     html: getLangString('Annotation_plus_Title', name)
