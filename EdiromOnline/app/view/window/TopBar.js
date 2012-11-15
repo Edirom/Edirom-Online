@@ -66,13 +66,17 @@ Ext.define('de.edirom.online.view.window.TopBar', {
             handler: Ext.bind(me.printButton, me)
         });
 
+        me.spaceAfterGenItems = Ext.create('Ext.toolbar.Spacer',{ xtype: 'tbspacer',
+            id: me.id+'_spaceAfterGenItems',
+            width: 0 });
+
         me.spaceAfterViewItems = Ext.create('Ext.toolbar.Spacer',{ xtype: 'tbspacer',
             id: me.id+'_spaceAfterViewItems',
             width: 0 });
 
         me.items = [
             me.viewSwitch,
-            { xtype: 'tbspacer',id: me.id + '_spaceAfterGenItems', width: 0 }/*, TODO
+            me.spaceAfterGenItems/*, TODO
             me.spaceAfterViewItems,
             '->',
             me.printButton,
@@ -110,15 +114,26 @@ Ext.define('de.edirom.online.view.window.TopBar', {
         if(!menuItem.checked) menuItem.setChecked(true);
     },
 
-    addViewSpecificItem: function(item, view) {
+    addViewSpecificItem: function(item, view, index) {
         var me = this;
 
         if(!me.viewSpecificItems.containsKey(view))
             me.viewSpecificItems.add(view, new Array());
-
-        me.viewSpecificItems.get(view).push(item);
-        var pos = Ext.Array.indexOf(me.items , me.spaceAfterViewItems);
-        me.insert(pos, item);
+        
+        if(typeof index == 'undefined') {
+            var pos = Ext.Array.indexOf(me.items , me.spaceAfterViewItems);
+            me.viewSpecificItems.get(view).push(item);
+            me.insert(pos, item);
+        }else {
+            var pos = Ext.Array.indexOf(me.items , me.spaceAfterGenItems);
+            var itemBefore = me.viewSpecificItems.get(view)[index - 1];
+            
+            if(typeof itemBefore != 'undefined')
+                pos = Ext.Array.indexOf(me.items , itemBefore) + 1;
+            
+            Ext.Array.insert(me.viewSpecificItems.get(view), index, [item]);
+            me.insert(pos, item);
+        }
 
         var activeView = me.window.getActiveView().id;
         if(activeView != view)
@@ -131,7 +146,7 @@ Ext.define('de.edirom.online.view.window.TopBar', {
         if(!me.viewSpecificItems.containsKey(view))
             return
 
-        me.viewSpecificItems.get(view).remove(item);
+        Ext.Array.remove(me.viewSpecificItems.get(view), item);
         me.remove(item);
     },
 
