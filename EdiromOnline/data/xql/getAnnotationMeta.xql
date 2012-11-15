@@ -44,27 +44,39 @@ let $internalId := substring-after($uri, '#')
 let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
-let $sources := annotation:getParticipants($annot)
+let $participants := annotation:getParticipants($annot)
+
+let $priority := annotation:getPriority($annot)
+let $priorityLabel := 'Priority'
+
+let $categories := annotation:getCategoriesAsArray($annot)
+let $categoriesLabel := if(count($categories) gt 1)then('Categories')else('Category')
+
+let $sources := eutil:getDocumentsLabelsAsArray($participants)
+let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
+
+let $sigla := source:getSiglaAsArray($participants)
+let $siglaLabel := if(count($sigla) gt 1)then('Sources')else('Source')
 
 return
 
     <div class="annotView">
         <div class="metaBox">
             <div class="property priority">
-                <div class="key">Priority</div>
-                <div class="value">{annotation:getPriority($annot)}</div>
+                <div class="key">{$priorityLabel}</div>
+                <div class="value">{$priority}</div>
             </div>
             <div class="property categories">
-                <div class="key">Categories</div>
-                <div class="value">{annotation:getCategories($annot)}</div>
+                <div class="key">{$categoriesLabel}</div>
+                <div class="value">{string-join($categories, ', ')}</div>
             </div>
             <div class="property sourceLabel">
-                <div class="key">Sources</div>
-                <div class="value">{eutil:getDocumentsLabels($sources)}</div>
+                <div class="key">{$sourcesLabel}</div>
+                <div class="value">{string-join($sources, ', ')}</div>
             </div>
             <div class="property sourceSiglums">
-                <div class="key">Sources</div>
-                <div class="value">{source:getSigla($sources)}</div>
+                <div class="key">{$siglaLabel}</div>
+                <div class="value">{string-join($sigla, ', ')}</div>
             </div>
         </div>
     </div>

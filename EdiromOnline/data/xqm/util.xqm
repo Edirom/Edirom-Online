@@ -44,8 +44,18 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 :)
 declare function eutil:getDocumentsLabels($docs as xs:string*) as xs:string {
     string-join(
-        for $doc in $docs return eutil:getDocumentLabel($doc)
+        eutil:getDocumentsLabelsAsArray($docs)
     , ', ')
+};
+
+(:~
+: Returns an array of document labels
+:
+: @param $docs The URIs of the documents to process
+: @return The labels
+:)
+declare function eutil:getDocumentsLabelsAsArray($docs as xs:string*) as xs:string* {
+    for $doc in $docs return eutil:getDocumentLabel($doc)
 };
 
 (:~

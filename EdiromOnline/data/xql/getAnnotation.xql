@@ -25,6 +25,9 @@ xquery version "1.0";
     
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
+
+import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
@@ -80,8 +83,8 @@ declare function local:getPriority($annot as node()) {
     let $elem := $doc/id($locID)
     
     return
-        if(local-name($elem) eq 'term')
-        then($elem/mei:name[@xml:lang eq 'de']/text())
+        if($elem/mei:name)
+        then(normalize-space($elem/mei:name[1]/text()))
         else($locID)
 };
 
@@ -107,10 +110,10 @@ declare function local:getCategories($annot as node()) {
                    let $locID := substring-after($uri,'#')
                    let $elem := $doc/id($locID)
                    return
-                       if(local-name($elem) eq 'term')
-                       then($elem/mei:name[@xml:lang eq 'de']/text())
+                       if($elem/mei:name)
+                       then($elem/mei:name[1]/text())
                        else($locID)
-    return string-join($string, ', ')
+    return $string
 };
 
 
@@ -256,19 +259,41 @@ let $internalId := substring-after($uri, '#')
 let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
+let $participants := annotation:getParticipants($annot)
+
+let $priority := local:getPriority($annot)
+let $priorityLabel := 'Priority'
+
+let $categories := local:getCategories($annot)
+let $categoriesLabel := if(count($categories) gt 1)then('Categories')else('Category')
+
+let $sources := eutil:getDocumentsLabelsAsArray($participants)
+let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
+
+let $sigla := source:getSiglaAsArray($participants)
+let $siglaLabel := if(count($sigla) gt 1)then('Sources')else('Source')
+
 return
     if($target eq 'view')
     then(
     
         <div class="annotView">
             <div class="metaBox">
-                <div class="property">
-                    <div class="key">Priority</div>
-                    <div class="value">{local:getPriority($annot)}</div>
+                <div class="property priority">
+                    <div class="key">{$priorityLabel}</div>
+                    <div class="value">{$priority}</div>
                 </div>
-                <div class="property">
-                    <div class="key">Categories</div>
-                    <div class="value">{local:getCategories($annot)}</div>
+                <div class="property categories">
+                    <div class="key">{$categoriesLabel}</div>
+                    <div class="value">{string-join($categories, ', ')}</div>
+                </div>
+                <div class="property sourceLabel">
+                    <div class="key">{$sourcesLabel}</div>
+                    <div class="value">{string-join($sources, ', ')}</div>
+                </div>
+                <div class="property sourceSiglums">
+                    <div class="key">{$siglaLabel}</div>
+                    <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
             </div>
             <div class="contentBox">
@@ -293,16 +318,23 @@ return
         </div>
     )
     else(
-        
         <div class="annotTip">
             <div class="metaBox">
-                <div class="property">
-                    <div class="key">Priority</div>
-                    <div class="value">{$annot/mei:ptr[@type eq 'priority']/string(@target)}</div>
+                <div class="property priority">
+                    <div class="key">{$priorityLabel}</div>
+                    <div class="value">{$priority}</div>
                 </div>
-                <div class="property">
-                    <div class="key">Categories</div>
-                    <div class="value">{$annot/mei:ptr[@type eq 'categories']/string(@target)}</div>
+                <div class="property categories">
+                    <div class="key">{$categoriesLabel}</div>
+                    <div class="value">{string-join($categories, ', ')}</div>
+                </div>
+                <div class="property sourceLabel">
+                    <div class="key">{$sourcesLabel}</div>
+                    <div class="value">{string-join($sources, ', ')}</div>
+                </div>
+                <div class="property sourceSiglums">
+                    <div class="key">{$siglaLabel}</div>
+                    <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
             </div>
             <div class="contentBox">

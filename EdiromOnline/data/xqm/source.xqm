@@ -72,8 +72,18 @@ declare function source:getLabel($source as xs:string) as xs:string {
 :)
 declare function source:getSigla($sources as xs:string*) as xs:string {
     string-join(
-        for $source in $sources return source:getSiglum($source)
+        source:getSiglaAsArray($sources)
     , ', ')
+};
+
+(:~
+: Returns an array of source sigla
+:
+: @param $sources The URIs of the Sources' documents to process
+: @return The sigla
+:)
+declare function source:getSiglaAsArray($sources as xs:string*) as xs:string* {
+    for $source in $sources return source:getSiglum($source)
 };
 
 (:~

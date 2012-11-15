@@ -122,12 +122,23 @@ declare function annotation:getPriority($anno as element()) as xs:string {
 };
 
 (:~
-: Returns an Annotation's categories
+: Returns Annotation's categories
 :
 : @param $anno The Annotation to process
 : @return The categories (as comma separated string)
 :)
 declare function annotation:getCategories($anno as element()) as xs:string {
+    
+    string-join(annotation:getCategoriesAsArray($anno), ', ')
+};
+
+(:~
+: Returns an array of Annotation's categories
+:
+: @param $anno The Annotation to process
+: @return The categories (as comma separated string)
+:)
+declare function annotation:getCategoriesAsArray($anno as element()) as xs:string* {
     
     let $uris := tokenize($anno/mei:ptr[@type eq 'categories']/string(@target),' ')
     
@@ -142,7 +153,7 @@ declare function annotation:getCategories($anno as element()) as xs:string {
                        then($elem/mei:name[@xml:lang eq 'de']/text())
                        else($locID)
     
-    return string-join($string, ', ')
+    return $string
 };
 
 (:~
