@@ -53,12 +53,12 @@ return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
             return
-                concat('{id:"', $category, '",name:"', $category,'"}')
+                concat('{id:"', $category, '",name:"', (collection('/db/contents')//id($category))[1]/mei:name/text(),'"}')
         , ','),
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
             return
-                concat('{id:"', $priority, '",name:"', $priority,'"}')
+                concat('{id:"', $priority, '",name:"', (collection('/db/contents')//id($priority))[1]/mei:name/text(),'"}')
         , ','),
         ']}')
