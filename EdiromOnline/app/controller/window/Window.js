@@ -76,6 +76,7 @@ Ext.define('de.edirom.online.controller.window.Window', {
                 type:config.type,
                 viewType: view.type,
                 viewLabel: view.label,
+                defaultView: view.defaultView,
                 uri:view.uri
             }));
 

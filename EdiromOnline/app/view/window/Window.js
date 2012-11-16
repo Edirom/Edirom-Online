@@ -94,21 +94,28 @@ Ext.define('de.edirom.online.view.window.Window', {
     onWindowFinishedRendering: function() {
         var me = this;
 
+        var viewToShow = me.views[0].view;
+
         for(var i = 0; i < me.views.length; i++) {
             var view = me.views[i].view;
 
-            if(me.internalIdType == 'unknown' && i == 0)
-                return me.requestForActiveView(view);
+            if(view.viewType == 'textView' && view.uri.match(/#.+$/))
+                view.on('show', Ext.bind(view.scrollToId, view, [view.uri], false), view);
+
+            if(me.internalIdType == 'unknown' && view.defaultView)
+                viewToShow = view;
 
             else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
                 view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
-                return me.requestForActiveView(view);
+                viewToShow = view;
 
             }else if(me.internalIdType == 'measure' && view.viewType == 'sourceView') {
                 view.on('show', Ext.bind(view.gotoMeasure, view, [me.internalId], false), view);
-                return me.requestForActiveView(view);
+                viewToShow = view;
             }
         }
+        
+        me.requestForActiveView(viewToShow);
     },
 
     getTopbarConfig: function () {
