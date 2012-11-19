@@ -63,7 +63,7 @@
         <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
         
         <entry key="view.window.AnnotationView_Title" value="Annotation"/>
-        <entry key="view.window.AnnotationView_No" value="No"/>
+        <entry key="view.window.AnnotationView_No" value="No."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
         <entry key="view.window.AnnotationView_Categories" value="Categories"/>
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
