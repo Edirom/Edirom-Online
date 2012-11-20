@@ -344,8 +344,12 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
     loadInternalId: function() {
         var me = this;
 
-        me.window.requestForActiveView(me);
-        me.scrollToId(me.window.internalId);
+        var container = Ext.fly(this.id + '_textCont');
+        var elem = container.getById(me.id + '_' + me.window.internalId);
+        if(elem) {
+            me.window.requestForActiveView(me);
+            me.scrollToId(me.window.internalId);
+        }
     },
 
     scrollToId: function(id) {
