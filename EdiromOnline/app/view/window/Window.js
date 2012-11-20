@@ -112,6 +112,10 @@ Ext.define('de.edirom.online.view.window.Window', {
             }else if(me.internalIdType == 'measure' && view.viewType == 'sourceView') {
                 view.on('show', Ext.bind(view.gotoMeasure, view, [me.internalId], false), view);
                 viewToShow = view;
+
+            }else if((me.internalIdType == 'surface' || me.internalIdType == 'graphic') && view.viewType == 'sourceView') {
+                view.on('show', Ext.bind(view.showPage, view, [me.internalId], false), view);
+                viewToShow = view;
             }
         }
         

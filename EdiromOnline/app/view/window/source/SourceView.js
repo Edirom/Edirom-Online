@@ -80,6 +80,10 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         if(me.window.internalIdType == 'measure') {
             me.window.requestForActiveView(me);
             me.gotoMeasure(me.window.internalId);
+        
+        }else if(me.window.internalIdType == 'surface' || me.window.internalIdType == 'graphic' ) {
+            me.window.requestForActiveView(me);
+            me.showPage(me.window.internalId);
         }
     },
 
