@@ -320,7 +320,6 @@
         <xsl:choose>
             <xsl:when test="starts-with(@target, 'xmldb:exist://')">
                 <a>
-                    <xsl:attribute name="href"/>
                     <xsl:attribute name="onclick">
                         <xsl:text>loadLink("</xsl:text>
                         <xsl:value-of select="@target"/>
