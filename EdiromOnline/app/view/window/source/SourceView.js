@@ -53,7 +53,9 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
             'overlayVisiblityChange',
             'gotoMovement',
             'gotoMeasure',
-            'gotoMeasureByName');
+            'gotoMeasureByName',
+            'gotoZone',
+            'afterImagesLoaded');
 
         this.imageViewer = Ext.create('de.edirom.online.view.window.image.ImageViewer');
         this.imageViewer.region = 'center';
@@ -80,6 +82,10 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         if(me.window.internalIdType == 'measure') {
             me.window.requestForActiveView(me);
             me.gotoMeasure(me.window.internalId);
+        
+        }else if(me.window.internalIdType == 'zone') {
+            me.window.requestForActiveView(me);
+            me.gotoZone(me.window.internalId);
         
         }else if(me.window.internalIdType == 'surface' || me.window.internalIdType == 'graphic' ) {
             me.window.requestForActiveView(me);
@@ -248,6 +254,8 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         }else if(me.imageSet.getCount() > 0)
             me.pageSpinner.setPage(me.imageSet.getAt(0));
+            
+        me.fireEvent('afterImagesLoaded', me, imageSet);
     },
 
     setPage: function(combo, store) {
@@ -424,7 +432,21 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         me.imageViewer.showRect(x, y, width, height, true);
     },
+    
+    gotoZone: function(zoneId) {
+        this.fireEvent('gotoZone', this, zoneId);
+    },
 
+    showZone: function(zone) {
+        var me = this;
+        var x = Number(zone['ulx']);
+        var y = Number(zone['uly']);
+        var width = zone['lrx'] - zone['ulx'];
+        var height = zone['lry'] - zone['uly'];
+
+        me.imageViewer.showRect(x, y, width, height, true);
+    },
+    
     toggleAnnotations: function(item, state) {
         var me = this;
         me.annotationsVisible = state;

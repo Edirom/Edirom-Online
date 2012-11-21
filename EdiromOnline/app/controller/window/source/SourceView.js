@@ -47,6 +47,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         view.on('gotoMovement', me.onGotoMovement, me);
         view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
         view.on('gotoMeasure', me.onGotoMeasure, me);
+        view.on('gotoZone', me.onGotoZone, me);
 
         Ext.Ajax.request({
             url: 'data/xql/getPages.xql',
@@ -322,14 +323,56 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var pageId = result.pageId;
 
         if(measureId != '' && pageId != '') {
-            if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId)
+            if(view.imageSet == null) {
+                view.on('afterImagesLoaded', Ext.bind(me.fetchMeasures, me, [view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true)], false), view, [{single:true}]);
                 view.showPage(pageId);
-
-            me.fetchMeasures(view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true));
+            
+            }else if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId)
+                view.showPage(pageId);
         }
     },
 
     gotoMeasureLoaded: function(measures, view, measureId) {
         view.showMeasure(measures.getById(measureId));
+    },
+
+    onGotoZone: function(view, zoneId) {
+
+        var me = this;
+
+        Ext.Ajax.request({
+            url: 'data/xql/getZone.xql',
+            method: 'GET',
+            params: {
+                uri: view.uri,
+                zoneId: zoneId
+            },
+            success: Ext.bind(function(response){
+                var data = response.responseText;
+                this.gotoZone(Ext.JSON.decode(data), view);
+            }, me)
+        });
+    },
+
+    gotoZone: function(result, view) {
+        var me = this;
+
+        var zoneId = result.zoneId;
+        var pageId = result.pageId;
+
+        if(zoneId != '' && pageId != '') {
+            
+            if(view.imageSet == null) {
+                view.on('afterImagesLoaded', Ext.bind(view.showZone, view, [result], false), view, [{single:true}]);
+                view.showPage(pageId);
+            
+            }else if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId) {
+                view.showPage(pageId);
+                view.showZone(result);
+                
+            }else {
+                view.showZone(result);
+            }
+        }
     }
 });

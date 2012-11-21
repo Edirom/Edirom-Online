@@ -109,6 +109,10 @@ Ext.define('de.edirom.online.view.window.Window', {
                 view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
                 viewToShow = view;
 
+            }else if(me.internalIdType == 'zone' && view.viewType == 'sourceView') {
+                view.on('show', Ext.bind(view.gotoZone, view, [me.internalId], false), view);
+                viewToShow = view;
+
             }else if(me.internalIdType == 'measure' && view.viewType == 'sourceView') {
                 view.on('show', Ext.bind(view.gotoMeasure, view, [me.internalId], false), view);
                 viewToShow = view;
