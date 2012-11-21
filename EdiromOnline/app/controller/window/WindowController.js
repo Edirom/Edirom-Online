@@ -39,6 +39,8 @@ Ext.define('de.edirom.online.controller.window.WindowController', {
         var win = new de.edirom.online.view.window.Window(config);
         this.application.getController('desktop.Desktop').addWindowToActiveDesktop(win);
         win.show();
+        
+        return win;
     },
 
     getSizeAndPosition: function() {

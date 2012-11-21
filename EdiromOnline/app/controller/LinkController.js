@@ -58,6 +58,7 @@ Ext.define('de.edirom.online.controller.LinkController', {
         var uris = uriMasked.split('\uC280');
 
         var uriWindows = new Ext.util.MixedCollection();
+        var windowsUsed = new Ext.util.MixedCollection();
 
         var existingWindows = null;
         if(config['useExisting']) {
@@ -124,7 +125,7 @@ Ext.define('de.edirom.online.controller.LinkController', {
             var cfg = Ext.apply(config, posConfig);
 
             if(win == 'newWindow')
-                this.parseExistLink(singleUri, cfg);
+                windowsUsed.add(this.parseExistLink(singleUri, cfg));
 
             else {
 
@@ -149,10 +150,14 @@ Ext.define('de.edirom.online.controller.LinkController', {
                     });
                 }else
                     win.showView('summaryView');
+                    
+                windowsUsed.add(win);
             }
 
             i++;
         }, this);
+        
+        return windowsUsed; 
     },
 
     /**
@@ -164,7 +169,8 @@ Ext.define('de.edirom.online.controller.LinkController', {
      */
     parseExistLink: function(uri, cfg) {
         var me = this;
-        me.application.getController('window.WindowController').createWindow(uri, cfg);
+        
+        return me.application.getController('window.WindowController').createWindow(uri, cfg);
     },
 
     parseEdiromLink: function(uri) {
