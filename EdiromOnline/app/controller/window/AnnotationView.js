@@ -31,6 +31,12 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             'annotationView': {
                 afterlayout : this.onAfterLayout,
                 showAnnotation: this.onShowAnnotation
+            },
+            'annotationView  button[action=openAll]': {
+                click: this.onOpenAllParticipants
+            },
+            'annotationView  button[action=closeAll]': {
+                click: this.onCloseAllParticipants
             }
         });
     },
@@ -84,5 +90,50 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             },
             scope: this
         });
+    },
+    
+    onOpenAllParticipants: function(btn, e) {
+        var me = this;
+        var view = btn.view;
+        var uri = view.uri + '#' + view.activeSingleAnnotation;
+        
+        Ext.Ajax.request({
+            url: 'data/xql/getAnnotationParticipants.xql',
+            method: 'GET',
+            params: {
+                uri: uri
+            },
+            success: function(response){
+                
+                var data = Ext.JSON.decode(response.responseText);
+                
+                // Are there allready opened windows from the last action?
+                if(view.closeAllButton.windows != null) {
+                    view.closeAllButton.windows.each(function(win) {
+                        if(win)
+                            win.close();
+                    });
+                }
+                
+                var linkController = this.application.getController('LinkController');
+                var windows = linkController.loadLink(data['participants'], {sort:'sortGrid', useExisting: false, onlyExisting: false});
+                
+                view.closeAllButton.windows = windows;
+                view.closeAllButton.enable();
+            },
+            scope: me
+        });
+    },
+    
+    onCloseAllParticipants: function(btn, e) {
+        var me = this;
+        btn.disable();
+        
+        btn.windows.each(function(win) {
+            if(win)
+                win.close();
+        });
+        
+        btn.windows = null;
     }
 });

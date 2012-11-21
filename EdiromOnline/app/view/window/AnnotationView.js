@@ -255,14 +255,16 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
         me.bottomBar.add(me.nextItemButton);
         
         me.openAllButton =  Ext.create('Ext.button.Button', {
-            cls: 'openAll toolButton'/*,
-            handler: Ext.bind(me.showNextItem, me)*/
+            cls: 'openAll toolButton',
+            view: me,
+            action: 'openAll'
         });
         me.bottomBar.add(me.openAllButton);
         
         me.closeAllButton =  Ext.create('Ext.button.Button', {
-            cls: 'closeAll toolButton'/*,
-            handler: Ext.bind(me.showNextItem, me)*/
+            cls: 'closeAll toolButton',
+            disabled: true,
+            action: 'closeAll'
         });
         me.bottomBar.add(me.closeAllButton);
 
@@ -715,5 +717,4 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
             }
         }
     }
-
 });
