@@ -56,7 +56,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
             'name: "', $measure/string(@n), '", ',
             'type: "', $measure/string(@type), '", ',
             'rest: "', local:getMRest($measure), '"',
-        '},')
+        '}')
 };
 
 declare function local:getMRest($measure) {
@@ -75,7 +75,7 @@ let $surface := $mei/id($surfaceId)
 
 return (
     string('['),
-    		(: TODO: †berlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
-        local:getMeasures($mei, $surface),
+    		(: TODO: berlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
+        string-join(local:getMeasures($mei, $surface), ','),
     string(']')
 )
