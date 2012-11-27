@@ -73,6 +73,7 @@ Project layout
 --------------
 
 * `docs` additional documentation
+* `EdiromEditor` contains the code of the web application's backend (very first draft, don't use it)
 * `EdiromOnline` contains the code of the web application's frontend
 
 
