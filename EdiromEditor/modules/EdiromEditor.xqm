@@ -44,6 +44,7 @@ declare function ee:generateSidenav($node as node(), $params as element(paramete
                 
                 <li class="nav-header">Objects</li>
                 {ee:generateSidenavItem('manage-objects.html', $activePage, 'Manage Objects')}
+                {ee:generateSidenavItem('xml-editor.html', $activePage, 'Edit Object (XML)')}
 
                 <!--<li class="nav-header">Takte</li>
                 {ee:generateSidenavItem('index.html', $activePage, 'Takte anlegen')}
@@ -61,6 +62,7 @@ declare function ee:generateSidenav($node as node(), $params as element(paramete
                 
                 <li class="nav-header space-above">Administration</li>
                 {ee:generateSidenavItem('settings.html', $activePage, 'Settings')}
+                {ee:generateSidenavItem('manage-users.html', $activePage, 'Manage Users')}
 
             </ul>
         </div>,
@@ -72,4 +74,19 @@ declare function ee:generateSidenavItem($page as xs:string, $activePage as xs:st
     <li class="{if($page eq $activePage)then('active')else('')}">
         <a href="{$page}">{$label}</a>
     </li>
+};
+
+declare function ee:getXMLEditorTitle($node as node(), $params as element(parameters)?, $model as item()*) {
+    let $uri := request:get-parameter('uri', '')
+    return
+        templates:process(
+        
+            <h3>XML Editor: {$uri}</h3>,
+            $model
+        )
+};
+
+
+declare function ee:getXMLEditorSource($node as node(), $params as element(parameters)?, $model as item()*) {
+    <input type="hidden" id="editorSourceUri" value="{request:get-parameter('uri', '')}"/>
 };

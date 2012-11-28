@@ -24,23 +24,59 @@ import module namespace functx="http://www.functx.com" at '../modules/functx-1.0
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-let $objects := collection('/db/contents')//tei:TEI | collection('/db/contents')//mei:mei
-return
-
-<objects>
-    <total>{count($objects)}</total>
-    <success>true</success>
-    {
+declare function local:toList() as element(objects) {
     
-    for $object in $objects
-    let $uri := document-uri($object/root())
-    let $filename := functx:substring-after-last($uri, '/')
-    let $creation := xmldb:created(functx:substring-before-last($uri, '/'))
+    let $objects := collection('/db/contents')//tei:TEI | collection('/db/contents')//mei:mei
     return
-        <object>
-            <filename>{$filename}</filename>
-            <uri>{$uri}</uri>
-            <creation>{$creation}</creation>
-        </object>
-    }
-</objects>
+    <objects>
+        <total>{count($objects)}</total>
+        <success>true</success>
+        {
+        
+        for $object in $objects
+        let $uri := document-uri($object/root())
+        let $filename := functx:substring-after-last($uri, '/')
+        let $creation := xmldb:created(functx:substring-before-last($uri, '/'))
+        return
+            <object>
+                <filename>{$filename}</filename>
+                <uri>{$uri}</uri>
+                <creation>{$creation}</creation>
+            </object>
+        }
+    </objects>
+};
+
+declare function local:toTree() as element(root) {
+    
+    <root>
+        {local:getTreeItems('/db/contents')}
+    </root>
+};
+
+declare function local:getTreeItems($coll as xs:string) as element(item)* {
+    <item id='{$coll}' class="collection">
+        <content><name>{functx:substring-after-last($coll, '/')}</name></content>
+        {
+            for $item in xmldb:get-child-collections($coll)
+            return
+                local:getTreeItems($coll || '/' || $item)
+        }
+        {
+            for $item in xmldb:xcollection($coll)/tei:TEI | xmldb:xcollection($coll)/mei:mei
+            let $uri := document-uri($item/root())
+            let $filename := functx:substring-after-last($uri, '/')
+            return
+                <item id='{$uri}' class="resource">
+                    <content><name href="xml-editor.html?uri={$uri}">{$filename}</name></content>
+                </item>
+        }
+    </item>
+};
+
+let $mode := request:get-parameter('mode', 'list')
+
+return
+    if($mode eq 'list')
+    then(local:toList())
+    else(local:toTree())
