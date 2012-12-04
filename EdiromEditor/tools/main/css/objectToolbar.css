@@ -1,0 +1,254 @@
+#objectToolbar {
+	height: 24px;		
+	
+	background-color: #b5b5b5;
+	border-top: 1px solid #999999;
+}
+
+#objectToolbar .inactive {
+    background-position: 0px 0px;
+}
+#objectToolbar .active {
+    background-position: 0px -24px;
+}
+
+#objectToolbar .saveButton {
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../pix/saveActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .saveButton.active {
+    background-image: url(../pix/saveActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .saveButton.inactive {
+    background-image: url(../pix/saveInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .undoButton {
+    float: left;
+    margin: 3px 0px 3px 6px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../pix/undoActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .undoButton.active {
+    background-image: url(../pix/undoActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .undoButton.inactive {
+    background-image: url(../pix/undoInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .redoButton {
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../pix/redoActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .redoButton.active {
+    background-image: url(../pix/redoActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .redoButton.inactive {
+    background-image: url(../pix/redoInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .dropDownButton {
+    width: 24px;
+    height: 24px;
+    float: left;
+    
+    background-image: url(../pix/dropdown.png);
+    background-repeat: no-repeat;
+}
+
+
+
+#objectToolbar .toolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 6px 10px;
+	border-left: 1px solid #999999;
+	padding: 0px;
+		
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar .emptyToolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 6px 10px;
+	padding: 0px;
+		
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar .toolbarButton {
+    background-position: 0px 0px;
+    
+    width: 24px;
+    height: 24px;
+    
+    float:left;
+    cursor: pointer;
+    -moz-user-select: none;
+}
+
+#objectToolbar .toggled {
+    background-position: 0px -24px;
+}
+
+#objectToolbar .label {
+	color: #000000;
+	font-size: 12px;
+	vertical-align: 1px;
+	
+	margin: 0px;
+	margin-top: 5px;
+	margin-left: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar input.toolbarInput {
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+	text-align: center;
+	width: 34px;
+	height: 14px;
+	margin-top: 4px;
+	margin-left: 3px;
+	margin-right: 0px;
+	border-width: 0px 1px 0px 1px;
+	border-color: #cfcfcf;
+	border-style: solid;
+	padding: 1px;
+	float: left;
+	background-image: url(../pix/inputBG.png);
+	background-repeat: repeat-x;
+}
+
+#objectToolbar .toolbarTriangleLeft {
+	width: 10px;
+	height: 16px;
+	background-image: url(../pix/triangleSmall.png);
+	background-position: 0px -65px;
+	background-repeat: no-repeat;
+	float: left;
+	cursor: pointer;
+	margin-top: 2px;
+}
+
+#objectToolbar .toolbarTriangleRight {
+	width: 10px;
+	height: 16px;
+	background-image: url(../pix/triangleSmall.png);
+	background-position: 0px 1px;
+	background-repeat: no-repeat;
+	float: left;
+	cursor: pointer;
+	margin-top: 2px;
+}
+
+#objectToolbar .toolbarToggleButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 5px; 
+    padding: 1px 5px 0px;
+    height: 15px;
+    background-image: -moz-linear-gradient(top, #cccccc, #888888);
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+#objectToolbar .toolbarPressButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 5px; 
+    padding: 1px 5px 0px;
+    height: 15px;
+    width: 15px;
+    background-image: -moz-linear-gradient(top, #cccccc, #888888);
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+#objectToolbar .toolbarSwitchButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: -moz-linear-gradient(top, #999999, #555555);
+    -moz-user-select: none;
+    cursor:pointer
+}
+
+#objectToolbar .toolbarSwitchButton.activated {
+    background-image: -moz-linear-gradient(top, #777777, #444444);   
+}
+
+#objectToolbar .standardToolbarButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: -moz-linear-gradient(top, #999999, #555555);
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;
+}
+
+#objectToolbar .standardToolbarButton.activeTool {
+    background-image: -moz-linear-gradient(top, #666666, #333333);
+    
+}

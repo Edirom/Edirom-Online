@@ -1,0 +1,22 @@
+
+div#facsimile {
+	background-color: #000000;
+	z-index: 100;
+	margin: 0px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	overflow: hidden;
+	border: 0px;
+}
+
+div #imageContainer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    bottom: 0px;
+    right: 0px;
+}
+

@@ -1,0 +1,474 @@
+body {
+    cursor: default;
+}
+
+.descriptionText {
+    -moz-user-select: none;
+}
+
+div#ediromDetail {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+		
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;	
+}
+
+div#ediromDetailHeading {
+	height: 70px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #d6dde5;
+	background-image: url(../pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+	
+}
+
+div.sourceHeading {
+	height: 27px;
+
+	margin: 0px 10px 0px 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.sourceHeading sup {
+	vertical-align: 5px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading sub {
+	vertical-align: -4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading .sourceSignature {
+	font-weight: bold;
+	font-size: 14px;
+	
+	margin-right: 10px;
+	border: 0px;
+	padding: 5px;	
+}
+
+#ediromDetailHeading .tabBox {	
+	height: 24px;
+	width: 100%;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+		
+	position: relative;
+	bottom: 0px; 
+	left: 0px;
+}
+
+.tabBox .ediromDetailTab {
+	height: 15px;
+	font-weight: bold;
+	color: #333333;
+	
+	text-align: center;
+	
+	margin: 0px 0px 0px 5px;
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	border-color: #999999;
+	padding: 5px 10px 3px 10px;
+	
+	background-color: #cccccc;
+	
+	float: left;	
+	cursor: pointer;
+}
+
+.tabBox .ediromDetailTab:hover {
+	background-color: #d6dde5;
+}
+
+.tabBox .activeTab, .tabBox .activeTab:hover {	
+	background-color: #ffffff;
+	cursor: auto;
+	color: #000000;
+}
+
+div.ediromDetailContent {
+	line-height: 17px;
+
+	margin: 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.ediromDetailContent .dataBox {
+	margin: 0px 0px 20px 0px;
+	border: 0px;
+	padding: 2px;
+}
+
+.dataBox .label {
+	width: 150px;
+	font-weight: bold;	
+	padding-left: 4px;
+	float: left;
+}
+
+.dataBox .inputRow {
+	width: 400px;
+	
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+
+	border: 0px;
+	border-left: 1px solid #cccccc;
+	/*background-color: #e5e5e5;*/
+}
+
+.ediromDetailContent h1 {
+	font-size: 18px;
+
+	margin: 10px 0px;
+	border: 0px;
+	padding: 0px;
+}
+
+.ediromDetailContent sup {
+	vertical-align: 4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent sub {
+	vertical-align: -3px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent .saveBox {
+	float: right;
+	-moz-user-select: none;
+}
+
+.saveBox .saveBoxButton {
+	margin: 0px 0px 0px 5px;
+	border: 1px solid #999999;
+	padding: 2px 10px;
+	
+	background-color: #cccccc;
+	cursor: pointer;
+}
+
+.saveBox .saveBoxButton:hover {
+	background-color: #d6dde5;
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem {
+	height: 100px;
+	
+	margin: 0px 0px 5px 9px;
+	border: 0px;
+	padding: 10px 0px;
+	
+	clear: both;
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem:hover {
+	background-color: #e5e5e5;
+}
+
+.sourceFacsPreviewItem img.pagePreview {	
+	float: left;	
+	display: block;
+	
+	margin-left: 24px;
+	
+}
+
+.sourceFacsPreviewItem div.pageDesc {
+	height: 100px;
+	
+}
+
+.pageDesc .dataBox {
+	margin: 0px 0px 5px 0px;
+}
+
+.sourceFacsPreviewItemToolbar {
+	width: 40px;
+	height: 20px;
+	
+	margin: -10px 0px 0px -19px;
+	border: 0px;
+	padding: 5px 0px;
+	
+	background-color: #e5e5e5;
+	
+	display: none;
+	float: left;	
+}
+
+.sourceFacsPreviewItem:hover .sourceFacsPreviewItemToolbar {
+	display: block;
+}
+
+.sourceFacsPreviewItem:hover img.pagePreview {
+	margin-left: 3px;
+}
+
+.sourceFacsPreviewItemToolbar .deleteButton {
+	width: 11px;
+	height: 10px;
+	font-size: 10px;
+	
+	margin: 2px 2px 2px 6px;
+	border: 0px;
+	padding: 0px 3px 0px 4px;
+	
+	background-image: url(../pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.sourceFacsPreviewItemToolbar .moveButton {
+	width: 11px;
+	height: 10px;	
+	font-size: 10px;
+	
+	margin: 2px 2px;	
+	border: 0px;
+	padding: 0px 4px;
+	
+	background-image: url(../pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+.ediromDetailContent .ediromDetailContentToolbar {
+	height: 16px;
+		
+	margin: -10px -10px 0px -10px;
+	border-bottom: 0px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;
+	background-image: url(../pix/toolbarBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarButton {
+	font-size: 11px;
+	color: #ffffff;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px solid #717171;
+	padding: 0px 2px;
+			
+	float: left;
+	cursor: pointer;
+}
+
+.ediromDetailContentToolbar .toolbarButton:active {
+	background-image: url(../pix/toolbarButtonBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarGroup .toolbarButton {
+	margin: 0px 1px 0px 0px;
+}
+
+.ediromDetailContentToolbar #prevPage {
+	background-image: url(../pix/prevPageBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #prevPage:active {
+	background-image: url(../pix/prevPageBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #nextPage {
+	background-image: url(../pix/nextPageBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #nextPage:active {
+	background-image: url(../pix/nextPageBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarMenu {
+	font-size: 11px;
+	color: #ffffff;
+
+	min-width: 12px;
+	height: 12px;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px solid #717171;
+	padding: 0px 4px;
+		
+	float: left;
+	cursor: pointer;
+}
+
+.ediromDetailContentToolbar #annotationsMenuButton:hover {
+	text-decoration: underline;
+}
+
+
+.ediromDetailContentToolbar .toolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 1px 10px;
+	border-left: 1px solid #999999;
+	padding: 0px;
+		
+	float: left;
+}
+
+.ediromDetailContentToolbar .toolbarInputFixedWidth {
+	width: 114px;
+	height: 12px;
+	
+	margin: 0px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../pix/inputFixedWidth.png);
+	
+	float: left;
+}
+
+.toolbarInputFixedWidth .label {
+	font-size: 11px;
+	vertical-align: 1px;;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px 0px 0px 8px;
+}
+
+.toolbarInputFixedWidth input {
+	font-size: 11px;
+	font-family: Arial, sans-serif;
+	text-align: right;
+
+	width: 60px;
+	margin: 0px 0px 0px 6px;
+	border: 0px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.ediromDetailContentToolbar #inputZoomLevel {
+	width: 40px;
+	height: 12px;
+	
+	margin: 0px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../pix/inputZoomLevel.png);
+	
+	float: left;
+}
+
+#inputZoomLevel input {
+	font-size: 11px;
+	font-family: Arial, sans-serif;
+	text-align: right;
+
+	width: 30px;
+	margin: 0px 0px 0px 3px;
+	border: 0px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.ediromDetailContentToolbar #zoomSliderBG {
+	width: 50px;
+	height: 12px;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../pix/zoomSliderBG.png);
+	
+	float: left;
+}
+
+#zoomSliderBG #zoomSlider {
+	width: 8px;
+	height: 12px;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../pix/zoomSlider.png);
+}
+
+.ediromDetailContent div.lastChanges {
+	clear: left;
+	color: #666666;
+}
+
+/* ** FLOATING BOXES ** */
+
+#annotationsMenu {
+	position: absolute;
+	top: 108px;
+	left: 492px;
+	
+	min-width: 120px;
+	
+	margin: 0px;
+	border: 1px solid #999999;
+	padding: 2px 0px;
+	
+	background-image: url(../pix/menuBackTrans.png);
+	display: none;
+}
+
+#barsMenu {
+	position: absolute;
+	top: 108px;
+	left: 577px;
+	
+	min-width: 120px;
+	
+	margin: 0px;
+	border: 1px solid #999999;
+	padding: 2px 0px;
+	
+	background-image: url(../pix/menuBackTrans.png);
+	display: none;
+}
+
+.menuItem {
+	font-size: 11px;
+
+	margin: 0px 0px 0px 0px;
+	padding: 2px 5px 2px 5px;
+	
+	cursor: pointer;
+}
+
+.menuItem:hover {
+	background-color: #6699ff;
+	color: #ffffff;
+}

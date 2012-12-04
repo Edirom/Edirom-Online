@@ -1,0 +1,37 @@
+/**
+*	RECTANGULAR MARQUEE TOOL - CSS DOCUMENT
+*	allow you select rectangles and operate with selected space.
+*	
+*	Requirements: Prototype Library version 1.5.0 and higher (http://prototype.conio.net/)
+*	Author:	Koksharov Sergey (web2.0.dev@gmail.com)
+*	Version: 2.0.0
+*
+*	RECTANGULAR MARQUEE TOOL is freely distributable 
+*	under the terms of an MIT-style license.
+*	For details, see the Web 2.0 Dev web site: http://web2dev.net/
+*/
+
+.marquee-layer, .marquee-landing { top: 0%; left: 0%; }
+.marquee-layer, .marquee-element, .marquee-edge, 
+.marquee-opacity, .marquee-listener, .marquee-landing,
+.marquee-window, .marquee-preview {
+	position: absolute;
+	font-size: 1px;
+	line-height: 0%;
+	-moz-user-select: none;
+	background: url(/images/spacer.gif) no-repeat center;
+}
+
+.marquee-edge, .marquee-opacity, .marquee-listener { overflow: hidden; }
+.marquee-element { border: 1px dotted #999; }
+.marquee-window { width: 100%; height: 100%; left: 0; top: 0; }
+.marquee-edge {
+	margin-left: -2px;
+	margin-top: -3px;
+	width: 3px;
+	height: 3px;
+	background-color: #999;
+	border: 1px solid #ccc;
+}
+
+.marquee-listener { width: 1px; height: 1px; border: 0; z-index: 1; }

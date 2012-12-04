@@ -1,0 +1,42 @@
+#objectTabBox {	
+	height: 24px;
+	
+	margin: 0px;
+	border-top: 1px solid #8a8a8a;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+#objectTabBox #tabBoxItems {
+	float: left;
+}
+
+#objectTabBox .ediromDetailTab {
+	height: 15px;
+	color: #333333;
+	
+	text-align: center;
+	
+	margin: -1px 0px 0px 2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #8a8a8a;
+	padding: 2px 8px 0px 8px;
+	
+	background-color: #999999;
+	
+	float: left;	
+	cursor: pointer;
+}
+
+#objectTabBox .activeTab {
+	border-top: 0px;
+	height: 16px;
+	background-color: #b5b5b5;
+}
+
+#objectTabBox .ediromDetailTab.unsavedTab:after {
+	content:"*";
+}
+

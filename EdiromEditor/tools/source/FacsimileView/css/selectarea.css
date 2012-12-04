@@ -1,0 +1,115 @@
+div#imageContainer #selectArea {
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px; 
+	right: 0px;
+	z-index: 10;
+	
+	display: none;
+}
+
+#selectArea .covering {
+	background-color: #000000;
+	opacity: 0.5;
+}
+
+#selectArea #selectedArea {
+	border: 1px dashed #333333;
+	position: absolute;
+	
+	display: none;
+}
+
+#selectArea #north {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+	display: none;
+}
+
+#selectArea #west {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectArea #east {
+    top: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectArea #south {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectedArea .dragHandle {
+	background-image: url(../../pix/dragHandle.png);
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	z-index: 12;
+	float: left;
+}
+
+#selectedArea #handle-nw {
+	top: -5px;
+	left: -5px;	
+	cursor: nw-resize;
+}
+
+#selectedArea #handle-n {
+	top: -5px;
+	left: 50%;
+	margin-left: -4px;
+	cursor: n-resize;
+}
+
+#selectedArea #handle-ne {
+	top: -5px;
+	right: -5px;	
+	cursor: ne-resize;
+}
+
+#selectedArea #handle-e {
+	top: 50%;
+	right: -5px;
+	margin-top: -4px;		
+	cursor: e-resize;
+}
+
+#selectedArea #handle-se {
+	bottom: -5px;
+	right: -5px;	
+	cursor: se-resize;
+}
+
+#selectedArea #handle-s {
+	bottom: -5px;
+	left: 50%;	
+	margin-left: -4px;	
+	cursor: s-resize;
+}
+
+#selectedArea #handle-sw {
+	bottom: -5px;
+	left: -5px;	
+	cursor: sw-resize;
+}
+
+#selectedArea #handle-w {
+	top: 50%;
+	left: -5px;
+	margin-top: -4px;	
+	cursor: w-resize;
+}

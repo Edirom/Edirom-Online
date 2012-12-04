@@ -1,0 +1,30 @@
+.sidebar #movementSelectBox {
+	width: 245px;
+	border: 1px solid #999999;
+	border-top: none;
+	background-color: #ffffff;
+	position: absolute;
+	display: none;
+}
+
+.sidebar #movementSelectBox div {
+/*  implizit: div.level1  */
+	padding: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.sidebar #movementSelectBox div:hover {
+	background-color: #cccce5;
+}
+
+
+.sidebar #movementSelectBox div.level2 {
+	padding-left: 10px;
+}
+
+.sidebarTable tr.markedAnnotation {
+    background-color: #70a4e6 !important;
+}
+

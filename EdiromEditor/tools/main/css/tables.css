@@ -1,0 +1,167 @@
+.ediromDetailContent table.classic {
+	width: 100%;
+	margin: 0px 0px 25px 0px;
+	border: 0px;
+	border-collapse: collapse;	
+	padding: 0px;
+}
+
+.ediromDetailContent table.narrow {
+	width: 400px !important;
+}
+
+.ediromDetailContent table.classic th {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic tr, .ediromDetailContent table.classic td {
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	font-size: 12px;
+}
+
+.ediromDetailContent table.classic tr.nonSelectableContent, .ediromDetailContent table.classic td.nonSelectableContent {
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic td.buttons {
+	width: 100px;
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic .openButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+	
+	background-image: url(../pix/openFacsimile.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .openXMLButton {
+	width: 20px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 0px 4px 5px;
+	padding: 2px 10px;
+	
+	background-image: url(../pix/openXML.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	cursor: pointer;
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic .moveButton {
+	width: 11px;
+	height: 12px;	
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+		
+	background-image: url(../pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+.ediromDetailContent table.classic .deleteButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+	
+	background-image: url(../pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .targetButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 6px;
+	
+	background-image: url(../pix/target.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .addItemButton, .addItemButton {
+	font-size: 11px;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-user-select: none;
+}
+
+/* Table: Matrix */
+
+.ediromDetailContent table.matrix {
+	margin: 0px 0px 0px 0px;
+	border: 0px;
+	border-collapse: collapse;	
+	padding: 0px;
+	overflow: auto;
+}
+
+.ediromDetailContent table.matrix th {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	
+	min-width: 50px;
+}
+
+.ediromDetailContent table.matrix th input {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: left;
+    
+    width: 50px;
+    border: 0px;
+}
+
+.ediromDetailContent table.matrix tr, .ediromDetailContent table.matrix td {
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	min-width: 50px;
+}
+
+.ediromDetailContent table.matrix tr td:first-child {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	min-width: 120px;
+}
+
+
+.ediromDetailContent table.matrix .explanation {
+	font-weight: normal !important;
+	margin: 5px 30px;
+	max-width: 500px;
+}

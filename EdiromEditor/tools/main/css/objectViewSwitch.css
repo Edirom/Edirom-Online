@@ -1,0 +1,88 @@
+div#viewSwitch {
+    float: right;
+    width: 300px;
+    height: 15px;
+    text-align: right;
+    padding: 4px;
+    margin: 2px -15px 0px 0px;
+}
+
+div.viewSwitchButton {
+    display: inline;
+    padding: 4px 8px;
+    height: 23px;
+    margin: 0px;
+    background-image: -moz-linear-gradient(top, #e5e5e5, #bbbbbb 45%, #999999 55%, #666666);
+    cursor: pointer;
+    border: 1px solid #666666;
+    -moz-user-select: none;
+}
+
+div.viewSwitchButton.active {
+    background-image: -moz-linear-gradient(top, #cccccc, #999999 45%, #888888 55%, #555555);
+}
+
+div#viewSwitch div.viewSwitchButton:first-of-type {
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-right: none;
+}
+
+div#viewSwitch div.viewSwitchButton:last-of-type {
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-left: none;
+}
+
+    /*
+    display: inline;
+    padding: 4px 8px;
+    height: 23px;
+    margin: 0px 0px;
+    background-image: url(../pix/viewButtons/background.png);
+    background-repeat: repeat-x;
+    background-position: 0px -23px;
+    font-weight: bold;
+    
+    cursor: pointer;
+    */
+
+/*
+div#structureView:before {
+    width: 5px;
+    height: 23px;
+    background-image: url(../pix/viewButtons/backgroundBorders.png);
+    background-repeat: repeat-x;
+    background-position: 0px -23px;
+    padding: 4px 0px;
+    display: block;
+    content: "-";
+    color: transparent;
+    margin: 0px 5px 0px -10px;
+}
+
+div#facsimileView {
+    margin: 0px -4px;
+}
+
+div#xmlView:after {
+    width: 5px;
+    height: 23px;
+    background-image: url(../pix/viewButtons/backgroundBorders.png);
+    background-repeat: repeat-x;
+    background-position: -5px -23px;  
+    padding: 4px 0px;
+    display: block;
+    content: "-";
+    color: transparent;
+    margin: 0px -12px 0px 3px;
+}
+
+div.viewSwitchButton.active, div#structureView.active:before {
+    background-position: 0px 0px;
+}
+
+div#xmlView.active:after {
+    background-position: -5px 0px;
+}
+*/

@@ -1,0 +1,65 @@
+.heading {
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.informationViewScrollLayout {
+    max-width: 800px;
+    overflow: hidden;
+    position: absolute;
+    top: 60px;
+    bottom: 18px;
+    right: 0px;
+    left: 0px;
+    padding-left: 14px;
+    padding-bottom: 2px;
+    margin-right:4px;
+}
+
+.mdivBox {
+    width: 200px;
+    border: 1px solid #666666;
+    -moz-border-radius: 10px;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #e5e5e5;
+    text-align: center;    
+}
+
+.mdivBox .mdivName {
+    font-weight: bold;
+}
+
+.mdivBox .mdivBars {
+    color: #666666;
+    float: right;
+}
+
+.mdivBox .mdivBars:before {
+    content: '[';
+}
+
+.mdivBox .mdivBars:after {
+    content: ']';
+}
+
+.sourceStructure_mdiv .deleteButton {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #000000;
+    -moz-border-radius: 10px;
+    background-color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    position: absolute;
+    top: -4px;
+    right: -2px;
+}
+
+#toolbar_renamePages {    
+    background-image: url("../../pix/autoMeasureCount.png"), -moz-linear-gradient(center top , #999999, #555555) !important;
+}    
+}

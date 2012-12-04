@@ -1,0 +1,83 @@
+div#measures {
+    position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 0px;
+	/*
+	bottom: 0px; 
+	right: 0px;
+	*/
+	z-index: 9;
+	
+/*	display: none;*/
+}
+
+div#measures .measure {
+/*    position: absolute;*/
+    display: inline-block;
+    margin: 0px auto 1px auto;
+    border: 1px solid #333333;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0px 1px 2px #000000;
+    font-weight: bold;
+    padding: 0px 5px;
+    -moz-user-select: none;
+    cursor:default;
+    z-index:100;
+    background-image: -moz-linear-gradient(top, rgba(150,150,150,0.8), rgba(60,60,60,0.8));
+}
+
+div#measures .measureHidden {
+    display: none;
+}
+
+div#measures .measureLabel {
+    color: #cccccc;
+
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+
+    border: 1px solid #cccccc;
+
+    width: 28px;
+    height: 16px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -14px;
+}
+
+div#measures .measureLabelBack {
+    background-color: #333333;
+    
+    width: 29px;
+    height: 17px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -14px;
+}
+
+div .measureHi {
+    position: absolute;
+    border: 1px solid gray;
+    z-index:100;
+}
+
+.measureContentFrame {
+    position: absolute;
+    z-index: 102;
+    text-align: center;
+}
+
+.measureBox {
+    min-width: 1px;
+    min-height: 1px;
+    display: block;
+}
+

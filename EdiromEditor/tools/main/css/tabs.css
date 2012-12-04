@@ -1,0 +1,44 @@
+
+.tabMenuContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabContentContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabContent {
+}
+
+.tabLink {
+	background-color: #CCC;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	cursor:pointer;
+}
+
+.tabActiveLink {
+	font-weight: bold;
+}
+
+.tabBackButton {
+	background-image:url(../pix/triangleSmall.png);
+    background-position:0 -65px;
+    background-repeat:no-repeat;
+    width: 13px;
+    height: 16px;
+    cursor:pointer;
+}
+
+.tabForButton {
+	background-image:url(../pix/triangleSmall.png);
+    background-position:0 2px;
+    background-repeat:no-repeat;
+    width: 13px;
+    height: 16px;
+    cursor:pointer;
+}

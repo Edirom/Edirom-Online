@@ -1,0 +1,74 @@
+#toolbar_dropdown
+{	
+    margin: 0;
+    padding: 0;
+}
+
+#toolbar_dropdown li
+{	
+    margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	font: bold 11px arial;
+}
+
+#toolbar_dropdown li a
+{	
+    display: block;
+	margin: 0 1px 0 0;
+	padding: 4px 10px;
+	width: 60px;
+	background: #69D2E7;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none
+}
+
+#toolbar_dropdown li a:hover
+{	
+    background: #F38630;
+}
+
+#toolbar_dropdown #menu
+{	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	background: #A7DBD8;
+	border: 1px solid #8a8a8a;
+	z-index: 30;
+}
+
+.toolbar_dropdown_command 
+{	
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    white-space: nowrap;
+    text-align: left;
+    text-decoration: none;
+    background: #cccccc;
+    color: #000000;
+    font: 11px arial;
+    z-index: 30;
+}
+
+.toolbar_dropdown_command:hover
+{	
+    background: #5691C9;
+    color: #FFF;
+    cursor: default;
+}
+
+.toolbar_dropdown_command.active
+{
+      font-weight:bold; 
+    font-size:12px;  
+}
+
+.toolbar_dropdown_command.active:before
+{
+    content:"\2192";
+}

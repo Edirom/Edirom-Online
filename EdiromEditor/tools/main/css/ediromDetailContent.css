@@ -1,0 +1,56 @@
+@import url(forms.css) screen;
+@import url(tables.css) screen;
+@import url(sidebar.css) screen;
+
+div.ediromDetailContent {
+    position: absolute;
+    top: 98px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    
+	line-height: 17px;
+	margin: 0px 0px 0px 0px;
+	padding: 10px;
+}
+
+.ediromDetailContent h1 {
+	font-size: 18px;
+
+	margin: 10px 0px;
+	border: 0px;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent h2 {
+	font-size: 16px;
+
+	margin: 10px 0px 10px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent sup {
+	vertical-align: 4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent sub {
+	vertical-align: -3px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+/*
+.ediromDetailContent div.lastChanges {
+	font-size: 11px;
+	clear: left;
+	color: #666666;
+}
+
+*/

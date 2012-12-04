@@ -1,0 +1,56 @@
+body > .contextMenu {
+    padding: 4px 0px;
+    -moz-box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
+    -moz-border-radius: 4px;
+    background-image: -moz-linear-gradient(top, rgba(250,250,250,0.95), rgba(230,230,230,0.95));
+    position: absolute;
+}
+
+body > .contextMenu ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+body > .contextMenu ul li{
+    margin: 0px;
+    padding: 0px 10px;
+    -moz-user-select: none;
+}
+
+body > .contextMenu .separator{
+    -moz-user-select: none;
+    border-top: 1px solid #cccccc;
+    background-color: #ffffff;
+    margin: 4px 0px 5px;
+    height: 1px;
+}
+
+body > .contextMenu .menuEntry {
+    padding: 3px 10px 5px 10px;
+    text-decoration: none;
+    -moz-user-select: none;
+    font-size: 13px;
+    color: #000000;
+}
+
+body > .contextMenu .menuEntry.enabled {
+    cursor: pointer;
+}
+
+body > .contextMenu .menuEntry.disabled {
+    color: #999999;
+    cursor: default;
+}
+
+body > .contextMenu li:hover {
+    background-image: -moz-linear-gradient(top, #597fee, #0d53ec);
+}
+
+body > .contextMenu li:hover .menuEntry {
+    color: #ffffff;
+}
+
+body > .contextMenu .separator:hover {
+    background-image: none;
+}

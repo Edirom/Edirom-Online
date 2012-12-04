@@ -1,0 +1,202 @@
+#loading {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 10001;
+    background-color: rgba(0,0,0,0.7);
+    text-align: center;
+    background-image: url(../pix/ajax-loader.gif);
+    background-repeat: no-repeat;
+    background-position: 50% 150px;
+    padding-top: 190px;
+}
+
+#loading span {
+    
+    margin: 50px auto;
+    
+    padding: 50px 15px 10px 15px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid #000000;
+    -moz-border-radius: 10px;
+}
+
+/*
+div#ediromDetail {
+	width: 100%;
+		
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;	
+}
+
+div#ediromDetailHeading {
+	height: 70px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #d6dde5;
+	background-image: url(../pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+	
+}
+
+div.sourceHeading {
+	height: 27px;
+
+	margin: 0px 10px 0px 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.sourceHeading #sourceIDlabel {
+	font-size: 10px;
+	display: block;
+	color: #4e4e4e;
+	float: right;
+	position: relative;
+	top: -5px;
+	right: -15px;
+}
+
+.sourceHeading sup {
+	vertical-align: 5px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading sub {
+	vertical-align: -4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading .sourceSignature {
+	font-weight: bold;
+	font-size: 14px;
+	
+	margin-right: 10px;
+	border: 0px;
+	padding: 5px;	
+	clear: both;
+}*/
+
+/*In facsimiles.js wird die Größe manuell gesetzt*/
+
+#sourceFacsimiles {
+	margin: 0px;
+	border-right: 0px;
+	max-width: none;
+}
+
+
+
+/*TODO: Used for what?*/
+
+div#sourceFacsimiles {
+	background-color: #000000;
+	padding: 0px;
+	z-index: 10;
+}
+
+
+#sourceFacsimiles div.sourceFacsPreviewItem {
+	height: 100px;
+	
+	margin: 0px 0px 5px 9px;
+	border: 0px;
+	padding: 10px 0px;
+	
+	clear: both;
+	
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem:hover {
+	background-color: #e5e5e5;
+}
+
+.sourceFacsPreviewItem img.pagePreview {	
+	float: left;	
+	display: block;
+	
+	margin-left: 24px;
+	
+}
+
+.sourceFacsPreviewItem div.pageDesc {
+	height: 100px;
+	
+}
+
+.pageDesc .dataBox {
+	margin: 0px 0px 5px 0px;
+}
+
+.sourceFacsPreviewItemToolbar {
+	width: 40px;
+	height: 20px;
+	
+	margin: -10px 0px 0px -19px;
+	border: 0px;
+	padding: 5px 0px;
+	
+	background-color: #e5e5e5;
+	
+	display: none;
+	float: left;	
+}
+
+.sourceFacsPreviewItem:hover .sourceFacsPreviewItemToolbar {
+	display: block;
+}
+
+.sourceFacsPreviewItem:hover img.pagePreview {
+	margin-left: 3px;
+}
+
+.sourceFacsPreviewItemToolbar .deleteButton {
+	width: 11px;
+	height: 10px;
+	font-size: 10px;
+	
+	margin: 2px 2px 2px 6px;
+	border: 0px;
+	padding: 0px 3px 0px 4px;
+	
+	background-image: url(../pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.sourceFacsPreviewItemToolbar .moveButton {
+	width: 11px;
+	height: 10px;	
+	font-size: 10px;
+	
+	margin: 2px 2px;	
+	border: 0px;
+	padding: 0px 4px;
+	
+	background-image: url(../pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+
+
+
+
+
+
+
+

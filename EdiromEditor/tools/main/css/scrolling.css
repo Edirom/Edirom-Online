@@ -1,0 +1,26 @@
+/* Notice:
+ * Don't set positioning and size attributes.
+ * These are controlled by the parameters of the Scrollview and Scrollbar classes.
+ */
+
+.scrollbarV, .scrollbarH, .cornerRect {
+	background-color: transparent;
+}
+
+.scrollbarV {
+	padding-left: 1px;
+	padding-right: 1px;
+	width: 4px;
+}
+
+.scrollbarH {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	height: 5px;
+}
+
+.dragbarV, .dragbarH {
+	background-color: #AAA;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}

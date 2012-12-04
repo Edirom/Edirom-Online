@@ -1,0 +1,47 @@
+#indicator
+{
+    float: left;
+    height: 16px;
+    position: absolute;
+    bottom: -16px;
+    left: 0px;
+    right: 0px;
+}
+
+#indicator_icon.active
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../pix/ajax-loader.gif);
+    background-repeat: no-repeat;   
+    float:right;
+    margin-left: 10px;
+    margin-right: -1px;
+}
+
+#indicator_icon.inactive
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../pix/haken.gif);
+    background-repeat: no-repeat;
+    float: right;
+    margin-left: 10px;    
+    margin-right: -1px;
+}
+
+#indicator_text.active
+{
+    height: 12px;
+    float:right;
+    text-align:right;
+    padding: 2px;
+}
+
+#indicator_text.inactive
+{
+    height: 12px;
+    float:right;
+    text-align:right;
+    padding: 2px;
+}

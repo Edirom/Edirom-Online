@@ -1,0 +1,43 @@
+.ediromDetailContent .dataBox {
+	margin: 0px 0px 20px 0px;
+	border: 0px;
+	padding: 2px;
+	
+	position: relative;
+}
+
+.dataBox .label {
+	width: 150px;
+	font-weight: bold;	
+	padding-left: 4px;
+	float: left;
+}
+
+.dataBox .inputRow {
+	width: 400px;
+	height: 16px;
+	
+	padding: 1px;
+	
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	
+	border-left: 1px solid #999999;
+	background-color: #ffffff;
+}
+
+#inputValidationFeedback {
+    margin-right: 6px;
+    color: #DD0000;
+    font-size: 11px;
+    max-width: 300px;
+
+}
+
+.dataBox .inputValidationFeedbackContext {
+    position: absolute;
+    color: #DD0000;
+    font-size: 11px;
+    bottom: -16px;
+    left: 156px;
+}

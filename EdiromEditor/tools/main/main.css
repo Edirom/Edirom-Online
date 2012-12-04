@@ -1,0 +1,1808 @@
+body {
+    cursor: default;
+}
+
+.descriptionText {
+    -moz-user-select: none;
+}
+
+div#ediromDetail {
+	position: absolute;
+	top: 10px;
+	bottom: 10px;
+	left: 10px;
+	right: 10px;
+		
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;	
+}
+
+div#ediromDetailHeading {
+	height: 70px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #d6dde5;
+	background-image: url(../main/pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+	
+}
+
+div.sourceHeading {
+	height: 27px;
+
+	margin: 0px 10px 0px 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.sourceHeading sup {
+	vertical-align: 5px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading sub {
+	vertical-align: -4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading .sourceSignature {
+	font-weight: bold;
+	font-size: 14px;
+	
+	margin-right: 10px;
+	border: 0px;
+	padding: 5px;	
+}
+
+#ediromDetailHeading .tabBox {	
+	height: 24px;
+	width: 100%;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+		
+	position: relative;
+	bottom: 0px; 
+	left: 0px;
+}
+
+.tabBox .ediromDetailTab {
+	height: 15px;
+	font-weight: bold;
+	color: #333333;
+	
+	text-align: center;
+	
+	margin: 0px 0px 0px 5px;
+	border-width: 1px 1px 0px 1px;
+	border-style: solid;
+	border-color: #999999;
+	padding: 5px 10px 3px 10px;
+	
+	background-color: #cccccc;
+	
+	float: left;	
+	cursor: pointer;
+}
+
+.tabBox .ediromDetailTab:hover {
+	background-color: #d6dde5;
+}
+
+.tabBox .activeTab, .tabBox .activeTab:hover {	
+	background-color: #ffffff;
+	cursor: auto;
+	color: #000000;
+}
+
+div.ediromDetailContent {
+	line-height: 17px;
+
+	margin: 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.ediromDetailContent .dataBox {
+	margin: 0px 0px 20px 0px;
+	border: 0px;
+	padding: 2px;
+}
+
+.dataBox .label {
+	width: 150px;
+	font-weight: bold;	
+	padding-left: 4px;
+	float: left;
+}
+
+.dataBox .inputRow {
+	width: 400px;
+	
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+
+	border: 0px;
+	border-left: 1px solid #cccccc;
+	/*background-color: #e5e5e5;*/
+}
+
+.ediromDetailContent h1 {
+	font-size: 18px;
+
+	margin: 10px 0px;
+	border: 0px;
+	padding: 0px;
+}
+
+.ediromDetailContent sup {
+	vertical-align: 4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent sub {
+	vertical-align: -3px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent .saveBox {
+	float: right;
+	-moz-user-select: none;
+}
+
+.saveBox .saveBoxButton {
+	margin: 0px 0px 0px 5px;
+	border: 1px solid #999999;
+	padding: 2px 10px;
+	
+	background-color: #cccccc;
+	cursor: pointer;
+}
+
+.saveBox .saveBoxButton:hover {
+	background-color: #d6dde5;
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem {
+	height: 100px;
+	
+	margin: 0px 0px 5px 9px;
+	border: 0px;
+	padding: 10px 0px;
+	
+	clear: both;
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem:hover {
+	background-color: #e5e5e5;
+}
+
+.sourceFacsPreviewItem img.pagePreview {	
+	float: left;	
+	display: block;
+	
+	margin-left: 24px;
+	
+}
+
+.sourceFacsPreviewItem div.pageDesc {
+	height: 100px;
+	
+}
+
+.pageDesc .dataBox {
+	margin: 0px 0px 5px 0px;
+}
+
+.sourceFacsPreviewItemToolbar {
+	width: 40px;
+	height: 20px;
+	
+	margin: -10px 0px 0px -19px;
+	border: 0px;
+	padding: 5px 0px;
+	
+	background-color: #e5e5e5;
+	
+	display: none;
+	float: left;	
+}
+
+.sourceFacsPreviewItem:hover .sourceFacsPreviewItemToolbar {
+	display: block;
+}
+
+.sourceFacsPreviewItem:hover img.pagePreview {
+	margin-left: 3px;
+}
+
+.sourceFacsPreviewItemToolbar .deleteButton {
+	width: 11px;
+	height: 10px;
+	font-size: 10px;
+	
+	margin: 2px 2px 2px 6px;
+	border: 0px;
+	padding: 0px 3px 0px 4px;
+	
+	background-image: url(../main/pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.sourceFacsPreviewItemToolbar .moveButton {
+	width: 11px;
+	height: 10px;	
+	font-size: 10px;
+	
+	margin: 2px 2px;	
+	border: 0px;
+	padding: 0px 4px;
+	
+	background-image: url(../main/pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+.ediromDetailContent .ediromDetailContentToolbar {
+	height: 16px;
+		
+	margin: -10px -10px 0px -10px;
+	border-bottom: 0px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;
+	background-image: url(../main/pix/toolbarBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarButton {
+	font-size: 11px;
+	color: #ffffff;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px solid #717171;
+	padding: 0px 2px;
+			
+	float: left;
+	cursor: pointer;
+}
+
+.ediromDetailContentToolbar .toolbarButton:active {
+	background-image: url(../main/pix/toolbarButtonBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarGroup .toolbarButton {
+	margin: 0px 1px 0px 0px;
+}
+
+.ediromDetailContentToolbar #prevPage {
+	background-image: url(../main/pix/prevPageBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #prevPage:active {
+	background-image: url(../main/pix/prevPageBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #nextPage {
+	background-image: url(../main/pix/nextPageBG.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar #nextPage:active {
+	background-image: url(../main/pix/nextPageBGactive.png);
+	background-repeat: repeat-x;
+}
+
+.ediromDetailContentToolbar .toolbarMenu {
+	font-size: 11px;
+	color: #ffffff;
+
+	min-width: 12px;
+	height: 12px;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px solid #717171;
+	padding: 0px 4px;
+		
+	float: left;
+	cursor: pointer;
+}
+
+.ediromDetailContentToolbar #annotationsMenuButton:hover {
+	text-decoration: underline;
+}
+
+
+.ediromDetailContentToolbar .toolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 1px 10px;
+	border-left: 1px solid #999999;
+	padding: 0px;
+		
+	float: left;
+}
+
+.ediromDetailContentToolbar .toolbarInputFixedWidth {
+	width: 114px;
+	height: 12px;
+	
+	margin: 0px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../main/pix/inputFixedWidth.png);
+	
+	float: left;
+}
+
+.toolbarInputFixedWidth .label {
+	font-size: 11px;
+	vertical-align: 1px;;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px 0px 0px 8px;
+}
+
+.toolbarInputFixedWidth input {
+	font-size: 11px;
+	font-family: Arial, sans-serif;
+	text-align: right;
+
+	width: 60px;
+	margin: 0px 0px 0px 6px;
+	border: 0px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.ediromDetailContentToolbar #inputZoomLevel {
+	width: 40px;
+	height: 12px;
+	
+	margin: 0px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../main/pix/inputZoomLevel.png);
+	
+	float: left;
+}
+
+#inputZoomLevel input {
+	font-size: 11px;
+	font-family: Arial, sans-serif;
+	text-align: right;
+
+	width: 30px;
+	margin: 0px 0px 0px 3px;
+	border: 0px;
+	padding: 0px;
+	background-color: transparent;
+}
+
+.ediromDetailContentToolbar #zoomSliderBG {
+	width: 50px;
+	height: 12px;
+	
+	margin: 0px 5px 0px 2px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../main/pix/zoomSliderBG.png);
+	
+	float: left;
+}
+
+#zoomSliderBG #zoomSlider {
+	width: 8px;
+	height: 12px;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	background-image: url(../main/pix/zoomSlider.png);
+}
+
+.ediromDetailContent div.lastChanges {
+	clear: left;
+	color: #666666;
+}
+
+/* ** FLOATING BOXES ** */
+
+#annotationsMenu {
+	position: absolute;
+	top: 108px;
+	left: 492px;
+	
+	min-width: 120px;
+	
+	margin: 0px;
+	border: 1px solid #999999;
+	padding: 2px 0px;
+	
+	background-image: url(../main/pix/menuBackTrans.png);
+	display: none;
+}
+
+#barsMenu {
+	position: absolute;
+	top: 108px;
+	left: 577px;
+	
+	min-width: 120px;
+	
+	margin: 0px;
+	border: 1px solid #999999;
+	padding: 2px 0px;
+	
+	background-image: url(../main/pix/menuBackTrans.png);
+	display: none;
+}
+
+.menuItem {
+	font-size: 11px;
+
+	margin: 0px 0px 0px 0px;
+	padding: 2px 5px 2px 5px;
+	
+	cursor: pointer;
+}
+
+.menuItem:hover {
+	background-color: #6699ff;
+	color: #ffffff;
+}#toolbar_dropdown
+{	
+    margin: 0;
+    padding: 0;
+}
+
+#toolbar_dropdown li
+{	
+    margin: 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+	font: bold 11px arial;
+}
+
+#toolbar_dropdown li a
+{	
+    display: block;
+	margin: 0 1px 0 0;
+	padding: 4px 10px;
+	width: 60px;
+	background: #69D2E7;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none
+}
+
+#toolbar_dropdown li a:hover
+{	
+    background: #F38630;
+}
+
+#toolbar_dropdown #menu
+{	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	background: #A7DBD8;
+	border: 1px solid #8a8a8a;
+	z-index: 30;
+}
+
+.toolbar_dropdown_command 
+{	
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    white-space: nowrap;
+    text-align: left;
+    text-decoration: none;
+    background: #cccccc;
+    color: #000000;
+    font: 11px arial;
+    z-index: 30;
+}
+
+.toolbar_dropdown_command:hover
+{	
+    background: #5691C9;
+    color: #FFF;
+    cursor: default;
+}
+
+.toolbar_dropdown_command.active
+{
+      font-weight:bold; 
+    font-size:12px;  
+}
+
+.toolbar_dropdown_command.active:before
+{
+    content:"\2192";
+}@import url(forms.css) screen;
+@import url(tables.css) screen;
+@import url(sidebar.css) screen;
+
+div.ediromDetailContent {
+    position: absolute;
+    top: 98px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    
+	line-height: 17px;
+	margin: 0px 0px 0px 0px;
+	padding: 10px;
+}
+
+.ediromDetailContent h1 {
+	font-size: 18px;
+
+	margin: 10px 0px;
+	border: 0px;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent h2 {
+	font-size: 16px;
+
+	margin: 10px 0px 10px 5px;
+	border: 0px;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent sup {
+	vertical-align: 4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.ediromDetailContent sub {
+	vertical-align: -3px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+/*
+.ediromDetailContent div.lastChanges {
+	font-size: 11px;
+	clear: left;
+	color: #666666;
+}
+
+*/.ediromDetailContent .dataBox {
+	margin: 0px 0px 20px 0px;
+	border: 0px;
+	padding: 2px;
+	
+	position: relative;
+}
+
+.dataBox .label {
+	width: 150px;
+	font-weight: bold;	
+	padding-left: 4px;
+	float: left;
+}
+
+.dataBox .inputRow {
+	width: 400px;
+	height: 16px;
+	
+	padding: 1px;
+	
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	
+	border-left: 1px solid #999999;
+	background-color: #ffffff;
+}
+
+#inputValidationFeedback {
+    margin-right: 6px;
+    color: #DD0000;
+    font-size: 11px;
+    max-width: 300px;
+
+}
+
+.dataBox .inputValidationFeedbackContext {
+    position: absolute;
+    color: #DD0000;
+    font-size: 11px;
+    bottom: -16px;
+    left: 156px;
+}#indicator
+{
+    float: left;
+    height: 16px;
+    position: absolute;
+    bottom: -16px;
+    left: 0px;
+    right: 0px;
+}
+
+#indicator_icon.active
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../main/pix/ajax-loader.gif);
+    background-repeat: no-repeat;   
+    float:right;
+    margin-left: 10px;
+    margin-right: -1px;
+}
+
+#indicator_icon.inactive
+{
+    height: 16px;
+    width: 16px;
+    background-image: url(../main/pix/haken.gif);
+    background-repeat: no-repeat;
+    float: right;
+    margin-left: 10px;    
+    margin-right: -1px;
+}
+
+#indicator_text.active
+{
+    height: 12px;
+    float:right;
+    text-align:right;
+    padding: 2px;
+}
+
+#indicator_text.inactive
+{
+    height: 12px;
+    float:right;
+    text-align:right;
+    padding: 2px;
+}body {
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+
+	margin: 0px;
+	border: 0px;
+	padding: 10px;
+	
+	background-color: #cccccc;
+}
+
+div#ediromObject {
+    position: absolute;
+    bottom: 15px;
+    top: 10px;
+    right: 20px;
+    left: 10px;
+
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;	
+}
+
+#ediromObject .saveBox {
+	float: right;
+	-moz-user-select: none;
+}
+
+.saveBox .saveBoxButton {
+	margin: 0px 0px 0px 5px;
+	border: 1px solid #999999;
+	padding: 2px 10px;
+	
+	-moz-border-radius: 3px;
+    background-image: -moz-linear-gradient(top, #888888, #333333);
+
+    cursor: pointer;
+	-moz-user-select: none;
+	color: #ffffff;
+}
+
+.saveBox .saveBoxButton:hover {
+/*	background-color: #d6dde5;*/
+    background-image: -moz-linear-gradient(top, #999999, #555555);
+    
+}
+
+.label {
+    -moz-user-select: none;
+}div#objectHeadFrame {
+	height: 97px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #a5a5a5;
+	background-image: url(../main/pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+}@import url(objectViewSwitch.css) screen;
+
+div#objectHeading {
+	height: 27px;
+
+	margin: 0px 10px 0px 0px;
+	border: 0px;
+	padding: 10px;	
+	
+	-moz-user-select: none;
+}
+
+#objectHeading #objectID {
+	font-size: 10px;
+	display: block;
+	color: #999999;
+	position: absolute;
+	top: 30px;
+	left: 15px;
+}
+
+#objectHeading #objectTitle {
+	font-weight: bold;
+	font-size: 14px;
+	
+	margin-right: 10px;
+	border: 0px;
+	padding: 5px;	
+	clear: both;
+}#objectPicker_background {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: #000000;
+    opacity: 0.5;
+    z-index: 9000;
+}
+
+#objectPicker {
+    position: fixed;
+    width: 780px;
+    left: auto;
+    right: auto;
+    top: 10px;
+    bottom: 10px;
+    background-color: #eeeeee;
+    border: 1px solid #333333;
+    z-index: 9001;
+}
+
+#objectPickerHeading {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding: 10px;
+    background-color: #cccccc;
+}
+
+#objectPickerContent {
+    position: absolute;
+    top: 45px;
+    left: 10px;
+    right: 10px;
+    bottom: 35px;
+    overflow-y: auto;
+}
+
+table.objectPickerTable {
+    width: 760px;
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, sans-serif;
+}
+
+table.objectPickerTable th {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: left;
+    padding: 2px 5px;
+}
+
+table.objectPickerTable td {
+    font-size: 12px;
+    text-align: left;
+    padding: 2px 5px;
+}
+
+table.objectPickerTable td.objectPicker_itemChecker {
+    width: 30px;
+}
+
+
+.objectPickerSaveBox {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    
+}#objectTabBox {	
+	height: 24px;
+	
+	margin: 0px;
+	border-top: 1px solid #8a8a8a;
+	padding: 0px;
+	
+	-moz-user-select: none;
+}
+
+#objectTabBox #tabBoxItems {
+	float: left;
+}
+
+#objectTabBox .ediromDetailTab {
+	height: 15px;
+	color: #333333;
+	
+	text-align: center;
+	
+	margin: -1px 0px 0px 2px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #8a8a8a;
+	padding: 2px 8px 0px 8px;
+	
+	background-color: #999999;
+	
+	float: left;	
+	cursor: pointer;
+}
+
+#objectTabBox .activeTab {
+	border-top: 0px;
+	height: 16px;
+	background-color: #b5b5b5;
+}
+
+#objectTabBox .ediromDetailTab.unsavedTab:after {
+	content:"*";
+}
+
+#objectToolbar {
+	height: 24px;		
+	
+	background-color: #b5b5b5;
+	border-top: 1px solid #999999;
+}
+
+#objectToolbar .inactive {
+    background-position: 0px 0px;
+}
+#objectToolbar .active {
+    background-position: 0px -24px;
+}
+
+#objectToolbar .saveButton {
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../main/pix/saveActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .saveButton.active {
+    background-image: url(../main/pix/saveActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .saveButton.inactive {
+    background-image: url(../main/pix/saveInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .undoButton {
+    float: left;
+    margin: 3px 0px 3px 6px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../main/pix/undoActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .undoButton.active {
+    background-image: url(../main/pix/undoActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .undoButton.inactive {
+    background-image: url(../main/pix/undoInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .redoButton {
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: url(../main/pix/redoActive.png), -moz-linear-gradient(top, #999999, #555555);
+    background-position: center;
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;    
+    -moz-user-select: none;
+}
+
+#objectToolbar .redoButton.active {
+    background-image: url(../main/pix/redoActive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .redoButton.inactive {
+    background-image: url(../main/pix/redoInactive.png), -moz-linear-gradient(top, #999999, #555555);
+}
+
+#objectToolbar .dropDownButton {
+    width: 24px;
+    height: 24px;
+    float: left;
+    
+    background-image: url(../main/pix/dropdown.png);
+    background-repeat: no-repeat;
+}
+
+
+
+#objectToolbar .toolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 6px 10px;
+	border-left: 1px solid #999999;
+	padding: 0px;
+		
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar .emptyToolbarSpacer {
+	width: 1px;
+	height: 12px;
+
+	margin: 6px 10px;
+	padding: 0px;
+		
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar .toolbarButton {
+    background-position: 0px 0px;
+    
+    width: 24px;
+    height: 24px;
+    
+    float:left;
+    cursor: pointer;
+    -moz-user-select: none;
+}
+
+#objectToolbar .toggled {
+    background-position: 0px -24px;
+}
+
+#objectToolbar .label {
+	color: #000000;
+	font-size: 12px;
+	vertical-align: 1px;
+	
+	margin: 0px;
+	margin-top: 5px;
+	margin-left: 0px;
+	border: 0px;
+	padding: 0px;
+	
+	float: left;
+    -moz-user-select: none;
+}
+
+#objectToolbar input.toolbarInput {
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+	text-align: center;
+	width: 34px;
+	height: 14px;
+	margin-top: 4px;
+	margin-left: 3px;
+	margin-right: 0px;
+	border-width: 0px 1px 0px 1px;
+	border-color: #cfcfcf;
+	border-style: solid;
+	padding: 1px;
+	float: left;
+	background-image: url(../main/pix/inputBG.png);
+	background-repeat: repeat-x;
+}
+
+#objectToolbar .toolbarTriangleLeft {
+	width: 10px;
+	height: 16px;
+	background-image: url(../main/pix/triangleSmall.png);
+	background-position: 0px -65px;
+	background-repeat: no-repeat;
+	float: left;
+	cursor: pointer;
+	margin-top: 2px;
+}
+
+#objectToolbar .toolbarTriangleRight {
+	width: 10px;
+	height: 16px;
+	background-image: url(../main/pix/triangleSmall.png);
+	background-position: 0px 1px;
+	background-repeat: no-repeat;
+	float: left;
+	cursor: pointer;
+	margin-top: 2px;
+}
+
+#objectToolbar .toolbarToggleButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 5px; 
+    padding: 1px 5px 0px;
+    height: 15px;
+    background-image: -moz-linear-gradient(top, #cccccc, #888888);
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+#objectToolbar .toolbarPressButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 5px; 
+    padding: 1px 5px 0px;
+    height: 15px;
+    width: 15px;
+    background-image: -moz-linear-gradient(top, #cccccc, #888888);
+    -moz-user-select: none;
+    cursor: pointer;
+}
+
+#objectToolbar .toolbarSwitchButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: -moz-linear-gradient(top, #999999, #555555);
+    -moz-user-select: none;
+    cursor:pointer
+}
+
+#objectToolbar .toolbarSwitchButton.activated {
+    background-image: -moz-linear-gradient(top, #777777, #444444);   
+}
+
+#objectToolbar .standardToolbarButton {
+    
+    float: left;
+    margin: 3px 3px;
+    border: 1px solid #666666;
+    -moz-border-radius: 3px; 
+    padding: 0px;
+    height: 16px;
+    width: 16px;
+    background-image: -moz-linear-gradient(top, #999999, #555555);
+    -moz-user-select: none;
+    cursor:pointer;
+    text-align:center;
+}
+
+#objectToolbar .standardToolbarButton.activeTool {
+    background-image: -moz-linear-gradient(top, #666666, #333333);
+    
+}div#viewSwitch {
+    float: right;
+    width: 300px;
+    height: 15px;
+    text-align: right;
+    padding: 4px;
+    margin: 2px -15px 0px 0px;
+}
+
+div.viewSwitchButton {
+    display: inline;
+    padding: 4px 8px;
+    height: 23px;
+    margin: 0px;
+    background-image: -moz-linear-gradient(top, #e5e5e5, #bbbbbb 45%, #999999 55%, #666666);
+    cursor: pointer;
+    border: 1px solid #666666;
+    -moz-user-select: none;
+}
+
+div.viewSwitchButton.active {
+    background-image: -moz-linear-gradient(top, #cccccc, #999999 45%, #888888 55%, #555555);
+}
+
+div#viewSwitch div.viewSwitchButton:first-of-type {
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-right: none;
+}
+
+div#viewSwitch div.viewSwitchButton:last-of-type {
+    -moz-border-radius-topright: 5px;
+    -moz-border-radius-bottomright: 5px;
+    border-left: none;
+}
+
+    /*
+    display: inline;
+    padding: 4px 8px;
+    height: 23px;
+    margin: 0px 0px;
+    background-image: url(../main/pix/viewButtons/background.png);
+    background-repeat: repeat-x;
+    background-position: 0px -23px;
+    font-weight: bold;
+    
+    cursor: pointer;
+    */
+
+/*
+div#structureView:before {
+    width: 5px;
+    height: 23px;
+    background-image: url(../main/pix/viewButtons/backgroundBorders.png);
+    background-repeat: repeat-x;
+    background-position: 0px -23px;
+    padding: 4px 0px;
+    display: block;
+    content: "-";
+    color: transparent;
+    margin: 0px 5px 0px -10px;
+}
+
+div#facsimileView {
+    margin: 0px -4px;
+}
+
+div#xmlView:after {
+    width: 5px;
+    height: 23px;
+    background-image: url(../main/pix/viewButtons/backgroundBorders.png);
+    background-repeat: repeat-x;
+    background-position: -5px -23px;  
+    padding: 4px 0px;
+    display: block;
+    content: "-";
+    color: transparent;
+    margin: 0px -12px 0px 3px;
+}
+
+div.viewSwitchButton.active, div#structureView.active:before {
+    background-position: 0px 0px;
+}
+
+div#xmlView.active:after {
+    background-position: -5px 0px;
+}
+*/#popup_background {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: #000000;
+    opacity: 0.5;
+    z-index: 9000;
+}
+
+#popup {
+    width: 350px;
+    height: 180px;
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -175px;
+    margin-top: -90px;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    z-index: 9001;
+    
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0px 3px 10px rgba(0,0,0,1);
+}
+
+#popup h1 {
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0px 0px 10px;
+    padding: 2px;
+    text-align: center;
+    background-image: -moz-linear-gradient(top, #888888, #333333);
+    -moz-border-radius-topright: 3px;
+    -moz-border-radius-topleft: 3px;
+    color: #ffffff;
+}
+
+#popup #popupMessage {
+    position: relative;
+    margin: 10px;
+    max-height: 50px;
+}
+
+#popup #popupDetails {
+    margin: 10px;
+    max-height: 65px;
+    border: 1px solid #999999;
+    -moz-border-radius: 5px;
+    background-image: -moz-linear-gradient(top, #dddddd, #bbbbbb);
+    overflow: auto;
+    padding 5px;
+}
+
+#popup #popupButtons {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}body > .contextMenu {
+    padding: 4px 0px;
+    -moz-box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
+    -moz-border-radius: 4px;
+    background-image: -moz-linear-gradient(top, rgba(250,250,250,0.95), rgba(230,230,230,0.95));
+    position: absolute;
+}
+
+body > .contextMenu ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+body > .contextMenu ul li{
+    margin: 0px;
+    padding: 0px 10px;
+    -moz-user-select: none;
+}
+
+body > .contextMenu .separator{
+    -moz-user-select: none;
+    border-top: 1px solid #cccccc;
+    background-color: #ffffff;
+    margin: 4px 0px 5px;
+    height: 1px;
+}
+
+body > .contextMenu .menuEntry {
+    padding: 3px 10px 5px 10px;
+    text-decoration: none;
+    -moz-user-select: none;
+    font-size: 13px;
+    color: #000000;
+}
+
+body > .contextMenu .menuEntry.enabled {
+    cursor: pointer;
+}
+
+body > .contextMenu .menuEntry.disabled {
+    color: #999999;
+    cursor: default;
+}
+
+body > .contextMenu li:hover {
+    background-image: -moz-linear-gradient(top, #597fee, #0d53ec);
+}
+
+body > .contextMenu li:hover .menuEntry {
+    color: #ffffff;
+}
+
+body > .contextMenu .separator:hover {
+    background-image: none;
+}
+/* Notice:
+ * Don't set positioning and size attributes.
+ * These are controlled by the parameters of the Scrollview and Scrollbar classes.
+ */
+
+.scrollbarV, .scrollbarH, .cornerRect {
+	background-color: transparent;
+}
+
+.scrollbarV {
+	padding-left: 1px;
+	padding-right: 1px;
+	width: 4px;
+}
+
+.scrollbarH {
+	padding-top: 1px;
+	padding-bottom: 1px;
+	height: 5px;
+}
+
+.dragbarV, .dragbarH {
+	background-color: #AAA;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+div.sidebar
+{
+	width: 285px;
+	margin: 0px;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	float: right;
+	background-color: #e5e5e5;
+	border-left: 1px solid #999999;
+	border-right: 1px solid #999999;
+	overflow: hidden;
+	z-index: 5000;
+	font-size: 12px;
+	font-family: Arial, sans-serif;
+}
+
+.sidebarContent {
+	padding: 3px;
+	background-color: #e5e5e5;
+}
+
+.sidebar .sideBarModule.noTabs {
+	background-image: url(../main/pix/moduleNoTabBack.png);
+	background-repeat: no-repeat;
+	background-position: -4px -5px;
+	margin-bottom: 10px;
+	padding: 7px;
+	min-height: 50px;
+}
+
+.sidebar .sidebarTools {
+    display: block;
+    clear: both;
+    height: 20px;
+    margin: 18px 2px 5px 0px;
+    -moz-user-select: none;
+}
+
+.sidebarTools .toolButton {
+	margin: 0px 0px 0px 5px;
+	padding: 0px 3px;
+	display: block;
+	float: right;
+	border: 1px solid #666666;
+	background-image: url(../main/pix/blackTrans30.png);
+    background-repeat: repeat;
+    cursor: pointer;
+}
+
+.sidebarTools .toolButton.active {
+    background-image: url(../main/pix/blackTrans45.png);
+}
+
+.sidebar h2.sidebarH {
+	font-size: 12px;
+	font-weight: bold;
+	margin: 0px 0px 10px 0px;
+	text-align: left;
+	background-color: transparent;
+	padding: 0px;
+}
+
+.sideBarModule .label {
+	color: #333333;
+	font-size: 11px;
+	margin: 10px 0px 3px 0px;
+}
+
+input.sidebarInput {
+	border: 1px solid #999999;
+	width: 262px;	
+}
+
+textarea.sidebarTextArea {
+	border: 1px solid #999999;
+	width: 262px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+}
+
+.sidebar .smallButton {
+	margin: 3px 1px;
+	cursor: pointer;
+	display: inline;
+	-moz-user-select:none;
+	font-size: 10px;
+	color: #666666;
+	padding: 0px 2px;
+}
+
+.sidebar .smallButton.active {
+    border: 1px solid #666666;
+    margin: 2px 0px;
+    background-image: url(../main/pix/blackTrans30.png);
+    background-repeat: repeat;
+    color: #000000;
+}
+
+.sidebar input[type=checkbox] {
+	margin: 0px 8px 2px 0px;
+}
+
+.sidebar .checkBoxOption {
+	font-size: 11px;
+	margin: 0px 0px 2px 10px;
+}
+
+.sidebar .sidebarInputSmall {
+	float: right;
+	border: 1px solid #999999;
+	width: 40px;
+	margin: -2px 0px 0px 0px;
+	text-align: center;
+}
+
+.sidebar input.sidebarInput.selectBox[disabled] {
+	width: 247px;
+	background-color: #ffffff;
+	color: #000000;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+}
+
+.sidebar .selectBoxButton {
+	float: right;
+	width: 16px;
+	height: 16px;
+	border-width: 1px 1px 1px 0px;
+	border-style: solid;
+	border-color: #999999;
+	background-color: #CCC;
+	margin: 0px;
+	padding: 0px;
+	background-image: url(../main/pix/selectButton.png);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.sidebar input.sidebarInput.stepper {
+	width: 247px;
+}
+
+.sidebar .stepperButton {
+	float: right;
+	width: 16px;
+	height: 16px;
+	border-width: 1px 1px 1px 0px;
+	border-style: solid;
+	border-color: #999999;
+	background-color: #cccccc;
+	margin: 0px;
+	padding: 0px;	
+	background-image: url(../main/pix/stepperButtons.png);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.stepperButton .stepUp {
+	width: 16px;
+	height: 8px;
+}
+
+.stepperButton .stepDown {
+	width: 16px;
+	height: 8px;
+}
+
+.sidebar .sidebarTable {
+	width: 260px;
+	border: 1px solid #999999;
+	border-collapse: collapse;
+	background-color: #ffffff;
+	text-align: left;
+    -moz-user-select: none;
+}
+
+.sidebarTable th {
+    border-width: 0px 1px;
+    border-style: solid;
+	font-weight: bold;
+	text-align: left;
+	color: #333333;
+	background-color: #cccccc;
+	font-size: 10px;
+	border-bottom: 1px solid #999999;
+	padding: 1px 2px;
+}
+
+.sidebarTable td {
+	border-width: 0px 1px;
+	border-color: #999999;
+	border-style: solid;
+	padding: 1px 2px;
+	vertical-align: bottom;
+	font-size: 12px;
+}
+
+.sidebarTable tr.highlighted, .sidebarTable tr.marked.highlighted {
+    background-color: #c4cabf;
+    background-color: #b1c6e1;
+}
+
+.sidebarTable tr.marked {
+    background-color: #b1c6e1;
+    background-color: #c4cabf;
+    
+}
+
+
+
+.sidebar .scrollTrack {
+    position: absolute;
+    right: 1px;
+    top: 0px;
+    width: 3px;
+}
+
+.sidebar .scrollHandle {
+    width: 3px;
+    background-image: url(../main/pix/blackTrans60.png);
+	background-repeat: repeat;
+}
+.ediromDetailContent table.classic {
+	width: 100%;
+	margin: 0px 0px 25px 0px;
+	border: 0px;
+	border-collapse: collapse;	
+	padding: 0px;
+}
+
+.ediromDetailContent table.narrow {
+	width: 400px !important;
+}
+
+.ediromDetailContent table.classic th {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic tr, .ediromDetailContent table.classic td {
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	font-size: 12px;
+}
+
+.ediromDetailContent table.classic tr.nonSelectableContent, .ediromDetailContent table.classic td.nonSelectableContent {
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic td.buttons {
+	width: 100px;
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic .openButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+	
+	background-image: url(../main/pix/openFacsimile.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .openXMLButton {
+	width: 20px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 0px 4px 5px;
+	padding: 2px 10px;
+	
+	background-image: url(../main/pix/openXML.png);
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	cursor: pointer;
+	-moz-user-select: none;
+}
+
+.ediromDetailContent table.classic .moveButton {
+	width: 11px;
+	height: 12px;	
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+		
+	background-image: url(../main/pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+.ediromDetailContent table.classic .deleteButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 5px;
+	
+	background-image: url(../main/pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .targetButton {
+	width: 11px;
+	height: 12px;
+	font-size: 10px;
+	
+	margin: 0px 2px 4px 6px;
+	padding: 2px 6px;
+	
+	background-image: url(../main/pix/target.png);
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	cursor: pointer;
+}
+
+.ediromDetailContent table.classic .addItemButton, .addItemButton {
+	font-size: 11px;
+	font-weight: bold;
+	cursor: pointer;
+	-moz-user-select: none;
+}
+
+/* Table: Matrix */
+
+.ediromDetailContent table.matrix {
+	margin: 0px 0px 0px 0px;
+	border: 0px;
+	border-collapse: collapse;	
+	padding: 0px;
+	overflow: auto;
+}
+
+.ediromDetailContent table.matrix th {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	
+	min-width: 50px;
+}
+
+.ediromDetailContent table.matrix th input {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: left;
+    
+    width: 50px;
+    border: 0px;
+}
+
+.ediromDetailContent table.matrix tr, .ediromDetailContent table.matrix td {
+	margin: 0px;
+	border: 0px;
+	padding: 2px 5px 2px 0px;
+	min-width: 50px;
+}
+
+.ediromDetailContent table.matrix tr td:first-child {
+	font-size: 11px;
+	font-weight: bold;
+	text-align: left;
+	min-width: 120px;
+}
+
+
+.ediromDetailContent table.matrix .explanation {
+	font-weight: normal !important;
+	margin: 5px 30px;
+	max-width: 500px;
+}
+.tabMenuContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabContentContainer {
+    display: inline-block;
+    width: 100%;
+}
+
+.tabContent {
+}
+
+.tabLink {
+	background-color: #CCC;
+	margin-left: 2px;
+	margin-right: 2px;
+	padding-left: 3px;
+	padding-right: 3px;
+	cursor:pointer;
+}
+
+.tabActiveLink {
+	font-weight: bold;
+}
+
+.tabBackButton {
+	background-image:url(../main/pix/triangleSmall.png);
+    background-position:0 -65px;
+    background-repeat:no-repeat;
+    width: 13px;
+    height: 16px;
+    cursor:pointer;
+}
+
+.tabForButton {
+	background-image:url(../main/pix/triangleSmall.png);
+    background-position:0 2px;
+    background-repeat:no-repeat;
+    width: 13px;
+    height: 16px;
+    cursor:pointer;
+}

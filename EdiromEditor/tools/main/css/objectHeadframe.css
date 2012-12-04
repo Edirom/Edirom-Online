@@ -1,0 +1,11 @@
+div#objectHeadFrame {
+	height: 97px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #a5a5a5;
+	background-image: url(../pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+}

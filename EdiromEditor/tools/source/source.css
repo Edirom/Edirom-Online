@@ -1,0 +1,534 @@
+.sidebar #movementSelectBox {
+	width: 245px;
+	border: 1px solid #999999;
+	border-top: none;
+	background-color: #ffffff;
+	position: absolute;
+	display: none;
+}
+
+.sidebar #movementSelectBox div {
+/*  implizit: div.level1  */
+	padding: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.sidebar #movementSelectBox div:hover {
+	background-color: #cccce5;
+}
+
+
+.sidebar #movementSelectBox div.level2 {
+	padding-left: 10px;
+}
+
+.sidebarTable tr.markedAnnotation {
+    background-color: #70a4e6 !important;
+}
+
+#loading {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 10001;
+    background-color: rgba(0,0,0,0.7);
+    text-align: center;
+    background-image: url(pix/ajax-loader.gif);
+    background-repeat: no-repeat;
+    background-position: 50% 150px;
+    padding-top: 190px;
+}
+
+#loading span {
+    
+    margin: 50px auto;
+    
+    padding: 50px 15px 10px 15px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    
+    background-color: rgba(255,255,255,0.2);
+    border: 1px solid #000000;
+    -moz-border-radius: 10px;
+}
+
+/*
+div#ediromDetail {
+	width: 100%;
+		
+	margin: 0px 0px 0px 0px;
+	border: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #ffffff;	
+}
+
+div#ediromDetailHeading {
+	height: 70px;
+	
+	margin: 0px;
+	border-bottom: 1px solid #999999;
+	padding: 0px;
+	
+	background-color: #d6dde5;
+	background-image: url(pix/ediromFinderHeadingBG.png);
+	background-repeat: repeat-x;
+	
+}
+
+div.sourceHeading {
+	height: 27px;
+
+	margin: 0px 10px 0px 0px;
+	border: 0px;
+	padding: 10px;	
+}
+
+.sourceHeading #sourceIDlabel {
+	font-size: 10px;
+	display: block;
+	color: #4e4e4e;
+	float: right;
+	position: relative;
+	top: -5px;
+	right: -15px;
+}
+
+.sourceHeading sup {
+	vertical-align: 5px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading sub {
+	vertical-align: -4px;
+	line-height: 10px;
+	font-size: 10px;
+}
+
+.sourceHeading .sourceSignature {
+	font-weight: bold;
+	font-size: 14px;
+	
+	margin-right: 10px;
+	border: 0px;
+	padding: 5px;	
+	clear: both;
+}*/
+
+/*In facsimiles.js wird die Größe manuell gesetzt*/
+
+#sourceFacsimiles {
+	margin: 0px;
+	border-right: 0px;
+	max-width: none;
+}
+
+
+
+/*TODO: Used for what?*/
+
+div#sourceFacsimiles {
+	background-color: #000000;
+	padding: 0px;
+	z-index: 10;
+}
+
+
+#sourceFacsimiles div.sourceFacsPreviewItem {
+	height: 100px;
+	
+	margin: 0px 0px 5px 9px;
+	border: 0px;
+	padding: 10px 0px;
+	
+	clear: both;
+	
+}
+
+#sourceFacsimiles div.sourceFacsPreviewItem:hover {
+	background-color: #e5e5e5;
+}
+
+.sourceFacsPreviewItem img.pagePreview {	
+	float: left;	
+	display: block;
+	
+	margin-left: 24px;
+	
+}
+
+.sourceFacsPreviewItem div.pageDesc {
+	height: 100px;
+	
+}
+
+.pageDesc .dataBox {
+	margin: 0px 0px 5px 0px;
+}
+
+.sourceFacsPreviewItemToolbar {
+	width: 40px;
+	height: 20px;
+	
+	margin: -10px 0px 0px -19px;
+	border: 0px;
+	padding: 5px 0px;
+	
+	background-color: #e5e5e5;
+	
+	display: none;
+	float: left;	
+}
+
+.sourceFacsPreviewItem:hover .sourceFacsPreviewItemToolbar {
+	display: block;
+}
+
+.sourceFacsPreviewItem:hover img.pagePreview {
+	margin-left: 3px;
+}
+
+.sourceFacsPreviewItemToolbar .deleteButton {
+	width: 11px;
+	height: 10px;
+	font-size: 10px;
+	
+	margin: 2px 2px 2px 6px;
+	border: 0px;
+	padding: 0px 3px 0px 4px;
+	
+	background-image: url(pix/trash.gif);
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+
+.sourceFacsPreviewItemToolbar .moveButton {
+	width: 11px;
+	height: 10px;	
+	font-size: 10px;
+	
+	margin: 2px 2px;	
+	border: 0px;
+	padding: 0px 4px;
+	
+	background-image: url(pix/drag_handle.gif);	
+	background-repeat: no-repeat;
+	cursor: move;
+}
+
+
+
+
+
+
+
+
+
+.heading {
+    font-weight: bold;
+    font-size: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.informationViewScrollLayout {
+    max-width: 800px;
+    overflow: hidden;
+    position: absolute;
+    top: 60px;
+    bottom: 18px;
+    right: 0px;
+    left: 0px;
+    padding-left: 14px;
+    padding-bottom: 2px;
+    margin-right:4px;
+}
+
+.mdivBox {
+    width: 200px;
+    border: 1px solid #666666;
+    -moz-border-radius: 10px;
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: #e5e5e5;
+    text-align: center;    
+}
+
+.mdivBox .mdivName {
+    font-weight: bold;
+}
+
+.mdivBox .mdivBars {
+    color: #666666;
+    float: right;
+}
+
+.mdivBox .mdivBars:before {
+    content: '[';
+}
+
+.mdivBox .mdivBars:after {
+    content: ']';
+}
+
+.sourceStructure_mdiv .deleteButton {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #000000;
+    -moz-border-radius: 10px;
+    background-color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    position: absolute;
+    top: -4px;
+    right: -2px;
+}
+
+#toolbar_renamePages {    
+    background-image: url("pix/autoMeasureCount.png"), -moz-linear-gradient(center top , #999999, #555555) !important;
+}    
+}#objectToolbar #toolbar_resetFacsimileView {
+	background-image: url(pix/resetView.png);
+}
+
+#objectToolbar #toolbar_showBars {
+	background-image: url(pix/showBars.png);
+}
+
+#objectToolbar #toolbar_showAnnotations {
+	background-image: url(pix/showAnnots.png);
+}
+
+#objectToolbar #toolbar_toggleMarking {
+	background-image: url(pix/toggleBars.png);
+}
+
+#objectToolbar #toolbar_toggleAnnotation {
+	background-image: url(pix/toggleAnnotation.png);
+}
+div#facsimile {
+	background-color: #000000;
+	z-index: 100;
+	margin: 0px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	overflow: hidden;
+	border: 0px;
+}
+
+div #imageContainer {
+    position:absolute;
+    top:0px;
+    left:0px;
+    bottom: 0px;
+    right: 0px;
+}
+
+div#measures {
+    position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 0px;
+	/*
+	bottom: 0px; 
+	right: 0px;
+	*/
+	z-index: 9;
+	
+/*	display: none;*/
+}
+
+div#measures .measure {
+/*    position: absolute;*/
+    display: inline-block;
+    margin: 0px auto 1px auto;
+    border: 1px solid #333333;
+    -moz-border-radius: 5px;
+    -moz-box-shadow: 0px 1px 2px #000000;
+    font-weight: bold;
+    padding: 0px 5px;
+    -moz-user-select: none;
+    cursor:default;
+    z-index:100;
+    background-image: -moz-linear-gradient(top, rgba(150,150,150,0.8), rgba(60,60,60,0.8));
+}
+
+div#measures .measureHidden {
+    display: none;
+}
+
+div#measures .measureLabel {
+    color: #cccccc;
+
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+
+    border: 1px solid #cccccc;
+
+    width: 28px;
+    height: 16px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -14px;
+}
+
+div#measures .measureLabelBack {
+    background-color: #333333;
+    
+    width: 29px;
+    height: 17px;
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -8px;
+    margin-left: -14px;
+}
+
+div .measureHi {
+    position: absolute;
+    border: 1px solid gray;
+    z-index:100;
+}
+
+.measureContentFrame {
+    position: absolute;
+    z-index: 102;
+    text-align: center;
+}
+
+.measureBox {
+    min-width: 1px;
+    min-height: 1px;
+    display: block;
+}
+
+div#imageContainer #selectArea {
+	
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	bottom: 0px; 
+	right: 0px;
+	z-index: 10;
+	
+	display: none;
+}
+
+#selectArea .covering {
+	background-color: #000000;
+	opacity: 0.5;
+}
+
+#selectArea #selectedArea {
+	border: 1px dashed #333333;
+	position: absolute;
+	
+	display: none;
+}
+
+#selectArea #north {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    position: absolute;
+	display: none;
+}
+
+#selectArea #west {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectArea #east {
+    top: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectArea #south {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+	position: absolute;
+	display: none;
+}
+
+#selectedArea .dragHandle {
+	background-image: url(pix/dragHandle.png);
+	position: absolute;
+	width: 8px;
+	height: 8px;
+	z-index: 12;
+	float: left;
+}
+
+#selectedArea #handle-nw {
+	top: -5px;
+	left: -5px;	
+	cursor: nw-resize;
+}
+
+#selectedArea #handle-n {
+	top: -5px;
+	left: 50%;
+	margin-left: -4px;
+	cursor: n-resize;
+}
+
+#selectedArea #handle-ne {
+	top: -5px;
+	right: -5px;	
+	cursor: ne-resize;
+}
+
+#selectedArea #handle-e {
+	top: 50%;
+	right: -5px;
+	margin-top: -4px;		
+	cursor: e-resize;
+}
+
+#selectedArea #handle-se {
+	bottom: -5px;
+	right: -5px;	
+	cursor: se-resize;
+}
+
+#selectedArea #handle-s {
+	bottom: -5px;
+	left: 50%;	
+	margin-left: -4px;	
+	cursor: s-resize;
+}
+
+#selectedArea #handle-sw {
+	bottom: -5px;
+	left: -5px;	
+	cursor: sw-resize;
+}
+
+#selectedArea #handle-w {
+	top: 50%;
+	left: -5px;
+	margin-top: -4px;	
+	cursor: w-resize;
+}
