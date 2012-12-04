@@ -26,7 +26,7 @@ xquery version "1.0";
 :)
 module namespace ee = "http://www.edirom.de/xquery/EdiromEditor";
 
-
+import module namespace functx="http://www.functx.com" at 'functx-1.0-nodoc-2007-01.xq';
 import module namespace templates="http://exist-db.org/xquery/templates" at "templates.xql";
 
 (:~
@@ -44,7 +44,7 @@ declare function ee:generateSidenav($node as node(), $params as element(paramete
                 
                 <li class="nav-header">Objects</li>
                 {ee:generateSidenavItem('manage-objects.html', $activePage, 'Manage Objects')}
-                {ee:generateSidenavItem('xml-editor.html', $activePage, 'Edit Object (XML)')}
+                {ee:generateSidenavItem('editor.html', $activePage, 'Edit Object')}
 
                 <!--<li class="nav-header">Takte</li>
                 {ee:generateSidenavItem('index.html', $activePage, 'Takte anlegen')}
@@ -76,17 +76,38 @@ declare function ee:generateSidenavItem($page as xs:string, $activePage as xs:st
     </li>
 };
 
-declare function ee:getXMLEditorTitle($node as node(), $params as element(parameters)?, $model as item()*) {
+declare function ee:getEditorTitle($node as node(), $params as element(parameters)?, $model as item()*) {
     let $uri := request:get-parameter('uri', '')
     return
         templates:process(
         
-            <h3>XML Editor: {$uri}</h3>,
+            <h3>{$uri}</h3>,
             $model
         )
 };
 
 
-declare function ee:getXMLEditorSource($node as node(), $params as element(parameters)?, $model as item()*) {
-    <input type="hidden" id="editorSourceUri" value="{request:get-parameter('uri', '')}"/>
+declare function ee:getEditorVariables($node as node(), $params as element(parameters)?, $model as item()*) {
+    
+    let $uri := request:get-parameter('uri', '')
+    return
+
+    <div>
+        <input type="hidden" id="editorSourceUri" value="{$uri}"/>
+        <input type="hidden" id="editorSourceType" value="{ee:getEditorType($uri)}"/>
+    </div>
+};
+
+declare function ee:getEditorType($uri as xs:string) as xs:string {
+    
+    let $type := functx:substring-after-last($uri, '.')
+    return
+
+        if($type eq 'xml' or $type eq 'mei' or $type eq 'tei')
+        then('xml')
+        else if($type eq 'xq' or $type eq 'xql' or $type eq 'xqm' or $type eq 'xquery')
+        then('xquery')
+        else if($type eq 'js')
+        then('javascript')
+        else('')
 };

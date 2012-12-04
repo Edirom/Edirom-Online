@@ -29,7 +29,7 @@ store: Ext.data.StoreManager.lookup('manageObjectsStore'),
             tooltip: 'Edit',
             handler: function(grid, rowIndex, colIndex) {
                 var rec = grid.getStore().getAt(rowIndex);
-                window.location.href = 'xml-editor.html?uri=' + rec.get('uri');
+                window.location.href = 'editor.html?uri=' + rec.get('uri');
             }
         },
         {

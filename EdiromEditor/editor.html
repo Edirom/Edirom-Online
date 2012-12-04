@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<div class="templates:surround?with=templates/page.html&amp;at=content">
+    <div class="ee:getEditorTitle"/>
+    
+    <div id="selectFileLabel" style="display:none;">
+        <p>Please select a file to edit:</p>
+    </div>
+    
+    <div id="editorTools" style="display:none;">
+        <span id="editorToolSave" style="color:gray; cursor: pointer;">Save</span>
+        <span id="editorToolUndo" style="color:gray; cursor: pointer;">Undo</span>
+        <span id="editorToolRedo" style="color:gray; cursor: pointer;">Redo</span>
+    </div>
+    <div id="editor" style="position: relative; width: 100%; height: 600px;"/>
+    <div class="ee:getEditorVariables"/>
+    
+    <script src="resources/ace/ace.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/ace/theme-ambience.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/ace/mode-css.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/ace/mode-javascript.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/ace/mode-xquery.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/jstree/jquery.jstree.js" type="text/javascript" charset="utf-8"/>
+    <script src="resources/js/editor.js" type="text/javascript" charset="utf-8"/>
+</div>

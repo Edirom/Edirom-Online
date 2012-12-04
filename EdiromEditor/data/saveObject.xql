@@ -19,11 +19,11 @@ xquery version "3.0";
   along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
 :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+import module namespace functx="http://www.functx.com" at '../modules/functx-1.0-nodoc-2007-01.xq';
 
-
-let $uri := request:get-parameter('uri', '') 
+let $uri := request:get-parameter('uri', '')
+let $doc := request:get-parameter('doc', '')
+let $filename := functx:substring-after-last($uri, '/')
+let $coll := functx:substring-before-last($uri, '/')
 return
-    if(util:binary-doc-available($uri))
-    then(util:binary-to-string(util:binary-doc($uri)))
-    else(util:serialize(doc($uri), 'method=xml'))
+    xmldb:store($coll, $filename, $doc)

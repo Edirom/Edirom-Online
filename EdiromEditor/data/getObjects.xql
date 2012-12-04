@@ -63,12 +63,11 @@ declare function local:getTreeItems($coll as xs:string) as element(item)* {
                 local:getTreeItems($coll || '/' || $item)
         }
         {
-            for $item in xmldb:xcollection($coll)/tei:TEI | xmldb:xcollection($coll)/mei:mei
-            let $uri := document-uri($item/root())
-            let $filename := functx:substring-after-last($uri, '/')
+            for $item in xmldb:get-child-resources($coll)
+            let $uri := $coll || '/' || $item
             return
                 <item id='{$uri}' class="resource">
-                    <content><name href="xml-editor.html?uri={$uri}">{$filename}</name></content>
+                    <content><name href="editor.html?uri={$uri}">{$item}</name></content>
                 </item>
         }
     </item>
