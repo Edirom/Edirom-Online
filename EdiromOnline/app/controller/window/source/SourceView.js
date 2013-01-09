@@ -327,8 +327,12 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
                 view.on('afterImagesLoaded', Ext.bind(me.fetchMeasures, me, [view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true)], false), view, [{single:true}]);
                 view.showPage(pageId);
             
-            }else if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId)
-                view.showPage(pageId);
+            }else {
+                if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId)
+                    view.showPage(pageId);
+                
+                me.fetchMeasures(view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true));
+            }
         }
     },
 
