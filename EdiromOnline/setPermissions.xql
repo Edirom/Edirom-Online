@@ -53,6 +53,14 @@ let $ediromOnline := local:scan(xs:anyURI("/db/EdiromOnline"), function($collect
                             sm:chmod($collection, $perms)
                     })
  
+let $ediromEditor := local:scan(xs:anyURI("/db/EdiromEditor"), function($collection, $resource) {
+                        if ($resource and 
+                            xmldb:get-mime-type($resource) = "application/xquery") then
+                            sm:chmod($resource, $perms)
+                        else
+                            sm:chmod($collection, $perms)
+                    })
+ 
 let $content := local:scan(xs:anyURI("/db/contents"), function($collection, $resource) {
                         if ($resource and 
                             xmldb:get-mime-type($resource) = "application/xquery") then
@@ -62,4 +70,4 @@ let $content := local:scan(xs:anyURI("/db/contents"), function($collection, $res
                     })
 
 return
-    ($ediromOnline, $content)
+    ($ediromOnline, $ediromEditor, $content)
