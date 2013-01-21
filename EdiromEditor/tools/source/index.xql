@@ -14,7 +14,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
         doctype-system=http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd";
 
 
-declare function local:buildPage($id, $title, $appVersion) {
+declare function local:buildPage($uri, $title, $appVersion) {
     let $template := <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
         <head>
 	        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -34,7 +34,7 @@ declare function local:buildPage($id, $title, $appVersion) {
                 	    <div id="objectHeading">
                 	    	<div id="viewSwitch">
                 			</div>
-                		    <span id="objectID" title="Objekt-ID">{$id}</span>
+                		    <span id="objectID" title="Objekt-ID">{$uri}</span>
                 			<span id="objectTitle">{$title}</span>			
                 		</div>
                 				
@@ -52,7 +52,7 @@ declare function local:buildPage($id, $title, $appVersion) {
         	
         	<div id="logger"> </div>
         	
-        	<input type="hidden" id="sourceId" value="{$id}" />
+        	<input type="hidden" id="sourceId" value="{$uri}" />
 	    </body>
     </html>
 
@@ -77,20 +77,14 @@ declare function local:current-time() {
     return $seconds + ($minutes * 60) + ($hours * 60 * 60) + (($daysTillMonth[$month] + $day - 1) * 60 * 60 * 24) + ((($years * 365) + $leapYear) * 60 * 60 * 24) + $leapYearDiff
 };
 
-let $id := request:get-parameter('id', '-1')
+let $uri := request:get-parameter('uri', '')
 let $appVersion := request:get-parameter('appVersion', local:current-time())
 
 return
-    if($id = '-1')
-    then(
-        local:buildPage($id, 'Neuer Notentext', $appVersion)
-    )
-    else(
-        let $mei := xcollection('/db/contents/sources')//mei:source/id($id)/root()
-        let $title := $mei//mei:source/id($id)//mei:title/text()
-        let $title := if(string-length($title) = 0) then(string('Notentext')) else($title)
-        
-        return
-        
-            local:buildPage($id, $title, $appVersion)
-    )
+    let $mei := doc($uri)/root()
+    let $title := $mei//mei:source[1]//mei:title[1]//text()
+    let $title := if(string-length($title) = 0) then(string('Notentext')) else($title)
+    
+    return
+    
+        local:buildPage($uri, $title, $appVersion)

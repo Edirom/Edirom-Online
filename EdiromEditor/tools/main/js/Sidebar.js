@@ -54,7 +54,7 @@
     },
     
     startSidebarExpandAnimation: function() {
-        $(this.id).morph('width:' + this.SIDEBAR_WIDTH + 'px;', { duration: 0.8, queue: 'end', afterFinish: this.sidebarExpandAnimationFinished.bind(this) });
+        $(this.id).morph('width:' + this.SIDEBAR_WIDTH + 'px;', { duration: 0, queue: 'end', afterFinish: this.sidebarExpandAnimationFinished.bind(this) });
     },
     
     sidebarExpandAnimationFinished: function() {

@@ -17,8 +17,8 @@ Ext.create('Ext.data.Store', {
     }
 });
 
-Ext.create('Ext.grid.Panel', {
-store: Ext.data.StoreManager.lookup('manageObjectsStore'),
+var panel = Ext.create('Ext.grid.Panel', {
+    store: Ext.data.StoreManager.lookup('manageObjectsStore'),
     columns: [
     {
         xtype:'actioncolumn',
@@ -59,8 +59,12 @@ store: Ext.data.StoreManager.lookup('manageObjectsStore'),
     }
     ],
     preventHeader: true,
-    minHeight: 300,
-    maxHeight: 500,
+    height: '100%',
+    width: '100%',
     renderTo: Ext.fly('manageObjectTable')
 });
-        
+
+Ext.EventManager.onWindowResize(function(event) {
+    var size = Ext.fly('manageObjectTable').getViewSize();
+    this.setSize(size.width, size.height);
+}, panel);

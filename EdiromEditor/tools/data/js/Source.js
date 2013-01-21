@@ -115,7 +115,7 @@ de.edirom.server.data.Source = Class.create ({
     getXQueryUpdate: function(field, value){
     
         switch(field){
-            case 'name': return 'update value $mei/id("' + this.id + '")/titlestmt/title with "' + value + '"'; break;
+            /*case 'name': return 'update value $mei/id("' + this.id + '")/titlestmt/title with "' + value + '"'; break;
             case 'composer': return 'update value $mei/mei/meihead/filedesc/titlestmt/respstmt/persname[@role eq "composer"] with "' + value + '"'; break;
             case 'signature': return 'update value $mei/id("' + this.id + '")/pubstmt/identifier[@type = "signature"] with "' + value + '"'; break;
             case 'workname': return 'update value $mei/mei/meihead/filedesc/titlestmt/title with "' + value + '"'; break;
@@ -130,13 +130,13 @@ de.edirom.server.data.Source = Class.create ({
                                     + 'else())'
                                     ); break;
             
-            case 'type': return 'update value $mei/id("' + this.id + '")/classification/termlist/term[@classcode="ediromSourceTypes"] with "' + value + '"'; break;
+            case 'type': return 'update value $mei/id("' + this.id + '")/classification/termlist/term[@classcode="ediromSourceTypes"] with "' + value + '"'; break;*/
         }
     },
     
     getXQueryUpdateList: function(mode, list, object, movedAfter) {
         
-        switch(mode) {
+        /*switch(mode) {
         
             case 'add': {
         
@@ -214,7 +214,7 @@ de.edirom.server.data.Source = Class.create ({
                     case 'texts': return 'update delete $mei/id("' + object + '_desc")'; break;
                 }
             }
-        }
+        }*/
     },
     
 /**LISTENERS***************************************/

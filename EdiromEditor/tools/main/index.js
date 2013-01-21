@@ -12,7 +12,7 @@ if ( typeof de.edirom == 'undefined' ) de.edirom = {};
 if ( typeof de.edirom.server == 'undefined' ) de.edirom.server = {};
 if ( typeof de.edirom.server.main == 'undefined' ) de.edirom.server.main = {};
 
-de.edirom.server.main.debug = false;
+de.edirom.server.main.debug = true;
 
 de.edirom.server.appVersion = 'appVersion=' + (new Date()).getTime();
 if(window.location.search.match(/appVersion=[^&]+/))

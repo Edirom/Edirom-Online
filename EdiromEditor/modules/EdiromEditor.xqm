@@ -45,11 +45,13 @@ declare function ee:generateSidenav($node as node(), $params as element(paramete
                 <li class="nav-header">Objects</li>
                 {ee:generateSidenavItem('manage-objects.html', $activePage, 'Manage Objects')}
                 {ee:generateSidenavItem('editor.html', $activePage, 'Edit Object')}
+                {ee:generateSidenavItem('view-object.html', $activePage, 'View Object')}
+                
 
-                <!--<li class="nav-header">Takte</li>
-                {ee:generateSidenavItem('index.html', $activePage, 'Takte anlegen')}
-                {ee:generateSidenavItem('index.html', $activePage, 'Taktpositionen markieren')}
-                {ee:generateSidenavItem('index.html', $activePage, 'Musik und Faksimile mergen')}
+                <li class="nav-header">Measures</li>
+                <!--{ee:generateSidenavItem('index.html', $activePage, 'Takte anlegen')}-->
+                {ee:generateSidenavItem('measure-coordinates.html', $activePage, 'Set measure coordinates')}
+                <!--{ee:generateSidenavItem('index.html', $activePage, 'Musik und Faksimile mergen')}
                 
                 <li class="nav-header">Konkordanzen</li>
                 {ee:generateSidenavItem('index.html', $activePage, 'Satzkonkordanzen anlegen')}
@@ -110,4 +112,25 @@ declare function ee:getEditorType($uri as xs:string) as xs:string {
         else if($type eq 'js')
         then('javascript')
         else('')
+};
+
+declare function ee:getMeasureCoordTitle($node as node(), $params as element(parameters)?, $model as item()*) {
+    let $uri := request:get-parameter('uri', '')
+    return
+        templates:process(
+        
+            <h3>{$uri}</h3>,
+            $model
+        )
+};
+
+
+declare function ee:getMeasureCoordVariables($node as node(), $params as element(parameters)?, $model as item()*) {
+    
+    let $uri := request:get-parameter('uri', '')
+    return
+
+    <div>
+        <input type="hidden" id="measureCoordUri" value="{$uri}"/>
+    </div>
 };

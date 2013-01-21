@@ -7,9 +7,14 @@
         <link type="text/css" href="resources/ext-4.1.1a/resources/css/ext-all.css" rel="stylesheet" charset="utf-8"/>
         <link type="text/css" href="resources/bootstrap/bootstrap.css" rel="stylesheet" charset="utf-8"/>
         <link type="text/css" href="resources/css/edirom.css" rel="stylesheet" charset="utf-8"/>
+        <link type="text/css" href="resources/css/tmp.css" rel="stylesheet" charset="utf-8"/>
+        
+        <!-- responsive bootstrap css goes here -->
+        
         <link type="text/css" href="resources/css/disableExt.css" rel="stylesheet" charset="utf-8"/>
         
         <script type="text/javascript" src="resources/jquery/jquery-1.8.3.min.js"/>
+        <script type="text/javascript" src="resources/bootstrap/bootstrap.min.js"/>
         <script type="text/javascript" src="resources/ext-4.1.1a/ext-debug.js"/>
     </head>
     <body>
@@ -28,24 +33,19 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="wrap">
-            <div class="container-fluid">
-                <div class="row-fluid">
-                    <div class="span3">
-                        <div class="ee:generateSidenav"/>
-                    </div>
-                    <div class="span9">
-                        <div id="content"/>
-                    </div>
-                </div>
+        </div>  
+        <div class="ee_mainContainer">
+            <div class="ee_sidenavContainer">
+                <div class="ee:generateSidenav"/>
             </div>
-            <div id="push"/>
-        </div>
-        <div id="footer">
-            <div class="container-fluid">
-                <div class="span12">
-                    <p class="muted credit">Credits …</p>
+            <div class="ee_contentContainer" id="ee_contentContainer">
+            </div>
+        </div>    
+        <div class="navbar navbar-inverse navbar-fixed-bottom">            
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                
+                    <a class="muted credit" href="#">Credits …</a>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@ div#objectHeading {
 	padding: 10px;	
 	
 	-moz-user-select: none;
+	display: none;
 }
 
 #objectHeading #objectID {

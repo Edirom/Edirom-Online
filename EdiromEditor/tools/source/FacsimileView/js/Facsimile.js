@@ -40,7 +40,7 @@ de.edirom.server.source.Facsimile = Class.create(de.edirom.server.main.Content, 
     
     load: function($super) {
         if(!this.isLoaded()) {
-		    new Ajax.Updater(this.id, '/source/FacsimileView/xql/facsimiles.xql', {
+		    new Ajax.Updater(this.id, 'FacsimileView/xql/facsimiles.xql', {
         		method:'get',
         		parameters: {id:$('sourceId').value},
         		onComplete: function(){
@@ -53,6 +53,8 @@ de.edirom.server.source.Facsimile = Class.create(de.edirom.server.main.Content, 
                     this.facsimileMarkSidebarContent = new de.edirom.server.source.FacsimileMarkSidebarContent(this.sidebar.getContentContainerId(), this);
                     this.sidebar.addContent(this.facsimileMarkSidebarContent);
                     this.facsimileMarkAction = new de.edirom.server.source.FacsimileMarkAction(this.view.toolbarGroup, this.sidebar, this.facsimileMarkSidebarContent);
+                    
+                    this.facsimileMarkAction.toggleVisibility();
                     
                 }.bind(this)
     		});

@@ -39,11 +39,11 @@
     },
     hide: function() {
         $('objectTabBox').style.display = 'none';
-        $('objectHeadFrame').style.height = '72px';
+        $('objectHeadFrame').style.height = '25px';
     },
     show: function() {
         $('objectTabBox').style.display = 'block';
-        $('objectHeadFrame').style.height = '97px';
+        $('objectHeadFrame').style.height = '50px';
     }
 });
 

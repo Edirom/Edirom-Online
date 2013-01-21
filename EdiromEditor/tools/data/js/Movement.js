@@ -85,10 +85,10 @@ de.edirom.server.data.Movement = Class.create({
                                         + '" lrx="' + Math.max(object.getLeft() + object.getWidth(), -1) + '" lry="' + Math.max(object.getTop() + object.getHeight(), -1) 
                                         + '"/> into $mei/id("' + object.surface + '"), '
                                         + 'update insert '
-                                        + '<measure xml:id="' + object.id + '" n="' + object.getName() + '" facs="' + object.facs + '" ' + (object.getUpbeat()?'type="upbeat"':'') + '>'
-                                        + (object.getRest() == 1?'<mrest/>':'')
-                                        + (object.getRest() > 1?'<multirest num="' + object.getRest() + '"/>':'')
-                                        + '</measure> into $mei/id("' + this.id + '")/score/section'
+                                        + '<measure xml:id="' + object.id + '" n="' + object.getName() + '" facs="#' + object.facs + '" ' + (object.getUpbeat()?'type="upbeat"':'') + '>'
+                                        + (object.getRest() == 1?'<staff><layer><mRest/></layer></staff>':'')
+                                        + (object.getRest() > 1?'<staff><layer><multiRest num="' + object.getRest() + '"/></layer></staff>':'')
+                                        + '</measure> into $mei/id("' + this.id + '")/score/section[last()]'
                                         + ') else()';
                 }
             } break;
@@ -124,7 +124,7 @@ de.edirom.server.data.Movement = Class.create({
             case 'remove': {
                 switch(list) {
                     case 'bars': return '('
-                                         + 'update delete $mei/id($mei/id("' + object + '")/@facs), '
+                                         + 'update delete $mei/id($mei/substring-after(id("' + object + '")/@facs,"#")), '
                                          + 'update delete $mei/id("' + object + '")'
                                          + ')'; break;                    
                 }

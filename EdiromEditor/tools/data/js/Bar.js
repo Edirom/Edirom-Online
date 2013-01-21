@@ -63,25 +63,25 @@ de.edirom.server.data.Bar = Class.create({
     
         switch(field){
             case 'name': return 'update value $mei/id("' + this.id + '")/@n with "' + value + '"'; break;
-            case 'top': return 'update value $mei/id($mei/id("' + this.id + '")/@facs)/@uly with "' + value + '"'; break;
-            case 'left': return 'update value $mei/id($mei/id("' + this.id + '")/@facs)/@ulx with "' + value + '"'; break;
-            case 'width': return 'update value $mei/id($mei/id("' + this.id + '")/@facs)/@lrx with "' + (this.getLeft() + value) + '"'; break;
-            case 'height': return 'update value $mei/id($mei/id("' + this.id + '")/@facs)/@lry with "' + (this.getTop() + value) + '"'; break;
+            case 'top': return 'update value $mei/id(substring-after($mei/id("' + this.id + '")/@facs,"#"))/@uly with "' + value + '"'; break;
+            case 'left': return 'update value $mei/id(substring-after($mei/id("' + this.id + '")/@facs,"#"))/@ulx with "' + value + '"'; break;
+            case 'width': return 'update value $mei/id(substring-after($mei/id("' + this.id + '")/@facs,"#"))/@lrx with "' + (this.getLeft() + value) + '"'; break;
+            case 'height': return 'update value $mei/id(substring-after($mei/id("' + this.id + '")/@facs,"#"))/@lry with "' + (this.getTop() + value) + '"'; break;
             
             case 'rest': {
                 if(value == 0)
-                    return 'update delete $mei/id("' + this.id + '")/mrest | $mei/id("' + this.id + '")/multirest';
+                    return 'update delete $mei/id("' + this.id + '")//mRest | $mei/id("' + this.id + '")//multiRest';
                 else if(value == 1)
-                    return '(update delete $mei/id("' + this.id + '")/multirest, '
-                            + 'if(not(exists($mei/id("' + this.id + '")[./mrest]))) then ('
-                            + 'update insert <mrest/> into $mei/id("' + this.id + '"))'
+                    return '(update delete $mei/id("' + this.id + '")//multiRest, '
+                            + 'if(not(exists($mei/id("' + this.id + '")[.//mRest]))) then ('
+                            + 'update insert <staff><layer><mRest/></layer></staff> into $mei/id("' + this.id + '"))'
                         + 'else())';
                 else if(value > 1)
-                    return '(update delete $mei/id("' + this.id + '")/mrest, '
-                            + 'if(exists($mei/id("' + this.id + '")[./multirest])) then ('
-                                + 'update value $mei/id("' + this.id + '")/multirest/@num with "' + value + '"'
+                    return '(update delete $mei/id("' + this.id + '")//mRest, '
+                            + 'if(exists($mei/id("' + this.id + '")[.//multiRest])) then ('
+                                + 'update value $mei/id("' + this.id + '")//multiRest/@num with "' + value + '"'
                             + ') else('
-                                + 'update insert <multirest num="' + value + '"/> into $mei/id("' + this.id + '")'
+                                + 'update insert <staff><layer><multiRest num="' + value + '"/></layer></staff> into $mei/id("' + this.id + '")'
                             + '))';
             } break;
 

@@ -59,7 +59,7 @@ de.edirom.server.source.Module = Class.create(de.edirom.server.main.Module, {
     postInitialize: function() {
     
         $('loading').hide();
-        this.addView(new de.edirom.server.source.InfoView(this, 'Struktur'));
+//        this.addView(new de.edirom.server.source.InfoView(this, 'Struktur'));
 
         if(typeof(this.source) != 'undefined') {
             
@@ -81,9 +81,9 @@ de.edirom.server.source.Module = Class.create(de.edirom.server.main.Module, {
             
             this.facsimile = new de.edirom.server.source.FacsimileView(this, 'Facsimile');
             this.addView(this.facsimile);
-            this.xmlView = new de.edirom.server.source.XMLView(this, 'XML');
-            this.addView(this.xmlView);
-            de.edirom.server.main.registerCometListener(this.cometUpdate.bind(this), function() {});
+//            this.xmlView = new de.edirom.server.source.XMLView(this, 'XML');
+//            this.addView(this.xmlView);
+//            de.edirom.server.main.registerCometListener(this.cometUpdate.bind(this), function() {});
             
             if(window.location.search.indexOf('showPage=') != -1) {
                 var pageId = window.location.search;
@@ -131,7 +131,7 @@ de.edirom.server.source.Module = Class.create(de.edirom.server.main.Module, {
   
         if(!this.controller.unsavedCommands()) return;
         
-        var xqueryupdate = 'let $mei := collection("/db/contents/sources")//source/id("' + $('sourceId').value + '")/root() '
+        var xqueryupdate = 'let $mei := doc("' + $('sourceId').value + '")/root() '
                             + 'return (# exist:batch-transaction #) {'
                             + this.controller.getXQueryUpdates()
                             + '}';
@@ -146,7 +146,7 @@ de.edirom.server.source.Module = Class.create(de.edirom.server.main.Module, {
             method: 'post',
             parameters: {
                 updates: xqueryupdate,
-                namespace: 'http://www.edirom.de/ns/mei'
+                namespace: 'http://www.music-encoding.org/ns/mei'
             },
             
             onSuccess: function(transport) {

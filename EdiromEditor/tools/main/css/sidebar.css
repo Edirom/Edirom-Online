@@ -9,7 +9,7 @@ div.sidebar
 	float: right;
 	background-color: #e5e5e5;
 	border-left: 1px solid #999999;
-	border-right: 1px solid #999999;
+	/*border-right: 1px solid #999999;*/
 	overflow: hidden;
 	z-index: 5000;
 	font-size: 12px;

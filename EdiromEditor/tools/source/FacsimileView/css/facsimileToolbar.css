@@ -1,9 +1,11 @@
 #objectToolbar #toolbar_resetFacsimileView {
 	background-image: url(../../pix/resetView.png);
+	margin-left: 10px;
 }
 
 #objectToolbar #toolbar_showBars {
 	background-image: url(../../pix/showBars.png);
+	display: none;
 }
 
 #objectToolbar #toolbar_showAnnotations {
@@ -12,6 +14,7 @@
 
 #objectToolbar #toolbar_toggleMarking {
 	background-image: url(../../pix/toggleBars.png);
+	display: none;
 }
 
 #objectToolbar #toolbar_toggleAnnotation {
