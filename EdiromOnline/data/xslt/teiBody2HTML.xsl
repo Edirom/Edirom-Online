@@ -371,6 +371,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="id" select="@xml:id"/>
+                <xsl:variable name="targetExternal" select="@type"/>
                 <xsl:variable name="link">
                     <xsl:call-template name="makeTEILink">
                         <xsl:with-param name="ptr" select="false()"/>
@@ -380,6 +381,9 @@
                     <xsl:copy>
                         <xsl:if test="$id">
                             <xsl:attribute name="id" select="$id"/>
+                        </xsl:if>
+                        <xsl:if test="$targetExternal eq 'external'">
+                            <xsl:attribute name="target" select="'_blank'"/>
                         </xsl:if>
                         <xsl:for-each select="*|text()|@*">
                             <xsl:copy-of select="."/>
