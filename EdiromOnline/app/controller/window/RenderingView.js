@@ -67,7 +67,7 @@ Ext.define('de.edirom.online.controller.window.RenderingView', {
     
     movementsLoaded: function(movements, view) {
     	view.createToolbarEntries(movements);
-    },
+    }
         
     /*
     onGotoMovement: function(view, movementId) {
