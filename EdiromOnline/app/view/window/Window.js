@@ -95,17 +95,25 @@ Ext.define('de.edirom.online.view.window.Window', {
         var me = this;
 
         var viewToShow = me.views[0].view;
+        
+        //console.log(me.doc + " " + me.internalIdType + " " + me.internalId);
 
         for(var i = 0; i < me.views.length; i++) {
             var view = me.views[i].view;
+            
+            //console.log(view.viewType + " " + view.uri);
 
-            if(view.viewType == 'textView' && view.uri.match(/#.+$/))
-                view.on('show', Ext.bind(view.scrollToId, view, [view.uri], false), view);
+            /*if(view.viewType == 'textView' && view.uri.match(/#.+$/))
+                view.on('show', Ext.bind(view.scrollToId, view, [view.uri], false), view);*/
 
             if(me.internalIdType == 'unknown' && view.defaultView)
                 viewToShow = view;
 
-            else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
+            else if(me.internalIdType == 'note' && view.viewType == 'textView' && view.uri == me.doc) {
+                view.on('documentLoaded', Ext.bind(view.scrollToId, view, [me.internalId], false), view);
+                viewToShow = view;
+
+            }else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
                 view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
                 viewToShow = view;
 

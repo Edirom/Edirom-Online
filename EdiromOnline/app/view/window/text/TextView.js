@@ -38,7 +38,8 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
     initComponent: function () {
 
         this.addEvents('annotationsVisibilityChange',
-            'gotoChapter');
+            'gotoChapter',
+            'documentLoaded');
 
         this.items = [
             {
@@ -299,6 +300,7 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
 
     setContent: function(text) {
         Ext.fly(this.id + '_textCont').update(text);
+        this.fireEvent('documentLoaded', this);
     },
 
     setChapters: function(chapters) {
