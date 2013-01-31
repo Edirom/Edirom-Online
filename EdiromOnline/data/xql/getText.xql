@@ -44,4 +44,4 @@ let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.x
 
 let $doc := transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
 return
-    transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/></parameters>)
+    transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="idPrefix" value="{$idPrefix}"/></parameters>)
