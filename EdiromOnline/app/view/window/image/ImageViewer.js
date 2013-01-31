@@ -581,6 +581,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
             Ext.defer(me.createTempRect, 1000, me, [x, y, width, height], false);
 
         me.calculateHiResImg();
+        
+        Ext.defer(me.calculateHiResImg, 500, me);
     },
 
     createTempRect: function(x, y, width, height) {
