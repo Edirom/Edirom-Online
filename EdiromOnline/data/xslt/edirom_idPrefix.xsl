@@ -9,8 +9,18 @@
             <xsl:apply-templates select="@* | node()"/>
         </xsl:copy>
     </xsl:template>
-    <xsl:template match="@xml:id">
-        <xsl:attribute name="xml:id" select="concat($idPrefix, .)"/>
+    <xsl:template match="@id">
+        <xsl:attribute name="id" select="concat($idPrefix, .)"/>
+    </xsl:template>
+    <xsl:template match="@href">
+        <xsl:choose>
+            <xsl:when test="starts-with(., '#')">
+                <xsl:attribute name="href" select="replace(., '#', concat('#', $idPrefix))"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:copy/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="@*">
         <xsl:copy/>
