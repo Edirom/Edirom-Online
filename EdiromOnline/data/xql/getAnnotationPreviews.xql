@@ -69,7 +69,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, local:getTextNoteContent($doc, $id)) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id))) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
