@@ -81,7 +81,7 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
         me.annotationsVisible = state;
 
         //TODO: Controller mit einbeziehen
-        if(me.annotationsLoaded)
+        if(state && me.annotationsLoaded)
             me.showAnnotations();
         else
             this.fireEvent('annotationsVisibilityChange', me, state);
