@@ -240,7 +240,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
 
         var dh = Ext.DomHelper;
-        var tpl = dh.createTemplate({tag:'div', id: '{0}', cls: 'measure', html:'<span id="{0}_inner">{1}</span>'});
+        var tpl = dh.createTemplate({tag:'div', id: '{0}', cls: 'measure', html:'<span class="{2}" id="{0}_inner">{1}</span>'});
         tpl.compile();
 
         me.shapes.get('measures').each(function(shape) {
@@ -252,7 +252,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
             var width = shape.get('lrx') - shape.get('ulx');
             var height = shape.get('lry') - shape.get('uly');
 
-            var measure = tpl.append(shapeDiv, [me.id + '_' + id, name], true);
+            var measure = tpl.append(shapeDiv, [me.id + '_' + id, name, (name === ''?'measureInnerEmpty':'measureInner')], true);
 
             measure.setStyle({
                 position: 'absolute'
