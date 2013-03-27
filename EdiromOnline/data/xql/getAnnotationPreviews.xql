@@ -69,7 +69,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id))) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
@@ -121,10 +121,11 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $rect := local:getBoundingZone($zones)
             
             let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), '}')
+            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
+            let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', $zones[1]/parent::mei:surface/@xml:id)
             
             return
-                local:toJSON($type, $label, $mdiv, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, ())
+                local:toJSON($type, $label, $mdiv, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
@@ -301,7 +302,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
 
 declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
-    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?) as xs:string {
+    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
     concat(
         '{"type":"',$type,
@@ -314,6 +315,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '","digilibSizeParams":"',$digilibSizeParams,
         '","hiddenData":"',$hiddenData,
         '","content":"',$content,
+        '","linkUri":"',$linkUri,
         '"}'
     )
 };
