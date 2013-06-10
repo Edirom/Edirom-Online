@@ -8,7 +8,7 @@ if ($exist:path eq "/") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="index.html"/>
     </dispatch>
-else if ($exist:path eq "/app.js") then
+else if ($exist:resource eq "app.js") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="app.xql"/>
     </dispatch>
