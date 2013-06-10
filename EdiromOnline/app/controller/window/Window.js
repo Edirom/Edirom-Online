@@ -50,18 +50,17 @@ Ext.define('de.edirom.online.controller.window.Window', {
         if(win.initialized) return;
         win.initialized = true;
 
-        window.doAJAXRequest({
-            url: 'data/xql/getLinkTarget.xql',
-            method: 'POST',
-            params: {
+        window.doAJAXRequest('data/xql/getLinkTarget.xql',
+            'POST', 
+            {
                 uri: win.uri
             },
-            success: Ext.bind(function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
                 data = Ext.JSON.decode(data);
                 this.onMetaDataLoaded(data, win);
             }, me)
-        });
+        );
     },
 
     onMetaDataLoaded: function(config, win) {

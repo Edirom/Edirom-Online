@@ -27,12 +27,35 @@ Ext.define('de.edirom.online.controller.AJAXController', {
         window.doAJAXRequest = Ext.bind(this.doAJAXRequest, this);
     },
 
-    doAJAXRequest: function(cfg) {
-        var override = window.getPreference(cfg['url'], true);
+    doAJAXRequest: function(url, method, params, successFn, retryNo) {
+        var me = this;
+        
+        var override = window.getPreference(url, true);
 
         if(override != null)
-            cfg.url = override;
+            url = override;
+            
+        if(typeof(retryNo) === 'undefined')
+            retryNo = 2;
 
-        Ext.Ajax.request(cfg);
+        var fn = Ext.bind(function(response, options, retryNoInt) {
+        
+            try {
+                successFn(response);
+            }catch(e) {
+                
+                console.log(e);
+                
+                if(retryNoInt && retryNoInt > 0)
+                    Ext.defer(me.doAJAXRequest, 500, me, [url, method, params, successFn, retryNoInt - 1], false);
+            }
+        }, me, [retryNo], true);
+
+        Ext.Ajax.request({
+            url: url,
+            method: method,
+            params: params,
+            success: fn
+        });
     }
 });

@@ -52,23 +52,29 @@ Ext.define('de.edirom.online.model.Edition', {
 
         var me = this;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getConcordances.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getConcordances.xql',
+            'GET', 
+            {
                 id: me.get('doc'),
                 workId: workId
             },
-            success: function(response){
+            function(response){
                 var data = response.responseText;
+                
+                try {
+                    data = Ext.JSON.decode(data);
+                }catch(e) {
+                    throw e;
+                    return;
+                }
 
                 me.concordances.add(workId, Ext.create('Ext.data.Store', {
                     fields: ['name', 'groups', 'connections'],
-                    data: Ext.JSON.decode(data)
+                    data: data
                 }));
 
                 fn(me.concordances.get(workId));
             }
-        });
+        );
     }
 });
