@@ -53,6 +53,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
     annotTipMaxWidth: 500,
     annotTipHeight: 300,
     annotTipMaxHeight: 300,
+    
+    border: 0,
 
     initComponent: function () {
 
