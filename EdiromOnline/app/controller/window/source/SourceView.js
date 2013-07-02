@@ -50,24 +50,6 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         view.on('gotoZone', me.onGotoZone, me);
 
         Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
-                uri: view.uri
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var pages = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.pagesLoaded(pages, view);
-            }
-        });
-
-        Ext.Ajax.request({
             url: 'data/xql/getMovements.xql',
             method: 'GET',
             params: {
@@ -84,7 +66,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
                 me.movementsLoaded(movements, view);
             }
         });
-
+        
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',
             method: 'GET',
@@ -127,10 +109,6 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         });
     },
 
-    pagesLoaded: function(pages, view) {
-        view.setImageSet(pages);
-    },
-
     movementsLoaded: function(movements, view) {
         view.setMovements(movements);
     },
@@ -171,7 +149,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         if(visible) {
 
             var pageId = view.getActivePage().get('id');
-            me.fetchMeasures(view.uri, pageId, Ext.bind(me.measuresLoaded, me, [view, pageId], true));
+            me.fetchMeasures(view.uri, pageId, Ext.bind(me.measuresOnPageLoaded, me, [view, pageId], true));
 
         }else {
             view.hideMeasures();
@@ -200,7 +178,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         });
     },
 
-    measuresLoaded: function(measures, view, pageId) {
+    measuresOnPageLoaded: function(measures, view, pageId) {
 
         if(pageId != view.getActivePage().get('id')) return;
 
@@ -293,7 +271,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
             },
             success: Ext.bind(function(response){
                 var data = response.responseText;
-                this.gotoMeasure(Ext.JSON.decode(data), view);
+                this.gotoMeasure(Ext.JSON.decode(data)[0], view);
             }, me)
         });
     },
@@ -303,11 +281,11 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var me = this;
 
         Ext.Ajax.request({
-            url: 'data/xql/getMeasurePage.xql',
+            url: 'data/xql/getMeasure.xql',
             method: 'GET',
             params: {
                 id: view.uri,
-                measure: measureId
+                measureId: measureId
             },
             success: Ext.bind(function(response){
                 var data = response.responseText;
@@ -320,24 +298,11 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var me = this;
 
         var measureId = result.measureId;
-        var pageId = result.pageId;
+        var movementId = result.movementId;
 
-        if(measureId != '' && pageId != '') {
-            if(view.imageSet == null) {
-                view.on('afterImagesLoaded', Ext.bind(me.fetchMeasures, me, [view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true)], false), view, [{single:true}]);
-                view.showPage(pageId);
-            
-            }else {
-                if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId)
-                    view.showPage(pageId);
-                
-                me.fetchMeasures(view.uri, pageId, Ext.bind(me.gotoMeasureLoaded, me, [view, measureId], true));
-            }
+        if(measureId != '' && movementId != '') {
+            view.showMeasure(movementId, measureId);
         }
-    },
-
-    gotoMeasureLoaded: function(measures, view, measureId) {
-        view.showMeasure(measures.getById(measureId));
     },
 
     onGotoZone: function(view, zoneId) {

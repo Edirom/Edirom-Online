@@ -54,6 +54,8 @@ Ext.application({
         'window.XmlView',
         'window.concordanceNavigator.ConcordanceNavigator',
         'window.source.SourceView',
+        'window.source.PageBasedView',
+        'window.source.MeasureBasedView',
         'window.text.TextView'
     ],
 

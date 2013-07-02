@@ -26,7 +26,8 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     },
 
     requires: [
-        'de.edirom.online.view.window.image.ImageViewer',
+        'de.edirom.online.view.window.source.PageBasedView',
+        'de.edirom.online.view.window.source.MeasureBasedView',
 
         'Ext.draw.Component',
         'Ext.slider.Single',
@@ -40,15 +41,16 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     border: 0,
 
-    imageSet: null,
-    imageToShow: null,
+    activeView: 'pageBasedView',
 
     measuresVisible: false,
     annotationsVisible: false,
 
     initComponent: function () {
 
-        this.addEvents('measureVisibilityChange',
+        var me = this;
+
+        me.addEvents('measureVisibilityChange',
             'annotationsVisibilityChange',
             'overlayVisiblityChange',
             'gotoMovement',
@@ -57,23 +59,37 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
             'gotoZone',
             'afterImagesLoaded');
 
-        this.imageViewer = Ext.create('de.edirom.online.view.window.image.ImageViewer');
-        this.imageViewer.region = 'center';
+        me.pageBasedView = Ext.create('de.edirom.online.view.window.source.PageBasedView', {
+            owner: me
+        });
 
-        this.bottomBar = new de.edirom.online.view.window.BottomBar({owner:this, region:'south'});
+        me.measureBasedView = Ext.create('de.edirom.online.view.window.source.MeasureBasedView', {
+            owner: me
+        });
 
-        this.items = [
-            this.imageViewer,
-            this.bottomBar
+        me.viewerContainer = Ext.create('Ext.panel.Panel', {
+            region: 'center',
+            border: 0,
+            layout: 'card',
+            items: [
+                me.pageBasedView,
+                me.measureBasedView
+            ]
+        });
+
+        me.bottomBar = new de.edirom.online.view.window.BottomBar({owner:me, region:'south'});
+
+        me.items = [
+            me.viewerContainer,
+            me.bottomBar
         ];
 
-        this.callParent();
+        me.callParent();
 
-        this.on('afterrender', this.createMenuEntries, this, {single: true});
-        this.on('afterrender', this.createToolbarEntries, this, {single: true});
-        this.imageViewer.on('zoomChanged', this.updateZoom, this);
+        me.on('afterrender', me.createMenuEntries, me, {single: true});
+        me.on('afterrender', me.createToolbarEntries, me, {single: true});
 
-        this.window.on('loadInternalLink', this.loadInternalId, this);
+        me.window.on('loadInternalLink', me.loadInternalId, me);
     },
 
     loadInternalId: function() {
@@ -154,33 +170,14 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = me.imageViewer.getShapes('annotations');
-        var fn = Ext.bind(function(annotation) {
-            var annotDiv = this.imageViewer.getShapeElem(annotation.id);
-            var className = annotDiv.dom.className.replace('annotation', '').trim();
-            var classes = className.split(' ');
-
-            var hasCategory = false;
-            var hasPriority = false;
-
-            for(var i = 0; i < classes.length; i++) {
-                hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
-                hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
-            }
-
-            annotDiv.setVisible(hasCategory & hasPriority);
-        }, me);
-
-        if(annotations.each)
-            annotations.each(fn);
-        else
-            Ext.Array.each(annotations, fn);
+        me.pageBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
     },
 
     setMovements: function(movements) {
         var me = this;
 
         me.movements = movements;
+        me.measureBasedView.setMovements(movements);
 
         var movementItems = [];
         movements.each(function(movement) {
@@ -234,44 +231,24 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     hideOverlay: function(overlayId) {
         var me = this;
-        me.imageViewer.removeSVGOverlay(overlayId);
+        me.pageBasedView.hideOverlay(overlayId);
     },
 
     showOverlay: function(overlayId, overlay) {
         var me = this;
-        me.imageViewer.addSVGOverlay(overlayId, overlay);
+        me.pageBasedView.showOverlay(overlayId, overlay);
     },
 
-    setImageSet: function(imageSet) {
+    getImageSet: function() {
         var me = this;
-        me.imageSet = imageSet;
-
-        me.pageSpinner.setStore(me.imageSet);
-
-        if(me.imageToShow != null) {
-            me.pageSpinner.setPage(me.imageSet.getById(me.imageToShow));
-            me.imageToShow = null;
-
-        }else if(me.imageSet.getCount() > 0)
-            me.pageSpinner.setPage(me.imageSet.getAt(0));
-            
-        me.fireEvent('afterImagesLoaded', me, imageSet);
+        return me.pageBasedView.imageSet;
     },
 
     setPage: function(combo, store) {
 
         var me = this;
 
-        // Remove old stuff
-        me.imageViewer.clear();
-
-        var id = combo.getValue();
-        var imgIndex = me.imageSet.findExact('id', id);
-        me.activePage = me.imageSet.getAt(imgIndex);
-
-        me.imageViewer.showImage(me.activePage.get('path'),
-            me.activePage.get('width'), me.activePage.get('height'));
-
+        me.pageBasedView.setPage(combo, store);
 
         if(me.measuresVisible)
             this.fireEvent('measureVisibilityChange', me, true);
@@ -283,16 +260,11 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     showPage: function(pageId) {
         var me = this;
 
-        if(me.imageSet == null) {
-            me.imageToShow = pageId;
-            return;
-        }
-
-        me.pageSpinner.setPage(me.imageSet.getById(pageId));
+        me.pageBasedView.showPage(pageId);
     },
 
     getActivePage: function() {
-        return this.activePage;
+        return this.pageBasedView.getActivePage();
     },
 
     createMenuEntries: function() {
@@ -361,34 +333,56 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         var me = this;
 
-        me.zoomSlider = Ext.create('Ext.slider.Single', {
-            width: 140,
-            value: 100,
-            increment: 5,
-            minValue: 10,
-            maxValue: 400,
-            checkChangeBuffer: 100,
-            useTips: true,
-            cls: 'zoomSlider',
-            tipText: function(thumb){
-                return Ext.String.format('{0}%', thumb.value);
-            },
-            listeners: {
-                change: Ext.bind(me.zoomChanged, me, [], 0)
-            }
-        });
-        me.bottomBar.add(me.zoomSlider);
+        me.bottomBar.add(Ext.create('Ext.button.Button', {
+            handler: Ext.bind(me.switchInternalView, me, ['measureBasedView'], false),
+            text: 'x'
+        }));
+        
+        me.bottomBar.add(Ext.create('Ext.button.Button', {
+            handler: Ext.bind(me.switchInternalView, me, ['pageBasedView'], false),
+            text: 'y'
+        }));
 
-        me.pageSpinner = Ext.create('de.edirom.online.view.window.source.PageSpinner', {
-            width: 111,
-            cls: 'pageSpinner',
-            owner: me
+        var entries = me.pageBasedView.createToolbarEntries();
+        Ext.Array.each(entries, function(entry) {
+            me.bottomBar.add(entry);        
         });
-        me.bottomBar.add(me.pageSpinner);
+        
+        entries = me.measureBasedView.createToolbarEntries();
+        Ext.Array.each(entries, function(entry) {
+            me.bottomBar.add(entry);        
+        });
+    },
+
+    switchInternalView: function(viewId) {
+        var me = this;
+        
+        if(viewId == 'pageBasedView') {
+            me.measureBasedView.hideToolbarEntries();
+            me.pageBasedView.showToolbarEntries();
+            me.viewerContainer.getLayout().setActiveItem(me.pageBasedView);
+            //me.gotoMenu.menu.child('#' + me.id + '_gotoMovement').show();
+            me.gotoMenu.show();
+
+        }else if(viewId == 'measureBasedView') {
+            me.pageBasedView.hideToolbarEntries();
+            me.measureBasedView.showToolbarEntries();
+            me.viewerContainer.getLayout().setActiveItem(me.measureBasedView);
+            //me.gotoMenu.menu.child('#' + me.id + '_gotoMovement').hide();
+            me.gotoMenu.hide();
+        }
+        
+        me.activeView = viewId;
     },
 
     fitFacsimile: function() {
-        this.imageViewer.fitInImage();
+        
+        var me = this;
+        
+        if(me.activeView == 'pageBasedView')
+            me.pageBasedView.fitFacsimile();
+        else if(me.activeView == 'measureBasedView')
+            me.measureBasedView.fitFacsimile();
     },
 
     toggleMeasures: function(item, state) {
@@ -400,12 +394,12 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     showMeasures: function(measures) {
         var me = this;
-        me.imageViewer.addMeasures(measures);
+        me.pageBasedView.showMeasures(measures);
     },
 
     hideMeasures: function() {
         var me = this;
-        me.imageViewer.removeShapes('measures');
+        me.pageBasedView.hideMeasures();
     },
 
     gotoMeasureDialog: function() {
@@ -423,14 +417,12 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         this.fireEvent('gotoMeasure', this, measureId);
     },
 
-    showMeasure: function(measure) {
+    showMeasure: function(movementId, measureId) {
         var me = this;
-        var x = Number(measure.get('ulx'));
-        var y = Number(measure.get('uly'));
-        var width = measure.get('lrx') - measure.get('ulx');
-        var height = measure.get('lry') - measure.get('uly');
-
-        me.imageViewer.showRect(x, y, width, height, true);
+        if(me.activeView !== 'measureBasedView')
+            me.switchInternalView('measureBasedView');
+            
+        me.measureBasedView.showMeasure(movementId, measureId);
     },
     
     gotoZone: function(zoneId) {
@@ -439,12 +431,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     showZone: function(zone) {
         var me = this;
-        var x = Number(zone['ulx']);
-        var y = Number(zone['uly']);
-        var width = zone['lrx'] - zone['ulx'];
-        var height = zone['lry'] - zone['uly'];
-
-        me.imageViewer.showRect(x, y, width, height, true);
+        me.pageBasedView.showZone(zone);
     },
     
     toggleAnnotations: function(item, state) {
@@ -456,100 +443,12 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     showAnnotations: function(annotations) {
         var me = this;
-        me.imageViewer.addAnnotations(annotations);
+        me.pageBasedView.showAnnotations(annotations);
     },
 
     hideAnnotations: function() {
         var me = this;
-        me.imageViewer.removeShapes('annotations');
-    },
-
-    updateZoom: function(zoom) {
-        this.zoomSlider.suspendEvents();
-        this.zoomSlider.setValue(Math.round(zoom * 100));
-        this.zoomSlider.resumeEvents();
-    },
-
-    zoomChanged: function(slider) {
-        this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
-    }
-});
-
-Ext.define('de.edirom.online.view.window.source.PageSpinner', {
-    extend: 'Ext.container.Container',
-
-    alias : 'widget.pageSpinner',
-
-    layout: 'hbox',
-
-    initComponent: function () {
-
-        this.items = [
-        ];
-        this.callParent();
-    },
-
-    next: function() {
-
-        this.store.clearFilter(false);
-
-        var oldIndex = this.store.findExact('id', this.combo.getValue());
-        if(oldIndex + 1 < this.store.getCount())
-            this.setPage(this.store.getAt(oldIndex + 1).get('id'));
-    },
-
-    prev: function() {
-
-        this.store.clearFilter(false);
-
-        var oldIndex = this.store.findExact('id', this.combo.getValue());
-        if(oldIndex > 0)
-            this.setPage(this.store.getAt(oldIndex - 1).get('id'));
-    },
-
-    setPage: function(id) {
-        this.combo.setValue(id);
-        this.owner.setPage(this.combo, this.combo.store);
-    },
-
-    setStore: function(store) {
-
-        this.removeAll();
-
-        this.store = store;
-
-        this.combo = Ext.create('Ext.form.ComboBox', {
-            width: 35,
-            hideTrigger: true,
-            queryMode: 'local',
-            store: store,
-            displayField: 'name',
-            valueField: 'id',
-            cls: 'pageInputBox',
-            autoSelect: true
-        });
-
-        this.add([
-            {
-                xtype: 'button',
-                cls : 'prev toolButton',
-                listeners:{
-                     scope: this,
-                     click: this.prev
-                }
-            },
-            this.combo,
-            {
-                xtype: 'button',
-                cls : 'next toolButton',
-                listeners:{
-                     scope: this,
-                     click: this.next
-                }
-            }
-        ]);
-
-        this.combo.on('select', this.owner.setPage, this.owner);
+        me.pageBasedView.hideAnnotations();
     }
 });
 

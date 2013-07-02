@@ -38,20 +38,43 @@ declare function local:findMeasure($mei, $movementId, $measureIdName) {
         )
 };
 
+declare function local:getMeasure($mei, $measure) as xs:string {
+    
+    let $measureId := $measure/string(@xml:id)
+    let $zoneId := substring-after($measure/string(@facs), '#')
+    let $zone := $mei/id($zoneId)
+    let $surface := $zone/parent::mei:surface
+    let $graphic := $surface/mei:graphic[@type='facsimile']
+    
+    return
+    
+        concat('{',
+            'measureId:"', $measureId, '",',
+            'zoneId:"', $zoneId, '",',
+            'pageId:"', $surface/string(@xml:id), '", ',
+            'path: "', $graphic/string(@target), '", ',
+            'width: "', $graphic/string(@width), '", ',
+            'height: "', $graphic/string(@height), '", ',
+            'ulx: "', $zone/string(@ulx), '", ',
+            'uly: "', $zone/string(@uly), '", ',
+            'lrx: "', $zone/string(@lrx), '", ',
+            'lry: "', $zone/string(@lry), '"',
+        '}')
+};
+
 let $id := request:get-parameter('id', '')
 let $measureIdName := request:get-parameter('measure', '')
 let $movementId := request:get-parameter('movementId', '')
+let $measureCount := request:get-parameter('measureCount', '1')
 
 let $mei := doc($id)/root()
 
 let $measure := local:findMeasure($mei, $movementId, $measureIdName)
-let $measureId := $measure/string(@xml:id)
-let $zoneId := substring-after($measure/string(@facs), '#')
-let $pageId := $mei/id($zoneId)/parent::mei:surface/string(@xml:id)
+let $extraMeasures := for $i in (2 to xs:integer($measureCount))
+                      return
+                        local:getMeasure($mei, $measure/following::mei:measure[$i - 1])
 
 return
-    concat('{',
-        'measureId:"', $measureId, '",',
-        'zoneId:"', $zoneId, '",',
-        'pageId:"', $pageId, '"',
-    '}')
+    concat('[',
+        string-join((local:getMeasure($mei, $measure), $extraMeasures), ','),
+    ']')
