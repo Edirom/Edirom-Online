@@ -44,6 +44,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
     imgWidth: 0,
     imgHeight: 0,
 
+    imgPrefix: '../../../digilib/Scaler/',
+
     shapes: null,
     shapesHidden: false,
 
@@ -92,13 +94,13 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
         me.imgWidth = width;
         me.imgHeight = height;
-        me.imgPath = '../../../digilib/Scaler/' + path;
+        me.imgPath = path;
 
         me.svg = Raphael(me.id + '_facsCont', me.imgWidth, me.imgHeight);
         me.svg.setViewBox(0, 0, me.imgWidth, me.imgHeight, false);
         me.svgEl = me.svg.canvas;
 
-        me.baseImg = me.svg.image(me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
+        me.baseImg = me.svg.image(me.imgPrefix + me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
         me.baseImgZoom = me.getWidth() / me.imgWidth;
 
         me.hiResImg = me.svg.image('', 0, 0, 0, 0);
@@ -727,7 +729,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
         me.imageLoader.addJob({
             img: me.hiResImg,
-            path: me.imgPath + '?dw=' + dw + '&amp;dh=' + dh + '&amp;wx=' + wx + '&amp;wy=' + wy + '&amp;ww=' + ww + '&amp;wh=' + wh + '&amp;mo=fit',
+            path: me.imgPrefix + me.imgPath + '?dw=' + dw + '&amp;dh=' + dh + '&amp;wx=' + wx + '&amp;wy=' + wy + '&amp;ww=' + ww + '&amp;wh=' + wh + '&amp;mo=fit',
             width: dw / me.zoom,
             height: dh / me.zoom,
             x: imgX,
