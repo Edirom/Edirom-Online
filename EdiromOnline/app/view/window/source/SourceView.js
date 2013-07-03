@@ -428,12 +428,12 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         this.fireEvent('gotoMeasure', this, measureId);
     },
 
-    showMeasure: function(movementId, measureId) {
+    showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
         if(me.activeView !== 'measureBasedView')
             me.switchInternalView('measureBasedView');
             
-        me.measureBasedView.showMeasure(movementId, measureId);
+        me.measureBasedView.showMeasure(movementId, measureId, measureCount);
     },
     
     gotoZone: function(zoneId) {

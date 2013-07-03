@@ -30,6 +30,8 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 let $id := request:get-parameter('id', '')
 let $measureId := request:get-parameter('measureId', '')
+let $measureCount := if(contains($measureId, 'tstamp2='))then(number(substring-before(substring-after($measureId, 'tstamp2='), 'm')) + 1)else(1)
+let $measureId := if(contains($measureId, '?'))then(substring-before($measureId, '?'))else($measureId)
 
 let $mei := doc($id)/root()
 let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/@xml:id
@@ -37,5 +39,6 @@ let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/@xml:id
 return
     concat('{',
         'measureId:"', $measureId, '",',
-        'movementId:"', $movementId, '"',
+        'movementId:"', $movementId, '",',
+        'measureCount:"', $measureCount, '"',
     '}')

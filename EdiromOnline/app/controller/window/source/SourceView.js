@@ -299,9 +299,10 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
 
         var measureId = result.measureId;
         var movementId = result.movementId;
+        var measureCount = result.measureCount;
 
         if(measureId != '' && movementId != '') {
-            view.showMeasure(movementId, measureId);
+            view.showMeasure(movementId, measureId, measureCount);
         }
     },
 

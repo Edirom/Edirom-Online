@@ -27,6 +27,7 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $internalId := if(contains($uri, '#')) then(substring-after($uri, '#')) else()
+let $internalId := if(contains($internalId, '?')) then(substring-before($internalId, '?')) else($internalId)
 
 let $doc := doc($docUri)
 let $internal := $doc/id($internalId)

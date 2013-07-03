@@ -165,17 +165,17 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             me.measureSpinner.setMeasure(me.measures.getAt(0));
     },
     
-    showMeasure: function(movementId, measureId) {
+    showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
         me.mdivSelector.setValue(movementId);
         
         if(me.measures) 
-            me.measureSpinner.setMeasure(me.measures.getById(measureId));
+            me.measureSpinner.setMeasure(me.measures.getById(measureId), measureCount);
         else
-            Ext.defer(me.showMeasure, 300, me, [movementId, measureId], false);
+            Ext.defer(me.showMeasure, 300, me, [movementId, measureId, measureCount], false);
     },
     
-    setMeasure: function(combo, store) {
+    setMeasure: function(combo, store, measureCount) {
 
         var me = this;
 
@@ -216,7 +216,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
-                viewer.setMeasure(m);
+                viewer.setMeasure(m, measureCount);
             }
         });
     },
@@ -384,9 +384,12 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri);
     },
     
-    setMeasure: function(measure) {
+    setMeasure: function(measure, measureCount) {
         var me = this;
         me.measure = measure;
+        
+        if(typeof measureCount != 'undefined') me.owner.intervalSpinner.setValue(measureCount);
+        
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
     },
     
@@ -554,9 +557,9 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
             me.setMeasure(me.combo.getStore().getAt(oldIndex - 1).get('id'));
     },
 
-    setMeasure: function(id) {
+    setMeasure: function(id, measureCount) {
         this.combo.setValue(id);
-        this.owner.setMeasure(this.combo, this.combo.store);
+        this.owner.setMeasure(this.combo, this.combo.store, measureCount);
     },
     
     setStore: function(store) {
