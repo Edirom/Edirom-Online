@@ -54,6 +54,6 @@ Ext.define('de.edirom.online.controller.window.concordanceNavigator.ConcordanceN
     onShowConnection: function(navigator, plist) {
         var me = this;
         var linkController = me.application.getController('LinkController');
-        linkController.loadLink(plist, {sort:'sortGrid', useExisting: true, onlyExisting: true}); //TODO: in Preferences einbauen
+        linkController.loadLink(plist, {useExisting: true, onlyExisting: true}); //TODO: in Preferences einbauen; TODO: grid sorting vorerst rausgenommen
     }
 });
