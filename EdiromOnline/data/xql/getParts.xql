@@ -32,6 +32,4 @@ let $mei := doc($uri)/root()
 let $ret := for $part in $mei//mei:instrumentation/mei:instrVoice
             return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:"true", selected:"true"}')
 
-(:let $ret := if(count($ret) = 0)then(concat('{label: "score", id:"', $mei/mei:mei/@xml:id, '", selectedByDefault:"true", selected:"true"}'))else($ret):)
-
 return concat('[', string-join($ret, ','), ']')
