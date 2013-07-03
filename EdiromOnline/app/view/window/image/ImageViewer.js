@@ -62,7 +62,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
         var me = this;
 
-        me.addEvents('zoomChanged');
+        me.addEvents('zoomChanged',
+                    'imageChanged');
 
         me.html = '<div id="' + me.id + '_facsCont" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +
                   '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';
@@ -89,12 +90,13 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         eventEl.on('mousewheel', me.onScroll, me);
     },
 
-    showImage: function(path, width, height) {
+    showImage: function(path, width, height, pageId) {
         var me = this;
 
         me.imgWidth = width;
         me.imgHeight = height;
         me.imgPath = path;
+        me.imgId = pageId;
 
         me.svg = Raphael(me.id + '_facsCont', me.imgWidth, me.imgHeight);
         me.svg.setViewBox(0, 0, me.imgWidth, me.imgHeight, false);
@@ -108,6 +110,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         me.hiResImg.hide();
 
         me.fitInImage();
+        
+        me.fireEvent('imageChanged', me, path, pageId);
     },
 
     clear: function() {

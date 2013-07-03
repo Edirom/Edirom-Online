@@ -98,12 +98,17 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             handler: function() {
                 me.showVoiceFilterDialog();
             },
-            text: 'v',
+            cls : 'voiceFilter toolButton',
             disabled: true,
             hidden: true
         });
         
-        return [me.mdivSelector, me.measureSpinner, me.intervalSpinner, me.voiceFilter];
+        var settingsContainer = Ext.create('Ext.container.Container', {
+            layout: 'hbox'
+        });
+        settingsContainer.add(me.voiceFilter);
+        
+        return [me.mdivSelector, me.measureSpinner, me.intervalSpinner, settingsContainer];
     },
     
     fitFacsimile: function() {
@@ -333,9 +338,18 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
 
         var me = this;
         
-        me.addEvents('showMeasure');
+        me.addEvents('showMeasure',
+            'measureVisibilityChange',
+            'annotationsVisibilityChange');
         
-        me.imageViewers = [Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1})];
+        // SourceView
+        me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
+        me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
+        
+        var viewer = Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1});
+        viewer.on('imageChanged', me.onViewerImageChange, me);
+        
+        me.imageViewers = [viewer];
 
         me.items = [
             me.imageViewers[0]
@@ -344,10 +358,35 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         me.callParent();
     },
     
+    onMeasureVisibilityChange: function(view, state) {
+        var me = this;
+        
+        Ext.Array.each(me.imageViewers, function(viewer) {
+            if(viewer.isVisible()) {
+                me.fireEvent('measureVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri);
+            }
+        });
+    },
+    
+    onAnnotationsVisibilityChange: function(view, state) {
+        var me = this;
+        
+        Ext.Array.each(me.imageViewers, function(viewer) {
+            if(viewer.isVisible()) {
+                me.fireEvent('annotationsVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri);
+            }
+        });
+    },
+    
+    onViewerImageChange: function(viewer, path, pageId) {
+        var me = this;
+        me.fireEvent('measureVisibilityChange', viewer, me.owner.owner.measuresVisible, viewer.imgId, me.owner.owner.uri);
+        me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri);
+    },
+    
     setMeasure: function(measure) {
         var me = this;
         me.measure = measure;
-        
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
     },
     
@@ -397,7 +436,11 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
             overallWidth += width;
             
             if(typeof me.imageViewers[viewerCount - 1] == 'undefined') {
-                me.imageViewers[viewerCount - 1] = Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1});
+            
+                var viewer = Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1});
+                viewer.on('imageChanged', me.onViewerImageChange, me);
+            
+                me.imageViewers[viewerCount - 1] = viewer;
                 me.add(me.imageViewers[viewerCount - 1]);
             }
             
@@ -446,7 +489,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
             
             if(group.measures[0]['path'] != viewer.imgPath) {
                 viewer.clear();
-                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height']);
+                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
             }
             
             var ulx = Number.MAX_VALUE;

@@ -34,7 +34,7 @@ declare function local:findMeasure($mei, $movementId, $measureIdName) {
         if($m)
         then($m)
         else(
-            ($mei/id($movementId)//mei:measure[@n=$measureIdName])[1]
+            ($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1]
         )
 };
 

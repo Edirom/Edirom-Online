@@ -105,6 +105,13 @@ Ext.define('de.edirom.online.view.window.source.PageBasedView', {
 
         me.imageViewer.showImage(me.activePage.get('path'),
             me.activePage.get('width'), me.activePage.get('height'));
+            
+        if(me.owner.measuresVisible)
+            me.owner.fireEvent('measureVisibilityChange', me.owner, true);
+
+        if(me.owner.annotationsVisible)
+            me.owner.fireEvent('annotationsVisibilityChange', me.owner, true);
+
     },
 
     showPage: function(pageId) {

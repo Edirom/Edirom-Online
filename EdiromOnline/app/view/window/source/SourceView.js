@@ -244,6 +244,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         return me.pageBasedView.imageSet;
     },
 
+    /* TODO: check if this function is still in use */
     setPage: function(combo, store) {
 
         var me = this;
@@ -333,15 +334,21 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         var me = this;
 
-        me.bottomBar.add(Ext.create('Ext.button.Button', {
-            handler: Ext.bind(me.switchInternalView, me, ['measureBasedView'], false),
-            text: 'x'
-        }));
-        
-        me.bottomBar.add(Ext.create('Ext.button.Button', {
+        me.pageBasedViewButton = Ext.create('Ext.button.Button', {
             handler: Ext.bind(me.switchInternalView, me, ['pageBasedView'], false),
-            text: 'y'
-        }));
+            enableToggle: true,
+            pressed: true,
+            cls : 'pageBasedView toolButton'
+        });
+
+        me.measureBasedViewButton = Ext.create('Ext.button.Button', {
+            handler: Ext.bind(me.switchInternalView, me, ['measureBasedView'], false),
+            enableToggle: true,
+            cls : 'measureBasedView toolButton'
+        });
+        
+        me.bottomBar.add(me.pageBasedViewButton);
+        me.bottomBar.add(me.measureBasedViewButton);
 
         var entries = me.pageBasedView.createToolbarEntries();
         Ext.Array.each(entries, function(entry) {
@@ -358,6 +365,8 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         var me = this;
         
         if(viewId == 'pageBasedView') {
+            me.measureBasedViewButton.toggle(false, true);
+            me.pageBasedViewButton.toggle(true, true);
             me.measureBasedView.hideToolbarEntries();
             me.pageBasedView.showToolbarEntries();
             me.viewerContainer.getLayout().setActiveItem(me.pageBasedView);
@@ -365,6 +374,8 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
             me.gotoMenu.show();
 
         }else if(viewId == 'measureBasedView') {
+            me.pageBasedViewButton.toggle(false, true);
+            me.measureBasedViewButton.toggle(true, true);
             me.pageBasedView.hideToolbarEntries();
             me.measureBasedView.showToolbarEntries();
             me.viewerContainer.getLayout().setActiveItem(me.measureBasedView);

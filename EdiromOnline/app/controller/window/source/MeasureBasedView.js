@@ -33,7 +33,9 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
             },
             
             'horizontalMeasureViewer': {
-                showMeasure: this.onShowMeasure
+                showMeasure: this.onShowMeasure,
+                measureVisibilityChange: this.onMeasureVisibilityChange,
+                annotationsVisibilityChange: this.onAnnotationsVisibilityChange
             }
         });
     },
@@ -114,5 +116,78 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
     
     showMeasure: function(view, uri, measureId, data) {
         view.showMeasure(data);
+    },
+    
+    onMeasureVisibilityChange: function(viewer, visible, pageId, uri, args) {
+        var me = this;
+        
+        if(visible) {
+            me.fetchMeasures(uri, pageId, Ext.bind(me.measuresOnPageLoaded, me, [viewer, pageId], true));
+        }else {
+            viewer.removeShapes('measures');
+        }
+    },
+    
+    fetchMeasures: function(uri, pageId, fn) {
+        Ext.Ajax.request({
+            url: 'data/xql/getMeasuresOnPage.xql',
+            method: 'GET',
+            params: {
+                uri: uri,
+                pageId: pageId
+            },
+            success: function(response){
+                var data = response.responseText;
+
+                var measures = Ext.create('Ext.data.Store', {
+                    fields: ['zoneId', 'ulx', 'uly', 'lrx', 'lry', 'id', 'name', 'type', 'rest'],
+                    data: Ext.JSON.decode(data)
+                });
+
+                if(typeof fn == 'function')
+                    fn(measures);
+            }
+        });
+    },
+    
+    measuresOnPageLoaded: function(measures, viewer, pageId) {
+
+        if(pageId != viewer.imgId) return;
+
+        viewer.addMeasures(measures);
+    },
+    
+    onAnnotationsVisibilityChange: function(viewer, visible, pageId, uri, args) {
+        var me = this;
+        
+        if(visible) {
+            Ext.Ajax.request({
+                url: 'data/xql/getAnnotationsOnPage.xql',
+                method: 'GET',
+                params: {
+                    uri: uri,
+                    pageId: pageId
+                },
+                success: function(response){
+                    var data = response.responseText;
+
+                    var annotations = Ext.create('Ext.data.Store', {
+                        fields: ['id', 'title', 'text', 'uri', 'plist', 'svgList', 'priority', 'categories', 'fn'],
+                        data: Ext.JSON.decode(data)
+                    });
+
+                    me.annotationsLoaded(annotations, viewer, pageId);
+                }
+            });
+        }else {
+            viewer.removeShapes('annotations');
+        }
+    },
+    
+    annotationsLoaded: function(annotations, viewer, pageId) {
+
+        if(pageId != viewer.imgId) return;
+
+        viewer.addAnnotations(annotations);
     }
 });
