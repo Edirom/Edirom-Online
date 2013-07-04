@@ -26,6 +26,8 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $id := request:get-parameter('id', '')
@@ -35,6 +37,13 @@ let $measureId := if(contains($measureId, '?'))then(substring-before($measureId,
 
 let $mei := doc($id)/root()
 let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/@xml:id
+
+(: Specific handling of virtual measure IDs for parts in OPERA project :)
+let $movementId := if(starts-with($measureId, 'measure_') and $mei//mei:parts)
+                   then(
+                        functx:substring-before-last(substring-after($measureId, 'measure_'), '_')
+                    )
+                    else($movementId)
 
 return
     concat('{',

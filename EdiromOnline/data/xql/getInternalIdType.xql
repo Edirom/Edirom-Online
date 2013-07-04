@@ -21,6 +21,9 @@ xquery version "1.0";
 :)
 
 declare namespace request="http://exist-db.org/xquery/request";
+declare namespace mei="http://www.music-encoding.org/ns/mei";
+
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -31,6 +34,18 @@ let $internalId := if(contains($internalId, '?')) then(substring-before($interna
 
 let $doc := doc($docUri)
 let $internal := $doc/id($internalId)
+
+(: Specific handling of virtual measure IDs for parts in OPERA project :)
+let $internal := if(exists($internal))then($internal)else(
+                        if(starts-with($internalId, 'measure_') and $doc//mei:parts)
+                        then(
+                            let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
+                            let $measureN := functx:substring-after-last($internalId, '_')
+                            return
+                                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
+                        )
+                        else($internal)
+                    )
 
 return
     if(exists($internal))
