@@ -122,10 +122,24 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             
             let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
             let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
-            let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', $zones[1]/parent::mei:surface/@xml:id)
+            let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
                 local:toJSON($type, $label, $mdiv, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
+};
+
+declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
+    if(local-name($elems[1]) eq 'zone')
+    then($elems[1]/string(@xml:id))
+    else if(count($elems) > 1)
+    then(
+        let $elemsSorted := for $elem in $elems
+                            order by count($elem/preceding::*)
+                            return $elem
+        return concat($elemsSorted[1]/@xml:id, '?tstamp2=', (count($elems) -1), 'm+0') 
+    )
+    else($elems[1]/string(@xml:id))
+    
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {

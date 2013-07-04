@@ -27,6 +27,8 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+
 declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
@@ -60,9 +62,23 @@ declare function local:getViews($type, $docUri, $doc) {
 let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $internalId := if(contains($uri, '#')) then(substring-after($uri, '#')) else()
+let $internalIdParam := if(contains($internalId, '?')) then(concat('?', substring-after($internalId, '?'))) else('')
+let $internalId := if(contains($internalId, '?')) then(substring-before($internalId, '?')) else($internalId)
 
 let $doc := doc($docUri)
 let $internal := $doc/id($internalId)
+
+(: Specific handling of virtual measure IDs for parts in OPERA project :)
+let $internal := if(exists($internal))then($internal)else(
+                        if(starts-with($internalId, 'measure_') and $doc//mei:parts)
+                        then(
+                            let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
+                            let $measureN := functx:substring-after-last($internalId, '_')
+                            return
+                                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
+                        )
+                        else($internal)
+                    )
 
 let $type := 
              (: Work :)
@@ -104,5 +120,5 @@ return
           "',title:'", $title, 
           "',doc:'", $docUri,
           "',views:[", local:getViews($type, $docUri, $doc), "]",
-          ",internalId:'", $internalId, 
+          ",internalId:'", $internalId, $internalIdParam, 
           "',internalIdType:'", $internalIdType, "'}")

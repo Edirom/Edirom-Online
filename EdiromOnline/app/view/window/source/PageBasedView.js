@@ -89,7 +89,7 @@ Ext.define('de.edirom.online.view.window.source.PageBasedView', {
         }else if(me.imageSet.getCount() > 0)
             me.pageSpinner.setPage(me.imageSet.getAt(0));
             
-        me.owner.fireEvent('afterImagesLoaded', me, imageSet);
+        me.owner.fireEvent('afterImagesLoaded', me.owner, imageSet);
     },
 
     setPage: function(combo, store) {
