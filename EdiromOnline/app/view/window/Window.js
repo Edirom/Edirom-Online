@@ -183,5 +183,30 @@ Ext.define('de.edirom.online.view.window.Window', {
         me.internalIdType = internalIdType;
 
         me.fireEvent('loadInternalLink');
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        var viewContentConfigs = {};
+        
+        Ext.Array.each(me.views, function(view) {
+            if(typeof view.view.getContentConfig != 'undefined')
+                viewContentConfigs[view.view.id] = view.view.getContentConfig();
+        });
+        
+        return {
+            id: this.id,
+            views: viewContentConfigs
+        };
+    },
+    
+    setContentConfig: function(config) {
+        var me = this;
+        var viewConfigs = config.views;
+    
+        Ext.Array.each(me.views, function(view) {
+            if(typeof view.view.setContentConfig != 'undefined')
+                view.view.setContentConfig(viewConfigs[view.view.id]);
+        });
     }
 });

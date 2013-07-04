@@ -460,6 +460,21 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     hideAnnotations: function() {
         var me = this;
         me.pageBasedView.hideAnnotations();
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id,
+            pageBasedView: me.pageBasedView.getContentConfig(),
+            measureBasedView: me.measureBasedView.getContentConfig()
+        };
+    },
+    
+    setContentConfig: function(config) {
+        var me = this;
+        me.pageBasedView.setContentConfig(config.pageBasedView);
+        me.measureBasedView.setContentConfig(config.measureBasedView);
     }
 });
 

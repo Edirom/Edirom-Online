@@ -86,8 +86,11 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
 		var w = size.width/n;
 
 		wins.each(function(win) {
+            
+            var contentConfig = win.getContentConfig();
+            
             var to = {
-                y: 2,
+                y: 30,
                 x: left + 3,
                 width: w - 6,
                 height: size.height - 4
@@ -96,7 +99,7 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
             win.animate(Ext.apply({
                 duration: 1000,
                 listeners: {
-                    afteranimate: Ext.Function.bind(win.afterSetPosition, win, [to.x, to.y])
+                    afteranimate: Ext.Function.bind(win.setContentConfig, win, [contentConfig])
                 },
                 to: to
             }, true));
@@ -114,11 +117,14 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
 
         var size = desktop.getUsableSize();
 
-        var top = 0;
+        var top = 30;
         var n = wins.length;
 		var h = size.height/n;
 
 		wins.each(function(win) {
+		  
+		  var contentConfig = win.getContentConfig();
+		
             var to = {
                 y: top + 2,
                 x: 3,
@@ -129,7 +135,7 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
             win.animate(Ext.apply({
                 duration: 1000,
                 listeners: {
-                    afteranimate: Ext.Function.bind(win.afterSetPosition, win, [to.x, to.y])
+                    afteranimate: Ext.Function.bind(win.setContentConfig, win, [contentConfig])
                 },
                 to: to
             }, true));
@@ -148,13 +154,15 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
         var size = desktop.getUsableSize();
 
         var left = 0;
-        var top = 0;
+        var top = 30;
 
         var optArray = this.findOptimalLenBrt(wins.length);
 
         wins.each(function(win) {
             if (!win.isVisible() || win.maximized)
                 return;
+
+            var contentConfig = win.getContentConfig();
 
             if((left + (size.width / optArray[0])) > size.width) {
 			    top = top + (size.height / optArray[1]);
@@ -171,13 +179,12 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
             win.animate(Ext.apply({
                 duration: 1000,
                 listeners: {
-                    afteranimate: Ext.Function.bind(win.afterSetPosition, win, [to.x, to.y])
+                    afteranimate: Ext.Function.bind(win.setContentConfig, win, [contentConfig])
                 },
                 to: to
             }, true));
 
             left = left + (size.width / optArray[0]);
-
         });
     },
 

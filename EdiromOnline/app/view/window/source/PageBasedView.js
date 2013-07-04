@@ -213,6 +213,19 @@ Ext.define('de.edirom.online.view.window.source.PageBasedView', {
 
     zoomChanged: function(slider) {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id,
+            rect: me.imageViewer.getActualRect()
+        };
+    },
+    
+    setContentConfig: function(config) {
+        var me = this;
+        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false); 
     }
 });
 

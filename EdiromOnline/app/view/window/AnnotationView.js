@@ -716,5 +716,12 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
                 elem.addCls('widthLimited');
             }
         }
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
 });

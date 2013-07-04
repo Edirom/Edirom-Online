@@ -109,5 +109,12 @@ Ext.define('de.edirom.online.view.window.XmlView', {
         else
             this.editor.renderer.setShowGutter(true);
 
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
 });

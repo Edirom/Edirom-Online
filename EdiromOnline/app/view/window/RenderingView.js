@@ -104,6 +104,13 @@ Ext.define('de.edirom.online.view.window.RenderingView', {
         var me = this;
         var contEl = me.el.getById(me.id + '_renderingCont');
         contEl.update(data);
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
     
     /*

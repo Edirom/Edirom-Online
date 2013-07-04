@@ -41,6 +41,13 @@ Ext.define('de.edirom.online.view.window.HeaderView', {
         var me = this;
         var contEl = me.el.getById(me.id + '_headerCont');
         contEl.update(data);
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
 });
 

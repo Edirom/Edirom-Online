@@ -41,5 +41,12 @@ Ext.define('de.edirom.online.view.window.SummaryView', {
         var me = this;
         var contEl = me.el.getById(me.id + '_summaryCont');
         contEl.update(data);
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
 });

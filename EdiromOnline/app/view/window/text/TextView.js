@@ -385,6 +385,13 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
             container.scrollLeft = right - container.clientWidth;
         }
         container.scrollLeft = container.scrollLeft;
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
     }
 });
 

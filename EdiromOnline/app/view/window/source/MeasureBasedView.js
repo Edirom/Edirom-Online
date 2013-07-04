@@ -311,6 +311,20 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         
         me.partsDialog.close();
         me.reloadDisplay();
+    },
+    
+    getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
+    },
+    
+    setContentConfig: function(config) {
+        var me = this;
+        try {
+            me.reloadDisplay();
+        }catch(e) {}
     }
 });
 

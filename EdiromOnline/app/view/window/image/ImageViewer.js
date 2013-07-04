@@ -592,6 +592,16 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         
         Ext.defer(me.calculateHiResImg, 500, me);
     },
+    
+    getActualRect: function() {
+        var me = this;
+        return {
+            x: Math.max(Math.round(- me.offX / me.zoom), 0),
+            y: Math.max(Math.round(- me.offY / me.zoom), 0),
+            width: Math.min(Math.round(me.getWidth() / me.zoom), me.imgWidth),
+            height: Math.min(Math.round(me.getHeight() / me.zoom), me.imgHeight)
+        };
+    },
 
     createTempRect: function(x, y, width, height) {
         var me = this;
@@ -642,7 +652,9 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
             id = shape.id;
         }
 
-        Ext.removeNode(shapeDiv.getById(me.id + '_' + id).dom);
+        if(shapeDiv.getById(me.id + '_' + id) != null) 
+            Ext.removeNode(shapeDiv.getById(me.id + '_' + id).dom);
+            
         Ext.Array.remove(me.shapes.get('temp'), shape);
     },
 
