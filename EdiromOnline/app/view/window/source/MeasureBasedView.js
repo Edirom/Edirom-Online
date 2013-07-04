@@ -221,6 +221,13 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         });
     },
     
+    reloadDisplay: function() {
+        var me = this;
+        
+        var measureCount = me.intervalSpinner.getValue();
+        me.measureSpinner.reloadMeasure(measureCount);
+    },
+    
     setParts: function(parts) {
         var me = this;
         
@@ -303,6 +310,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         });
         
         me.partsDialog.close();
+        me.reloadDisplay();
     }
 });
 
@@ -555,6 +563,10 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
         var oldIndex = me.combo.getStore().findExact('id', me.combo.getValue());
         if(oldIndex > 0)
             me.setMeasure(me.combo.getStore().getAt(oldIndex - 1).get('id'));
+    },
+
+    reloadMeasure: function(measureCount) {
+        this.owner.setMeasure(this.combo, this.combo.store, measureCount);
     },
 
     setMeasure: function(id, measureCount) {
