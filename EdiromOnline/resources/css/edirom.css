@@ -30,6 +30,37 @@
 
 /*TODO: Folgende Einträge in SASS einbauen:*/
 
+.toolButton.pageBasedView {
+    background: url("../pix/pageView.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 2px !important;
+}
+
+.toolButton.measureBasedView {
+    background: url("../pix/barView.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 2px !important;
+}
+
+.toolButton.voiceFilter {
+    background: url("../pix/selectVoices.png") no-repeat scroll 0 0 transparent;
+    border: medium none;
+    margin: 2px !important;
+}
+
+.toolButton.x-disabled {
+    background-position: 0 -24px;
+}
+
+.toolButton.x-pressed {
+    box-shadow: 0 0 2px #000000 inset;
+}
+
+
+div.measure span.measureInnerEmpty {
+    display:none;
+}
+
 .taskbarMenu {
     z-index: 50001 !important;
 }
@@ -130,6 +161,9 @@
 	width: 100%;
 	border: none;
 }
+
+
+
 
 
 /* LIGHTBOX */
