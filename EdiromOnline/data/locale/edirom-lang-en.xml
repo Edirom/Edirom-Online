@@ -94,7 +94,8 @@
         <entry key="view.window.source.SourceView_GotoMsg_MovmentNumber" value="Movement/Number"/>
         <entry key="view.window.source.SourceView_GotoMsg_Measure" value="Measure"/>
         <entry key="view.window.source.SourceView_viewMenu" value="Display"/>
-        
+        <entry key="view.window.source.SourceView_PageBasedView" value="Page based view"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
         <entry key="view.window.text.TextView_annotMenu" value="Annotations"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.text.TextView_gotoMenu" value="Go to…"/>

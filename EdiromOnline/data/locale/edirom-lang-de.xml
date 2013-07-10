@@ -94,7 +94,8 @@
         <entry key="view.window.source.SourceView_GotoMsg_MovmentNumber" value="Satz/Nummer"/>
         <entry key="view.window.source.SourceView_GotoMsg_Measure" value="Takt"/>
         <entry key="view.window.source.SourceView_viewMenu" value="Darstellung"/>
-        
+        <entry key="view.window.source.SourceView_PageBasedView" value="Seitenbasierte Ansicht"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>
         <entry key="view.window.text.TextView_gotoMenu" value="Gehe zu…"/>

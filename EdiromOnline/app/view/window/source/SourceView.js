@@ -336,6 +336,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         me.pageBasedViewButton = Ext.create('Ext.button.Button', {
             handler: Ext.bind(me.switchInternalView, me, ['pageBasedView'], false),
+            tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView'), align: 'bl-tl' },
             enableToggle: true,
             pressed: true,
             cls : 'pageBasedView toolButton'
@@ -343,6 +344,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         me.measureBasedViewButton = Ext.create('Ext.button.Button', {
             handler: Ext.bind(me.switchInternalView, me, ['measureBasedView'], false),
+            tooltip: { text: getLangString('view.window.source.SourceView_MeasureBasedView'), align: 'bl-tl' },
             enableToggle: true,
             cls : 'measureBasedView toolButton'
         });
