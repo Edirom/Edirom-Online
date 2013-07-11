@@ -237,6 +237,7 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
 
 		me.listButton =  Ext.create('Ext.button.Button', {
         	cls: 'list toolButton',
+        	tooltip: { text: getLangString('view.window.AnnotationView_ListView'), align: 'bl-tl' },
             handler: Ext.bind(me.showList, me)
         });
         me.bottomBar.add(me.listButton);
@@ -244,18 +245,21 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
 
         me.prevItemButton =  Ext.create('Ext.button.Button', {
             cls: 'prev toolButton',
+            tooltip: { text: getLangString('view.window.AnnotationView_PreviousAnnotation'), align: 'bl-tl' },
             handler: Ext.bind(me.showPrevItem, me)
         });
         me.bottomBar.add(me.prevItemButton);
 
         me.nextItemButton =  Ext.create('Ext.button.Button', {
             cls: 'next toolButton',
+            tooltip: { text: getLangString('view.window.AnnotationView_NextAnnotation'), align: 'bl-tl' },
             handler: Ext.bind(me.showNextItem, me)
         });
         me.bottomBar.add(me.nextItemButton);
         
         me.openAllButton =  Ext.create('Ext.button.Button', {
             cls: 'openAll toolButton',
+            tooltip: { text: getLangString('view.window.AnnotationView_OpenAll'), align: 'bl-tl' },
             view: me,
             action: 'openAll'
         });
@@ -263,6 +267,7 @@ Ext.define('de.edirom.online.view.window.AnnotationView', {
         
         me.closeAllButton =  Ext.create('Ext.button.Button', {
             cls: 'closeAll toolButton',
+            tooltip: { text: getLangString('view.window.AnnotationView_CloseAll'), align: 'bl-tl' },
             disabled: true,
             action: 'closeAll'
         });

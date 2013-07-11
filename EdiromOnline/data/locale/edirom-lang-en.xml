@@ -75,6 +75,10 @@
         <entry key="view.window.AnnotationView_Single" value="Single view"/>
         <entry key="view.window.AnnotationView_ListView" value="List view"/>
         
+        <entry key="view.window.AnnotationView_PreviousAnnotation" value="Previous annotation"/>
+        <entry key="view.window.AnnotationView_NextAnnotation" value="Next annotation"/>
+        <entry key="view.window.AnnotationView_OpenAll" value="Open all sources"/>
+        <entry key="view.window.AnnotationView_CloseAll" value="Close all sources"/>
         <entry key="view.window.TobBar_View" value="View"/>
         
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Concordances"/>

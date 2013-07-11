@@ -75,6 +75,10 @@
         <entry key="view.window.AnnotationView_Single" value="Einzelansicht"/>
         <entry key="view.window.AnnotationView_ListView" value="Listenansicht"/>
         
+        <entry key="view.window.AnnotationView_PreviousAnnotation" value="Vorherige Anmerkung"/>
+        <entry key="view.window.AnnotationView_NextAnnotation" value="Nächste Anmerkung"/>
+        <entry key="view.window.AnnotationView_OpenAll" value="Alle Quellen öffnen"/>
+        <entry key="view.window.AnnotationView_CloseAll" value="Alle Quellen schließen"/>
         <entry key="view.window.TobBar_View" value="Ansicht"/>
         
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Konkordanzen"/>
