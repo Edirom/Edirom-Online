@@ -69,6 +69,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             queryMode: 'local',
             displayField: 'name',
             valueField: 'id',
+            margin: '0 0 0 10',
             id: 'mdiv_combo_' + me.id,
             hidden: true,
             listeners:{
@@ -99,6 +100,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                 me.showVoiceFilterDialog();
             },
             cls : 'voiceFilter toolButton',
+            margin: '0 0 0 5',
             disabled: true,
             hidden: true
         });
@@ -259,14 +261,15 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                 align: 'stretch'
             },
             modal: true,
-            cls: 'ediromWindow',
+            cls: 'ediromWindow voiceSelection',
             items: [
             me.grid,
             {
                 xtype: 'panel',
                 border: false,
                 flex: 0,
-                height: 30,
+                height: 35,
+                padding: '5 5 5 5',
                 align: 'right',
                 items: [
                     {
@@ -279,6 +282,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                     {
                         xtype: 'button',
                         text: 'Ok',
+                        margin: '0 0 0 10',
                         listeners:{
                              scope: me,
                              click: me.onPartsSelectionChange
