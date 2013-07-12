@@ -95,34 +95,27 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
     onOpenAllParticipants: function(btn, e) {
         var me = this;
         var view = btn.view;
-        var uri = view.uri + '#' + view.activeSingleAnnotation;
         
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationParticipants.xql',
-            method: 'GET',
-            params: {
-                uri: uri
-            },
-            success: function(response){
-                
-                var data = Ext.JSON.decode(response.responseText);
-                
-                // Are there allready opened windows from the last action?
-                if(view.closeAllButton.windows != null) {
-                    view.closeAllButton.windows.each(function(win) {
-                        if(win)
-                            win.close();
-                    });
-                }
-                
-                var linkController = this.application.getController('LinkController');
-                var windows = linkController.loadLink(data['participants'], {sort:'sortGrid', useExisting: false, onlyExisting: false});
-                
-                view.closeAllButton.windows = windows;
-                view.closeAllButton.enable();
-            },
-            scope: me
+        // Are there allready opened windows from the last action?
+        if(view.closeAllButton.windows != null) {
+            view.closeAllButton.windows.each(function(win) {
+                if(win)
+                    win.close();
+            });
+        }
+
+        var linkController = this.application.getController('LinkController');
+        var participants = view.activeParticipants;
+        var participantUris = '';
+
+        Ext.Array.each(participants, function(participant) {
+            if(participantUris.indexOf(participant.linkUri) == -1)
+                participantUris += participant.linkUri + ' ';
         });
+
+        var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false});
+        view.closeAllButton.windows = windows;
+        view.closeAllButton.enable();
     },
     
     onCloseAllParticipants: function(btn, e) {
