@@ -17,24 +17,22 @@ xquery version "1.0";
   You should have received a copy of the GNU General Public License
   along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
 
-  ID: $Id: getHelp.xql 1455 2012-10-11 10:42:55Z daniel $
 :)
-
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-declare namespace system="http://exist-db.org/xquery/system";
-declare namespace transform="http://exist-db.org/xquery/transform";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
-let $viewXtype := request:get-parameter('viewXtype', '')
-let $base := concat('file:', system:get-module-load-path(), '/../xslt/')
-let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
-let $doc := doc(concat('file:', system:get-module-load-path(), '/../../resources/help/',$viewXtype, '.xml'))/root()
-let $doc := doc(concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../../resources/help/',$viewXtype, '.xml'))/root() (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
-return(
-    transform:transform($doc, concat($base, 'teiBody2HTML.xsl'), <parameters><param name="base" value="{$base}"/></parameters>)
-(:$base:)
-)
+let $lang := request:get-parameter('lang', 'en')
+let $idPrefix := request:get-parameter('idPrefix', '')
+
+let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
+
+let $doc := doc(concat('../../help/help_', $lang, '.xml'))
+
+let $xsl := doc('../xslt/edirom_langReplacement.xsl')
+let $doc := transform:transform($doc, $xsl, <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="lang" value="{$lang}"/></parameters>)
+
+let $xsl := doc('../xslt/teiBody2HTML.xsl')
+let $doc := transform:transform($doc, $xsl, <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="lang" value="{$lang}"/><param name="tocDepth" value="1"/><param name="graphicsPrefix" value="help/"/></parameters>)
+
+return
+    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)

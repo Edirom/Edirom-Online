@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0">
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>Untitled Document</title>
+            <author/>
+         </titleStmt>
+         <editionStmt>
+                <edition>
+                    <date/>
+            </edition>
+         </editionStmt>
+         <publicationStmt>
+                <p>no publication statement available</p>
+         </publicationStmt>
+         <sourceDesc>
+                <p>Written by OpenOffice</p>
+         </sourceDesc>
+      </fileDesc>
+      <revisionDesc>
+            <change>
+                <name/>
+            <date/>
+         </change>
+      </revisionDesc>
+   </teiHeader>
+   <text>
+        <body>
+            <p>Hilfe (Benutzerhandbuch) </p>
+         <p>Das vorliegende Dokument stellt eine allgemeine Einführung in die Benutzung der Edirom zur Verfügung. Dabei werden alle grundlegenden Funktionen der Software behandelt. Bitte beachten Sie, dass nicht jede Ausgabe zwingend alle hier beschriebenen Möglichkeiten vorsieht, teilweise aber auch durch projektspezifische Erweiterungen über diese Dokumentation hinaus geht. </p>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_toc"/>Inhaltsverzeichnis </head>
+            <list type="unordered">
+               <item>
+                        <anchor xml:id="id_tocList"/>
+                  <ref target="#installation">Installation </ref>
+               </item>
+               <item>
+                        <ref target="#starting">Programmstart </ref>
+               </item>
+               <item>
+                        <ref target="#gui">Benutzeroberfläche </ref>
+               </item>
+               <item>
+                        <ref target="#toolbar">Werkzeugleiste </ref>
+               </item>
+               <item>
+                        <ref target="#navigator">Navigator </ref>
+               </item>
+               <item>
+                        <ref target="#searchWindow">Suchbox und Suchfenster </ref>
+               </item>
+               <item>
+                        <ref target="#searching">Suchsyntax </ref>
+               </item>
+               <item>
+                        <ref target="#windows">Inhaltsfenster </ref>
+               </item>
+               <item>
+                        <ref target="#textWindow">Textfenster </ref>
+               </item>
+               <item>
+                        <ref target="#facsimileWindow">Faksimiles und Notentexte </ref>
+               </item>
+               <item>
+                        <ref target="#windowOrga">Fortgeschrittene Fensterorganisation </ref>
+               </item>
+               <item>
+                        <ref target="#annotations">Anmerkungen </ref>
+               </item>
+               <item>
+                        <ref target="#shortCuts">Verzeichnis der Tastenkürzel </ref>
+               </item>
+            </list>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_installation"/>
+               <ref target="#top">nach oben ↑</ref>Installation </head>
+            <p>Die Software muss in der vorliegenden Version auf dem Zielrechner installiert werden, um korrekt zu funktionieren. Ein Betrieb von DVD ist aufgrund des massiven Speicherbedarfs der enthaltenen Bilddateien nicht möglich. </p>
+            <div type="div2">
+               <head>Windows </head>
+               <p>Wenn Sie unter Windows <hi rend="italic">Autostart</hi> aktiviert haben, öffnet sich beim Einlegen der DVD automatisch das Installationsprogramm der Edirom. Andernfalls öffnen Sie dieses bitte über die Datei <hi rend="italic">setup.exe</hi> auf der DVD. Folgen Sie bitte den Anweisungen dieses Installationsprogramms. Nach der erfolgreichen Installation finden Sie im Startmenü unter Programme einen Eintrag, der je nach Ausgabe variiert und z.B. <hi rend="italic">Edirom</hi> lauten kann. </p>
+            </div>
+            <div type="div2">
+               <head>Mac OS X </head>
+               <p>Apple-Nutzer kopieren bitte einfach die Edirom-Anwendung von der DVD in ein beliebiges Verzeichnis auf der Festplatte (z.B. Programme). Von dort aus kann das Programm mit einem Doppelklick gestartet werden. </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_starting"/>
+               <ref target="#top">nach oben ↑</ref>Programmstart </head>
+            <p>Grundsätzlich öffnet sich mit dem Start des Programms zunächst ein Startbildschirm. Dieses editionsspezifische Fenster bietet in der Regel eine kurze Einleitung sowie Einstiegspunkte in die jeweils enthaltenen Werke der Edition. Erst, wenn Sie einem der hier angebotenen Verweise folgen, öffnet sich das eigentliche Programmfenster mit den Inhalten der Ausgabe.</p>
+            <p>Wurde das Programm bereits ausgeführt, können vorgenommene Einstellungen den Start des Programms beeinflussen. (siehe <ref target="#openPreferences">Einstellungsdialog öffnen</ref>).</p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/startseite.jpg"/>
+               </figure> 
+            </p>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_gui"/>
+               <ref target="#top">nach oben ↑</ref>Benutzeroberfläche </head>
+            <p>Die Benutzeroberfläche der Software teilt sich in mehrere Bereiche auf. Im oberen Bereich befindet sich eine <hi rend="bold">Werkzeugleiste</hi>, welche alle wesentlichen Funktionen der Edirom zur Verfügung stellt. </p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/fullscreen.jpg"/>
+               </figure> 
+            </p>
+            <p>Am rechten Ende der Werkzeugleiste, direkt unterhalb der Suchbox, findet sich der so genannte <hi rend="bold">Navigator</hi>. Er ist üblicherweise bereits beim Programmstart geöffnet und wird in der Regel angezeigt wie in der obigen Abbildung, kann aber bei Bedarf durch einen Klick auf das kleine schwarze Dreieck am unteren Rand auf eine schmale Leiste unterhalb der Suchbox reduziert werden. Ein Klick auf diese Leiste öffnet den Navigator. </p>
+            <p>Am unteren Rand des Programmfensters befindet sich eine <hi rend="bold">Statusleiste</hi>, über die einige fortgeschrittene Funktionen des Programms erreicht werden können. Der Rest der Benutzeroberfläche wird <hi rend="bold">Desktop</hi> genannt. Hier werden alle Inhalte der Edition als programminterne Fenster dargestellt. Diese lassen sich daher in der vorliegenden Version nicht aus dem Programmfenster heraus auf einen zweiten Bildschirm ziehen. </p>
+            <p>Weitere Funktionen sind über eine grau-transparente <hi rend="bold">Seitenleiste</hi> erreichbar (vgl. unten), die jeweils einem einzelnen Inhaltsfenster zugeordnet ist und erst mit Öffnen eines solchen Fensters sichtbar wird. </p>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_toolbar"/>
+               <ref target="#top">nach oben ↑</ref>Werkzeugleiste </head>
+            <p>In der Werkzeugleiste am oberen Rand des Programmfensters werden alle zentralen Funktionen des Programms gebündelt. Die auf der rechten Seite der Werkzeugleiste befindliche <hi rend="bold">Suchbox</hi> wird im folgenden Abschnitt gemeinsam mit dem <hi rend="bold">Navigator</hi> erläutert. </p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menubar.jpg"/>
+               </figure> 
+            </p>
+            <div type="div2">
+               <head>Werkauswahl </head>
+               <p>Beginnend von links enthält die Werkzeugleiste zunächst eine Schaltfläche, die Sie wieder zurück zum Startbildschirm der Ausgabe führt. Daneben befindet sich eine Auswahlbox mit allen in der jeweiligen Edition enthaltenen Werken. Sofern mehr als ein Werk enthalten ist, können Sie zwischen diesen jederzeit wechseln. Wenn Sie ein anderes Werk auswählen, werden die Inhalte der Suchbox bzw. des Navigators entsprechend aktualisiert, so dass nur noch die Inhalte der Edition dieses neuen Werkes angezeigt werden. Ggf. noch geöffnete Programmfenster mit Inhalten des vorher angezeigten Werkes bleiben dabei je nach Einstellung (s.u.) weiterhin geöffnet. Damit haben Sie die Möglichkeit, die Bestandteile verschiedener Editionen (hauptsächlich Quellen) direkt miteinander zu vergleichen. Dabei ist jedoch zu beachten, dass sich die Navigationsmöglichkeiten des Programms (Konkordanz-Navigation, s.u.) immer nur auf die Inhalte des aktuell gewählten Werkes beziehen, während (geöffnete) Inhalte anderer Werke davon unberührt bleiben. </p>
+               <p>Die Schaltflächen in der Mitte der Menüleiste steuern Funktionen, die sich global auf <hi rend="italic">alle</hi> geöffneten Inhaltsfenster des Desktops auswirken. </p>
+            </div>
+            <div type="div2">
+               <head>Taktzählung aktivieren / deaktivieren </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menuMeasures.png"/>
+                  </figure> 
+               </p>
+               <p>Über die Schaltfläche Taktzahlen einblenden kann zentral in allen geöffneten Quellen des aktuellen Werkes die Taktzählung ein- und ausgeblendet werden. </p>
+            </div>
+            <div type="div2">
+               <head>Anmerkungen einblenden / ausblenden </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menuAnnotations.png"/>
+                  </figure> 
+               </p>
+               <p>Mit dieser Schaltfläche lassen sich in allen geöffneten Faksimilefenstern des aktuellen Werkes die Anmerkungen des Kritischen Berichts ein- oder ausblenden. Einstellungen zur Filterung der Anmerkungen können hingegen nur in den Seitenleisten der einzelnen Fenstern vorgenommen werden (s.u.). </p>
+            </div>
+            <div type="div2">
+               <head>Konkordanz-Navigation öffnen / schließen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menuMeasureNavigation.png"/>
+                  </figure> 
+               </p>
+               <p>Über diese Schaltfläche kann das Fenster der Konkordanz-Navigation geöffnet und geschlossen werden. Dieses Werkzeug erlaubt es, vom Editor als zusammengehörig markierte Abschnitte der Inhalte gleichzeitig aufzurufen. Eine gewöhnliche Anwendung ist eine Takt-Konkordanz; diese ermöglicht, in allen auf dem (aktuellen) <hi rend="bold">Desktop</hi> geöffneten Notentexten des aktuellen Werkes einen bestimmten Takt anzuzeigen. Enthält das aktuelle Werk mehrere Sätze, so lässt sich in einem Drop-Down-Menü zunächst der gewünschte Satz auswählen. Über einen Schieberegler kann dann der anzuzeigende Takt festgelegt werden; für ein schrittweises Verstellen des anzuzeigenden Taktes befinden sich zudem Pfeil-Schaltflächen links und rechts neben dem Schieberegler.</p>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/taktnavi1.jpg"/>
+                  </figure> 
+                  <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/taktnavi2a.jpg"/>
+                  </figure> 
+               </p>
+               <p>Unterhalb des Schiebereglers findet sich eine große Schaltfläche <hi rend="italic">Anzeigen</hi>; ein Klick auf diese öffnet den ausgewählten Takt in allen (auf dem aktuellen Desktop) geöffneten Quellen. Als weitere Hilfe zur Navigation innerhalb der geöffneten Quellen finden sich rechts und links neben dem „Anzeigen“-Knopf ebenfalls zwei Pfeile-Schaltflächen, die ein Vor- und Zurückblättern erlauben. Je nach Einstellung (siehe <ref target="#openPreferences">Einstellungsdialog öffnen</ref>) werden beim Anzeigen eines Taktes nur die bereits geöffneten Fenster entsprechend angepasst. Kommt dieser Takt in weiteren, gegenwärtig nicht geöffneten Notentexten vor, so wird rechts unterhalb des Schiebereglers eine kleine Schaltfläche eingeblendet. Diese öffnet bei Betätigung neue Fenster für alle noch geschlossenen Quellen zur ausgewählten Taktposition und ordnet alle geöffneten Fenster neu an.</p>
+               <p>Eine weiteres Anwendungsbeispiel wäre die Verknüpfung von Notentexten mit den entsprechenden Stellen eines Librettos, so dass man zu einer Verszeile immer die jeweiligen Takte der Vertonung angezeigt bekommt. Welche Konkordanzen zur Verfügung stehen, hängt von der jeweiligen Edition ab.</p>
+            </div>
+            <div type="div2">
+               <head>Suchfenster öffnen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menuSearchwindow.png"/>
+                  </figure> 
+               </p>
+               <p>Über diese Schaltfäche kann ein Suchfenster geöffnet werden, welches ebenso wie der Navigator Zugriff auf die Inhalte der Edition des aktuellen Werks bietet. Durch die Formulierung einer Suchanfrage in der Suchbox kann man das Suchfenster direkt bedienen, während diese Schaltfläche das Suchfenster lediglich öffnet. Zu den genauen Funktionen des Suchfensters vgl. das entsprechende Kapitel. </p>
+            </div>
+            <div type="div2">
+               <head>
+                        <anchor xml:id="id_openPreferences"/>Einstellungsdialog öffnen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/preferences.png"/>
+                  </figure> 
+               </p>
+               <p>Diese Schaltfläche öffnet den Einstellungsdialog der Edirom. Dieser bietet verschiedene Möglichkeiten, um das Verhalten der Anwendung individuell anzupassen. </p>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/preferenceDialog.png"/>
+                  </figure> 
+               </p>
+               <p>Bei den <hi rend="bold">Programmeinstellungen</hi> lässt sich festlegen, wie lange Tooltips angezeigt werden sollen. Dies betrifft etwa die Vorschau auf Anmerkungen, die beim Überfahren eines Anmerkungssymbols innerhalb der Notentexte angezeigt wird. Die <hi rend="bold">Einstellungen der Konkordanz-Navigation</hi> erlauben es, die Konkordanz-Navigation direkt beim Programmstart zu öffnen und festzulegen, ob beim Anspringen eines Taktes lediglich die bestehenden Fenster entsprechend angepasst werden sollen, oder ob für sämtliche Quellen, die diesen Takt enthalten, automatisch ein Fenster geöffnet, nicht benötigte Fenster dagegen geschlossen werden sollen. In den <hi rend="bold">Fenstereinstellungen</hi> kann festgelegt werden, ob beim Wechseln des aktiven Werkes der Übersicht halber sämtliche geöffneten Fenster geschlossen werden sollen, oder ob diese zu Vergleichszwecken erhalten bleiben sollen. Außerdem kann festgelegt werden, ob beim Öffnen eines Notentextes die Seitenleiste ein- oder ausgeblendet angezeigt werden soll. In den separaten <hi rend="bold">Spracheinstellungen</hi> können Programmsprache und ggf. Inhaltssprache der Ausgabe separat ausgewählt werden. </p>
+            </div>
+            <div type="div2">
+               <head>Hilfe (Benutzerhandbuch) </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/menuHelp.png"/>
+                  </figure> 
+               </p>
+               <p>Mit dieser Schaltfläche können Sie ein Fenster mit den Inhalten dieser Hilfedatei anzeigen bzw. in den Vordergrund holen. Dieses Fenster ist (im Gegensatz zu allen anderen Programmfenster) ein eigenständiges Fenster und kann daher auch neben das eigentliche Programmfenster der Edirom gelegt werden. Die gleiche Hilfedatei lässt sich übrigens über den entsprechenden Verweis „Edirom-Hilfe“ rechts unten in der Statusleiste erreichen. </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_navigator"/>
+               <ref target="#top">nach oben ↑</ref>Navigator </head>
+            <p>Der Navigator bietet einen Schnellzugriff auf die wichtigsten Inhalte der Ausgabe, die sich von hier mit einem Klick als eigenes Fenster auf dem (aktuellen) <hi rend="bold">Desktop</hi> öffnen lassen. Die weiteren Inhalte der Ausgabe werden über Verlinkungen aus diesen Einstiegspunkten heraus oder das <hi rend="bold">Suchfenster</hi> (s.u.) erschlossen. </p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/navigator.jpg"/>
+               </figure> 
+            </p>
+            <p>Referenziert der Navigator sehr viele Objekte, findet sich am rechten Rand eine Scroll-Leiste, die es erlaubt, die Inhalte des Navigators zu verschieben; hierfür kann ggf. auch alternativ ein Mausrad genutzt werden. Wie oben beschrieben kann der Navigator über die kleine Schaltfläche am unteren Rand ein- und ausgeblendet werden. </p>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_searchWindow"/>
+               <ref target="#top">nach oben ↑</ref>Suchbox und Suchfenster </head>
+            <p>Die Inhalte der Ausgabe lassen sich neben dem Navigator auch über das Suchfenster erschließen. Dieses kann entweder über die entsprechende Schaltfläche (s.o.) oder die Eingabe eines Suchbegriffs in die Suchbox in der Menüleiste aufgerufen werden. </p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/searchWindow.jpg"/>
+               </figure> 
+            </p>
+            <p>Die Inhalte der Ausgabe werden im Suchfenster üblicherweise gruppiert aufgelistet, wodurch gezielt durch Setzen bzw. Entfernen der Häkchen (✓) in der grauen Spalte rechts ausgewählt werden, welche Art von Objekten überhaupt angezeigt werden soll, um so etwa gezielt nur in den Anmerkungen suchen zu können. Im linken Bereich werden dagegen die verschiedenen Objekte aufgelistet. Die einzelnen Bereiche lassen sich mittels des Dreiecks am linken Rand des blauen Überschrifts-Balkens ein- und ausblenden. Dort findet sich weiterhin eine Anzahl der jeweiligen Objekte. Zu beachten ist, dass im Normalfall nur die ersten fünf Einträge einer Objektart (etwa Texte) angezeigt werden; existieren mehr als diese fünf Objekte, kann man die restlichen über eine Schaltfläche „Zeige alle <hi rend="italic">n</hi> Elemente“ unter der jeweiligen Liste ein- bzw. ausblenden. </p>
+            <p>Die Einträge des <hi rend="bold">Suchfensters</hi> lassen sich über einen einfachen Mausklick markieren, ein Doppelklick öffnet das entsprechende Objekt als eigenständiges Fenster. Mit einem Klick auf das graue „i“-Symbol am rechten Zeilenrand lassen sich weitere Informationen zum aktuellen Objekt einblenden. Das Suchfeld im oberen Bereich des Fensters unterstützt die gleiche Suchsyntax wie die Suchbox in der <hi rend="bold">Menüleiste</hi>. </p>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_searching"/>
+               <ref target="#top">nach oben ↑</ref>Suchsyntax </head>
+            <p>Die Suchbox in der <hi rend="bold">Werkzeugleiste</hi> und im oberen Bereich des <hi rend="bold">Suchfensters</hi> bietet einige fortgeschrittene Suchmöglichkeiten. Bei Eingabe eines einfachen Suchbegriffs werden sowohl Titel, Inhalt als auch Meta-Daten aller in der Edition vorhandenen Objekte nach diesem Begriff durchsucht. Es existieren allerdings einige Möglichkeiten, die Suche weiter zu spezifizieren. Durch Eingabe bestimmter <hi rend="bold">Schlüsselworte</hi> lassen sich gezielte Anfragen formulieren; dabei ist es wichtig, den Suchbegriff direkt (also ohne Leerzeichen) auf das Schlüsselwort folgen zu lassen. Bei mehreren Suchbegriffen zu einem Schlüsselwort können diese per Komma getrennt werden (wiederum ohne zwischenstehende Leerzeichen). Enthält ein Suchbegriff Leerzeichen (wie etwa ein Name), so kann dieser mit Anführungszeichen umschlossen und so als zusammengehörig erklärt werden. Andernfalls wird ein Leerzeichen immer als Trennung zweier Suchkriterien behandelt. Nachfolgend werden die wichtigsten Schlüsselworte mit möglichen Werten vorgestellt. </p>
+            <div type="div2">
+               <head>Schlüsselwort type: </head>
+               <p>Über die Eingabe des Schlüsselwortes <hi rend="bold">type</hi>: können die zu durchsuchenden Objektarten eingeschränkt werden. Mögliche Werte sind <hi rend="italic">text</hi>, <hi rend="italic">source</hi>, <hi rend="italic">letter</hi> und <hi rend="italic">annotation</hi>; z.B. werden nach Eingabe von "type:text,letter" nur Texte und Briefe angezeigt. Über ein "-" vor dem Suchwort kann diese Objektart explizit von der Suche ausgeschlossen werden ("type:-text" durchsucht <emph>nicht</emph> die Texte). </p>
+            </div>
+            <div type="div2">
+               <head>Schlüsselwort siglum: </head>
+               <p>Erlaubt die gezielte Suche nach Quell-Siglen; die Siglen der enthaltenen Quellen ersehen Sie üblicherweise aus den Quellenbeschreibungen. Die explizite Suche nach Quell-Namen ist momentan nicht möglich. </p>
+            </div>
+            <div type="div2">
+               <head>Schlüsselwort category: </head>
+               <p>Mit diesem Schlüsselwort können gezielt bestimmten Kategorien zugeordnete Einzelanmerkungen gesucht werden. Nachfolgend findet sich eine Auflistung aller in dieser Edition vorhandenen und damit suchbaren Kategorien. </p>
+               <table rend="frame" xml:id="Table1">
+                  <row>
+                            <cell>Kategorie:</cell>
+                     <cell>Beispiel:</cell>
+                  </row>
+                  <row>
+                            <cell>Notentext</cell>
+                     <cell>category:notentext</cell>
+                  </row>
+                  <row>
+                            <cell>Vortragsanweisung</cell>
+                     <cell>category:vortragsanweisung</cell>
+                  </row>
+                  <row>
+                            <cell>Choraltext</cell>
+                     <cell>category:choraltext</cell>
+                  </row>
+                  <row>
+                            <cell>Notentext ODER Vortragsanweisung</cell>
+                     <cell>category:notentext,vortragsanweisung</cell>
+                  </row>
+               </table>
+               <p>Beispiele der Filterung nach Anmerkungskategorien </p>
+            </div>
+            <div type="div2">
+               <head>Schlüsselwort priority: </head>
+               <p>Dieses Schlüsselwort erlaubt es, die Suche nach Anmerkungen auf solche einer bestimmten <hi rend="bold">Priorität</hi> einzuschränken. Die möglichen Suchbegriffe sind 1, 2 und 3 für die entsprechenden Prioritäten. </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_windows"/>
+               <ref target="#top">nach oben ↑</ref>Inhaltsfenster </head>
+            <p>Die verschiedenen Inhalte der Edition öffnen sich jeweils in eigenen Fenstern; diese lassen sich innerhalb des Programmes beinahe wie normale Fenster des Betriebssystems handhaben. Am oberen Rand befindet sich eine Titelleiste, in welcher der Name des angezeigten Objekts zu finden ist. Bei mehreren geöffneten Fenstern zeigt die Titelleiste an, welches Fenster gerade aktiv ist (und damit etwa auf bestimmte Tastenkombinationen reagiert): Das jeweils aktive Fenster hat eine blaue Titelleiste und steht im Vordergrund, während die nicht aktiven Fenster mit einer schwarzgrauen Titelleiste versehen sind. Per „Drag&amp;Drop“ in der Titelleiste lassen sich die Fenster in gewohnter Weise auf dem Desktop verschieben. </p>
+            <p>Am rechten Rand der Titelleiste findet sich in allen Fenstern ein 'X'; ein Klick hierauf schließt das entsprechende Fenster. Dies funktioniert ebenfalls über das Tastenkürzel 'Strg+W' (unter Windows) bzw. 'Cmd+W' (bei Verwendung von Mac OS X). Mit dem gestreiften Bereich am rechten unteren Fensterrand lässt sich die Größe des jeweiligen Fensters verändern, sodass der Benutzer die Möglichkeit hat, seinen Arbeitsplatz individuell einzurichten. </p>
+            <p>Neben weiteren inhaltsabhängigen Bedienelementen existieren einige fortgeschrittene Möglichkeiten zur Organisation von <hi rend="bold">Inhaltsfenstern</hi> (siehe unter: Fortgeschrittene Fensterorganisation). </p>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_textWindow"/>
+               <ref target="#top">nach oben ↑</ref>Textfenster </head>
+            <p>In der Edition vorhandene <hi rend="bold">Texte</hi> bzw. textbasierte Objekte wie <hi rend="bold">Briefe</hi> öffnen sich grundsätzlich in ähnlichen Fenstern. Die Darstellung der <hi rend="bold">Texte</hi> lässt sich vergleichen mit einer Internet-Seite. Auch hier gibt es Links, die auf andere Inhalte verweisen. Handelt es sich dabei um einen tatsächlichen Link, so erscheint dieser in farbiger Schrift (die Farbe kann abhängig von der jeweiligen Edition variieren) und ein Klick darauf öffnet das entsprechende Objekt im gleichen Fenster. Möchten Sie den Link in einem neuen Fenster öffnen, halten Sie während des Klicks die Strg- (Windows) bzw. Cmd-Taste (Mac OS X) gedrückt. Darüber hinaus gibt es Fußnoten, die ebenfalls als Link fungieren können. Unterhalb des jeweiligen Textes findet sich eine Auflistung aller Fußnoten in aus Druckausgaben gewohnter Form. Durch einen Klick auf die Fußnotenziffer im Fließtext bzw. am Seitenfuß kann man wechseln zwischen der Ansicht als Fußnote bzw. der betreffenden Stelle im Text. </p>
+            <p>Am rechten Rand der Textfenster findet sich eine grau-transparente Seitenleiste, die folgende Einstellungs- und Navigationsmöglichkeiten des Textfensters zur Verfügung stellt.</p>
+            <div type="div2">
+               <head>Eine Seite zurück / vor </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/leftRight.png"/>
+                  </figure> 
+               </p>
+               <p>Bei Textfenstern kann mit dieser Schaltfläche die Seitenhistorie zurückverfolgt werden, d.h. wenn Sie über Verweise mehrere Texte im gleichen Fenster geöffnet haben (s.o.), so können Sie mit dieser Funktion gezielt zu vorherigen Seiten zurückkehren. </p>
+            </div>
+            <div type="div2">
+               <head>Schriftgröße verringern / erhöhen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/plusMinus.png"/>
+                  </figure> 
+               </p>
+               <p>Über diese beiden Schaltflächen kann innerhalb eines Textfensters die Schriftgröße vergrößert bzw. verkleinert und damit den individuellen Vorlieben angepasst werden. Die eingestellte Größe bleibt in diesem Fenster erhalten, auch wenn Sie über Links zu anderen Inhalten wechseln. Neu geöffnete Fenster werden dagegen immer mit einer mittleren Schriftgröße angezeigt. </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_facsimileWindow"/>
+               <ref target="#top">nach oben ↑</ref>Notentextfenster </head>
+            <p>In der Titelleiste der Faksimilefenster wird außer dem Namen der Quelle auch die Pagina der aktuellen Seite angezeigt. Die Paginierung entspricht der vom Herausgeber für die Quelle verwendeten Zählung, sie beginnt daher nicht zwangsweise bei 1. </p>
+            <p>Am rechten Rand der Faksimilefenster findet sich eine grau-transparente Seitenleiste, die alle Funktionen bereitstellt, die nur für das jeweilige Fenster gültig sind. Über den doppelten Pfeil («) am oberen Rand dieser Leiste kann man sie (anders als bei Textfenstern) mitsamt ihren Inhalten maximieren, so dass diese gleichzeitig dargestellt werden. Im verkleinerten Normalzustand kann man die einzelnen Bereiche über einen Klick vergrößern, so dass sie als kleines Fenster neben der jeweiligen Schaltfläche geöffnet werden. </p>
+            <div type="div2">
+               <head>Faksimile-Ansicht und Quellenbeschreibung </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Ansicht.png"/>
+                  </figure> 
+               </p>
+               <p>Die beiden oberen Schaltflächen der Seitenleiste eines Faksimilefensters stellen eine Ausnahme dar: Mit ihnen kann der Benutzer zwischen der <hi rend="bold">Faksimile-Ansicht</hi> und der <hi rend="bold">Quellenbeschreibung</hi> wechseln. Während der Betrachtung der Quellenbeschreibung steht lediglich ein Wechsel zur Faksimile-Ansicht zur Verfügung. </p>
+            </div>
+            <div type="div2">
+               <head>Vorschau </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Vorschau.png"/>
+                  </figure> 
+               </p>
+               <p>Die nächste Schaltfläche der Seitenleiste eines Faksimiles öffnet ein Übersichtsfenster, auf welchem die aktuelle Seite nochmals verkleinert angezeigt wird. Ein roter Rahmen gibt hier an, welcher Teil der Seite momentan zu sehen ist. Dieser Rahmen lässt sich direkt in der Vorschau verschieben oder mittels Scrollfunktion eines Mausrades vergrößern bzw. verkleinern, wodurch auch die <hi rend="bold">Faksimile-Ansicht</hi> entsprechend verändert werden kann. Über den oberen Bereich ist es möglich, durch die verschiedenen Seiten der jeweiligen Quelle zu blättern (was jedoch auch ohne dieses Fenster mit den beiden Pfeiltasten 'links' und 'rechts' möglich ist). Man kann im unteren Bereich die Vergrößerung verändern (ebenfalls über Tastenkürzel '+' und '-', Anpassung der Quelle an die aktuelle Fenstergröße über '#') oder direkt eine Zoom-Stufe zwischen 10% und 200% eintragen. </p>
+            </div>
+            <div type="div2">
+               <head>Eine Seite zurück / vor </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/leftRight.png"/>
+                  </figure> 
+               </p>
+               <p>Mit diesen Schaltflächen ist es möglich, zwischen den Seiten eines Faksimilefensters hin- und herzublättern. Diese Funktion wird in ähnlicher Weise im Vorschaufenster bereitgestellt. </p>
+            </div>
+            <div type="div2">
+               <head>Ansicht verkleinern / vergrößern </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/plusMinus.png"/>
+                  </figure> 
+               </p>
+               <p>Diese Schaltflächen erlauben es, die Zoom-Stufe der Faksimile-Ansicht zu verändern und somit das Bild zu vergrößern oder zu verkleinern. Diese Funktion steht auch im Vorschaufenster zur Verfügung. </p>
+            </div>
+            <div type="div2">
+               <head>Ebenen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Ebenen.png"/>
+                  </figure> 
+               </p>
+               <p>Diese Schaltfläche der Seitenleiste erlaubt das Ein- und Ausblenden von vorhandenen <hi rend="bold">Ebenen</hi> des Notentextes. Hier findet sich unter anderem die <hi rend="bold">Taktzählung</hi> der angezeigten Quelle. Diese zeigt in der Mitte des jeweiligen Taktes die entsprechende Taktnummer an; bei kleiner Darstellung der Quelle werden diese Taktzahlen automatisch zu Gruppen zusammengefasst, um dennoch einen Überblick zu erhalten. Man kann die Einblendung der Taktzahlen auch per Tastatur ('B' für das aktuell aktive, 'Shift+B' für alle Notentextfenster) steuern. </p>
+               <p>Außerdem werden hier – sofern vorhanden – weitere <hi rend="bold">Ebenen</hi> mit variierendem Inhalt zu Verfügung gestellt, etwa um autographe Eintragungen in den Faksimiles, o.ä. optisch hervorzuheben. </p>
+            </div>
+            <div type="div2">
+               <head>Anmerkungen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Anmerkungen.png"/>
+                  </figure> 
+               </p>
+               <p>Diese Schaltfläche der Seitenleiste bietet die Möglichkeit, die <hi rend="bold">Anmerkungen</hi> des Kritischen Berichts einzublenden (ebenfalls möglich über 'A' für das aktive, 'Shift+A' für alle Fenster). Dabei hat der Benutzer die Möglichkeit, diese nach <hi rend="bold">Prioritäten</hi> und <hi rend="bold">Kategorien</hi> zu filtern (s.u.). In den Quellen werden jeweils nur die Anmerkungen eingeblendet, die sich tatsächlich auch mit dieser Quelle befassen. </p>
+               <p>Bleibt man mit dem Mauszeiger über einem Anmerkungssymbol stehen, so erscheint nach einigen Augenblicken ein Tooltip, der in der ersten Zeile die <hi rend="bold">Kategorien</hi> der <hi rend="bold">Anmerkung</hi> und in der zweiten Zeile die zugehörigen Quellen anzeigt. Darauf folgt der eigentliche Anmerkungstext (bei sehr langen Anmerkungen wird hier nur der Beginn dargestellt). Ein Klick auf das Symbol öffnet die Anmerkung in einem neuen Anmerkungsfenster. </p>
+            </div>
+            <div type="div2">
+               <head>Stimmen </head>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Stimmen.png"/>
+                  </figure> 
+               </p>
+               <p>Handelt es sich bei der geöffneten Quelle um Stimmenmaterial, enthält die Seitenleiste des Fensters eine zusätzliche Schaltfläche, mit welcher man bestimmen kann, welche Stimmen im Rahmen der <hi rend="bold">Konkordanz-Navigation</hi> berücksichtigt werden sollen. Öffnet man mit dieser einen bestimmen Takt, so wird eine virtuelle Partitur aus allen ausgewählten Stimmen zusammengefügt (sofern diese in der ausgewählten Konkordanz grundsätzlich berücksichtigt werden). </p>
+            </div>
+            <div type="div2">
+               <head>Anmerkungsfenster </head>
+               <p>In Anmerkungsfenstern werden die Lesarten bzw. Einzelanmerkungen des Kritischen Berichts dargestellt. Sie enthalten einen abgesetzten Kopfbereich mit Metainformationen zur jeweiligen Anmerkung. Im Anschluss an den Anmerkungstext, der auch auf andere <hi rend="bold">Anmerkungen</hi> verweisen kann, findet sich ein <hi rend="italic">Faksimile-Flow</hi> genannter Bereich, in dem alle der jeweiligen Anmerkung zugeordneten Faksimiles und Notentexte aufgelistet werden. Die Anzahl dieser Ausschnitte lässt sich in der Titelleiste ablesen; bei mehr als drei Faksimiles kann man über den blauen Balken am unteren Rand zu den weiter rechts liegenden Quellen scrollen. Jeweils unterhalb der Quellen finden sich kurze Informationen zur abgebildeten Stelle, ein Klick auf das Faksimile öffnet die entsprechende <hi rend="bold">Faksimile-Ansicht</hi> an der richtigen Stelle. Dies erlaubt es dem Nutzer einerseits, sich relativ schnell einen Überblick über die jeweilige Problematik zu verschaffen, andererseits kann er sofort die betroffenen Stellen im Faksimile betrachten. </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_windowOrga"/>
+               <ref target="#top">nach oben ↑</ref>Fortgeschrittene Fensterorganisation in der Statusleiste </head>
+            <p>Für den Umgang mit mehreren Inhaltsfenstern gibt es verschiedene Möglichkeiten, die es erlauben, den Überblick über die geöffneten Fenster zu behalten und diese individuell zu organisieren bzw. anzuordnen. </p>
+            <div type="div2">
+               <head>Wechsel zwischen geöffneten Fenstern </head>
+               <p>Zunächst kann man über das Tastenkürzel 'Strg+Tab' zwischen allen geöffneten Fenstern blättern; das jeweils aktivierte Fenster wird dabei mit einer blauen Titelleiste versehen und in der Vordergrund gerückt. </p>
+            </div>
+            <div type="div2">
+               <head>Nutzung mehrerer Desktops </head>
+               <p>Eine komplexe, aber auch komfortable Möglichkeit ist es, mehrere <hi rend="bold">Desktops</hi> gleichzeitig nutzen zu können. Über die Schaltflächen '<hi rend="bold">1</hi>' bis '<hi rend="bold">4</hi>' in der Statusleiste kann der Benutzer zwischen verschiedenen 'Schreibtischen' wechseln. Nachdem man erstmals den <hi rend="bold">Desktop</hi> gewechselt hat, findet sich rechts unten dauerhaft ein Hinweis, auf welchem <hi rend="bold">Desktop</hi> man aktuell arbeitet (siehe untenstehende Grafik). </p>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Desktops.png"/>
+                  </figure> 
+               </p>
+            </div>
+            <div type="div2">
+               <head>Automatische Anordnung der geöffneten Fenster </head>
+               <p>Weiterhin gibt es die Möglichkeit, über die kleinen Schaltflächen ganz links in der Statusleiste die verschiedenen auf diesem Desktop geöffneten Fenster wahlweise als <hi rend="bold">Kacheln</hi>, in <hi rend="bold">Zeilen</hi> oder als <hi rend="bold">Spalten</hi> darzustellen. Diese Funktionen lassen sich ebenfalls über die Tastenkürzel 'Strg+1', 'Strg+2' und 'Strg+3' aufrufen (unter Mac OS X jeweils als 'Cmd+1' etc.). </p>
+               <p>
+                        <figure>
+                            <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/Fensteranordnungen.png"/>
+                  </figure>
+                  <anchor xml:id="id_windowsOrders"/> 
+               </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_annotations"/>
+               <ref target="#top">nach oben ↑</ref>Anmerkungen </head>
+            <p>Die im Faksimile einblendbaren Hinweise auf <hi rend="bold">Anmerkungen</hi> des Kritischen Berichts enthalten bereits eine Vielzahl von Informationen, anhand derer der Benutzer gezielt nach für ihn relevanten Anmerkungen suchen kann. Die konkrete Nutzung der hier durch Edirom zur Verfügung gestellten Möglichkeiten ist abhängig von den Editionsrichtlinien der jeweils vorliegenden Edition, etwa hinsichtlich der tatsächlich genutzten Kategorien. Die folgenden Ausführungen sind damit nicht als vollständige Dokumentation, sondern als Einführung in die Grundkonzepte zu verstehen. </p>
+            <p>
+                    <figure>
+                        <graphic url="../../8c706713-0ec5-429f-9c34-34607acc5e57/pix/annotationOverview.jpg"/>
+               </figure> 
+            </p>
+            <div type="div2">
+               <head>Prioritäten </head>
+               <p>Je nach Vergrößerung werden im Faksimile kleine Kreise (bei kleiner Darstellung) oder etwas größere Rechtecke (bei näherer Betrachtung) angezeigt. Diese heben durch ihre farblich unterschiedliche Codierung bereits die Bedeutung der jeweiligen Anmerkung hervor. </p>
+               <list type="unordered">
+                  <item>Anmerkungen der <hi rend="italic">Priorität 1 </hi>thematisieren für die Edition zentrale Fragestellungen, die für jeden Leser der Edition interessant sind. Sie werden durch eine durchgehend rote Färbung symbolisiert. </item>
+                  <item>Unter <hi rend="italic">Priorität 2 </hi>finden sich Anmerkungen, welche wichtige Aspekte der Edition aufgreifen, die aber nicht von wesentlicher Bedeutung für die Edition als solche sind. Diese Anmerkungen werden mit einem rot-gelben Farbverlauf farblich codiert. </item>
+                  <item>Anmerkungen der <hi rend="italic">Priorität 3 </hi>schließlich befassen sich mit Beobachtungen des Editors, die in der Regel lediglich der Dokumentation der Quellen dienen, die aber keine nennenswerte Relevanz für die editorische Arbeit besitzen. Sie werden schließlich durch eine gelbliche Färbung repräsentiert. </item>
+               </list>
+            </div>
+            <div type="div2">
+               <head>Kategorien </head>
+               <p>Anmerkungen werden in der Regel einer oder mehreren inhaltlichen Kategorien zugeordnet. Jede Kategorie bringt ein eigenes Symbol mit, welches im Faksimile bzw. Notentext als rotes Kästchen dargestellt wird. Damit ist es möglich, bereits dort allein anhand des Symbols auf die Art des Inhalts einer Anmerkung zu schließen. Darüber hinaus ist es möglich, Anmerkungen gezielt anhand ihrer Kategoriezuordnung zu suchen (in Suchfenster bzw. -box) und zu filtern (in der Seitenleiste von Faksimilefenstern, s.o.). Damit erlauben Kategorien einen individuellen Zugang zum Kritischen Bericht. </p>
+               <p>Die tatsächlich zur Verfügung stehenden Anmerkungskategorien hängen von der jeweiligen Edition ab. Typische Beispiele sind etwa <hi rend="italic">Bogensetzung</hi>, <hi rend="italic">Vortragsbezeichnung</hi> oder <hi rend="italic">Artikulation</hi>. </p>
+               <table rend="frame" xml:id="Table2">
+                  <row>
+                            <cell>Kategorie:</cell>
+                     <cell>Symbol im Faksimile:</cell>
+                  </row>
+                  <row>
+                            <cell>Notentext</cell>
+                     <cell/>
+                  </row>
+                  <row>
+                            <cell>Vortragsanweisung</cell>
+                     <cell/>
+                  </row>
+                  <row>
+                            <cell>Choraltext</cell>
+                     <cell/>
+                  </row>
+                  <row>
+                            <cell>Kombination mehrerer Kategorien</cell>
+                     <cell/>
+                  </row>
+               </table>
+               <p>Beispiele für Symbole der Anmerkungskategorien </p>
+            </div>
+            <div type="div2">
+               <head>Filterung </head>
+               <p>Im Faksimile werden all jene Anmerkungen dargestellt, die wenigstens eine der ausgewählten Kategorien enthalten. </p>
+               <p>Dabei ist zu beachten, dass eine Filterung mit mehreren aktivierten Kategorien als Ergebnis die Vereinigungsmenge aller jeweils zumindest einer dieser Kategorien zuzuordnenden Anmerkungen liefert; es ist nicht möglich, gezielt nach Anmerkungen zu filtern, die tatsächlich allen angewählten Kategorien zugeordnet sind. Eine entsprechende Funktionalität wird lediglich durch eine entsprechende Suche ermöglicht (Suchbegriff: „<hi rend="italic">category:Kategorie1 Kategorie2</hi>“). </p>
+            </div>
+         </div>
+         <div type="div1">
+            <head>
+                    <anchor xml:id="id_shortCuts"/>
+               <ref target="#top">nach oben ↑</ref>Verzeichnis der Tastenkürzel </head>
+            <div type="div2">
+               <head>Fensterorganisation und Hilfe </head>
+               <table rend="frame" xml:id="Table3">
+                  <row>
+                            <cell>Windows</cell>
+                     <cell>Mac OS X</cell>
+                     <cell>Beschreibung</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+1</cell>
+                     <cell>Cmd+1</cell>
+                     <cell>Kachel-Anordnung der geöffneten Fenster</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+2</cell>
+                     <cell>Cmd+2</cell>
+                     <cell>Zeilen-Anordnung der geöffneten Fenster</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+3</cell>
+                     <cell>Cmd+3</cell>
+                     <cell>Spalten-Anordnung der geöffneten Fenster</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+Tab</cell>
+                     <cell>Strg+Tab</cell>
+                     <cell>zwischen den geöffneten Fenstern wechseln</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+W</cell>
+                     <cell>Cmd+W</cell>
+                     <cell>aktives Fenster schließen</cell>
+                  </row>
+                  <row>
+                            <cell>Strg+Leerz.</cell>
+                     <cell>Strg+Leerz.</cell>
+                     <cell>Setzt den Fokus auf die Suchbox in der Menüleiste</cell>
+                  </row>
+                  <row>
+                            <cell>Esc</cell>
+                     <cell>Esc</cell>
+                     <cell>Suchbegriff löschen</cell>
+                  </row>
+                  <row>
+                            <cell>F1</cell>
+                     <cell>F1</cell>
+                     <cell>Öffnet diese Hilfedatei</cell>
+                  </row>
+               </table>
+            </div>
+            <div type="div2">
+               <head>Notentextfenster </head>
+               <table rend="frame" xml:id="Table4">
+                  <row>
+                            <cell>Windows</cell>
+                     <cell>Mac OS X</cell>
+                     <cell>Beschreibung</cell>
+                  </row>
+                  <row>
+                            <cell>←</cell>
+                     <cell>←</cell>
+                     <cell>vorhergehende Seite anzeigen</cell>
+                  </row>
+                  <row>
+                            <cell>→</cell>
+                     <cell>→</cell>
+                     <cell>nachfolgende Seite anzeigen</cell>
+                  </row>
+                  <row>
+                            <cell>+</cell>
+                     <cell>+</cell>
+                     <cell>Ansicht vergrößern</cell>
+                  </row>
+                  <row>
+                            <cell>-</cell>
+                     <cell>-</cell>
+                     <cell>Ansicht verkleinern</cell>
+                  </row>
+                  <row>
+                            <cell>#</cell>
+                     <cell>#</cell>
+                     <cell>passt den Inhalt an die Größe des aktiven Fensters an</cell>
+                  </row>
+                  <row>
+                            <cell>A</cell>
+                     <cell>A</cell>
+                     <cell>zeigt im aktiven Faksimilefenster die Anmerkungshinweise an</cell>
+                  </row>
+                  <row>
+                            <cell>B</cell>
+                     <cell>B</cell>
+                     <cell>zeigt im aktiven Faksimilefenster die Taktzahlen an</cell>
+                  </row>
+                  <row>
+                            <cell>Shift+A</cell>
+                     <cell>Shift+A</cell>
+                     <cell>zeigt in allen geöffneten Faksimilefenstern die Anmerkungshinweise an</cell>
+                  </row>
+                  <row>
+                            <cell>Shift+B</cell>
+                     <cell>Shift+B</cell>
+                     <cell>zeigt in allen geöffneten Faksimilefenstern die Taktzahlen an</cell>
+                  </row>
+               </table>
+            </div>
+            <div type="div2">
+               <head>Textfenster </head>
+               <table rend="frame" xml:id="Table5">
+                  <row>
+                            <cell>Windows</cell>
+                     <cell>Mac OS X</cell>
+                     <cell>Beschreibung</cell>
+                  </row>
+                  <row>
+                            <cell>←</cell>
+                     <cell>←</cell>
+                     <cell>Zurück zur zuletzt (im selben Fenster) geöffneten Seite</cell>
+                  </row>
+                  <row>
+                            <cell>→</cell>
+                     <cell>→</cell>
+                     <cell>Vorwärts zu einer bereits (im selben Fenster) geöffneten Seite</cell>
+                  </row>
+                  <row>
+                            <cell>+</cell>
+                     <cell>+</cell>
+                     <cell>Schriftgröße erhöhen</cell>
+                  </row>
+                  <row>
+                            <cell>-</cell>
+                     <cell>-</cell>
+                     <cell>Schriftgröße verringern</cell>
+                  </row>
+               </table>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

@@ -304,3 +304,44 @@ div.measure span.measureInnerEmpty {
 
 /* the box-sizing stuff is there to overload the .x-border-box modified by extjs' theme */
 #ux-lightbox-bottomNav, #ux-lightbox-bottomNav *{    box-sizing:content-box;-moz-box-sizing:content-box;-ms-box-sizing:content-box;-webkit-box-sizing:content-box }
+
+/* HELP WINDOW */
+.helpWindow div.textViewContent {
+    padding: 10px 10px 10px 20px;
+}
+
+.helpWindow div.textViewContent ul {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.helpWindow div.textViewContent table {
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.helpWindow div.textViewContent table
+
+.helpWindow h1, .helpWindow h2, .helpWindow h3, .helpWindow h4 {
+    margin-left: -10px;
+} 
+
+.helpWindow h3 {
+    margin-top: 20px;
+}
+
+.helpWindow h4 {
+    margin-top: 10px;
+}
+
+.helpWindow p, .helpWindow dl {
+    margin-bottom: 10px;
+}
+
+.helpWindow .textViewContent tr.label td {
+    background-color: #e5e5e5;
+}
+
+.helpWindow .textViewContent img {
+    max-width: 100%;
+}

@@ -79,6 +79,7 @@
         <entry key="view.window.AnnotationView_NextAnnotation" value="Next annotation"/>
         <entry key="view.window.AnnotationView_OpenAll" value="Open all sources"/>
         <entry key="view.window.AnnotationView_CloseAll" value="Close all sources"/>
+        <entry key="view.window.HelpWindow_Title" value="Help"/>
         <entry key="view.window.TobBar_View" value="View"/>
         
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Concordances"/>
@@ -90,6 +91,12 @@
         <entry key="view.window.source.SourceView_layersMenu" value="Layers…"/>
         <entry key="view.window.source.SourceView_showMeasures" value="Show/Hide measures"/>
         <entry key="view.window.source.SourceView_fitView" value="Fit facsimile"/>
+        <entry key="view.window.source.SourceView_pageBasedView" value="Page based view"/>
+        <entry key="view.window.source.SourceView_pageInput" value="Page input"/>
+        <entry key="view.window.source.SourceView_measureBasedView" value="Measure based view"/>
+        <entry key="view.window.source.SourceView_measureBasedView_movementSelectorBox" value="Select movement"/>
+        <entry key="view.window.source.SourceView_measureBasedView_measureSpinner" value="Measure Spinner"/>
+        <entry key="view.window.source.SourceView_selectVoices" value="Select parts"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
         <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.source.SourceView_gotoMenu" value="Go to…"/>
@@ -109,6 +116,42 @@
         <entry key="view.window.text.TextView_viewMenu" value="Display"/>
         
         
+        <!-- naming gui elements -->
+        <entry key="view.desktop.Desktop" value="Desktop"/>
+        <entry key="view.desktop.TopBar" value="Tool Bar"/>
+        <entry key="view.desktop.TopBar_searchField" value="Search Field"/>
+        <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
+        <entry key="view.desktop.TaskBar" value="Task Bar"/>
+        <entry key="view.desktop.TaskBar_btnDesktop" value="Task Bar"/>
+        <entry key="view.window.TopBar" value="Window Tool Bar"/>
+        <entry key="view.window.BottomBar" value="Window Task Bar"/>
+        <entry key="view.navigator.Navigator" value="Navigator"/>
+        <entry key="global_appName" value="Edirom Online"/>
+        <entry key="clickAndHoldDragging" value="dragging"/>
+        <entry key="drag-and-drop" value="drag-and-drop"/>
+        <entry key="comboBox" value="combo box"/>
+        <entry key="views" value="Views"/>
+        <entry key="window.minimize" value="minimize"/>
+        <entry key="window.maximize" value="maximize"/>
+        <entry key="view.window.source.SourceView_zoomSlider" value="Zoom Slider"/>
+        <entry key="view.window.source.SourceView_pageNaviation" value="Page navigation"/>
+        <entry key="view.window.source.SourceView_measureBasedCombo" value="Movement combo box"/>
+        <entry key="view.window.source.SourceView_measureBasedRange" value="Measure range"/>
+        
+        <entry key="view.window.xmlView_decreaseFontSize.label" value="A-"/>
+        <entry key="view.window.xmlView_decreaseFontSize.title" value="Decrease font size"/>
+        <entry key="view.window.xmlView_increaseFontSize.label" value="A+"/>
+        <entry key="view.window.xmlView_increaseFontSize.title" value="Increase font size"/>
+        <entry key="view.window.xmlView_showLineNumbers.label" value="line#"/>
+        <entry key="view.window.xmlView_showLineNumbers.title" value="Show line numbers"/>
+      
+        <entry key="view.window.pref_generalSettings" value="General"/>
+        <entry key="view.window.pref_programSettings" value="Program settings"/>
+        <entry key="view.window.pref_concNavSettings" value="Concordance Navigator settings"/>
+        <entry key="view.window.pref_windowSettings" value="Window settings"/>
+        <entry key="view.window.pref_langSettings" value="Language settings"/>
+        <entry key="Number field with left and right arrows" value="Number field with left and right arrows"/>
+
         <!-- DATA -->
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>

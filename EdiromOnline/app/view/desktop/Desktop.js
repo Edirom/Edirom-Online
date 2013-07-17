@@ -34,6 +34,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         'de.edirom.online.view.navigator.Navigator',
 
         'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator',
+        'de.edirom.online.view.window.HelpWindow',
         //TODO: SearchWindow
         /*'de.edirom.online.view.window.search.SearchWindow',*/
 
@@ -145,6 +146,28 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
             nav.hide();
     },
 
+    openHelp: function() {
+
+        var me = this;
+        var help = null;
+
+        me.getActiveWindowsSet().each(function(win) {
+            if(Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow')
+                help = win;
+        });
+
+        if(help == null) {
+            help = new de.edirom.online.view.window.HelpWindow();
+            me.addWindow(help);
+            help.show();
+
+        }else if(help != me.getActiveWindow())
+            help.show();
+
+        else
+            help.hide();
+    },
+
     //TODO: SearchWindow
     /*openSearchWindow: function() {
 
@@ -177,6 +200,8 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         this.windows['desktop' + this.activeDesktop].each(function(win) {
 
             if(Ext.getClassName(win) == 'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator')
+                ;
+            else if(Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow')
                 ;
                 //TODO: SearchWindow
                 /*else if(Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow')

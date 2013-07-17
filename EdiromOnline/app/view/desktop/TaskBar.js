@@ -36,7 +36,12 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
     initComponent: function () {
         var me = this;
 
-        me.addEvents('switchDesktop', 'sortGrid', 'sortHorizontally', 'sortVertically', 'openConcordanceNavigator', 'openSearchWindow');
+        me.addEvents('switchDesktop',
+                    'sortGrid', 
+                    'sortHorizontally', 
+                    'sortVertically', 
+                    'openConcordanceNavigator', 
+                    'openSearchWindow');
 
         me.windowSort = new Ext.toolbar.Toolbar(me.getWindowSortConfig());
         me.globalTools = new Ext.toolbar.Toolbar(me.getGlobalToolsConfig());
@@ -53,7 +58,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         me.items = [
             me.windowSort,
             me.globalTools,
-            me.desktopSwitch,
+            //me.desktopSwitch,
             me.quickStart,
             {
                 xtype: 'splitter', html: '&#160;',
@@ -84,7 +89,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
     getWindowSortConfig: function () {
         var me = this;
         return {
-            width: 80,
+            width: 90,
             items: [
                 {
                     xtype: 'button',
@@ -207,15 +212,15 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         me.helpButton = Ext.create('Ext.button.Button', {
             id: 'helpBtn',
             cls: 'taskSquareButton help',
-            tooltip: { text: getLangString('view.desktop.TaskBar_help'), align: 'bl-tl' }//,
-            //handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
+            tooltip: { text: getLangString('view.desktop.TaskBar_help'), align: 'bl-tl' },
+            handler: Ext.bind(me.fireEvent, me, ['openHelp'], false)
         });
 
         return {
-            width: 64,
+            width: 32,//64,
             items: [
-                me.helpButton,
-                me.prefButton
+                me.helpButton/*,
+                me.prefButton*/
             ]
         };
     },
@@ -246,6 +251,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         var me = this;
 
         var isConcWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator');
+        var isHelpWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow');
         //TODO: SearchWindow
         /*var isSearchWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow');*/
 
@@ -272,6 +278,13 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             win.on('hide', Ext.bind(me.updateConcordanceButton, me, [false], true));
         }
 
+        if(isHelpWin) {
+            Ext.apply(config, {hidden: true});
+            win.animateTarget = me.helpButton.el;
+            win.on('show', Ext.bind(me.updateHelpButton, me, [true], true));
+            win.on('hide', Ext.bind(me.updateHelpButton, me, [false], true));
+        }
+
         //TODO: SearchWindow
         /*if(isSearchWin) {
             Ext.apply(config, {hidden: true});
@@ -288,6 +301,11 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
     updateConcordanceButton: function(win, args, visible) {
         var me = this;
         me.concordanceButton.toggle(visible);
+    },
+
+    updateHelpButton: function(win, args, visible) {
+        var me = this;
+        me.helpButton.toggle(visible);
     },
 
     //TODO: SearchWindow

@@ -1,0 +1,822 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--<?xml-model href="tei_xinclude.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>-->
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xmlns:xi="xinclude" xml:lang="en">
+   <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title>
+                    <term type="ediromGui" key="global_appName"/> Help</title>
+            <author xml:id="bwb">
+               <persName>Benjamin W. Bohl</persName>
+               <affiliation>DFG-PRojekt "Digitale Musikedition" (Edirom)
+                  <address>
+                            <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
+                     <addrLine>Gartenstraße 20</addrLine>
+                     <addrLine>D-32756 Detmold</addrLine>
+                  </address>
+               </affiliation>
+            </author>
+            <author xml:id="dr">
+               <persName>Daniel Röwenstrunk</persName>
+               <affiliation>Freischütz Digital
+                  <address>
+                            <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
+                     <addrLine>Gartenstraße 20</addrLine>
+                     <addrLine>D-32756 Detmold</addrLine>
+                  </address>
+               </affiliation>
+            </author>
+         </titleStmt>
+         <editionStmt>
+                <edition>
+                    <date/>
+            </edition>
+         </editionStmt>
+         <publicationStmt>
+                <p>unpublished</p>
+         </publicationStmt>
+         <sourceDesc>
+                <p>Written in Open Office by Edirom Project. Converted to TEI P5 using oxgarage, see
+                  <ptr target="#change_1"/>
+            </p>
+         </sourceDesc>
+      </fileDesc>
+      <revisionDesc>
+         <!-- TODO: remove trailing whitespaces -->
+         <!-- TODO: concept for GUI description and further information -->
+         <!-- TODO: window vs view -->
+         <!-- TODO: how to deal with tei:hi elements? -->
+         <!-- adapt to lang file keywords -->
+         <!-- TODO insert tei:head into tei:figure elements -->
+         <change when="2013-07-17" who="#dr">Reworked the file for using in Edirom Online</change>
+         <change when="2013-07-11" who="#bwb" xml:id="change_6">reworked preferences description;
+            made preferences description a comment due to implementation status</change>
+         <change when="2013-07-03" who="#bwb">updated occurrences of "Edirom Online" to <term type="ediromGui" key="global_appName"/>
+         </change>
+         <change from="2013-04-02" to="2013-04-03" who="#bwb" xml:id="change_4">reworked text from
+            "toolbar" onwards; created separate chapters for <ptr target="#toolbar_top"/> and <ptr target="#toolbar_bottom"/>; added description for the buttons in toolbar_bottom;
+            reworked chapter on windows; inserted passages on views;</change>
+         <change when="2013-03-25" who="#bwb">Moved tei:head/@xml:id to parent tei:div using
+            headId2parentDivId.xquery; removed leading line breaks in tei:head elements; rephrased
+            "installation" and inserted tei:note[@type='editorial'] on insertion of installation
+            information; changed old corresponding parts on installation into xml comments; wrapped
+            'Installation' and 'Application Startup' with 'Preparation' div; removed 'id_' from all
+            @xml:id; rephrased 'Application Startup'; comletely reworkeg 'GUI' chapter; inserted
+            TODO comments;</change>
+         <change when="2013-03-25" who="#bwb">Updated Ids and Anchors using
+            scripts/anchorId2parentId.xquery; deleted empty lines; deleted back-to-top links;
+            changed tei:graphic/@src to point to original pix of Edirom Viewer Help;created first
+            help_en.pdf using standard oXygen tranformation scenario for TEI P5 to PDF;</change>
+         <change when="2013-03-25" who="#bwb">Updated document name to "Edirom Online Help";
+            inserted me as author with xml:id for change references; changed pubStmt to unpublished;
+            removed leading '../../0119a239-cd85-4b1a-9a15-abf5ffea2131/' from every
+            tei:graphic/@url; introduce4d tei:body/tei:head;</change>
+         <change when="2013-03-25" who="#bwb" xml:id="change_1">Converted from HTML version to TEI
+            P5 using oxgarage web sercice</change>
+      </revisionDesc>
+   </teiHeader>
+   <text>
+        <body>
+            <head>Help (User Manual) </head>
+         <p>This document provides a general introduction to using <emph>
+                    <term type="ediromGui" key="global_appName"/>
+                </emph>. It describes the basic functions of the software.
+            Please note that not all of the options described here are necessarily available in
+            every edition using <emph>
+                    <term type="ediromGui" key="global_appName"/>
+                </emph>. This is
+            due to the fact that contents have to be prepared acordingly and projects using <term type="ediromGui" key="global_appName"/> have their own edition guidelines and
+            concepts. Furthermore, some versions may contain more options than mentioned in this
+            document due to edition-specific enhancements.</p>
+         <div>
+                <divGen type="toc"/>
+         </div>
+         <div type="div1" xml:id="gui">
+            <head>User interface</head>
+            <p>The user interface of <emph>
+                        <term type="ediromGui" key="global_appName"/>
+                    </emph> web
+               application is divided into several sections. At top and bottom borders of the window
+               you find <ptr target="#toolbar_top"/> and <ptr target="#toolbar_bottom"/> that
+               provide access to all major Edirom functions. The space in between of these toolbars
+               is called <ptr target="#workspace"/>. At the top right corner of this <term type="ediromGui" key="view.desktop.Desktop"/> is the so called <ptr target="#navigator"/>.</p>
+            <figure>
+                    <graphic url="images/fullscreen_en.png"/>
+               <head>A sample screenshot of a Edirom Online. Showing <term type="ediromGui" key="view.desktop.TopBar"/>, <term type="ediromGui" key="view.desktop.TaskBar"/>, <term type="ediromGui" key="view.desktop.Desktop"/>, and <term type="ediromGui" key="view.navigator.Navigator"/>.</head>
+            </figure>
+            <div type="div2" xml:id="toolbar_top">
+               <head>
+                        <term type="ediromGui" key="view.desktop.TopBar"/>
+                    </head>
+               <figure>
+                        <graphic url="images/menubar_en.png"/>
+                  <!--<note type="editorial">Prepare closeup screenshot of top toolbar.</note>
+                  <p>The top toolbar of <term type="subject">Edirom Online</term>, showing the <term type="web">combo box</term> for work selection on the left end and the <term type="web">search box</term> on the right end.</p>-->
+               </figure>
+               <p>
+                        <gloss>At the very left of the <term type="ediromGui" key="view.desktop.TopBar"/>
+                     is the <ptr target="#view.desktop.TopBar_homeBtn"/>, next to it is a <term type="web">combo box</term> for <ptr target="#selectingWorks"/> of the same
+                     edition; at the very right is the <ptr target="#view.desktop.TopBar_searchField"/> for locating contents.</gloss>
+               </p>
+               <div type="div3" change="#change_4" xml:id="view.desktop.TopBar_homeBtn">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>
+                        </head>
+                  <figure>
+                            <graphic url="images/go-home.png"/>
+                  </figure>
+                  <p>Starting on the left, the first element of the toolbar is a button that brings
+                     you back to the startup dialog.</p>
+               </div>
+               <div type="div3" xml:id="selectingWorks">
+                  <head>Selecting works</head>
+                  <p>The next element is a drop-down box listing all the works contained in the
+                     corresponding edition. You can switch between works any time, provided more
+                     than one work exists. If you select a different work, the context of the <ptr target="#view.desktop.TopBar_searchField"/> and the contents of the
+                     navigator will be updated accordingly so that only content related to the
+                     edition of the newly selected work is displayed.</p>
+                  <p>Any program windows that remain open with content from the last displayed work
+                     may stay open, depending on your settings (see
+                     below)<!-- TODO check implementation -->. This allows you to compare components
+                     of different works (primarily sources) directly with one another. Please note,
+                     however, that the navigation options within the program (<ptr target="#view.desktop.TaskBar_concordanceNav"/>) affect only the content of
+                     the currently selected work, while (open) content of other works remains
+                     unaffected.</p>
+                  <!-- TODO deprecated <p>The buttons located to the right of the work title control global functions affecting all open content windows on the desktop.</p>-->
+               </div>
+               <div type="div3" xml:id="view.desktop.TopBar_searchField">
+                  <!--  TODO: implement  -->
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TopBar_searchField"/>
+                        </head>
+                  <figure>
+                            <graphic url="images/menuSearchwindow.png"/>
+                     <head>The <term type="ediromGui" key="view.desktop.TopBar_searchField"/>.</head>
+                  </figure>
+                  <!--<p>This button opens a search window, which, like the navigator, offers access to the edition content of the current work. By entering a query in the <term type="ediromGui" key="view.desktop.TopBar_searchField"/> located on the menu bar, you can directly operate the search window, whereas this button just opens it. For the exact functions of the search window, see the corresponding chapter.</p>-->
+               </div>
+            </div>
+            <div type="div2" xml:id="navigator_short">
+               <head>
+                        <term type="ediromGui" key="view.navigator.Navigator"/>
+                    </head>
+               <p>At the top right corner of the <term type="ediromGui" key="view.desktop.Desktop"/>, right below the <term type="ediromGui" key="view.desktop.TopBar_searchField"/>, is the so called <term type="ediromGui" key="view.navigator.Navigator"/>. The
+                  navigator contains an edition-specific list of content objects potentially
+                  organized in categories. Clicking on an item opens the corresonding item in a new
+                  window in the workspace.</p>
+               <p>Although always fixed to the top right corner of the workspace, you can resize the
+                     <term type="ediromGui" key="view.navigator.Navigator"/> deliberately and also
+                  reduce it to a narrow bar below the <ptr target="#view.desktop.TopBar_searchField"/>, by <term type="ediromGui" key="drag-and-drop"/> on its left or bottom
+                  edges.</p>
+            </div>
+            <div type="div2" xml:id="workspace">
+               <head>
+                        <term type="ediromGui" key="view.desktop.Desktop"/>
+                    </head>
+               <p>The <term type="ediromGui" key="view.desktop.Desktop"/> is the space between <term type="ediromGui" key="view.desktop.TopBar"/> and <term type="ediromGui" key="view.desktop.TaskBar"/>. This is where all internal application windows
+                  are opened and arranged in order to show contents of an edition or grant access to
+                  further application functions. None of the windows can be dragged out of this
+                  area. For further details on content windows see <ptr target="#windows"/>
+               </p>
+            </div>
+            <div type="div2" xml:id="toolbar_bottom">
+               <head>
+                        <term type="ediromGui" key="view.desktop.TaskBar"/>
+                    </head>
+               <p>At the bottom edge of the web application you find the <term type="ediromGui" key="view.desktop.TaskBar"/>. It grants access to content-related options on
+                  the left and meta-functions on the right.</p>
+               <div type="div3" change="#change_4">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_grid"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/arrangeButtons_grid.png"/>
+                  </figure>
+                  <p>This buttons lets you arrange all open windows in tiles of a grid.</p>
+               </div>
+               <div type="div2" change="#change_4">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_horizontal"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/arrangeButtons_horizontal.png"/>
+                  </figure>
+                  <p>This buttons lets you arrange all open windows in horizontal rows.</p>
+               </div>
+               <div type="div2" change="#change_4">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/arrangeButtons_vertical.png"/>
+                  </figure>
+                  <p>This buttons lets you arrange all open windows as tiles.</p>
+               </div>
+               <div type="div2">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/measureNumbers.png"/>
+                  </figure>
+                  <p>The <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/> button
+                     lets you show or hide measure numbers in all open sources of the current work.
+                     <!-- TODO not implemented -->
+                  </p>
+               </div>
+               <div type="div2">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_annotations"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/annotations.png"/>
+                  </figure>
+                  <p>This button lets you show or hide annotations from the Critical Report in all
+                     open facsimile and text views of the current work. Annotation filter settings,
+                     however, can only be configured in the <term type="ediromGui" key="view.window.TopBar"/> of each individual window (see <ptr target="#view.window.source.SourceView_annotationsMenu"/>).</p>
+               </div>
+               <div type="div2" xml:id="view.desktop.TaskBar_concordanceNav">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/>
+                        </head>
+                  <figure>
+                            <graphic url="images/concordanceNavigator.png"/>
+                  </figure>
+                  <p>This button opens or closes the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/> window.
+                     This tool lets you simultaneously open sections of the contents that the editor
+                     marked as associated.</p>
+                  <p>If a work has more than one concordance a drop down menu will elt you choose
+                     between them. A common use is a measure concordance which lets you display the
+                     content of a particular measure in all facsimiles and scores of the current
+                     work open on the <ptr target="#desktop"/>. If the current work has more than
+                     one movement, a drop-down menu lets you select the desired one. Using a slide
+                     control, you may select the measure to be displayed when you click the button
+                     labeled <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>.</p>
+                  <p>Another example would be a concordance of scores and the corresponing verses of
+                     a libretto, in order to simultaneoulsy display the corresponding musical
+                     setting alongside a particular verseline. The presence of certain concordances
+                     depends on the particular edition.</p>
+                  <figure>
+                            <graphic url="images/concNav_en.png"/>
+                     <head/>
+                  </figure>
+                  <figure>
+                            <graphic url="images/concNav2_en.png"/>
+                     <head/>
+                  </figure>
+                  <p>Below the slide control is a large button labeled <q>
+                                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>
+                     </q>. Click on this button to open the selected measure in all open sources on
+                     the current desktop. You can also navigate within sources using the two arrows
+                     to the left and right of the <q>
+                                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>
+                     </q> button, which allow you to browse forward or backward. Depending on your
+                     settings (see <ptr target="#openPreferences"/>), only windows which are already
+                     opened are affected by this. If this particular measure exists in other sources
+                     currently not displayed, a small button on the lower right will appear
+                     <!-- TODO check implementation -->. This buttons lets you open all relevant
+                     windows for the selected measure position and will rearrange all open
+                     windows.</p>
+               </div>
+               <div type="div2">
+                  <head>
+                            <term type="ediromGui" key="view.desktop.TaskBar_help"/>
+                  </head>
+                  <figure>
+                            <graphic url="images/help.png"/>
+                  </figure>
+                  <p>You can use this button to display or move a window with content from this help
+                     file to the foreground. This window is (in contrast to content related windows)
+                     a stand-alone window and can only be opened once. Clicking the button several
+                     times will toggle show/hide for the help window, respectively bringing it to
+                     the foreground if hidden behind other windows.</p>
+               </div>
+            </div>
+         </div>
+         <div type="div1" xml:id="navigator">
+            <head>Navigator</head>
+            <!-- merge #navigator and #navigator_short -->
+            <p>The navigator offers quick access to the most important contents of the edition,
+               which can be opened in new windows on the current <ptr target="#desktop"/> by
+               clicking them. The other contents of the edition can be accessed via links from the
+               objects listed here or the application's search window (see below).</p>
+            <figure>
+                    <graphic url="images/navigator_en.png"/>
+            </figure>
+            <p>In case the navigator holds very many objects, a scroll bar located along the right
+               edge of the window lets you scroll through the contents of the navigator. You can
+               also scroll using the wheel of your mouse, if applicable.</p>
+         </div>
+         <!-- =========================================== -->
+         <div type="div1" xml:id="windows">
+            <head>Content windows</head>
+            <p xml:id="w10892aab3b1b1c19b3">The various content of the edition opens in separate
+               windows. These windows can be manipulated within the program in virtually the same
+               way as normal operating system windows. Along the top edge of the window is a title
+               bar that contains the name of the displayed item.</p>
+            <p change="#change_4">Below the title bar each window contains a <term type="ediromGui" key="view.window.TopBar"/>. At the very left of this is a <term type="ediromGui" key="comboBox"/> for switching between <term type="ediromGui" key="views"/>; <term type="ediromGui" key="views"/> offer differnent perspectives on the content
+               currently open in a window (e. g. <!-- bwb not yet in help <ptr target="#view_metadata"/>, -->
+               <ptr target="#view_text"/>, <ptr target="#view_XML"/>, <ptr target="#view_facs"/>,
+               etc.) At the bottom edge each window might contain a view specific <term type="ediromGui" key="view.window.BottomBar"/> with tools for manipulating the
+               respective object. The availability of <term type="EdiromGui" key="views"/> is
+               dynamic and thus depends on the object being displayed. For example:</p>
+            <list type="gloss">
+               <label>
+                        <term type="ediromGui" key="view.window.TobBar_View"/>
+               </label>
+               <item>This is standard for all windows containing multiple views and allows for
+                  switching between views.<!-- move to window -->
+               </item>
+            </list>
+            <p>The object concept of <emph>
+                        <term type="ediromGui" key="global_appName"/>
+                    </emph> has
+               changed in comparison to the former <term>Edirom Viewer</term>, switching to a much
+               more flexible and dynamic concept of objects. Thus windows no longer are of a certain
+               type but dynamically provide views to an object depending on its contents. For a
+               translation of the former window types to the new view concept see the below
+               table.</p>
+            <table>
+                    <row role="label">
+                  <cell>Type of content</cell>
+                  <cell>Available views</cell>
+                  <cell>Comparable Edirom Viewer object</cell>
+               </row>
+               <row>
+                        <cell>XML resource</cell>
+                  <cell>XML view</cell>
+                  <cell>-</cell>
+               </row>
+               <row>
+                        <cell>Editorial text in TEI</cell>
+                  <cell>Metadata view, Text view, XML view</cell>
+                  <cell>Text</cell>
+               </row>
+               <row>
+                        <cell>MEI file</cell>
+                  <cell>Metadata view, XML view</cell>
+                  <cell>-</cell>
+               </row>
+               <row>
+                        <cell>MEI file with associated facsimile images</cell>
+                  <cell>Metadata view, Facsimile view, XML view</cell>
+                  <cell>Score window</cell>
+               </row>
+               <row>
+                        <cell>MEI work file</cell>
+                  <cell>Metadata view, Annotations view, XML view</cell>
+                  <cell>-</cell>
+               </row>
+            </table>
+            <p>Each open window is represented as button in the <term type="ediromGui" key="view.desktop.TaskBar"/> holding the window title, a feature that might be
+               known from certain computer operating systems. Clicking on this entry toggles <rs key="window_minimize">show/hide window function</rs>.</p>
+            <p><!-- not implemented -->When multiple windows are open, the entry in the <term type="ediromGui" key="view.desktop.TaskBar"/> indicates which window is currently
+               active (and will thus react to certain key combinations)<!-- not implemented yet -->:
+               The corresponding entry of the currently active window is highlighted in contrast to
+               those of non-active windows<!-- TODO check implementation -->. Windows can be
+               arranged on the desktop as desired by <term type="EdiromGui" key="drag-and-drop"/> on
+               the title bars.</p>
+            <p xml:id="w10892aab3b1b1c19b5">At the right end of the title bar are three buttons:</p>
+            <list>
+                    <label>
+                        <graphic url="windowButtons.png"/><!-- TODO insert offsets -->
+               </label>
+               <item>click on this symbol to <term type="EdiromGui" key="window.minimize"/> the
+                  windowe to the <term type="ediromGui" key="view.desktop.TaskBar"/>.</item>
+               <label>
+                        <graphic url="windowButtons.png"/>
+               </label>
+               <item>click on this symbol to <term type="EdiromGui" key="window.maximize"/> the
+                  window on the current desktop.</item>
+               <label>
+                        <graphic url="windowButtons.png"/>
+               </label>
+               <item>click on it to close the corresponding
+                  window.<!-- bwb not implemented : This can also be done via the keyboard shortcut 'Ctrl+W' (in Windows) or 'Cmd+W' (in Mac OS X)--><!-- TODO not implemented -->.</item>
+            </list>
+            <p>Windows can be resized by <term type="ediromGui" key="clickAndHoldDragging"/> any
+               edge or corner of the window frame. This allows the user to customize his or her own
+               workspace.</p>
+            <p xml:id="w10892aab3b1b1c19b7">In addition to other content-dependent control elements,
+               some <emph>advanced window organization</emph> options are also available (already
+               described above, see <ptr target="#toolbar_bottom"/>).</p>
+            <!-- TEXT-VIEW ============================================================================== -->
+            <div type="div2" xml:id="view_text" change="#change_4">
+               <head>
+                        <term type="ediromGui" key="controller.window.Window_textView"/>
+                    </head>
+               <p xml:id="w10892aab3b1b1c21b3">The entry <term type="ediromGui" key="controller.window.Window_textView"/> is available on a window's <term>
+                            <term type="ediromGui" key="view.window.TobBar_View"/> Menu</term> if the
+                  content item of the window is a text-based item, e. g. a TEI file. The <hi rend="bold">text</hi> appears in a form similar to that of a website and may
+                  include links to other content (depending on the edition, appearance of actual
+                  links may vary). Clicking on these links opens the corresponding item in the same
+                  window. To open the link in a new window, hold down the Control key
+                  (Windows)<!-- not implemented yet --> or the Command key (Mac OS X) while
+                  clicking.<!-- In addition, there are footnotes that also act as links. Below the corresponding text, you'll see a list of footnotes, similar to those found in printed works. To switch between viewing the footnote and the body of the text, click on the footnote number in the text or in the page footer.--><!-- too content specific? -->
+               </p>
+               <p xml:id="w10892aab3b1b1c21b5">Text view specific controls will appear in the <term type="ediromGui" key="view.window.TopBar"/><!-- bwb nothing implemented  and <term type="ediromGui" key="view.window.BottomBar"/>-->.
+                  These include:</p>
+               <list type="gloss">
+                  <head>
+                            <term type="ediromGui" key="view.window.TopBar"/>
+                  </head>
+                  <label>
+                            <term type="ediromGui" key="view.window.text.TextView_gotoMenu"/>
+                  </label>
+                  <item>This <term type="ediromGui" key="comboBox"/> allows to skip to a certain
+                     chapter of a text.</item>
+               </list>
+            </div>
+            <div type="div2" xml:id="view_facs">
+               <head>
+                        <term type="ediromGui" key="controller.window.Window_sourceView"/>
+                    </head>
+               <p>The <term type="ediromGui" key="controller.window.Window_sourceView"/> shows
+                  source images and provides controls for navigating in a source.</p>
+               <p>The <term type="ediromGui" key="view.window.TopBar"/> of the facsimile and score
+                  window contains the following additional control menus:</p>
+               <list type="gloss">
+                  <label>
+                            <term type="ediromGui" key="view.window.source.SourceView_viewMenu"/>
+                  </label>
+                  <item>allows configuration of displayed layers, or superimposed measure numbers
+                     (for a detailed description see <ptr target="#view.window.source.SourceView_viewMenu"/>).</item>
+                  <label>
+                            <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/>
+                  </label>
+                  <item>allows configuration of superimposed annotation symbols (for a detailed
+                     description see <ptr target="#view.window.source.SourceView_annotationsMenu"/>).</item>
+                  <label>
+                            <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/>
+                  </label>
+                  <item>allows jumping to certain measures or movements of the current source (for a
+                     detailed description see <ptr target="#view.window.source.SourceView_gotoMenu"/>).</item>
+               </list>
+               <p>The <term type="ediromGui" key="view.window.BottomBar"/> contains controls for
+                  filing through the pages of a source, being:</p>
+               <list type="gloss">
+                  <label>
+                            <graphic url="pageView.png"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_pageBasedView"/>
+                     <lb/>switches to a page based navigation of the source.</item>
+                  <label>
+                            <graphic url="barView.png"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>
+                     <lb/>switches to a page based navigation of the source.</item>
+                  <label>
+                            <graphic url="slider-bg.png"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_zoomSlider"/>
+                     <lb/>allows for zooming in and out of the page currently displayes</item>
+                  <label>
+                            <graphic url="zoom-fit.png"/>
+                  </label>
+                  <item>Fits thecurrent page into the window</item>
+                  <label>
+                            <graphic url="go-previous.png"/>
+                     <graphic url="go-next.png"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_arrowControl"/>
+                     <lb/>The number indicated by the number field either shows the currente page
+                     number (<term type="ediromGui" key="view.window.source.SourceView_pageBasedView"/>), or measure number
+                        (<term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>). Switching to another page or measure is possible either by clicking on the
+                     respective arrow heads for leafing through, or entering a number in the number
+                     field, in which case a filtered list of possible numbers will appear. The
+                     possible numbers correspond to those used by the editor for the source and
+                     therefore do not always begin with 1 and might include any alphanumeric
+                     character.</item>
+               </list>
+               <p>Some additional controls appear when switching to the <term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>:</p>
+               <list type="gloss">
+                  <label>
+                            <graphic url="text-background.png"/>
+                     <graphic url="trigger.gif"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>
+                     <lb/>Allows for selecting the movement from which measures shall be
+                     displayed.</item>
+                  <label>
+                            <graphic url="selectVoices.png"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_selectVoices"/>
+                     <lb/>Allows for selecting the parts to be displayed. This control is only
+                     available if the current source has parts marked.</item>
+                  <label>
+                            <graphic url="spinner-small.gif"/>
+                  </label>
+                  <item>
+                            <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>
+                     <lb/>This input field allows entering the number of measures being
+                     displayed.</item>
+               </list>
+               <p>Zoom level can be increased or decreased using the scroll function of the mouse
+                  wheel. At the bottom of the window, you can browse the different pages of the
+                  source (this can also be done outside of this window using the left and right
+                  arrow keys). You can adjust the zoom at the bottom of the window (or via the
+                  keyboard shortcut '+' and '-', or '#' to adjust the source to fit the current
+                  window size <!-- not implemented -->).</p>
+               <!--               <p>These buttons let you browse forward or backward through the pages of a facsimile window.</p>-->
+
+               <div type="div3" xml:id="view.window.source.SourceView_viewMenu">
+                  <head>
+                            <term type="ediromGui" key="view.window.source.SourceView_viewMenu"/>
+                        </head>
+                  <p>
+                            <term type="ediromGui" key="view.window.text.TextView_viewMenu"/> menu grants
+                     access to the following functions:</p>
+                  <list type="gloss">
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_showMeasures"/>
+                     </label>
+                     <item>This option lets you control the superimposition of measure numbers for
+                        the displayed source. <hi rend="bold">Measure numbers</hi> appear in the
+                        center of the corresponding measure.
+                        <!--If the source is displayed at a low zoom level, measure numbers are automatically grouped to allow tracking. -->Measure
+                        numbers can also be shown or hidden via the keyboard ('B' for the currently
+                        active window, 'Shift+B' for all facsimile
+                        windows)<!--not implemented-->.</item>
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_fitView"/>
+                     </label>
+                     <item>This entry triggers a command to adjust zoom-level of the source to fit
+                        the current window size.</item>
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_layersMenu"/>
+                     </label>
+                     <item>This menu entry lets you show or hide existing <hi rend="bold">layers</hi> in the score, if there are any provided by the edition.
+                        These could include, for example, colored markings to visually highlight
+                        autograph additions in facsimiles or similar features.</item>
+                  </list>
+
+               </div>
+               <div type="div3" xml:id="view.window.source.SourceView_annotationsMenu">
+                  <head>
+                            <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/>
+                        </head>
+                  <p>The <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/> menu provides access to following functions:</p>
+                  <list type="gloss">
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_ShowAnnotations"/>
+                     </label>
+                     <item>This option lets you display Critical Report <hi rend="bold">annotations</hi> as annotation symbols superimposed on the facsimies
+                        (this can also be done by pressing 'A' for the active window or 'Shift+A'
+                        for all windows <!-- not implemented yet -->). The user can also filter
+                        annotations by <hi rend="bold">priority</hi> and <hi rend="bold">category</hi> (see below). In each source, only annotations relating to
+                        that source are shown. If you mouse over an annotation symbol, a tooltip
+                        appears showing additional information concerning the <hi rend="bold">annotation</hi>. Click on the symbol to open the annotation in a
+                        separate window.</item>
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_prioMenu"/>
+                     </label>
+                     <item>This sub-menu shows all priorities (if any) of annotations contained in
+                        the current source and lets you activate/de-activate their display in the
+                        facsimile view.</item>
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_categoriesMenu"/>
+                     </label>
+                     <item>This sub-menu shows all categories (if any) of annotations contained in
+                        the current source and lets you activate/de-activate their display in the
+                        facsimile view.</item>
+                  </list>
+               </div>
+               <div type="div3" xml:id="view.window.source.SourceView_gotoMenu">
+                  <head>
+                            <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/>
+                        </head>
+                  <p>The <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/> menu
+                     provides access to following functions:</p>
+                  <list type="gloss">
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_gotoMeasure"/>
+                     </label>
+                     <item>This option opens a dialog allowing you to enter movement and measure
+                        number you want to be displayed.</item>
+                     <label>
+                                <term type="ediromGui" key="view.window.source.SourceView_gotoMovement"/>
+                     </label>
+                     <item>This sub-menu shows all priorities movements contained in the current
+                        source. Selecting an item will load the respective first page.</item>
+                  </list>
+               </div>
+            </div>
+
+            <!-- XML-VIEW =============================================== -->
+            <div type="div2" xml:id="view_XML">
+               <head>
+                        <term type="ediromGui" key="controller.window.Window_xmlView"/>
+                    </head>
+               <p>Selecting <term type="ediromGui" key="controller.window.Window_xmlView"/> from <term>
+                            <term type="ediromGui" key="view.window.TobBar_View"/> Menu</term> shows the
+                  XML data of the current item. A couple of controls are added to the corresponding
+                     <term type="ediromGui" key="view.window.TopBar"/>, being:</p>
+               <list type="gloss">
+                  <label>
+                            <term type="ediromGui" key="view.window.xmlView_decreaseFontSize.label"/>
+                  </label>
+                  <item>This is the <term>
+                                <term type="ediromGui" key="view.window.xmlView_decreaseFontSize.title"/>
+                        button</term> that lets you decrease font size in the <term type="ediromGui" key="controller.window.Window_xmlView"/>
+                  </item>
+                  <label>
+                            <term type="ediromGui" key="view.window.xmlView_increaseFontSize.label"/>
+                  </label>
+                  <item>This is the <term>
+                                <term type="ediromGui" key="view.window.xmlView_increaseFontSize.title"/>
+                        button</term> that lets you increase font size in the <term type="ediromGui" key="controller.window.Window_xmlView"/>
+                  </item>
+                  <label>
+                            <term type="ediromGui" key="view.window.xmlView_showLineNumbers.label"/>
+                  </label>
+                  <item>The <term>
+                                <term type="ediromGui" key="view.window.xmlView_showLineNumbers.title"/>
+                        button</term> lets you show and hide the line numbers on the left hand side
+                     of the <term type="ediromGui" key="controller.window.Window_xmlView"/>.</item>
+               </list>
+            </div>
+
+            <!-- Annotations-VIEW =============================================== -->
+            <div type="div2" xml:id="view_Annot">
+               <head>
+                        <term type="ediromGui" key="controller.window.Window_annotationView"/>
+                    </head>
+               <p>Selecting <term type="ediromGui" key="controller.window.Window_annotationView"/>
+                  from <term>
+                            <term type="ediromGui" key="view.window.TobBar_View"/> Menu</term> shows the
+                  annotations of the current item. A couple of controls are added to the
+                  corresponding <term type="ediromGui" key="view.window.TopBar"/>, being:</p>
+               <!--<list type="gloss">
+               <label><term type="ediromGui" key="view.window.xmlView_decreaseFontSize.label"/></label>
+               <item>This is the <term><term type="ediromGui" key="view.window.xmlView_decreaseFontSize.title"/> button</term> that lets you decrease font size in the <term type="ediromGui" key="controller.window.Window_xmlView"/></item>
+               <label><term type="ediromGui" key="view.window.xmlView_increaseFontSize.label"/></label>
+               <item>This is the <term><term type="ediromGui" key="view.window.xmlView_increaseFontSize.title"/> button</term> that lets you increase font size in the <term type="ediromGui" key="controller.window.Window_xmlView"/></item>
+               <label><term type="ediromGui" key="view.window.xmlView_showLineNumbers.label"/></label>
+               <item>The <term><term type="ediromGui" key="view.window.xmlView_showLineNumbers.title"/> button</term> lets you show and hide the line numbers on the left hand side of the <term type="ediromGui" key="controller.window.Window_xmlView"/>.</item>
+             </list>-->
+            </div>
+
+
+            <div type="div1">
+               <head>Parts</head>
+               <figure>
+                        <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/Stimmen.png"/>
+               </figure>
+               <p>If the open source contains part information, the sidebar of the window will
+                  contain an additional button that allows you to define which parts to include for
+                     <hi rend="bold">Concordance Navigation</hi> purposes. If you open a particular
+                  measure via the Concordance Navigation, a virtual score is created containing all
+                  the selected parts (provided that they are being adressed in the selected
+                  concordance).</p>
+            </div>
+            <div type="div1">
+               <head>Annotation windows</head>
+               <p xml:id="w10892aab3b1b1c25b3"> Annotation windows show readings or individual
+                  annotations from the Critical Report. These windows feature a separate header
+                  containing meta-information for the corresponding annotation. Below the annotation
+                  text, which may include links to other <hi rend="bold">annotations</hi>, is a
+                  so-called <hi rend="italic">facsimile flow</hi> section listing all the facsimiles
+                  and scores associated with that particular annotation. The number of excerpts is
+                  shown in the title bar. If there are more than three, use the blue bar at the
+                  bottom to scroll to sources listed further to the right. Under each source, you'll
+                  find a brief description of the section of the facsimile shown in the excerpt.
+                  Click on the excerpt to open the corresponding <hi rend="bold">facsimile view</hi>
+                  at the correct place. This gives you a relatively quick overview of the problem
+                  and allows you to view the affected sections of the facsimile immediately.</p>
+            </div>
+
+         </div>
+         <div type="div1" xml:id="windowOrga">
+            <head>Advanced window organization in the status bar</head>
+            <p xml:id="w10892aab3b1b1c27b3"> There are several options for handling multiple content
+               windows to allow the user to maintain an overview of all open windows and organize or
+               arrange them as desired.</p>
+            <div type="div2">
+               <head>Switching between open windows</head>
+               <p xml:id="w10892aab3b1b1c27b5b3"> First of all, you can switch between all open
+                  windows via the keyboard shortcut 'Ctrl+Tab' (on both, Windows and Mac platforms);
+                  the title bar of the activated window turns blue and the window is moved to the
+                  foreground.</p>
+            </div>
+            <div type="div2">
+               <head>Using multiple desktops</head>
+               <p>A complex but convenient option offered is the ability to use multiple <hi rend="bold">desktops</hi> at the same time. To switch between different
+                  desktops, click the buttons labeled '<hi rend="bold">1</hi>' to '<hi rend="bold">4</hi>' in the status bar. Once you've switched desktops, the <hi rend="bold">desktop</hi> on which you are currently working is permanently indicated in
+                  the bottom left corner of the window (see graphic below).</p>
+               <figure>
+                        <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/Desktops.png"/>
+               </figure>
+            </div>
+            <div type="div2">
+               <head>Automatically arranging open windows</head>
+               <p>You also have the option of arranging the various open windows on the desktop in
+                     <hi rend="bold">tiled</hi> format, <hi rend="bold">horizontally</hi> or <hi rend="bold">vertically</hi> by using the small buttons located at the left end
+                  of the status bar. These functions can also be accessed via the keyboard shortcuts
+                  'Ctrl+1', 'Ctrl+2' and 'Ctrl+3' (in Mac OS X, 'Cmd+1', etc.).</p>
+               <figure xml:id="windowsOrders">
+                  <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/Fensteranordnungen.png"/>
+               </figure>
+            </div>
+         </div>
+         <div type="div1" xml:id="annotations">
+            <head>Annotations</head>
+            <p xml:id="w10892aab3b1b1c29b3"> References to Critical Report <hi rend="bold">annotations</hi> displayable in the facsimile already contain a great deal of
+               information that can be used to search for specific annotations of relevance to the
+               user. The specific use of these options in Edirom depends on the applicable edition
+               guidelines, for example in terms of the categories actually used. Therefore, the
+               following descriptions should not be considered complete documentation but simply an
+               introduction to the basic concepts.</p>
+            <figure>
+                    <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/annotationOverview.jpg"/>
+            </figure>
+            <div type="div2">
+               <head>Priorities</head>
+               <p xml:id="w10892aab3b1b1c29b5b3"> Depending on the zoom level, priorities are shown
+                  as either small circles (at low zoom levels) or somewhat larger rectangles (for
+                  more close-up views). These symbols are color-coded to indicate the meaning of
+                  each annotation.</p>
+               <list type="unordered">
+                  <item>
+                            <hi rend="italic">Priority 1</hi> annotations deal with key edition-related
+                     issues of potential interest to all readers of the edition and are denoted by a
+                     completely red symbol. </item>
+                  <item>
+                            <hi rend="italic">Priority 2</hi> annotations deal with important aspects of
+                     the edition which are, however, not of major importance to the edition as such.
+                     These annotations are indicated by progressively red-to-yellow symbols. </item>
+                  <item>Finally, <hi rend="italic">Priority 3</hi> annotations include observations
+                     from the editor, which typically serve only to document sources and are of no
+                     real relevance to the editorial work. These are represented by yellow symbols.
+                  </item>
+               </list>
+            </div>
+            <div type="div2">
+               <head>Categories</head>
+               <p>Annotations are typically assigned to one or more content categories. Each
+                  category has its own symbol, which is shown in the facsimile or score as a red
+                  box. It is thus possible to determine the type of annotation content by its
+                  symbol. Annotations can also be searched for (in the search window or <term type="ediromGui" key="view.desktop.TopBar_searchField"/>) and filtered (in the
+                  sidebar of facsimile windows; see above) based on their category assignment.
+                  Categories thus allow individualized access to the Critical Report.</p>
+               <p>The annotation categories that are actually available depend on the edition.
+                  Typical examples include <hi rend="italic">slur placement</hi>, <hi rend="italic">expressive marking</hi> or <hi rend="italic">articulation</hi>.</p>
+               <table rend="frame" xml:id="Table2">
+                  <row role="label">
+                            <cell>Category:</cell>
+                     <cell>Symbol in the facsimile:</cell>
+                  </row>
+                  <row>
+                            <cell>Score</cell>
+                     <cell>
+                                <figure>
+                                    <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/annotNotes.png"/>
+                        </figure>
+                     </cell>
+                  </row>
+                  <row>
+                            <cell>Expressive marking</cell>
+                     <cell>
+                                <figure>
+                                    <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/annotVortrag.png"/>
+                        </figure>
+                     </cell>
+                  </row>
+                  <row>
+                            <cell>Choral text</cell>
+                     <cell>
+                                <figure>
+                                    <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/annotText.png"/>
+                        </figure>
+                     </cell>
+                  </row>
+                  <row>
+                            <cell>Combination of multiple categories</cell>
+                     <cell>
+                                <figure>
+                                    <graphic url="Vorlagen/Edirom 2011-04/HTML/pix/annotAll.png"/>
+                        </figure>
+                     </cell>
+                  </row>
+               </table>
+               <p>Examples of symbols for annotation categories</p>
+            </div>
+            <div type="div2">
+               <head>Filtering</head>
+               <p xml:id="w10892aab3b1b1c29b9b3"> All annotations belonging to at least one of the
+                  selected categories are shown in the facsimile.</p>
+               <p xml:id="w10892aab3b1b1c29b9b5"> Please note that filtering by multiple categories
+                  will yield all annotations assigned to at least one of these categories; filtering
+                  for annotations assigned to all selected categories is not possible. Such a
+                  function can only be replicated by conducting a corresponding search (search term:
+                     “<hi rend="italic">category:Category1 Category2</hi>”).</p>
+            </div>
+         </div>
+      </body>
+   </text>
+</TEI>

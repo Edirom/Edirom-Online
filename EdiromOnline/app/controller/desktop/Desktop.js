@@ -41,6 +41,7 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
         this.desktop.taskbar.addListener('switchDesktop', this.switchDesktop, this);
 
         this.desktop.taskbar.addListener('openConcordanceNavigator', this.openConcordanceNavigator, this);
+        this.desktop.taskbar.addListener('openHelp', this.openHelp, this);
         //TODO: Suchfenster einbauen
         /*this.desktop.taskbar.addListener('openSearchWindow', this.openSearchWindow, this);*/
 
@@ -60,6 +61,11 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
     openConcordanceNavigator: function() {
         var me = this;
         me.desktop.openConcordanceNavigator();
+    },
+
+    openHelp: function() {
+        var me = this;
+        me.desktop.openHelp();
     },
 
     //TODO: searchWindow
