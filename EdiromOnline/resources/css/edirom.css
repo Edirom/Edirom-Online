@@ -56,6 +56,30 @@
     box-shadow: 0 0 2px #000000 inset;
 }
 
+.ediromWindow.voiceSelection .x-grid-row-selected .x-grid-cell {
+    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent !important;
+}
+
+.ediromWindow.voiceSelection .x-column-header-over, 
+.ediromWindow.voiceSelection .x-column-header-sort-ASC, 
+.ediromWindow.voiceSelection .x-column-header-sort-DESC {
+    background-image: -moz-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -webkit-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -ie-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -opera-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: linear-gradient(bottom,#e5e5e5,#cccccc);
+    border-left-color: transparent;
+    border-right-color: transparent;
+}
+
+.ediromWindow.voiceSelection .x-grid-header-ct,
+.ediromWindow.voiceSelection .x-column-header {
+    background-image: -moz-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -webkit-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -ie-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: -opera-linear-gradient(bottom,#e5e5e5,#cccccc);
+    background-image: linear-gradient(bottom,#e5e5e5,#cccccc);
+}
 
 div.measure span.measureInnerEmpty {
     display:none;
