@@ -57,7 +57,7 @@ declare function work:toJSON($uri as xs:string) as xs:string {
 :)
 declare function work:isWork($uri as xs:string) as xs:boolean {
     
-    exists(doc($uri)//mei:mei) and exists(doc($uri)//mei:work)
+    exists(doc($uri)//mei:mei) and exists(doc($uri)//mei:work) and not(doc($uri)//mei:source)
 };
 
 (:~
