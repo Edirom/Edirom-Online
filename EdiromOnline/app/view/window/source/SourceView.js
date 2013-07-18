@@ -44,8 +44,10 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     activeView: 'pageBasedView',
 
     measuresVisible: false,
+    measuresVisibilitySetLocaly: false,
     annotationsVisible: false,
-
+    annotationsVisibilitySetLocaly: false,
+    
     initComponent: function () {
 
         var me = this;
@@ -107,6 +109,28 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
             me.window.requestForActiveView(me);
             me.showPage(me.window.internalId);
         }
+    },
+
+    checkGlobalMeasureVisibility: function(visible) {
+        
+        var me = this;
+        
+        if(me.measuresVisibilitySetLocaly) return;
+        
+        me.measuresVisible = visible;
+        me.toggleMeasureVisibility.setChecked(visible, true);
+        me.fireEvent('measureVisibilityChange', me, visible);
+    },
+    
+    checkGlobalAnnotationVisibility: function(visible) {
+        
+        var me = this;
+        
+        if(me.annotationsVisibilitySetLocaly) return;
+        
+        me.annotationsVisible = visible;
+        me.toggleAnnotationVisibility.setChecked(visible, true);
+        me.fireEvent('annotationsVisibilityChange', me, visible);
     },
 
     //TODO: in mixin verpacken, wenn möglich
@@ -272,19 +296,20 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         var me = this;
 
+        me.toggleMeasureVisibility = Ext.create('Ext.menu.CheckItem', {
+            id: me.id + '_showMeasures',
+            checked: me.measuresVisible,
+            text: getLangString('view.window.source.SourceView_showMeasures'),
+            checkHandler: Ext.bind(me.toggleMeasures, me, [], true)
+        });
+
         me.viewMenu =  Ext.create('Ext.button.Button', {
             text: getLangString('view.window.source.SourceView_viewMenu'),
             indent: false,
             cls: 'menuButton',
             menu : {
                 items: [
-                    {
-                        id: me.id + '_showMeasures',
-                        xtype: 'menucheckitem',
-                        checked: me.measuresVisible,
-                        text: getLangString('view.window.source.SourceView_showMeasures'),
-                        checkHandler: Ext.bind(me.toggleMeasures, me, [], true)
-                    },
+                    me.toggleMeasureVisibility,
                     {
                         id: me.id + '_fitFacsimile',
                         text: getLangString('view.window.source.SourceView_fitView'),
@@ -295,19 +320,20 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         });
         me.window.getTopbar().addViewSpecificItem(me.viewMenu, me.id);
 
+        me.toggleAnnotationVisibility = Ext.create('Ext.menu.CheckItem', {
+            id: me.id + '_showAnnotations',
+            checked: me.annotationsVisible,
+            text: getLangString('view.window.source.SourceView_ShowAnnotations'),
+            checkHandler: Ext.bind(me.toggleAnnotations, me, [], true)
+        });
+
         me.annotMenu =  Ext.create('Ext.button.Button', {
             text: getLangString('view.window.source.SourceView_annotationsMenu'),
             indent: false,
             cls: 'menuButton',
             menu : {
                 items: [
-                    {
-                        id: me.id + '_showAnnotations',
-                        xtype: 'menucheckitem',
-                        checked: me.annotationsVisible,
-                        text: getLangString('view.window.source.SourceView_ShowAnnotations'),
-                        checkHandler: Ext.bind(me.toggleAnnotations, me, [], true)
-                    }
+                    me.toggleAnnotationVisibility
                 ]
             }
         });
@@ -401,6 +427,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     toggleMeasures: function(item, state) {
         var me = this;
         me.measuresVisible = state;
+        me.measuresVisibilitySetLocaly = true;
 
         this.fireEvent('measureVisibilityChange', me, state);
     },
@@ -450,6 +477,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     toggleAnnotations: function(item, state) {
         var me = this;
         me.annotationsVisible = state;
+        me.annotationsVisibilitySetLocaly = true;
 
         this.fireEvent('annotationsVisibilityChange', me, state);
     },

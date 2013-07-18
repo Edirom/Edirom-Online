@@ -42,6 +42,7 @@ Ext.application({
         'LanguageController',
         'LinkController',
         'PreferenceController',
+        'ToolsController',
         'desktop.Desktop',
         'desktop.TaskBar',
         'desktop.TopBar',

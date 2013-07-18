@@ -56,6 +56,10 @@
     box-shadow: 0 0 2px #000000 inset;
 }
 
+.taskSquareButton.x-pressed {
+    box-shadow: 0 0 2px #000000 inset;
+}
+
 .ediromWindow.voiceSelection .x-grid-row-selected .x-grid-cell {
     background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent !important;
 }

@@ -119,15 +119,17 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         me.measureNumberButton = Ext.create('Ext.button.Button', {
             id: 'measureNumberBtn',
             cls: 'taskSquareButton measureNumbers',
-            tooltip: { text: getLangString('view.desktop.TaskBar_measureNumbers'), align: 'bl-tl' }//,
-            //handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
+            enableToggle: true,
+            tooltip: { text: getLangString('view.desktop.TaskBar_measureNumbers'), align: 'bl-tl' },
+            action: 'toggleMeasureVisibility'
         });
 
         me.annotationsButton = Ext.create('Ext.button.Button', {
             id: 'annotationsBtn',
             cls: 'taskSquareButton annotations',
-            tooltip: { text: getLangString('view.desktop.TaskBar_annotations'), align: 'bl-tl' }//,
-            //handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
+            enableToggle: true,
+            tooltip: { text: getLangString('view.desktop.TaskBar_annotations'), align: 'bl-tl' },
+            action: 'toggleAnnotationVisibility'
         });
 
         return {
@@ -138,7 +140,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             ]
         };
     },
-
+    
     getDesktopSwitchConfig: function () {
         var me = this, ret = {
             width: 30,

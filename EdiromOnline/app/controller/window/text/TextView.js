@@ -29,7 +29,9 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
     init: function() {
         this.control({
             'textView': {
-               afterlayout : this.onAfterLayout
+               afterlayout : this.onAfterLayout,
+               beforedestroy: this.onBeforeDestroy,
+               single: true
             }
         });
     },
@@ -43,6 +45,9 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
 
         view.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
         view.on('gotoChapter', me.onGotoChapter, me);
+
+        ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
+        view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
         var uri = view.uri;
 
@@ -148,5 +153,11 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
 
     onGotoChapter: function(view, chapter) {
         view.scrollToId(chapter);
+    },
+    
+    onBeforeDestroy: function(view) {
+        var me = this;
+        
+        ToolsController.removeAnnotationVisibilityListener(view.id);
     }
 });

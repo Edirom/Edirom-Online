@@ -34,6 +34,7 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
 
     annotationsVisible: false,
     annotationsLoaded: false,
+    annotationsVisibilitySetLocaly: false,
 
     initComponent: function () {
 
@@ -76,9 +77,27 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
 */
     },
 
+    checkGlobalAnnotationVisibility: function(visible) {
+        
+        var me = this;
+        
+        if(me.annotationsVisibilitySetLocaly) return;
+        
+        me.annotationsVisible = visible;
+        if(typeof me.toggleAnnotationVisibility != 'undefined')
+            me.toggleAnnotationVisibility.setChecked(visible, true);
+        
+        //TODO: Controller mit einbeziehen
+        if(visible && me.annotationsLoaded)
+            me.showAnnotations();
+        else
+            this.fireEvent('annotationsVisibilityChange', me, visible);
+    },
+
     toggleAnnotations: function(item, state) {
         var me = this;
         me.annotationsVisible = state;
+        me.annotationsVisibilitySetLocaly = true;
 
         //TODO: Controller mit einbeziehen
         if(state && me.annotationsLoaded)
@@ -200,18 +219,19 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
 
         if(priorities.getTotalCount() == 0 && categories.getTotalCount() == 0) return;
 
+        me.toggleAnnotationVisibility = Ext.create('Ext.menu.CheckItem', {
+            id: me.id + '_showAnnotations',
+            checked: me.annotationsVisible,
+            text: getLangString('view.window.text.TextView_showAnnotations'),
+            checkHandler: Ext.bind(me.toggleAnnotations, me, [], true)
+        });
+
         me.annotMenu =  Ext.create('Ext.button.Button', {
             text: getLangString('view.window.text.TextView_annotMenu'),
             indent: false,
             menu : {
                 items: [
-                    {
-                        id: me.id + '_showAnnotations',
-                        xtype: 'menucheckitem',
-                        checked: me.annotationsVisible,
-                        text: getLangString('view.window.text.TextView_showAnnotations'),
-                        checkHandler: Ext.bind(me.toggleAnnotations, me, [], true)
-                    }
+                    me.toggleAnnotationVisibility
                 ]
             }
         });

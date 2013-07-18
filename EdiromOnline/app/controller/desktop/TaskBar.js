@@ -27,26 +27,32 @@ Ext.define('de.edirom.online.controller.desktop.TaskBar', {
     ],
 
     init: function() {
+        var me = this;
+        
+        me.taskbars = new Array();
 
-        this.taskbars = new Array();
-
-        this.control({
-            'taskbar': {
-                render: this.onTaskbarRendered,
-                switchDesktop: {
-                    fn: this.onSwitchDesktop,
-                    scope: this
-                }
+        me.control({
+            'taskbar button[action=toggleMeasureVisibility]': {
+                click: me.onMeasureVisibilityChanged
+            },
+            'taskbar button[action=toggleAnnotationVisibility]': {
+                click: me.onAnnotationVisibilityChanged
             }
         });
     },
-
-    onTaskbarRendered: function(taskbar) {
-        this.taskbars.push(taskbar);
+    
+    onMeasureVisibilityChanged: function(button, event) {
+        var me = this;
+        
+        var tools = me.application.getController('ToolsController');
+        tools.setGlobalMeasureVisibility(button.pressed);
     },
-
-    onSwitchDesktop: function(num) {
-        this.application.switchDesktop(num);
+    
+    onAnnotationVisibilityChanged: function(button, event) {
+        var me = this;
+        
+        var tools = me.application.getController('ToolsController');
+        tools.setGlobalAnnotationVisibility(button.pressed);
     }
 });
 

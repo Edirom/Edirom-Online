@@ -30,6 +30,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         this.control({
             'sourceView': {
                 afterlayout: this.onSourceViewRendered,
+                beforedestroy: this.onSourceViewDestroyed,
                 single: true
             }
         });
@@ -48,6 +49,13 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
         view.on('gotoMeasure', me.onGotoMeasure, me);
         view.on('gotoZone', me.onGotoZone, me);
+
+        ToolsController.addMeasureVisibilityListener(view.id, Ext.bind(view.checkGlobalMeasureVisibility, view));
+        view.checkGlobalMeasureVisibility(ToolsController.areMeasuresVisible());
+
+        ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
+        view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
+
 
         Ext.Ajax.request({
             url: 'data/xql/getMovements.xql',
@@ -148,6 +156,9 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
 
         if(visible) {
 
+            // If there is now active page, we don't need to load measures
+            if(typeof view.getActivePage() == 'undefined') return;
+            
             var pageId = view.getActivePage().get('id');
             me.fetchMeasures(view.uri, pageId, Ext.bind(me.measuresOnPageLoaded, me, [view, pageId], true));
 
@@ -189,6 +200,10 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var me = this;
 
         if(visible) {
+            
+            // If there is now active page, we don't need to load annotations
+            if(typeof view.getActivePage() == 'undefined') return;
+            
             var pageId = view.getActivePage().get('id');
 
             Ext.Ajax.request({
@@ -344,5 +359,12 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
                 view.showZone(result);
             }
         }
+    },
+    
+    onSourceViewDestroyed: function(view) {
+        var me = this;
+        
+        ToolsController.removeMeasureVisibilityListener(view.id);
+        ToolsController.removeAnnotationVisibilityListener(view.id);
     }
 });
