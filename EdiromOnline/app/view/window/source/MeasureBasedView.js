@@ -414,7 +414,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         var me = this;
         me.measure = measure;
         
-        if(typeof measureCount != 'undefined') me.owner.intervalSpinner.setValue(measureCount);
+        if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
     },
