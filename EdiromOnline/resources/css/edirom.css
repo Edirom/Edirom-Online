@@ -349,3 +349,33 @@ div.measure span.measureInnerEmpty {
 .helpWindow .textViewContent img {
     max-width: 100%;
 }
+
+/* SEARCH WINDOW */
+
+.searchWindow .searchResultDoc {
+    margin: 5px;
+}
+
+.searchWindow .searchResultDoc .doc {
+    margin-top: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.searchWindow .searchResultDoc:first-child .doc {
+    margin-top: 0;
+}
+
+.searchWindow .searchResultDoc p {
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.searchWindow .hit {
+    color: #1354B5;
+    cursor: pointer;
+}
+
+span.searchResult {
+    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+}

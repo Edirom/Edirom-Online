@@ -54,7 +54,7 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
     
     bodyPadding: '12',
 
-    cls: 'ediromConcordanceNavigator',
+    cls: 'ediromConcordanceNavigatorWindow ediromWindow',
 
     defaults: {
         border:false

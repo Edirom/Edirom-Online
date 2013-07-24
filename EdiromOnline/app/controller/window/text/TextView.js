@@ -56,7 +56,9 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
             method: 'GET',
             params: {
                 uri: uri,
-                idPrefix: view.id + '_'
+                idPrefix: view.id + '_',
+                term: view.window.term,
+                path: view.window.path
             },
             success: function(response){
                 this.contentLoaded(view, response.responseText);

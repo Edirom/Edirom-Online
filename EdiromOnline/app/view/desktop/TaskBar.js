@@ -170,19 +170,10 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
         });
 
-        //TODO: SearchWindow
-        /*me.searchWindowButton = Ext.create('Ext.button.Button', {
-            text: 'S',
-            id: 'taskbarSearchWindowBtn',
-            tooltip: { text: getLangString('view.desktop.TaskBar_searchWin'), align: 'bl-tl' },
-            handler: Ext.bind(me.fireEvent, me, ['openSearchWindow'], false)
-        });*/
-
         return {
             width: 32,
             items: [
-                me.concordanceButton/*,
-                me.searchWindowButton*/ //TODO: einbauen
+                me.concordanceButton
             ]
         };
     },
@@ -254,8 +245,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
 
         var isConcWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator');
         var isHelpWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow');
-        //TODO: SearchWindow
-        /*var isSearchWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow');*/
+        var isSearchWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow');
 
         var config = {
             iconCls: win.iconCls,
@@ -287,13 +277,9 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             win.on('hide', Ext.bind(me.updateHelpButton, me, [false], true));
         }
 
-        //TODO: SearchWindow
-        /*if(isSearchWin) {
+        if(isSearchWin) {
             Ext.apply(config, {hidden: true});
-            win.animateTarget = me.searchWindowButton.el;
-            win.on('show', Ext.bind(me.updateSearchWinButton, me, [true], true));
-            win.on('hide', Ext.bind(me.updateSearchWinButton, me, [false], true));
-        }*/
+        }
 
         var cmp = this['windowBar' + this.activeWindowBar].add(config);
         cmp.toggle(true);
@@ -309,12 +295,6 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         var me = this;
         me.helpButton.toggle(visible);
     },
-
-    //TODO: SearchWindow
-    /*updateSearchWinButton: function(win, args, visible) {
-        var me = this;
-        me.searchWindowButton.toggle(visible);
-    },*/
 
     removeTaskButton: function (btn) {
         var found, me = this;

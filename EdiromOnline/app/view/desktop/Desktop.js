@@ -35,8 +35,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
 
         'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator',
         'de.edirom.online.view.window.HelpWindow',
-        //TODO: SearchWindow
-        /*'de.edirom.online.view.window.search.SearchWindow',*/
+        'de.edirom.online.view.window.search.SearchWindow',
 
         'Ext.ux.desktop.FitAllLayout'
     ],
@@ -168,8 +167,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
             help.hide();
     },
 
-    //TODO: SearchWindow
-    /*openSearchWindow: function() {
+    openSearchWindow: function(term) {
 
         var me = this;
         var win = null;
@@ -189,7 +187,9 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
 
         else
             win.hide();
-    },*/
+            
+        win.doSearch(term);
+    },
 
     getActiveWindowsSet: function(excludeSpecial) {
         if(!excludeSpecial)
@@ -203,9 +203,8 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
                 ;
             else if(Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow')
                 ;
-                //TODO: SearchWindow
-                /*else if(Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow')
-                ;*/
+            else if(Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow')
+                ;
             else
                 set.add(win);
         });

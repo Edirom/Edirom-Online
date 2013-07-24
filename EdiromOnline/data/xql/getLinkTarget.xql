@@ -60,10 +60,18 @@ declare function local:getViews($type, $docUri, $doc) {
 
 
 let $uri := request:get-parameter('uri', '')
+let $uriParams := if(contains($uri, '?')) then(substring-after($uri, '?')) else('')
+let $uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $internalId := if(contains($uri, '#')) then(substring-after($uri, '#')) else()
 let $internalIdParam := if(contains($internalId, '?')) then(concat('?', substring-after($internalId, '?'))) else('')
 let $internalId := if(contains($internalId, '?')) then(substring-before($internalId, '?')) else($internalId)
+
+let $term := if(contains($uriParams, 'term='))then(substring-after($uriParams, 'term='))else()
+let $term := if(contains($term, '&amp;'))then(substring-before($term, '&amp;'))else($term)
+
+let $path := if(contains($uriParams, 'path='))then(substring-after($uriParams, 'path='))else()
+let $path := if(contains($path, '&amp;'))then(substring-before($path, '&amp;'))else($path)
 
 let $doc := doc($docUri)
 let $internal := $doc/id($internalId)
@@ -113,7 +121,7 @@ let $title := (: Work :)
 let $internalIdType := if(exists($internal))
                        then(local-name($internal))
                        else('unknown')
-             
+
 return 
     concat("{",
           "type:'", $type, 
@@ -121,4 +129,6 @@ return
           "',doc:'", $docUri,
           "',views:[", local:getViews($type, $docUri, $doc), "]",
           ",internalId:'", $internalId, $internalIdParam, 
+          "',term:'", $term,
+          "',path:'", $path,
           "',internalIdType:'", $internalIdType, "'}")

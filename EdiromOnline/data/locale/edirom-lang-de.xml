@@ -85,6 +85,7 @@
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Konkordanzen"/>
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Show" value="Anzeigen"/>
         
+        <entry key="view.window.search.SearchWindow_Title" value="Suche"/>
         <entry key="view.window.source.SourceView_categoriesMenu" value="Kategorien…"/>
         <entry key="view.window.source.SourceView_prioMenu" value="Prioritäten…"/>
         <entry key="view.window.source.SourceView_gotoMovement" value="Gehe zu Satz/Nummer…"/>

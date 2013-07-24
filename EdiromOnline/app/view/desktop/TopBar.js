@@ -50,12 +50,17 @@ Ext.define('de.edirom.online.view.desktop.TopBar', {
         });
 
         me.searchButton = Ext.create('Ext.button.Button', {
-            id: 'searchBtn',
             cls: 'taskSquareButton search',
-            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'bl-tl' }//,
-            //handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
+            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'bl-tl' },
+            action: 'openSearchWindow'
         });
 
+        me.searchTextField = Ext.create('Ext.form.TextField', {
+            width: 180,
+            id: 'searchTextFieldTop'
+        });
+        
+        me.searchButton.textField = me.searchTextField;
 
         me.items = [
             new Ext.toolbar.Toolbar({
@@ -65,10 +70,7 @@ Ext.define('de.edirom.online.view.desktop.TopBar', {
                     me.homeButton,
                     this.workCombo,
                     '->',
-                    {
-                        xtype: 'textfield',
-                        width: 180
-                    },
+                    me.searchTextField,
                     me.searchButton
                 ]
             })

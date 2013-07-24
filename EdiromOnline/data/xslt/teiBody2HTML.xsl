@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="#default xs tei xhtml" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:exist="http://exist.sourceforge.net/NS/exist" exclude-result-prefixes="#default xs tei exist xhtml" version="2.0">
     <xsl:import href="tei/common2/tei-param.xsl"/>
     <xsl:import href="tei/common2/tei.xsl"/>
     <xsl:import href="tei/xhtml2/tei-param.xsl"/>
@@ -414,5 +414,10 @@
             </xsl:attribute>
             <xsl:apply-templates select="text()"/>
         </xsl:element>
+    </xsl:template>
+<xsl:template match="exist:match">
+        <span class="searchResult">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
 </xsl:stylesheet>

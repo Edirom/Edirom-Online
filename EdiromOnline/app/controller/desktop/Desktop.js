@@ -32,6 +32,12 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
         this.control({
             'desktop': {
                 afterrender: this.onDesktopRendered
+            },
+            'topbar button[action=openSearchWindow]': {
+                click: this.onOpenSearchWindow
+            },
+            'topbar #searchTextFieldTop': {
+                specialkey: this.onSpecialKey
             }
         });
     },
@@ -67,12 +73,21 @@ Ext.define('de.edirom.online.controller.desktop.Desktop', {
         var me = this;
         me.desktop.openHelp();
     },
-
-    //TODO: searchWindow
-    /*openSearchWindow: function() {
+    
+    onSpecialKey: function(field, e) {
         var me = this;
-        me.desktop.openSearchWindow();
-    },*/
+        
+        if (e.getKey() == e.ENTER) {
+            var term = field.getValue();
+            me.desktop.openSearchWindow(term);
+        }
+    },
+
+    onOpenSearchWindow: function(button, event, args) {
+        var me = this;
+        var term = button.textField.getValue();
+        me.desktop.openSearchWindow(term);
+    },
 
     switchDesktop: function(desk) {
         this.desktop.switchDesktop(desk);

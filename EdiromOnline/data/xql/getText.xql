@@ -29,7 +29,12 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $idPrefix := request:get-parameter('idPrefix', '')
+let $term := request:get-parameter('term', '')
+let $path := request:get-parameter('path', '')
 let $doc := doc($uri)/root()
+
+let $doc := if($term eq '')then($doc)else($doc//tei:text[ft:query(., $term)]/ancestor::tei:TEI)
+let $doc := if($term eq '')then($doc)else(util:expand($doc))
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
 let $xslInstruction := for $i in util:serialize($xslInstruction, ())
