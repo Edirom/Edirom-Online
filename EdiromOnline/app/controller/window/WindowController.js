@@ -31,7 +31,7 @@ Ext.define('de.edirom.online.controller.window.WindowController', {
 
     createWindow: function(uri, cfg) {
         var activeDesktop = this.application.getController('desktop.Desktop').getActiveDesktop();
-        var sizePos = this.getSizeAndPosition(activeDesktop);
+        var sizePos = activeDesktop.getSizeAndPosition();
         
         if(typeof cfg.width != 'undefined') {
             var usableSize = activeDesktop.getUsableSize();
@@ -50,27 +50,5 @@ Ext.define('de.edirom.online.controller.window.WindowController', {
         win.show();
         
         return win;
-    },
-
-    getSizeAndPosition: function(activeDesktop) {
-
-        var usableSize = activeDesktop.getUsableSize();
-
-        var width = Math.max(300, usableSize.width - 20);
-        var height = Math.max(300, usableSize.height - 20);
-
-        var position = [10, 5];
-        while(activeDesktop.hasWindowOnPosition(position)) {
-            position = [position[0] + 20, position[1] + 15];
-            width -= 20;
-            height -= 15;
-        }
-
-        return {
-            width: width,
-            height: height,
-            x: position[0],
-            y: position[1]
-        };
     }
 });

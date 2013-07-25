@@ -156,7 +156,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         });
 
         if(help == null) {
-            help = new de.edirom.online.view.window.HelpWindow();
+            help = Ext.create('de.edirom.online.view.window.HelpWindow', me.getSizeAndPosition(500, 400));
             me.addWindow(help);
             help.show();
 
@@ -178,7 +178,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         });
 
         if(win == null) {
-            win = new de.edirom.online.view.window.search.SearchWindow();
+            win = Ext.create('de.edirom.online.view.window.search.SearchWindow', me.getSizeAndPosition(700, 600));
             me.addWindow(win);
             win.show();
 
@@ -189,6 +189,32 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
             win.hide();
             
         win.doSearch(term);
+    },
+
+    getSizeAndPosition: function(maxWidth, maxHeight) {
+
+        var me = this;
+        var usableSize = me.getUsableSize();
+
+        var width = Math.max(300, usableSize.width - 20);
+        var height = Math.max(300, usableSize.height - 20);
+        
+        var position = [10, 5];
+        while(me.hasWindowOnPosition(position)) {
+            position = [position[0] + 20, position[1] + 15];
+            width -= 20;
+            height -= 15;
+        }
+
+        if(typeof maxWidth != 'undefined') width = Math.min(maxWidth, width);
+        if(typeof maxHeight != 'undefined') height = Math.min(maxHeight, height);
+
+        return {
+            width: width,
+            height: height,
+            x: position[0],
+            y: position[1]
+        };
     },
 
     getActiveWindowsSet: function(excludeSpecial) {

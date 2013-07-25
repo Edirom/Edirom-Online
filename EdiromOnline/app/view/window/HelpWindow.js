@@ -53,11 +53,6 @@ Ext.define('de.edirom.online.view.window.HelpWindow', {
         border:false
     },
 
-    width: 400,
-    height: 330,
-    x: 300,
-    y: 200,
-
     initComponent: function() {
         var me = this;
 

@@ -56,11 +56,6 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
         border:false
     },
 
-    width: 600,
-    height: 500,
-    x: 200,
-    y: 100,
-
     initComponent: function() {
         var me = this;
 
@@ -113,7 +108,6 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
     doSearch: function(term) {
         var me = this;
         
-        me.setLoading(true);
         Ext.fly(this.id + '_textCont').update('');
         
         if(term.match(/^\s*$/)) return;
