@@ -71,8 +71,9 @@ let $mei := doc($id)/root()
 
 let $measure := local:findMeasure($mei, $movementId, $measureIdName)
 let $extraMeasures := for $i in (2 to xs:integer($measureCount))
+                      let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
                       return
-                        local:getMeasure($mei, $measure/following::mei:measure[$i - 1])
+                        if($m)then(local:getMeasure($mei, $m))else() 
 
 return
     concat('[',
