@@ -169,12 +169,18 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
     
     showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
-        me.mdivSelector.setValue(movementId);
         
-        if(me.measures) 
-            me.measureSpinner.setMeasure(me.measures.getById(measureId), measureCount);
-        else
+        if(me.mdivSelector.getValue() != movementId) {
+            me.mdivSelector.setValue(movementId);
+            me.setMdiv(me.mdivSelector);
+        }
+        
+        if(typeof me.measures == 'undefined' || me.measures == null || me.measures.getById(measureId) == null) {
             Ext.defer(me.showMeasure, 300, me, [movementId, measureId, measureCount], false);
+            return;
+        }
+        
+        me.measureSpinner.setMeasure(me.measures.getById(measureId), measureCount);
     },
     
     setMeasure: function(combo, store, measureCount) {
