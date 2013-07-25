@@ -30,6 +30,6 @@ let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $part in $mei//mei:instrumentation/mei:instrVoice
-            return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:"true", selected:"true"}')
+            return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:true, selected:true}')
 
 return concat('[', string-join($ret, ','), ']')

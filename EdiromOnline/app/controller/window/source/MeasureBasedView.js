@@ -46,13 +46,12 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         if(view.initialized) return;
         view.initialized = true;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getParts.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getParts.xql',
+            'GET', 
+            {
                 uri: view.owner.uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var parts = Ext.create('Ext.data.Store', {
@@ -61,8 +60,8 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
                 });
 
                 me.partsLoaded(parts, view);
-            }
-        });
+            }, me)
+        );
     },
 
     onMdivSelected: function(mdiv, view) {
