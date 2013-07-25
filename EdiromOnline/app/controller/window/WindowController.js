@@ -30,7 +30,16 @@ Ext.define('de.edirom.online.controller.window.WindowController', {
     },
 
     createWindow: function(uri, cfg) {
-        var config = Ext.applyIf(cfg, this.getSizeAndPosition());
+        var activeDesktop = this.application.getController('desktop.Desktop').getActiveDesktop();
+        var sizePos = this.getSizeAndPosition(activeDesktop);
+        
+        if(typeof cfg.width != 'undefined') {
+            var usableSize = activeDesktop.getUsableSize();
+            var maxWidth = usableSize.width - 10 - sizePos.x;
+            if(maxWidth < cfg.width) cfg.width = maxWidth;
+        }
+        
+        var config = Ext.applyIf(cfg, sizePos);
         Ext.apply(config, {
             application: this.application,
             uri: uri
@@ -43,16 +52,18 @@ Ext.define('de.edirom.online.controller.window.WindowController', {
         return win;
     },
 
-    getSizeAndPosition: function() {
+    getSizeAndPosition: function(activeDesktop) {
 
-        var activeDesktop = this.application.getController('desktop.Desktop').getActiveDesktop();
+        var usableSize = activeDesktop.getUsableSize();
 
-        var width = Math.max(300, Math.round(activeDesktop.getWidth() / 2));
-        var height = Math.max(300, activeDesktop.getHeight() - 100);
+        var width = Math.max(300, usableSize.width - 20);
+        var height = Math.max(300, usableSize.height - 20);
 
         var position = [10, 5];
         while(activeDesktop.hasWindowOnPosition(position)) {
-            position = [position[0] + 25, position[1] + 15];
+            position = [position[0] + 20, position[1] + 15];
+            width -= 20;
+            height -= 15;
         }
 
         return {
