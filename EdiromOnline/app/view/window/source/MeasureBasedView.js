@@ -69,7 +69,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             queryMode: 'local',
             displayField: 'name',
             valueField: 'id',
-            margin: '0 0 0 10',
+            margin: '0 0 0 0',
             id: 'mdiv_combo_' + me.id,
             hidden: true,
             listeners:{
@@ -111,7 +111,10 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         });
         settingsContainer.add(me.voiceFilter);
         
-        return [me.mdivSelector, me.measureSpinner, me.intervalSpinner, settingsContainer];
+        me.separator1 = Ext.create('Ext.toolbar.Separator', {hidden: true});
+        me.separator2 = Ext.create('Ext.toolbar.Separator', {hidden: true});
+        
+        return [me.mdivSelector, me.separator1, me.measureSpinner, me.intervalSpinner, me.separator2, settingsContainer];
     },
     
     fitFacsimile: function() {
@@ -125,6 +128,8 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         me.measureSpinner.hide();
         me.intervalSpinner.hide();
         me.voiceFilter.hide();
+        me.separator1.hide();
+        me.separator2.hide();
     },
     
     showToolbarEntries: function() {
@@ -133,6 +138,8 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         me.measureSpinner.show();
         me.intervalSpinner.show();
         me.voiceFilter.show();
+        me.separator1.show();
+        me.separator2.show();
     },
 
     setMdiv: function(combo, records, eOpts) {

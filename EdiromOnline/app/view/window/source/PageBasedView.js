@@ -156,19 +156,23 @@ Ext.define('de.edirom.online.view.window.source.PageBasedView', {
             owner: me
         });
         
-        return [me.zoomSlider, me.pageSpinner];
+        me.separator = Ext.create('Ext.toolbar.Separator');
+        
+        return [me.zoomSlider, me.separator, me.pageSpinner];
     },
     
     hideToolbarEntries: function() {
         var me = this;
         me.zoomSlider.hide();
         me.pageSpinner.hide();
+        me.separator.hide();
     },
     
     showToolbarEntries: function() {
         var me = this;
         me.zoomSlider.show();
         me.pageSpinner.show();
+        me.separator.show();
     },
     
     fitFacsimile: function() {

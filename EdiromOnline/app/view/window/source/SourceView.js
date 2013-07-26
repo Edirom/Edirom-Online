@@ -377,6 +377,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         
         me.bottomBar.add(me.pageBasedViewButton);
         me.bottomBar.add(me.measureBasedViewButton);
+        me.bottomBar.add({xtype:'tbseparator'});
 
         var entries = me.pageBasedView.createToolbarEntries();
         Ext.Array.each(entries, function(entry) {
