@@ -137,8 +137,10 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
 
     setMdiv: function(combo, records, eOpts) {
         var me = this;
-        me.mdivSelected = combo.getValue();
         
+        if(me.mdivSelected == combo.getValue()) return;
+        
+        me.mdivSelected = combo.getValue();
         me.fireEvent('mdivSelected', me.mdivSelected, me);
     },
 
@@ -151,7 +153,9 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             data.push(elem.data);
         });
         me.mdivSelector.getStore().loadData(data);
-        me.mdivSelector.setValue(data[0]['id']);
+        
+        if(me.owner.window.internalIdType != 'measure')
+            me.mdivSelector.setValue(data[0]['id']);
     },
 
     setMeasures: function(measures) {
@@ -419,8 +423,10 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
     
     setMeasure: function(measure, measureCount) {
         var me = this;
-        me.measure = measure;
         
+        if(me.measure == measure && me.owner.intervalSpinner.getValue() == measureCount) return;
+        
+        me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
