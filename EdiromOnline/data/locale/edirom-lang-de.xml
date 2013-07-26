@@ -106,6 +106,7 @@
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Stimmenauswahl"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>
         <entry key="view.window.text.TextView_gotoMenu" value="Gehe zu…"/>

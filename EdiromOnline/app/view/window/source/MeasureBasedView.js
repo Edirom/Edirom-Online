@@ -100,6 +100,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                 me.showVoiceFilterDialog();
             },
             cls : 'voiceFilter toolButton',
+            tooltip: { text: getLangString('view.window.source.SourceView_MeasureBasedView_selectVoices'), align: 'bl-tl' },
             margin: '0 0 0 5',
             disabled: true,
             hidden: true
