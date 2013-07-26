@@ -379,3 +379,7 @@ div.measure span.measureInnerEmpty {
 span.searchResult {
     background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
 }
+
+div.annotation.combinedHighlight div.annotIcon {
+    border: 1px solid white;
+}

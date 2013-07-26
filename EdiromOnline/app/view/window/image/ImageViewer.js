@@ -147,7 +147,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
         var dh = Ext.DomHelper;
-        var tpl = dh.createTemplate({tag:'div', id: '{0}', cls: 'annotation {2} {3}', html:'<div id="{0}_inner" class="annotIcon" title="{1}"></div>'});
+        var tpl = dh.createTemplate('<div id="{0}" class="annotation {2} {3} {4}" data-edirom-annot-id="{4}"><div id="{0}_inner" class="annotIcon" title="{1}"></div></div>');
         tpl.compile();
 
         annotations.each(function(annotation) {
@@ -174,7 +174,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
                 var height = shape.lry - shape.uly;
 
                 //TODO: Korrektes Bild anhängen
-                var shape = tpl.append(shapeDiv, [me.id + '_' + id, name, categories, priority], true);
+                var shape = tpl.append(shapeDiv, [me.id + '_' + id, name, categories, priority, annotation.get('id')], true);
 
                 shape.setStyle({
                     position: 'absolute'
@@ -278,10 +278,16 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
     highlightShape: function(event, owner, shape) {
         shape.addCls('highlighted');
+        
+        var annotId = shape.getAttribute('data-edirom-annot-id');
+        Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
     },
 
     deHighlightShape: function(event, owner, shape) {
         shape.removeCls('highlighted');
+        
+        var annotId = shape.getAttribute('data-edirom-annot-id');
+        Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
     repositionShapes: function() {
@@ -642,8 +648,10 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
 
     destroyTempRect: function(shape) {
         var me = this;
+        
+        if(typeof me.el == 'undefined') return;
+        
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
-
         var id;
 
         try {
