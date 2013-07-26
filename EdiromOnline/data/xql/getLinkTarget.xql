@@ -61,7 +61,7 @@ declare function local:getViews($type, $docUri, $doc) {
 
 let $uri := request:get-parameter('uri', '')
 let $uriParams := if(contains($uri, '?')) then(substring-after($uri, '?')) else('')
-let $uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
+let $uri := if(contains($uri, '?')) then(replace($uri, '[?&amp;](term|path)=[^&amp;]*', '')) else($uri)
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $internalId := if(contains($uri, '#')) then(substring-after($uri, '#')) else()
 let $internalIdParam := if(contains($internalId, '?')) then(concat('?', substring-after($internalId, '?'))) else('')
