@@ -618,6 +618,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
             {
                 xtype: 'button',
                 cls : 'prev toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_MeasureBasedView_previousMeasure'), align: 'bl-tl' },
                 listeners:{
                      scope: me,
                      click: me.prev
@@ -627,6 +628,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
             {
                 xtype: 'button',
                 cls : 'next toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_MeasureBasedView_nextMeasure'), align: 'bl-tl' },
                 listeners:{
                      scope: me,
                      click: me.next

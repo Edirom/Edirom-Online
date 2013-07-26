@@ -92,11 +92,15 @@
         <entry key="view.window.source.SourceView_layersMenu" value="Layers…"/>
         <entry key="view.window.source.SourceView_showMeasures" value="Show/Hide measures"/>
         <entry key="view.window.source.SourceView_fitView" value="Fit facsimile"/>
-        <entry key="view.window.source.SourceView_pageBasedView" value="Page based view"/>
-        <entry key="view.window.source.SourceView_pageInput" value="Page input"/>
-        <entry key="view.window.source.SourceView_measureBasedView" value="Measure based view"/>
-        <entry key="view.window.source.SourceView_measureBasedView_movementSelectorBox" value="Select movement"/>
-        <entry key="view.window.source.SourceView_measureBasedView_measureSpinner" value="Measure Spinner"/>
+        <entry key="view.window.source.SourceView_PageBasedView" value="Page based view"/>
+        <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Previous page"/>
+        <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Next page"/>
+        <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
+        <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Previous measure"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Next measure"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Select movement"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
         <entry key="view.window.source.SourceView_selectVoices" value="Select parts"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
         <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>

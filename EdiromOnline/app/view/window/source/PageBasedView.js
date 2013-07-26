@@ -288,6 +288,7 @@ Ext.define('de.edirom.online.view.window.source.PageSpinner', {
             {
                 xtype: 'button',
                 cls : 'prev toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_previousPage'), align: 'bl-tl' },
                 listeners:{
                      scope: this,
                      click: this.prev
@@ -297,6 +298,7 @@ Ext.define('de.edirom.online.view.window.source.PageSpinner', {
             {
                 xtype: 'button',
                 cls : 'next toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_nextPage'), align: 'bl-tl' },
                 listeners:{
                      scope: this,
                      click: this.next
