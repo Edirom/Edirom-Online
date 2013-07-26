@@ -96,10 +96,9 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         
         return
             
-            for $comb in $combs
-            
+            for $comb in distinct-values($combs)
             let $partIndices := tokenize($comb,'-')
-            let $elems := for $p in $partIndices
+            let $elems := for $p in distinct-values($partIndices)
                             let $elem := local:getElement($participants[starts-with(., $doc)][number($p)])
                             order by count($elem/preceding::*)
                             return $elem
@@ -193,7 +192,10 @@ declare function local:getCombinations($elems as element()*, $zones as element()
 
 declare function local:compareZones($zone1 as element(), $zone2 as element()) as xs:boolean {
 
-    not(number($zone1/@ulx) gt number($zone2/@lrx) or number($zone1/@lrx) lt number($zone2/@ulx) or number($zone1/@uly) gt number($zone2/@lry) or number($zone1/@lry) lt number($zone2/@uly))
+    let $samePage := deep-equal($zone1/.., $zone2/..)
+    let $overlapping := not(number($zone1/@ulx) gt number($zone2/@lrx) or number($zone1/@lrx) lt number($zone2/@ulx) or number($zone1/@uly) gt number($zone2/@lry) or number($zone1/@lry) lt number($zone2/@uly))
+    return
+        $samePage and $overlapping
 };
 
 declare function local:getElement($uri as xs:string) as element() {
@@ -341,5 +343,4 @@ let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
 return
-    
     concat('{"success": "true", "participants": [', string-join(local:getParticipants($annot),','), ']}')

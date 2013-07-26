@@ -105,17 +105,20 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
         }
 
         var linkController = this.application.getController('LinkController');
-        var participants = view.activeParticipants;
-        var participantUris = '';
-
-        Ext.Array.each(participants, function(participant) {
-            if(participantUris.indexOf(participant.linkUri) == -1)
-                participantUris += participant.linkUri + ' ';
-        });
-
-        var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false});
-        view.closeAllButton.windows = windows;
-        view.closeAllButton.enable();
+        
+        window.doAJAXRequest('data/xql/getAnnotationOpenAllUris.xql',
+            'GET', 
+            {
+                uri: view.uri,
+                annotId: view.activeSingleAnnotation
+            },
+            Ext.bind(function(response){
+                var participantUris = response.responseText;
+                var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false});
+                view.closeAllButton.windows = windows;
+                view.closeAllButton.enable();
+            }, me)
+        );
     },
     
     onCloseAllParticipants: function(btn, e) {
