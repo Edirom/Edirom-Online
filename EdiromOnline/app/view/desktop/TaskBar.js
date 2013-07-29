@@ -330,5 +330,9 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         this.windowBar2.setVisible(num == 2);
         this.windowBar3.setVisible(num == 3);
         this.windowBar4.setVisible(num == 4);
+    },
+    
+    setConcordanceNavigatorButtonToggleState: function(state, suppressEvent) {
+        this.concordanceButton.toggle(state, suppressEvent);
     }
 });

@@ -66,7 +66,7 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
     collapsedHeight: 175,
 
     width: 300,
-    height: 230,
+    height: 175,
     x: 300,
     y: 200,
 
