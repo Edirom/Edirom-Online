@@ -112,11 +112,25 @@ Ext.define('de.edirom.online.controller.LinkController', {
         }, this);
 
         var positions = null;
-
-        if(config['sort'] && config['sort'] == 'sortGrid')
-            positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount());
-
         var i = 0;
+
+        if(config['sort'] && config['sort'] == 'sortGrid') {
+        
+            if(config['sortIncludes'] && Array.isArray(config['sortIncludes']))
+                i = config['sortIncludes'].length;
+            
+            positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
+            
+            if(i > 0) {
+                for(var j = 0; j < config['sortIncludes'].length; j++) {
+                    var win = config['sortIncludes'][j];
+                    var posConfig = (positions == null?{}:positions['win_' + j]);
+                    win.setSize(posConfig['width'], posConfig['height']);
+                    win.setPosition(posConfig['x'], posConfig['y']);
+                }
+            }
+        }
+
 
         uriWindows.eachKey(function(singleUri) {
 

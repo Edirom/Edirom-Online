@@ -114,7 +114,7 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             },
             Ext.bind(function(response){
                 var participantUris = response.responseText;
-                var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false});
+                var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false, sortIncludes: [view.window]});
                 view.closeAllButton.windows = windows;
                 view.closeAllButton.enable();
             }, me)
