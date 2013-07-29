@@ -54,7 +54,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             (for $elem in $elems[local-name() != 'measure']
             return concat($doc, '#', $elem/@xml:id)
             ,
-            local:groupSourceParticipants($elems[local-name() = 'measure'], $doc)
+            if(count($elems[local-name() = 'measure']) gt 0)then(local:groupSourceParticipants($elems[local-name() = 'measure'], $doc))else()
             )
         , ' ')
 };
