@@ -77,19 +77,17 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             scope: this
         });
 
-
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationPreviews.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getAnnotationPreviews.xql',
+            'GET', 
+            {
                 uri: uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = Ext.JSON.decode(response.responseText);
                 view.setPreview(data['participants']);
-            },
-            scope: this
-        });
+            }, this)
+        );
+        
     },
     
     onOpenAllParticipants: function(btn, e) {
