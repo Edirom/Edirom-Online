@@ -8,6 +8,7 @@
             <xd:p>
                 <xd:b>Author:</xd:b> Daniel Röwenstrunk</xd:p>
             <xd:p/>
+        <xd:p>Modified by Benjamin W. Bohl on Aug 1, 2013</xd:p>
         </xd:desc>
     </xd:doc>
 
@@ -31,8 +32,10 @@
     </xsl:template>
 
     <xsl:template match="tei:term[@type='ediromGui']">
-        <xsl:apply-templates/>
+        <xsl:copy>
+            <xsl:apply-templates/>
         <xsl:value-of select="eof:getLangValue(@key)"/>
+    </xsl:copy>
     </xsl:template>
 
     <xsl:function name="eof:getLangValue">
