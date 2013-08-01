@@ -281,6 +281,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         
         var annotId = shape.getAttribute('data-edirom-annot-id');
         Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
+        Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
     },
 
     deHighlightShape: function(event, owner, shape) {
@@ -288,6 +289,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         
         var annotId = shape.getAttribute('data-edirom-annot-id');
         Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
+        Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
     repositionShapes: function() {
