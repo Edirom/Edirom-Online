@@ -98,6 +98,8 @@
         <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Previous measure"/>
+        <entry key="view.window.source.SourceView_measureBasedView_measureSpinner" value="Measure Spinner"/>
+        <entry key="view.window.source.SourceView_selectVoices" value="Select parts"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Next measure"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Select movement"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>

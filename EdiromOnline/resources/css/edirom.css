@@ -358,10 +358,18 @@ div.measure span.measureInnerEmpty {
     margin-bottom: 12px;
 }
 
+.helpWindow .textViewContent .term {
+    font-weight:bold;
+}
+
 .helpWindow .textViewContent .figure {
     display:block;
     clear:both;
     margin-bottom: 12px;
+}
+
+.helpWindow .textViewContent .figure div.table{
+    margin-bottom: 0em !important;
 }
 
 .helpWindow .textViewContent .figure + *{
