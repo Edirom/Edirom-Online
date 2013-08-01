@@ -42,6 +42,7 @@
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
+         <change when="2013-08-01T15:53:00" who="#bwb">* removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</change>
          <change when="2013-08-01" who="#bwb">* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</change>
          <change when="2013-07-30" who="#bwb">*overhauled structure of button entries; * corrected some typos; * added missing button descriptions in annotation-view;</change>
          <change when="2013-07-22" who="#bwb">* deleted comment with manually edited TOC; * provided description of annotation-view; * deleted description of annotations window; * reworked chapter on annotations; * made all ediromGui terms empty elements; * removed some generated xml:id attributes;</change>
@@ -148,7 +149,7 @@
                         </head>
                   <figure>
                             <graphic url="images/searchField.png"/>
-                     <p>Clicking the spyglass icon triggers <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/>. Like the navigator it offers access to the edition content of the current work. By entering a query in the <term type="ediromGui" key="view.desktop.TopBar_searchField"/> located on the menu bar, you can directly operate the search window<!-- TODO insert ediromGui term -->, whereas this button just opens it. For the exact functions of the search window<!-- TODO insert ediromGui term -->, see the corresponding chapter (<ptr target="#help_controller.window.Window_searchView"/>).</p>
+                     <p>Clicking the spyglass icon triggers <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/>. Like the navigator it offers access to the edition content of the current work. By entering a query in the <term type="ediromGui" key="view.desktop.TopBar_searchField"/> located on the menu bar, you can directly operate the search window<!-- TODO insert ediromGui term -->, whereas this button just opens it. For the exact functions of the search window<!-- TODO insert ediromGui term -->, see the corresponding chapter (<ptr target="#help_controller.window.Window_searchView"/><!-- TODO app corresp chapter on search -->).</p>
                   </figure>
                </div>
             </div>
@@ -265,11 +266,7 @@
                      <head>
                                 <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> with and without additional drop-down menu.</head>
                   </figure>
-                  <p>Below the slide control is a large button labeled <q>
-                                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>
-                            </q>. Click on this button to open the selected measure in all open sources on the current desktop. You can also navigate within sources using the two arrows to the left and right of the <q>
-                                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>
-                            </q> button, which allow you to browse forward or backward. Depending on your settings (see <ptr target="#openPreferences"/>), only windows which are already opened are affected by this. If this particular measure exists in other sources currently not displayed, a small button on the lower right will appear <!-- TODO check implementation -->. This buttons lets you open all relevant windows for the selected measure position and will rearrange all open windows.</p>
+                  <p>Below the slide control is a large button labeled <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. Click on this button to open the selected measure in all open sources on the current desktop. You can also navigate within sources using the two arrows to the left and right of the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/> button, which allow you to browse forward or backward. Depending on your settings (see <ptr target="#openPreferences"/><!-- TODO add corresponding chapter on preferences-->), only windows which are already opened are affected by this. If this particular measure exists in other sources currently not displayed, a small button on the lower right will appear <!-- TODO check implementation -->. This buttons lets you open all relevant windows for the selected measure position and will rearrange all open windows.</p>
                </div>
                <!--bwb not implemnted <div type="div2" xml:id="openPreferences" change="change_6">
                   <head><term type="ediromGui" key="view.desktop.TaskBar_pref"/></head>
