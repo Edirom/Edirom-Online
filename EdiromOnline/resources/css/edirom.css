@@ -350,36 +350,47 @@ div.measure span.measureInnerEmpty {
     max-width: 100%;
 }
 
-/* SEARCH WINDOW */
-
-.searchWindow .searchResultDoc {
-    margin: 5px;
+.helpWindow .textViewContent dt{
+    
 }
 
-.searchWindow .searchResultDoc .doc {
-    margin-top: 10px;
-    font-weight: bold;
-    cursor: pointer;
+.helpWindow .textViewContent dd{
+    margin-bottom: 12px;
 }
 
-.searchWindow .searchResultDoc:first-child .doc {
-    margin-top: 0;
+.helpWindow .textViewContent .term {
+    font-weight:bold;
 }
 
-.searchWindow .searchResultDoc p {
-    margin-top: 7px;
-    margin-left: 15px;
+.helpWindow .textViewContent .figure {
+    display:block;
+    clear:both;
+    margin-bottom: 12px;
 }
 
-.searchWindow .hit {
-    color: #1354B5;
-    cursor: pointer;
+.helpWindow .textViewContent .figure div.table{
+    margin-bottom: 0em !important;
 }
 
-span.searchResult {
-    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+.helpWindow .textViewContent .figure + *{
+    display:block;
+    clear:both;
 }
 
-div.annotation.combinedHighlight div.annotIcon {
-    border: 1px solid white;
+.helpWindow .textViewContent .figure img{
+    float:left;
+    margin-right:6px;
+}
+
+/*.helpWindow .textViewContent .figure img:nth-child(n+2){
+    margin-left:10px;
+}*/
+
+.helpWindow .textViewContent .figure .p{
+    display:block;
+}
+
+.helpWindow .textViewContent .figure .caption{
+    display:block;
+    clear:both;
 }
