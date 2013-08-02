@@ -79,7 +79,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
             ]
         });
 
-        me.bottomBar = new de.edirom.online.view.window.BottomBar({owner:me, region:'south'});
+        me.bottomBar = new de.edirom.online.view.window.BottomBar({owner:me, region:'south', enableOverflow: false});
 
         me.items = [
             me.viewerContainer,
