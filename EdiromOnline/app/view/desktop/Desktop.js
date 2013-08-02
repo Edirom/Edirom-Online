@@ -199,7 +199,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         else
             win.hide();
             
-        win.doSearch(term);
+        //win.doSearch(term);
     },
 
     getSizeAndPosition: function(maxWidth, maxHeight) {

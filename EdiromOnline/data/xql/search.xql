@@ -62,13 +62,32 @@ let $trans :=   <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="
 let $return := 
     <div class="searchResult">{
     
-    for $hit in collection('/db/contents')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-        | collection('/db/contents')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-        | collection('/db/contents')//mei:mei[ft:query(., $term)]
-        | collection('/db/contents')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-        | collection('/db/contents')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+    let $search := 
+        if(string-length($term) gt 0)
+        then(
+            collection('/db/contents')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db/contents')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db/contents')//mei:mei[ft:query(., $term)]
+            | collection('/db/contents')//mei:title[ft:query(., $term)]/ancestor::mei:mei
+            | collection('/db/contents')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+        )
+        else()
+    
+    return (
+        
+        if(count($search) gt 0)
+        then(
+            <div class="searchResultOverview">Hits in <span class="num">{count($search)}</span> documents:</div>
+        )
+        else(
+            <div class="searchResultOverview">No match found.</div>
+        )
+        ,
+    
+    for $hit in $search
         
     let $expanded := kwic:expand($hit)
+    let $hitCount := count($expanded//*[./exist:match])
     let $doc := $hit/root()
     let $uri := document-uri($doc)
     let $title := (: Annotation :)
@@ -87,15 +106,22 @@ let $return :=
     order by ft:score($hit) descending
     return
         <div class="searchResultDoc">
-            <div class="doc" onclick="loadLink('xmldb:exist://{$uri}?term={$term}');">{$title}</div>
-        {
-            for $match in $expanded//*[./exist:match]
+            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}?term={$term}');">{$title}</span><span class="resultCount">{concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')')}</span></div>
+        {(
+            for $match at $i in $expanded//*[./exist:match]
             let $path := local:getPath($match)
             let $internalId := if(local-name($hit) eq 'annot')then($hit/@xml:id)else if($match/@xml:id)then($match/@xml:id)else()
             return
-                kwic:get-summary($match, ($match/exist:match)[1], <config width="80" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={$term}');" />,
+                <div class="hitP" style="{if($i gt 3)then('display:none;')else('')}">{
+                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={$term}');" />,
                     util:function(xs:QName("local:filter"), 2))
-        }</div>
+               }</div>
+            ,
+            if($hitCount gt 3)
+            then(<div class="showMore" onclick="Ext.Element(this).parent().select('div').show(); Ext.Element(this).hide();">show all hits</div>)
+            else()
+        )}</div>
+        )
     }
     </div>
     

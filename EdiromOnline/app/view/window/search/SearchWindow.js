@@ -34,9 +34,9 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
     isWindow: true,
     //closeAction: 'hide',
     constrainHeader: true,
-    minimizable: true,
-    maximizable: true,
-    closable: false,
+    minimizable: false,
+    maximizable: false,
+    closable: true,
     shadow: false,
 
     layout: {
@@ -65,22 +65,27 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
 
         me.searchButton = Ext.create('Ext.button.Button', {
             id: 'doSearchBtn',
-            cls: 'taskSquareButton search',
+            cls: 'menuButton taskSquareButton search',
             tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'bl-tl' },
             action: 'doSearch',
-            margin: '0 0 0 6'
+            margin: '0 2 0 2'
         });
         
         me.searchTextField = Ext.create('Ext.form.TextField', {
             id: 'searchTextField',
+            margin: '0 0 0 2',
             flex: 1
         });
         
         // access to text field
         me.searchButton.textField = me.searchTextField;
 
+        me.tbar = [
+            me.searchTextField,
+            me.searchButton
+        ];
         me.items = [
-            {
+            /*{
                 xtype: 'panel',
                 height: 30,
                 layout: 'hbox',
@@ -89,7 +94,7 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
                     me.searchTextField,
                     me.searchButton
                 ]
-            },
+            },*/
             {
                 xtype: 'panel',
                 flex: 1,
@@ -110,9 +115,15 @@ Ext.define('de.edirom.online.view.window.search.SearchWindow', {
         
         Ext.fly(this.id + '_textCont').update('');
         
-        if(term.match(/^\s*$/)) return;
-        
+/*        if(term.match(/^\s*$/)) {
+            return;
+        }
+*/        
         me.searchTextField.setValue(term);
         me.fireEvent('doSearch', term);
+    }, 
+    
+    close: function() {
+        this.hide();
     }
 });

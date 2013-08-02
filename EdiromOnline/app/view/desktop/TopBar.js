@@ -70,7 +70,7 @@ Ext.define('de.edirom.online.view.desktop.TopBar', {
                     me.homeButton,
                     this.workCombo,
                     '->',
-                    me.searchTextField,
+                    //me.searchTextField,
                     me.searchButton
                 ]
             })

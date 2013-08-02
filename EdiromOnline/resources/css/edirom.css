@@ -429,3 +429,107 @@ div.measure span.measureInnerEmpty {
 .x-box-scroller-right .x-toolbar-scroll-right, .x-box-scroller-left .x-toolbar-scroll-left {
 	border-bottom: none;
 }
+
+/* SEARCH WINDOW */
+
+.searchWindow .searchResultDoc {
+    margin: 5px;
+}
+
+.searchWindow .searchResultDoc .doc {
+    margin-top: 10px;    
+}
+
+.searchWindow .searchResultDoc:first-child .doc {
+    margin-top: 0;
+}
+
+.searchWindow .searchResultDoc p {
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.searchWindow .hit {
+    color: #1354B5;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #e5e5e5,#cccccc);
+    cursor: pointer;
+}
+
+span.searchResult {
+    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+}
+
+div.annotation.combinedHighlight div.annotIcon {
+    border: 1px solid white;
+}
+
+.searchWindow .x-toolbar {
+    background: -moz-linear-gradient(top, #e5e5e5, #cccccc);
+    border-bottom: 1px solid #999999;
+}
+
+.searchWindow .x-toolbar .x-form-text {
+    border-radius: 5px;
+    padding: 0 5px;
+    border: 1px solid #999999;
+    box-shadow: 0 0 1px #666666 inset;
+    font-size: 90%;
+}
+
+.searchWindow .taskSquareButton.search {
+    background-position: 0 -2px !important;
+}
+
+.searchWindow .taskSquareButton.search.over {
+    background-position: 0 -2px !important;
+    border-color: #999999;
+}
+
+.searchWindow .searchResultDoc > .doc {
+    padding: 1px 8px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #f5f5f5, #e5e5e5);
+    box-shadow: 0 1px 2px #666666;
+    margin-top: 20px;
+}
+
+.searchWindow .searchResultDoc .resultTitle {
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.searchWindow .searchResultDoc .resultCount {
+    color: #666666;
+    font-size: 80%;
+}
+
+.searchWindow .searchResultOverview {
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.searchWindow .searchResultOverview .num {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #e5e5e5,#cccccc);
+}
+
+.searchWindow .hitP {
+    border-left: 3px solid #e5e5e5;
+    padding-left: 0px;
+    margin-left: 5px;
+}
+
+.searchWindow .showMore {
+    color: #666666;
+    font-size: 85%;
+    margin: 5px 0 15px 5px;
+    cursor: pointer;
+}
