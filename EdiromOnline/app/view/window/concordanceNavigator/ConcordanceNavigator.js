@@ -62,11 +62,11 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
 
     items: [],
 
-    expandedHeight: 230,
-    collapsedHeight: 175,
+    expandedHeight: 210,
+    collapsedHeight: 165,
 
     width: 300,
-    height: 175,
+    height: 165,
     x: 300,
     y: 200,
 
