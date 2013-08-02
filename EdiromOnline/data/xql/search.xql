@@ -106,14 +106,14 @@ let $return :=
     order by ft:score($hit) descending
     return
         <div class="searchResultDoc">
-            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}?term={$term}');">{$title}</span><span class="resultCount">{concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')')}</span></div>
+            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}');">{$title}</span><span class="resultCount">{concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')')}</span></div>
         {(
             for $match at $i in $expanded//*[./exist:match]
             let $path := local:getPath($match)
             let $internalId := if(local-name($hit) eq 'annot')then($hit/@xml:id)else if($match/@xml:id)then($match/@xml:id)else()
             return
                 <div class="hitP" style="{if($i gt 3)then('display:none;')else('')}">{
-                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={$term}');" />,
+                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={replace($term, '"', '\\"')}');" />,
                     util:function(xs:QName("local:filter"), 2))
                }</div>
             ,
