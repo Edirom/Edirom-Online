@@ -66,9 +66,11 @@
 		@include box-shadow(inset 0px 1px 3px #333333);
 	}
 	
+	&.x-btn-default-toolbar-small-focus {
+		@include background(linear-gradient(top, rgba(255, 224, 107, 0.85), rgba(243, 149, 82, 0.85)));
+			}
+	
 	.x-btn-default-small {
-		
-		
 		
 	}
 }

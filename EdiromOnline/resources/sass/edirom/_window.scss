@@ -74,6 +74,8 @@
 		background-position: -32px 0;
 		width: 16px;
 		height: 16px;
+		position: relative;
+		top: -1px;
 		
 		&:hover, &:active {
 			background-position: -32px -16px;
@@ -86,6 +88,8 @@
 		background-position: -16px 0;
 		width: 16px;
 		height: 16px;
+		position: relative;
+		top: -1px;
 		
 		&:hover, &:active {
 			background-position: -16px -16px;
@@ -98,6 +102,8 @@
 		background-position: -48px 0;
 		width: 16px;
 		height: 16px;
+		position: relative;
+		top: -1px;
 		
 		&:hover, &:active {
 			background-position: -48px -16px;
@@ -110,6 +116,8 @@
 		background-position: 0 0;
 		width: 16px;
 		height: 16px;
+		position: relative;
+		top: -1px;
 				
 		&:hover, &:active {
 			background-position: 0 -16px;
@@ -205,6 +213,8 @@
 		background-position: -32px 0;
 		width: 16px;
 		height: 16px;
+		position: relative;
+		top: -1px;
 		
 		&:hover, &:active {
 			background-position: -32px -16px;
@@ -216,7 +226,7 @@
 	}
 	
 	.x-toolbar-footer {
-		@include background(linear-gradient(#666666, #333333));
+		@include background(linear-gradient(#e5e5e5, #d5d5d5));
 		
 		.x-btn-default-small {
 			padding: 0 !important;

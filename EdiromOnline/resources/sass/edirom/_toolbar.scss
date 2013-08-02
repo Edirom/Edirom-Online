@@ -2,6 +2,7 @@
 
 /***Toolbar Buttons***/
 
+
 #ediromToolbar {
 	@include background(linear-gradient(top, #7d7e7d,#0e0e0e));
 
@@ -38,6 +39,26 @@
 .bottomBar {
 	padding: 0px 10px !important;
 	@include background(linear-gradient(top, #cccccc, #b5b5b5));
+	
+	.x-box-menu-right {
+		.x-btn-default-toolbar-small {
+			margin: 2px 5px !important;
+			height: 26px !important;
+			width: 26px !important;
+			top: 0 !important;
+			right: -7px !important;
+			
+			.x-toolbar-more-icon {
+				background-position: 4px 2px !important;
+			}
+		}
+	
+		.x-btn-default-toolbar-small-over {
+			@include background(linear-gradient(top, #eeeeee, #cccccc 9px, #888888));
+			@include box-shadow(inset 0px 1px 3px #333333);
+		}
+	}
+	
 }
 
 
@@ -60,6 +81,10 @@
 		@include box-shadow(inset 0px 1px 3px #333333);
 	}
 	
+	&.fit {
+		border: none;
+		@include background(url('../pix/zoom-fit.png') no-repeat scroll center center transparent);
+	}
 	
 	&.prev {
 		border: none;
