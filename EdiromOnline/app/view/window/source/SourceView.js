@@ -557,19 +557,23 @@ Ext.define('de.edirom.online.view.window.source.GotoMsg', {
         });
 
         me.items = [
-            me.combo, me.field
-        ];
-
-        me.buttons = [
+            me.combo, me.field,
             {
-                text: getLangString('global_cancel'),
-                handler: me.close,
-                scope: me
-            },
-            {
-                text: getLangString('global_execute'),
-                handler: me.gotoFn,
-                scope: me
+                xtype: 'panel',
+                layout: 'hbox',
+                items: [
+                    { xtype: 'component', flex: 1 },
+                    {
+                        text: getLangString('global_cancel'),
+                        handler: me.close,
+                        scope: me
+                    },
+                    {
+                        text: getLangString('global_execute'),
+                        handler: me.gotoFn,
+                        scope: me
+                    }
+                ]
             }
         ];
 
