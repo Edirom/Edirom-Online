@@ -34,9 +34,9 @@ Ext.define('de.edirom.online.view.window.HelpWindow', {
     isWindow: true,
     //closeAction: 'hide',
     constrainHeader: true,
-    minimizable: true,
-    maximizable: true,
-    closable: false,
+    minimizable: false,
+    maximizable: false,
+    closable: true,
     shadow: false,
 
     layout: 'fit',
@@ -70,5 +70,9 @@ Ext.define('de.edirom.online.view.window.HelpWindow', {
     setContent: function(text) {
         Ext.fly(this.id + '_textCont').update(text);
         this.fireEvent('documentLoaded', this);
+    }, 
+    
+    close: function() {
+        this.hide();
     }
 });

@@ -39,9 +39,9 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
     isWindow: true,
     //closeAction: 'hide',
     constrainHeader: true,
-    minimizable: true,
+    minimizable: false,
     maximizable: false,
-    closable: false,
+    closable: true,
     resizeHandles: 'e w',
     shadow: false,
 
@@ -321,5 +321,9 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
         me.groupSelector.setText(label);
         me.itemSelectionLabel.setText(group['connections']['label']);
         me.itemSlider.setData(group['connections']['connections'], 'name');
+    }, 
+    
+    close: function() {
+        this.hide();
     }
 });
