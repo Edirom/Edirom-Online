@@ -266,7 +266,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                 border: false,
                 flex: 1,
                 selModel: Ext.create('Ext.selection.CheckboxModel'),
-                columns: [{ text: 'Stimme', dataIndex: 'label', flex: 1 }],
+                columns: [{ text: 'Part', dataIndex: 'label', flex: 1 }],
                 store: me.parts
         });
        
