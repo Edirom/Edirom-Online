@@ -51,7 +51,7 @@ Ext.define('de.edirom.online.view.desktop.TopBar', {
 
         me.searchButton = Ext.create('Ext.button.Button', {
             cls: 'taskSquareButton search',
-            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'bl-tl' },
+            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'tr-bl' },
             action: 'openSearchWindow'
         });
 
@@ -70,7 +70,7 @@ Ext.define('de.edirom.online.view.desktop.TopBar', {
                     me.homeButton,
                     this.workCombo,
                     '->',
-                    me.searchTextField,
+                    //me.searchTextField,
                     me.searchButton
                 ]
             })

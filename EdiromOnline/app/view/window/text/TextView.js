@@ -134,7 +134,8 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
 
         me.annotationsLoaded = true;
 
-        var tpl = Ext.DomHelper.createTemplate({tag:'span', id: '{0}', cls: 'annotation {1} {2}'});
+        var tpl = Ext.DomHelper.createTemplate('<span id="{0}" class="annotation {1} {2} {3}" data-edirom-annot-id="{3}"></span>');
+        
         tpl.compile();
 
         annotations.each(function(annotation) {
@@ -151,7 +152,10 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
                 var targetId = p.id.substring(annoId.length + 2);
                 var target = me.el.getById(me.id + '_' + targetId);
 
-                var shape = tpl.append(target, [me.id + '_' + p.id, categories, priority], true);
+                var shape = tpl.append(target, [me.id + '_' + p.id, categories, priority, annotation.get('id')], true);
+                
+                shape.on('mouseenter', me.highlightShape, me, shape, true);
+                shape.on('mouseleave', me.deHighlightShape, me, shape, true);
                 shape.on('mousedown', me.listenForShapeLink, me, {
                     stopEvent : true,
                     elem: shape,
@@ -187,6 +191,22 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
             }, me);
 
         }, me);
+    },
+    
+    highlightShape: function(event, owner, shape) {
+        shape.addCls('highlighted');
+        
+        var annotId = shape.getAttribute('data-edirom-annot-id');
+        Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
+        Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
+    },
+
+    deHighlightShape: function(event, owner, shape) {
+        shape.removeCls('highlighted');
+        
+        var annotId = shape.getAttribute('data-edirom-annot-id');
+        Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
+        Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
     listenForShapeLink: function(e, dom, args) {

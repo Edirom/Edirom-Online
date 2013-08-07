@@ -8,45 +8,18 @@
 
 /***ediromConcordanceNavigator***/
 
-.ediromConcordanceNavigator {
-	@include border-radius(10px);
-	border: 5px solid #cccccc;
-	@include box-shadow(0 10px 30px #000000);
-	
-	
-	
-	.x-window-header {
-		height: 26px;
-		padding: 4px 10px;
+.ediromConcordanceNavigatorWindow {
+	.x-tool-minimize {
+		position: relative;
+		top: -1px;
+	}	
 		
-		@include background(linear-gradient(top, #757575,#454545));
-			
-		.x-window-header-text {
-			font-size: $ui_baseFont_size * 0.8;
-			font-family: $ui_baseFont;
-			font-weight: 400;
-			color: #ffffff;
-		}
-		
-		.x-tool-minimize {
-			/*background-image: url('../pix/windowButtons.png');
-			background-repeat: no-repeat;
-			background-position: -9px 0;
-			width: 9px;
-			height: 9px;
-			margin-left: -2px;
-					
-			&:hover, &:active {
-				background-position: -9px -9px;
-			}*/
-			position: relative;
-			top: 2px;
-		}		
+	.x-window-header-text-default {
+	    margin-left: 20px;
 	}
-	
+		
 	.x-window-body {
 		@include background(linear-gradient(top,#ffffff,#e5e5e5));
-		@include box-shadow(0 1px 3px #000000 inset);
 		top: 21px !important;
 		height: inherit !important;
 		
@@ -60,6 +33,7 @@
 			font-size: $label_baseFont_size;
 		}
 	}
+	
 }
 
 /*

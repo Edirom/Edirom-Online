@@ -62,7 +62,7 @@ Ext.define('de.edirom.online.controller.window.search.SearchWindow', {
     doSearch: function(term) {
         var me = this;
         
-        if(term.match(/^\s*$/)) return; 
+        //if(term.match(/^\s*$/)) return; 
         
         window.doAJAXRequest('data/xql/search.xql',
             'GET', 

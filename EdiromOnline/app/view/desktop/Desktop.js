@@ -199,7 +199,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         else
             win.hide();
             
-        win.doSearch(term);
+        //win.doSearch(term);
     },
 
     getSizeAndPosition: function(maxWidth, maxHeight) {
@@ -207,7 +207,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         var me = this;
         var usableSize = me.getUsableSize();
 
-        var width = Math.max(300, (usableSize.width / 2) - 20);
+        var width = Math.max(300, (usableSize.width / 3 * 2) - 20);
         var height = Math.max(300, usableSize.height - 20);
         
         var position = [10, 5];
