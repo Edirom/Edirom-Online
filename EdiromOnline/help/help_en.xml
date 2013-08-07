@@ -42,6 +42,7 @@
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
+         <change when="2013-08-07T15:23:00" who="#bwb">* corrected long lang_vars in pull request;</change>
          <change when="2013-08-01T15:53:00" who="#bwb">* removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</change>
          <change when="2013-08-01" who="#bwb">* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</change>
          <change when="2013-07-30" who="#bwb">*overhauled structure of button entries; * corrected some typos; * added missing button descriptions in annotation-view;</change>
@@ -519,13 +520,13 @@
                 <figure>
                         <graphic url="images/pageView.png"/>
                    <p>
-                            <term type="ediromGui" key="view.window.source.SourceView_pageBasedView"/>
+                            <term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>
                       <lb/>switches to a page based navigation of the source.</p>
                 </figure>
                 <figure>
                         <graphic url="images/barView.png"/>
                    <p>
-                            <term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>
+                            <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>
                       <lb/>switches to a measure based navigation of the source.</p>
                 </figure>
                   <figure>
@@ -543,11 +544,11 @@
                   <figure>
                         <graphic url="images/prev-box-next.png"/>
                      <p>
-                            <term type="ediromGui" key="view.window.source.SourceView_arrowControl"/><!-- TODO add lang-file entry -->
-                        <lb/>The number indicated by the number field either shows the currente page number (<term type="ediromGui" key="view.window.source.SourceView_pageBasedView"/>), or measure number (<term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>). Switching to another page or measure is possible either by clicking on the respective arrow heads for leafing through, or entering a number in the number field, in which case a filtered list of possible numbers will appear. The possible numbers correspond to those used by the editor for the source and therefore do not always begin with 1 and might include any alphanumeric character.</p>
+                            <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_measureSpinner"/> respectively <term type="ediromGui" key="view.window.source.SourceView_PageBasedView_pageSpinner"/>
+                        <lb/>The number indicated by the number field either shows the currente page number (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>), or measure number (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>). Switching to another page or measure is possible either by clicking on the respective arrow heads for leafing through, or entering a number in the number field, in which case a filtered list of possible numbers will appear. The possible numbers correspond to those used by the editor for the source and therefore do not always begin with 1 and might include any alphanumeric character.</p>
                   </figure>
                
-               <p>Some additional controls appear when switching to the <term type="ediromGui" key="view.window.source.SourceView_measureBasedView"/>:</p>
+               <p>Some additional controls appear when switching to the <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>:</p>
                 
                <figure>
                         <graphic url="images/SourceView_measureBasedCombo.png"/>
