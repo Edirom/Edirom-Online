@@ -55,7 +55,9 @@
                 </xsl:analyze-string>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:text>[[missing langVar: </xsl:text>
                 <xsl:value-of select="$key"/>
+            <xsl:text>]]</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
