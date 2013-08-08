@@ -42,6 +42,7 @@
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
+         <change when="2013-08-08" who="#bwb">* added escription of searchWindow; deactivated link to missing preferences section;</change>
          <change when="2013-08-07T15:23:00" who="#bwb">* corrected long lang_vars in pull request;</change>
          <change when="2013-08-01T15:53:00" who="#bwb">* removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</change>
          <change when="2013-08-01" who="#bwb">* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</change>
@@ -267,7 +268,7 @@
                      <head>
                                 <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> with and without additional drop-down menu.</head>
                   </figure>
-                  <p>Below the slide control is a large button labeled <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. Click on this button to open the selected measure in all open sources on the current desktop. You can also navigate within sources using the two arrows to the left and right of the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/> button, which allow you to browse forward or backward. Depending on your settings (see <ptr target="#openPreferences"/><!-- TODO add corresponding chapter on preferences-->), only windows which are already opened are affected by this. If this particular measure exists in other sources currently not displayed, a small button on the lower right will appear <!-- TODO check implementation -->. This buttons lets you open all relevant windows for the selected measure position and will rearrange all open windows.</p>
+                 <p>Below the slide control is a large button labeled <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. Click on this button to open the selected measure in all open sources on the current desktop. You can also navigate within sources using the two arrows to the left and right of the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/> button, which allow you to browse forward or backward. Depending on your settings <!-- TODO add corresponding(see <ptr target="#openPreferences"/> chapter on preferences)-->, only windows which are already opened are affected by this. If this particular measure exists in other sources currently not displayed, a small button on the lower right will appear <!-- TODO check implementation -->. This buttons lets you open all relevant windows for the selected measure position and will rearrange all open windows.</p>
                </div>
                <!--bwb not implemnted <div type="div2" xml:id="openPreferences" change="change_6">
                   <head><term type="ediromGui" key="view.desktop.TaskBar_pref"/></head>
@@ -308,18 +309,24 @@
             </figure>
             <p>In case the navigator holds very many objects, a scroll bar located along the right edge of the window lets you scroll through the contents of the navigator. You can also scroll using the wheel of your mouse, if applicable.</p>
          </div>
-           
-         <!-- bwb not implemented <div type="div1" xml:id="searchWindow"><!-\- TODO: check implementation status -\->
-            <head>Search box and search window</head>
-            <p>The content of the edition can be accessed through the navigator or the search window. The search window can be opened using the corresponding button<!-\- TODO check impleentation -\-> on the menu bar or by entering a search query in the search box.</p>
+         
+         <!-- SEARCH WINDOW ========================================================== -->
+           <div type="div1" xml:id="help_controller.window.Window_searchView"><!-- TODO: check implementation status -->
+            <head>
+                    <term type="ediromGui" key="view.window.search.SearchWindow_Title"/>
+                </head>
+            <p><!-- TODO new section CONTENT: The content of the edition can be accessed through the navigator or the search window. -->The search window can be opened using the <term type="ediromGui" key="view.desktop.TaskBar_search"/> button on the <term type="ediromGui" key="view.desktop.TopBar"/> or by entering a search query in the <term type="ediromGui" key="view.desktop.TopBar_searchField"/> and hitting <q>Return</q>. This will perform a text based search on all edition contents. <!-- TODO check search range -->
+                </p>
             <figure>
-               <graphic url="../Vorlagen/Edirom 2011-04/HTML/pix/searchWindow_en.jpg"/>
-            </figure> 
-            <p>The content is usually grouped into item types. By adding or removing the check marks (✓) in the gray column on the right, you can choose which item types to display. This lets you narrow your search, for example, to include annotations only. The left side of the window shows the different items in groups. Each section can be shown or hidden by clicking the triangle located on the left edge of the blue header bar. The number of items listed under each header is also indicated. Please note that normally only the first five entries of each item type (texts, etc.) are displayed. If more than five items exist, the remaining items can be shown or hidden in the corresponding list by clicking the "Show all n elements" button.</p>
-            <p>
-               <hi rend="bold">Search results</hi> can be selected with a single mouse click. Double-clicking opens the corresponding item in a separate window. To display additional information about the current item, click on the gray "i" symbol at the right edge of each row. The <term type="ediromGui" key="view.desktop.TopBar_searchField"/> at the top of the window supports the same search syntax as the search box in the <hi rend="bold">toolbar</hi>.</p>
-         </div>-->
-         <!-- bwb not implemented <div type="div1" xml:id="searching"><!-\- TODO not implemented - eliminate or adapt to current state? -\->
+                    <graphic url="images/searchWindow_en.png"/>
+            </figure>
+            <p>First giving the total count of documents containing the search string, the <term type="ediromGui" key="view.window.search.SearchWindow_Title"/> lists all documents giving their title and number of hits in the item, as well, as reproducing the first three hits in their given context. If an item scores more than three hits a link will appear after the third hit. The search term being highlighted in its context provides for better orientation in the result list.</p>
+            <p>Clicking on the document title or a highlighted search term opens the corresponding item with highlighted search results.</p>
+            <!--<p>The content is usually grouped into item types. By adding or removing the check marks (✓) in the gray column on the right, you can choose which item types to display. This lets you narrow your search, for example, to include annotations only. The left side of the window shows the different items in groups. Each section can be shown or hidden by clicking the triangle located on the left edge of the blue header bar. The number of items listed under each header is also indicated. Please note that normally only the first five entries of each item type (texts, etc.) are displayed. If more than five items exist, the remaining items can be shown or hidden in the corresponding list by clicking the "Show all n elements" button.</p>-->
+            <!--<p>
+               <hi rend="bold">Search results</hi> can be selected with a single mouse click. Double-clicking opens the corresponding item in a separate window. To display additional information about the current item, click on the gray "i" symbol at the right edge of each row. The <term type="ediromGui" key="view.desktop.TopBar_searchField"/> at the top of the window supports the same search syntax as the search box in the <hi rend="bold">toolbar</hi>.</p>-->
+         </div>
+         <!-- TODO check implementation status <div type="div1" xml:id="searching"><!-\- TODO not implemented - eliminate or adapt to current state? -\->
             <head>Search syntax </head>
            <p>The <term type="ediromGui" key="view.desktop.TopBar_searchField"/>, located in the <ptr target="#toolbar_top"/>, and <term type="ediromGui" key="view.desktop.TaskBar_search"/> offer advanced search options. When you enter a search term, the title, content and metadata of all items contained in the edition are searched for this term. However, there are also several options for refining your search. You can create more specific queries by entering certain <hi rend="bold">keywords</hi>. When doing so, make sure to enter the search term directly after the keyword with no spaces in between. Multiple search terms can be separated by commas (again with no spaces in between). If a search term contains spaces (such as a name), enclose the term in quotation marks to search for all words together. Otherwise, words separated by spaces will be treated as separate search criteria. The most important key words and acceptable values are shown below. </p>
             <div type="div2">
