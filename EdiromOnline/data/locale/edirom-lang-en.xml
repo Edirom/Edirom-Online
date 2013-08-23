@@ -99,12 +99,10 @@
         <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Page Spinner"/>
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Previous measure"/>
-        <entry key="view.window.source.SourceView_measureBasedView_measureSpinner" value="Measure Spinner"/>
-        <entry key="view.window.source.SourceView_selectVoices" value="Select parts"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Select parts"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Next measure"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Select movement"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Select voices"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
         <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.source.SourceView_gotoMenu" value="Go to…"/>
