@@ -62,14 +62,17 @@ Ext.define('de.edirom.online.view.window.XmlView', {
 
         me.decreaseFont = Ext.create('Ext.button.Button', {
             text: 'A-',
+            cls: 'menuButton',
             handler: Ext.bind(me.decreaseEditorFontSize, me)
         });
         me.increaseFont = Ext.create('Ext.button.Button', {
             text: 'A+',
+            cls: 'menuButton',
             handler: Ext.bind(me.increaseEditorFontSize, me)
         });
         me.lineNumbers = Ext.create('Ext.button.Button', {
-            text: 'line #',
+            text: 'Line #',
+            cls: 'menuButton',
             handler: Ext.bind(me.switchGutterVisibility, me)
         });
 
