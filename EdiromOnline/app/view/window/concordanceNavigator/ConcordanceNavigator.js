@@ -291,6 +291,7 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
         }else {
             me.itemSelectionLabel.setText(concordance.get('connections')['label']);
             me.itemSlider.setData(concordance.get('connections')['connections'], 'name');
+            me.itemSelection.setValue(me.itemSlider.getEnhancedValue());
         }
     },
 
@@ -321,6 +322,7 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
         me.groupSelector.setText(label);
         me.itemSelectionLabel.setText(group['connections']['label']);
         me.itemSlider.setData(group['connections']['connections'], 'name');
+        me.itemSelection.setValue(me.itemSlider.getEnhancedValue());
     }, 
     
     close: function() {
