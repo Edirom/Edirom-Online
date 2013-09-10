@@ -156,7 +156,7 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         viewer.addMeasures(measures);
     },
     
-    onAnnotationsVisibilityChange: function(viewer, visible, pageId, uri, args) {
+    onAnnotationsVisibilityChange: function(viewer, visible, pageId, uri, sourceView, args) {
         var me = this;
         
         if(visible) {
@@ -175,7 +175,7 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
                         data: Ext.JSON.decode(data)
                     });
 
-                    me.annotationsLoaded(annotations, viewer, pageId);
+                    me.annotationsLoaded(annotations, viewer, pageId, sourceView);
                 }
             });
         }else {
@@ -183,10 +183,11 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         }
     },
     
-    annotationsLoaded: function(annotations, viewer, pageId) {
+    annotationsLoaded: function(annotations, viewer, pageId, sourceView) {
 
         if(pageId != viewer.imgId) return;
 
         viewer.addAnnotations(annotations);
+        sourceView.annotationFilterChanged();
     }
 });

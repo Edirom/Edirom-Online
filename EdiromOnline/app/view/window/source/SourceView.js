@@ -195,6 +195,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         });
 
         me.pageBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
+        me.measureBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
     },
 
     setMovements: function(movements) {
@@ -486,6 +487,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     showAnnotations: function(annotations) {
         var me = this;
         me.pageBasedView.showAnnotations(annotations);
+        me.annotationFilterChanged();
     },
 
     hideAnnotations: function() {

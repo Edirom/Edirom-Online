@@ -347,6 +347,14 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         try {
             me.reloadDisplay();
         }catch(e) {}
+    },
+    
+    annotationFilterChanged: function(visibleCategories, visiblePriorities) {
+        var me = this;
+
+        me.viewers.each(function(v) {
+            v.annotationFilterChanged(visibleCategories, visiblePriorities);
+        });
     }
 });
 
@@ -417,7 +425,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         
         Ext.Array.each(me.imageViewers, function(viewer) {
             if(viewer.isVisible()) {
-                me.fireEvent('annotationsVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri);
+                me.fireEvent('annotationsVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri, me.owner.owner);
             }
         });
     },
@@ -425,7 +433,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
     onViewerImageChange: function(viewer, path, pageId) {
         var me = this;
         me.fireEvent('measureVisibilityChange', viewer, me.owner.owner.measuresVisible, viewer.imgId, me.owner.owner.uri);
-        me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri);
+        me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);
     },
     
     setMeasure: function(measure, measureCount) {
@@ -558,6 +566,34 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
     
             viewer.showRect(ulx, uly, width, height, true);
         }
+    },
+    
+    annotationFilterChanged: function(visibleCategories, visiblePriorities) {
+        var me = this;
+        
+        Ext.Array.each(me.imageViewers, function(viewer) {
+            var annotations = viewer.getShapes('annotations');
+            var fn = Ext.bind(function(annotation) {
+                var annotDiv = viewer.getShapeElem(annotation.id);
+                var className = annotDiv.dom.className.replace('annotation', '').trim();
+                var classes = className.split(' ');
+    
+                var hasCategory = false;
+                var hasPriority = false;
+    
+                for(var i = 0; i < classes.length; i++) {
+                    hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
+                    hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
+                }
+    
+                annotDiv.setVisible(hasCategory & hasPriority);
+            }, me);
+    
+            if(annotations.each)
+                annotations.each(fn);
+            else
+                Ext.Array.each(annotations, fn);
+        });
     }
 });
 
