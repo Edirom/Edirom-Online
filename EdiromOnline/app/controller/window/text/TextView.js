@@ -51,20 +51,18 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
 
         var uri = view.uri;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getText.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getText.xql',
+            'GET', 
+            {
                 uri: uri,
                 idPrefix: view.id + '_',
                 term: view.window.term,
                 path: view.window.path
             },
-            success: function(response){
+            Ext.bind(function(response){
                 this.contentLoaded(view, response.responseText);
-            },
-            scope: this
-        });
+            }, this)
+        );
     },
 
     contentLoaded: function(view, content) {

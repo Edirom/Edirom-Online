@@ -33,9 +33,6 @@ let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
 let $doc := doc($uri)/root()
 
-let $doc := if($term eq '')then($doc)else($doc//tei:text[ft:query(., $term)]/ancestor::tei:TEI)
-let $doc := if($term eq '')then($doc)else(util:expand($doc))
-
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
 let $xslInstruction := for $i in util:serialize($xslInstruction, ())
                         return
@@ -43,6 +40,9 @@ let $xslInstruction := for $i in util:serialize($xslInstruction, ())
                         then(substring-before(substring-after($i, 'href="'), '"'))
                         else()
 
+
+let $doc := if($term eq '')then($doc)else($doc//tei:text[ft:query(., $term)]/ancestor::tei:TEI)
+let $doc := if($term eq '')then($doc)else(util:expand($doc))
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
