@@ -34,7 +34,7 @@
         <entry key="controller.window.Window_annotationView" value="Annotations"/>
         <entry key="controller.window.Window_headerView" value="Meta data"/>
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
-        <entry key="controller.window.Window_searchView" value="Search"/>
+        <entry key="controller.window.Window_searchView" value="Search window"/>
         <entry key="controller.window.Window_sourceView" value="Facsimile"/>
         <entry key="controller.window.Window_summaryView" value="Summary"/>
         <entry key="controller.window.Window_textView" value="Text"/>
@@ -123,13 +123,13 @@
         
         <!-- naming gui elements -->
         <entry key="view.desktop.Desktop" value="Desktop"/>
-        <entry key="view.desktop.TopBar" value="Tool Bar"/>
+        <entry key="view.desktop.TopBar" value="Toolbar"/>
         <entry key="view.desktop.TopBar_searchField" value="Search Field"/>
-        <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
-        <entry key="view.desktop.TaskBar" value="Task Bar"/>
-        <entry key="view.desktop.TaskBar_btnDesktop" value="Task Bar"/>
-        <entry key="view.window.TopBar" value="Window Tool Bar"/>
-        <entry key="view.window.BottomBar" value="Window Task Bar"/>
+        <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} button"/>
+        <entry key="view.desktop.TaskBar" value="Taskbar"/>
+        <entry key="view.desktop.TaskBar_btnDesktop" value="Taskbar"/>
+        <entry key="view.window.TopBar" value="Window toolbar"/>
+        <entry key="view.window.BottomBar" value="Window taskbar"/>
         <entry key="view.navigator.Navigator" value="Navigator"/>
         <entry key="global_appName" value="Edirom Online"/>
         <entry key="clickAndHoldDragging" value="dragging"/>
@@ -147,7 +147,7 @@
         <entry key="view.window.xmlView_decreaseFontSize.title" value="Decrease font size"/>
         <entry key="view.window.xmlView_increaseFontSize.label" value="A+"/>
         <entry key="view.window.xmlView_increaseFontSize.title" value="Increase font size"/>
-        <entry key="view.window.xmlView_showLineNumbers.label" value="line#"/>
+        <entry key="view.window.xmlView_showLineNumbers.label" value="Line #"/>
         <entry key="view.window.xmlView_showLineNumbers.title" value="Show line numbers"/>
       
         <entry key="view.window.pref_generalSettings" value="General"/>
