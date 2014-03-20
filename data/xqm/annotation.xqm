@@ -59,7 +59,7 @@ declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
 :)
 declare function annotation:toJSON($anno as element()) as xs:string {
     let $id := $anno/@xml:id
-    let $title := $anno/mei:title/normalize-space(text())
+    let $title := normalize-space($anno/mei:title[1])
     let $doc := $anno/root()
     let $prio := $doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2))/mei:name[1]/text()
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
