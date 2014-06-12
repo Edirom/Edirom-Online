@@ -28,21 +28,21 @@
             </author>
          </titleStmt>
          <publicationStmt>
-                <date when="2013-08-01"/>
+            <publisher>Virtueller Forschungsverbund Edirom</publisher>
+            <date when="2013-08-01"/>
             <availability>
-                    <licence/>
+               <licence/>
             </availability>
          </publicationStmt>
          <sourceDesc>
-                <p>Written in Open Office by Edirom Project http://www.edirom.de. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/>
-                </p>
+                <p>Written in Open Office by Edirom Project http://www.edirom.de. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/></p>
          </sourceDesc>
       </fileDesc>
       <revisionDesc>
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
-         <change when="2013-08-08" who="#bwb">* added escription of searchWindow; deactivated link to missing preferences section;</change>
+         <change when="2013-08-08" who="#bwb">* added description of searchWindow; deactivated link to missing preferences section;</change>
          <change when="2013-08-07T15:23:00" who="#bwb">* corrected long lang_vars in pull request;</change>
          <change when="2013-08-01T15:53:00" who="#bwb">* removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</change>
          <change when="2013-08-01" who="#bwb">* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</change>
@@ -59,15 +59,23 @@
       </revisionDesc>
    </teiHeader>
    <text>
+     <front>
+       <titlePage>
+         <titlePart>Help (User Manual)</titlePart>
+         <argument>
+           <p>This document provides a general introduction to using <term type="ediromGui" key="global_appName"/>. It describes the basic functions of the software. Please note that not all of the
+             options described here are necessarily available in every edition using <term type="ediromGui" key="global_appName"/>. This is due to the fact that contents have to be prepared
+             accordingly and projects using <term type="ediromGui" key="global_appName"/> have their own edition guidelines and concepts. Furthermore, some versions may contain more options than
+             mentioned in this document due to edition-specific enhancements.</p>
+         </argument>
+       </titlePage>
+       <pb/>
+       <divGen type="toc"/>
+     </front>
         <body>
-            <head>Help (User Manual) </head>
-        <p>This document provides a general introduction to using <term type="ediromGui" key="global_appName"/>. It describes the basic functions of the software. Please note that not all of the
-                options described here are necessarily available in every edition using <term type="ediromGui" key="global_appName"/>. This is due to the fact that contents have to be prepared
-                accordingly and projects using <term type="ediromGui" key="global_appName"/> have their own edition guidelines and concepts. Furthermore, some versions may contain more options than
-                mentioned in this document due to edition-specific enhancements.</p>
-         <div>
-                <divGen type="toc"/>
-         </div>
+         <!--<div>
+            <divGen type="toc"/>
+         </div>-->
          <!-- PREPARATION =============================================== -->
             <div type="div1" xml:id="preparation">
             <head>Preparation</head>
@@ -902,13 +910,13 @@ If the current work has more than one movement, a drop-down menu lets you select
                         <cell>Symbol in the facsimile:</cell>
                      </row>
                      <row>
-                                <cell>Score</cell>
-                         <cell>
-                                    <figure>
-                                        <graphic url="images/annotNotation1.png"/>
-                               <graphic url="images/annotNotation2.png"/>
-                               <graphic url="images/annotNotation3.png"/>
-                           </figure>
+                       <cell>Score</cell>
+                       <cell>
+                          
+                            <graphic url="images/annotNotation1.png"/>
+                            <graphic url="images/annotNotation2.png"/>
+                            <graphic url="images/annotNotation3.png"/>
+                           
                         </cell>
                      </row>
                   <row>
