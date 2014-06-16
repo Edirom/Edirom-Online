@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE HTML>
 <!--
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -16,42 +16,30 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: index.html 1461 2012-10-24 13:14:59Z daniel $
  -->
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Edirom Online</title>
-		
-        <!-- **CSS** -->
-        <link rel="stylesheet" type="text/css" href="resources/css/edirom.css"/>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>EdiromOnline</title>
+    <!-- **CSS** -->
+    <!--<link rel="stylesheet" type="text/css" href="resources/css/edirom.css"/>-->
+    <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
         
-        <!-- **Raphael JS** -->
-        <script type="text/javascript" src="scripts/raphael-min.js"></script>
+    <!-- **Raphael JS** -->
+    <script type="text/javascript" src="resources/js/raphael-min.js"></script>
         
-        <!-- **ACE** -->
-        <script src="main/js/utils/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-        <script src="main/js/utils/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
-        
-        <!-- ** DEBUG / DEVELOP ** -/->
-        <script type="text/javascript" src="extjs/ext-debug.js"></script>
-        <script type="text/javascript">
-            Ext.Loader.setConfig({
-                paths: {'Ext.ux': 'ext-ux'},
-                disableCaching: true
-            });
-        </script>
-        <!-/- ** DEBUG / DEVELOP ** -->
+    <!-- **ACE** -->
+    <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
 
-        <!-- ** PRODUCTION ** -->
-        <script type="text/javascript" src="extjs/ext.js"></script>
-        <script type="text/javascript" src="all-classes.js"></script>
-        <!-- ** PRODUCTION ** -->
-        
-        
-        <script type="text/javascript" src="app.js"></script>
-    </head>
-    <body>
-	</body>
+    <!-- <x-compile> -->
+    <!-- <x-bootstrap> -->
+    <link rel="stylesheet" href="bootstrap.css"/>
+    <script src="ext/ext-dev.js"></script>
+    <script src="bootstrap.js"></script>
+    <!-- </x-bootstrap> -->
+        <script src="app.js"></script>
+    <!-- </x-compile> -->   
+</head>
+<body></body>
 </html>
