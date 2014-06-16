@@ -1,0 +1,1077 @@
+.textViewContent #col1 {
+	width: 20%;
+	background: #FFFFFF;
+	margin: 0;
+	margin-top: 10px;
+	color: #000066;
+	padding: 5px;
+	position: absolute;
+	float: left;
+	border-style: solid;
+	border-width: 1px;
+	border-color: red;
+}
+
+.textViewContent #col2 {
+	background: #FFFFFF;
+	color: #333333;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	margin: 0;
+	margin-top: 10px;
+	padding: 5px;
+	left: 22%;
+	width: 51%;
+	position: absolute;
+}
+
+.textViewContent #col3 {
+	width: 24%;
+	left: 75%;
+	color: #000066;
+	background: #FFFFFF;
+	border-style: solid;
+	border-width: 1px;
+	border-color: red;
+	margin: 0;
+	margin-top: 10px;
+	padding: 5px;
+	position: absolute;
+	float: right;
+}
+
+.textViewContent #lh-col {
+	width: 16%;
+	color: #000000;
+	margin-top: 2pt;
+	margin-right: 10pt;
+	padding: 5px;
+	background-color: #FFFFFF;
+	float: left;
+	font-weight: normal;
+}
+
+.textViewContent #rh-col {
+	background-color: #FFFFFF;
+	color: #333333;
+	margin: 2pt;
+	padding: 5px;
+	float: right;
+	width: 75%;
+	font-weight: normal;
+}
+
+.textViewContent div.stdheader { border-bottom: 1pt solid black; }
+
+.textViewContent #hdr {
+	width: auto;
+	margin: 0;
+	background-repeat: no-repeat;
+	overflow: inherit;
+}
+
+.textViewContent #hdr2 {
+	width: auto;
+	color: #000000;
+	
+	font-weight: bold;
+	background-color: #99CCFF;
+	padding-left: 5px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	padding-right: 5px;
+}
+
+.textViewContent #hdr3 {
+	width: auto;
+	color: #000000;
+	background-color: #AD06BC;
+	padding-left: 5px;
+	padding-bottom: 2px;
+	padding-top: 2px;
+	padding-right: 5px;
+	
+	font-weight: bold;
+	font-size: smaller;
+}
+
+.textViewContent .bannerright {
+	position: absolute;
+	right: 5px;
+	color: #FFFFFF;
+	
+	font-size: 0.8em;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+.textViewContent #hdr h1 { color: red; }
+
+.textViewContent h1 {
+	font-weight: bold;
+	font-size: 2em;
+	line-height: 34pt;
+}
+
+.textViewContent h2 {
+	font-size: larger;
+	line-height: 20pt;
+	margin-top: 18pt;
+	font-weight: bold;
+}
+
+.textViewContent h3 {
+	font-size: larger;
+	line-height: 18pt;
+	font-weight: bold;
+	font-style: italic;
+}
+
+.textViewContent h1.maintitle {
+	margin-left: 100px;
+	
+	font-weight: bold;
+	bottom: 5px;
+}
+
+.textViewContent h1.title {
+	margin-left: 100px;
+	
+	font-weight: bold;
+	bottom: 5px;
+}
+
+.textViewContent h2.institution {
+	margin-left: 100px;
+	
+}
+
+.textViewContent h2.department {
+	margin-left: 100px;
+	
+}
+
+.textViewContent h2.subtitle {
+	margin-left: 100px;
+	
+	font-weight: bold;
+}
+
+.textViewContent .footer {
+	text-align: center;
+	
+	font-size: 0.8em;
+}
+
+.textViewContent a.breadcrumb {
+	color: #FFFFFF;
+	text-decoration: none;
+	padding-right: 5px;
+	
+	font-weight: bold;
+	font-size: 0.8em;
+}
+
+.textViewContent ul.breadcrumb {
+	display: inline;
+	font-size: 1.1em;
+}
+
+.textViewContent li.breadcrumb {
+	padding-left: 12px;
+	padding-right: 5px;
+	display: inline;
+	color: #000000;
+	background: url(/images/rightarrow.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+.textViewContent li.breadcrumb-first {
+	padding-left: 12px;
+	padding-right: 5px;
+	display: inline;
+	color: #000000;
+	background: url(/images/rightarrow.gif);
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+.textViewContent div.breadcrumb { display: inline; }
+
+.textViewContent .skiplinks {
+	
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 0.8em;
+	text-decoration: none;
+	padding-right: 15px;
+}
+
+.textViewContent .tocontent {
+	color: #000066;
+	display: none;
+}
+
+.textViewContent .hide { display: none; }
+
+.textViewContent .framestdlink {
+	color: red;
+	font-size: smaller;
+	font-weight: bold;
+}
+
+.textViewContent a:hover { text-decoration: underline; }
+
+.textViewContent a.navbar:link {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.textViewContent a.navbar:visited {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.textViewContent a.navbar:hover {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+.textViewContent td.hdr2 {
+	color: #000000;
+	background-color: #99CCFF;
+}
+
+.textViewContent td.hdr3 {
+	background-color: #AD06BC;
+	border: 1pt solid #000000;
+}
+
+.textViewContent td.sidetext { border-right: 1pt solid #000000; }
+
+.textViewContent td.maintext {
+	background-color: #FFFFFF;
+	
+	color: #000000;
+	padding-left: 6pt;
+	padding-right: 6pt;
+}
+
+.textViewContent table.wovenodd td,.textViewContent p.wovenodd { background-color: #FFFFFF; }
+
+.textViewContent div.innertext
+{
+	margin: 6pt;
+	border: 1pt solid red;
+}
+
+.textViewContent div.cdata
+{
+	white-space: pre;
+	clear: both;
+}
+
+.textViewContent pre,.textViewContent div.pre,.textViewContent div.pre_eg,.textViewContent pre.eg,.textViewContent div.eg
+{
+	clear: both;
+	margin-top: 1em;
+	margin-bottom: 1em;
+	border-top-width: 4px;
+	border-bottom-width: 4px;
+	border-left-width: 2px;
+	border-right-width: 2px;
+	border-style: solid;
+	padding-top: 10px;
+	padding-right: 10px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	color: #000000;
+	line-height: 1.1em;
+	
+	font-size: 10pt;
+	white-space: pre;
+}
+
+.textViewContent div.egXML_valid
+{
+	background-color: #f7f9f6;
+	border-color: #c5d8bb;
+}
+
+.textViewContent div.egXML_feasible
+{
+	background-color: #fff9f3;
+	border-color: #ffe1ad;
+}
+
+.textViewContent div.egXML_invalid
+{
+	border-color: #ffe7e8;
+	background-color: #fdbbac;
+}
+
+.textViewContent ul.toc { list-style: none; }
+.textViewContent li.toc { list-style: none; }
+
+.textViewContent a.inlinetoc:link,.textViewContent a.inlinetoc:visited
+{
+	color: #7A7A7A;
+	font-size: smaller;
+	text-decoration: none;
+}
+
+.textViewContent a.inlinetoc-this:visited,.textViewContent a.inlinetoc-this:link
+{
+	font-size: smaller;
+	color: #000000;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.textViewContent a.inlinetoc-sub:visited,.textViewContent a.inlinetoc-sub:link
+{
+	text-decoration: none;
+	color: #000000;
+	font-weight: normal;
+	font-size: smaller;
+}
+
+.textViewContent span.toclist
+{
+	font-size: smaller;
+	
+	font-weight: bold;
+}
+
+.textViewContent p.toclist0
+{
+	margin-left: 0.5em;
+	margin-top: 1pt;
+	margin-bottom: 3pt;
+	text-indent: -0.5em;
+	font-size: small;
+}
+
+.textViewContent p.toclist1
+{
+	margin-left: 1em;
+	margin-top: 1pt;
+	margin-bottom: 2pt;
+	text-indent: -0.7em;
+	font-size: small;
+}
+
+.textViewContent p.toclist2
+{
+	margin-left: 1.5em;
+	text-indent: -1em;
+	font-size: small;
+}
+
+.textViewContent p.toclist3
+{
+	margin-left: 2em;
+	text-indent: -1.5em;
+	font-size: small;
+}
+
+.textViewContent span.toclist-this { color: red; }
+
+.textViewContent a.toclist:visited,.textViewContent a.toclist:link
+{
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.textViewContent div.noteHeading
+{
+	margin-top: 9pt;
+	border: 0;
+	border-top: 1pt;
+	border-style: solid;
+	padding-top: 6pt;
+	font-size: larger;
+	font-weight: bold;
+}
+
+.textViewContent div.noteBody { display: inline; }
+
+.textViewContent div.note
+{
+	margin-left: 1em;
+	margin-bottom: 4pt;
+	text-indent: -1em;
+}
+
+.textViewContent span.noteLabel { font-style: italic; }
+.textViewContent span.noteNumber:before { content: "["; }
+.textViewContent span.noteNumber:after { content: "]. "; }
+.textViewContent span.note { font-size: smaller; }
+
+.textViewContent img.display
+{
+	margin-top: 10pt;
+	margin-bottom: 10pt;
+	display: block;
+}
+
+.textViewContent .caption { font-style: italic; }
+.textViewContent span.caption { display: block; }
+
+.textViewContent .floatimage
+{
+	float: left;
+	margin-right: 6px;
+	vertical-align: top;
+}
+
+.textViewContent div.letter
+{
+	margin-left: 2em;
+	margin-right: 2em;
+	margin-top: 6pt;
+	margin-bottom: 6pt;
+	border-top: 1pt solid green;
+	border-bottom: 1pt solid green;
+}
+
+.textViewContent div.titlePage,.textViewContent div.titlepage
+{
+	border-top: 2pt solid #000000;
+	border-bottom: 2pt solid #000000;
+	padding-top: 6pt;
+	padding-bottom: 6pt;
+	font-size: larger;
+	text-align: center;
+}
+
+.textViewContent .docImprint
+{
+	display: block;
+	font-style: italic;
+}
+
+.textViewContent .docDate { font-style: italic; }
+
+.textViewContent .docTitle
+{
+	display: block;
+	margin-top: 6pt;
+	font-weight: bold;
+	margin-bottom: 18pt;
+}
+
+.textViewContent .docAuthor { font-style: italic; }
+.textViewContent .byline { display: block; }
+.textViewContent div.dateline { text-align: right; }
+
+.textViewContent div.lg
+{
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.textViewContent div.centerbold
+{
+	text-align: center;
+	font-weight: bold;
+}
+
+.textViewContent div.center { text-align: center; }
+.textViewContent div.right { text-align: right; }
+.textViewContent div.left { text-align: left; }
+.textViewContent div.signed { text-align: left; }
+
+.textViewContent div.l
+{
+	text-align: left;
+	margin-left: 1em;
+}
+
+.textViewContent div.epigraph { margin: 20pt; }
+
+.textViewContent div.numbering
+{
+	float: left;
+	font-size: smaller;
+	width: 2em;
+}
+
+.textViewContent p.center { text-align: center; }
+.textViewContent p.right { text-align: right; }
+.textViewContent p.left { text-align: left; }
+.textViewContent div.indent1 { margin-left: 1em; }
+.textViewContent div.indent2 { margin-left: 2em; }
+.textViewContent div.indent3 { margin-left: 3em; }
+.textViewContent div.indent4 { margin-left: 4em; }
+.textViewContent div.indent5 { margin-left: 5em; }
+.textViewContent div.indent6 { margin-left: 6em; }
+.textViewContent span.foreign { font-style: italic; }
+.textViewContent .plain { text-decoration: none; }
+.textViewContent p.box { border: 1pt solid #000000; }
+.textViewContent .small { font-size: small; }
+
+.textViewContent td.label
+{
+	font-weight: bold;
+	background-color: #AAAAAA;
+}
+
+.textViewContent tr.label td
+{
+	font-weight: bold;
+	background-color: #AAAAAA;
+}
+
+.textViewContent span.label { font-weight: bold; }
+.textViewContent h5 { font-size: 100%; }
+.textViewContent h6 { font-size: 100%; }
+.textViewContent div.tocFront { border-bottom: 1pt solid #000000; }
+.textViewContent div.tocBack { border-bottom: 1pt solid #000000; }
+.textViewContent div.tocBody { border-bottom: 1pt solid #000000; }
+
+.textViewContent div.listBibl
+{
+	margin-top: 6pt;
+	margin-bottom: 6pt;
+}
+
+.textViewContent div.bibl
+{
+	margin-left: 0.5em;
+	text-indent: -0.5em;
+}
+
+.textViewContent div.biblfree
+{
+	font-size: smaller;
+	font-style: italic;
+	margin-left: 0.5em;
+	text-indent: -0.5em;
+	margin-bottom: 6pt;
+}
+
+.textViewContent span.biblLabel
+{
+	font-weight: bold;
+	margin-right: 1em;
+}
+
+.textViewContent div.citbibl:before { content: "("; }
+.textViewContent div.citbibl:after { content: ")"; }
+
+.textViewContent div.citbibl
+{
+	text-align: right;
+	font-size: smaller;
+}
+
+.textViewContent div.citquote
+{
+	margin-left: 10pt;
+	margin-right: 10pt;
+}
+
+.textViewContent dt { font-weight: bold; }
+.textViewContent div.blockquote { margin: 10pt; }
+.textViewContent span.hi { font-weight: bold; }
+.textViewContent div.p-in-sp { margin-left: 1em; }
+.textViewContent div.sp { margin-top: 4pt; }
+
+.textViewContent div.spProse
+{
+	text-indent: -1em;
+	margin-left: 1em;
+}
+
+.textViewContent div.speaker { font-weight: bold; }
+.textViewContent span.speaker { font-style: italic; }
+.textViewContent span.actor { font-style: italic; }
+.textViewContent span.camera { font-style: italic; }
+.textViewContent span.caption { font-style: italic; }
+.textViewContent span.role { font-style: italic; }
+.textViewContent span.set { font-style: italic; }
+.textViewContent span.sound { font-style: italic; }
+.textViewContent span.stage { font-style: italic; }
+.textViewContent span.tech { font-style: italic; }
+.textViewContent span.view { font-style: italic; }
+.textViewContent span.mentioned { font-style: italic; }
+.textViewContent span.nextLink { font-style: italic; }
+.textViewContent span.previousLink { font-style: italic; }
+.textViewContent span.upLink { font-style: italic; }
+.textViewContent p,.textViewContent div.p { margin-top: 0.3em; }
+.textViewContent span.titlem { font-style: italic; }
+.textViewContent span.titlej { font-style: italic; }
+
+.textViewContent span.margnote,.textViewContent div.margnote
+{
+	display: block;
+	font-size: smaller;
+	clear: right;
+	padding: 4pt;
+	font-style: italic;
+	width: 10%;
+	float: right;
+	border: solid green 1pt;
+	margin: 6pt;
+}
+
+.textViewContent div.floatingText_back { border-top: solid black 1pt; }
+.textViewContent div.floatingText_front { border-top: solid black 1pt; }
+
+.textViewContent div.floatingText
+{
+	margin: 6pt;
+	border: solid black 1pt;
+}
+
+.textViewContent span.pagebreak
+{
+	background-color: green;
+	font-weight: bold;
+}
+
+.textViewContent div.pagebreak
+{
+	display: block;
+	border: solid red 1pt;
+}
+
+.textViewContent span.element
+{
+	font-weight: bold;
+	color: black;
+}
+
+.textViewContent span.unclear { font-weight: bold; }
+.textViewContent span.wordtypeNN,.textViewContent span.wordtypeNNS { color: green; }
+.textViewContent span.wordtypeVVD,.textViewContent span.wordtypeVVN,.textViewContent span.wordtypeVVN,.textViewContent span.wordtypeVVZ,.textViewContent span.wordtypeVVG,.textViewContent span.wordtypeVV { color: red; }
+.textViewContent li.headless { display: none; }
+.textViewContent span.hi { font-weight: bold; }
+.textViewContent div.footer { border-top: solid black 1pt; }
+
+.textViewContent div.stdfooter
+{
+	border-top: solid black 1pt;
+	border-bottom: solid black 1pt;
+}
+
+.textViewContent div.altfigure
+{
+	border-top: solid black 1pt;
+	border-bottom: solid black 1pt;
+}
+
+.textViewContent table.table,.textViewContent table.table tr,.textViewContent table.table td { border: solid black 1pt; }
+.textViewContent table.table td { padding: 1ex 1ex 1ex 1ex; }
+
+.textViewContent p.mainAuthor
+{
+	display: block;
+	margin: 1ex 0ex 1ex 0ex;
+}
+
+.textViewContent p.mainEditor
+{
+	display: block;
+	margin: 1ex 0ex 1ex 0ex;
+}
+
+.textViewContent table.wovenodd
+{
+	width: 100%;
+	clear: both;
+}
+
+.textViewContent td.wovenodd-col1
+{
+	width: 15%;
+	vertical-align: top;
+}
+
+.textViewContent td.wovenodd-col2 { width: 85%; }
+
+.textViewContent table.wovenodd tr td
+{
+	border: 1px solid #555;
+	padding: 1%;
+}
+
+.textViewContent table.wovenodd
+{
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+.textViewContent table.wovenodd tr td { border-spacing: 0px; }
+
+.textViewContent table.wovenodd tr
+{
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+.textViewContent table.wovenodd tr td table.attList
+{
+	border-spacing: 0px;
+	border: none;
+}
+
+.textViewContent table.wovenodd tr td table.attList tr
+{
+	border-spacing: 0px;
+	border: none;
+}
+
+.textViewContent table.wovenodd tr td table.attList tr td
+{
+	border-spacing: 0px;
+	border: none;
+}
+
+.textViewContent table.attList
+{
+	table-layout: fixed;
+	width: 100%;
+	margin: 0pt;
+	padding: 0pt;
+}
+
+.textViewContent td.odd_label
+{
+	vertical-align: top;
+	width: 10%;
+	font-weight: bold;
+}
+
+.textViewContent td.odd_value
+{
+	vertical-align: top;
+	width: 90%;
+}
+
+.textViewContent table.attDef
+{
+	table-layout: fixed;
+	width: 100%;
+}
+
+.textViewContent table.attDef td.odd_label
+{
+	width: 10%;
+	vertical-align: top;
+	font-weight: normal;
+}
+
+.textViewContent table.attDef td.odd_value
+{
+	vertical-align: top;
+	width: 90%;
+}
+
+.textViewContent table.attList td.odd_label:before { content: "@"; }
+.textViewContent table.attDef td.odd_label:before { content: ""; }
+.textViewContent table.valList td.odd_label:before { content: ""; }
+
+.textViewContent table.valList
+{
+	table-layout: fixed;
+	width: 100%;
+}
+
+.textViewContent table.valList td.odd_label
+{
+	width: 10%;
+	vertical-align: top;
+	font-style: normal;
+	font-weight: normal;
+}
+
+.textViewContent table.valList td.odd_value
+{
+	vertical-align: top;
+	width: 90%;
+}
+
+.textViewContent table.specDesc td.Attribute
+{
+	font-weight: bold;
+	vertical-align: top;
+}
+
+.textViewContent table.specDesc { margin-left: 1em; }
+
+.textViewContent td p
+{
+	margin-top: 0pt;
+	margin-bottom: 2pt;
+}
+
+.textViewContent div.cdata
+{
+	white-space: pre;
+	clear: both;
+}
+
+.textViewContent span.att:before { content: "@"; }
+.textViewContent span.ident,.textViewContent span.ident-class,.textViewContent span.ident-datatype,.textViewContent span.ident-frag,.textViewContent span.ident-ge,.textViewContent span.ident-macro,.textViewContent span.ident-module,.textViewContent span.ident-pe,.textViewContent span.ident-rng,.textViewContent span.ident-schema { font-weight: bold; }
+.textViewContent span.ident-file,.textViewContent span.ident-ns { font-style: italic; }
+
+.textViewContent button.displayRelaxButton
+{
+	margin-right: 2px;
+	margin-top: 2px;
+	font-size: 70%;
+	float: right;
+	cursor: pointer;
+}
+
+.textViewContent pre.RNG_XML { display: none; }
+.textViewContent span.RNG_XML { display: none; }
+.textViewContent td.classSpec,.textViewContent td.macroSpec { font-weight: bold; }
+
+.textViewContent span.element
+{
+	font-weight: bold;
+	color: black;
+}
+
+.textViewContent td.elementSpec,.textViewContent span.elementname
+{
+	font-weight: bold;
+	color: #222288;
+}
+
+.textViewContent span.highlightelementname { color: red; }
+.textViewContent span.attribute { color: #222288; }
+.textViewContent span.attributevalue { color: black; }
+
+.textViewContent span.comment
+{
+	color: black;
+	font-style: italic;
+}
+
+.textViewContent span.namespace { color: #222288; }
+.textViewContent span.rnc_nc { color: #006400; }
+.textViewContent span.rnc_decl { color: green; }
+.textViewContent span.rnc_prefix { color: blue; }
+.textViewContent span.rnc_param { color: gray; }
+.textViewContent span.rnc_atom { color: yellow; }
+.textViewContent span.rnc_annot { color: #FF8040; }
+.textViewContent span.rnc_comment { color: #FF00FF; }
+.textViewContent span.rnc_annot { color: #00FFFF; }
+.textViewContent span.rnc_type { color: purple; }
+.textViewContent span.rnc_keyword { color: teal; }
+.textViewContent span.defaultVal { font-weight: bold; }
+.textViewContent span.required { font-weight: bold; }
+
+.textViewContent div.moduleSpec
+{
+	padding: 1px;
+	margin: 1px;
+	background-color: #C0C0C0;
+	color: inherit;
+	clear: right;
+}
+
+.textViewContent span.moduleSpecHead { font-style: italic; }
+.textViewContent ul.specList li { list-style: none; }
+.textViewContent span.specList-macroSpec { font-weight: bold; }
+.textViewContent span.specList-elementSpec { font-weight: bold; }
+.textViewContent span.specList-elementSpec:before { content: "<"; }
+.textViewContent span.specList-elementSpec:after { content: ">"; }
+.textViewContent span.specList-classSpec { font-weight: bold; }
+
+.textViewContent span.specName
+{
+	color: #223377;
+	font-weight: bold;
+}
+
+.textViewContent #azindex
+{
+	background-color: #ddd;
+	color: inherit;
+	display: block;
+	margin: 0px;
+	float: left;
+	padding: 5px;
+	width: 75%;
+	border: 1px solid #999;
+}
+
+.textViewContent #azindex p
+{
+	color: #fff;
+	background-color: #000060;
+	padding: 4px;
+	display: block;
+	margin: 0;
+	border-bottom: 1px solid #333;
+	font-size: 0.95em;
+}
+
+.textViewContent .index
+{
+	font: bold 100% Verdana, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+.textViewContent .index li
+{
+	float: left;
+	height: 1.5em;
+	list-style-type: none;
+	margin: 0.35em 0.15em;
+	padding: 0;
+	width: 1.5em;
+}
+
+.textViewContent .index a:link,.textViewContent .index a:visited
+{
+	background: #fff;
+	color: navy;
+	display: block;
+	height: 1.5em;
+	padding: 0.37em 0 0 0;
+	text-align: center;
+	text-decoration: none;
+	width: 1.5em;
+	border: 1px solid #999;
+}
+
+.textViewContent li.showall,.textViewContent li.showall a:visited,.textViewContent li.showall a:link { width: 10em; }
+.textViewContent * html .index li { margin: 0.2em 0.2em; }
+
+.textViewContent ul.index li a:hover
+{
+	background-color: #93D1E4;
+	color: #fff;
+	text-decoration: underline;
+}
+
+.textViewContent div.atozwrapper
+{
+	float: left;
+	width: 70%;
+}
+
+.textViewContent div.atoz
+{
+	clear: left;
+	float: left;
+}
+
+.textViewContent #byMod
+{
+	margin-top: 12px;
+	clear: left;
+}
+
+.textViewContent ul.atoz
+{
+	list-style: none;
+	text-align: left;
+	margin: 2px;
+	padding: 2px;
+	background-color: #eef;
+	color: inherit;
+}
+
+.textViewContent .atoz li
+{
+	padding: 0px;
+	display: inline;
+}
+
+.textViewContent span.listhead
+{
+	margin-top: 0em;
+	margin-right: 1em;
+	padding-left: 3px;
+	padding-right: 3px;
+	color: #000066;
+	font-weight: bold;
+	font-size: large;
+}
+
+.textViewContent div.specChildren
+{
+	margin: 0em;
+	padding: 0em;
+}
+
+.textViewContent span.specChildModule { font-weight: bold; }
+
+.textViewContent div.specChild
+{
+	margin-bottom: 4pt;
+	margin-left: 25px;
+	text-indent: -30px;
+}
+
+.textViewContent span.emptySlash:after { content: "/"; }
+
+.textViewContent .status_deprecated:after
+{
+	content: " (deprecated)";
+	color: red;
+}
+
+.textViewContent .status_changed:after
+{
+	content: " (changed)";
+	color: blue;
+}
+
+.textViewContent .status_unstable:after
+{
+	content: " (unstable)";
+	color: orange;
+}
+
+.textViewContent .status_deprecated { border: solid red 1pt; }
+.textViewContent .status_changed { border: solid blue 1pt; }
+.textViewContent .status_unstable { border: solid orange 1pt; }
+.textViewContent span.typewriter { }
+.textViewContent span.smallcaps { font-variant: small-caps; }
+.textViewContent span.bold { font-weight: bold; }
+.textViewContent span.italic { font-style: italic; }
+.textViewContent span.capsall { text-transform: uppercase; }
+.textViewContent span.strikethrough { text-decoration: line-through; }
+.textViewContent span.strikedoublethrough { text-decoration: line-through; }
+.textViewContent span.underline { text-decoration: underline; }
+
+.textViewContent span.underwavyline
+{
+	text-decoration-line: underline;
+	text-decoration-style: wavy;
+}
+
+.textViewContent span.underdoubleline { text-decoration: underline; }
+
+.textViewContent span.superscript
+{
+	vertical-align: top;
+	font-size: 70%;
+}
+
+.textViewContent span.subscript
+{
+	vertical-align: bottom;
+	font-size: 70%;
+}
+
+.textViewContent span.numberParagraph:before { content: "["; }
+.textViewContent span.numberParagraph:after { content: "] "; }
+
+.textViewContent span.numberParagraph
+{
+	font-size: smaller;
+	color: grey;
+}

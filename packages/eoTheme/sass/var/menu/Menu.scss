@@ -1,0 +1,13 @@
+$menu-item-active-background-color: #f9d76e;
+$menu-border-color: darken($window-base-color,15%);
+
+.x-menu {
+	.x-menu-body {
+		@include background-image(linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,0.2)));
+	}
+	
+	.x-menu-item-icon {
+		top: 3px !important;
+	}
+
+}

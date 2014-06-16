@@ -1,0 +1,42 @@
+$toolbar-background-color: #cccccc !default;
+$toolbar-background-gradient: 'bevel';
+$toolbar-separator-color: darken($base-color, 40%);
+
+/*$toolbar-background-color: #333333 !default;
+$toolbar-background-gradient: 'bevel';
+$toolbar-separator-color: lighten($base-color, 40%);*/
+
+#ediromTaskbar {
+	height: 32px;
+	padding: 5px;
+	box-shadow: 0 0 1px #000000;
+	
+	.x-toolbar {
+		padding: 0;
+		background: transparent;
+	}
+	
+	.ux-desktop-trayclock {
+		padding-top: 3px;
+	}
+	
+}
+
+#ediromToolbar .x-toolbar {
+	padding: 0;
+	background: transparent;
+}
+
+/* FreiDi */
+
+#ediromToolbar {
+	height: 41px;
+	padding: 0;
+	box-shadow: 0 0 1px #000000;
+}
+
+#ediromToolbar .x-toolbar {
+	margin: 0px;
+	background: transparent;
+}
+

@@ -1,0 +1,32 @@
+.ediromWindow {
+
+	.facsContEvents {
+   		bottom: 0;
+   		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}	
+	
+	.measureInner {
+/* 		background-color: rgba(100, 100, 100, 0.2); */
+		border-radius: 15px;
+		padding: 3px 5px 0;
+    	text-shadow: 0 1px 2px #000000, 0 0 5px #ffffff;
+    	
+    	@include background-image(radial-gradient(center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 80%));
+	}
+	
+	.measure.highlighted {
+		 box-shadow: 0 0 4px rgba(0, 0, 0, 0.6) inset;
+	}
+		
+	.x-panel-body[id^="sourceView"] > .x-panel {
+		border: 1px solid #333333;
+	}
+	
+	.pageInputBox input {
+		text-align: center;
+	}
+	
+}

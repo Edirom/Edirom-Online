@@ -1,0 +1,237 @@
+$button-large-font-weight: 500;
+$button-medium-font-weight: 500;
+$button-small-font-weight: 500;
+
+$button-small-padding: 3px !default;
+$button-small-text-padding: 5px !default;
+$button-medium-text-padding: 8px !default;
+$button-large-text-padding: 10px !default;
+
+$button-toolbar-color: #000000;
+$button-toolbar-background-color: darken($base-color,35%);
+$button-toolbar-background-gradient: 'bevel';
+$button-toolbar-background-gradient-disabled: 'matte';
+$button-toolbar-background-gradient-focus: 'bevel';
+$button-toolbar-background-gradient-over: 'bevel';
+$button-toolbar-background-gradient-pressed: 'matte';
+
+$edirom-taskbarWindowButton-background-color: #cccccc;
+
+.taskSquareButton {
+	width: 24px;
+	background-color: transparent !important;
+	background-repeat: no-repeat;
+	border: none !important;
+	cursor: pointer;
+}
+
+.taskSquareButton.grid {
+	background-image: url('pix/arrangeButtons.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.taskSquareButton.vertical {
+	background-image: url('pix/arrangeButtons.png');
+	background-position: -24px 0;
+	
+	&:hover {
+		background-position: -24px -24px;
+	}
+}
+
+.taskSquareButton.horizontal {
+	background-image: url('pix/arrangeButtons.png');
+	background-position: -48px 0;
+	
+	&:hover {
+		background-position: -48px -24px;
+	}
+}
+
+.taskSquareButton.annotations {
+	background-image: url('pix/annotations.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.taskSquareButton.measureNumbers {
+	background-image: url('pix/measureNumbers.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.taskSquareButton.concordance {
+	background-image: url('pix/concordanceNavigator.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.taskSquareButton.help {
+	background-image: url('pix/help.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.taskSquareButton.search {
+	background-image: url('pix/search.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+}
+
+.toolButton {
+	width: 24px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-color: transparent;
+	border-width: 0;
+	
+	&.x-btn-default-toolbar-small {
+		border-width: 0;
+		background-color: transparent;
+	}
+	
+	&.x-pressed {
+		box-shadow: 0 1px 1px #000000 inset;
+		background-color: #e1e1e1;
+	}
+}
+
+.toolButton.pageBasedView {
+	background-image: url('pix/pageView.png');
+	background-position: 0 -1px;
+	
+	&:hover {
+		background-position: 0 -1px;
+	}
+}
+
+.toolButton.measureBasedView {
+	background-image: url('pix/barView.png');
+	background-position: 0 -1px;
+	
+	&:hover {
+		background-position: 0 -1px;
+	}
+}
+
+.toolButton.prev {
+	background-image: url('pix/prevButton.png');
+	background-position: 3px 2px;
+	border: none;
+	background-color: transparent;
+	
+	&:hover, &.x-pressed {
+		box-shadow: 0 1px 1px #000000 inset;
+		background-color: #e1e1e1;
+	}
+	
+}
+
+.toolButton.next {
+	background-image: url('pix/nextButton.png');
+	background-position: 3px 2px;
+	border: none;
+	background-color: transparent;
+	
+	&:hover, &.x-pressed {
+		box-shadow: 0 1px 1px #000000 inset;
+		background-color: #e1e1e1;
+	}
+}
+
+.toolButton.voiceFilter {
+	background-image: url('pix/selectVoices.png');
+	background-position: 0 0;
+	border: none;
+	background-color: transparent;
+	
+	&:hover, &.pressed {
+		/*background-position: 0 -24px;*/
+		box-shadow: 0 1px 1px #000000 inset;
+		background-color: #e5e5e5;
+	}
+}
+
+/*Button in the Taskbar, used as buttons for the edirom windows*/
+.taskbarWindowButton.x-btn-default-toolbar-small {
+	
+	cursor: pointer;
+	padding-top: 3px !important;
+	padding-bottom: 3px;
+	border: none !important;
+	
+	@include background-image(linear-gradient-bevel(top,darken($edirom-taskbarWindowButton-background-color,10%)));
+	box-shadow: 0 1px 1px rgba(0,0,0,0.4) inset;
+	
+	&.x-pressed {
+		@include background-image(linear-gradient-bevel(top,lighten($edirom-taskbarWindowButton-background-color,5%)));
+	
+		box-shadow: 0 1px 1px #000000 inset;
+	}
+}
+
+/* FreiDi */
+
+
+#homeBtn {
+	background-image: url('pix/Logo_miniInset.png');
+	background-repeat: no-repeat;
+	width: 40px;
+	height: 41px;
+	background-position: 12px 5px;
+	
+	/*background-color: transparent;
+	background-position: 0 5px;
+    background-repeat: no-repeat;
+    font-size: 16px;
+    line-height: 15px;
+    margin-left: 0;
+    padding: 9px 20px 0 35px;*/
+}
+
+#homeBtnLabel {
+	color: #666666;
+	font-size: 16px;
+	line-height: 15px;
+	padding: 0 20px 0 0;
+	top: 8px !important;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+#homeBtnLabel:after {
+	position: absolute;
+	font-size: 13px;
+	top: 16px;
+	left: 0;
+	content:'Digital';
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+#workSwitch {
+	display: none;
+}
+
+.taskSquareButton.search {
+	
+}
+
+
