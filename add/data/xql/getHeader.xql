@@ -20,6 +20,8 @@ xquery version "1.0";
   ID: $Id: getHeader.xql 1455 2012-10-11 10:42:55Z daniel $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -32,7 +34,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $type := request:get-parameter('type', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
-let $doc := doc($docUri)
+let $doc := eutil:getDoc($docUri)
 
 let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
 

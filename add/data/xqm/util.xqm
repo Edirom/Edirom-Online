@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -35,6 +35,23 @@ import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitex
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+(:~
+: Returns a document
+:
+: @param $uri The URIs of the documents to process
+: @return The document
+:)
+declare function eutil:getDoc($uri) {
+    if(starts-with($uri, 'textgrid:'))
+    then(
+        let $session := request:get-cookie-value('edirom_online_textgrid_sessionId')
+        return
+            doc('http://textgridlab.org/1.0/tgcrud/rest/' || $uri || '/data?sessionId=' || $session)
+    )
+    else(
+        doc($uri)
+    )
+};
 
 (:~
 : Returns a comma separated list of document labels

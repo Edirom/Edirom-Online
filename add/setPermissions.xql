@@ -45,15 +45,7 @@ declare function local:scan-collections($root as xs:anyURI, $func as function
 
 let $perms := "g+x,u+x,o+x"
 
-let $ediromOnline := local:scan(xs:anyURI("/db/EdiromOnline"), function($collection, $resource) {
-                        if ($resource and 
-                            xmldb:get-mime-type($resource) = "application/xquery") then
-                            sm:chmod($resource, $perms)
-                        else
-                            sm:chmod($collection, $perms)
-                    })
- 
-let $ediromEditor := local:scan(xs:anyURI("/db/EdiromEditor"), function($collection, $resource) {
+let $ediromOnline := local:scan(xs:anyURI("/db/apps/Edirom-Online"), function($collection, $resource) {
                         if ($resource and 
                             xmldb:get-mime-type($resource) = "application/xquery") then
                             sm:chmod($resource, $perms)
@@ -70,4 +62,4 @@ let $content := local:scan(xs:anyURI("/db/contents"), function($collection, $res
                     })
 
 return
-    ($ediromOnline, $ediromEditor, $content)
+    ($ediromOnline, $content)

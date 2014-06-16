@@ -19,7 +19,7 @@ xquery version "1.0";
 
   ID: $Id: getText.xql 1456 2012-10-11 12:50:05Z niko $
 :)
-
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 declare namespace request="http://exist-db.org/xquery/request";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -31,7 +31,7 @@ let $uri := request:get-parameter('uri', '')
 let $idPrefix := request:get-parameter('idPrefix', '')
 let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
-let $doc := doc($uri)/root()
+let $doc := eutil:getDoc($uri)/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
 let $xslInstruction := for $i in util:serialize($xslInstruction, ())
@@ -47,6 +47,6 @@ let $doc := if($term eq '')then($doc)else(util:expand($doc))
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $doc := transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/></parameters>)
+let $doc := transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="textType" value="{if(contains($uri, 'referenceTexts'))then('freidi_reference')else if(contains($uri, 'texts'))then('freidi_libretto')else('text')}"/></parameters>)
 return
     transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)

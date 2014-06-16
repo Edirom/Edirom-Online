@@ -945,9 +945,9 @@
     </xsl:template>
     <xsl:template match="date" name="dateValue" mode="valueOnly">
         <xsl:choose>
-            <xsl:when test="@reg">
+            <xsl:when test="@isodate">
                 <!-- TODO: prettify date -->
-                <xsl:value-of select="@reg"/>
+                <xsl:value-of select="@isodate"/>
             </xsl:when>
             <xsl:when test="@startdate and @enddate">
                 <xsl:value-of select="eof:getLabel('dateFrom')"/>

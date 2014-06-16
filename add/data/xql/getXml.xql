@@ -20,6 +20,8 @@ xquery version "1.0";
   ID: $Id: getXml.xql 1219 2012-01-20 08:33:28Z daniel $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
@@ -27,7 +29,7 @@ declare option exist:serialize "method=xml media-type=text/xml omit-xml-declarat
 
 let $uri := request:get-parameter('uri', '')
 let $internalId := request:get-parameter('internalId', '')
-let $doc := doc($uri)/root()
+let $doc := eutil:getDoc($uri)/root()
 let $internal := $doc/id($internalId)
 
 return

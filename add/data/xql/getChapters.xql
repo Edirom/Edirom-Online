@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -20,6 +20,8 @@ xquery version "1.0";
   ID: $Id: getChapters.xql 1460 2012-10-15 15:58:35Z niko $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xlink="http://www.w3.org/1999/xlink";
@@ -29,7 +31,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
-let $tei := doc($uri)/root()
+let $tei := eutil:getDoc($uri)/root()
 
 let $ret := for $chapter in $tei//tei:div[@type='chapter'] | $tei//tei:div1
             let $n := if($chapter/@n)then(concat($chapter/@n, ': '))else('')
@@ -50,5 +52,21 @@ let $ret2 := for $numbers in $tei//tei:milestone[@unit='number']
                     'name: "', $n, '"',
                 '}')
 
+let $ret3 := for $act in $tei//tei:div[@type='act']
+            let $label := string-join(for $t in $act/tei:head//text()
+                                        return
+                                        if(matches($t, '\w'))then($t)else(), '') 
+            return
+                for $scene in $act//tei:div[@type='scene']
+                let $label := $label || ' - ' || string-join(for $t in $scene/tei:head//text()
+                                                return
+                                                    if(matches($t, '\w'))then($t)else(), '')
+                let $label := if(string-length($label) > 35)then(concat(substring($label, 1, 35), '…'))else($label)
+                return
+                    concat('{',
+                        '"id": "', $scene/string(@xml:id), '", ',
+                        '"name": "', $label, '"',
+                    '}')
 
-return concat('[', string-join($ret, ','), string-join($ret2, ','), ']')
+
+return concat('[', string-join($ret, ','), string-join($ret2, ','), string-join($ret3, ','), ']')

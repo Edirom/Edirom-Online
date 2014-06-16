@@ -8,10 +8,6 @@ if ($exist:path eq "/") then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="index.html"/>
     </dispatch>
-else if ($exist:resource eq "app.js") then
-    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="app.xql"/>
-    </dispatch>
 (:else if (starts-with($exist:path, "/data")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <!--<redirect url="/exist/restxq{$exist:path}"/>-->

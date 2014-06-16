@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -19,6 +19,8 @@ xquery version "1.0";
 
   ID: $Id: getSummary.xql 1455 2012-10-11 10:42:55Z daniel $
 :)
+
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -431,7 +433,7 @@ declare function local:getTextSummary($doc, $facsBasePath){
 let $uri := request:get-parameter('uri', '')
 let $type := request:get-parameter('type', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
-let $doc := doc($docUri)
+let $doc := eutil:getDoc($docUri)
 
 return
     if($type = 'work')
