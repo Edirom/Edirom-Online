@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: AnnotationParticipant.js 1328 2012-05-16 14:59:35Z daniel $
  */
-Ext.define('de.edirom.online.model.AnnotationParticipant', {
+Ext.define('EdiromOnline.model.AnnotationParticipant', {
 
     requires: [],
 

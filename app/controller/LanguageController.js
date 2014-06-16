@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,16 +15,14 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id$
  */
-Ext.define('de.edirom.online.controller.LanguageController', {
+Ext.define('EdiromOnline.controller.LanguageController', {
 
     extend: 'Ext.app.Controller',
 
     requires: [
         'Ext.String',
-        'de.edirom.online.controller.PreferenceController'
+        'EdiromOnline.controller.PreferenceController'
     ],
 
     langFiles: null,

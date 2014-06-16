@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: RenderingView.js 1336 2012-06-14 13:22:12Z daniel $
  */
-Ext.define('de.edirom.online.controller.window.RenderingView', {
+Ext.define('EdiromOnline.controller.window.RenderingView', {
 
     extend: 'Ext.app.Controller',
 

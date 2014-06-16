@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: Navigator.js 1279 2012-03-19 13:16:43Z daniel $
  */
-Ext.define('de.edirom.online.view.navigator.Navigator', {
+Ext.define('EdiromOnline.view.navigator.Navigator', {
     extend: 'Ext.window.Window',
 
     alias : 'widget.navigator',
@@ -50,7 +48,7 @@ Ext.define('de.edirom.online.view.navigator.Navigator', {
         me.callParent();
 
         /* adding event handlers */
-        me.resizer.on('resize', me.onResize, me);
+        //TODO me.resizer.on('resize', me.onResize, me);
 
         me.el.style = {
             backgroundColor: '#ffffff'

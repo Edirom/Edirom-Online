@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: Navigator.js 1246 2012-01-30 16:51:51Z daniel $
  */
-Ext.define('de.edirom.online.controller.navigator.Navigator', {
+Ext.define('EdiromOnline.controller.navigator.Navigator', {
 
     extend: 'Ext.app.Controller',
 

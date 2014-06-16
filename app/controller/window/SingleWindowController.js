@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,20 +15,21 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: Window.js 1459 2012-10-15 14:51:16Z niko $
  */
-Ext.define('de.edirom.online.controller.window.Window', {
+Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
     extend: 'Ext.app.Controller',
 
     requires: [
-        'de.edirom.online.view.window.HeaderView',
-        'de.edirom.online.view.window.RenderingView',
+        'EdiromOnline.view.window.HeaderView',
+        'EdiromOnline.view.window.RenderingView',
         //TODO:'de.edirom.online.view.window.SearchView',
-        'de.edirom.online.view.window.XmlView',
-        'de.edirom.online.view.window.source.SourceView',
-        'de.edirom.online.view.window.text.TextView'
+        'EdiromOnline.view.window.SummaryView',
+        'EdiromOnline.view.window.XmlView',
+        'EdiromOnline.view.window.source.SourceView',
+        'EdiromOnline.view.window.text.FacsimileView',
+        'EdiromOnline.view.window.text.TextFacsimileSplitView',
+        'EdiromOnline.view.window.text.TextView'
     ],
 
     views: [
@@ -106,23 +107,27 @@ Ext.define('de.edirom.online.controller.window.Window', {
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
+            case 'facsimileView': return 'Faksimile';
             case 'textView': return getLangString('controller.window.Window_textView');
             case 'annotationView': return getLangString('controller.window.Window_annotationView');
             case 'renderingView': return getLangString('controller.window.Window_renderingView');
+            case 'textFacsimileSplitView': return getLangString('controller.window.Window_textFacsimileSplitView');
             //TODO:case 'searchView': return 'Suche';
         }
     },
 
     getViewClass: function(type) {
         switch(type) {
-            case 'summaryView': return 'de.edirom.online.view.window.SummaryView';
-            case 'xmlView': return 'de.edirom.online.view.window.XmlView';
-            case 'sourceView': return 'de.edirom.online.view.window.source.SourceView';
-            case 'headerView': return 'de.edirom.online.view.window.HeaderView';
-            case 'textView': return 'de.edirom.online.view.window.text.TextView';
-            case 'annotationView': return 'de.edirom.online.view.window.AnnotationView';
-            case 'renderingView': return 'de.edirom.online.view.window.RenderingView';
-            //TODO:case 'searchView': return 'de.edirom.online.view.window.SearchView';
+            case 'summaryView': return 'EdiromOnline.view.window.SummaryView';
+            case 'xmlView': return 'EdiromOnline.view.window.XmlView';
+            case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
+            case 'headerView': return 'EdiromOnline.view.window.HeaderView';
+            case 'textView': return 'EdiromOnline.view.window.text.TextView';
+            case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';
+            case 'annotationView': return 'EdiromOnline.view.window.AnnotationView';
+            case 'renderingView': return 'EdiromOnline.view.window.RenderingView';
+            case 'textFacsimileSplitView': return 'EdiromOnline.view.window.text.TextFacsimileSplitView';
+            //TODO:case 'searchView': return 'EdiromOnline.view.window.SearchView';
         }
     }
 });

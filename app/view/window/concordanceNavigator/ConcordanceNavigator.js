@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: ConcordanceNavigator.js 1334 2012-06-14 12:40:33Z daniel $
  */
-Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator', {
+Ext.define('EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator', {
 
     extend: 'Ext.window.Window',
 
@@ -31,8 +29,9 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
     requires: [
         'Ext.button.Button',
         'Ext.container.Container',
+        'Ext.form.Label',
         'Ext.form.field.Text',
-        'de.edirom.online.view.utils.EnhancedSlider'
+        'EdiromOnline.view.utils.EnhancedSlider'
     ],
 
     stateful: false,
@@ -159,7 +158,7 @@ Ext.define('de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigat
             }
         });
 
-        me.itemSlider = Ext.create('de.edirom.online.view.utils.EnhancedSlider', {
+        me.itemSlider = Ext.create('EdiromOnline.view.utils.EnhancedSlider', {
             anchor: '100%',
             listeners: {
                 change: Ext.bind(me.itemSelectionChanged, me)

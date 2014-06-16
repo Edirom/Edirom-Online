@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: AnnotationLayout3.js 1341 2012-06-22 14:10:08Z daniel $
  */
-Ext.define('de.edirom.online.view.window.annotationLayouts.AnnotationLayout3', {
+Ext.define('EdiromOnline.view.window.annotationLayouts.AnnotationLayout3', {
     extend: 'Ext.panel.Panel',
 
     requires: [

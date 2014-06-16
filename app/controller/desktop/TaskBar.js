@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: TaskBar.js 1219 2012-01-20 08:33:28Z daniel $
  */
-Ext.define('de.edirom.online.controller.desktop.TaskBar', {
+Ext.define('EdiromOnline.controller.desktop.TaskBar', {
 
     extend: 'Ext.app.Controller',
 
@@ -32,6 +30,13 @@ Ext.define('de.edirom.online.controller.desktop.TaskBar', {
         me.taskbars = new Array();
 
         me.control({
+            'taskbar': {
+                render: this.onTaskbarRendered,
+                switchDesktop: {
+                    fn: this.onSwitchDesktop,
+                    scope: this
+                }
+            },
             'taskbar button[action=toggleMeasureVisibility]': {
                 click: me.onMeasureVisibilityChanged
             },
@@ -39,6 +44,14 @@ Ext.define('de.edirom.online.controller.desktop.TaskBar', {
                 click: me.onAnnotationVisibilityChanged
             }
         });
+    },
+
+    onTaskbarRendered: function(taskbar) {
+        this.taskbars.push(taskbar);
+    },
+
+    onSwitchDesktop: function(num) {
+        this.application.switchDesktop(num);
     },
     
     onMeasureVisibilityChanged: function(button, event) {

@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: Window.js 1405 2012-08-24 12:52:56Z daniel $
  */
-Ext.define('de.edirom.online.view.window.Window', {
+Ext.define('EdiromOnline.view.window.Window', {
 
     mixins: {
         observable: 'Ext.util.Observable'
@@ -30,8 +28,8 @@ Ext.define('de.edirom.online.view.window.Window', {
 
     requires: [
         'Ext.layout.container.Card',
-        'de.edirom.online.view.window.TopBar',
-        'de.edirom.online.view.window.BottomBar'
+        'EdiromOnline.view.window.TopBar',
+        'EdiromOnline.view.window.BottomBar'
     ],
 
     stateful: false,
@@ -53,7 +51,7 @@ Ext.define('de.edirom.online.view.window.Window', {
 
         this.addEvents('viewSwitched', 'loadInternalLink');
 
-        this.tbar = this.topbar = new de.edirom.online.view.window.TopBar(this.getTopbarConfig());
+        this.tbar = this.topbar = new EdiromOnline.view.window.TopBar(this.getTopbarConfig());
 
         /* {id: id, label: label, view: view} */
         this.views = new Array();

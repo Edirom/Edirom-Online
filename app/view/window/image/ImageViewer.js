@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,10 +15,8 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: ImageViewer.js 1455 2012-10-11 10:42:55Z daniel $
  */
-Ext.define('de.edirom.online.view.window.image.ImageViewer', {
+Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     extend: 'Ext.panel.Panel',
 
     mixins: {
@@ -65,10 +63,10 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         me.addEvents('zoomChanged',
                     'imageChanged');
 
-        me.html = '<div id="' + me.id + '_facsCont" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +
+        me.html = '<div id="' + me.id + '_facsCont" style="overflow: hidden; background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +
                   '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';
 
-        me.imageLoader = new de.edirom.online.view.window.image.ImageLoader({
+        me.imageLoader = new EdiromOnline.view.window.image.ImageLoader({
             viewer: me
         });
 
@@ -764,7 +762,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
     }
 });
 
-Ext.define('de.edirom.online.view.window.image.ImageLoader', {
+Ext.define('EdiromOnline.view.window.image.ImageLoader', {
 
     queue: [],
     img: null,

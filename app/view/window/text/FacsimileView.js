@@ -1,23 +1,4 @@
-/**
- *  Edirom Online
- *  Copyright (C) 2014 The Edirom Project
- *  http://www.edirom.de
- *
- *  Edirom Online is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  Edirom Online is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-Ext.define('EdiromOnline.view.window.source.PageBasedView', {
+Ext.define('EdiromOnline.view.window.text.FacsimileView', {
     extend: 'Ext.panel.Panel',
 
     mixins: {
@@ -28,54 +9,49 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         'EdiromOnline.view.window.image.ImageViewer'
     ],
 
-    alias : 'widget.pageBasedView',
+    alias : 'widget.facsimileView',
 
-    layout: 'fit',
+    layout: 'border',
 
     border: 0,
 
     imageSet: null,
     imageToShow: null,
-    
-    cls: 'pageBasedView',
+
+    measuresVisible: false,
+    annotationsVisible: false,
 
     initComponent: function () {
 
+        this.addEvents();
+
         this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+        this.imageViewer.region = 'center';
+
+        this.bottomBar = new EdiromOnline.view.window.BottomBar({owner:this, region:'south'});
 
         this.items = [
-            this.imageViewer
+            this.imageViewer,
+            this.bottomBar
         ];
 
         this.callParent();
 
+        this.on('afterrender', this.createMenuEntries, this, {single: true});
+        this.on('afterrender', this.createToolbarEntries, this, {single: true});
+        this.on('afterrender', this.onAfterRender, this, {single: true});
         this.imageViewer.on('zoomChanged', this.updateZoom, this);
+
+        this.window.on('loadInternalLink', this.loadInternalId, this);
     },
 
-    annotationFilterChanged: function(visibleCategories, visiblePriorities) {
+    loadInternalId: function() {
         var me = this;
 
-        var annotations = me.imageViewer.getShapes('annotations');
-        var fn = Ext.bind(function(annotation) {
-            var annotDiv = this.imageViewer.getShapeElem(annotation.id);
-            var className = annotDiv.dom.className.replace('annotation', '').trim();
-            var classes = className.split(' ');
-
-            var hasCategory = false;
-            var hasPriority = false;
-
-            for(var i = 0; i < classes.length; i++) {
-                hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
-                hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
-            }
-
-            annotDiv.setVisible(hasCategory & hasPriority);
-        }, me);
-
-        if(annotations.each)
-            annotations.each(fn);
-        else
-            Ext.Array.each(annotations, fn);
+        if(me.window.internalIdType == 'surface' || me.window.internalIdType == 'graphic' ) {
+            me.window.requestForActiveView(me);
+            me.showPage(me.window.internalId);
+        }
     },
 
     setImageSet: function(imageSet) {
@@ -91,7 +67,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         }else if(me.imageSet.getCount() > 0)
             me.pageSpinner.setPage(me.imageSet.getAt(0));
             
-        me.owner.fireEvent('afterImagesLoaded', me.owner, imageSet);
+        me.fireEvent('afterImagesLoaded', me, imageSet);
     },
 
     setPage: function(combo, store) {
@@ -107,13 +83,6 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         me.imageViewer.showImage(me.activePage.get('path'),
             me.activePage.get('width'), me.activePage.get('height'));
-            
-        if(me.owner.measuresVisible)
-            me.owner.fireEvent('measureVisibilityChange', me.owner, true);
-
-        if(me.owner.annotationsVisible)
-            me.owner.fireEvent('annotationsVisibilityChange', me.owner, true);
-
     },
 
     showPage: function(pageId) {
@@ -129,6 +98,27 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     getActivePage: function() {
         return this.activePage;
+    },
+
+    createMenuEntries: function() {
+
+        var me = this;
+
+        me.viewMenu =  Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.source.SourceView_viewMenu'),
+            indent: false,
+            cls: 'menuButton',
+            menu : {
+                items: [
+                    {
+                        id: me.id + '_fitFacsimile',
+                        text: getLangString('view.window.source.SourceView_fitView'),
+                        handler: Ext.bind(me.fitFacsimile, me, [], 0)
+                    }
+                ]
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.viewMenu, me.id);
     },
 
     createToolbarEntries: function() {
@@ -151,64 +141,18 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
                 change: Ext.bind(me.zoomChanged, me, [], 0)
             }
         });
+        me.bottomBar.add(me.zoomSlider);
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
             width: 111,
             cls: 'pageSpinner',
             owner: me
         });
-        
-        me.separator = Ext.create('Ext.toolbar.Separator');
-        
-        return [me.zoomSlider, me.separator, me.pageSpinner];
+        me.bottomBar.add(me.pageSpinner);
     },
-    
-    hideToolbarEntries: function() {
-        var me = this;
-        me.zoomSlider.hide();
-        me.pageSpinner.hide();
-        me.separator.hide();
-    },
-    
-    showToolbarEntries: function() {
-        var me = this;
-        me.zoomSlider.show();
-        me.pageSpinner.show();
-        me.separator.show();
-    },
-    
+
     fitFacsimile: function() {
         this.imageViewer.fitInImage();
-    },
-
-    showMeasures: function(measures) {
-        var me = this;
-        me.imageViewer.addMeasures(measures);
-    },
-
-    hideMeasures: function() {
-        var me = this;
-        me.imageViewer.removeShapes('measures');
-    },
-
-    showZone: function(zone) {
-        var me = this;
-        var x = Number(zone['ulx']);
-        var y = Number(zone['uly']);
-        var width = zone['lrx'] - zone['ulx'];
-        var height = zone['lry'] - zone['uly'];
-
-        me.imageViewer.showRect(x, y, width, height, true);
-    },
-    
-    showAnnotations: function(annotations) {
-        var me = this;
-        me.imageViewer.addAnnotations(annotations);
-    },
-
-    hideAnnotations: function() {
-        var me = this;
-        me.imageViewer.removeShapes('annotations');
     },
 
     updateZoom: function(zoom) {
@@ -221,21 +165,32 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
     },
     
-    getContentConfig: function() {
+    onAfterRender: function() {
         var me = this;
-        return {
-            id: this.id,
-            rect: me.imageViewer.getActualRect()
-        };
-    },
-    
-    setContentConfig: function(config) {
-        var me = this;
-        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false); 
+
+        if(me.initialized) return;
+        me.initialized = true;
+
+        Ext.Ajax.request({
+            url: 'data/xql/getPages.xql',
+            method: 'GET',
+            params: {
+                uri: me.uri
+            },
+            success: function(response){
+                var data = response.responseText;
+
+                var pages = Ext.create('Ext.data.Store', {
+                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
+                    data: Ext.JSON.decode(data)
+                });
+
+                me.setImageSet(pages);
+            }
+        });
     }
 });
 
-//TODO: mit EdiromOnline.view.window.source.MeasureSpinner zusammen legen
 Ext.define('EdiromOnline.view.window.source.PageSpinner', {
     extend: 'Ext.container.Container',
 
@@ -294,7 +249,6 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
             {
                 xtype: 'button',
                 cls : 'prev toolButton',
-                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_previousPage'), align: 'bl-tl' },
                 listeners:{
                      scope: this,
                      click: this.prev
@@ -304,7 +258,6 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
             {
                 xtype: 'button',
                 cls : 'next toolButton',
-                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_nextPage'), align: 'bl-tl' },
                 listeners:{
                      scope: this,
                      click: this.next
@@ -315,4 +268,3 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
         this.combo.on('select', this.owner.setPage, this.owner);
     }
 });
-

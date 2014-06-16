@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,23 +15,24 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: TaskBar.js 1347 2012-06-25 14:55:54Z daniel $
  */
-Ext.define('de.edirom.online.view.desktop.TaskBar', {
+
+/*
+ * Based on Ext.ux.desktop.TaskBar
+ */
+Ext.define('EdiromOnline.view.desktop.TaskBar', {
     extend: 'Ext.toolbar.Toolbar',
 
     requires: [
         'Ext.button.Button',
         'Ext.resizer.Splitter',
-        'Ext.toolbar.TextItem',
         'Ext.menu.Menu'
     ],
 
     alias: 'widget.taskbar',
 
     id: 'ediromTaskbar',
-    padding: 0,
+    cls: 'ux-taskbar',
 
     initComponent: function () {
         var me = this;
@@ -54,6 +55,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         me.windowBar4 = new Ext.toolbar.Toolbar(me.getWindowBarConfig());
 
         me.helpPrefs = new Ext.toolbar.Toolbar(me.getHelpPrefConfig());
+        me.tray = new Ext.toolbar.Toolbar(me.getTrayConfig());
 
         me.items = [
             me.windowSort,
@@ -62,14 +64,16 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             me.quickStart,
             {
                 xtype: 'splitter', html: '&#160;',
-                height: 14, width: 2,
+                height: 14, width: 2, // TODO - there should be a CSS way here
                 cls: 'x-toolbar-separator x-toolbar-separator-horizontal'
             },
             me.windowBar1,
             me.windowBar2,
             me.windowBar3,
             me.windowBar4,
-            me.helpPrefs
+            '-',
+            me.helpPrefs,
+            me.tray
         ];
 
         me.setActiveWindowBar(1);
@@ -140,7 +144,7 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             ]
         };
     },
-    
+
     getDesktopSwitchConfig: function () {
         var me = this, ret = {
             width: 30,
@@ -187,6 +191,19 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         };
     },
 
+    /**
+     * This method returns the configuration object for the Tray toolbar. A derived
+     * class can override this method, call the base version to build the config and
+     * then modify the returned object before returning it.
+     */
+    getTrayConfig: function () {
+        var ret = {
+            items: this.trayItems
+        };
+        delete this.trayItems;
+        return ret;
+    },
+
     getWindowBtnFromEl: function (el) {
         var c = this['windowBar' + this.activeWindowBar].getChildByElement(el);
         return c || null;
@@ -231,8 +248,15 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
         var win = btn.win;
 
         if (win.minimized || win.hidden) {
-            win.show();
+            btn.disable();
+            win.show(null, function() {
+                btn.enable();
+            });
         } else if (win.active) {
+            btn.disable();
+            win.on('hide', function() {
+                btn.enable();
+            }, null, {single: true});
             win.minimize();
         } else {
             win.toFront();
@@ -243,9 +267,9 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
 
         var me = this;
 
-        var isConcWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.concordanceNavigator.ConcordanceNavigator');
-        var isHelpWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.HelpWindow');
-        var isSearchWin = (Ext.getClassName(win) == 'de.edirom.online.view.window.search.SearchWindow');
+        var isConcWin = (Ext.getClassName(win) == 'EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator');
+        var isHelpWin = (Ext.getClassName(win) == 'EdiromOnline.view.window.HelpWindow');
+        var isSearchWin = (Ext.getClassName(win) == 'EdiromOnline.view.window.search.SearchWindow');
 
         var config = {
             iconCls: win.iconCls,
@@ -334,5 +358,61 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
     
     setConcordanceNavigatorButtonToggleState: function(state, suppressEvent) {
         this.concordanceButton.toggle(state, suppressEvent);
+    }
+});
+
+/**
+ * @class Ext.ux.desktop.TrayClock
+ * @extends Ext.toolbar.TextItem
+ * This class displays a clock on the toolbar.
+ */
+Ext.define('EdiromOnline.view.desktop.TrayClock', {
+    extend: 'Ext.toolbar.TextItem',
+
+    alias: 'widget.trayclock',
+
+    cls: 'ux-desktop-trayclock',
+
+    html: '&#160;',
+
+    timeFormat: 'g:i A',
+
+    tpl: '{time}',
+
+    initComponent: function () {
+        var me = this;
+
+        me.callParent();
+
+        if (typeof(me.tpl) == 'string') {
+            me.tpl = new Ext.XTemplate(me.tpl);
+        }
+    },
+
+    afterRender: function () {
+        var me = this;
+        Ext.Function.defer(me.updateTime, 100, me);
+        me.callParent();
+    },
+
+    onDestroy: function () {
+        var me = this;
+
+        if (me.timer) {
+            window.clearTimeout(me.timer);
+            me.timer = null;
+        }
+
+        me.callParent();
+    },
+
+    updateTime: function () {
+        var me = this, time = Ext.Date.format(new Date(), me.timeFormat),
+            text = me.tpl.apply({ time: time });
+        if (me.lastText != text) {
+            me.setText(text);
+            me.lastText = text;
+        }
+        me.timer = Ext.Function.defer(me.updateTime, 10000, me);
     }
 });

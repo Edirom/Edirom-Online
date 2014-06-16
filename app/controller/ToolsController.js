@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-Ext.define('de.edirom.online.controller.ToolsController', {
+Ext.define('EdiromOnline.controller.ToolsController', {
 
     extend: 'Ext.app.Controller',
 

@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('EdiromOnline.view.window.text.TextView', {
+Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     extend: 'Ext.panel.Panel',
 
     mixins: {
@@ -26,11 +26,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     requires: [
     ],
 
-    alias : 'widget.textView',
+    alias : 'widget.textFacsimileSplitView',
 
-    layout: 'fit',
+    layout: 'border',
     
-    cls: 'textView',
+    cls: 'textFacsimileSplitView',
 
     annotationsVisible: false,
     annotationsLoaded: false,
@@ -38,43 +38,73 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     initComponent: function () {
 
-        this.addEvents('annotationsVisibilityChange',
-            'gotoChapter',
+        var me = this;
+        
+        me.addEvents('annotationsVisibilityChange', 'afterImagesLoaded', 'afterImageChanged',
             'documentLoaded');
 
-        this.items = [
-            {
-                html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
-            }
+        me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+        me.imageViewer.region = 'center';
+
+        me.centerPanel = me.imageViewer;
+        
+        me.westPanel = Ext.create('Ext.panel.Panel', {
+            layout: 'fit',
+            region: 'west',
+            border: 0,
+            width: '50%',
+            split: true,
+            items: [
+                {
+                    html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
+                }
+            ]
+        });
+
+        me.westPanel.on('resize', me.calculateSizes, me);
+
+        me.bottomBar = new EdiromOnline.view.window.BottomBar({owner:me, region:'south'});
+
+        me.items = [
+            me.centerPanel,
+            me.westPanel,
+            me.bottomBar
         ];
 
-        this.callParent();
-
-        this.on('afterrender', this.createToolbarEntries, this, {single: true});
-        this.window.on('loadInternalLink', this.loadInternalId, this);
+        me.callParent();
+        
+        me.on('afterrender', this.createToolbarEntries, me, {single: true});
+        me.window.on('loadInternalLink', this.loadInternalId, me);
     },
 
     createToolbarEntries: function() {
 
         var me = this;
 
-        //TODO: überprüfen
-/*        me.notesVisibility = Ext.create('Ext.button.Button', {
-            text: 'Notes',
-            handler: Ext.bind(me.toggleNotesVisibility, me),
-            enableToggle: true,
-            pressed: true
+        me.zoomSlider = Ext.create('Ext.slider.Single', {
+            width: 140,
+            value: 100,
+            increment: 5,
+            minValue: 10,
+            maxValue: 400,
+            checkChangeBuffer: 100,
+            useTips: true,
+            cls: 'zoomSlider',
+            tipText: function(thumb){
+                return Ext.String.format('{0}%', thumb.value);
+            },
+            listeners: {
+                change: Ext.bind(me.zoomChanged, me, [], 0)
+            }
         });
-        me.pbsVisibility = Ext.create('Ext.button.Button', {
-            text: 'Pagebreaks',
-            handler: Ext.bind(me.togglePbVisibility, me),
-            enableToggle: true,
-            pressed: true
-        });
+        me.bottomBar.add(me.zoomSlider);
 
-        me.window.getTopbar().addViewSpecificItem(me.notesVisibility, me.id);
-        me.window.getTopbar().addViewSpecificItem(me.pbsVisibility, me.id);
-*/
+        me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
+            width: 111,
+            cls: 'pageSpinner',
+            owner: me
+        });
+        me.bottomBar.add(me.pageSpinner);
     },
 
     checkGlobalAnnotationVisibility: function(visible) {
@@ -108,13 +138,6 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     toggleNotesVisibility: function(button) {
         var notes = Ext.query('#' + this.id + '_textCont .note');
-        Ext.Array.each(notes, function(name, index, notes){
-            Ext.get(name).toggleCls('hidden')
-        });
-    },
-
-    togglePbVisibility: function(button) {
-        var notes = Ext.query('#' + this.id + '_textCont .pagebreak');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -339,49 +362,47 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     },
 
     setContent: function(text) {
+//TODO
         Ext.fly(this.id + '_textCont').update(text);
         this.fireEvent('documentLoaded', this);
     },
-
-    setChapters: function(chapters) {
+    
+    setImageSet: function(imageSet) {
         var me = this;
+        me.imageSet = imageSet;
 
-        if(chapters.getTotalCount() == 0) return;
+        me.pageSpinner.setStore(me.imageSet);
 
-        me.gotoMenu =  Ext.create('Ext.button.Button', {
-            text: getLangString('view.window.text.TextView_gotoMenu'),
-            indent: false,
-            cls: 'menuButton',
-            menu : {
-                items: [
-                ]
-            }
-        });
-        me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+        if(me.imageToShow != null) {
+            me.pageSpinner.setPage(me.imageSet.getById(me.imageToShow));
+            me.imageToShow = null;
 
-        me.chapters = chapters;
-
-        var chapterItems = [];
-        chapters.each(function(chapter) {
-            chapterItems.push({
-                text: chapter.get('name'),
-                handler: Ext.bind(me.gotoChapter, me, chapter.get('id'), true)
-            });
-        });
-
-        me.gotoMenu.menu.add(chapterItems/*{
-            id: me.id + '_gotoChapter',
-            text: getLangString('view.window.text.TextView_gotoChapter'),
-            menu: {
-                items: chapterItems
-            }
-        }*/);
-
-        me.gotoMenu.show();
+        }else if(me.imageSet.getCount() > 0)
+            me.pageSpinner.setPage(me.imageSet.getAt(0));
+            
+        me.fireEvent('afterImagesLoaded', me, imageSet);
     },
 
-    gotoChapter: function(menuItem, event, chapterId) {
-        this.fireEvent('gotoChapter', this, chapterId);
+    setPage: function(combo, store) {
+
+        var me = this;
+
+        // Remove old stuff
+        me.imageViewer.clear();
+
+        var id = combo.getValue();
+        var imgIndex = me.imageSet.findExact('id', id);
+        me.activePage = me.imageSet.getAt(imgIndex);
+
+        me.imageViewer.showImage(me.activePage.get('path'),
+            me.activePage.get('width'), me.activePage.get('height'));
+            
+        me.fireEvent('afterImageChanged', me, null);
+    }, 
+    
+    getActivePage: function() {
+        var me = this;
+        return me.activePage.get('id');
     },
 
     loadInternalId: function() {
@@ -395,21 +416,22 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         }
     },
 
-    scrollToId: function(id) {
-        
-        var elem = Ext.get(this.id + '_' + id);
-
-        var container = Ext.select('#' + this.id + ' div.x-panel-body');
-        container = container.last();
-
-        elem.scrollIntoView(container, false, true, false);
-    },
-    
     getContentConfig: function() {
         var me = this;
         return {
             id: this.id
         };
+    },
+
+    calculateSizes: function() {
+        var me = this;
+
+        try {
+            me.westPanel.items.each(function(item) {
+                item.setWidth(this.getWidth());
+            }, me.westPanel);
+        }catch(e) {
+        }
     }
 });
 

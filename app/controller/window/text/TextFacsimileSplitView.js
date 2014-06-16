@@ -16,24 +16,24 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('EdiromOnline.controller.window.text.TextView', {
+Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
 
     extend: 'Ext.app.Controller',
 
     views: [
-        'window.text.TextView'
+        'window.text.TextFacsimileSplitView'
     ],
 
     init: function() {
         this.control({
-            'textView': {
+            'textFacsimileSplitView': {
                afterlayout : this.onAfterLayout,
                beforedestroy: this.onBeforeDestroy,
                single: true
             }
         });
     },
-
+    
     onAfterLayout: function(view) {
 
         var me = this;
@@ -42,50 +42,53 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
         view.initialized = true;
 
         view.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
-        view.on('gotoChapter', me.onGotoChapter, me);
+        view.on('afterImageChanged', me.onAfterImageChanged, me);
 
         ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
         var uri = view.uri;
 
+        Ext.Ajax.request({
+            url: 'data/xql/getPages.xql',
+            method: 'GET',
+            params: {
+                uri: uri
+            },
+            success: function(response){
+                var data = response.responseText;
+
+                var pages = Ext.create('Ext.data.Store', {
+                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
+                    data: Ext.JSON.decode(data)
+                });
+
+                view.setImageSet(pages);
+            }
+        });
+    },
+    
+    onAfterImageChanged: function(view) {
+        var uri = view.uri;
+        
         window.doAJAXRequest('data/xql/getText.xql',
             'GET', 
             {
                 uri: uri,
                 idPrefix: view.id + '_',
-                term: view.window.term,
-                path: view.window.path
+                page: view.getActivePage()
             },
             Ext.bind(function(response){
                 this.contentLoaded(view, response.responseText);
             }, this)
         );
     },
-
+    
     contentLoaded: function(view, content) {
 
         var me = this;
 
         view.setContent(content);
-
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
-                uri: view.uri
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var chapters = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.chaptersLoaded(chapters, view);
-            }
-        });
 
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',
@@ -110,11 +113,11 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
             }
         });
     },
-
-    chaptersLoaded: function(chapters, view) {
-        view.setChapters(chapters);
+    
+    annotInfosLoaded: function(priorities, categories, view) {
+        view.setAnnotationFilter(priorities, categories);
     },
-
+    
     onAnnotationsVisibilityChange: function(view, visible) {
         var me = this;
 
@@ -123,7 +126,8 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                 url: 'data/xql/getAnnotationsInText.xql',
                 method: 'GET',
                 params: {
-                    uri: view.uri
+                    uri: view.uri,
+                    page: view.getActivePage()
                 },
                 success: function(response){
                     var data = response.responseText;
@@ -139,18 +143,6 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
 
         else
             view.hideAnnotations();
-    },
-
-    annotationsLoaded: function(annotations, view) {
-        view.showAnnotations(annotations);
-    },
-
-    annotInfosLoaded: function(priorities, categories, view) {
-        view.setAnnotationFilter(priorities, categories);
-    },
-
-    onGotoChapter: function(view, chapter) {
-        view.scrollToId(chapter);
     },
     
     onBeforeDestroy: function(view) {

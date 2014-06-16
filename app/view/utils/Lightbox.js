@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -19,7 +19,7 @@
  *  ID: $Id$
  */
 
-Ext.define('de.edirom.online.view.utils.Lightbox', {
+Ext.define('EdiromOnline.view.utils.Lightbox', {
 
     els: {},
     selectors: [],

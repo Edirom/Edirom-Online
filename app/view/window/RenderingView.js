@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,19 +15,19 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id: RenderingView.js 1334 2012-06-14 12:40:33Z daniel $
  */
-Ext.define('de.edirom.online.view.window.RenderingView', {
+Ext.define('EdiromOnline.view.window.RenderingView', {
     extend: 'Ext.panel.Panel',
 
     requires: [
-        /*'de.edirom.online.model.Movements'*/
+        /*'EdiromOnline.model.Movements'*/
     ],
 
     alias : 'widget.renderingView',
 
     layout: 'fit',
+    
+    cls: 'renderingView',
     
     initComponent: function () {
 
@@ -159,7 +159,7 @@ Ext.define('de.edirom.online.view.window.RenderingView', {
 	createToolbarEntries: function() {
 		var me = this;
 		
-		me.movementSpinner = Ext.create('de.edirom.online.view.window.rendering.MovementSpinner', {
+		me.movementSpinner = Ext.create('EdiromOnline.view.window.rendering.MovementSpinner', {
 			width: 100,
 			cls: 'pageSpinner',
 			owner: me
@@ -182,7 +182,7 @@ Ext.define('de.edirom.online.view.window.RenderingView', {
     */
 });
 /*
-Ext.define('de.edirom.online,view.window.rendering.MovementSpinner', {
+Ext.define('EdiromOnline,view.window.rendering.MovementSpinner', {
 	extent: 'Ext.container.Container',
 	
 	alias: 'widget.movementSpinner',
