@@ -50,10 +50,9 @@
          <titlePage>
          <titlePart>Hilfe (Bedienungsanleitung) </titlePart>
         <argument>
-           <p>This document provides a general introduction to using <term type="ediromGui" key="global_appName"/>. It describes the basic functions of the software. Please note that not all of the
-             options described here are necessarily available in every edition using <term type="ediromGui" key="global_appName"/>. This is due to the fact that contents have to be prepared
-             accordingly and projects using <term type="ediromGui" key="global_appName"/> have their own edition guidelines and concepts. Furthermore, some versions may contain more options than
-             mentioned in this document due to edition-specific enhancements.</p>
+           <p>Dieses Dokument enthält eine allgemeine Einführung in die Benutzung von <term type="ediromGui" key="global_appName"/> und beschreibt die grundlegenden Funktionen der Software. Möglicherweise sind nicht alle Optionen, die im Folgenden beschrieben werden in jeder Edition verfügbar.
+              Dies ist der Tatsache geschuldet, dass Inhalte projektspezifisch angelegt werden und jede Edition, die <term type="ediromGui" key="global_appName"/> benutzt, den individuellen Editionsrichtlinien und - konzepten unterliegt. 
+              Des Weiteren kann es aus editions-spezifischen Gründen sein, dass manche Versionen mehrere Optionen und Erweiterungen enthalten, die nicht in diesem Dokument aufgeführt sind.</p>
          </argument>
        </titlePage>
        <pb/>
@@ -65,7 +64,7 @@
          </div>-->
          <!-- PREPARATION =============================================== -->
             <div type="div1" xml:id="preparation">
-            <head>Preparation</head>
+            <head>Vorbereitung</head>
             <div type="div2" xml:id="installation">
                     <head>Installation </head>
               <p>
@@ -82,7 +81,7 @@
                </div>-->
             </div>
             <div type="div2" xml:id="starting">
-               <head>Application startup </head>
+               <head>Start der Anwendung </head>
               <p>
                     <term type="ediromGui" key="global_appName"/> is designed as a web application. The only system requirement is a javascript enabled web browser.</p>
               <p>If your current version of <term type="ediromGui" key="global_appName"/> has to be installed please contact the corresponding author or publisher for further details concerning installation on your personal computer.</p>
@@ -91,8 +90,8 @@
          </div>
          <!-- USER INTERFACE ========================================================= -->
          <div type="div1" xml:id="gui">
-            <head>User interface</head>
-            <p>The user interface of <term type="ediromGui" key="global_appName"/> is divided into several sections. At the top and bottom borders of the window you find <ptr target="#toolbar_top"/> and <ptr target="#help_view.desktop.TaskBar"/> that provide access to all major Edirom functions. The space in between is called <ptr target="#workspace"/>. At the top right corner of the <term type="ediromGui" key="view.desktop.Desktop"/> is the so-called <ptr target="#navigator"/>.</p>
+            <head>Benutzeroberfläche</head>
+            <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. At the top and bottom borders of the window you find <ptr target="#toolbar_top"/> and <ptr target="#help_view.desktop.TaskBar"/> that provide access to all major Edirom functions. The space in between is called <ptr target="#workspace"/>. At the top right corner of the <term type="ediromGui" key="view.desktop.Desktop"/> is the so-called <ptr target="#navigator"/>.</p>
             <figure>
                     <graphic url="images/fullscreen_en.png"/>
                <head>A sample view of an <term type="ediromGui" key="global_appName"/> screen, showing <term type="ediromGui" key="view.desktop.TopBar"/> (top), <term type="ediromGui" key="view.desktop.TaskBar"/> (bottom), <term type="ediromGui" key="view.desktop.Desktop"/>, and <term type="ediromGui" key="view.navigator.Navigator"/> (right).</head>
@@ -104,10 +103,10 @@
                     </head>
                <figure>
                         <graphic url="images/menubar_en.png"/>
-                  <head>Detail view of the <term type="ediromGui" key="view.desktop.TopBar"/>.</head>
+                  <head>Detailansicht der <term type="ediromGui" key="view.desktop.TopBar"/>.</head>
                <!--<note type="editorialc">Prepare closeup screenshot of top toolbar.</note>-->
                </figure>
-               <p>Sample <term type="ediromGui" key="view.desktop.TopBar"/>, with <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>, and <term type="web">combo box</term><!--TODO lang file entry--> for <ptr target="#selectingWorks"/> at the left end and the <ptr target="#help_view.desktop.TopBar_searchField"/><!-- TODO ?DAN searchField --> on the right end.</p>
+               <p>Beispiel der <term type="ediromGui" key="view.desktop.TopBar"/>, mit dem <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>, und der <term type="web">Kombobox</term><!--TODO lang file entry--> für die <ptr target="#selectingWorks"/> at the left end and the <ptr target="#help_view.desktop.TopBar_searchField"/><!-- TODO ?DAN searchField --> on the right end.</p>
                <p>
                         <gloss>At the very left of the <term type="ediromGui" key="view.desktop.TopBar"/>
                      is the <ptr target="#view.desktop.TopBar_homeBtn"/>, next to it is a <term type="web">combo box</term> for <ptr target="#selectingWorks"/> of the same
@@ -123,7 +122,7 @@
                </figure>
                   </div>
                <div type="div3" xml:id="selectingWorks">
-                  <head>Selecting works</head><!-- TODO name GUI Element and add lang var -->
+                  <head>Auswahl von Werken</head><!-- TODO name GUI Element and add lang var -->
                   <p>The next element is a combo box listing the works contained in the edition. If your <term type="ediromGui" key="global_appName"/> contains more than one work, you can switch between works at any time. If you select a different work, the context of <ptr target="#help_view.desktop.TopBar_searchField"/> and <ptr target="#help_controller.window.Window_searchView"/> will be set to the newly selected work, and the contents of the <ptr target="#navigator"/> will be updated accordingly.</p>
                   <p>Any program windows that remain open with content from the last displayed work
                      may stay open, depending on your settings (see
@@ -338,7 +337,7 @@
                         target="#help_controller.window.Window_searchView"/> window.</p>-->
                 <figure>
                             <graphic url="images/navigator_en.png"/>
-                  <head>A sample navigator. Note the scrollbar on the right.</head>
+                  <head>Beispiel eines Navigators. Beachten Sie den Rollbalken auf der linken Seite.</head>
                 </figure>
                   <p>The number of objects held by the <term type="ediromGui" key="view.navigator.Navigator"/> may exceed the actual size of the panel. In this case a scrollbar at the right side of the window permits to scroll through the contents
                     of the <term type="ediromGui" key="view.navigator.Navigator"/>. The mouse wheel may be used as well.</p>
@@ -384,7 +383,7 @@ If the current work has more than one movement, a drop-down menu lets you select
          <!-- CONTENT WINDOWS =========================================== -->
 
          <div type="div1" xml:id="windows">
-            <head>Content windows</head>
+            <head>Fenster mit Inhalt</head>
             <p xml:id="w10892aab3b1b1c19b3">Content windows can be manipulated within the program in virtually the same
                way as normal operating system windows. Along the top edge of the window is a title
                bar that contains the name of the displayed item.</p>
@@ -410,9 +409,9 @@ If the current work has more than one movement, a drop-down menu lets you select
                table.</p>
             <table>
                     <row role="label">
-                  <cell>Type of content</cell>
-                  <cell>Available views</cell>
-                  <cell>Comparable Edirom Viewer object</cell>
+                  <cell>Art des Inhalts</cell>
+                  <cell>Verfügbare Ansichten</cell>
+                  <cell>Vergleichbare Objekte des Edirom Viewer</cell>
                </row>
                <row>
                         <cell>XML resource</cell>
@@ -884,16 +883,18 @@ If the current work has more than one movement, a drop-down menu lets you select
             </div>
             <div type="div2">
                 <head><term type="ediromGui" key="view.window.AnnotationView_Categories"/></head>
-                <p>Annotations are typically assigned to one or more <term type="ediromGui" key="view.window.AnnotationView_Categories"/>, each of which may have its own symbol. These symbols are likewise displayed in the color coded box when displaying annotation icons in the <ptr target="#help_controller.window.Window_sourceView"/>. It is thus possible to determine the type of annotation content by its symbol. <!--bwb @ daniel implementation status, move to new section "searching"?; Annotations can also be searched for (in the search window or <term type="ediromGui" key="view.desktop.TopBar_searchField"/>) and filtered (in the <term type="ediromGui" key="view.window.source.SourceView"/>, see <ptr target="help_view.window.source.SourceView_annotationsMenu"/>) based on their category assignment. Categories thus allow individualized access to the Critical Report.--></p>
+               <p>Annotationen sind normalerweise einer oder mehrerer <term type="ediromGui" key="view.window.AnnotationView_Categories"/> zugeordnet, die jeweils ein eigenes Symbol hat. Diese Symbole sind
+                   
+                   Annotations are typically assigned to one or more <term type="ediromGui" key="view.window.AnnotationView_Categories"/>, each of which may have its own symbol. These symbols are likewise displayed in the color coded box when displaying annotation icons in the <ptr target="#help_controller.window.Window_sourceView"/>. It is thus possible to determine the type of annotation content by its symbol. <!--bwb @ daniel implementation status, move to new section "searching"?; Annotations can also be searched for (in the search window or <term type="ediromGui" key="view.desktop.TopBar_searchField"/>) and filtered (in the <term type="ediromGui" key="view.window.source.SourceView"/>, see <ptr target="help_view.window.source.SourceView_annotationsMenu"/>) based on their category assignment. Categories thus allow individualized access to the Critical Report.--></p>
                <p>The annotation categories that are actually available depend on the edition. Typical examples include <hi rend="italic">slur placement</hi>, <hi rend="italic">expressive marking</hi> or <hi rend="italic">articulation</hi>.</p>
                <figure>
                         <table rend="frame" xml:id="Table2">
                   <row role="label">
-                     <cell>Category:</cell>
-                     <cell>Symbol in the facsimile:</cell>
+                     <cell>Kategorie:</cell>
+                     <cell>Symbol im Faksimile:</cell>
                   </row>
                   <row>
-                     <cell>Score</cell>
+                     <cell>Partitur</cell>
                      <cell>
                         <graphic url="images/annotNotation1.png"/>
                            <graphic url="images/annotNotation2.png"/>
@@ -901,7 +902,7 @@ If the current work has more than one movement, a drop-down menu lets you select
                      </cell>
                   </row>
                   <row>
-                     <cell>Expressive marking</cell>
+                     <cell>Expressive Kennzeichnung</cell>
                      <cell>
                         <figure>
                            <graphic url="images/annotExpr1.png"/>
@@ -911,7 +912,7 @@ If the current work has more than one movement, a drop-down menu lets you select
                      </cell>
                   </row>
                   <row>
-                     <cell>Choral text</cell>
+                     <cell>Choral Text</cell>
                      <cell>
                         <figure>
                            <graphic url="images/annotText1.png"/>
@@ -921,7 +922,7 @@ If the current work has more than one movement, a drop-down menu lets you select
                      </cell>
                   </row>
                   <row>
-                     <cell>Combination of multiple categories</cell>
+                     <cell>Kombination verschiedener Kategorien</cell>
                      <cell>
                         <figure>
                            <graphic url="images/annotGeneric1.png"/>
@@ -931,24 +932,27 @@ If the current work has more than one movement, a drop-down menu lets you select
                      </cell>
                   </row>
                </table>
-               <head>Examples of symbols for annotation categories.</head>
+               <head>Beispiele der Symbole für die Kategorien der Annotationen.</head>
             </figure>
                </div>
             <!-- FILTERING ======================================================================================================================== -->
             
             <div type="div2" xml:id="filtering">
-               <head>Filtering</head>
-                <p>Filtering the display of annotations is both possible in the <ptr target="#help_view.window.source.SourceView_annotationsMenu"/> menu and <ptr target="#help_controller.window.Window_sourceView"/>. For respective descriptions see the corresponding sections of this document.</p>
-               <p>All annotations belonging to at least one of the selected categories are shown in the facsimile. Please note that filtering by multiple categories will yield all annotations assigned to at least one of these categories; filtering for annotations assigned to all selected categories is not possible. <!-- bwb @ daniel implementation status; Such a function can only be replicated by conducting a corresponding search (search term: “<hi rend="italic">category:Category1 Category2</hi>”).  --></p>
+               <head>Filtern</head>
+               <p>Das Filtern der Anzeige von Annotationen ist sowohl im <ptr target="#help_view.window.source.SourceView_annotationsMenu"/> Menü, als auch im <ptr target="#help_controller.window.Window_sourceView"/> möglich.
+                  Die entsprechenden Beschreibungen können in den dazugehörigen Abschnitten dieses Dokuments gefunden werden.</p>
+               <p>Alle Annotationen, die mindestens einer der ausgewählten Kategorien zugeordnet werden können, werden in den Faksimile angezeigt. 
+                  Das Filtern nach mehreren Kategorien wird alle Annotationen die zumindest einer Kategorie zugeordnet sind, als Resultat ergeben; das Filtern nach Annotationen, die allen ausgewählten Kategorien zugeordnet sind, ist hingegen nicht möglich.
+                  <!-- bwb @ daniel implementation status; Such a function can only be replicated by conducting a corresponding search (search term: “<hi rend="italic">category:Category1 Category2</hi>”).--></p>
             </div>
          </div>
       <!-- HELP -->
-   <div type="div1">
-                <head>Help (Edirom User Manual)</head>
-                <p>The <term>Help (Edirom User Manual)</term> window is (in contrast to content related windows) a stand-alone window and can only be opened once. Clicking the button several times
-                    will toggle show/hide for the help window, respectively bringing it to the foreground if hidden behind other windows. </p>
-                <note type="editorial">--Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? --</note>
-            </div>
+      <div type="div1">
+         <head>Hilfe (Edirom Benutzeroberfläche)</head>
+         <p>Das <term>Hilfe (Edirom Benutzeroberfläche)</term> Fenster ist (im Gegensatz zu den Fenstern mit den Inhalten) ein Stand-Alone-Fenster, das nur einmal geöffnet werden kann. 
+         Wenn sie den Button jedoch öfters klicken, erscheint die Schaltfläche für das Zeigen bzw. Verbergen des Hilfe-Fensters. Das heißt es wird in den Vordergrund gestellt, sollte es hinter anderen Fenstern versteckt sein.</p>
+         <note type="editorial">--Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? --</note>
+      </div>
       <!-- bwb @ daniel implementation status; -->
            <!--<div type="div1" xml:id="shortCuts">
               <head>Keyboard shortcut index</head>
