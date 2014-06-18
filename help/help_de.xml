@@ -43,6 +43,7 @@
          <!-- TODO: how to deal with tei:hi elements? -->
          <change when="2014-06-16" who="#amk">* replaced existing german help with currently better english version;</change>
          <change when="2014-06-16" who="#amk">* translated en to de;</change>
+         <change when="2014-06-17" who="#amk">* translated en to de;</change>
       </revisionDesc>
    </teiHeader>
    <text>
@@ -67,10 +68,13 @@
             <head>Vorbereitung</head>
             <div type="div2" xml:id="installation">
                     <head>Installation </head>
-              <p>
-                        <term type="ediromGui" key="global_appName"/> is designed as web application and thus has to be set up on a server. For questions about setting up <term type="ediromGui" key="global_appName"/> on a server please contact the Edirom Project (<ref target="http://www.edirom.de">http://www.edirom.de</ref>).</p>
-                <p>Nevertheless an <term type="ediromGui" key="global_appName"/> based edition can be distributed on a discrete data storage device, and require/permit installation on your personal computer. If your current version of <term type="ediromGui" key="global_appName"/> is such a distributed version, please contact the corresponding author or publisher for further details concerning installation on your personal computer.</p>
-               <note type="editorial">Project specific information on installation routines to be inserted below as in following xml comments.</note>
+               <p><term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt und muss deshalb auf einem Server aufgesetzt werden. 
+                  Sollten Fragen auftauchen, wie <term type="ediromGui" key="global_appName"/> auf einem Server aufgesetzt werden muss, kann das Edirom Projekt (<ref target="http://www.edirom.de">http://www.edirom.de</ref>) kontaktiert werden.</p>
+               <p>Nichtsdestotrotz kann eine auf <term type="ediromGui" key="global_appName"/> basierende Edition aber auch auf anderen Datenträger gespeichert und verbreitet werden.
+                  Dies erfordert jedoch die lokale Installation auf einem Computer. Sollte die vorliegende Version der <term type="ediromGui" key="global_appName"/> eine solch verbreitete 
+                  Ausgabe sein, kann der entsprechende Autor oder Verlag kontaktiert werden, um weitere Informationen rund um die Installation auf dem Computer zu erhalten.</p>
+               <note type="editorial">Projektspezifische Informationen zur Installationsroutine sollten nachfolgend als XML-Kommentare eingeschoben werden.</note>
+               
                <!--<div type="div2">
                   <head>Windows </head>
                   <p>If <hi rend="italic">AutoRun</hi> is activated in Windows, the Edirom installation program will open automatically when the DVD is inserted. Otherwise, start the program by running the <hi rend="italic">setup.exe</hi> file on the DVD. Follow the instructions provided in the installation program. Once installation is complete, you'll see the application listed in the <hi rend="italic">Start menu</hi> under <hi rend="italic">All Programs</hi> as '<hi rend="italic">Edirom</hi>' or a different name, depending on the edition.</p>
@@ -83,59 +87,58 @@
             <div type="div2" xml:id="starting">
                <head>Start der Anwendung </head>
               <p>
-                    <term type="ediromGui" key="global_appName"/> is designed as a web application. The only system requirement is a javascript enabled web browser.</p>
-              <p>If your current version of <term type="ediromGui" key="global_appName"/> has to be installed please contact the corresponding author or publisher for further details concerning installation on your personal computer.</p>
-         <note type="editorial">Project specific information on Application Startup to be inserted, either above, replacing the above paragraph, or below.</note>
+                 <term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt. Die einzige Systemvorgabe, um <term type="ediromGui" key="global_appName"/> vernünftig ausführen zu können, ist die Installation eines Javascript-fähigen Browsers.</p>
+              <p>Sollte die aktuelle Version von <term type="ediromGui" key="global_appName"/> installiert werden müssen, kann rund um Fragen, die die Installation auf dem persönlichen Rechner, der entsprechende Autor oder Verlag kontaktiert werden.</p>
+         <note type="editorial">Projektspezifische Informationen zum Start der Anwendung sollten entweder darüber, also den vorhergehenden Paragraphen ersetzend, oder nachfolgend eingeschoben werden.</note>
                 </div>
          </div>
          <!-- USER INTERFACE ========================================================= -->
          <div type="div1" xml:id="gui">
             <head>Benutzeroberfläche</head>
-            <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. At the top and bottom borders of the window you find <ptr target="#toolbar_top"/> and <ptr target="#help_view.desktop.TaskBar"/> that provide access to all major Edirom functions. The space in between is called <ptr target="#workspace"/>. At the top right corner of the <term type="ediromGui" key="view.desktop.Desktop"/> is the so-called <ptr target="#navigator"/>.</p>
+            <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. Am oberen und unteren Rand des Fensters ist die <ptr target="#toolbar_top"/> und die <ptr target="#help_view.desktop.TaskBar"/>, durch die alle wichtigen Funktionen der Anwendung erreicht werden können. Der Bereich zwischen den Leisten ist der <ptr target="#workspace"/>, und in der rechten oberen Ecke des Fensters befindet sich der <ptr target="#navigator"/>.</p>
             <figure>
-                    <graphic url="images/fullscreen_en.png"/>
-               <head>A sample view of an <term type="ediromGui" key="global_appName"/> screen, showing <term type="ediromGui" key="view.desktop.TopBar"/> (top), <term type="ediromGui" key="view.desktop.TaskBar"/> (bottom), <term type="ediromGui" key="view.desktop.Desktop"/>, and <term type="ediromGui" key="view.navigator.Navigator"/> (right).</head>
+               <graphic url="images/fullscreen_en.png"/>
+               <head>Eine exemplarische Ansicht des <term type="ediromGui" key="global_appName"/> Fenster, das die <term type="ediromGui" key="view.desktop.TopBar"/> (oben), die <term type="ediromGui" key="view.desktop.TaskBar"/> (unten), den <term type="ediromGui" key="view.desktop.Desktop"/>, und den <term type="ediromGui" key="view.navigator.Navigator"/> (rechts oben) zeigt.</head>
             </figure>
             <!-- user interface TOOLBAR ================================================== -->
-                <div type="div2" xml:id="toolbar_top">
+            <div type="div2" xml:id="toolbar_top">
                <head>
-                        <term type="ediromGui" key="view.desktop.TopBar"/>
-                    </head>
+                    <term type="ediromGui" key="view.desktop.TopBar"/>
+               </head>
                <figure>
-                        <graphic url="images/menubar_en.png"/>
-                  <head>Detailansicht der <term type="ediromGui" key="view.desktop.TopBar"/>.</head>
+                  <graphic url="images/menubar_en.png"/>
+                  <head>Detailansicht der <term type="ediromGui" key="view.desktop.TopBar"/>.
+                  </head>
                <!--<note type="editorialc">Prepare closeup screenshot of top toolbar.</note>-->
                </figure>
-               <p>Beispiel der <term type="ediromGui" key="view.desktop.TopBar"/>, mit dem <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>, und der <term type="web">Kombobox</term><!--TODO lang file entry--> für die <ptr target="#selectingWorks"/> at the left end and the <ptr target="#help_view.desktop.TopBar_searchField"/><!-- TODO ?DAN searchField --> on the right end.</p>
+               <p>Beispiel der <term type="ediromGui" key="view.desktop.TopBar"/>, mit dem <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>, und der <term type="web">Kombobox</term><!--TODO lang file entry--> für die <ptr target="#selectingWorks"/> am linken Rand der Leiste und dem <ptr target="#help_view.desktop.TopBar_searchField"/><!-- TODO ?DAN searchField --> am rechten.</p>
                <p>
-                        <gloss>At the very left of the <term type="ediromGui" key="view.desktop.TopBar"/>
-                     is the <ptr target="#view.desktop.TopBar_homeBtn"/>, next to it is a <term type="web">combo box</term> for <ptr target="#selectingWorks"/> of the same
-                     edition; at the very right is the <ptr target="#help_view.desktop.TopBar_searchField"/> for locating contents.</gloss>
+                  <gloss>Am linken Rand der <term type="ediromGui" key="view.desktop.TopBar"/> befindet sich der <ptr target="#view.desktop.TopBar_homeBtn"/>, daneben ist die <term type="web">Kombobox</term> um die <ptr target="#selectingWorks"/> der gleichen Edition zu treffen; am rechten Ende befindet sich das <ptr target="#help_view.desktop.TopBar_searchField"/> um Inhalte zu finden.</gloss>
                </p>
                <div type="div3" change="#change_4" xml:id="view.desktop.TopBar_homeBtn">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>
-                        </head>
+                     <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>
+                  </head>
                   <figure>
-                            <graphic url="images/go-home.png"/>
-                  <p>The <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/> reopens the startup dialog.</p>
+                     <graphic url="images/go-home.png"/>
+                     <p>Der <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/> öffnet den Startdialog der Anwendung erneut.</p>
                </figure>
                   </div>
                <div type="div3" xml:id="selectingWorks">
-                  <head>Auswahl von Werken</head><!-- TODO name GUI Element and add lang var -->
-                  <p>The next element is a combo box listing the works contained in the edition. If your <term type="ediromGui" key="global_appName"/> contains more than one work, you can switch between works at any time. If you select a different work, the context of <ptr target="#help_view.desktop.TopBar_searchField"/> and <ptr target="#help_controller.window.Window_searchView"/> will be set to the newly selected work, and the contents of the <ptr target="#navigator"/> will be updated accordingly.</p>
-                  <p>Any program windows that remain open with content from the last displayed work
-                     may stay open, depending on your settings (see
-                     below)<!-- TODO check implementation -->. This option allows comparing components of different works directly with one another. Please note, however, that the <term type="ediromGui" key="global_appName"/> navigation options (see <ptr target="#view.desktop.TaskBar_concordanceNav"/>) affect only the contents of the currently selected work, while (open) contents of other works remain unaffected.</p>
+                  <head>Auswahl der Werke</head><!-- TODO name GUI Element and add lang var -->
+                  <p>Das nächste Element ist eine Kombobox, die alle in der Edition enthaltenen Werke auflistet. Wenn die vorliegende <term type="ediromGui" key="global_appName"/> mehr als ein Werk enthält, kann immer zwischen den verschiedenen Komponenten gewechselt werden. Wenn ein anderes Werk ausgewählt wird, werden die Inhalte der <ptr target="#help_view.desktop.TopBar_searchField"/> sowie der <ptr target="#help_controller.window.Window_searchView"/> neu angepasst. Die Inhalte des <ptr target="#navigator"/>s werden ebenfalls dementsprechend angepasst.</p>
+                  <p>Alle anderen Fenster, die Auszüge des zuletzt geöffneten Werkes beinhalten, bleiben je nach Einstellungen geöffnet (weitere Ausführung unten).<!-- TODO check implementation -->. 
+                     Diese Option erlaubt den direkten Vergleich der verschiedenen Quellen miteinander. Trotzdem bleibt zu beachten, dass die <term type="ediromGui" key="global_appName"/> Navigationsoptionen (vgl. <ptr target="#view.desktop.TaskBar_concordanceNav"/>) nur die Inhalte des aktuell ausgewählten Werkes beeinflussen, wohingegen geöffnete Inhalte anderef Werke nicht betroffen sind.</p>
                   <!-- TODO deprecated <p>The buttons located to the right of the work title control global functions affecting all open content windows on the desktop.</p>-->
                </div>
                <div type="div3" xml:id="help_view.desktop.TopBar_searchField">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TopBar_searchField"/>
-                        </head>
+                     <term type="ediromGui" key="view.desktop.TopBar_searchField"/>
+                  </head>
                   <figure>
-                            <graphic url="images/searchField.png"/>
-                     <p>Clicking the magnifying lens icon triggers <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/>. By entering a query in the <term type="ediromGui" key="view.desktop.TopBar_searchField"/> located on the menu bar, you can directly operate the search window<!-- TODO insert ediromGui term -->, whereas this button just opens it. For the exact functions of the search window<!-- TODO insert ediromGui term -->, see the corresponding chapter (<ptr target="#help_controller.window.Window_searchView"/><!-- TODO app corresp chapter on search -->).</p>
+                     <graphic url="images/searchField.png"/>
+                     <p>Wenn die vergrößernde Lupe geklickt wird, wird das <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/> geöffnet. Sollte eine Anfrage in das <term type="ediromGui" key="view.desktop.TopBar_searchField"/> direkt in der Menüleiste eingegeben werden, kann direkt im Suchfeld gearbeiten werden<!-- TODO insert ediromGui term -->, wohingegen dieser Button die Suche nur öffnet. 
+                        Die genaue Funktionen des Suchfensters<!-- TODO insert ediromGui term -->, können in folgendem Kapitel nachgelesen werden (<ptr target="#help_controller.window.Window_searchView"/><!-- TODO app corresp chapter on search -->).</p>
                   </figure>
                   </div>
             </div>
@@ -143,94 +146,91 @@
 
             <div type="div2" xml:id="navigator">
                <head>
-                        <term type="ediromGui" key="view.navigator.Navigator"/>
-                    </head>
-               <p>At the top right corner of the <term type="ediromGui" key="view.desktop.Desktop"/>, right below the <term type="ediromGui" key="view.desktop.TopBar_searchField"/>, is the so-called <term type="ediromGui" key="view.navigator.Navigator"/>. The
-                  <term type="ediromGui" key="view.navigator.Navigator"/> contains an edition-specific list of content objects potentially
-                  organized in categories. Clicking on an item opens the corresonding item in a new
-                  window in the workspace.</p>
+                  <term type="ediromGui" key="view.navigator.Navigator"/>
+               </head>
+               <p>In der rechen Ecke des <term type="ediromGui" key="view.desktop.Desktop"/>s, direkt unter dem <term type="ediromGui" key="view.desktop.TopBar_searchField"/>, befindet sich der <term type="ediromGui" key="view.navigator.Navigator"/>. 
+                  Der <term type="ediromGui" key="view.navigator.Navigator"/> enthält eine editionsspezifische Liste von Objekten, die in potenziellen Kategorien organisiert sind. 
+                  Wenn ein Element in der Liste angeklickt wird, wird das dazugehörige Objekt im Fenster des Workspaces geöffnet.</p>
                <figure>
-                        <graphic url="images/navigator_en.png"/>
-                  <head>A sample navigator. Behold the scrollbar on its right edge.</head>
+                  <graphic url="images/navigator_en.png"/>
+                  <head>Ein exemplarischer Navigator. Zu Beachten ist die Leiste am rechten Rand.</head>
                </figure>
-            <p>In case the navigator holds very many objects, a scroll bar located along the right
-               edge of the window lets you scroll through the contents of the navigator. You can
-               also scroll using the wheel of your mouse, if applicable.</p>
-               <p>Although always fixed to the top right corner of the workspace, you can resize the
-                     <term type="ediromGui" key="view.navigator.Navigator"/> deliberately and also
-                  reduce it to a narrow bar below the <ptr target="#help_view.desktop.TopBar_searchField"/>, by <term type="ediromGui" key="drag-and-drop"/> on its left or bottom
-                  edges.</p>
+               <p>Falls der Navigator viele Objekte beinhaltet, gibt es die Möglichkeit mit dem Scrollbalken am rechten Rand des Fensters durch die Inhalte zu navigieren.
+                  Sollte ein Maus mit Scrollrad vorhanden sein, ist es ebenfalls möglich mit diesem zu navigieren.</p>
+               <p>Obwohl der <term type="ediromGui" key="view.navigator.Navigator"/> immer fest an der oberen rechten Ecke des Fenster fixiert bleibt, ist es möglich das Fenster absichtlich zu verändern.
+                  Ebenfalls ist es möglich den <term type="ediromGui" key="view.navigator.Navigator"/> per <term type="ediromGui" key="drag-and-drop"/> an der linken oder unteren Kante zu einem schmalen Balken unterhalb des <ptr target="#help_view.desktop.TopBar_searchField"/>s zu verkleinern.</p>
             </div>
             <!-- user interface DESKTOP ==================================================================== -->
                 <div type="div2" xml:id="workspace">
                <head>
-                        <term type="ediromGui" key="view.desktop.Desktop"/>
-                    </head>
-               <p>The <term type="ediromGui" key="view.desktop.Desktop"/> is the space between <term type="ediromGui" key="view.desktop.TopBar"/> and <term type="ediromGui" key="view.desktop.TaskBar"/>. In this space all internal application windows are opened and arranged in order to show contents of an edition or to give access to further application functions. The internal application windows cannot be dragged out of this area. See <ptr target="#windows"/> for further details.</p>
+                  <term type="ediromGui" key="view.desktop.Desktop"/>
+               </head>
+               <p>Der <term type="ediromGui" key="view.desktop.Desktop"/> ist der Bereich zwischen der <term type="ediromGui" key="view.desktop.TopBar"/> und der <term type="ediromGui" key="view.desktop.TaskBar"/>. Innerhalb dieses Bereiches werden alle innliegenden Anwendungsfenster geöffnet und arrangiert um den Inhalt einer Edition anzuzeigen und weiteren Zugang zu den Funktionen der Anwendungen zu erhalten.
+                  Die innenliegenden Anwendungsfenster können nicht aus diesem Bereich gezogen werden. Für weitere Details, siehe <ptr target="#windows"/>.</p>
             </div>
             <!-- user interface TASKBAR -->
                <div type="div2" xml:id="help_view.desktop.TaskBar">
                <head>
-                        <term type="ediromGui" key="view.desktop.TaskBar"/>
-                    </head>
+                  <term type="ediromGui" key="view.desktop.TaskBar"/>
+               </head>
                <figure>
-                        <graphic url="images/taskBar_en.png"/>
-                  <head>Detail view of the <term type="ediromGui" key="view.desktop.TaskBar"/>
-                        </head>
+                  <graphic url="images/taskBar_en.png"/>
+                  <head>Detaillierte Ansicht der <term type="ediromGui" key="view.desktop.TaskBar"/>
+                  </head>
                </figure>
-               <p>The <term type="ediromGui" key="view.desktop.TaskBar"/> at the bottom of the <term type="ediromGui" key="view.desktop.Desktop"/> gives access to content-related functions on the left, and meta-functions on the right.</p>
+               <p>Durch die <term type="ediromGui" key="view.desktop.TaskBar"/> am unteren Rand des <term type="ediromGui" key="view.desktop.Desktop"/>s kann auf die inhaltsbezogenen Funktionen auf der linken Seite sowie die Meta-Funktionen auf der rechten Seite zugegriffen werden.</p>
                <div type="div3" change="#change_4">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_grid"/>
+                     <term type="ediromGui" key="view.desktop.TaskBar_Sort_grid"/>
                   </head>
                   <figure>
-                            <graphic url="images/arrangeButtons_grid.png"/>
-                  <p>This button lets you arrange all open windows in tiles of a grid.</p>
+                     <graphic url="images/arrangeButtons_grid.png"/>
+                     <p>Dieser Knopf unterstützt die Anordung aller offenen Fenster in die Abschnitte eines .</p>
                </figure>
                   </div>
                <div type="div2" change="#change_4">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_horizontal"/>
+                     <term type="ediromGui" key="view.desktop.TaskBar_Sort_horizontal"/>
                   </head>
                   <figure>
-                            <graphic url="images/arrangeButtons_horizontal.png"/>
-                  <p>This buttons lets you arrange all open windows in horizontal rows.</p>
+                     <graphic url="images/arrangeButtons_horizontal.png"/>
+                     <p>Dieser Knopf unterstützt die Anordung aller offenen Fenster in horizontale Reihen.</p>
                </figure>
                   </div>
                <div type="div2" change="#change_4">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/>
+                     <term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/>
                   </head>
                   <figure>
-                            <graphic url="images/arrangeButtons_vertical.png"/>
-                  <p>This buttons lets you arrange all open windows as tiles.</p>
+                     <graphic url="images/arrangeButtons_vertical.png"/>
+                  <p>Dieser Knopf unterstützt die Anordung aller offenen Fenster in vertikale Reihen.</p>
                </figure>
                   </div>
                <div type="div2">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>
+                     <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>
                   </head>
                   <figure>
-                            <graphic url="images/measureNumbers.png"/>
-                  <p>The <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/> button lets you show or hide measure numbers globally in all windows.</p>
+                     <graphic url="images/measureNumbers.png"/>
+                     <p>Der <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>-Knopf unterstützt die Anzeige bzw. das Verstecken von Taktnummern in allen Fenstern.</p>
                </figure>
-                  </div>
+               </div>
                <div type="div2">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_annotations"/>
+                     <term type="ediromGui" key="view.desktop.TaskBar_annotations"/>
                   </head>
                   <figure>
-                            <graphic url="images/annotations.png"/>
-                  <p>This button lets you show or hide annotation icons globally in all windows. For further details see <ptr target="#windows"/>.</p>
-                  <p>Annotation filter settings (see <ptr target="#filtering"/>), however, can only be configured in the <term type="ediromGui" key="view.window.TopBar"/> of each individual window.</p>
+                     <graphic url="images/annotations.png"/>
+                     <p>Dieser Knopf unterstützt die Anzeig bzw. das Verstecken von Annotationssymbolen global in allen Fenstern. Für weitere Deteils, siehe <ptr target="#windows"/>.</p>
+                     <p>Allerdings können die Filteroptionen für die Annotationen (siehe <ptr target="#filtering"/>) nur in den jeweiligen <term type="ediromGui" key="view.window.TopBar"/> individuellen Fenstern konfiguriert werden.</p>
                </figure>
                </div>
                <div type="div2" change="#change_4">
                   <head>
-                            <term type="ediromGui" key="view.desktop.TaskBar_Desktop"/>
-                        </head>
+                     <term type="ediromGui" key="view.desktop.TaskBar_Desktop"/>
+                  </head>
                   <figure>
-                            <graphic url="images/workspace-switcher.png"/>
+                     <graphic url="images/workspace-switcher.png"/>
                   <p>This button lets you add another desktop to <term type="ediromGui" key="global_appName"/> allowing for a complete new set of windows even from another work's context without modifying your current dektop(s).</p>
                  </figure>
                   </div>
