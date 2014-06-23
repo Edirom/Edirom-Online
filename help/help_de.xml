@@ -53,8 +53,8 @@
         <titlePart>Hilfe (Bedienungsanleitung) </titlePart>
         <argument>
            <p>Dieses Dokument enthält eine allgemeine Einführung in die Benutzung von <term type="ediromGui" key="global_appName"/> und beschreibt die grundlegenden Funktionen der Software. Möglicherweise sind nicht alle Optionen, die im Folgenden beschrieben werden in jeder Edition verfügbar.
-              Dies ist der Tatsache geschuldet, dass Inhalte projektspezifisch angelegt werden und jede Edition, die <term type="ediromGui" key="global_appName"/> benutzt, den individuellen Editionsrichtlinien und - konzepten unterliegt. 
-              Des Weiteren kann es aus editions-spezifischen Gründen sein, dass manche Versionen mehrere Optionen und Erweiterungen enthalten, die nicht in diesem Dokument aufgeführt sind.</p>
+              Dies ist unter anderem der Tatsache geschuldet, dass Inhalte projektspezifisch angelegt werden und jede Edition, die <term type="ediromGui" key="global_appName"/> benutzt, den individuellen Editionsrichtlinien und - konzepten unterliegt. 
+              Des Weiteren kann es aus editions-spezifischen Gründen sein, dass manche Versionen mehrere Optionen und Erweiterungen enthalten, die nicht in diesem Dokument aufgeführt und erklärt sind.</p>
          </argument>
        </titlePage>
        <pb/>
@@ -87,9 +87,8 @@
             </div>
             <div type="div2" xml:id="starting">
                <head>Start der Anwendung </head>
-              <p>
-                 <term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt. Die einzige Systemvorgabe, um <term type="ediromGui" key="global_appName"/> vernünftig ausführen zu können, ist die Installation eines Javascript-fähigen Browsers.</p>
-              <p>Sollte die aktuelle Version von <term type="ediromGui" key="global_appName"/> installiert werden müssen, kann rund um Fragen, die die Installation auf dem persönlichen Rechner, der entsprechende Autor oder Verlag kontaktiert werden.</p>
+              <p><term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt. Die einzige Systemvorgabe, um <term type="ediromGui" key="global_appName"/> vernünftig ausführen zu können, ist die Installation eines Javascript-fähigen Browsers.</p>
+              <p>Sollte die aktuelle Version von <term type="ediromGui" key="global_appName"/> installiert werden müssen, kann rund um Fragen, die die Installation auf dem persönlichen Rechner betreffen, der entsprechende Autor oder Verlag kontaktiert werden.</p>
                <note type="editorial">Projektspezifische Informationen zum Start der Anwendung sollten entweder darüber, also den vorhergehenden Paragraphen ersetzend, oder nachfolgend eingeschoben werden.</note>
             </div>
          </div>
@@ -97,7 +96,8 @@
       <!-- USER INTERFACE ========================================================= -->
          <div type="div1" xml:id="gui">
             <head>Benutzeroberfläche</head>
-            <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. Am oberen und unteren Rand des Fensters ist die <ptr target="#toolbar_top"/> und die <ptr target="#help_view.desktop.TaskBar"/>, durch die alle wichtigen Funktionen der Anwendung erreicht werden können. Der Bereich zwischen den Leisten ist der <ptr target="#workspace"/>, und in der rechten oberen Ecke des Fensters befindet sich der <ptr target="#navigator"/>.</p>
+            <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. Am oberen und unteren Rand des Fensters befindet sich die <ptr target="#toolbar_top"/> und die <ptr target="#help_view.desktop.TaskBar"/>, durch die alle wichtigen Funktionen der Anwendung erreicht werden können. 
+               Der Bereich zwischen den beiden Leisten ist der <ptr target="#workspace"/>, und in der rechten oberen Ecke des Fensters befindet sich der <ptr target="#navigator"/>.</p>
             <figure>
                <graphic url="images/fullscreen_en.png"/>
                <head>Eine exemplarische Ansicht des <term type="ediromGui" key="global_appName"/> Fenster, das die <term type="ediromGui" key="view.desktop.TopBar"/> (oben), die <term type="ediromGui" key="view.desktop.TaskBar"/> (unten), den <term type="ediromGui" key="view.desktop.Desktop"/>, und den <term type="ediromGui" key="view.navigator.Navigator"/> (rechts oben) zeigt.</head>
@@ -129,9 +129,12 @@
                   </div>
                <div type="div3" xml:id="selectingWorks">
                   <head>Auswahl der Werke</head><!-- TODO name GUI Element and add lang var -->
-                  <p>Das nächste Element ist eine Kombobox, die alle in der Edition enthaltenen Werke auflistet. Wenn die vorliegende <term type="ediromGui" key="global_appName"/> mehr als ein Werk enthält, kann immer zwischen den verschiedenen Komponenten gewechselt werden. Wenn ein anderes Werk ausgewählt wird, werden die Inhalte der <ptr target="#help_view.desktop.TopBar_searchField"/> sowie der <ptr target="#help_controller.window.Window_searchView"/> neu angepasst. Die Inhalte des <ptr target="#navigator"/>s werden ebenfalls dementsprechend angepasst.</p>
+                  <p>Das nächste Element ist eine Kombobox, die alle in der Edition enthaltenen Werke auflistet. 
+                     Wenn die vorhandene <term type="ediromGui" key="global_appName"/> mehr als ein Werk enthält, kann immer zwischen den verschiedenen Komponenten gewechselt werden. 
+                     Sollte ein anderes Werk ausgewählt werden, werden die Inhalte der <ptr target="#help_view.desktop.TopBar_searchField"/> sowie der <ptr target="#help_controller.window.Window_searchView"/> neu angepasst. 
+                     Die Inhalte des <ptr target="#navigator"/>s werden ebenfalls dementsprechend angepasst.</p>
                   <p>Alle anderen Fenster, die Auszüge des zuletzt geöffneten Werkes beinhalten, bleiben je nach Einstellungen geöffnet (weitere Ausführung unten).<!-- TODO check implementation -->. 
-                     Diese Option erlaubt den direkten Vergleich der verschiedenen Quellen miteinander. Trotzdem bleibt zu beachten, dass die <term type="ediromGui" key="global_appName"/> Navigationsoptionen (vgl. <ptr target="#view.desktop.TaskBar_concordanceNav"/>) nur die Inhalte des aktuell ausgewählten Werkes beeinflussen, wohingegen geöffnete Inhalte anderef Werke nicht betroffen sind.</p>
+                     Diese Option erlaubt den direkten Vergleich der verschiedenen Quellen miteinander. Trotzdem bleibt zu beachten, dass die <term type="ediromGui" key="global_appName"/>-Navigationsoptionen (vgl. <ptr target="#view.desktop.TaskBar_concordanceNav"/>) nur die Inhalte des aktuell ausgewählten Werkes beeinflussen, wohingegen geöffnete Inhalte anderer Werke nicht betroffen sind.</p>
                   <!-- TODO deprecated <p>The buttons located to the right of the work title control global functions affecting all open content windows on the desktop.</p>-->
                </div>
                <div type="div3" xml:id="help_view.desktop.TopBar_searchField">
@@ -140,7 +143,7 @@
                   </head>
                   <figure>
                      <graphic url="images/searchField.png"/>
-                     <p>Wenn die vergrößernde Lupe geklickt wird, wird das <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/> geöffnet. Sollte eine Anfrage in das <term type="ediromGui" key="view.desktop.TopBar_searchField"/> direkt in der Menüleiste eingegeben werden, kann direkt im Suchfeld gearbeiten werden<!-- TODO insert ediromGui term -->, wohingegen dieser Button die Suche nur öffnet. 
+                     <p>Wenn die vergrößernde Lupe geklickt wird, wird das <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/> geöffnet. Sollte eine Anfrage in das <term type="ediromGui" key="view.desktop.TopBar_searchField"/> direkt in der Menüleiste eingegeben werden, kann direkt im Suchfeld gearbeiten werden<!-- TODO insert ediromGui term -->, wohingegen besagter Button die Suche nur öffnet. 
                         Die genaue Funktionen des Suchfensters<!-- TODO insert ediromGui term -->, können in folgendem Kapitel nachgelesen werden (<ptr target="#help_controller.window.Window_searchView"/><!-- TODO app corresp chapter on search -->).</p>
                   </figure>
                </div>
@@ -159,7 +162,7 @@
                   <head>Ein exemplarischer Navigator. Zu Beachten ist die Leiste am rechten Rand.</head>
                </figure>
                <p>Falls der Navigator viele Objekte beinhaltet, gibt es die Möglichkeit mit dem Scrollbalken am rechten Rand des Fensters durch die Inhalte zu navigieren.
-                  Sollte ein Maus mit Scrollrad vorhanden sein, ist es ebenfalls möglich mit diesem zu navigieren.</p>
+                  Sollte ein Maus mit Scrollrad vorhanden sein, ist es ebenfalls möglich mit diesem zu scrollen.</p>
                <p>Obwohl der <term type="ediromGui" key="view.navigator.Navigator"/> immer fest an der oberen rechten Ecke des Fenster fixiert bleibt, ist es möglich das Fenster absichtlich zu verändern.
                   Ebenfalls ist es möglich den <term type="ediromGui" key="view.navigator.Navigator"/> per <term type="ediromGui" key="drag-and-drop"/> an der linken oder unteren Kante zu einem schmalen Balken unterhalb des <ptr target="#help_view.desktop.TopBar_searchField"/>s zu verkleinern.</p>
             </div>
@@ -169,7 +172,8 @@
                <head>
                   <term type="ediromGui" key="view.desktop.Desktop"/>
                </head>
-               <p>Der <term type="ediromGui" key="view.desktop.Desktop"/> ist der Bereich zwischen der <term type="ediromGui" key="view.desktop.TopBar"/> und der <term type="ediromGui" key="view.desktop.TaskBar"/>. Innerhalb dieses Bereiches werden alle innliegenden Anwendungsfenster geöffnet und arrangiert um den Inhalt einer Edition anzuzeigen und weiteren Zugang zu den Funktionen der Anwendungen zu erhalten.
+               <p>Der <term type="ediromGui" key="view.desktop.Desktop"/> ist der Bereich zwischen der <term type="ediromGui" key="view.desktop.TopBar"/> und der <term type="ediromGui" key="view.desktop.TaskBar"/>. 
+                  Innerhalb dieses Bereiches werden alle innenliegenden Anwendungsfenster geöffnet und arrangiert um den Inhalt einer Edition anzuzeigen und weiteren Zugang zu den Funktionen der Anwendungen zu erhalten.
                   Die innenliegenden Anwendungsfenster können nicht aus diesem Bereich gezogen werden. Für weitere Details, siehe <ptr target="#windows"/>.</p>
             </div>
             
@@ -227,7 +231,7 @@
                   <figure>
                      <graphic url="images/annotations.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird die Anzeige bzw. das Verstecken von Annotationssymbolen global in allen Fenstern unterstützt. Für weitere Details, siehe <ptr target="#windows"/>.</p>
-                     <p>Allerdings können die Filteroptionen für die Annotationen (siehe <ptr target="#filtering"/>) nur in den jeweiligen <term type="ediromGui" key="view.window.TopBar"/> individuellen Fenstern konfiguriert werden.</p>
+                     <p>Allerdings können die Filteroptionen für die Annotationen (siehe <ptr target="#filtering"/>) nur in den jeweiligen <term type="ediromGui" key="view.window.TopBar"/> zu individuellen Fenstern konfiguriert werden.</p>
                </figure>
                </div>
                <div type="div2" change="#change_4">
@@ -340,16 +344,18 @@
            <head>
               <term type="ediromGui" key="view.navigator.Navigator"/>
            </head>
-           <p>Der <term type="ediromGui" key="view.navigator.Navigator"/> bietet einen schnellen Einstieg zu allen Objekten der Edition. Diese können per Mausklick in einem neuen <ptr target="#windows"/> im aktuellen <ptr target="#workspace"/>.</p>
+           <p>Der <term type="ediromGui" key="view.navigator.Navigator"/> bietet einen schnellen Einstieg zu allen Objekten der Edition. 
+              Diese können per Mausklick in einem neuen <ptr target="#windows"/> im aktuellen <ptr target="#workspace"/> geöffnet werden.</p>
            <!-- <p>Any content not listed in the <term type="ediromGui" key="view.navigator.Navigator"/> can be accessed via links 
                  from the objects listed here or via the application's <ptr
                      target="#help_controller.window.Window_searchView"/> window.</p>-->
              <figure>
                 <graphic url="images/navigator_en.png"/>
-                <head>Beispiel eines Navigators. Beachten Sie den Rollbalken auf der linken Seite.</head>
+                <head>Beispiel eines Navigators. Zu beachten ist der Rollbalken auf der linken Seite.</head>
              </figure>
            <p>Die Zahl der Objekte, die im <term type="ediromGui" key="view.navigator.Navigator"/> angezeigt werden, können die Größe des Feldes überschreiten. 
-              In diesem Fall erlaubt eine Scrollleiste an der rechten Seite des Fenster durch die weiteren Inhalte des <term type="ediromGui" key="view.navigator.Navigator"/> zu navigieren. Das Scrollrad der Maus kann auch hier wieder eingesetzt werden.</p>
+              In diesem Fall erlaubt eine Scrollleiste an der rechten Seite des Fenster durch die weiteren Inhalte des <term type="ediromGui" key="view.navigator.Navigator"/> zu navigieren. 
+              Das Scrollrad der Maus kann auch hier wieder eingesetzt werden.</p>
            <p>Obwohl der <term type="ediromGui" key="view.navigator.Navigator"/> in der rechten Ecke des Fensters fixiert ist, lässt er sich in seiner Größe verändern und per <term type="ediromGui" key="drag-and-drop"/> an der linken oder unteren Kante zu einem schmalen Balken unterhalb des <ptr target="#help_controller.window.Window_searchView"/> verkleinern.</p>
          </div>
         
@@ -359,10 +365,12 @@
                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/>
             </head>
             <p>Der <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/> ermöglicht die Navigation innerhalb der Konkordanzen. 
-               Dabei wird der Inhalt der aktuell geöffneten Fenster verändert, deren Inhalt in Zusammenhang mit den Konkordanzen steht.</p>
-            <p>Variierende Konkordanzen können über ein Drop-Down-Menü ausgewählt werden. Des Weiteren kann durch Sätze usw. durch ein zweites Drop-Down-Menü navigiert werden.
+               Dabei wird der Inhalt der aktuell geöffneten Fenster verändert, die in Zusammenhang mit den Konkordanzen stehen.</p>
+            <p>Variierende Konkordanzen können über ein Drop-Down-Menü ausgewählt werden. 
+               Des Weiteren kann durch Sätze usw. durch ein zweites Drop-Down-Menü navigiert werden.
                Sollte die ausgewählte Konkordanz noch weitere Untergliederungen, wie z.B. Sätze, beinhalten, wird ein zweites Drop-Down-Menü zur Auswahl erscheinen. </p>
-            <p>Danach erscheinen Reiter mit Nummern, die die aktuelle Verbindung aufzeigen. Diese können geklickt werden, um das Ziel angezeigt zu bekommen. Die Pfeilköpfe können genutzt werden um Schritt für Schritt vor- bzw. rückwärts zu navigieren.</p>
+            <p>Danach erscheint ein Reiter mit Nummern, die die aktuelle Verbindung aufzeigen. Diese können angeklickt werden, um das Ziel angezeigt zu bekommen. 
+               Die Pfeilköpfe können genutzt werden um Schritt für Schritt vor- bzw. rückwärts zu navigieren.</p>
             <!-- TODO: WHAT?! amk 2014-06-18 -->
             <p>mehrere Konkordanzen und editions spez</p>
             <figure>
@@ -375,12 +383,11 @@
                Dieser muss geklickt werden, um den ausgewählten Takt in allen offenen Quellen des Desktops zu öffnen.
                Es kann auch vor- bzw. rückwärts auf Taktebene innheralb der Quellen navigiert werden, in dem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
                Je nach privater Einstellung <!-- TODO add corresponding(see <ptr target="#openPreferences"/> chapter on preferences)--> werden nur Fenster, die bereits geöffent sind beeinflusst. 
-               Sollte der ausgewählt Takt aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet <!-- TODO check implementation -->. 
-            </p>
+               Sollte der ausgewählt Takt aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet <!-- TODO check implementation -->.</p>
             <p>Ein üblicher Einsatz dieser Funktion ist das Aufzeigen der Takt-Konkordanzen eines bestimmten Taktes, die dann in allen Faksimiles bzw. Partituren des aktuellen Werkes in der <ptr target="#workspace"/> geöffnet werden.
                Wenn das ausgewählte Werk mehr als einen Satz hat, kann durch das Drop-Down-Menü der gewünschte ausgewählt werden.
                Die Schiebeleiste gibt die Möglichkeit einen Takt auszuwählen, der dann durch das Klicken des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs angezeigt wird.</p>
-            <p>Ein weiteres Beispiel der Anwendung ist die Konkordanz von Partituren und den dazugehörigen Versen eines Librettos um die musikalischen Anweisungen neben den bestimmten Verszeilen gleichzeiten betrachten zu können.
+            <p>Ein weiteres Beispiel der Anwendung ist die Konkordanz von Partituren und den dazugehörigen Versen eines Librettos um die musikalischen Anweisungen neben den bestimmten Verszeilen gleichzeitig betrachten zu können.
                Das Vorhandensein der besagten Konkordanzen ist jedoch von der jeweiligen Edition abhängig.</p>
          </div>
 
@@ -399,7 +406,7 @@
                <label>
                   <term type="ediromGui" key="view.window.TobBar_View"/>
                </label>
-               <item>Dies ist Standard für alle Fenster, die mehrere Ansichten beinhalten und ermöglicht den Wechsel zwischen verschiedenen Sichten.<!-- move to window --></item>
+               <item>Das ist Standard für alle Fenster, die mehrere Ansichten beinhalten und ermöglicht den Wechsel zwischen verschiedenen Sichten.<!-- move to window --></item>
             </list>
             <p>Das Konzept im Umgang mit den verschiedenen Objekten von <term type="ediromGui" key="global_appName"/> hat sich im Vergleich zum vorhergehenden <term>Edirom Viewer</term> dahingehend verändert, dass es viel flexibler und dynamisch handhabbar ist.
                Somit sind die Fenster nicht mehr in ihrer Größe statisch, sondern passen sich dynamisch den jeweiligen Objekten und deren Inhalten an.
@@ -437,7 +444,7 @@
                   <cell>-</cell>
                </row>
             </table>
-            <p>Jedes offene Fenster wird in der <term type="ediromGui" key="view.desktop.TaskBar"/> als eigener Knopf mit den jeweiligen Titel dargestellt. Eine Feature, das aus den meisten Computeranwendung bekannt ist.
+            <p>Jedes offene Fenster wird in der <term type="ediromGui" key="view.desktop.TaskBar"/> als eigener Knopf mit den jeweiligen Titel dargestellt. Ein Feature, das aus den meisten Computeranwendung bekannt ist.
                Wenn dieser Eintrag geklickt wird, kann zwischen <rs key="window_minimize">dem Anzeigen bzw. Verstecken</rs> des Fensters hin- und hergeschaltet werden.</p>
             <p><!-- not implemented --> Sollten mehrere Fenster geöffnet sein, zeigt der Eintrag in der <term type="ediromGui" key="view.desktop.TaskBar"/>, welches der Fenster momentan aktiv ist (und somit auf verschiedene Tastaturkürzel reagiert)<!-- not implemented yet -->:
                Der entsprechende Eintrag des jeweils aktiven Fenster ist im Gegensatz zu den nicht-aktiven Fenstern hervorgehoben<!-- TODO check implementation -->.
@@ -464,8 +471,8 @@
                <head>
                   <term type="ediromGui" key="controller.window.Window_textView"/>
                </head>
-               <p xml:id="w10892aab3b1b1c21b3">Sollte der Inhalt eines Fenster textbasiert sein, z.B. eine TEI-Dati, ist der Eintrag zu <term type="ediromGui" key="controller.window.Window_textView"/> innerhalb eines <term><term type="ediromGui" key="view.window.TobBar_View"/> Menu</term>-Fensters verfügbar.
-                  Der <hi rend="bold">text</hi> erscheint in ähnlicher äußerer Form einer Webseite und kann Links zu anderen Inhalten beinhalten. Dies hängt jedoch von der jeweiligen Edition ab und ist in der Aktualität der Links variabel.
+               <p xml:id="w10892aab3b1b1c21b3">Sollte der Inhalt eines Fenster textbasiert sein, z.B. eine TEI-Datei, ist der Eintrag zu <term type="ediromGui" key="controller.window.Window_textView"/> innerhalb eines <term><term type="ediromGui" key="view.window.TobBar_View"/> Menu</term>-Fensters verfügbar.
+                  Der <hi rend="bold">Text</hi> erscheint in ähnlicher äußerer Form einer Webseite und kann Links zu anderen Inhalten enthalten. Dies hängt jedoch von der jeweiligen Edition ab und ist in der Aktualität der Links variabel.
                   Alle geklickten Links werden im selben Fenster geöffnet. Um den Inhalt in einem anderen Fenster zu öffnen, muss der Control Key bei Windows bzw. der Command Key bei Mac OX X gehalten werden.<!-- In addition, there are footnotes that also act as links. Below the corresponding text, you'll see a list of footnotes, similar to those found in printed works. To switch between viewing the footnote and the body of the text, click on the footnote number in the text or in the page footer.--><!-- too content specific? --></p>
                <p xml:id="w10892aab3b1b1c21b5">Die ansichtsspezifischen Kürzel erscheinen in der <term type="ediromGui" key="view.window.TopBar"/><!-- bwb nothing implemented  and <term type="ediromGui" key="view.window.BottomBar"/>-->. Diese enthalten:</p>
                <list type="gloss">
