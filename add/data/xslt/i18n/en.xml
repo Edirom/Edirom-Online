@@ -62,7 +62,7 @@
     <entry xml:id="exhibHist">Exhibition history</entry>
     <entry xml:id="extent">Extent</entry>
     <entry xml:id="hand">Hand</entry>
-    <entry xml:id="inscription">Inscription</entry>    
+    <entry xml:id="inscription">Inscription</entry>
     <entry xml:id="physLoc">Location within a repository</entry>
     <entry xml:id="physMedium">Medium used</entry>
     <entry xml:id="plateNum">Plate number</entry>
@@ -103,7 +103,7 @@
     <entry xml:id="title_j">Title (journal)</entry>
     <entry xml:id="title_s">Title (series)</entry>
     <entry xml:id="title_u">Title (unpublished)</entry>
-<entry xml:id="idno">Identifier</entry>
+    <entry xml:id="idno">Identifier</entry>
     <entry xml:id="date">Date</entry>
     <entry xml:id="country">Country</entry>
     <entry xml:id="settlement">Settlement</entry>
@@ -111,9 +111,8 @@
     <entry xml:id="handDesc">Description of Hands</entry>
     <entry xml:id="leavesCount">Number of Leaves</entry>
     <entry xml:id="itemList">Item List</entry>
-    
-    
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
+    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
 </language>

@@ -116,4 +116,5 @@
     <entry xml:id="handDesc">Beschreibung der Schriften</entry>
     <entry xml:id="leavesCount">Anzahl der Blätter</entry>
     <entry xml:id="itemList">Objektauflistung</entry>
+    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
 </language>
