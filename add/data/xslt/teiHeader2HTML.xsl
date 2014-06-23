@@ -85,7 +85,8 @@
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
                 <xsl:text>) </xsl:text>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="."/>
+            <xsl:otherwise>
+                <xsl:value-of select="."/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -434,12 +435,14 @@
     </xsl:template>
     
     <xsl:template match="tei:p">
-        <p><xsl:apply-templates/>
+        <p>
+            <xsl:apply-templates/>
         </p>
     </xsl:template>
     
     <xsl:template match="tei:p" mode="plainCommaSep">
-        <p><xsl:apply-templates/>
+        <p>
+            <xsl:apply-templates/>
         </p>
     </xsl:template>
     
