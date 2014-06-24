@@ -430,7 +430,7 @@
 <xsl:template match="tei:pb" priority="5">
         <xsl:variable name="page_folio">
             <xsl:choose>
-                <xsl:when test="matches(@n, '\d+(r|v)')"> fol. </xsl:when>
+                <xsl:when test="matches(@n, '\d+[a-z]?(r|v)')"> fol. </xsl:when>
                 <xsl:otherwise> pag. </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
