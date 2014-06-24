@@ -50,7 +50,7 @@ declare function local:getItem($item) {
     return
 
     <div class="navigatorItem" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
-        { $item//edirom:name[1]/text() }
+        { $item//edirom:name[1]/node() }
     </div>
 };
 
