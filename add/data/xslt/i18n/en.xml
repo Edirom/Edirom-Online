@@ -111,6 +111,7 @@
     <entry xml:id="handDesc">Description of Hands</entry>
     <entry xml:id="leavesCount">Number of Leaves</entry>
     <entry xml:id="itemList">Item List</entry>
+
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
