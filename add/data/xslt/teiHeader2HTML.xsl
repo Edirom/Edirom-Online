@@ -303,6 +303,14 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
+
+    <xsl:template match="@target" mode="plainCommaSep">
+        <xsl:element name="a">
+            <xsl:attribute name="href" select="."/>
+            <xsl:attribute name="target">_blank</xsl:attribute>
+            <xsl:value-of select="."/>
+        </xsl:element>
+    </xsl:template>
         
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
