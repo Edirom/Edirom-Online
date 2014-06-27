@@ -11,8 +11,8 @@
     <xsl:variable name="i18n" select="document(concat($base, 'tei/i18n.xml'))"/>
     <xsl:variable name="language">
         <xsl:choose>
-            <xsl:when test="doc-available(concat($base, 'i18n/{$lang}.xml'))">
-                <xsl:copy-of select="document(concat($base, 'i18n/{$lang}.xml'))"/>
+            <xsl:when test="doc-available(concat($base, 'i18n/',$lang,'.xml'))">
+                <xsl:copy-of select="document(concat($base, 'i18n/',$lang,'.xml'))"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:copy-of select="document(concat($base, 'i18n/en.xml'))"/>
