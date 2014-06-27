@@ -41,7 +41,7 @@
     </xsl:template>
     
     <xsl:template name="rendToProperty">
-        <xsl:param name="key" select="local-name()"></xsl:param>
+        <xsl:param name="key" select="local-name()"/>
         <xsl:attribute name="class">property</xsl:attribute>
         <xsl:element name="div">
             <xsl:attribute name="class" select="string('key')"/>
