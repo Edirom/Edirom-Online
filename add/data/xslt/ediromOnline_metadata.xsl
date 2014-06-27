@@ -66,8 +66,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-
-<xsl:template name="rendToSubProperty">
+    
+    <xsl:template name="rendToSubProperty">
         <xsl:param name="key" select="local-name()"/>
         <xsl:attribute name="class">subProperty</xsl:attribute>
         <xsl:element name="span">
