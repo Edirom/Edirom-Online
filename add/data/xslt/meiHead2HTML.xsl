@@ -11,44 +11,100 @@
         <xd:desc>
             <xd:p>
                 <xd:b>Created on:</xd:b> Dec 21, 2011</xd:p>
-            <xd:p>
-                <xd:b>Author:</xd:b> johannes</xd:p>
-            <xd:p/>
+            <xd:p/><xd:b>Author:</xd:b>Johannes Kepper
+                <xd:b>Author:</xd:b>Benjamin W. Bohl
+            
         </xd:desc>
     </xd:doc>
 
 <!-- OUTPUT ======================================================= -->
     <xsl:output indent="yes" method="xml" omit-xml-declaration="yes"/>
     <xsl:param name="includeNotes">
-        <xsl:value-of select="boolean('true')"/>
+        <xsl:value-of select="true()"/>
     </xsl:param>
 
 <!-- DEFAULT TEMPLATEs ======================================================= -->
     <xsl:template match="/">
         <xsl:apply-templates/>
     </xsl:template>
-    <xsl:template match="* | @*" mode="#all">
+    <!--<xsl:template match="* | @*" mode="#all">
         <xsl:apply-templates mode="#current"/>
+    </xsl:template>-->
+    
+<xsl:template match="node()" mode="plainCommaSep">
+        <xsl:choose>
+            <!-- nur attribute keinerlei kindknoten -->
+            <xsl:when test="@* and not(node())"><!-- evtl attributnamen? -->
+                <xsl:text>(</xsl:text>
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:text>)</xsl:text>
+            </xsl:when>
+            <!-- nur attribute und textknoten -->
+            <xsl:when test="@* and not(*)">
+                <xsl:apply-templates mode="plainCommaSep"/>
+                <xsl:text> (</xsl:text>
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:text>)</xsl:text>
+            </xsl:when>
+            <!-- kindeskinder und attribute -->
+            <xsl:when test="*/* and @*">
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:apply-templates select="*" mode="plainCommaSep"/>
+            </xsl:when>
+            <!-- kindeskinder keine attribute -->
+            <xsl:when test="*/* and not(@*)">
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:apply-templates select="*" mode="plainCommaSep"/>
+            </xsl:when>
+            <!-- elemente und attribute -->
+            <xsl:when test="* and @*">
+                <xsl:apply-templates select="*" mode="plainCommaSep"/>
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+            </xsl:when>
+            <xsl:when test="*">
+                <xsl:value-of select="*" separator=", "/>
+            </xsl:when>
+            <!-- if node is none of the above but has atribute -->
+            <xsl:when test="@*">
+                <xsl:text> (</xsl:text>
+                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:text>) </xsl:text>
+            </xsl:when>
+            <xsl:otherwise><xsl:value-of select="."/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <!--<xsl:template match="*" mode="plainDivs">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToClass"/>
+            <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>-->
+    
+    <xsl:template match="@*" mode="subProp"/>
+    
+    <xsl:template match="@*" mode="valueOnly"/>
+    
+    <xsl:template match="node()" mode="subProp">
+        <xsl:if test="@*">
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="@*" separator=", "/>
+            <xsl:text>) </xsl:text>
+        </xsl:if>
+        <xsl:apply-templates mode="plainCommaSep"/>
     </xsl:template>
     
 <!-- TEMPLATEs ======================================================= -->
-    <xsl:template match="meiHead">
+    <xsl:template match="@altrend | @rend" mode="#all"/>
+    <xsl:template match="mei:meiHead">
         <xsl:element name="div">
             <xsl:attribute name="class">meiHead</xsl:attribute>
-            <xsl:if test="string-length(//fileDesc/titleStmt/title/text()) gt 0">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('fileInfo')"/>
-                    </xsl:element>
-                    <xsl:apply-templates select="./fileDesc" mode="getFileInfo"/>
-                    <xsl:if test="./encodingDesc">
-                        <xsl:apply-templates select="./encodingDesc"/>
-                    </xsl:if>
-                </xsl:element>
-            </xsl:if>
-            <xsl:choose>
-                <xsl:when test="count(./workDesc/work) gt 1">
+            
+            <xsl:apply-templates select="mei:fileDesc"/>
+            
+            <!-- TODO check for workDesc with resp data -->
+            <xsl:choose><xsl:when test="count(./workDesc/work) gt 1">
                     <xsl:element name="div">
                         <xsl:attribute name="class">section</xsl:attribute>
                         <xsl:element name="h1">
@@ -71,46 +127,17 @@
                     </xsl:apply-templates>
                 </xsl:when>
             </xsl:choose>
-            <xsl:choose>
-                <xsl:when test="count(./fileDesc/sourceDesc/source) gt 1">
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">section</xsl:attribute>
-                        <xsl:element name="h1">
-                            <xsl:value-of select="eof:getLabel('sources')"/>
-                        </xsl:element>
-                        <xsl:for-each select="./fileDesc/sourceDesc/source">
-                            <xsl:call-template name="source">
-                                <xsl:with-param name="labeled">
-                                    <xsl:value-of select="true()"/>
-                                </xsl:with-param>
-                            </xsl:call-template>
-                        </xsl:for-each>
-                    </xsl:element>
-                </xsl:when>
-                <xsl:when test="./fileDesc/sourceDesc/source">
-                    <xsl:apply-templates select="./fileDesc/sourceDesc/source">
-                        <xsl:with-param name="labeled">
-                            <xsl:value-of select="false()"/>
-                        </xsl:with-param>
-                    </xsl:apply-templates>
-                </xsl:when>
-            </xsl:choose>
-            <xsl:if test="./revisionDesc/change">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('revisionDesc')"/>
-                    </xsl:element>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">propertyList</xsl:attribute>
-                        <xsl:for-each select="./revisionDesc/change">
-                            <xsl:apply-templates select="."/>
-                        </xsl:for-each>
-                    </xsl:element>
-                </xsl:element>
-            </xsl:if>
+            
+            <xsl:apply-templates select="mei:fileDesc/mei:sourceDesc"/>
+            
+            <!-- ende fileDesc -->
+            
+            <!-- encodingDesc -->
+            <xsl:apply-templates select="mei:encodingDesc"/>
+            <xsl:apply-templates select="mei:revisionDesc"/>
         </xsl:element>
     </xsl:template>
+    
     <xsl:template match="work" name="work">
         <xsl:param name="labeled"/>
         <!-- TODO -->
@@ -202,32 +229,31 @@
             <xsl:apply-templates select="mei:classification"/>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="change">
+    <xsl:template match="mei:change">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:value-of select="eof:getLabel('change')"/>
-                <xsl:if test="./date">
-                    <xsl:element name="br"/>
-                    <xsl:apply-templates select="./date[1]" mode="valueOnly"/>
+                <xsl:value-of select="eof:getLabel(local-name())"/>
+                <xsl:if test="@n">
+                    <xsl:value-of select="concat(' ', @n)"/>
+                    </xsl:if>
+            <xsl:if test="mei:date">
+                    <xsl:element name="span">
+                        <xsl:attribute name="class">date</xsl:attribute>
+                        <xsl:apply-templates select="mei:date[1]" mode="valueOnly"/>
+                    </xsl:element>
                 </xsl:if>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="./changeDesc/p" mode="valueOnly"/>
-                <!-- TODO: include respStmt -->
-            </xsl:element>
+                <xsl:apply-templates select="mei:respStmt" mode="valueOnly"/>
+                 <xsl:apply-templates select="./changeDesc/p" mode="valueOnly"/>
+                </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="fileDesc" mode="getFileInfo">
-        <xsl:element name="div">
-            <xsl:attribute name="class">section</xsl:attribute>
-            <xsl:element name="h1">
-                <xsl:value-of select="eof:getLabel('titleStmt')"/>
-            </xsl:element>
-            <xsl:apply-templates select="./titleStmt"/>
-        </xsl:element>
+    <xsl:template match="mei:fileDesc" mode="getFileInfo">
+        <xsl:apply-templates select="./mei:titleStmt"/>
         <xsl:if test="count(./pubStmt/child::node()) gt 0">
             <xsl:element name="div">
                 <xsl:attribute name="class">section</xsl:attribute>
@@ -247,16 +273,16 @@
             </xsl:element>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="titleStmt">
-        <xsl:element name="div">
-            <xsl:attribute name="class">propertyList</xsl:attribute>
+    <xsl:template match="mei:titleStmt">
+<!--        <xsl:element name="div">-->
+<!--            <xsl:attribute name="class">propertyList</xsl:attribute>-->
             <xsl:for-each select="./title">
                 <xsl:call-template name="title"/>
             </xsl:for-each>
             <xsl:for-each select="./respStmt/*">
                 <xsl:call-template name="resp"/>
             </xsl:for-each>
-        </xsl:element>
+        <!--</xsl:element>-->
     </xsl:template>
     <xsl:template match="pubStmt">
         <xsl:element name="div">
@@ -284,8 +310,7 @@
                         </xsl:element>
                         <xsl:element name="div">
                             <xsl:attribute name="class">value</xsl:attribute>
-                            <xsl:choose>
-                                <xsl:when test="not(./text() eq '')">
+                            <xsl:choose><xsl:when test="not(./text() = '')"><!-- TODO: @bwb to git = vs eq -->
                                     <xsl:value-of select="./text()"/>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -331,82 +356,54 @@
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="source" name="source">
+    <xsl:template match="mei:source" name="source">
         <xsl:param name="labeled"/>
-        <xsl:element name="div">
-            <xsl:attribute name="class">section</xsl:attribute>
+        <!--<xsl:element name="div">-->
+            <!--<xsl:attribute name="class">section</xsl:attribute>-->
+        
+            
+        <xsl:if test="$labeled eq 'true'">
             <xsl:element name="h1">
-                <xsl:choose>
-                    <xsl:when test="$labeled eq 'true'">
-                        <xsl:value-of select="./titleStmt/title[1]/text()"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('sourceDesc')"/>
-                    </xsl:otherwise>
-                </xsl:choose>
+                <xsl:value-of select="./titleStmt/title[1]/text()"/>
             </xsl:element>
+        </xsl:if>
+            <!--<xsl:otherwise>
+                <xsl:value-of select="eof:getLabel('sourceDesc')"/>
+            </xsl:otherwise>-->
+            
+            <!--<xsl:element name="div">-->
+        <xsl:apply-templates select="./mei:titleStmt"/>
+            <!--</xsl:element>-->
+        
+        <xsl:if test="count(./pubStmt/child::*) gt 0"><!-- TODO -->
             <xsl:element name="div">
                 <xsl:attribute name="class">section</xsl:attribute>
                 <xsl:element name="h1">
-                    <xsl:value-of select="eof:getLabel('sourceTitle')"/>
+                    <xsl:value-of select="eof:getLabel('publication')"/>
                 </xsl:element>
-                <xsl:apply-templates select="./titleStmt"/>
+                <xsl:apply-templates select="./pubStmt"/>
             </xsl:element>
-            <xsl:if test="count(./pubStmt/child::*) gt 0">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('publication')"/>
-                    </xsl:element>
-                    <xsl:apply-templates select="./pubStmt"/>
+        </xsl:if>
+        
+        <xsl:if test="./history and ./history/child::*/node()"><!-- TODO -->
+            <xsl:element name="div">
+                <xsl:attribute name="class">section</xsl:attribute>
+                <xsl:element name="h1">
+                    <xsl:choose><xsl:when test="./history/head/node()">
+                            <xsl:apply-templates select="./history/head"/>
+                        </xsl:when>
+                        <xsl:otherwise><xsl:value-of select="eof:getLabel('history')"/>
+                        </xsl:otherwise>
+                    </xsl:choose>
                 </xsl:element>
-            </xsl:if>
-            <xsl:if test="./langUsage | ./editionStmt or (./notesStmt and $includeNotes eq true)">
                 <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('additionalMeta')"/>
-                    </xsl:element>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">propertyList</xsl:attribute>
-                        <xsl:apply-templates select="./langUsage | ./editionStmt"/>
-                        <xsl:if test="$includeNotes eq true">
-                            <xsl:apply-templates select="./notesStmt"/>
-                        </xsl:if>
-                    </xsl:element>
+                    <xsl:attribute name="class">propertyList</xsl:attribute>
+                    <xsl:apply-templates select="./history/creation | ./history/p |./history/eventList"/>
                 </xsl:element>
-            </xsl:if>
-            <xsl:if test="./history and ./history/child::*/node()">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:choose>
-                            <xsl:when test="./history/head/node()">
-                                <xsl:apply-templates select="./history/head"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                                <xsl:value-of select="eof:getLabel('history')"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:element>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">propertyList</xsl:attribute>
-                        <xsl:apply-templates select="./history/creation | ./history/p |./history/eventList"/>
-                    </xsl:element>
-                </xsl:element>
-            </xsl:if>
-            <xsl:if test="./physDesc">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('physDesc')"/>
-                    </xsl:element>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">propertyList</xsl:attribute>
-                        <xsl:apply-templates select="./physDesc/*"/>
-                    </xsl:element>
-                </xsl:element>
-            </xsl:if>
+            </xsl:element>
+        </xsl:if>
+        
+        <xsl:apply-templates select="mei:physDesc"/>
             
             <!-- identifier -->
             <xsl:if test="./key or ./meter or ./perfMedium or ./castList">
@@ -421,6 +418,7 @@
                     </xsl:element>
                 </xsl:element>
             </xsl:if>
+        
             <xsl:if test="count(./seriesStmt/child::node()) gt 0">
                 <xsl:element name="div">
                     <xsl:attribute name="class">section</xsl:attribute>
@@ -430,18 +428,31 @@
                     <xsl:apply-templates select="./seriesStmt"/>
                 </xsl:element>
             </xsl:if>
-            <xsl:if test="./classification/termList/term/node()">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">section</xsl:attribute>
-                    <xsl:element name="h1">
-                        <xsl:value-of select="eof:getLabel('classification')"/>
-                    </xsl:element>
-                    <xsl:apply-templates select="./classification"/>
+            
+            <xsl:apply-templates select="mei:classification"/>
+        
+        <xsl:apply-templates select="mei:itemList"/>
+        
+        <xsl:apply-templates select="mei:notesStmt"/>
+        
+        <!--<xsl:if test="./langUsage or ./editionStmt or (mei:notesStmt and $includeNotes = true())"> <!-\- TODO -\->
+            <xsl:element name="div">
+                <xsl:attribute name="class">section</xsl:attribute>
+                <xsl:element name="h1">
+                    <xsl:value-of select="eof:getLabel('additionalMeta')"/>
                 </xsl:element>
-            </xsl:if>
-        </xsl:element>
+                <xsl:element name="div">
+                    <xsl:attribute name="class">propertyList</xsl:attribute>
+                    <xsl:apply-templates select="./langUsage | ./editionStmt"/>
+                    <xsl:if test="$includeNotes = true()">
+                        <xsl:apply-templates select="mei:notesStmt"/>
+                    </xsl:if>
+                </xsl:element>
+            </xsl:element>
+        </xsl:if>-->
+        
     </xsl:template>
-    <xsl:template match="title" name="title">
+    <xsl:template match="mei:title" name="title">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -844,9 +855,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="mei:notesStmt">
-        <xsl:call-template name="makeSection"/>
-    </xsl:template>
     <xsl:template match="mei:annot[@type='movementConcordance']"/>
     <xsl:template match="mei:annot[@type='connection']"/>
     <xsl:template match="mei:annot[@type='criticalCommentary']">
@@ -865,48 +873,10 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="classification">
-        <xsl:element name="div">
-            <xsl:call-template name="rendToSection"/>
-            <xsl:for-each select="./termList/term">
-                <xsl:element name="div">
-                    <xsl:attribute name="class">property</xsl:attribute>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">key</xsl:attribute>
-                        <xsl:value-of select="eof:getLabel('classification')"/>
-                    </xsl:element>
-                    <xsl:element name="div">
-                        <xsl:attribute name="class">value</xsl:attribute>
-                    <!-- TODO: have a closer look into the contents? -->
-                        <xsl:value-of select="."/>
-                        <xsl:if test="@classcode and id(substring(@classcode, 2))">
-                            <xsl:text>(</xsl:text>
-                            <xsl:choose>
-                                <xsl:when test="id(substring(@classcode,2))/@authURI and id(substring(@classcode,2))/@authority">
-                                    <xsl:element name="a">
-                                        <xsl:attribute name="class">authURI</xsl:attribute>
-                                        <xsl:attribute name="href">
-                                            <xsl:value-of select="id(substring(./@classcode, 2))/@authURI"/>
-                                        </xsl:attribute>
-                                        <xsl:value-of select="id(substring(./@classcode, 2))/@authority"/>
-                                    </xsl:element>
-                                </xsl:when>
-                                <xsl:when test="id(substring(@classcode,2))/@authority">
-                                    <xsl:value-of select="id(substring(@classcode,2))/@authority"/>
-                                </xsl:when>
-                                <xsl:when test="id(substring(@classcode,2))/@label">
-                                    <xsl:value-of select="id(substring(@classcode,2))/@label"/>
-                                </xsl:when>
-                                <xsl:otherwise>
-                                    <xsl:value-of select="id(substring(@classcode,2))/text()"/>
-                                </xsl:otherwise>
-                            </xsl:choose>
-                            <xsl:text>)</xsl:text>
-                        </xsl:if>
-                    </xsl:element>
-                </xsl:element>
-            </xsl:for-each>
-        </xsl:element>
+    <xsl:template match="mei:classification">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+            </xsl:call-template>
     </xsl:template>
     <xsl:template match="address" name="address">
         <xsl:element name="div">
@@ -1007,21 +977,43 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="dimensions">
+    <!--<xsl:template match="mei:extent" mode="plainCommaSep">
+        <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:attribute name="class">subProperty</xsl:attribute>
             <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:value-of select="eof:getLabel('dimensions')"/>
-                <xsl:if test="@unit and string-length(@unit) gt 0">
-                    <xsl:element name="br"/>
-                    (<xsl:value-of select="eof:getLabel('unit')"/>: <xsl:value-of select="@unit"/>)
+                <xsl:attribute name="class" select="string('subkey')"/>
+                <xsl:value-of select="eof:getLabel($key)"/>
+                <xsl:if test="@unit and not(@unit eq '')">
+                    <xsl:element name="span"><!-\- TODO: copy to TEI -\->
+                        <xsl:attribute name="class">unit</xsl:attribute>
+                        (<xsl:value-of select="eof:getLabel('unit')"/>: <xsl:value-of select="@unit"/>)
+                    </xsl:element>
                 </xsl:if>
             </xsl:element>
+            <xsl:element name="span">
+                <xsl:attribute name="class" select="string('subvalue')"/>
+                <xsl:apply-templates/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>-->
+    <xsl:template match="mei:dimensions" mode="plainCommaSep">
+        <xsl:param name="key" select="local-name(.)"/>
+        <xsl:element name="div">
+            <xsl:attribute name="class">subProperty</xsl:attribute>
             <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
+                <xsl:attribute name="class" select="string('subkey')"/>
+                <xsl:value-of select="eof:getLabel($key)"/>
+                <xsl:if test="@unit and not(@unit eq '')">
+                    <xsl:element name="span">
+                        <xsl:attribute name="class">unit</xsl:attribute>
+                        (<xsl:value-of select="eof:getLabel('unit')"/>: <xsl:value-of select="@unit"/>)
+                    </xsl:element>
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="span">
+                <xsl:attribute name="class" select="string('subvalue')"/>
+                <xsl:apply-templates/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
@@ -1039,8 +1031,27 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="extent">
+    <xsl:template match="mei:extent" mode="plainCommaSep">
+        <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
+            <xsl:attribute name="class">subProperty</xsl:attribute>
+            <xsl:element name="div">
+                <xsl:attribute name="class" select="string('subkey')"/>
+                <xsl:value-of select="eof:getLabel($key)"/>
+                <xsl:if test="@unit and not(@unit eq '')">
+                    <xsl:element name="span"><!-- TODO: copy to TEI -->
+                        <xsl:attribute name="class">unit</xsl:attribute>
+                        (<xsl:value-of select="eof:getLabel('unit')"/>: <xsl:value-of select="@unit"/>)
+                    </xsl:element>
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="span">
+                <xsl:attribute name="class" select="string('subvalue')"/>
+                <xsl:apply-templates/>
+            </xsl:element>
+        </xsl:element>
+        
+        <!--<xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
@@ -1055,7 +1066,7 @@
                 <xsl:apply-templates select="node()" mode="valueOnly"/>
                 <xsl:value-of select="string(' ')"/>
             </xsl:element>
-        </xsl:element>
+        </xsl:element>-->
     </xsl:template>
     <xsl:template match="handList">
         <xsl:for-each select="./hand">
@@ -1204,22 +1215,59 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="titlePage">
+    <xsl:template match="mei:termList" mode="plainCommaSep">
+        <xsl:element name="ul">
+            <xsl:for-each select="mei:term">
+                <xsl:element name="li">
+                    <xsl:apply-templates select="."/>
+                    </xsl:element>
+            </xsl:for-each>
+            </xsl:element>
+    </xsl:template>
+    <xsl:template match="mei:term[parent::mei:termList]">
+        <!-- TODO: have a closer look into the contents? -->
+        <xsl:value-of select="."/>
+        <xsl:if test="@classcode and id(substring(@classcode, 2))">
+            <xsl:text>(</xsl:text>
+            <xsl:choose><xsl:when test="id(substring(@classcode,2))/@authURI and id(substring(@classcode,2))/@authority">
+                    <xsl:element name="a">
+                        <xsl:attribute name="class">authURI</xsl:attribute>
+                        <xsl:attribute name="href">
+                            <xsl:value-of select="id(substring(./@classcode, 2))/@authURI"/>
+                        </xsl:attribute>
+                        <xsl:value-of select="id(substring(./@classcode, 2))/@authority"/>
+                    </xsl:element>
+                </xsl:when>
+                <xsl:when test="id(substring(@classcode,2))/@authority">
+                    <xsl:value-of select="id(substring(@classcode,2))/@authority"/>
+                </xsl:when>
+                <xsl:when test="id(substring(@classcode,2))/@label">
+                    <xsl:value-of select="id(substring(@classcode,2))/@label"/>
+                </xsl:when>
+                <xsl:otherwise><xsl:value-of select="id(substring(@classcode,2))/text()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text>)</xsl:text>
+        </xsl:if>
+    </xsl:template>
+    
+    <xsl:template match="mei:titlePage" mode="plainCommaSep">
         <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:attribute name="class">subproperty</xsl:attribute>
             <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
-                        <xsl:value-of select="@label"/>
+                <xsl:attribute name="class">subkey</xsl:attribute>
+                <xsl:choose><xsl:when test="@label"><!-- TODO make @label unit/key-like -->
+                        <xsl:element name="span">
+                            <xsl:attribute name="class">label</xsl:attribute>
+                            <xsl:value-of select="@label"/>
+                        </xsl:element>
                     </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('titlePage')"/>
+                    <xsl:otherwise><xsl:value-of select="eof:getLabel(local-name(.))"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
             <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
+                <xsl:attribute name="class">subvalue</xsl:attribute>
                 <xsl:apply-templates select="node()" mode="valueOnly"/>
                 <xsl:value-of select="string(' ')"/>
             </xsl:element>
@@ -1230,12 +1278,10 @@
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
+                <xsl:choose><xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('treatHist')"/>
+                    <xsl:otherwise><xsl:value-of select="eof:getLabel('treatHist')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
@@ -1251,12 +1297,10 @@
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
+                <xsl:choose><xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('treatSched')"/>
+                    <xsl:otherwise><xsl:value-of select="eof:getLabel('treatSched')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
@@ -1267,59 +1311,41 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="watermark">
+    <xsl:template match="mei:watermark" mode="plainCommaSep">
         <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:attribute name="class">subproperty</xsl:attribute>
             <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
+                <xsl:attribute name="class">subkey</xsl:attribute>
+            <xsl:choose><xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('watermark')"/>
+                    <xsl:otherwise><xsl:value-of select="eof:getLabel('watermark')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
             <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
+                <xsl:attribute name="class">subvalue</xsl:attribute>
                 <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
+            <xsl:value-of select="string(' ')"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="encodingDesc">
-        <xsl:element name="div">
-            <xsl:attribute name="class">section</xsl:attribute>
-            <xsl:element name="h1">
-                <xsl:value-of select="eof:getLabel('encodingDesc')"/>
-            </xsl:element>
-            <xsl:element name="div">
-                <xsl:attribute name="class">propertyList</xsl:attribute>
-                <xsl:for-each select="./child::*">
-                    <xsl:apply-templates select="."/>
-                </xsl:for-each>
-            </xsl:element>
-        </xsl:element>
+    <xsl:template match="mei:encodingDesc">
+        <xsl:call-template name="makeSection"/>
     </xsl:template>
-    <xsl:template match="appInfo">
-        <xsl:for-each select="./application">
+    <xsl:template match="mei:appInfo">
+        <xsl:for-each select="mei:application">
             <xsl:element name="div">
-                <xsl:attribute name="class">property</xsl:attribute>
-                <xsl:element name="div">
-                    <xsl:attribute name="class">key</xsl:attribute>
-                    <xsl:value-of select="eof:getLabel('application')"/>
-                </xsl:element>
+                <xsl:call-template name="rendToProperty"/>
                 <xsl:element name="div">
                     <xsl:attribute name="class">value</xsl:attribute>
-                    <xsl:value-of select="./name/text()"/>
+                    <xsl:value-of select="mei:name/text()"/>
                     <xsl:if test="@version and string-length(@version) gt 0">
                         <xsl:value-of select="concat(' (',eof:getLabel('version'), ' ', @version,')')"/>
                     </xsl:if>
-                    <xsl:if test="./p | ./ptr">
-                        <xsl:element name="br"/>
-                        <xsl:apply-templates select="./p | ./ptr" mode="valueOnly"/>
-                    </xsl:if>
+                    <xsl:text> </xsl:text>
+                    <xsl:apply-templates select="mei:ptr" mode="valueOnly"/>
+                    <xsl:apply-templates select="mei:p"/>
                 </xsl:element>
             </xsl:element>
         </xsl:for-each>
@@ -1417,15 +1443,20 @@
             <xsl:apply-templates select="* | @* | text()" mode="valueOnly"/>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="ref" mode="#all">
+    <xsl:template match="ref">
         <xsl:element name="a">
             <xsl:attribute name="href">
                 <xsl:value-of select="@target"/>
             </xsl:attribute>
+            <xsl:attribute name="target">blank_</xsl:attribute><!-- TODO check for edirom internal links -->
             <xsl:apply-templates select="* | text()"/>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="rend" mode="#all">
+    <xsl:template match="mei:ref" mode="valueOnly">
+        <xsl:apply-templates select="* | text()"/>
+    </xsl:template>
+    
+    <xsl:template match="mei:rend" mode="#all">
         <xsl:variable name="style">
             <xsl:if test="@color">
                 color: 
@@ -1447,9 +1478,9 @@
             </xsl:if>
         </xsl:variable>
         <xsl:element name="span">
-            <xsl:if test="@rend and string-length(@rend) gt 0">
+            <xsl:if test="(@rend and string-length(@rend) gt 0) or (@altrend and string-length(@altrend) gt 0)">
                 <xsl:attribute name="class">
-                    <xsl:value-of select="@rend"/>
+                    <xsl:value-of select="@rend, @altrend" separator=" "/>
                 </xsl:attribute>
             </xsl:if>
             <xsl:if test="string-length($style) gt 0">
@@ -1466,6 +1497,7 @@
             <xsl:attribute name="href">
                 <xsl:value-of select="@target"/>
             </xsl:attribute>
+            <xsl:attribute name="target">blank_</xsl:attribute><!-- TODO check for edirom internal links -->
             <xsl:choose>
                 <xsl:when test="@label and string-length(@label) gt 0">
                     <xsl:value-of select="@label"/>
@@ -1478,4 +1510,84 @@
         <xsl:text>]</xsl:text>
     </xsl:template>
     <xsl:template match="music" mode="#all"/>
+<xsl:template match="mei:fileDesc">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToSection"/>
+            <xsl:apply-templates select="." mode="getFileInfo"/>
+            <xsl:if test="./encodingDesc">
+                <xsl:apply-templates select="./encodingDesc"/>
+            </xsl:if>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="mei:physDesc">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="mei:sourceDesc">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToSection"/>
+            
+            <xsl:choose><xsl:when test="count(mei:source) gt 1"><!-- TODO: check implementation -->
+                    <xsl:element name="div">
+                        <xsl:attribute name="class">section</xsl:attribute>
+                        <xsl:element name="h1">
+                            <xsl:value-of select="eof:getLabel('sources')"/>
+                        </xsl:element>
+                        <xsl:for-each select="mei:source">
+                            <xsl:call-template name="source">
+                                <xsl:with-param name="labeled">
+                                    <xsl:value-of select="true()"/>
+                                </xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:for-each>
+                    </xsl:element>
+                </xsl:when>
+                <xsl:when test="mei:source">
+                    <xsl:element name="div">
+                        <xsl:attribute name="class" select="string('propertyList')"/>
+                        <xsl:apply-templates select="mei:source">
+                        <xsl:with-param name="labeled">
+                            <xsl:value-of select="false()"/>
+                        </xsl:with-param>
+                    </xsl:apply-templates>
+                    </xsl:element>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="mei:revisionDesc">
+        <xsl:call-template name="makeSection"/>
+    </xsl:template>
+    
+    
+    <xsl:template match="mei:itemList | mei:notesStmt">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToSection"/>
+            <xsl:element name="div">
+                <xsl:attribute name="class" select="string('propertyList')"/>
+                <xsl:apply-templates/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="mei:provenance" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="mei:eventList" mode="plainCommaSep">
+        <xsl:element name="ol">
+            <xsl:for-each select="mei:event">
+                <xsl:element name="li">
+                    <xsl:apply-templates mode="plainCommaSep"/>
+                </xsl:element>
+            </xsl:for-each>
+        </xsl:element>
+    </xsl:template>
+    
 </xsl:stylesheet>
