@@ -81,14 +81,39 @@
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
     <!-- TEI -->
+    <entry xml:id="additional">Additional information</entry>
+    <entry xml:id="additions">Additions</entry>
+    <entry xml:id="availability">Availability</entry>
+    <entry xml:id="collation">Collation</entry>
+    <entry xml:id="decoDesc">Decoration</entry>
     <entry xml:id="editionStmt">Edition</entry>
-    <entry xml:id="listWit">Witnesses considered</entry>
-    <entry xml:id="publicationStmt">Publication</entry>
-    <entry xml:id="seriesStmt">Series</entry>
     <entry xml:id="fileDesc">File Information</entry>
+    <entry xml:id="foliation">Foliation</entry>
+    <entry xml:id="imprint">Publication</entry>
+    <entry xml:id="listWit">Witnesses considered</entry>
+    <entry xml:id="listBibl">Bibliography</entry>
+    <entry xml:id="material">Material</entry>
+    <entry xml:id="msName">Manuscript name</entry>
+    <entry xml:id="msIdentifier">Location</entry>
+    <entry xml:id="publicationStmt">Publication</entry>
+    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
+    <entry xml:id="seriesStmt">Series</entry>
     <entry xml:id="title_a">Title (analytic)</entry>
     <entry xml:id="title_m">Title (monographic)</entry>
     <entry xml:id="title_j">Title (journal)</entry>
     <entry xml:id="title_s">Title (series)</entry>
     <entry xml:id="title_u">Title (unpublished)</entry>
+<entry xml:id="idno">Identifier</entry>
+    <entry xml:id="date">Date</entry>
+    <entry xml:id="country">Country</entry>
+    <entry xml:id="settlement">Settlement</entry>
+    <entry xml:id="supportDesc">Support Description</entry>
+    <entry xml:id="handDesc">Description of Hands</entry>
+    <entry xml:id="leavesCount">Number of Leaves</entry>
+    <entry xml:id="itemList">Item List</entry>
+    
+    
+    <!-- FreiDi /content -->
+    <entry xml:id="width">width</entry>
+    <entry xml:id="height">height</entry>
 </language>

@@ -10,7 +10,7 @@
         </xd:desc>
     </xd:doc>
     <xsl:param name="ediromOnlineRoot"/>
-    <xsl:param name="lang">en</xsl:param>
+    <xsl:param name="lang">de</xsl:param>
     <xsl:param name="includeNotes">
         <xsl:value-of select="boolean('true')"/>
     </xsl:param>

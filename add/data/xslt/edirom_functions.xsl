@@ -17,26 +17,6 @@
     <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
     
     
-    <xsl:variable name="language">
-        <xsl:choose>
-            <xsl:when test="doc-available(concat($base, 'i18n/{$lang}.xml'))">
-                <xsl:copy-of select="document(concat($base, 'i18n/{$lang}.xml'))"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:copy-of select="document(concat($base, 'i18n/en.xml'))"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-    
-    <xsl:variable name="fallback">
-        <xsl:choose>
-            <xsl:when test="$lang eq 'en'"/>
-            <xsl:otherwise>
-                <xsl:copy-of select="document(concat($base, 'i18n/en.xml'))"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-    
     <!-- TODO: an die Einstellungen anpassen -->
     <xsl:variable name="languageFile" select="document('../locale/edirom-lang-en.xml')"/>
     
