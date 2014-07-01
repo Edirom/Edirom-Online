@@ -30,6 +30,28 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+declare function local:changeFormat($n) as xs:string {
+    if($n = '1')
+    then('I')
+    else if($n = '2')
+    then('II')
+    else if($n = '3')
+    then('III')
+    else if($n = '4')
+    then('IV')
+    else if($n = '5')
+    then('V')
+    else if($n = '6')
+    then('VI')
+    else if($n = '7')
+    then('VII')
+    else if($n = '8')
+    then('VIII')
+    else if($n = '9')
+    then('IX')
+    else ($n)
+};
+
 let $uri := request:get-parameter('uri', '')
 let $tei := eutil:getDoc($uri)/root()
 
@@ -53,15 +75,13 @@ let $ret2 := for $numbers in $tei//tei:milestone[@unit='number']
                 '}')
 
 let $ret3 := for $act in $tei//tei:div[@type='act']
-            let $label := string-join(for $t in $act/tei:head//text()
-                                        return
-                                        if(matches($t, '\w'))then($t)else(), '') 
+            let $label := local:changeFormat($act/@n)                                        
             return
                 for $scene in $act//tei:div[@type='scene']
                 let $label := $label || ' - ' || string-join(for $t in $scene/tei:head//text()
                                                 return
                                                     if(matches($t, '\w'))then($t)else(), '')
-                let $label := if(string-length($label) > 35)then(concat(substring($label, 1, 35), '…'))else($label)
+                let $label := if(string-length($label) > 40)then(concat(substring($label, 1, 40), '…'))else($label)
                 return
                     concat('{',
                         '"id": "', $scene/string(@xml:id), '", ',
