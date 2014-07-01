@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -19,6 +19,8 @@ xquery version "1.0";
 
   ID: $Id: getLinkTarget.xql 1334 2012-06-14 12:40:33Z daniel $
 :)
+
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -43,6 +45,12 @@ declare function local:getViews($type, $docUri, $doc) {
 
         (: TextView :)
         if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView',uri:'", $docUri, "'}")) else(),
+
+        (: SourceView :)
+        if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
+
+        (: TextFacsimileSplitView :)
+        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
 
         (: AnnotationView :)
         if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
@@ -73,7 +81,7 @@ let $term := if(contains($term, '&amp;'))then(substring-before($term, '&amp;'))e
 let $path := if(contains($uriParams, 'path='))then(substring-after($uriParams, 'path='))else()
 let $path := if(contains($path, '&amp;'))then(substring-before($path, '&amp;'))else($path)
 
-let $doc := doc($docUri)
+let $doc := eutil:getDoc($docUri)
 let $internal := $doc/id($internalId)
 
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
