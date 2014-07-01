@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -29,7 +28,7 @@
     <xsl:import href="tei/xhtml2/transcr.xsl"/>
     <xsl:import href="tei/xhtml2/verse.xsl"/>
     <xsl:import href="tei/common2/verbatim.xsl"/>
-    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
+    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes" xml:space="preserve"/>
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
 
@@ -468,6 +467,11 @@
             </xsl:when>
             <xsl:when
                 test="$pagebreakStyle='visible' and (parent::tei:body         or parent::tei:front or parent::tei:back or parent::tei:group)">
+                <xsl:if test="@rend='-'">
+                    <span class="hyphen">
+                        <xsl:text>-</xsl:text>
+                    </span>
+                </xsl:if>
                 <div class="pagebreak">
                     <xsl:call-template name="makeAnchor"/>
                     <xsl:value-of select="concat(' ', $page_folio, ' ')"/>
@@ -476,11 +480,17 @@
                         <xsl:value-of select="@n"/>
                     </xsl:if>
                 </div>
+            <br class="pb"/>
             </xsl:when>
             <xsl:when test="$pagebreakStyle='visible'">
                 <xsl:variable name="classValue">
                     <xsl:if test="local-name(..) = ('hi', 'p', 'del', 'stage')">inner</xsl:if>
                 </xsl:variable>
+                <xsl:if test="@rend='-'">
+                    <span class="hyphen">
+                        <xsl:text>-</xsl:text>
+                    </span>
+                </xsl:if>
                 <xsl:if test="local-name(..) = ('hi', 'p', 'del', 'stage')">
                     <br/>
                 </xsl:if>
@@ -492,6 +502,7 @@
                         <xsl:value-of select="@n"/>
                     </xsl:if>
                 </span>
+            <br class="pb"/>
             </xsl:when>
         </xsl:choose>
     </xsl:template>
@@ -529,7 +540,9 @@
                 <xsl:text> </xsl:text>
             </xsl:when>
             <xsl:when test="@rend='-' or @type='hyphenInWord'">
-                <xsl:text>-</xsl:text>
+                <span class="hyphen">
+                    <xsl:text>-</xsl:text>
+                </span>
                 <br/>
             </xsl:when>
             <xsl:when test="@rend='above'">
@@ -691,13 +704,19 @@
     <xsl:template match="tei:sic" priority="5">
         <xsl:apply-templates/>
         <xsl:if test="not(following-sibling::tei:corr)">
-            <xsl:text>[sic]</xsl:text>
+            <span class="sic">
+                <xsl:text>[sic]</xsl:text>
+            </span>
         </xsl:if>
     </xsl:template>
     <xsl:template match="tei:corr" priority="5">
-        <xsl:text> [recte:</xsl:text>
+        <span class="corr begin">
+            <xsl:text> [recte:</xsl:text>
+        </span>
         <xsl:apply-templates/>
-        <xsl:text>]</xsl:text>
+        <span class="corr end">
+            <xsl:text>]</xsl:text>
+        </span>
     </xsl:template>
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
         <desc>[html] <param name="value">the current segment of the value of the rend
@@ -886,5 +905,26 @@
                 </xsl:choose>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+<doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>Process element name in mode "plain"</desc>
+    </doc>
+    <xsl:template match="tei:name" priority="5">
+        <span class="name">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+
+    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="5">
+        
+        <xsl:variable name="default">
+            <xsl:next-match/>
+        </xsl:variable>
+        <xsl:element name="{$default/node()/local-name()}">
+            <xsl:attribute name="class" select="concat($default/node()/@class, ' n2')"/>
+            <xsl:for-each select="$default/node()/node() | $default/node()/@* except $default/node()/@class">
+                <xsl:copy-of select="."/>
+            </xsl:for-each>
+        </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
