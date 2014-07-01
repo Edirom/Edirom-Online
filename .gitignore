@@ -1,6 +1,6 @@
 .DS_Store
-.sencha_backup
-build-xar
-build
-data
+/.sencha_backup
+/build-xar
+/build
+/data
 *.xpr
