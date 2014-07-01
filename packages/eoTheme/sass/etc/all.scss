@@ -5,6 +5,11 @@
 @import 'facsimile.scss';
 @import 'xml.scss';
  
-@import 'textViewContent.scss';
-@import 'freidi-texts.scss';
+//@import 'textViewContent.scss';
+@import 'textView.scss';
 @import 'headerView.scss';
+
+/*Edition-specific styles*/
+//@import 'freidi-texts.scss';
+@import 'freidi-textView.scss';
+@import 'freidi.scss';
