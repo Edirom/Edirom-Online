@@ -34,7 +34,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         me.homeButton = Ext.create('Ext.button.Button', {
             id: 'homeBtn',
             cls: 'taskSquareButton home',
-            tooltip: { text: getLangString('view.desktop.TaskBar_home'), align: 'bl-tl' }
+            tooltip: { text: getLangString('view.desktop.TaskBar_home'), align: 'tl-bl' }
         });
         
         me.workCombo = Ext.create('Ext.button.Button', {
@@ -50,7 +50,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         me.searchButton = Ext.create('Ext.button.Button', {
             id: 'searchBtn',
             cls: 'taskSquareButton search',
-            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'bl-tl' },
+            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'tl-bl' },
             action: 'openSearchWindow'
         });
 
