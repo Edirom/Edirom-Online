@@ -8,12 +8,15 @@
             <xd:p>
                 <xd:b>Author:</xd:b> Daniel Röwenstrunk</xd:p>
             <xd:p/>
+        <xd:p>Modified by Benjamin W. Bohl on Aug 1, 2013</xd:p>
         </xd:desc>
     </xd:doc>
 
     <xsl:output encoding="UTF-8"/>
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
+
+    <xsl:param name="projectLangPath" as="xs:string">none</xsl:param>
 
     <xsl:variable name="ediromLang">
         <xsl:choose>
@@ -26,18 +29,31 @@
         </xsl:choose>
     </xsl:variable>
 
+    <xsl:variable name="projectLang">
+        <xsl:choose>
+            <xsl:when test="$projectLangPath = 'none'"/>
+            <xsl:otherwise>
+                <xsl:if test="doc-available(concat($base,$projectLangPath))">
+                    <xsl:copy-of select="document(concat($base,$projectLangPath))"/>
+                </xsl:if>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
+
     <xsl:template match="/">
         <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="tei:term[@type='ediromGui']">
-        <xsl:apply-templates/>
+        <xsl:copy>
+            <xsl:apply-templates/>
         <xsl:value-of select="eof:getLangValue(@key)"/>
+    </xsl:copy>
     </xsl:template>
 
     <xsl:function name="eof:getLangValue">
         <xsl:param name="key"/>
-        <xsl:variable name="value" select="$ediromLang//entry[@key = $key]/@value"/>
+        <xsl:variable name="value" select="if($projectLang//entry[@key = $key]) then($projectLang//entry[@key = $key]/@value) else($ediromLang//entry[@key = $key]/@value)"/>
         <xsl:choose>
             <xsl:when test="$value">
                 <xsl:analyze-string select="$value" regex="\{{key=([^}}]*)\}}">
@@ -52,7 +68,9 @@
                 </xsl:analyze-string>
             </xsl:when>
             <xsl:otherwise>
+                <xsl:text>[[missing langVar: </xsl:text>
                 <xsl:value-of select="$key"/>
+            <xsl:text>]]</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
