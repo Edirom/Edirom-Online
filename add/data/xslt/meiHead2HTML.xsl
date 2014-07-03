@@ -107,7 +107,14 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-
+    
+    <xsl:template match="mei:address" mode="plainCommaSep">
+        <xsl:element name="div">
+            <xsl:attribute name="class">address plain</xsl:attribute>
+            <xsl:value-of select="*" separator=", "/>
+        </xsl:element>
+    </xsl:template>
+    
     <xsl:template match="mei:meiHead">
         <xsl:element name="div">
             <xsl:attribute name="class">meiHead</xsl:attribute>
