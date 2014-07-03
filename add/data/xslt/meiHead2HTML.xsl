@@ -754,9 +754,20 @@
     <xsl:template match="castList">
         <!-- TODO -->
     </xsl:template>
-    <xsl:template match="identifier" name="identifier">
-        <!-- TODO -->
+    
+    <xsl:template match="mei:identifier" name="identifier">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
     </xsl:template>
+    
+    <xsl:template match="mei:identifier[parent::mei:pubStmt]">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+
     <xsl:template match="editionStmt">
         <xsl:for-each select="./*">
             <xsl:choose>
