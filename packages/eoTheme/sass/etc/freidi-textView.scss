@@ -60,18 +60,19 @@ $underlineColor: #333333;
 	
 	h1 {
 		font-size: 2em;
-		margin-top: 0;
-		margin-bottom: 1em;
+		margin-top: 1em;
+		margin-bottom: 0;
+		margin-left: 1em;
 	}
 	
 	h2 {
-		text-align: center;
+		text-align: left;
 		width: $pageWidth / 1.4;
 		
 		font-weight: normal;
 		font-style: normal;
 		font-size: 1.4em;
-		
+		margin-left: 3em / 1.4;
 		margin-bottom: 1.2em;
 	}
 	
@@ -144,9 +145,9 @@ $underlineColor: #333333;
 		}
 	}
 	
-	span.name {
+	/*span.name {
 		letter-spacing: 0.2em;
-	}
+	}*/
 	
 	div.p-in-sp, div.l {
 		margin-left: 2em;
@@ -248,16 +249,59 @@ $underlineColor: #333333;
 		display: none;
 	}
 	
-	.teidiv0 > p {
+	.teidiv0 > p, .teidiv0 > .listhead {
 		margin-left: 4em;
+	}
+	
+	.teidiv0 > ul {
+		margin-left: 4em;
+		margin-top: -0.5em;
+	}
+	
+	.teidiv0 > div.table {
+		margin-left: 4em;
+		
+		table {
+			border-collapse: collapse;
+			
+			tr.label td {
+				@include background-image(linear-gradient(top, #e5e5e5, #cccccc));
+				
+				&:first-child {
+					border-radius: 5px 0 0 5px;
+				}
+				
+				&:last-child {
+					border-radius: 0 5px 5px 0;
+				}
+			}
+			
+			td {
+				padding: 2px 15px 0 5px;
+				
+			}
+		}
 	}
 	
 	.teidiv0 > h2 {
 		margin-bottom: 1em !important;
+		margin-left: 2.85em;
 	}
 	
 	/*Vorlage für Libretti*/
 	.freidi_libretto {
+		
+		h2 {
+			text-align: center;
+			width: $pageWidth / 1.4;
+		
+			font-weight: normal;
+			font-style: normal;
+			font-size: 1.4em;
+		
+			margin-bottom: 1.2em;
+			margin-left: 0;
+		}
 		
 		line-height: 1.8em;
 		
@@ -325,6 +369,11 @@ $underlineColor: #333333;
 			left: 5em;
 		}
 		
+		.teidiv0 > ul {
+			margin-left: 0;
+			margin-top: 0;
+		}
+		
 		/*individuelle Styles für Handexemplar*/
 		&.KAtx4 {
 			//.titlePart.main span.underline {border-bottom: 1px solid #000000;}
@@ -344,6 +393,14 @@ $underlineColor: #333333;
 				ul {
 					@include jaegerpursch;
 				}
+			}
+			
+			.speaker + br + .l, .speaker + br + .p-in-sp {
+				margin-top: -1.5em;
+			}
+			
+			.stage.center {
+				margin-left: 2em;
 			}
 			
 			//"zugleich"
@@ -401,6 +458,32 @@ $underlineColor: #333333;
 				}
 				
 			}
+			
+			div.pagebreak[id$='_p1'] + br.pb + .titlePage {
+				//erstes Titelblatt
+				.titlePart:first-child {
+				
+					margin-top: 3em;
+					margin-bottom: 2em;
+					
+					span.expanded {
+						font-size: 1.8em;
+					}
+				}
+				
+				.titlePart:nth-child(2) {
+					margin-bottom: 6em;
+				}
+				
+				.titlePart:nth-child(3) {
+					font-size: 0.8em;
+				}
+
+				.titlePart:nth-child(4) {
+				}
+
+			} 
+			
 			//für die CastList-Zeitangabe
 			ul p {margin-left: 9.5em;}
 			
@@ -411,18 +494,18 @@ $underlineColor: #333333;
 				font-size: 0.8em; 
 				
 				//&.left {margin-left: 6em;}
-				&.center {width: $pageWidth - 1.5em;}
+				&.center {width: $pageWidth - 1.5em; margin-left: 2em;}
 				
 				name {font-size: 0.85em;}
 			}
 			
 			//div.l { margin-left: 7em; }
 			
-			div.lg {
-				margin-left: 0;
+			div.lg, div.l {
+				margin-left: 2em;
 				
 				&.indent {
-					padding-left: 3em;
+					padding-left: 5em;
 					
 					//span.pagebreak {margin-left: -3em;}
 				}
@@ -433,15 +516,26 @@ $underlineColor: #333333;
 			span.caption { width: $pageWidth - 1.5em; }
 			div.speaker {
 				width: $pageWidth - 1.5em;
-				letter-spacing: 0.15em;
+				letter-spacing: 0.13em;
 				
 				* {
 					letter-spacing: 0;
+					
+					&.expanded {
+						letter-spacing: 2em;
+					}
 				}
 			}
+			
+			a.link_ref {
+				display: none;
+			}
+			
 			div.right {width: $pageWidth - 1.5em;}
 			
 			.expanded {letter-spacing: 0.2em;}
+			
+			.antiqua {font-style: italic;}			
 			
 			.lb_indent {padding-left: 12em;}
 			
@@ -462,14 +556,6 @@ $underlineColor: #333333;
 				@include zugleich(-180px);
 			}
 			
-			div.pagebreak[id$='file-pb-d208634e900'] + br.pb + .titlePage {
-				//erstes Titelblatt
-				.titlePart:first-child span.expanded {
-					font-size: 1.8em;
-					margin-bottom: 2em;
-				}
-			} 
-			
 		}
 		
 	}
@@ -481,6 +567,13 @@ $underlineColor: #333333;
 		margin-bottom: 6em;
 		
 		h2 {
+			text-align: center;
+			width: $pageWidth / 1.4;
+		
+			font-weight: normal;
+			font-style: normal;
+			font-size: 1.4em;
+		
 			margin: 5em 0 1em -2em;
 		}
 		
@@ -501,10 +594,14 @@ $underlineColor: #333333;
 			}
 		}
 		
-		.indent_1 {margin-left: 4.5em;}
-		.indent_2 {margin-left: 6.5em;}
-		.indent_3 {margin-left: 9em;}
-		.indent_4 {margin-left: 11em;}
+		.indent_1 {margin-left: 2em;}
+		.indent_2 {margin-left: 4em;}
+		.indent_3 {margin-left: 6em;}
+		.indent_4 {margin-left: 8em;}
+		
+		.margin_top {
+			margin-top: 2em;
+		}
 		
 		.speaker {
 			letter-spacing: 0.1em;
@@ -516,6 +613,11 @@ $underlineColor: #333333;
 				
 				&[class='term'] {letter-spacing: 0.1em;}
 			}
+		}
+		
+		.teidiv0 > ul {
+			margin-left: 0;
+			margin-top: 0;
 		}
 		
 		.center {
@@ -543,6 +645,17 @@ $underlineColor: #333333;
 		div.teidiv0 > p:first-child {
 			//margin-left: 15em;
 			margin-bottom: 1.5em;
+		}
+		
+	}
+	
+	//Formatierungen für Dokumentation Datenmodell
+	.div0[id$="dataDoc_r1"] {
+	
+		padding: 4em 2em 2em 2em;
+		
+		h3 {
+			text-align: left;
 		}
 		
 	}
