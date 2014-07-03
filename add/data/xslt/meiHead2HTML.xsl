@@ -843,7 +843,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="eventList">
+    <!--<xsl:template match="eventList">
         <xsl:for-each select="./event">
             <xsl:element name="div">
                 <xsl:attribute name="class">property</xsl:attribute>
@@ -875,7 +875,7 @@
                 </xsl:element>
             </xsl:element>
         </xsl:for-each>
-    </xsl:template>
+    </xsl:template>-->
     <xsl:template match="geogName" mode="valueOnly">
         <xsl:apply-templates select="node()"/>
     </xsl:template>
@@ -1663,10 +1663,14 @@
         <xsl:element name="ol">
             <xsl:for-each select="mei:event">
                 <xsl:element name="li">
-                    <xsl:apply-templates mode="plainCommaSep"/>
+                    <xsl:apply-templates select="." mode="plainCommaSep"/>
                 </xsl:element>
             </xsl:for-each>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="mei:event" mode="plainCommaSep">
+        <xsl:apply-templates mode="plainCommaSep"/>
     </xsl:template>
     
 </xsl:stylesheet>
