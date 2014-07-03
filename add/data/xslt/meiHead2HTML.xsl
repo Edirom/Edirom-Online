@@ -777,8 +777,10 @@
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
+    <xsl:template match="mei:lb" mode="plainCommaSep">
+        <br/>
+    </xsl:template>
     
-
     <xsl:template match="editionStmt">
         <xsl:for-each select="./*">
             <xsl:choose>
