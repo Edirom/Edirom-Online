@@ -1685,11 +1685,7 @@
     
     <xsl:template match="mei:itemList | mei:notesStmt">
         <xsl:element name="div">
-            <xsl:call-template name="rendToSection"/>
-            <xsl:element name="div">
-                <xsl:attribute name="class" select="string('propertyList')"/>
-                <xsl:apply-templates/>
-            </xsl:element>
+            <xsl:call-template name="makeSection"/>
         </xsl:element>
     </xsl:template>
     
