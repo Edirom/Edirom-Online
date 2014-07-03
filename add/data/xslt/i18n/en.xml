@@ -83,6 +83,11 @@
     <entry xml:id="workTitle">Title</entry>
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
+    <!-- MEI -->
+    <entry xml:id="puStmt">Publication</entry>
+    <entry xml:id="puPlace">Place</entry>
+
+
     <!-- TEI -->
     <entry xml:id="additional">Additional information</entry>
     <entry xml:id="additions">Additions</entry>
