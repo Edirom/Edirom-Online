@@ -1166,6 +1166,33 @@
             </xsl:element>
         </xsl:for-each>
     </xsl:template>
+
+    <xsl:template match="mei:handList[parent::mei:physDesc]" mode="plainCommaSep">
+        <xsl:element name="div">
+            <xsl:attribute name="class">subproperty</xsl:attribute>
+            <xsl:element name="div">
+                <xsl:attribute name="class">subkey</xsl:attribute>
+                <xsl:value-of select="eof:getLabel(local-name())"/>
+                <xsl:if test="matches(local-name(id(substring-after(@resp, '#'))), '(persName)|(name)|(corpName)')">
+                    : <xsl:value-of select="id(substring-after(@resp, '#'))"/>
+                    <!-- TODO: Why does this select already the text within the element, but not the element itself??? -->
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="div">
+                <xsl:attribute name="class">value</xsl:attribute>
+                <xsl:element name="ul">
+                    <xsl:for-each select="mei:hand">
+                        <xsl:element name="li">
+                             <xsl:apply-templates mode="plainCommaSep"/>
+                        </xsl:element>
+                    </xsl:for-each>
+                </xsl:element>
+                
+            </xsl:element>
+        </xsl:element>
+        
+    </xsl:template>
+    
     <xsl:template match="inscription">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
