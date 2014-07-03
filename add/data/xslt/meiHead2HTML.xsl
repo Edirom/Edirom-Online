@@ -373,6 +373,10 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="mei:pubStmt" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     <xsl:template match="mei:publisher | mei:respStmt" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
