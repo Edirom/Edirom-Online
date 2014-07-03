@@ -1540,6 +1540,12 @@
         <xsl:apply-templates select="* | text()"/>
     </xsl:template>
     
+    <xsl:template match="mei:p" mode="plainCommaSep">
+        <p>
+            <xsl:apply-templates mode="plainCommaSep"/>
+        </p>
+    </xsl:template>
+    
     <xsl:template match="rend" mode="#all">
         <xsl:variable name="style">
             <xsl:if test="@color">
