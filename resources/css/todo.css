@@ -13,3 +13,88 @@
     right: 0;
     top: 0;
 }
+
+
+/*text Metadata*/
+
+.headerView .section {
+    float: left;
+    clear: both;
+}
+
+.headerViewContent h1{
+  font-size: 18px;
+}
+
+.subProperty {
+    clear: both;
+    margin: 0 0 10px;
+    position: relative;
+    left: -190px;
+}
+
+.subProperty .subkey {
+    color: #737373;
+    float: left;
+    margin: 0 0 10px;
+    text-align: right;
+    width: 180px;
+    font-size: 14px;
+}
+
+/*.subProperty .subkey:before {
+    color: #737373;
+    content:'\2014 ';
+}*/
+
+.subProperty .subvalue {
+    margin-left: 190px;
+    display: block;
+    width:100%;
+}
+
+.subProperty .subvalue p{
+    margin: 4px 0px;
+}
+
+
+.subProperty .subkey .date, .subProperty .subkey .unit, .subProperty .subkey .label {
+    color: #a6a6a6;
+    display: block;
+    font-size: 12px;
+    font-weight: 100;
+    line-height: 12px;
+}
+
+.property .key .date, .property .key .unit, .property .key .label {
+    color: #a6a6a6;
+    display: block;
+    font-size: 12px;
+    font-weight: 100;
+    line-height: 12px;
+}
+
+.sup {
+    font-size: 60%;
+    vertical-align: super;
+}
+
+.address.plain {
+    margin: 0.5em 0 0 0;
+}
+
+span.underline {
+    text-decoration:underline;
+}
+
+span.latintype {
+    /*@JOA wie sol das aussehen, ist ja schon latin?*/
+}
+
+span.smcaps {
+    font-variant: small-caps;
+}
+
+span.italic {
+    font-style: italic;
+}
