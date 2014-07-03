@@ -377,7 +377,7 @@
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
     
-    <xsl:template match="mei:publisher | mei:respStmt" mode="plainCommaSep">
+    <xsl:template match="mei:pubPlace | mei:publisher | mei:respStmt" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
