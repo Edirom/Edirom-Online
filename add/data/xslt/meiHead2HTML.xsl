@@ -1635,11 +1635,7 @@
     
     <xsl:template match="mei:fileDesc">
         <xsl:element name="div">
-            <xsl:call-template name="rendToSection"/>
-            <xsl:apply-templates select="." mode="getFileInfo"/>
-            <xsl:if test="./encodingDesc">
-                <xsl:apply-templates select="./encodingDesc"/>
-            </xsl:if>
+            <xsl:call-template name="makeSection"/>
         </xsl:element>
     </xsl:template>
     
