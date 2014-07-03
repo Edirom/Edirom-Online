@@ -16,10 +16,9 @@
                 <xsl:value-of select="$language/id($key)/text()"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$key"></xsl:value-of>
+                <xsl:value-of select="$key"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
 
 </xsl:stylesheet>
-

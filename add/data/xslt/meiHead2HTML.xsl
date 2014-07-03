@@ -1374,7 +1374,8 @@
                             <xsl:value-of select="@label"/>
                         </xsl:element>
                     </xsl:when>
-                    <xsl:otherwise><xsl:value-of select="eof:getLabel(local-name(.))"/>
+                    <xsl:otherwise>
+                        <xsl:value-of select="eof:getLabel(local-name(.))"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
@@ -1390,10 +1391,12 @@
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose><xsl:when test="@label">
+                <xsl:choose>
+                    <xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise><xsl:value-of select="eof:getLabel('treatHist')"/>
+                    <xsl:otherwise>
+                        <xsl:value-of select="eof:getLabel('treatHist')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
@@ -1409,10 +1412,12 @@
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose><xsl:when test="@label">
+                <xsl:choose>
+                    <xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise><xsl:value-of select="eof:getLabel('treatSched')"/>
+                    <xsl:otherwise>
+                        <xsl:value-of select="eof:getLabel('treatSched')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
@@ -1429,24 +1434,27 @@
             <xsl:attribute name="class">subproperty</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">subkey</xsl:attribute>
-            <xsl:choose><xsl:when test="@label">
+                <xsl:choose>
+                    <xsl:when test="@label">
                         <xsl:value-of select="@label"/>
                     </xsl:when>
-                    <xsl:otherwise><xsl:value-of select="eof:getLabel('watermark')"/>
+                    <xsl:otherwise>
+                        <xsl:value-of select="eof:getLabel('watermark')"/>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class">subvalue</xsl:attribute>
                 <xsl:apply-templates select="node()" mode="valueOnly"/>
-            <xsl:value-of select="string(' ')"/>
+                <xsl:value-of select="string(' ')"/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
     <xsl:template match="mei:encodingDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
-
+    
     <xsl:template match="mei:appInfo">
         <xsl:for-each select="mei:application">
             <xsl:element name="div">
@@ -1649,7 +1657,8 @@
         <xsl:element name="div">
             <xsl:call-template name="rendToSection"/>
             
-            <xsl:choose><xsl:when test="count(mei:source) gt 1"><!-- TODO: check implementation -->
+            <xsl:choose>
+                <xsl:when test="count(mei:source) gt 1"><!-- TODO: check implementation -->
                     <xsl:element name="div">
                         <xsl:attribute name="class">section</xsl:attribute>
                         <xsl:element name="h1">
