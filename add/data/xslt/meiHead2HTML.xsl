@@ -1546,7 +1546,7 @@
         </p>
     </xsl:template>
     
-    <xsl:template match="rend" mode="#all">
+    <xsl:template match="mei:rend" mode="#all">
         <xsl:variable name="style">
             <xsl:if test="@color">
                 color: 
@@ -1558,8 +1558,8 @@
                         <xsl:value-of select="@color"/>
                     </xsl:otherwise>
                 </xsl:choose>;
-                
             </xsl:if>
+            
             <xsl:if test="@fontfam | @fontname">
                 font-family: '<xsl:value-of select="@fontfam | @fontname"/>';
             </xsl:if>
@@ -1567,6 +1567,7 @@
                 font-weight: '<xsl:value-of select="@fontweight"/>';
             </xsl:if>
         </xsl:variable>
+        
         <xsl:element name="span">
             <xsl:if test="(@rend and string-length(@rend) gt 0) or (@altrend and string-length(@altrend) gt 0)">
                 <xsl:attribute name="class">
@@ -1578,7 +1579,7 @@
                     <xsl:value-of select="normalize-space($style)"/>
                 </xsl:attribute>
             </xsl:if>
-            <xsl:apply-templates select="* | @* | text()"/>
+            <xsl:apply-templates select="@* | node()" mode="#current"/>
         </xsl:element>
     </xsl:template>
     <xsl:template match="ptr" mode="#all">
