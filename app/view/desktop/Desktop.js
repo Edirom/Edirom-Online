@@ -356,11 +356,14 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
     onDesktopMenu: function (e) {
         var me = this, menu = me.contextMenu;
         e.stopEvent();
+        //TODO
+        /*
         if (!menu.rendered) {
             menu.on('beforeshow', me.onDesktopMenuBeforeShow, me);
         }
         menu.showAt(e.getXY());
         menu.doConstrain();
+        */
     },
 
     onDesktopMenuBeforeShow: function (menu) {
