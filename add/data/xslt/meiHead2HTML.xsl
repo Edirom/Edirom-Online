@@ -416,7 +416,7 @@
         <xsl:apply-templates select="./mei:titleStmt"/>
             <!--</xsl:element>-->
         
-        <xsl:if test="count(./pubStmt/child::*) gt 0"><!-- TODO -->
+        <!--<xsl:if test="count(./pubStmt/child::*) gt 0"><!-\- TODO -\->
             <xsl:element name="div">
                 <xsl:attribute name="class">section</xsl:attribute>
                 <xsl:element name="h1">
@@ -424,7 +424,9 @@
                 </xsl:element>
                 <xsl:apply-templates select="./pubStmt"/>
             </xsl:element>
-        </xsl:if>
+        </xsl:if>-->
+        
+        <xsl:apply-templates select="./mei:pubStmt"/>
         
         <xsl:if test="./history and ./history/child::*/node()"><!-- TODO -->
             <xsl:element name="div">
