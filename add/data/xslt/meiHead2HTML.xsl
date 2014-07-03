@@ -99,6 +99,14 @@
     
 <!-- TEMPLATEs ======================================================= -->
     <xsl:template match="@altrend | @rend" mode="#all"/>
+    
+    <xsl:template match="@target" mode="plainCommaSep">
+        <xsl:element name="a">
+            <xsl:attribute name="href" select="."/>
+            <xsl:attribute name="target">_blank</xsl:attribute>
+            <xsl:value-of select="."/>
+        </xsl:element>
+    </xsl:template>
 
     <xsl:template match="mei:meiHead">
         <xsl:element name="div">
