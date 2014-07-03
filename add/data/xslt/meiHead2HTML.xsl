@@ -1207,7 +1207,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="physLoc">
+    
+    <!--<xsl:template match="mei:physLoc">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -1223,32 +1224,17 @@
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
+                <xsl:apply-templates mode="plainCommaSep"/>
             </xsl:element>
         </xsl:element>
+    </xsl:template>-->
+    
+    <xsl:template match="mei:physMedium" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
     </xsl:template>
-    <xsl:template match="physMedium">
-        <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
-            <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
-                        <xsl:value-of select="@label"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('physMedium')"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:element>
-            <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
-            </xsl:element>
-        </xsl:element>
-    </xsl:template>
+    
     <xsl:template match="plateNum">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
