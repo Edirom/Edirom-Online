@@ -1336,7 +1336,8 @@
             <xsl:attribute name="class">subproperty</xsl:attribute>
             <xsl:element name="div">
                 <xsl:attribute name="class">subkey</xsl:attribute>
-                <xsl:choose><xsl:when test="@label"><!-- TODO make @label unit/key-like -->
+                <xsl:choose>
+                    <xsl:when test="@label"><!-- TODO make @label unit/key-like -->
                         <xsl:element name="span">
                             <xsl:attribute name="class">label</xsl:attribute>
                             <xsl:value-of select="@label"/>
