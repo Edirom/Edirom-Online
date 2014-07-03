@@ -22,7 +22,7 @@ Ext.define('EdiromOnline.view.navigator.Navigator', {
     alias : 'widget.navigator',
 
     minHeight: 0,
-    height: 400,
+    height: 500,
     width: 250,
     id: 'navigator',
 
