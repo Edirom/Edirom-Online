@@ -767,6 +767,12 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="mei:availability" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
 
     <xsl:template match="editionStmt">
         <xsl:for-each select="./*">
