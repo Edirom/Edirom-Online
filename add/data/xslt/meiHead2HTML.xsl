@@ -1284,29 +1284,14 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="repository">
-        <!-- TODO: Resolve @authURI etc. -->
-        <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
-            <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:choose>
-                    <xsl:when test="@label">
-                        <xsl:value-of select="@label"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <xsl:value-of select="eof:getLabel('repository')"/>
-                    </xsl:otherwise>
-                </xsl:choose>
-            </xsl:element>
-            <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
-            </xsl:element>
-        </xsl:element>
-    </xsl:template>
     
+    <xsl:template match="mei:repository">
+        <!-- TODO: Resolve @authURI etc. -->
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+        
+    </xsl:template>
     <xsl:template match="mei:termList" mode="plainCommaSep">
         <xsl:element name="ul">
             <xsl:for-each select="mei:term">
