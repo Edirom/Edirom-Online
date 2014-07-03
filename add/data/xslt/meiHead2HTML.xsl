@@ -945,6 +945,27 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+
+    <xsl:template match="mei:annot">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="key">
+                <xsl:choose>
+                    <xsl:when test="@label">
+                        <xsl:value-of select="@label"/>
+                    </xsl:when>
+                    <xsl:when test="@type">
+                        <xsl:value-of select="@type"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="local-name()"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="@label[parent::mei:annot] | @type[parent::mei:annot]" mode="plainCommaSep"/>
     
     <xsl:template match="mei:classification">
         <xsl:call-template name="makeProperty">
