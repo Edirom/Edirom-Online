@@ -1080,6 +1080,10 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="mei:date[parent::mei:p]" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     <!--<xsl:template match="mei:extent" mode="plainCommaSep">
         <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
