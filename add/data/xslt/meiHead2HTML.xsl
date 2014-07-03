@@ -98,8 +98,8 @@
     </xsl:template>
     
 <!-- TEMPLATEs ======================================================= -->
-    <xsl:template match="@altrend" mode="#all"/>
-    
+    <xsl:template match="@altrend | @rend" mode="#all"/>
+
     <xsl:template match="mei:meiHead">
         <xsl:element name="div">
             <xsl:attribute name="class">meiHead</xsl:attribute>
