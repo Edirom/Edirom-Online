@@ -1045,6 +1045,13 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+
+    
+    <xsl:template match="mei:date" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
     
     <!--<xsl:template match="mei:extent" mode="plainCommaSep">
         <xsl:param name="key" select="local-name(.)"/>
