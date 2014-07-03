@@ -772,6 +772,11 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
+    <xsl:template match="mei:useRestrict" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     
 
     <xsl:template match="editionStmt">
