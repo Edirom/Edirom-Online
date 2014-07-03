@@ -98,11 +98,6 @@
     <entry xml:id="publicationStmt">Publikation</entry>
     <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
     <entry xml:id="seriesStmt">Serien</entry>
-    <entry xml:id="editionStmt">Edition</entry>
-    <entry xml:id="listWit">erwähnte Zeugen</entry>
-    <entry xml:id="publicationStmt">PubliKation</entry>
-    <entry xml:id="seriesStmt">Serien</entry>
-    <entry xml:id="fileDesc">Dateinformationen</entry>
     <entry xml:id="title_a">Titel (analytisch)</entry>
     <entry xml:id="title_m">Titel (monographisch)</entry>
     <entry xml:id="title_j">Titel (in einem Journal)</entry>
@@ -116,5 +111,4 @@
     <entry xml:id="handDesc">Beschreibung der Schriften</entry>
     <entry xml:id="leavesCount">Anzahl der Blätter</entry>
     <entry xml:id="itemList">Objektauflistung</entry>
-    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
 </language>

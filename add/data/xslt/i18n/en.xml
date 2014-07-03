@@ -4,6 +4,9 @@
     <entry xml:id="fileInfo">File Information</entry>
     <entry xml:id="sources">Sources</entry>
     <entry xml:id="titleStmt">Title Statement</entry>
+    <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
+    <entry xml:id="cmp">Composer</entry>
+    <entry xml:id="mcp">Music copyist</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
     <entry xml:id="series">Series</entry>
