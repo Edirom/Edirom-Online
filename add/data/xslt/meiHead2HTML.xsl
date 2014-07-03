@@ -306,7 +306,8 @@
             </xsl:for-each>
         <!--</xsl:element>-->
     </xsl:template>
-    <xsl:template match="pubStmt">
+    
+    <!--<xsl:template match="mei:pubStmt">
         <xsl:element name="div">
             <xsl:attribute name="class">propertyList</xsl:attribute>
             <xsl:for-each select="./respStmt/*[not(local-name() eq 'resp')]">
@@ -333,7 +334,7 @@
                         <xsl:element name="div">
                             <xsl:attribute name="class">value</xsl:attribute>
                             <xsl:choose>
-                                <xsl:when test="not(./text() = '')">
+                                <xsl:when test="not(./text() = '')"><!-\- TODO: @bwb to git = vs eq -\->
                                     <xsl:value-of select="./text()"/>
                                 </xsl:when>
                                 <xsl:otherwise>
@@ -364,7 +365,20 @@
                 </xsl:element>
             </xsl:if>
         </xsl:element>
+    </xsl:template>-->
+    
+    <xsl:template match="mei:pubStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
     </xsl:template>
+    
+    <xsl:template match="mei:publisher | mei:respStmt" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <xsl:template match="seriesStmt">
         <xsl:element name="div">
             <xsl:attribute name="class">propertyList</xsl:attribute>
