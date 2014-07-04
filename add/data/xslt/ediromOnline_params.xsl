@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eof="http://www.edirom.de/xslt/ediromOnlineFunctions" xmlns:mei="http://www.music-encoding.org/ns/mei" exclude-result-prefixes="xs" version="2.0" xml:space="default">
 
 <!-- PARAMs ======================================================= -->
-    <xsl:param name="lang"></xsl:param>
+    <xsl:param name="lang"/>
     <xsl:param name="base" as="xs:string"/>
     <xsl:param name="pListKeyDelim">:</xsl:param>
 

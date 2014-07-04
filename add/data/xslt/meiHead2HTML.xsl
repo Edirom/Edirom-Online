@@ -11,10 +11,10 @@
         <xd:desc>
             <xd:p>
                 <xd:b>Created on:</xd:b> Dec 21, 2011</xd:p>
-            <xd:p/>
+            <xd:p>
                 <xd:b>Author:</xd:b>Johannes Kepper
                 <xd:b>Author:</xd:b>Benjamin W. Bohl
-            
+            </xd:p>
         </xd:desc>
     </xd:doc>
 

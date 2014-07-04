@@ -122,6 +122,10 @@
     <entry xml:id="itemList">Item List</entry>
     
     
+    <entry xml:id="pubStmt">Publication Statement</entry>
+    <entry xml:id="respStmt">Responsibility</entry>
+    <entry xml:id="pubPlace">Publication Place</entry>
+
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
