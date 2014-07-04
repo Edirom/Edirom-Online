@@ -4,6 +4,9 @@
     <entry xml:id="fileInfo">File Information</entry>
     <entry xml:id="sources">Sources</entry>
     <entry xml:id="titleStmt">Title Statement</entry>
+    <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
+    <entry xml:id="cmp">Composer</entry>
+    <entry xml:id="mcp">Music copyist</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
     <entry xml:id="series">Series</entry>
@@ -80,6 +83,11 @@
     <entry xml:id="workTitle">Title</entry>
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
+    <!-- MEI -->
+    <entry xml:id="puStmt">Publication</entry>
+    <entry xml:id="puPlace">Place</entry>
+
+
     <!-- TEI -->
     <entry xml:id="additional">Additional information</entry>
     <entry xml:id="additions">Additions</entry>
@@ -113,7 +121,12 @@
     <entry xml:id="itemList">Item List</entry>
     
     
+    <entry xml:id="pubStmt">Publication Statement</entry>
+    <entry xml:id="respStmt">Responsibility</entry>
+    <entry xml:id="pubPlace">Publication Place</entry>
+
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
+<entry xml:id="profileDesc">Non-bibliographic aspects</entry>
 </language>
