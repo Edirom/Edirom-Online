@@ -101,9 +101,14 @@
 
     <xsl:template match="node()" mode="subProp">
         <xsl:if test="@*">
-            <xsl:text> (</xsl:text>
-            <xsl:value-of select="@*" separator=", "/>
-            <xsl:text>) </xsl:text>
+            <xsl:text> </xsl:text>
+            <xsl:for-each select="@*">
+                    <xsl:apply-templates select="." mode="plainCommaSep"/>
+                    <xsl:if test="index-of(./parent::*/@*, .) != count(./parent::*/@*)">
+                    <xsl:text>, </xsl:text>
+                </xsl:if>
+                </xsl:for-each>
+            <xsl:text> </xsl:text>
         </xsl:if>
         <xsl:apply-templates mode="plainCommaSep"/>
     </xsl:template>
@@ -116,7 +121,9 @@
 <!-- TEMPLATEs ======================================================= -->
     
     <xsl:template match="@when" mode="plainCommaSep">
+        <xsl:text> (</xsl:text>
         <xsl:value-of select="."/>
+    <xsl:text>) </xsl:text>
     </xsl:template>
     
     <xsl:template match="tei:author">
@@ -188,6 +195,13 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="tei:physDesc" mode="plainCommaSep">
+        <xsl:apply-templates select="@* | node()" mode="plainCommaSep"/>
+    </xsl:template>
+    
+    <xsl:template match="tei:objectDesc/@form" mode="plainCommaSep" priority="5">
+        <xsl:value-of select="eof:getLabel(.)"/>
+    </xsl:template>
     
     <xsl:template match="tei:respStmt">
         <xsl:element name="div">
@@ -268,6 +282,12 @@
 <!--        <xsl:apply-templates mode="plainCommaSep"/>-->
     </xsl:template>
     
+    <xsl:template match="tei:repository/@n" mode="plainCommaSep">
+        <xsl:text>(</xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>)</xsl:text>
+    </xsl:template>
+    
     <xsl:template match="tei:msName">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
@@ -331,6 +351,9 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    <xsl:template match="@material" mode="plainCommaSep"/><!-- TODO -->
+    
     
     <xsl:template match="tei:extent" mode="plainCommaSep">
         <xsl:param name="key" select="local-name(.)"/>
