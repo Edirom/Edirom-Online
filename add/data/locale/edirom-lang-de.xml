@@ -117,6 +117,43 @@
         <entry key="view.window.text.TextView_viewMenu" value="Darstellung"/>
         
         
+        <!-- naming gui elements -->
+        <entry key="view.desktop.Desktop" value="Desktop"/>
+        <entry key="view.desktop.TopBar" value="Symbolleiste"/>
+        <entry key="view.desktop.TopBar_searchField" value="Suchfeld"/>
+            <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
+        <entry key="view.desktop.TaskBar" value="Task-Leiste"/>
+        <entry key="view.desktop.TaskBar_btnDesktop" value="Button der Task-Leiste"/>
+        <entry key="view.window.TopBar" value="Symbolleiste im Fenster"/>
+        <entry key="view.window.BottomBar" value="Task-Leiste im Fenster"/>
+        <entry key="view.navigator.Navigator" value="Navigator"/>
+        <entry key="global_appName" value="Edirom Online"/>
+        <entry key="clickAndHoldDragging" value="dragging"/>
+        <entry key="drag-and-drop" value="Drag-and-Drop"/>
+        <entry key="comboBox" value="Kombobox"/>
+        <entry key="views" value="Ansichten"/>
+        <entry key="window.minimize" value="minimieren"/>
+        <entry key="window.maximize" value="maximieren"/>
+        <entry key="view.window.source.SourceView_zoomSlider" value="Schieber für Zoom"/>
+        <entry key="view.window.source.SourceView_pageNaviation" value="Seiten-Navigation"/>
+        <entry key="view.window.source.SourceView_measureBasedCombo" value="Nummern Kombobox"/>
+        <entry key="view.window.source.SourceView_measureBasedRange" value="Bereich der Takte"/>
+        
+        <entry key="view.window.xmlView_decreaseFontSize.label" value="A-"/>
+        <entry key="view.window.xmlView_decreaseFontSize.title" value="Schriftgröße verkleinern"/>
+        <entry key="view.window.xmlView_increaseFontSize.label" value="A+"/>
+        <entry key="view.window.xmlView_increaseFontSize.title" value="Schriftgröße vergrößern"/>
+        <entry key="view.window.xmlView_showLineNumbers.label" value="Zeile #"/>
+        <entry key="view.window.xmlView_showLineNumbers.title" value="Zeilennummern anzeigen"/>
+        
+        <entry key="view.window.pref_generalSettings" value="Generell"/>
+        <entry key="view.window.pref_programSettings" value="Programmeinstellungen"/>
+        <entry key="view.window.pref_concNavSettings" value="Einstellungen für Konkordanznavigator"/>
+        <entry key="view.window.pref_windowSettings" value="Fenster-Einstellungen"/>
+        <entry key="view.window.pref_langSettings" value="Sprach-Einstellungen"/>
+        <entry key="Number field with left and right arrows" value="Anzahl der Pfeile nach links und rechts"/>
+        
+        
         <!-- DATA -->
         <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>

@@ -1,4 +1,6 @@
 .DS_Store
+._DS_Store
+Thumbs.db
 /.sencha_backup
 /build-xar
 /build

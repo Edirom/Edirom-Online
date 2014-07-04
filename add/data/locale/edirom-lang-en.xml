@@ -97,12 +97,13 @@
         <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Previous page"/>
         <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Next page"/>
         <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
+        <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Page Spinner"/>
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Previous measure"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Next measure"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Select movement"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Select voices"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Select parts"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
         <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.source.SourceView_gotoMenu" value="Go to…"/>
@@ -111,8 +112,6 @@
         <entry key="view.window.source.SourceView_GotoMsg_MovmentNumber" value="Movement/Number"/>
         <entry key="view.window.source.SourceView_GotoMsg_Measure" value="Measure"/>
         <entry key="view.window.source.SourceView_viewMenu" value="Display"/>
-        <entry key="view.window.source.SourceView_PageBasedView" value="Page based view"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
         <entry key="view.window.text.TextView_annotMenu" value="Annotations"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.text.TextView_gotoMenu" value="Go to…"/>
