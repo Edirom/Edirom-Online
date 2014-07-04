@@ -406,6 +406,10 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="tei:history" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+    
     <xd:doc scope="component">
         <xd:desc>lsit of elements in tei:profileDesc to be rendered as properties</xd:desc>
     </xd:doc>
@@ -435,6 +439,19 @@
     </xsl:template>
 
 
+
+    <xsl:template match="tei:listChange" mode="plainCommaSep">
+        <xsl:element name="ul">
+            <xsl:for-each select="tei:change">
+                <xsl:element name="li">
+                    <xsl:text> </xsl:text>
+                    <xsl:apply-templates select="." mode="#current"/>
+                </xsl:element>
+            </xsl:for-each>
+        </xsl:element>
+    </xsl:template>
+    
+    
 
     <xsl:template match="tei:placeName">
         <xsl:value-of select="*" separator=", "/>
@@ -466,6 +483,12 @@
         </p>
     </xsl:template>
     
+    <xsl:template match="tei:provenance" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <xsl:template match="tei:listBibl" mode="plainCommaSep">
         <xsl:element name="span">
             <xsl:call-template name="rendToClass">
@@ -483,4 +506,9 @@
         <xsl:call-template name="makeSection"/>
     </xsl:template>
     
+<xsl:template match="tei:watermark" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
 </xsl:stylesheet>
