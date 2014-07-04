@@ -132,6 +132,12 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="tei:author" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <xd:doc scope="component">
         <xd:desc>Add a div with class teiHeader then process children</xd:desc>
     </xd:doc>
@@ -139,6 +145,61 @@
         <xsl:element name="div">
             <xsl:attribute name="class" select="string('teiHeader')"/>
             <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>
+    
+    
+    <xsl:template match="tei:biblStruct">
+        <xsl:choose>
+            <xsl:when test="tei:analytic">
+                <xsl:apply-templates mode="bibl"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="tei:analytic" mode="bibl">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToProperty"/>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">value</xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates mode="bibl"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="tei:monogr" mode="bibl">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToProperty"/>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">value</xsl:with-param>
+                </xsl:call-template>
+                <xsl:if test="tei:title">
+                    <xsl:element name="div">
+                        <xsl:call-template name="rendToSubProperty">
+                            <xsl:with-param name="key" select="'title'"/>
+                            <!--<xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>-->
+                        </xsl:call-template>
+                        <xsl:element name="div">
+                            <xsl:call-template name="rendToClass">
+                                <xsl:with-param name="default">subvalue</xsl:with-param>
+                            </xsl:call-template>
+                            <xsl:for-each select="tei:title">
+                                <xsl:apply-templates mode="bibl"/>
+                                <xsl:if test="following-sibling::tei:title">
+                                    <xsl:text> </xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:if>
+                <xsl:apply-templates select="*[not(local-name(.) = ('title', 'biblScope', 'date'))]" mode="bibl"/>
+            </xsl:element>
         </xsl:element>
     </xsl:template>
     
@@ -180,10 +241,26 @@
     </xsl:template>
     
     
+    <xsl:template match="tei:imprint" mode="bibl">
+        <xsl:element name="div">
+            <xsl:call-template name="rendToSubProperty"/>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">value</xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates select="." mode="plainCommaSep"/>
+                <xsl:if test="following-sibling::tei:biblScope">
+                    <xsl:text> </xsl:text>
+                    <xsl:value-of select="following-sibling::tei:biblScope" separator=", "/>
+                </xsl:if>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
     <xsl:template match="tei:imprint" mode="plainCommaSep">
         <xsl:value-of select="tei:publisher"/>
         <xsl:text> (</xsl:text>
-        <xsl:value-of select="eof:getLabel('publisher')"/>
+        <xsl:value-of select="eof:getLabel('imprint_publisher')"/>
         <xsl:text>), </xsl:text>
         <xsl:value-of select="tei:pubPlace, tei:date" separator=", "/>
     </xsl:template>
@@ -326,9 +403,28 @@
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
-            <xsl:with-param name="key" select="if(@level)then(concat(local-name(), '_', @level))else(local-name())"/>
+            <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
         </xsl:call-template>
     </xsl:template>
+    
+    <xsl:template match="tei:title" mode="bibl" name="title_bibl">
+        <!--<xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
+        </xsl:call-template>-->
+        <xsl:element name="div">
+            <xsl:call-template name="rendToSubProperty">
+                <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
+            </xsl:call-template>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">subvalue</xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates mode="plainCommaSep"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
     
     <xsl:template match="tei:revisionDesc">
         <xsl:call-template name="makeSection"/>
