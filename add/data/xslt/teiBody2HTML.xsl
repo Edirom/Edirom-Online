@@ -486,7 +486,7 @@
                 <xsl:variable name="classValue">
                     <xsl:if test="local-name(..) = ('hi', 'p', 'del', 'stage')">inner</xsl:if>
                 </xsl:variable>
-                <xsl:if test="@rend='-'">
+                <xsl:if test="@rend='-' and preceding-sibling::text()">
                     <span class="hyphen">
                         <xsl:text>-</xsl:text>
                     </span>
