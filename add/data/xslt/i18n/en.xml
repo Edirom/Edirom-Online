@@ -7,6 +7,7 @@
     <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
     <entry xml:id="cmp">Composer</entry>
     <entry xml:id="mcp">Music copyist</entry>
+    <entry xml:id="scr">Scribe</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
     <entry xml:id="series">Series</entry>
@@ -65,7 +66,8 @@
     <entry xml:id="exhibHist">Exhibition history</entry>
     <entry xml:id="extent">Extent</entry>
     <entry xml:id="hand">Hand</entry>
-    <entry xml:id="inscription">Inscription</entry>    
+    <entry xml:id="identifier">Identifier</entry>
+    <entry xml:id="inscription">Inscription</entry>
     <entry xml:id="physLoc">Location within a repository</entry>
     <entry xml:id="physMedium">Medium used</entry>
     <entry xml:id="plateNum">Plate number</entry>
@@ -84,6 +86,7 @@
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
     <!-- MEI -->
+    <entry xml:id="handList">Scribes</entry>
     <entry xml:id="puStmt">Publication</entry>
     <entry xml:id="puPlace">Place</entry>
 
@@ -106,13 +109,12 @@
     <entry xml:id="publicationStmt">Publication</entry>
     <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
     <entry xml:id="seriesStmt">Series</entry>
-    <entry xml:id="fileDesc">File Information</entry>
     <entry xml:id="title_a">Title (analytic)</entry>
     <entry xml:id="title_m">Title (monographic)</entry>
     <entry xml:id="title_j">Title (journal)</entry>
     <entry xml:id="title_s">Title (series)</entry>
     <entry xml:id="title_u">Title (unpublished)</entry>
-<entry xml:id="idno">Identifier</entry>
+    <entry xml:id="idno">Identifier</entry>
     <entry xml:id="date">Date</entry>
     <entry xml:id="country">Country</entry>
     <entry xml:id="settlement">Settlement</entry>
@@ -120,14 +122,21 @@
     <entry xml:id="handDesc">Description of Hands</entry>
     <entry xml:id="leavesCount">Number of Leaves</entry>
     <entry xml:id="itemList">Item List</entry>
-    
-    
     <entry xml:id="pubStmt">Publication Statement</entry>
     <entry xml:id="respStmt">Responsibility</entry>
     <entry xml:id="pubPlace">Publication Place</entry>
+    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
+
+    <entry xml:id="Encoders">Encoders</entry>
+    <entry xml:id="binding">Binding</entry>
+    <entry xml:id="leavesCount">(leaves)</entry>
+    <entry xml:id="manuscript">manuscript</entry>
+    <entry xml:id="imprint_publisher">Publisher</entry>
+    <entry xml:id="analytic">Work</entry>
+    <entry xml:id="monogr">Publication</entry>
 
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
-<entry xml:id="profileDesc">Non-bibliographic aspects</entry>
+    <entry xml:id="descLink">Source Description</entry>
 </language>

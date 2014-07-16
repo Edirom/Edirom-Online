@@ -4,6 +4,10 @@
     <entry xml:id="fileInfo">Dateiinformationen</entry>
     <entry xml:id="sources">Quellen</entry>
     <entry xml:id="titleStmt">Titelangabe</entry>
+    <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
+    <entry xml:id="cmp">Komponist</entry>
+    <entry xml:id="mcp">Kopist (Musik)</entry>
+    <entry xml:id="scr">Schreiber</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
     <entry xml:id="series">Serien</entry>
@@ -62,6 +66,7 @@
     <entry xml:id="exhibHist">Ausstellungsgeschichte</entry>
     <entry xml:id="extent">Größe</entry>
     <entry xml:id="hand">Hand</entry>
+    <entry xml:id="identifier">Signatur</entry>
     <entry xml:id="inscription">Aufdruck</entry>
     <entry xml:id="physLoc">Ort innerhalb eines Repositories</entry>
     <entry xml:id="physMedium">benutztes Medium</entry>
@@ -82,6 +87,10 @@
     <entry xml:id="geogName">Ort</entry>
     <!-- MEI -->
     <entry xml:id="handList">Schreiber</entry>
+    <entry xml:id="puStmt">Publikation</entry>
+    <entry xml:id="puPlace">Ort</entry>
+
+
     <!-- TEI -->
     <entry xml:id="additional">Zusätzliche Informationen</entry>
     <entry xml:id="additions">Ergänzungen</entry>
@@ -113,16 +122,23 @@
     <entry xml:id="handDesc">Schreiber</entry>
     <entry xml:id="leavesCount">Anzahl der Blätter</entry>
     <entry xml:id="itemList">Objektauflistung</entry>
-<entry xml:id="pubStmt">Informationen zur Publikation</entry>
+    <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Haftung</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
+   <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
+
     
-    <entry xml:id="encoders">Codierung</entry>
+    <entry xml:id="Encoders">Codierung</entry>
     <entry xml:id="binding">Einband</entry>
     <entry xml:id="leavesCount">(Bl.)</entry>
     <entry xml:id="manuscript">Handschrift</entry>
     <entry xml:id="imprint_publisher">Verlag</entry>
     <entry xml:id="analytic">Werk</entry>
     <entry xml:id="monogr">Veröffentlichung</entry>
+
+    <!-- FreiDi /content -->
+    <entry xml:id="width">Breite</entry>
+    <entry xml:id="height">Höhe</entry>
+    <entry xml:id="descLink">Quellenbeschreibung</entry>
     
 </language>
