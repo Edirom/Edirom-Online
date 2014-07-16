@@ -510,7 +510,7 @@
         <div class="speaker">
             <xsl:call-template name="makeAnchor"/>
             <xsl:choose>
-                <xsl:when test="tei:speaker[@rend]">
+                <xsl:when test="tei:speaker[@rend] and ancestor::tei:text[@xml:id='geisterinsel']">
                     <xsl:call-template name="renderingInner">
                         <xsl:with-param name="value" select="tei:speaker/@rend"/>
                     </xsl:call-template>
