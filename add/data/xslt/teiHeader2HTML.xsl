@@ -85,7 +85,8 @@
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
                 <xsl:text>) </xsl:text>
             </xsl:when>
-            <xsl:otherwise><xsl:value-of select="."/>
+            <xsl:otherwise>
+                <xsl:value-of select="."/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
@@ -102,7 +103,7 @@
     <xsl:template match="node()" mode="subProp">
         <xsl:if test="@*">
             <xsl:text> </xsl:text>
-            <xsl:for-each select="@*">
+                <xsl:for-each select="@*">
                     <xsl:apply-templates select="." mode="plainCommaSep"/>
                     <xsl:if test="index-of(./parent::*/@*, .) != count(./parent::*/@*)">
                     <xsl:text>, </xsl:text>
@@ -123,7 +124,7 @@
     <xsl:template match="@when" mode="plainCommaSep">
         <xsl:text> (</xsl:text>
         <xsl:value-of select="."/>
-    <xsl:text>) </xsl:text>
+        <xsl:text>) </xsl:text>
     </xsl:template>
     
     <xsl:template match="tei:author">
@@ -147,7 +148,6 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
-    
     
     <xsl:template match="tei:biblStruct">
         <xsl:choose>
@@ -240,7 +240,6 @@
         </xsl:call-template>
     </xsl:template>
     
-    
     <xsl:template match="tei:imprint" mode="bibl">
         <xsl:element name="div">
             <xsl:call-template name="rendToSubProperty"/>
@@ -265,6 +264,7 @@
         <xsl:value-of select="tei:pubPlace, tei:date" separator=", "/>
     </xsl:template>
     
+    <xsl:template match="tei:msContents"/>
     
     <xsl:template match="tei:physDesc">
         <xsl:call-template name="makeProperty">
@@ -279,6 +279,7 @@
     <xsl:template match="tei:objectDesc/@form" mode="plainCommaSep" priority="5">
         <xsl:value-of select="eof:getLabel(.)"/>
     </xsl:template>
+    
     
     <xsl:template match="tei:respStmt">
         <xsl:element name="div">
@@ -533,8 +534,6 @@
             <xsl:text>) </xsl:text>
         </xsl:if>
     </xsl:template>
-
-
 
     <xsl:template match="tei:listChange" mode="plainCommaSep">
         <xsl:element name="ul">
