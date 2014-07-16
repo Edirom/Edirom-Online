@@ -541,6 +541,13 @@
             <xsl:when
                 test="./following-sibling::element()[1][local-name(.) = 'stage' and not(contains(./@rend, 'inline'))]"/>
             <xsl:when test="@type='hyphenInWord' and @rend='hidden'"/>
+            <xsl:when test="@type='indent' and @rend='-'">
+                <span class="hyphen">
+                    <xsl:text>-</xsl:text>
+                </span>
+                <br/>
+                <span class="lb_indent">&#160;</span>
+            </xsl:when>
             <xsl:when test="@type='indent'">
                 <br/>
                 <span class="lb_indent">&#160;</span>
