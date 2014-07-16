@@ -48,5 +48,8 @@
     </xsl:template>
     <xsl:template match="text()">
         <xsl:copy/>
+    <xsl:if test="(./following::tei:*)[position() eq 1 and local-name() eq 'pb' and @n eq $pb2 and @rend eq '-']">
+            <tei:pb rend="-"/>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
