@@ -120,7 +120,6 @@
     <entry xml:id="settlement">Ort</entry>
     <entry xml:id="supportDesc">Material</entry>
     <entry xml:id="handDesc">Schreiber</entry>
-    <entry xml:id="leavesCount">Anzahl der Blätter</entry>
     <entry xml:id="itemList">Objektauflistung</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Haftung</entry>
@@ -135,7 +134,10 @@
     <entry xml:id="imprint_publisher">Verlag</entry>
     <entry xml:id="analytic">Werk</entry>
     <entry xml:id="monogr">Veröffentlichung</entry>
-
+    
+    <entry xml:id="leaf">Blatt</entry>
+    <entry xml:id="cm">cm</entry>
+    
     <!-- FreiDi /content -->
     <entry xml:id="width">Breite</entry>
     <entry xml:id="height">Höhe</entry>
