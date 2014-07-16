@@ -144,8 +144,6 @@
                 </xsl:when>
             </xsl:choose>
             
-            <xsl:apply-templates select="mei:fileDesc/mei:sourceDesc"/>
-            
             <!-- ende fileDesc -->
             
             <!-- encodingDesc -->
