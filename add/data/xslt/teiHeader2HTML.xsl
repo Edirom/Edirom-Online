@@ -463,7 +463,12 @@
                 <xsl:for-each select="tei:measure, tei:dimensions">
                     <xsl:element name="span">
                         <xsl:attribute name="class">unit</xsl:attribute>
-                        <xsl:value-of select="@type, @unit" separator="/"/>
+                            <xsl:for-each select="@type, @unit">
+                                <xsl:value-of select="eof:getLabel(.)"/>
+                                <xsl:if test="index-of(parent::*/@*, .) != count(parent::*/@*)">
+                                    <xsl:text>/</xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
                     </xsl:element>
                 </xsl:for-each>
                 
@@ -569,12 +574,14 @@
     </xsl:template>
     
     <xsl:template match="tei:p">
-        <p><xsl:apply-templates/>
+        <p>
+            <xsl:apply-templates/>
         </p>
     </xsl:template>
     
     <xsl:template match="tei:p" mode="plainCommaSep">
-        <p><xsl:apply-templates/>
+        <p>
+            <xsl:apply-templates/>
         </p>
     </xsl:template>
     
@@ -601,7 +608,7 @@
         <xsl:call-template name="makeSection"/>
     </xsl:template>
     
-<xsl:template match="tei:watermark" mode="plainCommaSep">
+    <xsl:template match="tei:watermark" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
