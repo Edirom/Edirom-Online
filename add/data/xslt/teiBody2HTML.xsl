@@ -430,7 +430,8 @@
         <xsl:variable name="page_folio">
             <xsl:choose>
                 <xsl:when test="matches(@n, '\d+[a-z]?(r|v)')"> fol. </xsl:when>
-                <xsl:otherwise> pag. </xsl:otherwise>
+                <xsl:when test="@n"> pag. </xsl:when>
+            <xsl:otherwise/>
             </xsl:choose>
         </xsl:variable>
         <xsl:choose>
