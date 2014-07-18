@@ -32,7 +32,7 @@
             </xsl:when>
             <xsl:when test=".[./descendant::tei:pb[@n eq $pb2]]">
                 <xsl:copy>
-                    <xsl:apply-templates select="@* | node()[./descendant::tei:pb[@n eq $pb2] or ./following::tei:pb[@n eq $pb2] or $pb2 eq '']"/>
+                    <xsl:apply-templates select="@* | node()[./descendant-or-self::tei:pb[@n eq $pb2] or ./following::tei:pb[@n eq $pb2] or $pb2 eq '']"/>
                 </xsl:copy>
             </xsl:when>
             <xsl:when test=".[./preceding::tei:pb[@n eq $pb1] and (./following::tei:pb[@n eq $pb2] or $pb2 eq '')]">
@@ -43,13 +43,24 @@
             <xsl:otherwise/>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="tei:pb">
+        <xsl:choose>
+    <xsl:when test="@n eq $pb1">
+    <xsl:copy>
+                    <xsl:apply-templates select="@*"/>
+        </xsl:copy>
+    </xsl:when>
+            <xsl:when test="@n eq $pb2 and @rend eq '-'">
+            <xsl:copy>
+                    <xsl:apply-templates select="@* except @n"/>
+        </xsl:copy>
+    </xsl:when>
+        </xsl:choose>
+    </xsl:template>
     <xsl:template match="@*">
         <xsl:copy/>
     </xsl:template>
     <xsl:template match="text()">
         <xsl:copy/>
-    <xsl:if test="(./following::tei:*)[position() eq 1 and local-name() eq 'pb' and @n eq $pb2 and @rend eq '-']">
-            <tei:pb rend="-"/>
-        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
