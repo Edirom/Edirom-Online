@@ -635,11 +635,20 @@
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default">
                     <xsl:choose>
-                        <xsl:when test="ancestor::tei:text/@rend='firstfolio'">stage</xsl:when>
-                        <xsl:when
-                            test="ancestor::tei:*/@rend='inline' or ancestor::tei:*/@place='inline'"
-                            >stage it inline</xsl:when>
-                        <xsl:otherwise>stage it</xsl:otherwise>
+                        <xsl:when test="@type = 'setting'">
+                            <xsl:choose>
+                                <xsl:when test="ancestor::tei:text/@rend='firstfolio'">setting stage</xsl:when>
+                                <xsl:when test="ancestor::tei:*/@rend='inline' or ancestor::tei:*/@place='inline'">setting stage it inline</xsl:when>
+                                <xsl:otherwise>setting stage it</xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:choose>
+                                <xsl:when test="ancestor::tei:text/@rend='firstfolio'">stage</xsl:when>
+                                <xsl:when test="ancestor::tei:*/@rend='inline' or ancestor::tei:*/@place='inline'">stage it inline</xsl:when>
+                                <xsl:otherwise>stage it</xsl:otherwise>
+                            </xsl:choose>
+                        </xsl:otherwise>
                     </xsl:choose>
                 </xsl:with-param>
             </xsl:call-template>
