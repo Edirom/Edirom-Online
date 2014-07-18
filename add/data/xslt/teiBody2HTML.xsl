@@ -510,16 +510,7 @@
     <xsl:template match="tei:sp" priority="5">
         <div class="speaker">
             <xsl:call-template name="makeAnchor"/>
-            <xsl:choose>
-                <xsl:when test="tei:speaker[@rend] and ancestor::tei:text[@xml:id='geisterinsel']">
-                    <xsl:call-template name="renderingInner">
-                        <xsl:with-param name="value" select="tei:speaker/@rend"/>
-                    </xsl:call-template>
-                </xsl:when>
-                <xsl:otherwise>
-                    <xsl:apply-templates select="tei:speaker"/>
-                </xsl:otherwise>
-            </xsl:choose>
+            <xsl:apply-templates select="tei:speaker"/>
             <xsl:if test="tei:speaker/following-sibling::*[1][@rend = 'inline']">
                     &#160;<xsl:apply-templates
                     select="tei:speaker/following-sibling::tei:stage[@rend = 'inline'][1]"
