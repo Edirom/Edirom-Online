@@ -5,4 +5,5 @@ Thumbs.db
 /build-xar
 /build
 /data
+/tmp
 *.xpr
