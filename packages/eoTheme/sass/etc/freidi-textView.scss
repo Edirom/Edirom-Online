@@ -18,10 +18,10 @@ $underlineColor: #333333;
 	}
 	
 	//placement of "Jägerpursch"
-	span.role + span.role span {
+	span.role + blockquote.roleDesc span {
 		position: absolute;
-		left: 15em;
-		top: 0.9em;
+		left: 18em;
+		top: 1em;
 	}
 	
 	//hide second "Jägerpursch" element (which is empty, but still confuses the layout otherwise
@@ -358,6 +358,15 @@ $underlineColor: #333333;
 			&:first-child {
 				margin-left: 4em;
 			}
+			
+			& + blockquote {
+				display: inline;
+				margin-left: 0;
+				
+				& > p {
+					display: inline;
+				}
+			}
 		}
 		
 		span.act {font-size: 1.8em;}
@@ -485,7 +494,7 @@ $underlineColor: #333333;
 			} 
 			
 			//für die CastList-Zeitangabe
-			ul p {margin-left: 9.5em;}
+			ul > p {margin-left: 9.5em;}
 			
 			//für die CastList-Rollennamen
 			li span.role:first-child {letter-spacing: 0.2em;}
@@ -511,18 +520,32 @@ $underlineColor: #333333;
 				}
 			}
 			
+			div.l {
+				margin-left: 3em;
+			}
+			
+			.speaker + br + .p-in-sp > br:first-child {
+				display: none;
+			}
+			
+			div.speaker + br + .p-in-sp, div.speaker + br + .l, div.speaker + br + .lg {
+				margin-top: -1em;
+			}
+
+			
 			p.center { width: $pageWidth - 1.5em; }
 			span.center {width: $pageWidth - 1.5em;}
 			span.caption { width: $pageWidth - 1.5em; }
 			div.speaker {
 				width: $pageWidth - 1.5em;
 				letter-spacing: 0.13em;
+				margin-bottom: -0.6em;
 				
 				* {
 					letter-spacing: 0;
 					
 					&.expanded {
-						letter-spacing: 2em;
+						letter-spacing: 0.5em;
 					}
 				}
 			}
@@ -590,8 +613,12 @@ $underlineColor: #333333;
 			//&:first-letter {margin-left: -1em;}
 			
 			&.right {
-				margin: 0.4em 0 0.4em $pageWidth;
+				margin: 0.4em 0 0.4em $pageWidth * 3 / 4;
 			}
+		}
+		
+		.setting {
+			text-indent: -1em;
 		}
 		
 		.indent_1 {margin-left: 2em;}
@@ -605,7 +632,7 @@ $underlineColor: #333333;
 		
 		.speaker {
 			letter-spacing: 0.1em;
-			margin-bottom: 0.4em;
+			margin-bottom: 0.2em;
 			margin-left: -2em;
 			
 			& > * {
@@ -647,17 +674,73 @@ $underlineColor: #333333;
 			margin-bottom: 1.5em;
 		}
 		
+		span.expanded {letter-spacing: 0.25em;}
+		
 	}
 	
 	//Formatierungen für Dokumentation Datenmodell
 	.div0[id$="dataDoc_r1"] {
-	
+		
+		
+		
+		
 		padding: 4em 2em 2em 2em;
 		
 		h3 {
 			text-align: left;
 		}
 		
+	}
+	
+	.teidiv0.ediromDoc,  {
+		line-height: 1.4em;
+		padding-right: 2em;
+		
+		& > h2 {
+			margin-bottom: 0.5em !important;
+			margin-top: 1em;
+		}
+		
+		.teidiv1 {
+			& > p, & > .teidiv2 {
+			 	margin-left: 4em;
+			 	
+			 	h4 {
+			 		margin-bottom: 0.5em;
+			 	}
+			 	
+			 	table {
+			 		border-collapse: collapse;
+			
+					tr:first-child td {
+						@include background-image(linear-gradient(top, #e5e5e5, #cccccc));
+						font-weight: normal;						
+						
+						/*&:first-child {
+							border-radius: 5px 0 0 5px;
+						}
+				
+						&:last-child {
+							border-radius: 0 5px 5px 0;
+						}*/
+					}
+			
+					td {
+						padding: 2px 15px 0 5px;
+				
+					}
+			 	}
+			}
+		
+			h3  {
+				line-height: 1.1em;
+				margin-bottom: 0.5em;
+				margin-top: 1.5em;
+				padding-left: 3.3em;
+				text-align: left;
+				width: 100%;
+			}
+		}
 	}
 	
 	
