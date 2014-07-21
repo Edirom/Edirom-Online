@@ -15,7 +15,7 @@ declare option exist:serialize "method=html media-type=text/html omit-xml-declar
 
 declare variable $lang := 'en';
 declare variable $base := concat('file:', replace(system:get-module-load-path(),'\\','/'), '/../xslt/');
-declare variable $facsBasePath := '../../../digilib/Scaler/';
+declare variable $facsBasePath := '../../../digilib/Scaler/freidi/';
 declare variable $printResolution := 150;
 declare variable $facsAreaWidth := 6.5;(: in inch :)
 declare variable $facsMetaHeight := 30;

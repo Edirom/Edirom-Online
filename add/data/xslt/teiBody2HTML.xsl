@@ -35,7 +35,7 @@
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <xsl:param name="numberHeadings">false</xsl:param>
     <xsl:param name="autoHead">false</xsl:param>
-    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/</xsl:param><!-- ?dw=500&mo=fi -->
+    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/freidi/</xsl:param><!-- ?dw=500&mo=fi -->
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
     <xsl:param name="textType"/>
