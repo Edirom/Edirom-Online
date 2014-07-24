@@ -40,7 +40,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 
 declare variable $imageWidth := 600;
-declare variable $imageBasePath := '../../../digilib/Scaler/freidi/';
+declare variable $imageBasePath := '../../../digilib/Scaler/';
 
 (: TODO: in Modul auslagern :)
 (:~

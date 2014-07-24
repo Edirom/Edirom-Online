@@ -18,6 +18,6 @@
     <xsl:param name="pListKeyDelim">:</xsl:param>
     <xsl:param name="pageFormat"/>
     <xsl:param name="resolution">150</xsl:param>
-    <xsl:param name="facsBasePath">../../../digilib/Scaler/freidi/</xsl:param>
+    <xsl:param name="facsBasePath">../../../digilib/Scaler/</xsl:param>
     <xsl:param name="facsImgParas"/>
 </xsl:stylesheet>
