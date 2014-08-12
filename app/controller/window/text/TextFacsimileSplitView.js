@@ -76,6 +76,7 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
             {
                 uri: uri,
                 idPrefix: view.id + '_',
+                stage: view.stage,
                 page: view.getActivePage()
             },
             Ext.bind(function(response){

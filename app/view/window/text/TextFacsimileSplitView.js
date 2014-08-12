@@ -81,6 +81,52 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
+        if(me.uri == 'xmldb:exist:///db/contents/texts/C_07_Handexemplar.xml') {
+            me.stage = 'last';
+            
+            var stage1 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_1',
+                checked: false,
+                text: '1. Abschrift Kopist Dresden 1 (Juni 1817)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage2 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_2',
+                checked: false,
+                text: '2. Korrekturschicht Weber (Juni 1817–UA 1821)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            var stage3 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_3',
+                checked: false,
+                text: '3. Korrekturschicht Kopist Dresden 2 (Anfang 1822)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage4 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_4',
+                checked: true,
+                text: 'Vorwort von Jähns',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            me.switchTextStages =  Ext.create('Ext.button.Button', {
+                text: 'Textschichten',
+                indent: false,
+                cls: 'menuButton',
+                menu : {
+                    items: [stage1, stage2, stage3, stage4]
+                }
+            });
+            me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
+        }
+
         me.zoomSlider = Ext.create('Ext.slider.Single', {
             width: 140,
             value: 100,
@@ -432,6 +478,19 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             }, me.westPanel);
         }catch(e) {
         }
+    },
+    
+    switchTextStages: function(menuItem, e) {
+    
+        if(menuItem.checked === false) return;
+
+        var me = this;
+        me.stage = 'last';
+        if(menuItem.id.endsWith('stage_1')) me.stage = 'first';
+        if(menuItem.id.endsWith('stage_2')) me.stage = 'second';
+        if(menuItem.id.endsWith('stage_3')) me.stage = 'third';
+    
+        me.fireEvent('afterImageChanged', me, null);
     }
 });
 

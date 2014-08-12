@@ -58,23 +58,50 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
         var me = this;
 
-        //TODO: überprüfen
-/*        me.notesVisibility = Ext.create('Ext.button.Button', {
-            text: 'Notes',
-            handler: Ext.bind(me.toggleNotesVisibility, me),
-            enableToggle: true,
-            pressed: true
-        });
-        me.pbsVisibility = Ext.create('Ext.button.Button', {
-            text: 'Pagebreaks',
-            handler: Ext.bind(me.togglePbVisibility, me),
-            enableToggle: true,
-            pressed: true
-        });
+        if(me.uri == 'xmldb:exist:///db/contents/texts/C_07_Handexemplar.xml') {
+            
+            var stage1 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_1',
+                checked: true,
+                text: '1. Abschrift Kopist Dresden 1 (Juni 1817)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage2 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_2',
+                checked: false,
+                text: '2. Korrekturschicht Weber (Juni 1817–UA 1821)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
 
-        me.window.getTopbar().addViewSpecificItem(me.notesVisibility, me.id);
-        me.window.getTopbar().addViewSpecificItem(me.pbsVisibility, me.id);
-*/
+            var stage3 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_3',
+                checked: false,
+                text: '3. Korrekturschicht Kopist Dresden 2 (Anfang 1822)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            var stage4 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_4',
+                checked: false,
+                text: 'Vorwort von Jähns',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            me.switchTextStages =  Ext.create('Ext.button.Button', {
+                text: 'Textschichten',
+                indent: false,
+                cls: 'menuButton',
+                menu : {
+                    items: [stage1, stage2, stage3, stage4]
+                }
+            });
+            me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
+        }
     },
 
     checkGlobalAnnotationVisibility: function(visible) {
@@ -410,6 +437,31 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         return {
             id: this.id
         };
+    },
+    
+    switchTextStages: function(menuItem, e) {
+    
+        if(menuItem.checked === false) return;
+    
+        var me = this;
+        var stage = 'first';
+        if(menuItem.id.endsWith('stage_2')) stage = 'second';
+        if(menuItem.id.endsWith('stage_3')) stage = 'third';
+        if(menuItem.id.endsWith('stage_4')) stage = 'last';
+    
+        window.doAJAXRequest('data/xql/getText.xql',
+            'GET', 
+            {
+                uri: me.uri,
+                stage: stage,
+                idPrefix: me.id + '_',
+                term: me.window.term,
+                path: me.window.path
+            },
+            Ext.bind(function(response){
+                this.setContent(response.responseText);
+            }, me)
+        );
     }
 });
 
