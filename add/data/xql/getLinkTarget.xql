@@ -35,22 +35,25 @@ declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
         (: SummaryView :)
-        concat("{type:'summaryView',uri:'", $docUri, "'}"),
+(:        concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
         if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
 
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),
+        
         (: SourceView :)
-        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
         (: TextView :)
-        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView',uri:'", $docUri, "'}")) else(),
+        if($type = 'text') then(concat("{type:'textView', defaultView:", if($doc//tei:facsimile//tei:graphic)then("false")else("true") , ", uri:'", $docUri, "'}")) else(),
 
         (: SourceView :)
-        if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
+        if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
         (: TextFacsimileSplitView :)
-        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
+        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', label: 'Text-Faksimile', uri:'", $docUri, "'}")) else(),
 
         (: AnnotationView :)
         if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
@@ -62,7 +65,10 @@ declare function local:getViews($type, $docUri, $doc) {
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
         (: XmlView :)
-        concat("{type:'xmlView',uri:'", $docUri, "'}")
+        concat("{type:'xmlView', label: 'XML Quelle',uri:'", $docUri, "'}"),
+
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
     ), ',')
 };
 
@@ -104,7 +110,6 @@ let $type :=
              (: Source / Score :)
              else if(exists($doc//mei:mei) and exists($doc//mei:source))
              then(string('source'))
-             
              
              (: Text :)
              else if(exists($doc/tei:TEI))
