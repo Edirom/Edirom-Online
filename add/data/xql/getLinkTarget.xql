@@ -46,6 +46,9 @@ declare function local:getViews($type, $docUri, $doc) {
         (: SourceView :)
         if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
+        (: AudioView :)
+        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),
+
         (: TextView :)
         if($type = 'text') then(concat("{type:'textView', defaultView:", if($doc//tei:facsimile//tei:graphic)then("false")else("true") , ", uri:'", $docUri, "'}")) else(),
 
@@ -107,6 +110,10 @@ let $type :=
              if(exists($doc//mei:mei) and exists($doc//mei:work))
              then(string('work'))
              
+             (: Recording :)
+             else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+             then(string('recording'))
+             
              (: Source / Score :)
              else if(exists($doc//mei:mei) and exists($doc//mei:source))
              then(string('source'))
@@ -121,6 +128,10 @@ let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work))
               then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
               
+              (: Recording :)
+              else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
               then($doc//mei:source/mei:titleStmt/data(mei:title[1]))

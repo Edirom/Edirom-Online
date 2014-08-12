@@ -40,6 +40,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
@@ -72,6 +73,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.audio.AudioView": [],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
@@ -941,6 +943,7 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
@@ -1001,6 +1004,9 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.audio.AudioView": [
+    "widget.audioView"
+  ],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [
     "widget.concordanceNavigator"
   ],

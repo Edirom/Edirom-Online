@@ -64,7 +64,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                     'imageChanged');
 
         me.html = '<div id="' + me.id + '_facsCont" style="overflow: hidden; background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +
-                  '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';
+                  '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div><div id="' + me.id + '_facsContSourceHint" class="facsContSourceHint"></div>';
 
         me.imageLoader = new EdiromOnline.view.window.image.ImageLoader({
             viewer: me
@@ -110,6 +110,24 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         me.fitInImage();
         
         me.fireEvent('imageChanged', me, path, pageId);
+        
+        var sourceHint = me.el.getById(me.id + '_facsContSourceHint');
+        switch(path.substring(0, path.lastIndexOf('/'))) {
+            case 'sources/A': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/D1849': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/K13': sourceHint.update('Quelle: Weimar Thüringisches Landesmusikarchiv'); break;
+            case 'sources/K15': sourceHint.update('Quelle: Detmold Lippische LB'); break;
+            case 'sources/Kx1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/KA1': sourceHint.update('Quelle: Wolfenbüttel Herzog August Bibliothek'); break;
+            case 'sources/KA19': sourceHint.update('Quelle: Kopenhagen KB'); break;
+            case 'sources/KA2': sourceHint.update('Quelle: Wien ÖNB'); break;
+            case 'sources/KA26': sourceHint.update('Quelle: Stuttgart Württ. LB'); break;
+            case 'sources/KA9': sourceHint.update('Quelle: Frankfurt Universitätsbibliothek'); break;
+            case 'libretto/C_07_KA-tx4_IIA_g_1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_D-tx2_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'reference/Geisterinsel': sourceHint.update('Quelle: BSB München'); break;
+            default: break;
+        }
     },
 
     clear: function() {

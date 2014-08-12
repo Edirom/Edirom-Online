@@ -40,6 +40,7 @@ Ext.define('EdiromOnline.Application', {
         'window.WindowController',
         'window.XmlView',
         'window.concordanceNavigator.ConcordanceNavigator',
+        'window.audio.AudioView',
         'window.search.SearchWindow',
         'window.source.SourceView',
         'window.source.PageBasedView',
