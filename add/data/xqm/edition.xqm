@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -81,4 +81,15 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
     
     doc($uri)//edirom:preferences/string(@xlink:href)
+};
+
+(:~
+: Returns the URI of the first found Edition
+:
+: @param $uri The URI of the Edition's document to process
+: @return The URI
+:)
+declare function edition:findEdition() as xs:string {
+    let $edition := (collection('/db')//edirom:edition)[1]
+    return 'xmldb:exist://' || document-uri($edition/root())
 };

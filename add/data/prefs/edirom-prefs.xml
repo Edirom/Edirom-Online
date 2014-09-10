@@ -24,7 +24,7 @@
     <entries>
         
         <entry key="application_language" value="de"/>
-        <entry key="annotation_layout" value="de.edirom.online.view.window.annotationLayouts.AnnotationLayout1"/>
+        <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
         
     </entries>
 </prefs>
