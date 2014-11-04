@@ -32,25 +32,7 @@ Install eXist-db and Digilib on different ports. We use Jetty as application ser
 Setup
 -----
 
-Either use pre packaged versions of the web applications listed under _Downloads_, check out the source with `git://github.com/Edirom/Edirom-Online.git Edirom-Online` or download an archived version.
-
-### Packaged web applications
-
-Coming soon.
-
-### Source code
-
-Coming soon.
-
-Setup Content
--------------
-
-Coming soon.
-
-Development
------------
-
-Coming soon.
+Please see our documentation in our wiki section: https://github.com/Edirom/Edirom-Online/wiki 
 
 License
 -------
