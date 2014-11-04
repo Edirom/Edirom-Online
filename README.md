@@ -32,7 +32,7 @@ Install eXist-db and Digilib on different ports. We use Jetty as application ser
 Setup
 -----
 
-Please see our documentation in our wiki section: https://github.com/Edirom/Edirom-Online/wiki 
+Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
 
 License
 -------
