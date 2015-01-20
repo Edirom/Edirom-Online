@@ -31,6 +31,8 @@ import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "source.xqm";
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
@@ -126,4 +128,24 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
     return
         $string
         
+};
+
+
+(:~
+: Return a value of preference to key 
+:
+: @param $key The key to search for
+: @return The string
+:)
+declare function eutil:getPreference($key as xs:string) as xs:string {
+
+     let $file := doc('../prefs/edirom-prefs.xml')
+        
+     let $edition := request:get-parameter('edition', '')
+     let $projectFile := doc(edition:getPreferencesURI($edition))
+     
+     return    
+     if($projectFile != null) then ($projectFile//entry[@key = $key]/string(@value))
+     else ($file//entry[@key = $key]/string(@value))
+     
 };

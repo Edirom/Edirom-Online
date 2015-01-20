@@ -1,5 +1,7 @@
 xquery version "1.0";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xslfo="http://exist-db.org/xquery/xslfo";
 
@@ -15,7 +17,7 @@ declare option exist:serialize "method=html media-type=text/html omit-xml-declar
 
 declare variable $lang := 'en';
 declare variable $base := concat('file:', replace(system:get-module-load-path(),'\\','/'), '/../xslt/');
-declare variable $facsBasePath := '../../../digilib/Scaler/';
+declare variable $facsBasePath := eutil:getPreference('image_prefix');
 declare variable $printResolution := 150;
 declare variable $facsAreaWidth := 6.5;(: in inch :)
 declare variable $facsMetaHeight := 30;
@@ -84,6 +86,7 @@ let $paras  := <parameters>
                  <param name="facsAreaWidth" value="{$facsAreaWidth}"/>
                  <param name="printResolution" value="{$printResolution}"/>
                  <param name="facsImgParas" value="{eof:getFacsImgParas($facsAreaWidth)}"/>
+                 <param name="facsBasePath" value="{eutil:getPreference('image_prefix')}"/>
                </parameters>
 
 let $width := eof:getPageRegionBodyWidth()
