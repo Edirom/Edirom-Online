@@ -66,9 +66,9 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 flex: 1,
                 cls: 'ux-desktop-topbar-flex',
                 items: [
-                    me.homeButton,
-                    { xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel' },
-                    this.workCombo,
+                   // me.homeButton,
+                   // { xtype: 'tbtext', text: '', id: 'homeBtnLabel' },
+                   // this.workCombo,
                     '->',
                     //me.searchTextField,
                     me.searchButton
