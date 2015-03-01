@@ -21,6 +21,7 @@ xquery version "1.0";
 :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 
@@ -45,7 +46,7 @@ let $xslInstruction := for $i in util:serialize($xslInstruction, ())
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
                         else()
-let $imagePrefix := eutil:getPreference('image_prefix')
+let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
 let $xsl := if($xslInstruction)then(doc($xslInstruction))else('../xslt/teiBody2HTML.xsl')
 
 let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,<param name="idPrefix" value="{$idPrefix}"/>) 

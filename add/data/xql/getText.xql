@@ -20,6 +20,8 @@ xquery version "1.0";
   ID: $Id: getText.xql 1456 2012-10-11 12:50:05Z niko $
 :)
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -46,7 +48,7 @@ let $doc := if($term eq '')then($doc)else(util:expand($doc))
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
-let $imagePrefix := eutil:getPreference('image_prefix')
+let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
 
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
