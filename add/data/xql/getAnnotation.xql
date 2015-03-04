@@ -32,8 +32,7 @@ import module namespace annotation="http://www.edirom.de/xquery/annotation" at "
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace image="http://www.edirom.de/ns/image";
-
+declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
