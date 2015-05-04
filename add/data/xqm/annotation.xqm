@@ -28,8 +28,11 @@ xquery version "1.0";
 :)
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
-declare namespace mei="http://www.music-encoding.org/ns/mei";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
+declare namespace request="http://exist-db.org/xquery/request";
+declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
@@ -91,7 +94,8 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
     let $xsltBase := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
     
-    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),
+    <parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{eutil:getPreference('image_prefix', request:get-parameter('edition', ''))}"/></parameters>)
     return
     
         $html

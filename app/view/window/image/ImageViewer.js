@@ -42,8 +42,8 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     imgWidth: 0,
     imgHeight: 0,
 
-    imgPrefix: '../../../digilib/Scaler/',
-
+    imgPrefix: null,
+    
     shapes: null,
     shapesHidden: false,
 
@@ -59,7 +59,9 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     initComponent: function () {
 
         var me = this;
-
+        
+        me.imgPrefix = getPreference('image_prefix');
+        
         me.addEvents('zoomChanged',
                     'imageChanged');
 

@@ -11,6 +11,7 @@
     </xd:doc>
     <xsl:output method="xhtml" media-type="text/html" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="idPrefix" select="string('')"/>
+    <xsl:param name="imagePrefix" select="string('')"/>
     <xsl:template match="/">
         <xsl:apply-templates/>
     </xsl:template>
@@ -105,7 +106,7 @@
                 <xsl:attribute name="title" select="./mei:caption//text()"/>
                 <xsl:attribute name="alt" select="./mei:caption//text()"/>
             </xsl:if>
-            <xsl:attribute name="src" select="concat('../../../digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
+            <xsl:attribute name="src" select="concat($imagePrefix,'?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
         </img>
     </xsl:template>
     <xsl:template match="text()">
