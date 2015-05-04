@@ -195,7 +195,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 #homeBtn {
 	background-image: url('pix/Logo_miniInset.png');
 	background-repeat: no-repeat;
-	width: 40px;
+	width: 45px;
 	height: 41px;
 	background-position: 12px 5px;
 	
@@ -222,12 +222,14 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	font-size: 13px;
 	top: 16px;
 	left: 0;
-	content:'Digital';
+	content:'Band I/7 – Orgelstücke III';
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 #workSwitch {
-	display: none;
+	//display: ;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .taskSquareButton.search {
