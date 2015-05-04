@@ -25,7 +25,7 @@
         
         <entry key="application_language" value="de"/>
         <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
-        <entry key="image_prefix" value="../../../digilib/Scaler/"/>
+        <entry key="image_prefix" value="http://reger-theo.mri.intern:8081/digilib/Scaler/"/>
         
         
     </entries>
