@@ -113,6 +113,10 @@ Ext.define('de.edirom.online.view.window.Window', {
                 view.on('documentLoaded', Ext.bind(view.scrollToId, view, [me.internalId], false), view);
                 viewToShow = view;
 
+            }else if(view.viewType == 'textView' && view.uri == me.doc) {
+                view.on('documentLoaded', Ext.bind(view.scrollToId, view, [me.internalId], false), view);
+                viewToShow = view;
+
             }else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
                 view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
                 viewToShow = view;
