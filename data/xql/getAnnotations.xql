@@ -35,6 +35,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
+let $internalId := if(contains($uri, '#')) then(substring-after($uri, '#')) else('')
 let $uri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 
 return 
@@ -42,6 +43,6 @@ return
         {
             "success": true,
             "total": ', count(doc($uri)//mei:annot[@type = 'editorialComment']), ',
-            "annotations": [', annotation:annotationsToJSON($uri), ']
+            "annotations": [', annotation:annotationsToJSON($uri, $internalId), ']
         }
     ')

@@ -27,6 +27,7 @@ Ext.define('de.edirom.online.model.Annotation', {
         'title',
         'categories',
         'priority',
+        'sigla',
         {
             name: 'pos',
             type: 'int'
