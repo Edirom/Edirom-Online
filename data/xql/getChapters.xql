@@ -41,9 +41,21 @@ let $ret := for $chapter in $tei//tei:div[@type='chapter'] | $tei//tei:div1
                     'name: "', concat($n, $label), '"',
                 '}')
 
-let $ret2 := for $numbers in $tei//tei:milestone[@unit='number']
+(:let $ret2 := for $numbers in $tei//tei:milestone[@unit='number']
             let $n := concat('No. ', $numbers/@n)
             order by $numbers/number(replace(@n, '\D', '')), $numbers/@n
+            return
+                concat('{',
+                    'id: "', $numbers/string(@xml:id), '", ',
+                    'name: "', $n, '"',
+                '}'):)
+                
+(: Alternative for 'Scenes' and 'Numbers' :)
+let $ret2 := for $numbers in $tei//tei:milestone    
+            let $n := if($numbers[@unit='scene'])
+                        then(concat('Sc. ', $numbers/@n))
+                        else(concat('No. ', $numbers/@n))
+            order by $numbers/@xml:id (: eigene Ergänzung :)
             return
                 concat('{',
                     'id: "', $numbers/string(@xml:id), '", ',
