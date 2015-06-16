@@ -51,6 +51,155 @@ $underlineColor: #333333;
     }
 }
 
+@mixin handschriften {
+    div.lg.indent {margin-left: 2.5em}
+    
+    .act + .caption {
+        padding-top: 2em;
+        margin-bottom: -2em;
+    }
+    
+    //cast list styling
+    div.teidiv0 ul {
+        list-style-type: none;
+        
+        ul {
+        	@include jaegerpursch;
+        }
+    }
+    
+    .speaker + br + .l, .speaker + br + .p-in-sp {
+        margin-top: -1.5em;
+    }
+    
+    .stage.center {
+        margin-left: 2em;
+    }
+}
+
+@mixin drucke {
+        h2,h3 {
+    	//width: $pageWidth - 1.5em;
+    	margin-left: 2.5em;
+    }
+    
+    div.titlePage {
+    	width: $pageWidth - 1.5em;
+    	letter-spacing: 0.2em;
+    	
+    	div.titlePart {
+    		position: relative;
+    		left: 2em;
+    		
+    		&.main {
+    			margin-left: -2em;
+    		}
+    	}
+    	
+    }
+    
+    div.pagebreak[id$='_p1'] + br.pb + .titlePage {
+    	//erstes Titelblatt
+    	.titlePart:first-child {
+    	
+    		margin-top: 3em;
+    		margin-bottom: 2em;
+    		
+    		span.expanded {
+    			font-size: 1.8em;
+    		}
+    	}
+    	
+    	.titlePart:nth-child(2) {
+    		margin-bottom: 6em;
+    	}
+    	
+    	.titlePart:nth-child(3) {
+    		font-size: 0.8em;
+    	}
+    
+    	.titlePart:nth-child(4) {
+    	}
+    
+    } 
+    
+    //für die CastList-Zeitangabe
+    ul > p {margin-left: 9.5em;}
+    
+    //für die CastList-Rollennamen
+    li span.role:first-child {letter-spacing: 0.2em;}
+    
+    .stage { 
+    	font-size: 0.8em; 
+    	
+    	//&.left {margin-left: 6em;}
+    	&.center {width: $pageWidth - 1.5em; margin-left: 2em;}
+    	
+    	name {font-size: 0.85em;}
+    }
+    
+    div.lg, div.l {
+    	margin-left: 2em;
+    	
+    	&.indent {
+    		padding-left: 5em;
+    		
+    		//span.pagebreak {margin-left: -3em;}
+    	}
+    }
+    
+    div.l {
+    	margin-left: 3em;
+    }
+    
+    .speaker + br + .p-in-sp > br:first-child {
+    	display: none;
+    }
+    
+    div.speaker + br + .p-in-sp, div.speaker + br + .l, div.speaker + br + .lg {
+    	margin-top: -1em;
+    }
+    
+    
+    p.center { width: $pageWidth - 1.5em; }
+    span.center {width: $pageWidth - 1.5em;}
+    span.caption { width: $pageWidth - 1.5em; }
+    div.speaker {
+    	width: $pageWidth - 1.5em;
+    	letter-spacing: 0.13em;
+    	margin-bottom: -0.6em;
+    	
+    	* {
+    		letter-spacing: 0;
+    		
+    		&.expanded {
+    			letter-spacing: 0.5em;
+    		}
+    	}
+    }
+    
+    a.link_ref {
+    	display: none;
+    }
+    
+    div.right {width: $pageWidth - 1.5em;}
+    
+    .expanded {letter-spacing: 0.2em;}
+    
+    .antiqua {font-style: italic;}			
+    
+    .lb_indent {padding-left: 12em;}
+    
+    div.teidiv0 ul {
+    	list-style-type: none;
+    	
+    	ul {
+    		@include jaegerpursch;
+    	}
+    }
+
+}
+
 
 .textViewContent {
 	
@@ -384,35 +533,10 @@ $underlineColor: #333333;
 		}
 		
 		/*individuelle Styles für Handexemplar*/
-		&.KAtx4 {
-			//.titlePart.main span.underline {border-bottom: 1px solid #000000;}
-			
-			//div.l {margin-left: 7em;}
-			div.lg.indent {margin-left: 2.5em}
-			
-			.act + .caption {
-				padding-top: 2em;
-				margin-bottom: -2em;
-			}
-			
-			//cast list styling
-			div.teidiv0 ul {
-				list-style-type: none;
-				
-				ul {
-					@include jaegerpursch;
-				}
-			}
-			
-			.speaker + br + .l, .speaker + br + .p-in-sp {
-				margin-top: -1.5em;
-			}
-			
-			.stage.center {
-				margin-left: 2em;
-			}
-			
-			//"zugleich"
+		&.KA-tx4 {
+	       @include handschriften;
+	       
+	       	/*"zugleich"*/
 			.stage.it.inline[id$="d1e4378"] {
 				@include zugleich(-50px);
 			}
@@ -440,135 +564,36 @@ $underlineColor: #333333;
 				//fol 20r: Sam-
 				margin-left: 0;
 			}
-			
-			
-			
+		}
+		
+		&.L-tx2 {
+		    @include handschriften;
+		}
+		
+		&.K-tx6 {
+		    @include handschriften;
+		}
+		
+		&.K-tx7 {
+		    @include handschriften;
+		}
+		
+		&.KA-tx15 {
+		    @include handschriften;
+		}
+		
+		&.KA-tx21 {
+		    @include handschriften;
+		}
+		
+		&.K-tx29 {
+		    @include handschriften;
 		}
 		
 		/*individuelle Styles für Druck */
 		&.D-tx2 {
-		
-			h2,h3 {
-				//width: $pageWidth - 1.5em;
-				margin-left: 2.5em;
-			}
-		
-			div.titlePage {
-				width: $pageWidth - 1.5em;
-				letter-spacing: 0.2em;
-				
-				div.titlePart {
-					position: relative;
-					left: 2em;
-					
-					&.main {
-						margin-left: -2em;
-					}
-				}
-				
-			}
-			
-			div.pagebreak[id$='_p1'] + br.pb + .titlePage {
-				//erstes Titelblatt
-				.titlePart:first-child {
-				
-					margin-top: 3em;
-					margin-bottom: 2em;
-					
-					span.expanded {
-						font-size: 1.8em;
-					}
-				}
-				
-				.titlePart:nth-child(2) {
-					margin-bottom: 6em;
-				}
-				
-				.titlePart:nth-child(3) {
-					font-size: 0.8em;
-				}
-
-				.titlePart:nth-child(4) {
-				}
-
-			} 
-			
-			//für die CastList-Zeitangabe
-			ul > p {margin-left: 9.5em;}
-			
-			//für die CastList-Rollennamen
-			li span.role:first-child {letter-spacing: 0.2em;}
-			
-			.stage { 
-				font-size: 0.8em; 
-				
-				//&.left {margin-left: 6em;}
-				&.center {width: $pageWidth - 1.5em; margin-left: 2em;}
-				
-				name {font-size: 0.85em;}
-			}
-			
-			//div.l { margin-left: 7em; }
-			
-			div.lg, div.l {
-				margin-left: 2em;
-				
-				&.indent {
-					padding-left: 5em;
-					
-					//span.pagebreak {margin-left: -3em;}
-				}
-			}
-			
-			div.l {
-				margin-left: 3em;
-			}
-			
-			.speaker + br + .p-in-sp > br:first-child {
-				display: none;
-			}
-			
-			div.speaker + br + .p-in-sp, div.speaker + br + .l, div.speaker + br + .lg {
-				margin-top: -1em;
-			}
-
-			
-			p.center { width: $pageWidth - 1.5em; }
-			span.center {width: $pageWidth - 1.5em;}
-			span.caption { width: $pageWidth - 1.5em; }
-			div.speaker {
-				width: $pageWidth - 1.5em;
-				letter-spacing: 0.13em;
-				margin-bottom: -0.6em;
-				
-				* {
-					letter-spacing: 0;
-					
-					&.expanded {
-						letter-spacing: 0.5em;
-					}
-				}
-			}
-			
-			a.link_ref {
-				display: none;
-			}
-			
-			div.right {width: $pageWidth - 1.5em;}
-			
-			.expanded {letter-spacing: 0.2em;}
-			
-			.antiqua {font-style: italic;}			
-			
-			.lb_indent {padding-left: 12em;}
-			
-			div.teidiv0 ul {
-				list-style-type: none;
-				
-				ul {
-					@include jaegerpursch;
-				}
-			}
+		      
+		    @include drucke;
 			
 			//"zugleich"
 			.stage.it.inline[id$="d1e4405"] {
@@ -578,9 +603,39 @@ $underlineColor: #333333;
 			.stage.it.inline[id$="d1e6080"] {
 				@include zugleich(-180px);
 			}
-			
 		}
 		
+		&.VD-tx1 {
+		    @include drucke;
+		}
+		
+		&.VD-tx2 {
+		    @include drucke;
+		}
+		
+		&.ED-tx {
+		    @include drucke;
+		}
+		
+		&.D-tx1 {
+		    @include drucke;
+		}
+		
+		&.D-tx3 {
+		    @include drucke;
+		}
+		
+		&.Dp-tx1 {
+		    @include drucke;
+		}
+		
+		&.Dp-tx2 {
+		    @include drucke;
+		}
+		
+		&.Dp-tx3 {
+		    @include drucke;
+		}
 	}
 	
 	/*Vorlage für Referenztexte*/
