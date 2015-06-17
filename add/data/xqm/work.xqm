@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -29,6 +29,7 @@ xquery version "1.0";
 module namespace work = "http://www.edirom.de/xquery/work";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 
 (:~
@@ -69,4 +70,15 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 declare function work:getLabel($work as xs:string) as xs:string {
      
     doc($work)//mei:work/mei:titleStmt/data(mei:title[1])
+};
+
+(:~
+: Returns the forst works id
+:
+: @param $uri The URIs of the Edition
+: @return The id
+:)
+declare function work:findWorkID($uri as xs:string) as xs:string {
+     
+    doc($uri)//edirom:work[1]/data(@xml:id)
 };

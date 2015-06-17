@@ -67,6 +67,31 @@ Ext.define('EdiromOnline.Application', {
         
         me.addEvents('workSelected');
         
+        Ext.Ajax.request({
+            url: 'data/xql/getEditionURI.xql',
+            async: false,
+            method: 'GET',
+            params: {
+                uri: me.activeEdition
+            },success: function(response){
+                this.activeEdition = response.responseText;
+            },
+            scope: this
+        });
+        
+        Ext.Ajax.request({
+            url: 'data/xql/getWorkID.xql',
+            async: false,
+            method: 'GET',
+            params: {
+                uri: me.activeEdition,
+                workId: me.activeWork
+            },success: function(response){
+                this.activeWork = response.responseText;
+            },
+            scope: this
+        });
+        
         me.getController('PreferenceController').initPreferences(me.activeEdition);
         me.getController('LanguageController').initLangFile(me.activeEdition);
         me.initDataStores();

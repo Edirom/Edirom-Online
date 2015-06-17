@@ -105,7 +105,7 @@
                 <xsl:attribute name="title" select="./mei:caption//text()"/>
                 <xsl:attribute name="alt" select="./mei:caption//text()"/>
             </xsl:if>
-            <xsl:attribute name="src" select="concat('../../../digilib/Scaler/freidi?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
+            <xsl:attribute name="src" select="concat('../../../digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
         </img>
     </xsl:template>
     <xsl:template match="text()">
