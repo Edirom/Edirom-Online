@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -35,7 +36,7 @@
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <xsl:param name="numberHeadings">false</xsl:param>
     <xsl:param name="autoHead">false</xsl:param>
-    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/</xsl:param><!-- ?dw=500&mo=fi -->
+    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/freidi/</xsl:param><!-- ?dw=500&mo=fi -->
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
     <xsl:param name="textType"/>
@@ -932,7 +933,7 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="5">
+    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="6">
         
         <xsl:variable name="default">
             <xsl:next-match/>
