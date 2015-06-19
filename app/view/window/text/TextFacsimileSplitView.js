@@ -81,7 +81,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
-        if(me.uri == 'xmldb:exist:///db/contents/texts/C_07_Handexemplar.xml') {
+        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4.xml') {
             me.stage = 'last';
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
