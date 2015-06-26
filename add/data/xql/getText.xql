@@ -27,6 +27,19 @@ let $uri := if($uri = 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA
             )
             else($uri)
 
+let $uri := if($uri = 'xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2.xml')
+            then(
+                if(request:get-parameter('stage', '') = 'first')
+                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_first.xml')
+                else if(request:get-parameter('stage', '') = 'second')
+                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_second.xml')
+                else if(request:get-parameter('stage', '') = 'last')
+                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_last.xml')
+                else('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_first.xml')
+            )
+            else($uri)
+
+
 let $doc := eutil:getDoc($uri)/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)

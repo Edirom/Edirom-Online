@@ -88,6 +88,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_1',
                 checked: false,
+                stage: 'first',
                 text: '1. Abschrift Kopist Dresden 1 (Juni 1817)',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
@@ -96,6 +97,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_2',
                 checked: false,
+                stage: 'second',
                 text: '2. Korrekturschicht Weber (Juni 1817–UA 1821)',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
@@ -104,6 +106,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_3',
                 checked: false,
+                stage: 'third',
                 text: '3. Korrekturschicht Kopist Dresden 2 (Anfang 1822)',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
@@ -112,6 +115,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_4',
                 checked: true,
+                stage: 'last',
                 text: 'Vorwort von Jähns',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
@@ -122,6 +126,47 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 cls: 'menuButton',
                 menu : {
                     items: [stage1, stage2, stage3, stage4]
+                }
+            });
+            me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
+        }
+
+        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2.xml') {
+            me.stage = 'last';
+            
+            var stage1 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_1',
+                checked: false,
+                stage: 'first',
+                text: '1. Text von Kind in der ersten Niederschrift (März bis Mai 1817)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage2 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_2',
+                checked: false,
+                stage: 'second',
+                text: '2. Text von Kind nach der Überarbeitung des Manuskripts (Juni 1817)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            var stage3 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_3',
+                checked: true,
+                stage: 'last',
+                text: '3. Text mit Korrekturen von Kind und Zusätzen von Jähns (September 1878)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+
+            me.switchTextStages =  Ext.create('Ext.button.Button', {
+                text: 'Textschichten',
+                indent: false,
+                cls: 'menuButton',
+                menu : {
+                    items: [stage1, stage2, stage3]
                 }
             });
             me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
@@ -485,11 +530,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         if(menuItem.checked === false) return;
 
         var me = this;
-        me.stage = 'last';
-        if(menuItem.id.endsWith('stage_1')) me.stage = 'first';
-        if(menuItem.id.endsWith('stage_2')) me.stage = 'second';
-        if(menuItem.id.endsWith('stage_3')) me.stage = 'third';
-    
+        me.stage = menuItem.stage;
         me.fireEvent('afterImageChanged', me, null);
     }
 });
