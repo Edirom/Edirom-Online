@@ -44,22 +44,18 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		
 		var me = this;
 		
-		var options = JSON.stringify({
-			/*pageHeight: 450,
-			pageWidth: 850,
-			ignoreLayout: 25,
-			border: 0,
-			scale: 33*/
-			pageHeight: 2100,
-			pageWidth: 4200,
-			ignoreLayout: 1,
-			border: 100,
-			scale: 50
+		var options = JSON.stringify({			
+			//border: 0,
+			//pageHeight: 2100,
+			//pageWidth: 4200,
+			//ignoreLayout: 1,
+			//page:1,
+			scale: 33
 		});
 		me.renderer.setOptions(options);
 		me.renderer.loadData(text);
-		// var svg = renderer.renderPage( 1, options );
-		var svg = me.renderer.renderData(text, options);
+		 var svg = me.renderer.renderPage( 1, options );
+		//var svg = me.renderer.renderData(text, options);
 		
 		$('#' + me.currId + '-body').html(svg);
 	}

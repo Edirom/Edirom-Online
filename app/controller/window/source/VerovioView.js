@@ -39,16 +39,18 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		if (view.initialized) return;
 		view.initialized = true;
 		
+        var uri = view.uri;
+        
+		//var uri = 'xmldb:exist:///db/contents/sources/edirom_source_01b5977f-4075-4373-a709-5e762b81e8ca.xml';
+		
 		Ext.Ajax.request({
-			url: "data/test.mei",
-			// url: "resources/xql/getExtendedStaff.xql",
+			//url: "http://localhost:8080/exist/rest/db/contents/sources/edirom_source_01b5977f-4075-4373-a709-5e762b81e8ca.xml",
+			// url: 'data/xql/getPages.xql',
+			 url: 'data/xql/getExtendedStaff.xql',
 			method: 'GET',
-			/*params: {
-			path: pageNr,
-			staffID: measurePath,
-			id_prefix: 'hairpinStart___',
-			endPageName: pageNr
-			},*/
+			params: {
+			uri: uri
+			},
 			success: function (response) {
 				
 				var text = response.responseText;
