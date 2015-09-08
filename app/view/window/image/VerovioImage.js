@@ -30,6 +30,8 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	currId: null,
 	renderer: null,
 	//border: 0,
+	text: null,
+	imageSet: null,
 	
 	initComponent: function () {
 		
@@ -42,9 +44,16 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		me.callParent();
 	},
 	
-	setMovements: function (text) {
+	setImageSet: function(imageSet){
+		var me = this;
+		me.imageSet = imageSet;
+		
+	},
+	
+	setMovements: function () {
 		
 		var me = this;
+		
 		
 		
 		 //********** One  Page, e.g. 2 ***************
@@ -58,13 +67,55 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
   
   //********** All Pages ***************
   var options = JSON.stringify({			
-			scale: 33
+			scale: 33,
 			//pageHeight: 4100,
 			//pageWidth: 4200,
 			//ignoreLayout: 1
+			noLayout: 0,
+			adjustPageHeight: 0
 		});
 		me.renderer.setOptions(options);
-		me.renderer.loadData(text);
+		me.renderer.loadData(me.imageSet);
+		var svg = me.renderer.renderPage( 1, options );	
+		for(i= 2; i<= me.renderer.getPageCount(); i++){
+		 	 svg = svg + me.renderer.renderPage( i, options );	
+		}  
+   		$('#' + me.currId + '-body').html(svg);
+	},
+	
+	
+	setMovements_1: function () {
+		
+		var me = this;
+	
+  var options = JSON.stringify({			
+			scale: 33,
+			//pageHeight: 4100,
+			//pageWidth: 4200,
+			noLayout: 1
+		});
+		me.renderer.setOptions(options);
+		me.renderer.loadData(me.imageSet);
+		var svg = me.renderer.renderPage( 1, options );	
+		for(i= 2; i<= me.renderer.getPageCount(); i++){
+		 	 svg = svg + me.renderer.renderPage( i, options );	
+		}  
+   		$('#' + me.currId + '-body').html(svg);
+	},
+	
+		setMovements_2: function () {
+		
+		var me = this;
+	
+  var options = JSON.stringify({			
+			scale: 33,
+			//pageHeight: 4100,
+			//pageWidth: 4200,
+			adjustPageHeight: 1,
+			noLayout: 0
+		});
+		me.renderer.setOptions(options);
+		me.renderer.loadData(me.imageSet);
 		var svg = me.renderer.renderPage( 1, options );	
 		for(i= 2; i<= me.renderer.getPageCount(); i++){
 		 	 svg = svg + me.renderer.renderPage( i, options );	
