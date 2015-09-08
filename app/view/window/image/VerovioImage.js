@@ -19,15 +19,17 @@
 Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	extend: 'Ext.panel.Panel',
 	
-	mixins: {
-		observable: 'Ext.util.Observable'
-	},
-	
-	layout: 'fit',
+//	mixins: {
+//		observable: 'Ext.util.Observable'
+//	},
+//	
+
+ layout: 'fit',
+ 
 	
 	currId: null,
 	renderer: null,
-	border: 0,
+	//border: 0,
 	
 	initComponent: function () {
 		
@@ -44,19 +46,29 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		
 		var me = this;
 		
-		var options = JSON.stringify({			
-			//border: 0,
-			//pageHeight: 2100,
-			//pageWidth: 4200,
-			//ignoreLayout: 1,
-			//page:1,
+		
+		 //********** One  Page, e.g. 2 ***************
+   /* var options = JSON.stringify({			
 			scale: 33
 		});
 		me.renderer.setOptions(options);
+		me.renderer.loadData(text);		
+		var svg = me.renderer.renderPage( 2, options );	
+		$('#' + me.currId + '-body').html(svg);*/
+  
+  //********** All Pages ***************
+  var options = JSON.stringify({			
+			scale: 33
+			//pageHeight: 4100,
+			//pageWidth: 4200,
+			//ignoreLayout: 1
+		});
+		me.renderer.setOptions(options);
 		me.renderer.loadData(text);
-		 var svg = me.renderer.renderPage( 1, options );
-		//var svg = me.renderer.renderData(text, options);
-		
-		$('#' + me.currId + '-body').html(svg);
+		var svg = me.renderer.renderPage( 1, options );	
+		for(i= 2; i<= me.renderer.getPageCount(); i++){
+		 	 svg = svg + me.renderer.renderPage( i, options );	
+		}  
+   		$('#' + me.currId + '-body').html(svg);
 	}
 });
