@@ -27,6 +27,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	'EdiromOnline.view.window.image.VerovioImage',
 	 'Ext.toolbar.Paging',
 	 'Ext.menu.Menu',
+	  'Ext.ux.ProgressBarPager',
 	'Ext.draw.Component',
 	'Ext.slider.Single',
 	'Ext.form.ComboBox',
@@ -182,10 +183,10 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	/**
 	 * Listener on page click: add items to page menu.
 	 */
-	stretchHightClick: function (item) {
+	stretchHightClick: function () {
 	
 	 console.log('Ckick stretchHightbutton');
-	 pagesButton_1.setText(item.text);
+	// pagesButton_1.setText(item.text);
 	 pageSpinner.setDisabled(true);
 	 pageBasedView.setMovements_2();
 	},
@@ -193,10 +194,10 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	/**
 	 * Listener on page click: add items to page menu.
 	 */
-	stretchWidthClick: function (item) {
+	stretchWidthClick: function () {
 	 //var me = this;
 	 console.log('Ckick stretchWidthbutton');
-	 pagesButton_1.setText(item.text);
+	// pagesButton_1.setText(item.text);
 	 pageSpinner.setDisabled(true);
 	 pageBasedView.setMovements_1();
 	 //console.log(imageSet);
@@ -206,10 +207,10 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	/**
 	 * Listener on page click: add items to page menu.
 	 */
-	pageClick: function (item) {	
+	pageClick: function () {	
 	
 	 console.log('Ckick pagebutton');
-	 pagesButton_1.setText(item.text);
+	// pagesButton_1.setText(item.text);
 	 pageSpinner.setDisabled(false);
 	 pageBasedView.setMovements(1);
 
@@ -220,11 +221,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		var me = this;
 		
 		
-		var menuView = Ext.create('Ext.menu.Menu', {
-   // width: 100,
-   // margin: '0 0 10 0',
-   // floating: false,  // usually you want this set to True (default)
-   // renderTo: Ext.getBody(),  // usually rendered by it's containing component
+		/*var menuView = Ext.create('Ext.menu.Menu', {
    activeItem:0,
     items: [{text: 'Page View', handler: this.pageClick},
 			{text: 'Continuous Hight', handler: this.stretchHightClick},
@@ -233,7 +230,37 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 
 		
 		pagesButton_1 = this.createCEButton_1(menuView);
-		pagesButton_1.setText('Page View');
+		pagesButton_1.setText('Page View');*/
+		
+		var storeField = new Array('Pages', 'Continuous Hight', 'Continuous Width');
+			
+		var combo = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Rendering View',
+			//id: fieldId,
+			store: storeField,
+			queryMode: 'local',
+			displayField: 'name',
+			editable: false,
+			//allowBlank: false,
+			//invalidCls: '',
+			listeners: {
+				select: function (combo, record, index) {
+				console.log(combo);
+				console.log(record);
+				console.log(index);
+				if(combo.getValue() === 'Pages'){
+					me.pageClick();
+				}
+				else if(combo.getValue() === 'Continuous Hight'){
+					me.stretchHightClick();
+				}
+				else if(combo.getValue() === 'Continuous Width'){
+					me.stretchWidthClick();
+				}
+				}
+			}
+		});
+		combo.setValue(storeField[0]);
 		
 	/*	pagesButton = this.createCEButton( 'Page', 'strWidth',[ {
 			//handler: this.pagesOnItemClick
@@ -268,11 +295,12 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
                // displayInfo: true
                 //displayMsg  : 'Registros {0} - {1} de {2}',
                // emptyMsg    : 'No hay registros'
+              // plugins: new Ext.ux.ProgressBarPager()
             });
 		
 		pageBasedView.setPageSpinner(pageSpinner);
 		
-		return[pagesButton_1, pageSpinner];
+		return[combo, pageSpinner];
 		
 		//return[pagesOrigButton, separator1, stretchHightButton, separator2, stretchWidthButton, separator3, pagesButton, pageSpinner];
 	}
