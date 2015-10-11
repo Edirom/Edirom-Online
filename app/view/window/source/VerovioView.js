@@ -25,9 +25,6 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	requires:[
 	'EdiromOnline.view.window.image.VerovioImage',
-	 'Ext.toolbar.Paging',
-	 'Ext.menu.Menu',
-	  'Ext.ux.ProgressBarPager',
 	'Ext.draw.Component',
 	'Ext.slider.Single',
 	'Ext.form.ComboBox',
@@ -38,20 +35,8 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	layout: 'border',
 	
 	border: 0,
-	
-	// renderer: null,
-	// currId: null,
 	bottomBar: null,
-	//pageBasedView: null,
 	
-	
-	/*pagesOrigButton: null,
-	stretchHightButton: null,
-	stretchWidthButton: null,
-	pagesButton: null,
-	pageSpinner: null,*/
-	
-	//imageSet: null,
 	imageToShow: null,
 	
 	cls: 'verovioView',
@@ -59,10 +44,6 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	initComponent: function () {
 		
 		var me = this;
-		
-		//  me.currId = me.id;
-		
-		// me.renderer = new verovio.toolkit(),
 		
 		pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
 		
@@ -85,34 +66,19 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		me.callParent();
 		
-		// me.on('afterrender', me.createMenuEntries, me, {single: true});
 		me.on('afterrender', me.createToolbarEntries, me, {
 			single: true
 		});
-		
-		// me.window.on('loadInternalLink', me.loadInternalId, me);
 	},
 	
 	setImageSet: function (imageSet) {
 		var me = this;
 		
-		 me.imageSet = imageSet;
+		me.imageSet = imageSet;
 		
-		//pageSpinner.setStore(me.imageSet);
+		pageBasedView.setImageSet(me.imageSet);
 		
-		/*if(me.imageToShow != null) {
-		me.pageSpinner.setPage(me.imageSet.getById(me.imageToShow));
-		me.imageToShow = null;
-		
-		}else if(me.imageSet.getCount() > 0)
-		me.pageSpinner.setPage(me.imageSet.getAt(0));*/
-		
-		//me.owner.fireEvent('afterImagesLoaded', me.owner, imageSet);
-		
-		pageBasedView.setImageSet(me.imageSet, pageBasedView.height, pageBasedView.width);
-		
-		pageBasedView.setMovements(1);
-		
+		pageBasedView.showPage(1);
 	},
 	
 	createToolbarEntries: function () {
@@ -120,189 +86,65 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		var me = this;
 		
 		var entries = me.createPageSpinner();
-		console.log('entries');
-		console.log(entries);
+		
 		Ext.Array.each(entries, function (entry) {
 			me.bottomBar.add(entry);
 		});
 	},
 	
-	/**
-	 * Create button with menu
-	 * @param {string} ceSource: name.
-	 * @param {string} ceId.
-	 * @param {object} ceMenu.
-	 * @param {object} ceHandler.
-	 */
-	createCEButton: function (ceSource, ceId, ceMenu, ceHandler) {
-		var ceButton = Ext.create('Ext.button.Button', {
-			xtype: 'button',
-			text: ceSource,
-			//id: ceId,
-			//scope: this,
-			//menu: ceMenu,
-			scale: 'medium',
-			handler: ceHandler
-		});
-		
-		return ceButton;
-	},
-	
-	/**
-	 * Create button with menu
-	 * @param {string} ceSource: name.
-	 * @param {string} ceId.
-	 * @param {object} ceMenu.
-	 * @param {object} ceHandler.
-	 */
-	createCEButton_1: function (ceMenu) {
-		var ceButton = Ext.create('Ext.button.Button', {
-			xtype: 'button',
-			//text: ceSource,
-			//id: ceId,
-			scope: this,
-			menu: ceMenu,
-			scale: 'medium'
-			//handler: ceHandler
-		});
-		
-		return ceButton;
-	},
-	
-	/**
-	 * Listener on page click: add items to page menu.
-	 */
-	/*pageOrigClick: function () {
-	
-	 console.log('Ckick pageOrigbutton');
-	 pageSpinner.setDisabled(true);
-	 pageBasedView.setMovements();
-	},*/
-	
-	
-	/**
-	 * Listener on page click: add items to page menu.
-	 */
 	stretchHightClick: function () {
-	
-	 console.log('Ckick stretchHightbutton');
-	// pagesButton_1.setText(item.text);
-	 pageSpinner.setDisabled(true);
-	 pageBasedView.setMovements_2();
+		pageSpinner.setDisabled(true);
+		pageBasedView.showContinuousHight();
 	},
 	
-	/**
-	 * Listener on page click: add items to page menu.
-	 */
 	stretchWidthClick: function () {
-	 //var me = this;
-	 console.log('Ckick stretchWidthbutton');
-	// pagesButton_1.setText(item.text);
-	 pageSpinner.setDisabled(true);
-	 pageBasedView.setMovements_1();
-	 //console.log(imageSet);
+		pageSpinner.setDisabled(true);
+		pageBasedView.showContinuousWidth();
 	},
-	
-	
-	/**
-	 * Listener on page click: add items to page menu.
-	 */
-	pageClick: function () {	
-	
-	 console.log('Ckick pagebutton');
-	// pagesButton_1.setText(item.text);
-	 pageSpinner.setDisabled(false);
-	 pageBasedView.setMovements(1);
 
+	pageClick: function () {
+		pageSpinner.setDisabled(false);
+		pageBasedView.showPage(1);
 	},
 	
 	createPageSpinner: function () {
 		
 		var me = this;
 		
-		
-		/*var menuView = Ext.create('Ext.menu.Menu', {
-   activeItem:0,
-    items: [{text: 'Page View', handler: this.pageClick},
-			{text: 'Continuous Hight', handler: this.stretchHightClick},
-			{text: 'Continuous Width', handler: this.stretchWidthClick}]
-});
-
-		
-		pagesButton_1 = this.createCEButton_1(menuView);
-		pagesButton_1.setText('Page View');*/
-		
 		var storeField = new Array('Pages', 'Continuous Hight', 'Continuous Width');
-			
+		
 		var combo = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Rendering View',
-			//id: fieldId,
 			store: storeField,
 			queryMode: 'local',
 			displayField: 'name',
 			editable: false,
-			//allowBlank: false,
-			//invalidCls: '',
+			
 			listeners: {
 				select: function (combo, record, index) {
-				console.log(combo);
-				console.log(record);
-				console.log(index);
-				if(combo.getValue() === 'Pages'){
-					me.pageClick();
-				}
-				else if(combo.getValue() === 'Continuous Hight'){
-					me.stretchHightClick();
-				}
-				else if(combo.getValue() === 'Continuous Width'){
-					me.stretchWidthClick();
-				}
+					console.log(combo);
+					console.log(record);
+					console.log(index);
+					if (combo.getValue() === 'Pages') {
+						me.pageClick();
+					} else if (combo.getValue() === 'Continuous Hight') {
+						me.stretchHightClick();
+					} else if (combo.getValue() === 'Continuous Width') {
+						me.stretchWidthClick();
+					}
 				}
 			}
 		});
 		combo.setValue(storeField[0]);
 		
-	/*	pagesButton = this.createCEButton( 'Page', 'strWidth',[ {
-			//handler: this.pagesOnItemClick
-		}], this.pageClick);*/
-		
-		/*pagesOrigButton = this.createCEButton('Page', 'pages',[ {
-			//handler: this.pagesOnItemClick
-		}], this.pageOrigClick);*/
-		
-		/*stretchHightButton = this.createCEButton('Continuous Hight', 'strHight',[ {
-			//handler: this.pagesOnItemClick
-		}], this.stretchHightClick);*/
-		
-		/*stretchHightButton = this.createCEButton('Continuous Hight', 'strHight',[ {
-			//handler: this.pagesOnItemClick
-		}], this.stretchHightClick);*/
-	
-	
-		/*stretchWidthButton = this.createCEButton( 'Continuous Width', 'strWidth',[ {
-			//handler: this.pagesOnItemClick
-		}], this.stretchWidthClick);*/
-		
 		pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
 			width: 111,
 			cls: 'pageSpinner'
-			//owner: me
 		});
-		
-		test = new Array("1", "2", "3");
-		pageSpinner2 = Ext.create('Ext.toolbar.Paging',{
-                store: test
-               // displayInfo: true
-                //displayMsg  : 'Registros {0} - {1} de {2}',
-               // emptyMsg    : 'No hay registros'
-              // plugins: new Ext.ux.ProgressBarPager()
-            });
 		
 		pageBasedView.setPageSpinner(pageSpinner);
 		
 		return[combo, pageSpinner];
-		
-		//return[pagesOrigButton, separator1, stretchHightButton, separator2, stretchWidthButton, separator3, pagesButton, pageSpinner];
 	}
 });
 
@@ -313,87 +155,43 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 	
 	layout: 'hbox',
 	
-	//storeTemp: null,
-	
 	initComponent: function () {
-	
-	 this.items = [
-        ];
-        this.callParent();
 		
-		/*var me = this;
-		
-		me.store = new Array("1", "2", "3");
-		
-		this.combo = Ext.create('Ext.form.ComboBox', {
-			width: 35,
-			hideTrigger: true,
-			queryMode: 'local',
-			store: me.store,
-			displayField: 'name',
-			valueField: 'id',
-			cls: 'pageInputBox',
-			autoSelect: true
-		});
-		
-		this.items =[ {
-			xtype: 'button',
-			cls: 'prev toolButton',
-			// tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_previousPage'), align: 'bl-tl' },
-			listeners: {
-				scope: this,
-				click: this.prev
-			}
-		},
-		this.combo, {
-			xtype: 'button',
-			cls: 'next toolButton',
-			//tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_nextPage'), align: 'bl-tl' },
-			listeners: {
-				scope: this,
-				click: this.next
-			}
-		}];
-		this.callParent();*/
+		this.items =[];
+		this.callParent();
 	},
 	
 	next: function () {
-	
-	pageBasedView.setMovements(this.combo.getValue());
-		
-		//this.store.clearFilter(false);
-		
-	/*	var oldIndex = this.store.findExact('id', this.combo.getValue());
-		if(oldIndex + 1 < this.store.getCount())
-		    this.setPage(this.store.getAt(oldIndex + 1).get('id'));*/
-		
+		console.log(this.combo.getValue());
+		var newValue = this.combo.getValue() + 1;
+		console.log(newValue);
+		if (this.store.indexOf(newValue) != -1) {
+			this.setPage(newValue);
+			pageBasedView.setMovements(newValue);
+		}
 	},
 	
 	prev: function () {
-	
-		pageBasedView.setMovements(this.combo.getValue());
-		
-		//this.store.clearFilter(false);
-		
-		/*var oldIndex = this.store.findExact('id', this.combo.getValue());
-		 if(oldIndex > 0)
-		this.setPage(this.store.getAt(oldIndex - 1).get('id'));*/
+		var newValue = this.combo.getValue() -1;
+		if (this.store.indexOf(newValue) != -1) {
+			this.setPage(newValue);
+			pageBasedView.setMovements(newValue);
+		}
 	},
 	
-	setPage: function(id) {
-	this.combo.setValue(id);
-	//this.owner.setPage(this.combo, this.combo.store);
+	setPage: function (id) {
+		this.combo.setValue(id);
 	},
 	
 	setStore: function (test) {
 		
 		this.removeAll();
-				
-			var storeField = new Array(test);
-			var value = 0;
-			for (var i = 0; i <= test; i++) {
-				storeField[i] = value++;
-			}
+		
+		var storeField = new Array(test);
+		var value = 0;
+		for (var i = 0; i <= test; i++) {
+			storeField[i] = value++;
+		}
 		
 		this.store = storeField;
 		
@@ -411,7 +209,6 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		this.add([ {
 			xtype: 'button',
 			cls: 'prev toolButton',
-			// tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_previousPage'), align: 'bl-tl' },
 			listeners: {
 				scope: this,
 				click: this.prev
@@ -420,13 +217,10 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		this.combo, {
 			xtype: 'button',
 			cls: 'next toolButton',
-			//tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_nextPage'), align: 'bl-tl' },
 			listeners: {
 				scope: this,
 				click: this.next
 			}
 		}]);
-		
-		//this.combo.on('select', this.owner.setPage, this.owner);
 	}
 });
