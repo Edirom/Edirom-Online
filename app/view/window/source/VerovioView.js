@@ -167,7 +167,7 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		console.log(newValue);
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			pageBasedView.setMovements(newValue);
+			pageBasedView.showPage(newValue);
 		}
 	},
 	
@@ -175,7 +175,7 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		var newValue = this.combo.getValue() -1;
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			pageBasedView.setMovements(newValue);
+			pageBasedView.showPage(newValue);
 		}
 	},
 	
