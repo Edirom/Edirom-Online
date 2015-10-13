@@ -33,6 +33,25 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
         var me = this;
 
         me.html = '<div id="' + me.id + '_headerCont" class="headerViewContent"></div>';
+        
+         if (typeof annotator === 'undefined') {
+        alert("Oops! it looks like you haven't built Annotator. " +
+              "Either download a tagged release from GitHub, or build the " +
+              "package by running `make`");
+      } else {
+        var app = new annotator.App();
+        app.include(annotator.ui.main);
+        app.start();
+       // console.log(annotator);
+       // console.log(app);
+        
+       /* app.include(annotator.storage.http
+        , {
+    		prefix: 'http://example.com/api'
+		});
+		app.start();*/
+      }
+
 
         me.callParent();
     },
