@@ -280,7 +280,7 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
         this.store = store;
 
         this.combo = Ext.create('Ext.form.ComboBox', {
-            width: 35,
+            width: 45,
             hideTrigger: true,
             queryMode: 'local',
             store: store,
