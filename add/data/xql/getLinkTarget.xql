@@ -138,7 +138,7 @@ let $title := (: Work :)
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
              
               else(string('unknown'))
               
