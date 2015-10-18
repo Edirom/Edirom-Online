@@ -29,6 +29,7 @@ xquery version "1.0";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -39,7 +40,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 
 declare variable $imageWidth := 600;
-declare variable $imageBasePath := '../../../digilib/Scaler/';
+declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
 (: TODO: in Modul auslagern :)
 (:~
