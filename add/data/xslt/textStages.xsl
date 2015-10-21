@@ -91,15 +91,79 @@
 	</xsl:template>-->
 	
 	
-	<xsl:template match="*">
-		<xsl:if test=".//html:span[contains(@class, 'add') or contains(@class, 'del') or contains(@class, 'subst')]">
+	<xsl:template match="//*[child::html:span[@class='subst']]">
+		<xsl:choose>
+			<xsl:when test="html:span[@class='subst']">
+				<div class="difference">
+					<div class="hand1_bg writerBox" style="color:red; background-color:gray;">
+						<div class="diff_desc">
+							kopist 1
+						</div>
+						<span class="stage it center">
+							<span class="underline">
+								<xsl:apply-templates select=".//self::html:span[@class='del' and not(child::html:span[contains(@class, 'add')])]"/>	
+								<xsl:if test=".//html:span[contains(@class, 'add') and parent::html:span[@class='del']]">
+									<div class="hand3_bg_extra" style="color:cyan;">
+										<div class="diff_desc">
+											kopist 2
+										</div>
+										<xsl:apply-templates select=".//html:span[contains(@class, 'add') and parent::html:span[@class='del']]"/>
+										<span
+											class="plus_minus" style="margin-left: 106px;">+
+										</span>
+									</div>	
+								</xsl:if>
+								
+								<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-->
+								
+							</span>
+						</span>			
+					</div>
+					<!--<xsl:if test="html:span[@class='add' and not(parent::html:span[@class='del'])]">-->
+						<div class="hand2_bg writerBox" style="color:pink;">
+							<div class="diff_desc">
+								kopist 3
+							</div>				
+							<span class="stage it center">
+								<xsl:apply-templates select=".//html:span[contains(@class, 'add')  and not(parent::html:span[@class='del'])]"/>
+							</span>				
+						</div>
+						<!--</xsl:if>-->	
+				</div> 
+			</xsl:when>
 			
-		</xsl:if>
+			<xsl:when test="html:span[@class='add' and not(ancestor::html:span[@class='subst'])]">
+				<div class="hand_bg writerBox_ADD" style="color:green;">
+					<div class="diff_desc" style="color:green;">
+						kopist 4
+					</div>
+					<span class="stage it center">
+						<xsl:apply-templates/>
+						<!--<xsl:apply-templates select=".//html:span[contains(@class, 'add')]"/>-->
+					</span>
+				</div>	
+			</xsl:when>
+			
+			<xsl:when test="html:span[@class='del' and not(ancestor::html:span[@class='subst'])]">
+				<div class="hand_bg writerBox_DEL" style="color:yellow;">
+					<div class="diff_desc" style="color:yellow;">
+						<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]/@role" />-->
+						kopist 5
+					</div>
+					<span class="stage it center">
+						<span class="underline">
+							<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-->
+							<xsl:apply-templates/>
+						</span>
+					</span>
+				</div>		
+			</xsl:when>
+		</xsl:choose>
 	</xsl:template>
    
 	
-	<xsl:template match="html:span[@class='subst']">
-	<!--<xsl:template match="html:div[@class='p-in-sp' and .//html:span[@class='subst']]">-->		
+	<!--<xsl:template match="html:span[@class='subst']">
+	<!-\-<xsl:template match="html:div[@class='p-in-sp' and .//html:span[@class='subst']]">-\->		
 		<div class="difference">
 			<div class="hand1_bg writerBox" style="color:red; background-color:gray;">
 				<div class="diff_desc">
@@ -120,12 +184,12 @@
 							</div>	
 						</xsl:if>
 						
-						<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-->
+						<!-\-<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-\->
 												
 				</span>
 				</span>			
 			</div>
-			<!--<xsl:if test="html:span[@class='add' and not(parent::html:span[@class='del'])]">-->
+			<!-\-<xsl:if test="html:span[@class='add' and not(parent::html:span[@class='del'])]">-\->
 			<div class="hand2_bg writerBox" style="color:pink;">
 				<div class="diff_desc">
 					kopist 3
@@ -134,7 +198,7 @@
 						<xsl:apply-templates select=".//html:span[contains(@class, 'add')  and not(parent::html:span[@class='del'])]"/>
 					</span>				
 			</div>
-			<!--</xsl:if>-->	
+			<!-\-</xsl:if>-\->	
 		</div> 
 	</xsl:template>
 	
@@ -145,7 +209,7 @@
 			</div>
 			<span class="stage it center">
 				<xsl:apply-templates/>
-				<!--<xsl:apply-templates select=".//html:span[contains(@class, 'add')]"/>-->
+				<!-\-<xsl:apply-templates select=".//html:span[contains(@class, 'add')]"/>-\->
 			</span>
 		</div>		
 	</xsl:template>
@@ -154,17 +218,17 @@
 	<xsl:template match="html:span[@class='del' and not(ancestor::html:span[@class='subst'])]">
 		<div class="hand_bg writerBox_DEL" style="color:yellow;">
 			<div class="diff_desc" style="color:yellow;">
-				<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]/@role" />-->
+				<!-\-<xsl:value-of select=".//html:span[contains(@class, 'del')]/@role" />-\->
 				kopist 5
 			</div>
 			<span class="stage it center">
 			<span class="underline">
-				<!--<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-->
+				<!-\-<xsl:value-of select=".//html:span[contains(@class, 'del')]"/>-\->
 				<xsl:apply-templates/>
 			</span>
 			</span>
 		</div>		
-	</xsl:template>
+	</xsl:template>-->
 	
 	
     <!--<!-\-<xsl:template match="html:span[@class='subst']">-\->
