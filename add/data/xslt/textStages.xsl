@@ -91,9 +91,9 @@
 	</xsl:template>-->
 	
 	
-	<xsl:template match="//*[child::html:span[@class='subst']]">
+	<xsl:template match="//*[child::html:span[@class='subst'] or child::html:span[contains(@class, 'del')] or child::html:span[contains(@class, 'add')]]">
 		<xsl:choose>
-			<xsl:when test="html:span[@class='subst']">
+			<xsl:when test="self::html:span[@class='subst']">
 				<div class="difference">
 					<div class="hand1_bg writerBox" style="color:red; background-color:gray;">
 						<div class="diff_desc">
@@ -101,6 +101,7 @@
 						</div>
 						<span class="stage it center">
 							<span class="underline">
+								<!--not for SEQ-->
 								<xsl:apply-templates select=".//self::html:span[@class='del' and not(child::html:span[contains(@class, 'add')])]"/>	
 								<xsl:if test=".//html:span[contains(@class, 'add') and parent::html:span[@class='del']]">
 									<div class="hand3_bg_extra" style="color:cyan;">
