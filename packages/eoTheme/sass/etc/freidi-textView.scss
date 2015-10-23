@@ -51,8 +51,32 @@ $underlineColor: #333333;
     }
 }
 
+@mixin zugleich_flex($right, $top, $height, $top2) {
+	position: relative;
+    right: $right;
+    top: $top;
+    
+    &:before {
+    	background-color: #ffffff;
+		border: 1px solid #000000;
+		border-radius: 0 5px 5px 0;
+		border-left: none;
+		content: " ";
+		display: block;
+		height: $height;
+		left: -8px;
+		position: absolute;
+		top: $top2;
+		width: 10px;
+    }
+}
+
 @mixin handschriften {
-    div.lg.indent {margin-left: 2.5em}
+    div.lg.indent {margin-left: 2.5em;}
+    
+    div.l.indent {margin-left: 4.5em;}
+    
+    .lb_indent {padding-left: 12em;}
     
     .act + .caption {
         padding-top: 2em;
@@ -197,7 +221,11 @@ $underlineColor: #333333;
     		@include jaegerpursch;
     	}
     }
-
+    
+    span.footnote {
+        cursor: pointer;
+        margin-left: 0.3em;
+    }
 }
 
 
@@ -259,7 +287,7 @@ $underlineColor: #333333;
 		}
 		
 		&.center {
-			width: $pageWidth;
+			width: $pageWidth + 1em;
 			margin-left: 0;
 		}
 		
@@ -350,7 +378,8 @@ $underlineColor: #333333;
 	}	
 		
 	div.note {display: none;}
-	
+	span.note {display: none;}
+
 	span.hi {
 		letter-spacing: 0.1em;
 	}
@@ -458,6 +487,12 @@ $underlineColor: #333333;
 			//margin-left: 15em;
 			margin-bottom: 1.5em;
 		}
+		
+		/* Überschriften der castList nicht kursiv */
+		div.teidiv0 p em {
+            font-style: normal;
+        }
+
 		
 		div.titlePage {
 			width: $pageWidth;
@@ -572,10 +607,23 @@ $underlineColor: #333333;
 		
 		&.K-tx6 {
 		    @include handschriften;
+		    
+		    div.l[id$="d1e11012"] {
+		        padding-left: 2.7em !important;
+		    }
 		}
 		
 		&.K-tx7 {
 		    @include handschriften;
+		    
+		    /*"zugleich"*/
+			.stage.it.inline[id$="d1e3943"] {
+				@include zugleich_flex(-350px, -60px, 100px, -40px);
+			}
+			
+			.stage.it.inline[id$="d1e4028"] {
+				@include zugleich_flex(-350px, -70px, 110px, -45px);
+			}
 		}
 		
 		&.KA-tx15 {
@@ -635,6 +683,22 @@ $underlineColor: #333333;
 		
 		&.Dp-tx3 {
 		    @include drucke;
+		    
+		    div.speaker b {
+                letter-spacing: inherit;
+            }
+            
+            .expanded {
+                letter-spacing: 0.15em;
+            }
+            
+            .stage.center {
+                width: 29.5em;
+            }
+            
+            div.speaker {
+                width: 29.5em;
+            }
 		}
 	}
 	

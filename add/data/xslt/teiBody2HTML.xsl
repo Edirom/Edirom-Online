@@ -36,7 +36,7 @@
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <xsl:param name="numberHeadings">false</xsl:param>
     <xsl:param name="autoHead">false</xsl:param>
-    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/freidi/</xsl:param><!-- ?dw=500&mo=fi -->
+    <xsl:param name="graphicsPrefix"/>
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
     <xsl:param name="textType"/>
@@ -601,7 +601,7 @@
                     select="./following-sibling::tei:stage[@rend = 'inline'][1]"/></xsl:if>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:l[@part = 'F']">
+    <xsl:template match="tei:l[@part = 'F']" priority="6">
         <xsl:variable name="init" select="preceding::tei:l[@part = 'I'][1]"/>
         <xsl:element name="{if (ancestor::tei:head or ancestor::tei:hi) then 'span' else 'div'}">
             <xsl:attribute name="style"
@@ -944,5 +944,14 @@
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="tei:ref[starts-with(@target, '#footnote')]" priority="5">
+        <xsl:variable name="footnote_id" select="substring(./@target, 2)" as="xs:string"/>
+        <xsl:variable name="footnote" select="//tei:note[@xml:id=$footnote_id]//text()" as="xs:string*"/>
+        
+        <span class="footnote" title="{normalize-space(string-join($footnote, ' '))}">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
 </xsl:stylesheet>

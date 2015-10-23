@@ -58,7 +58,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
         var me = this;
 
-        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4.xml') {
+        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
                 group: me.id + '_stages',

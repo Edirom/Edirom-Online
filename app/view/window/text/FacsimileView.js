@@ -144,7 +144,7 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         me.bottomBar.add(me.zoomSlider);
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner',
             owner: me
         });

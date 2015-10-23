@@ -81,7 +81,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
-        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4.xml') {
+        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
             me.stage = 'last';
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
@@ -131,7 +131,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
         }
 
-        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2.xml') {
+        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2.xml') {
             me.stage = 'last';
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
@@ -191,7 +191,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.bottomBar.add(me.zoomSlider);
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner',
             owner: me
         });
