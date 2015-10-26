@@ -21,7 +21,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 
     requires: [
         'Ext.button.Split',
-        'Ext.form.field.Text'
+        'Ext.form.field.Text',
+        'EdiromOnline.view.desktop.AnnotLoginDialog'
     ],
 
     alias : 'widget.topbar',
@@ -60,7 +61,13 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         });
         
         me.searchButton.textField = me.searchTextField;
-
+               
+		me.annotateItButton = Ext.create('Ext.button.Button', {
+			icon: 'resources/css/Bubble.png',
+			//scale: 'medium',
+			handler: this.homeOnItemToggle
+		});
+		
         me.items = [
             new Ext.toolbar.Toolbar({
                 flex: 1,
@@ -70,6 +77,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                     { xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel' },
                     this.workCombo,
                     '->',
+                     me.annotateItButton,
                     //me.searchTextField,
                     me.searchButton
                 ]
@@ -77,5 +85,15 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         ];
 
         me.callParent();
-    }
+    },
+    
+   
+    /**
+	 * Handler for get freischuetz home page
+	 */
+	homeOnItemToggle: function () {
+		window.location.href = "http://annotateit.org/user/login";
+	}
+    
+   
 });

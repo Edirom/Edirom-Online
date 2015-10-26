@@ -72,9 +72,9 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		  //console.log(content);
 		  //content.annotator('setupPlugins');
 		  // +++ Auth Plugin +++
-		  content.annotator('addPlugin', 'Permissions', {
+		  /*content.annotator('addPlugin', 'Permissions', {
 			  user: 'silkeh1113'
-		  });
+		  });*/
 		  // +++ Auth Plugin +++
 		  content.annotator('addPlugin', 'Auth', {
 
@@ -95,16 +95,16 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		    // to the server. This will override previous values. E.g. attach the uri of the
 		    // current page to all annotations to allow search.
 		    annotationData: {
-		      'uri': 'file:///Users/eugen/Downloads/account_manager/index.html'
+		      /*'uri': 'file:///Users/elena/Downloads/account_manager/index.html'*/
 		  },
 		    // An object literal containing query string parameters to query the store.
 		    // If loadFromSearch is set, then we load the first batch of annotations
 		    // from the ‘search’ URL as set in options.urls instead of the registry path
 		    // ‘prefix/read’. Defaults to false.
 		    loadFromSearch: {
-		      'limit': 20,
+		      'limit': 20
 		     /* 'all_fields': 1,*/
-		      'uri': 'file:///Users/eugen/Downloads/account_manager/index.html'
+		     /* 'uri': 'file:///Users/elena/Downloads/account_manager/index.html'*/
 		    },
 		    // The server URLs for each available action (excluding prefix). These URLs
 		    // can point anywhere but must respond to the appropriate HTTP method. The
