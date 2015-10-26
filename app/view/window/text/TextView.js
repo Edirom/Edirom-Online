@@ -35,6 +35,8 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     annotationsVisible: false,
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
+    
+    uri: null,
 
     initComponent: function () {
 
@@ -57,8 +59,12 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     createToolbarEntries: function() {
 
         var me = this;
+        
+        console.log("createToolbarEntries");
+        console.log(me.uri);
 
-        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
+//if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
+        if(me.uri == 'xmldb:exist:///db/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
                 group: me.id + '_stages',
@@ -91,13 +97,22 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 text: 'Vorwort von Jähns',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
+            
+            var stage5 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_5',
+                checked: true,
+                stage: 'last',
+                text: 'Genese des Textes',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
 
             me.switchTextStages =  Ext.create('Ext.button.Button', {
                 text: 'Textschichten',
                 indent: false,
                 cls: 'menuButton',
                 menu : {
-                    items: [stage1, stage2, stage3, stage4]
+                    items: [stage1, stage2, stage3, stage4,stage5]
                 }
             });
             me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
@@ -365,7 +380,8 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
             Ext.Array.each(annotations, fn);
     },
 
-    setContent: function(text) {
+    setContent: function(text, uri) {
+    	this.uri = uri;
         Ext.fly(this.id + '_textCont').update(text);
         this.fireEvent('documentLoaded', this);
     },
@@ -447,7 +463,8 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var stage = 'first';
         if(menuItem.id.endsWith('stage_2')) stage = 'second';
         if(menuItem.id.endsWith('stage_3')) stage = 'third';
-        if(menuItem.id.endsWith('stage_4')) stage = 'last';
+        if(menuItem.id.endsWith('stage_4')) stage = 'fourth';
+         if(menuItem.id.endsWith('stage_5')) stage = 'last';
     
         window.doAJAXRequest('data/xql/getText.xql',
             'GET', 
@@ -459,7 +476,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 path: me.window.path
             },
             Ext.bind(function(response){
-                this.setContent(response.responseText);
+                this.setContent(response.responseText, me.uri);
             }, me)
         );
     }

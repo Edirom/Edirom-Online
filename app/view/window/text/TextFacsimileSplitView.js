@@ -35,6 +35,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     annotationsVisible: false,
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
+    uri: null,
 
     initComponent: function () {
 
@@ -80,8 +81,12 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     createToolbarEntries: function() {
 
         var me = this;
+        
+         console.log("createToolbarEntries");
+    		console.log(me.uri);
 
-        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
+//if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
+        if(me.uri == 'xmldb:exist:///db/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
             me.stage = 'last';
             
             var stage1 = Ext.create('Ext.menu.CheckItem', {
@@ -115,8 +120,17 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_4',
                 checked: true,
-                stage: 'last',
+                stage: 'fourth',
                 text: 'Vorwort von Jähns',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage5 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_5',
+                checked: true,
+                stage: 'last',
+                text: 'Genese des Textes',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
 
@@ -125,7 +139,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 indent: false,
                 cls: 'menuButton',
                 menu : {
-                    items: [stage1, stage2, stage3, stage4]
+                    items: [stage1, stage2, stage3, stage4, stage5]
                 }
             });
             me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
@@ -156,8 +170,17 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 group: me.id + '_stages',
                 id: me.id + '_stage_3',
                 checked: true,
-                stage: 'last',
+                stage: 'third',
                 text: '3. Text mit Korrekturen von Kind und Zusätzen von Jähns (September 1878)',
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            var stage4 = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_4',
+                checked: true,
+                stage: 'last',
+                text: 'Genese des Textes',
                 checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
             });
 
@@ -166,7 +189,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 indent: false,
                 cls: 'menuButton',
                 menu : {
-                    items: [stage1, stage2, stage3]
+                    items: [stage1, stage2, stage3, stage4]
                 }
             });
             me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
@@ -452,8 +475,10 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             Ext.Array.each(annotations, fn);
     },
 
-    setContent: function(text) {
+    setContent: function(text, uri) {
+    
 //TODO
+        this.uri = uri;
         Ext.fly(this.id + '_textCont').update(text);
         this.fireEvent('documentLoaded', this);
     },

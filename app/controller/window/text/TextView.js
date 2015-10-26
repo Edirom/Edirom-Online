@@ -66,10 +66,13 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
     contentLoaded: function(view, content) {
 
         var me = this;
+        
+        console.log("contentLoaded");
+        console.log(view.uri);
 
-        view.setContent(content);
+        view.setContent(content, view.uri);
 
-        Ext.Ajax.request({
+       /* Ext.Ajax.request({
             url: 'data/xql/getChapters.xql',
             method: 'GET',
             params: {
@@ -85,7 +88,7 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
 
                 me.chaptersLoaded(chapters, view);
             }
-        });
+        });*/
 
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',
@@ -109,6 +112,7 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                 me.annotInfosLoaded(priorities, categories, view);
             }
         });
+        
     },
 
     chaptersLoaded: function(chapters, view) {
