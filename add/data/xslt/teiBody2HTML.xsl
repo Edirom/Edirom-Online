@@ -520,10 +520,16 @@
         <xsl:apply-templates
             select="tei:*[not(self::tei:speaker) and not(self::tei:stage[@rend = 'inline'][1])]"/>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <span class="del">
+    <xsl:template match="tei:del" priority="5">
+        <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            <xsl:call-template name="rendToClass">
+                <xsl:with-param name="default">del</xsl:with-param>
+            </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
-        </span>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="tei:lb" priority="5">
         <xsl:choose>
@@ -659,16 +665,14 @@
     <xsl:template match="tei:add" priority="5">
         <xsl:element
             name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
-            <xsl:if test="./parent::tei:subst and @place='above'">
+            <!-- TODO: Is this necessary for us? -->
+            <!--<xsl:if test="./parent::tei:subst and @place='above'">
                 <xsl:variable name="del" select="preceding-sibling::tei:del"/>
                 <xsl:variable name="delLines" select="count($del//tei:lb)"/>
-                <xsl:variable name="firstLine"
-                    select="if($delLines gt 0) then(normalize-space(string-join($del//tei:lb/preceding-sibling::node()//text(),''))) else(normalize-space(string-join($del//text(),'')))"/>
+                <xsl:variable name="firstLine" select="if($delLines gt 0) then(normalize-space(string-join($del//tei:lb/preceding-sibling::node()//text(),''))) else(normalize-space(string-join($del//text(),'')))"/>
                 <xsl:variable name="offset" select="string-length($firstLine) * 0.45"/>
-                <xsl:attribute name="style"
-                    select="concat('margin-left:-',$offset,'em; margin-top:-',$delLines * 2,'em;')"
-                />
-            </xsl:if>
+                <xsl:attribute name="style" select="concat('margin-left:-',$offset,'em; margin-top:-',$delLines * 2,'em;')"/>
+            </xsl:if>-->
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default">
                     <xsl:choose>
@@ -678,6 +682,9 @@
                     </xsl:choose>
                 </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -687,6 +694,9 @@
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default"> subst </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
