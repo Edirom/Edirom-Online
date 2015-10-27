@@ -14,33 +14,11 @@ let $idPrefix := request:get-parameter('idPrefix', '')
 let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
+let $stage := request:get-parameter('stage', '')
 
-let $uri := if($uri = 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml')
-            then(
-                if(request:get-parameter('stage', '') = 'first')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4_first.xml')
-                else if(request:get-parameter('stage', '') = 'second')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4_second.xml')
-                else if(request:get-parameter('stage', '') = 'third')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4_third.xml')
-                else if(request:get-parameter('stage', '') = 'fourth')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4_last.xml')
-                else('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4_first.xml')
-            )
+let $uri := if($stage != '' and $stage != 'genesis')
+            then(replace($uri, '.xml', '_' || $stage || '.xml'))
             else($uri)
-
-let $uri := if($uri = 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2.xml')
-            then(
-                if(request:get-parameter('stage', '') = 'first')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2_first.xml')
-                else if(request:get-parameter('stage', '') = 'second')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2_second.xml')
-                else if(request:get-parameter('stage', '') = 'third')
-                then('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2_last.xml')
-                else('xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2_first.xml')
-            )
-            else($uri)
-
 
 let $doc := eutil:getDoc($uri)/root()
 
@@ -74,17 +52,8 @@ let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
     else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))
     
-
-let $xsl := if(request:get-parameter('stage', '') = 'last')then(if($xslInstruction)then($xslInstruction)else('../xslt/textStages.xsl'))else()
-
-let $doc := if(request:get-parameter('stage', '') = 'last')then(if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
-    else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>)))else()
+let $doc := if($stage = 'genesis')then(transform:transform($doc, doc('../xslt/textStages.xsl'), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))else($doc)
     
-(:let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), 
-<parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="textType" value="{if(contains($uri, 'referenceTexts'))then('freidi_reference')else if(contains($uri, 'texts'))then('freidi_libretto')else('text')}"/></parameters>))
-else (transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="textType" value="{if(contains($uri, 'referenceTexts'))then('freidi_reference')else if(contains($uri, 'texts'))then('freidi_libretto')else('text')}"/>
-<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>)):)
-
 return
     
     transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
