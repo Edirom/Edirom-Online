@@ -130,11 +130,11 @@ let $title := (: Work :)
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
 
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then($doc//mei:source/mei:titleStmt[1]/data(mei:title[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))

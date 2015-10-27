@@ -42,17 +42,6 @@ Ext.define('EdiromOnline.controller.window.audio.AudioView', {
         var uri = view.uri;
         var type = view.type;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getAudioPlayer.xql',
-            method: 'GET',
-            params: {
-                uri: uri,
-                type: type
-            },
-            success: function(response){
-                view.setContent(response.responseText);
-            },
-            scope: this
-        });
+        view.setIFrameURL('data/xql/getAudioPlayer.xql?uri=' + uri);
     }
 });

@@ -1,0 +1,104 @@
+body{
+    background-color: #586e75;
+}
+div#small-player{
+	width: 340px;
+	height: 45px;
+	background-color: #f2f2f2;
+	border-radius: 5px;
+    margin: auto auto auto 120px;
+}
+
+div#small-player-left{
+    height: 45px;
+    width: 35px;
+    float: left;
+}
+
+img#small-player-album-art{
+    width: 100px;
+    height: 100px;
+    float: left;
+}
+
+div#small-player-middle{
+    margin-left: 10px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 260px;
+    height: 30px;
+    float: left;
+    cursor: pointer;
+}
+div#small-player-middle-top{
+    width: 260px;
+    float: left;
+    height: 30px;
+}
+div#small-player-middle-bottom{
+    width: 260px;
+    float: left;
+}
+
+div#small-player-right{
+    width: 25px;
+    float: left;
+    padding-top: 23px;
+}
+
+/*
+    Play Pause
+*/
+div.amplitude-play-pause{
+    margin: auto;
+    height: 33px;
+    width: 20px;
+    cursor: pointer;
+    margin: 5px auto auto 10px;
+}
+div.amplitude-paused{
+    background-image: url('../img/black-play.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center center;
+}
+div.amplitude-playing{
+    background-image: url('../img/black-pause.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center center;
+}
+
+div#song-time-visualization{
+    width: 260px;
+    height: 5px;
+    background-color: #bebebe;
+}
+div#song-time-visualization div.amplitude-song-time-visualization-status{
+    background-color: #676261;
+    height: 5px;
+}
+
+div#now-playing-title{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    font-size: 12px;
+    color: #676261;
+    line-height: 14px;
+}
+div.album-information{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    font-size: 12px;
+    color: #bebebe;
+}
+span#current-time{
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-weight: 300;
+    font-size: 10px;
+    color: #676261;
+}
+div.purchase-links{
+    text-align: center;
+}
