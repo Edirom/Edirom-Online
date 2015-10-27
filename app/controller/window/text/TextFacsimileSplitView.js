@@ -89,7 +89,7 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
-        view.setContent(content, view.uri);
+        view.setContent(content);
 
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',
