@@ -79,11 +79,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit den Zusätzen von Jähns (September 1878)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
         
         }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2.xml') {
             me.stage = 'last';
@@ -100,11 +100,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit Korrekturen von Kind und Zusätzen von Jähns (September 1878)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
 
         }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_K-tx6.xml') {
             me.stage = 'last';
@@ -121,11 +121,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit Korrekturen von verschiedenen fremden Händen (UA Juni 1821)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
         }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx15.xml') {
             me.stage = 'last';
             
@@ -145,11 +145,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit Korrekturen von fremder Hand und Zettler (EA November 1821)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
         }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx21.xml') {
             me.stage = 'last';
             
@@ -169,11 +169,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit Korrekturen von verschiedenen fremden Händen (EA Februar 1822)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
         }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_K-tx29.xml') {
             me.stage = 'last';
             
@@ -185,11 +185,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 stage: 'last',
                 text: 'Text mit Korrrekturen von verschiedenen fremden Händen (Datierung unklar)',
                 checked: true
-            }, {
+            }/*, {
                 stage: 'genesis',
                 text: 'Genese des Textes',
                 checked: false
-            }]);
+            }*/]);
         }
     },
 
