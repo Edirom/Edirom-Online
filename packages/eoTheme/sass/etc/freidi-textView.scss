@@ -795,6 +795,135 @@ $underlineColor: #333333;
 		
 		span.expanded {letter-spacing: 0.25em;}
 		
+		span.unclear {
+            font-weight: normal;
+        }
+        
+        div.titlePage {
+			width: $pageWidth;
+			border-bottom: none;
+			border-top: none;
+		}
+		
+		div.titlePart {
+			line-height: 2em;
+			margin-bottom: 0.6em;
+			
+			&.main {font-size: 1.8em;}
+		}
+		
+		span.role {
+			margin-left: 0.2em;
+			
+			&:first-child {
+				margin-left: 1em;
+			}
+			
+			& + blockquote {
+				display: inline;
+				margin-left: 0;
+				
+				& > p {
+					display: inline;
+				}
+			}
+		}
+
+		
+		&.RMs-tx8 {
+		    @include handschriften;
+
+            span.footnote {
+                cursor: pointer;
+                margin-left: 0.3em;
+            }
+		}
+		
+		&.RMs-tx9 {
+		    @include handschriften;
+
+            .center {
+                width: 26em;
+            }
+		}
+
+        &.RMs-tx10 {
+		    @include handschriften;
+		    
+		    div.teidiv0 ul ul {
+		          &:after {
+                    font-size: 5em;
+                    left: 1.7em;
+                    line-height: 1.3em;
+                    top: 0;
+                  }
+            }
+            
+            div.teidiv0 ul ul li blockquote {
+                margin-left: 4em;
+            }
+		}
+		
+		&.RMs-tx11 {
+		    @include handschriften;
+		}
+		
+		&.RD-tx1 {
+		  @include drucke;
+		}
+		
+		&.RD-tx2 {
+		  @include drucke;
+		}
+
+		&.RD-tx3 {
+		  @include drucke;
+		}
+
+		&.RD-tx4 {
+		  @include drucke;
+		}
+
+		&.RD-tx5 {
+		  @include drucke;
+		}
+
+		&.RD-tx6 {
+		  @include drucke;
+		}
+
+		&.RD-tx7 {
+		  @include drucke;
+		}
+
+		&.RD-tx12 {
+		  @include drucke;
+		}
+
+		&.RD-tx13 {
+		  @include drucke;
+		}
+
+		&.RD-tx14 {
+		  @include drucke;
+
+            .stage.it.inline[id$="braced_2"] {
+				@include zugleich_flex(-350px, -70px, 110px, -45px);
+			}
+		}
+
+		&.RD-tx15 {
+		  @include drucke;
+		}
+
+		&.RD-tx16 {
+		  @include drucke;
+		}
+
+		&.RD-tx17 {
+		  @include drucke;
+		}
+		
 	}
 	
 	//Formatierungen für Dokumentation Datenmodell
