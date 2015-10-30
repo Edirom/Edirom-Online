@@ -25,6 +25,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	renderer: null,
 	text: null,
 	imageSet: null,
+	bodyDoc: null,
 	pageSpinner: null,
 	pageHeight: null,
 	pageWidth: null,
@@ -34,12 +35,18 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var me = this;
 		me.currId = me.id;
 		
-		app = EdiromOnline.getApplication();
-		me.renderer = app.getRenderer();
+		/*app = EdiromOnline.getApplication();
+		me.renderer = app.getRenderer();*/
+		me.renderer = new verovio.toolkit();
 		
 		me.callParent();
 	},
 	
+	setBody: function (bodyDoc) {
+		var me = this;
+		me.bodyDoc = bodyDoc;
+	},
+		
 	setImageSet: function (imageSet) {
 		var me = this;
 		me.imageSet = imageSet;
@@ -49,8 +56,8 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		
 		var me = this;
 		
-		me.pageHeight = $(document).height();
-		me.pageWidth = $(document).width();
+		me.pageHeight = $(document).height()* 100 / 33;
+		me.pageWidth = $(document).width()* 100 / 33;
 		
 		var options = JSON.stringify({
 			scale: 33,
@@ -65,7 +72,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var pageCount = me.renderer.getPageCount();
 		me.pageSpinner.setStore(pageCount);
 		me.pageSpinner.setPage(pageNumber);
-		$('#' + me.currId + '-body').html(svg);
+		$(me.bodyDoc.body).html(svg);
 	},
 	
 	
@@ -84,7 +91,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		i++) {
 			svg = svg + me.renderer.renderPage(i, options);
 		}
-		$('#' + me.currId + '-body').html(svg);
+		$(me.bodyDoc.body).html(svg);
 	},
 	
 	showContinuousHight: function () {
@@ -107,7 +114,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		i++) {
 			svg = svg + me.renderer.renderPage(i, options);
 		}
-		$('#' + me.currId + '-body').html(svg);
+		$(me.bodyDoc.body).html(svg);
 	},
 	
 	setPageSpinner: function (pageSpinner) {

@@ -27,7 +27,6 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		this.control({
 			'verovioView': {
 				afterlayout: this.onSourceViewRendered,
-				// beforedestroy: this.onSourceViewDestroyed,
 				single: true
 			}
 		});
@@ -40,40 +39,34 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		view.initialized = true;
 		
         var uri = view.uri;
+      
         
-		//var uri = 'xmldb:exist:///db/contents/sources/edirom_source_01b5977f-4075-4373-a709-5e762b81e8ca.xml';
-		
-		Ext.Ajax.request({
-			//url: "http://localhost:8080/exist/rest/db/contents/sources/edirom_source_01b5977f-4075-4373-a709-5e762b81e8ca.xml",
-			// url: 'data/xql/getPages.xql',
+        view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);
+      
+		/*Ext.Ajax.request({
 			 url: 'data/xql/getExtendedStaff.xql',
 			method: 'GET',
 			params: {
 			uri: uri
 			},
 			success: function (response) {
-				
+			
+			
 				var text = response.responseText;
 				
-				/*var pages = Ext.create('Ext.data.Store', {
-				fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-				data: Ext.JSON.decode(data)
-				});*/
+				console.log("onSourceViewRendered");
+				console.log(response);
+				console.log(response.responseText);
 				
-				// me.pagesLoaded(pages, view);
+				//view.setIFrameURL(response.responseText);
 				
-				me.pagesLoaded(text, view);
-				
-				// me.movementsLoaded(text, view);
+				//me.pagesLoaded(text, view);
 			}
-		});
+		});*/
 	},
 	
 	pagesLoaded: function (text, view) {
 		view.setImageSet(text);
 	}
-	
-	/*movementsLoaded: function(text, view) {
-	view.setMovements(text);
-	}*/
+
 });

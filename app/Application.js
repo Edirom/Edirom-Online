@@ -58,7 +58,7 @@ Ext.define('EdiromOnline.Application', {
         'EdiromOnline.view.desktop.App'
     ],
     
-    renderer: null,
+    //renderer: null,
     
     //TODO:
     activeEdition: 'xmldb:exist:///db/contents/edition-50127042.xml',
@@ -66,9 +66,7 @@ Ext.define('EdiromOnline.Application', {
 
     launch: function() {
         var me = this;
-        
-        me.renderer = new verovio.toolkit();
-        
+       
         me.addEvents('workSelected');
         
         Ext.Ajax.request({

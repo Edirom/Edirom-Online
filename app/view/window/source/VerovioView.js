@@ -39,21 +39,41 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	imageToShow: null,
 	
+	pageSpinner: null,
+	
 	cls: 'verovioView',
 	
 	initComponent: function () {
 		
 		var me = this;
 		
-		pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
+	/*	new Ext.Window({
+    title : "iframe",
+    width : 300,
+    height: 300,
+    layout : 'fit',
+    items : [{
+        xtype : "component",
+        autoEl : {
+            tag : "iframe",
+            src : "http://www.yahoo.com"
+        }
+    }]
+}).show();*/
+		
+		//me.html = '<iframe src="http://wiki.selfhtml.org/wiki/Startseite" width="90%" height="400" name="SELFHTML_in_a_box">';
+		//me.html = '<body><iframe id="' + me.id + '_audioContIFrame" src="" style="height:60px"></iframe></body>';
+		me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
+
+	/*	pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
 		
 		me.viewerContainer = Ext.create('Ext.panel.Panel', {
 			region: 'center',
 			border: 0,
 			layout: 'card',
 			items:[
-			pageBasedView]
-		});
+			me.html]
+		});*/
 		
 		
 		me.bottomBar = new EdiromOnline.view.window.BottomBar({
@@ -61,7 +81,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		});
 		
 		me.items =[
-		me.viewerContainer,
+		//me.viewerContainer,
 		me.bottomBar];
 		
 		me.callParent();
@@ -70,16 +90,93 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			single: true
 		});
 	},
+
 	
-	setImageSet: function (imageSet) {
+	/*setIFrameURL: function(url) {
+        var me = this;
+        console.log(url);
+        var contEl = me.el.getById(me.id + '_audioContIFrame');
+        console.log(contEl);
+        
+        var iframe = document.getElementsByTagName('iframe')[0];
+    var doc = iframe.contentWindow.document;
+    doc.body.style.backgroundColor = 'green';
+      // contEl.set({'src': url});
+    }*/
+	
+	setIFrameURL: function (imageSet) {
 		var me = this;
 		
-		me.imageSet = imageSet;
+		console.log("setIFrameURL");
+       // console.log(imageSet);
+       // console.log(linkRef);
+		
+		var contEl = me.el.getById(me.id + '_audioContIFrame');
+		//contEl.set({'src': "JavaScript:''"});
+		
+		//contEl.set({'src': 'data/xql/untitled.html'});
+		//contEl.set({'src': 'data/xql/getExtendedStaff.xql'});
+		contEl.set({'src': imageSet});
+		me.pageSpinner.setStore(6);
+		
+		/*var iframe = document.getElementById(me.id + '_audioContIFrame');
+		
+		var doc = iframe.contentWindow.document;
+		
+		$(doc.body).html(imageSet);*/
+		
+		/*var renderer = new verovio.toolkit();
+		
+		var pageHeight = $(document).height()* 100 / 33;
+		var pageWidth = $(document).width()* 100 / 33;
+		
+		var options = JSON.stringify({
+			scale: 33,
+			noLayout: 0,
+			pageHeight: pageHeight,
+			pageWidth: pageWidth,
+			adjustPageHeight: 1
+		});
+		renderer.setOptions(options);
+		renderer.loadData(imageSet);
+		var svg = renderer.renderPage(1, options);
+		var pageCount = renderer.getPageCount();
+		//me.pageSpinner.setStore(pageCount);
+		//me.pageSpinner.setPage(pageNumber);
+		//var iframe = me.el.getById(me.id + '_audioContIFrame');
+		var iframes = document.getElementsByTagName('iframe');
+		for (var i = 0; i < iframes.length; i++) {
+					var iframe = iframes[i];
+					var iframeId = iframe.id;
+					if(iframeId === me.id + "_audioContIFrame"){
+						var doc = iframe.contentWindow.document;
+						$(doc.body).html(svg);
+						break;
+					}
+		}*/
+		
+		
+    	
+		
+		
+		/*me.imageSet = imageSet;
 		
 		pageBasedView.setImageSet(me.imageSet);
 		
-		pageBasedView.showPage(1);
+		var iframe = document.getElementsByTagName('iframe')[0];
+    	var doc = iframe.contentWindow.document;
+		
+		pageBasedView.setBody(doc);
+		
+		pageBasedView.showPage(1);*/
 	},
+	
+	getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
+    },
 	
 	createToolbarEntries: function () {
 		
@@ -94,17 +191,17 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	stretchHightClick: function () {
 		pageSpinner.setDisabled(true);
-		pageBasedView.showContinuousHight();
+		//pageBasedView.showContinuousHight();
 	},
 	
 	stretchWidthClick: function () {
 		pageSpinner.setDisabled(true);
-		pageBasedView.showContinuousWidth();
+		//pageBasedView.showContinuousWidth();
 	},
 
 	pageClick: function () {
 		pageSpinner.setDisabled(false);
-		pageBasedView.showPage(1);
+		//pageBasedView.showPage(1);
 	},
 	
 	createPageSpinner: function () {
@@ -122,9 +219,6 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			
 			listeners: {
 				select: function (combo, record, index) {
-					console.log(combo);
-					console.log(record);
-					console.log(index);
 					if (combo.getValue() === 'Pages') {
 						me.pageClick();
 					} else if (combo.getValue() === 'Continuous Hight') {
@@ -137,14 +231,14 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		});
 		combo.setValue(storeField[0]);
 		
-		pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
+		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
 			width: 111,
 			cls: 'pageSpinner'
 		});
 		
-		pageBasedView.setPageSpinner(pageSpinner);
+		//pageBasedView.setPageSpinner(pageSpinner);
 		
-		return[combo, pageSpinner];
+		return[combo, me.pageSpinner];
 	}
 });
 
@@ -162,12 +256,10 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 	},
 	
 	next: function () {
-		console.log(this.combo.getValue());
 		var newValue = this.combo.getValue() + 1;
-		console.log(newValue);
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			pageBasedView.showPage(newValue);
+			//pageBasedView.showPage(newValue);
 		}
 	},
 	
@@ -175,7 +267,7 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		var newValue = this.combo.getValue() -1;
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			pageBasedView.showPage(newValue);
+			//pageBasedView.showPage(newValue);
 		}
 	},
 	
