@@ -35,9 +35,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var me = this;
 		me.currId = me.id;
 		
-		/*app = EdiromOnline.getApplication();
-		me.renderer = app.getRenderer();*/
-		me.renderer = new verovio.toolkit();
+		me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
 		
 		me.callParent();
 	},
@@ -50,74 +48,90 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	setImageSet: function (imageSet) {
 		var me = this;
 		me.imageSet = imageSet;
+		
+		var contEl = me.el.getById(me.id + '_audioContIFrame');
+		contEl.set({'src': imageSet});
+		
+		me.pageSpinner.setStore(6);		
+		 var iframe = document.getElementById(me.id + '_audioContIFrame');
+		var doc = iframe.contentWindow.document;
 	},
 	
-	showPage: function (pageNumber) {
+	getContentConfig: function() {
+        var me = this;
+        return {
+            id: this.id
+        };
+    },
+	
+	showContinuousWidth: function (path) {
+	
+		var me = this;
+		
+		var contEl = me.el.getById(me.id + '_audioContIFrame');
+		contEl.set({'src': path});
+	},
+	
+	showContinuousHight: function (path) {
 		
 		var me = this;
 		
-		me.pageHeight = $(document).height()* 100 / 33;
-		me.pageWidth = $(document).width()* 100 / 33;
+		var contEl = me.el.getById(me.id + '_audioContIFrame');
+		contEl.set({'src': path});
 		
-		var options = JSON.stringify({
-			scale: 33,
-			noLayout: 0,
-			pageHeight: me.pageHeight,
-			pageWidth: me.pageWidth,
-			adjustPageHeight: 1
-		});
-		me.renderer.setOptions(options);
-		me.renderer.loadData(me.imageSet);
-		var svg = me.renderer.renderPage(pageNumber, options);
-		var pageCount = me.renderer.getPageCount();
-		me.pageSpinner.setStore(pageCount);
-		me.pageSpinner.setPage(pageNumber);
-		$(me.bodyDoc.body).html(svg);
-	},
-	
-	
-	showContinuousWidth: function () {
-		
-		var me = this;
-		
-		var options = JSON.stringify({
-			scale: 33,
-			noLayout: 1
-		});
-		me.renderer.setOptions(options);
-		me.renderer.loadData(me.imageSet);
-		var svg = me.renderer.renderPage(1, options);
-		for (i = 2; i <= me.renderer.getPageCount();
-		i++) {
-			svg = svg + me.renderer.renderPage(i, options);
-		}
-		$(me.bodyDoc.body).html(svg);
-	},
-	
-	showContinuousHight: function () {
-		
-		var me = this;
-		
-		var pageHeight_1 = $(document).height();
-		var pageWidth_1 = $(document).width();
-		var options = JSON.stringify({
-			scale: 33,
-			pageHeight: pageHeight_1,
-			pageWidth: pageWidth_1,
-			noLayout: 0
-		});
-		me.renderer.setOptions(options);
-		me.renderer.redoLayout();
-		
-		var svg = me.renderer.renderPage(1, options);
-		for (i = 2; i <= me.renderer.getPageCount();
-		i++) {
-			svg = svg + me.renderer.renderPage(i, options);
-		}
-		$(me.bodyDoc.body).html(svg);
 	},
 	
 	setPageSpinner: function (pageSpinner) {
 		this.pageSpinner = pageSpinner;
 	}
 });
+/*vrvToolkit = new verovio.toolkit();
+            	$.ajax({{
+                	url: '$newUri', 
+                	dataType: "text", 
+                	success: function(data) {{
+                	
+                	if('$action:' === 'load'){{              	
+                		var pageHeight = $(document).height()* 100 / 33;
+						var pageWidth = $(document).width()* 100 / 33;
+                		var options = JSON.stringify({{
+                			scale: 33,
+							noLayout: 0,
+							pageHeight: pageHeight,
+							pageWidth: pageWidth,
+							adjustPageHeight: 1
+                		}});
+                		vrvToolkit.setOptions( options );
+                		vrvToolkit.loadData(data);
+                		var svg = vrvToolkit.renderPage(1, "");
+                		$("#output").html(svg);                  
+               		}}
+               		if ('$action' === 'strechWidth'){{
+            			var options = JSON.stringify({{
+							scale: 33,
+							noLayout: 1
+						}});
+						vrvToolkit.setOptions(options);
+						vrvToolkit.loadData(data);
+						var svg = vrvToolkit.renderPage(1, options);
+				
+						$("#output").html(svg);
+					}}
+					if ('$action' === 'continuousHight'){{
+            			var pageHeight_1 = $(document).height();
+						var pageWidth_1 = $(document).width();
+						var options = JSON.stringify({{
+							scale: 33,
+							pageHeight: pageHeight_1,
+							pageWidth: pageWidth_1,
+							noLayout: 0
+						}});
+						vrvToolkit.setOptions(options);
+						vrvToolkit.redoLayout();
+		
+						var svg = vrvToolkit.renderPage(1, options);
+		
+						$("#output").html(svg);
+					}}
+               		}}
+            	}});*/

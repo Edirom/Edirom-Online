@@ -39,30 +39,9 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		view.initialized = true;
 		
         var uri = view.uri;
-      
-        
-        view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);
-      
-		/*Ext.Ajax.request({
-			 url: 'data/xql/getExtendedStaff.xql',
-			method: 'GET',
-			params: {
-			uri: uri
-			},
-			success: function (response) {
-			
-			
-				var text = response.responseText;
-				
-				console.log("onSourceViewRendered");
-				console.log(response);
-				console.log(response.responseText);
-				
-				//view.setIFrameURL(response.responseText);
-				
-				//me.pagesLoaded(text, view);
-			}
-		});*/
+             
+       // view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri+'?load');
+      	view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);		
 	},
 	
 	pagesLoaded: function (text, view) {
