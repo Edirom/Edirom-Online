@@ -39,8 +39,10 @@ return
   			<option value="continuous_width">Continuous Width</option>
 		</select>
         
-        <label for="page_number">Page Number</label>
+        <label id="pageNumber" for="page_number">Page</label>
         <input id="pageSelection" type="number" min="1" value ="1" onclick="enableRectangle1()"/>
+        <label id="pageNumberNach" for="page_number_nach">of</label>
+        <input type="text" id="anzahl" disabled="true" style="border:none; background-color:#E8E8E8;"/>
       </div>
         <div id="output"/>
 		 
@@ -76,9 +78,11 @@ return
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);
                 		numberPages = vrvToolkit.getPageCount();
+                		pageSelection.disabled=false;
+						pageNumber.disabled=false;
+						anzahl.value=numberPages;
                 		pageSelection.max = numberPages;
                 		var selectedNumber = pageSelection.valueAsNumber;
-                		//console.log(selectedNumber);
                 		var svg = vrvToolkit.renderPage(selectedNumber, "");
                 		$("#output").html(svg); 
 				}}
@@ -92,10 +96,10 @@ return
 							noLayout: 0
 						}});
 						vrvToolkit.setOptions(options);
-						vrvToolkit.redoLayout();
-		
+						vrvToolkit.redoLayout();		
 						var svg = vrvToolkit.renderPage(1, options);
-								
+						pageSelection.disabled=true;
+						pageNumber.disabled=true;
 						$("#output").html(svg);
 				}}	 
 				if(select.value === 'continuous_width'){{
@@ -106,7 +110,8 @@ return
 						vrvToolkit.setOptions(options);
 						vrvToolkit.loadData(verovioData);
 						var svg = vrvToolkit.renderPage(1, options);
-				
+						pageSelection.disabled=true;
+						pageNumber.disabled=true;
 						$("#output").html(svg);
 				}}	 
 			}}
