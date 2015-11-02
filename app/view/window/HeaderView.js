@@ -17,70 +17,67 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.HeaderView', {
-    extend: 'Ext.panel.Panel',
-
-    requires: [
-    ],
-
-    alias : 'widget.headerView',
-
-    layout: 'fit',
-    
-    cls: 'headerView',
-
-    initComponent: function () {
-
-        var me = this;
-        
-        me.html = '<div id="' + me.id + '_headerCont" class="headerViewContent"></div>';
-
-        me.callParent();
-    },
-
-    setContent: function(data, uri) {
-        var me = this;
-        var contEl = me.el.getById(me.id + '_headerCont');
-        contEl.update(data);
-        
-        console.log(uri);
-        
-        $(document).ready(function() {
-		  var content = $('#'+me.id + '_headerCont').annotator();   
-		 
-		  content.annotator('addPlugin', 'Auth', {
-		    tokenUrl: 'http://annotateit.org/api/token',
-		    autoFetch: true
-		  });
-		  
-		  content.annotator('addPlugin', 'Store', {
-		    prefix: 'http://annotateit.org/api',
-		    annotationData: {
-		      'uri': uri
-		  },
-		    loadFromSearch: {
-		      'limit': 20,
-		      'uri': uri
-		    },
-		    urls: {
-		      create:  '/annotations',
-		      update:  '/annotations/:id',
-		      destroy: '/annotations/:id',
-		      search:  '/search'
-		    },
-		    
-		    showViewPermissionsCheckbox: true,
-		    
-		    showEditPermissionsCheckbox: true
-		  });
-		});
-       
-    },
-    
-    getContentConfig: function() {
-        var me = this;
-        return {
-            id: this.id
-        };
-    }
+	extend: 'Ext.panel.Panel',
+	
+	requires:[],
+	
+	alias: 'widget.headerView',
+	
+	layout: 'fit',
+	
+	cls: 'headerView',
+	
+	initComponent: function () {
+		
+		var me = this;
+		
+		me.html = '<div id="' + me.id + '_headerCont" class="headerViewContent"></div>';
+		
+		me.callParent();
+	},
+	
+	setContent: function (data, uri) {
+		var me = this;
+		var contEl = me.el.getById(me.id + '_headerCont');
+		contEl.update(data);
+		
+		if (annotationOn) {
+			$(document).ready(function () {
+				var content = $('#' + me.id + '_headerCont').annotator();
+				
+				content.annotator('addPlugin', 'Auth', {
+					tokenUrl: 'http://annotateit.org/api/token',
+					autoFetch: true
+				});
+				
+				content.annotator('addPlugin', 'Store', {
+					prefix: 'http://annotateit.org/api',
+					annotationData: {
+						'uri': uri
+					},
+					loadFromSearch: {
+						'limit': 20,
+						'uri': uri
+					},
+					urls: {
+						create: '/annotations',
+						update: '/annotations/:id',
+						destroy: '/annotations/:id',
+						search: '/search'
+					},
+					
+					showViewPermissionsCheckbox: true,
+					
+					showEditPermissionsCheckbox: true
+				});
+			});
+		}
+	},
+	
+	getContentConfig: function () {
+		var me = this;
+		return {
+			id: this.id
+		};
+	}
 });
-

@@ -17,82 +17,117 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.desktop.TopBar', {
-    extend: 'Ext.toolbar.Toolbar',
-
-    requires: [
-        'Ext.button.Split',
-        'Ext.form.field.Text'
-    ],
-
-    alias : 'widget.topbar',
-	id : 'ediromToolbar',
+	extend: 'Ext.toolbar.Toolbar',
 	
-    initComponent: function () {
-
-        var me = this;
-
-        me.homeButton = Ext.create('Ext.button.Button', {
-            id: 'homeBtn',
-            cls: 'taskSquareButton home',
-            tooltip: { text: getLangString('view.desktop.TaskBar_home'), align: 'tl-bl' }
-        });
-        
-        me.workCombo = Ext.create('Ext.button.Button', {
-            text: 'Werk',
-            id: 'workSwitch',
-            cls: 'insetButton',
-            indent: false,
-            menu : {
-                items: []
-            }
-        });
-
-        me.searchButton = Ext.create('Ext.button.Button', {
-            id: 'searchBtn',
-            cls: 'taskSquareButton search',
-            tooltip: { text: getLangString('view.desktop.TaskBar_search'), align: 'tl-bl' },
-            action: 'openSearchWindow'
-        });
-
-        me.searchTextField = Ext.create('Ext.form.TextField', {
-            width: 180,
-            id: 'searchTextFieldTop'
-        });
-        
-        me.searchButton.textField = me.searchTextField;
-               
-		me.annotateItButton = Ext.create('Ext.button.Button', {
-			icon: 'resources/css/Bubble.png',
-			//scale: 'medium',
-			handler: this.homeOnItemToggle
+	requires:[
+	'Ext.button.Split',
+	'Ext.form.field.Text'],
+	
+	alias: 'widget.topbar',
+	id: 'ediromToolbar',
+	
+	initComponent: function () {
+		
+		var me = this;
+		
+		me.homeButton = Ext.create('Ext.button.Button', {
+			id: 'homeBtn',
+			cls: 'taskSquareButton home',
+			tooltip: {
+				text: getLangString('view.desktop.TaskBar_home'), align: 'tl-bl'
+			}
 		});
 		
-        me.items = [
-            new Ext.toolbar.Toolbar({
-                flex: 1,
-                cls: 'ux-desktop-topbar-flex',
-                items: [
-                    me.homeButton,
-                    { xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel' },
-                    this.workCombo,
-                    '->',
-                     me.annotateItButton,
-                    //me.searchTextField,
-                    me.searchButton
-                ]
-            })
-        ];
-
-        me.callParent();
-    },
-    
-   
-    /**
-	 * Handler for get freischuetz home page
+		me.workCombo = Ext.create('Ext.button.Button', {
+			text: 'Werk',
+			id: 'workSwitch',
+			cls: 'insetButton',
+			indent: false,
+			menu: {
+				items:[]
+			}
+		});
+		
+		me.searchButton = Ext.create('Ext.button.Button', {
+			id: 'searchBtn',
+			cls: 'taskSquareButton search',
+			tooltip: {
+				text: getLangString('view.desktop.TaskBar_search'), align: 'tl-bl'
+			},
+			action: 'openSearchWindow'
+		});
+		
+		me.searchTextField = Ext.create('Ext.form.TextField', {
+			width: 180,
+			id: 'searchTextFieldTop'
+		});
+		
+		me.searchButton.textField = me.searchTextField;
+		
+		me.annotateItButton = Ext.create('Ext.button.Button', {
+			icon: 'resources/css/Bubble.png',
+			handler: this.openLoginWindow
+		});
+		
+		me.items =[
+		new Ext.toolbar.Toolbar({
+			flex: 1,
+			cls: 'ux-desktop-topbar-flex',
+			items:[
+			me.homeButton, {
+				xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel'
+			},
+			this.workCombo,
+			'->',
+			me.annotateItButton,
+			//me.searchTextField,
+			me.searchButton]
+		})];
+		
+		me.callParent();
+	},
+	
+	
+	/**
+	 * Handler for get AnnotatorIt home page
 	 */
-	homeOnItemToggle: function () {
-		window.location.href = "http://annotateit.org/user/login";
+	openLoginWindow: function () {
+		new Ext.Window({
+			title: "Login to AnnotationIt",
+			width: 600,
+			height: 400,
+			closable: true,
+			layout: 'fit',
+			items:[ {
+				xtype: "component",
+				autoEl: {
+					tag: "iframe",
+					src: "http://annotateit.org/user/login"
+					}
+			}
+			],
+			
+			bbar:[ 
+			 	'->',
+				{
+                    xtype: 'component',
+                    html: 'Please confirm action: '
+                },
+				
+				{
+					text: 'Login',
+					handler: function () {
+						annotationOn = true;
+						this.up('window').close();
+					}
+			 	},
+				{
+					text: 'Logout',
+					handler: function () {
+						annotationOn = false;
+						this.up('window').close();
+					}
+				}]
+			}).show();
 	}
-    
-   
 });

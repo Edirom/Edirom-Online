@@ -65,6 +65,8 @@ Ext.define('EdiromOnline.Application', {
     launch: function() {
         var me = this;
         
+        annotationOn = false;
+        
         me.addEvents('workSelected');
         
         Ext.Ajax.request({
