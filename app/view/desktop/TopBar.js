@@ -78,10 +78,11 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 				xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel'
 			},
 			this.workCombo,
-			'->',
-			me.annotateItButton,
+			'->',			
 			//me.searchTextField,
-			me.searchButton]
+			me.searchButton,
+			'-',
+			me.annotateItButton]
 		})];
 		
 		me.callParent();

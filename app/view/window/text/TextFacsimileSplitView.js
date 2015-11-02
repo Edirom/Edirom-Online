@@ -452,10 +452,42 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             Ext.Array.each(annotations, fn);
     },
 
-    setContent: function(text) {
-//TODO
-        Ext.fly(this.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', this);
+    setContent: function(text, uri) {
+		var me = this;
+        Ext.fly(me.id + '_textCont').update(text);
+        this.fireEvent('documentLoaded', me);
+        
+        if (annotationOn) {
+			$(document).ready(function () {
+				var content = $('#' + me.id + '_textCont').annotator();
+				
+				content.annotator('addPlugin', 'Auth', {
+					tokenUrl: 'http://annotateit.org/api/token',
+					autoFetch: true
+				});
+				
+				content.annotator('addPlugin', 'Store', {
+					prefix: 'http://annotateit.org/api',
+					annotationData: {
+						'uri': uri
+					},
+					loadFromSearch: {
+						'limit': 20,
+						'uri': uri
+					},
+					urls: {
+						create: '/annotations',
+						update: '/annotations/:id',
+						destroy: '/annotations/:id',
+						search: '/search'
+					},
+					
+					showViewPermissionsCheckbox: true,
+					
+					showEditPermissionsCheckbox: true
+				});
+			});
+		}      
     },
     
     setImageSet: function(imageSet) {
