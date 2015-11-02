@@ -21,8 +21,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 
     requires: [
         'Ext.button.Split',
-        'Ext.form.field.Text',
-        'EdiromOnline.view.desktop.AnnotLoginDialog'
+        'Ext.form.field.Text'
     ],
 
     alias : 'widget.topbar',
