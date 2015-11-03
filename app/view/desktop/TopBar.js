@@ -94,7 +94,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 	 */
 	openLoginWindow: function () {
 		new Ext.Window({
-			title: "Login to AnnotationIt",
+			title: "Login to AnnotateIt",
 			width: 600,
 			height: 400,
 			closable: true,
