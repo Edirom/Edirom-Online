@@ -51,6 +51,8 @@ return
 	 	var vrvToolkit;
 	 	var verovioData;
 	 	var numberPages;
+	 	var initHeight = $(document).height()* 100 / 33;
+	 	var initWidth = $(document).width()* 100 / 33;
 	   if(typeof vrvToolkit === 'undefined'){{
 	    	vrvToolkit = new verovio.toolkit();
             		$.ajax({{
@@ -66,13 +68,12 @@ return
 	
 			function enableRectangle1(){{
 				if(select.value === 'pagebased'){{
-					var pageHeight = $(document).height()* 100 / 33;
-						var pageWidth = $(document).width()* 100 / 33;
+					
                 		var options = JSON.stringify({{
                 			scale: 33,
 							noLayout: 0,
-							pageHeight: pageHeight,
-							pageWidth: pageWidth,
+							pageHeight: initHeight,
+							pageWidth: initWidth,
 							adjustPageHeight: 1
                 		}});
                 		vrvToolkit.setOptions( options );
@@ -105,7 +106,8 @@ return
 				if(select.value === 'continuous_width'){{
 					var options = JSON.stringify({{
 							scale: 33,
-							noLayout: 1
+							noLayout: 1,
+							adjustPageHeight: 0
 						}});
 						vrvToolkit.setOptions(options);
 						vrvToolkit.loadData(verovioData);
