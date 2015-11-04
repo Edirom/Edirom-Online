@@ -40,8 +40,8 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		
         var uri = view.uri;
              
-       // view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri+'?load');
-      	view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);		
+      	view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);	
+      	
 	},
 	
 	pagesLoaded: function (text, view) {

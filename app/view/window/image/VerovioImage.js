@@ -29,6 +29,9 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	pageSpinner: null,
 	pageHeight: null,
 	pageWidth: null,
+	numberPages: null,
+	
+	iframe: null,
 	
 	initComponent: function () {
 		
@@ -52,9 +55,19 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var contEl = me.el.getById(me.id + '_audioContIFrame');
 		contEl.set({'src': imageSet});
 		
-		me.pageSpinner.setStore(6);		
-		 var iframe = document.getElementById(me.id + '_audioContIFrame');
-		var doc = iframe.contentWindow.document;
+		/*var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
+		console.log(iframe);*/
+		//console.log(iframe.numberPages);
+		//var iframe = document.getElementById(me.id + '_audioContIFrame');
+		//var doc = iframe.contentWindow.document;
+		
+		//iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
+		//iframe.createView();
+		//var pageCount = iframe.vrvToolkit.getPageCount();
+		
+  		
+    	//console.log(me.numberPages);
+ 		
 	},
 	
 	getContentConfig: function() {
@@ -63,75 +76,39 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
             id: this.id
         };
     },
+    
+    showPage: function(pageNr, isSetCount){
+     	var me = this;
+     	
+    	var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
+    	if(isSetCount){
+    		var pageCount = iframe.numberPages;
+    		me.pageSpinner.setStore(pageCount);
+    		me.pageSpinner.setPage(1);
+    	}
+		iframe.loadPage(pageNr);
+    },
+    
+    showAllPages: function(){
+    	var me = this;
+     	
+    	var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;	   	
+		iframe.allPages();
+    },
 	
-	showContinuousWidth: function (path) {
-	
-		var me = this;
-		
-		var contEl = me.el.getById(me.id + '_audioContIFrame');
-		contEl.set({'src': path});
+	showContinuousWidth: function () {
+	 var me = this;
+		var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;		
+		iframe.loadContinuousWidth();
 	},
 	
-	showContinuousHight: function (path) {
-		
-		var me = this;
-		
-		var contEl = me.el.getById(me.id + '_audioContIFrame');
-		contEl.set({'src': path});
-		
+	showContinuousHight: function () {
+	 var me = this;
+		var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;		
+		iframe.loadContinuousHight();
 	},
 	
 	setPageSpinner: function (pageSpinner) {
 		this.pageSpinner = pageSpinner;
 	}
 });
-/*vrvToolkit = new verovio.toolkit();
-            	$.ajax({{
-                	url: '$newUri', 
-                	dataType: "text", 
-                	success: function(data) {{
-                	
-                	if('$action:' === 'load'){{              	
-                		var pageHeight = $(document).height()* 100 / 33;
-						var pageWidth = $(document).width()* 100 / 33;
-                		var options = JSON.stringify({{
-                			scale: 33,
-							noLayout: 0,
-							pageHeight: pageHeight,
-							pageWidth: pageWidth,
-							adjustPageHeight: 1
-                		}});
-                		vrvToolkit.setOptions( options );
-                		vrvToolkit.loadData(data);
-                		var svg = vrvToolkit.renderPage(1, "");
-                		$("#output").html(svg);                  
-               		}}
-               		if ('$action' === 'strechWidth'){{
-            			var options = JSON.stringify({{
-							scale: 33,
-							noLayout: 1
-						}});
-						vrvToolkit.setOptions(options);
-						vrvToolkit.loadData(data);
-						var svg = vrvToolkit.renderPage(1, options);
-				
-						$("#output").html(svg);
-					}}
-					if ('$action' === 'continuousHight'){{
-            			var pageHeight_1 = $(document).height();
-						var pageWidth_1 = $(document).width();
-						var options = JSON.stringify({{
-							scale: 33,
-							pageHeight: pageHeight_1,
-							pageWidth: pageWidth_1,
-							noLayout: 0
-						}});
-						vrvToolkit.setOptions(options);
-						vrvToolkit.redoLayout();
-		
-						var svg = vrvToolkit.renderPage(1, options);
-		
-						$("#output").html(svg);
-					}}
-               		}}
-            	}});*/

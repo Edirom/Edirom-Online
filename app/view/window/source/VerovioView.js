@@ -47,9 +47,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		var me = this;
 		
-		me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
-			
-		/*pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
+		pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
 		
 		me.viewerContainer = Ext.create('Ext.panel.Panel', {
 			region: 'center',
@@ -66,25 +64,19 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		me.items =[
 		me.viewerContainer,
-		me.bottomBar];*/
+		me.bottomBar];
 		
 		me.callParent();
 		
-		/*me.on('afterrender', me.createToolbarEntries, me, {
+		me.on('afterrender', me.createToolbarEntries, me, {
 			single: true
-		});*/
+		});		
 	},
 
 	setIFrameURL: function (imageSet) {
-		var me = this;
-		
+		var me = this;		
 		me.imageSet = imageSet;
-		
-		var contEl = me.el.getById(me.id + '_audioContIFrame');
-		contEl.set({'src': me.imageSet});
-		
-		
-		//pageBasedView.setImageSet(me.imageSet);
+		pageBasedView.setImageSet(me.imageSet);
 	},
 	
 	getContentConfig: function() {
@@ -92,14 +84,11 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
         return {
             id: this.id
         };
-    }
+    },
 		
-	/*createToolbarEntries: function () {
-		
-		var me = this;
-		
+	createToolbarEntries: function () {		
+		var me = this;		
 		var entries = me.createPageSpinner();
-		
 		Ext.Array.each(entries, function (entry) {
 			me.bottomBar.add(entry);
 		});
@@ -107,26 +96,29 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	stretchHightClick: function (me) {
 		me.pageSpinner.setDisabled(true);
-		var uri = me.uri;
-		pageBasedView.showContinuousWidth('data/xql/getExtendedStaff.xql?uri=' + uri+'?continuousHight');
+		pageBasedView.showContinuousHight();
 	},
 	
 	stretchWidthClick: function (me) {
 		me.pageSpinner.setDisabled(true);
-		var uri = me.uri;
-		pageBasedView.showContinuousWidth('data/xql/getExtendedStaff.xql?uri=' + uri+'?strechWidth');
+		pageBasedView.showContinuousWidth();
 	},
 
 	pageClick: function (me) {
 		me.pageSpinner.setDisabled(false);
-		//pageBasedView.showPage(1);
+		pageBasedView.showPage(1, true);
+	},
+	
+	pageOriginalClick: function(me){
+		me.pageSpinner.setDisabled(false);
+		pageBasedView.showAllPages();
 	},
 	
 	createPageSpinner: function () {
 		
 		var me = this;
 		
-		var storeField = new Array('Pages', 'Continuous Hight', 'Continuous Width');
+		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');
 		
 		var combo = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Rendering View',
@@ -137,7 +129,10 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			
 			listeners: {
 				select: function (combo, record, index) {
-					if (combo.getValue() === 'Pages') {
+					if(combo.getValue() === 'Original'){
+						me.pageOriginalClick(me);
+					}
+					else if (combo.getValue() === 'Pages') {
 						me.pageClick(me);
 					} else if (combo.getValue() === 'Continuous Hight') {
 						me.stretchHightClick(me);
@@ -157,10 +152,10 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		pageBasedView.setPageSpinner(me.pageSpinner);
 		
 		return[combo, me.pageSpinner];
-	}*/
+	}
 });
 
-/*Ext.define('EdiromOnline.view.window.source.PageSpinner', {
+Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 	extend: 'Ext.container.Container',
 	
 	alias: 'widget.pageSpinner',
@@ -177,7 +172,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		var newValue = this.combo.getValue() + 1;
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			//pageBasedView.showPage(newValue);
+			pageBasedView.showPage(newValue, false);
 		}
 	},
 	
@@ -185,7 +180,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		var newValue = this.combo.getValue() -1;
 		if (this.store.indexOf(newValue) != -1) {
 			this.setPage(newValue);
-			//pageBasedView.showPage(newValue);
+			pageBasedView.showPage(newValue, false);
 		}
 	},
 	
@@ -194,7 +189,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	},
 	
 	setStore: function (test) {
-		
+	   
 		this.removeAll();
 		
 		var storeField = new Array(test);
@@ -233,4 +228,4 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			}
 		}]);
 	}
-});*/
+});

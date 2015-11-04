@@ -18,7 +18,7 @@ let $newUri := concat('http://localhost:8080/exist/rest/', $temp):)
 let $newUri := concat('http://localhost:8080/exist/rest/', $docUri)
 
 return
-<html xmlns="http://www.w3.org/1999/xhtml">	
+<html>	
     <head>   	
         <title></title>
     	<!-- **VEROVIO** -->
@@ -26,50 +26,29 @@ return
     	
     	<!-- **JQUERY** -->
     	<script type="text/javascript" src="../../resources/jquery/jquery-2.1.3.js"  charset="utf-8"></script> 
-    	<link rel="stylesheet" href="../../resources/css/rendering_view.css"/>
     </head>
 	<body>
-	
-	<div id="toolbar">
-  
-        <label for="rendering_view">Rendering View : </label>
-        <select id="select" name="select" onclick="enableRectangle1()">
-  			<option value="pagebased" selected="selected">Pagebased</option> 
-  			<option value="continuous_hight">Continuous Hight</option>
-  			<option value="continuous_width">Continuous Width</option>
-		</select>
-        
-        <label id="pageNumber" for="page_number">Page</label>
-        <input id="pageSelection" type="number" min="1" value ="1" onclick="enableRectangle1()"/>
-        <label id="pageNumberNach" for="page_number_nach">of</label>
-        <input type="text" id="anzahl" disabled="true" style="border:none; background-color:#E8E8E8;"/>
-      </div>
-        <div id="output"/>
-		 
+        <div id="output"/>		 
 	</body>	
 	<script type="text/javascript">
-	 	var vrvToolkit;
+		vrvToolkit = new verovio.toolkit();
 	 	var verovioData;
-	 	var numberPages;
+	 	
 	 	var initHeight = $(document).height()* 100 / 33;
 	 	var initWidth = $(document).width()* 100 / 33;
-	   if(typeof vrvToolkit === 'undefined'){{
-	    	vrvToolkit = new verovio.toolkit();
-            		$.ajax({{
-                		url: '{$newUri}', 
-                		dataType: "text", 
-                		success: function(data) {{  
-                		verovioData = data; 
-                		enableRectangle1();
-               		}}
-               		}});
-	   }}
-	  
-	
-			function enableRectangle1(){{
-				if(select.value === 'pagebased'){{
-					
-                		var options = JSON.stringify({{
+	 	
+                $.ajax({{
+                    url: '{$newUri}'
+                    ,async: false
+                    , dataType: "text"
+                    , success: function(data) {{
+                        verovioData = data; 
+                		allPages();               		
+                    }}
+                }});
+                
+                function allPages(){{
+                	var options = JSON.stringify({{
                 			scale: 33,
 							noLayout: 0,
 							pageHeight: initHeight,
@@ -79,16 +58,34 @@ return
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);
                 		numberPages = vrvToolkit.getPageCount();
-                		pageSelection.disabled=false;
-						pageNumber.disabled=false;
-						anzahl.value=numberPages;
-                		pageSelection.max = numberPages;
-                		var selectedNumber = pageSelection.valueAsNumber;
-                		var svg = vrvToolkit.renderPage(selectedNumber, "");
-                		$("#output").html(svg); 
-				}}
-				if(select.value === 'continuous_hight'){{
-					var pageHeight_1 = $(document).height();
+                		
+                		var svg = vrvToolkit.renderPage(1, options);
+						for (i = 2; i !== vrvToolkit.getPageCount()+1; i++) {{
+							svg = svg + vrvToolkit.renderPage(i, options);
+						}}
+                		$("#output").html(svg);
+                }}
+            
+	 	function loadPage(pageNr){{
+	 		var options = JSON.stringify({{
+                			scale: 33,
+							noLayout: 0,
+							pageHeight: initHeight,
+							pageWidth: initWidth,
+							adjustPageHeight: 1
+                		}});
+                		vrvToolkit.setOptions( options );
+                		vrvToolkit.loadData(verovioData);
+                		var svg = vrvToolkit.renderPage(pageNr, "");
+                		$("#output").html(svg);
+                		console.log("loadPage");
+                		console.log(numberPages);
+                		return numberPages;
+	 	}}
+	 	
+	 	
+	 	function loadContinuousHight(){{
+	 		var pageHeight_1 = $(document).height();
 						var pageWidth_1 = $(document).width();
 						var options = JSON.stringify({{
 							scale: 33,
@@ -99,12 +96,14 @@ return
 						vrvToolkit.setOptions(options);
 						vrvToolkit.redoLayout();		
 						var svg = vrvToolkit.renderPage(1, options);
-						pageSelection.disabled=true;
-						pageNumber.disabled=true;
+						for (i = 2; i !== vrvToolkit.getPageCount()+1; i++) {{
+							svg = svg + vrvToolkit.renderPage(i, options);
+						}}
 						$("#output").html(svg);
-				}}	 
-				if(select.value === 'continuous_width'){{
-					var options = JSON.stringify({{
+	 	}}
+	 	
+	 	function loadContinuousWidth(){{
+	 		var options = JSON.stringify({{
 							scale: 33,
 							noLayout: 1,
 							adjustPageHeight: 0
@@ -112,11 +111,9 @@ return
 						vrvToolkit.setOptions(options);
 						vrvToolkit.loadData(verovioData);
 						var svg = vrvToolkit.renderPage(1, options);
-						pageSelection.disabled=true;
-						pageNumber.disabled=true;
 						$("#output").html(svg);
-				}}	 
-			}}
-				
+			 
+	 	}}
+	  	
 		</script>		
 </html>
