@@ -70,13 +70,6 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
  		
 	},
 	
-	getContentConfig: function() {
-        var me = this;
-        return {
-            id: this.id
-        };
-    },
-    
     showPage: function(pageNr, isSetCount){
      	var me = this;
      	
