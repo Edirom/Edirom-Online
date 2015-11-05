@@ -51,8 +51,12 @@ let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
     
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
     else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))
-    
-let $doc := if($stage = 'genesis')then(transform:transform($doc, doc('../xslt/textStages.xsl'), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))else($doc)
+
+let $doc := if($stage = 'genesis')
+            then(
+                transform:transform($doc, doc(replace($uri, '.xml', '.xsl')), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>)
+            )
+            else($doc)
     
 return
     
