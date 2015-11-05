@@ -200,7 +200,6 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		}
 		
 		this.store = storeField;
-		console.log(this.store);
 		
 		this.combo = Ext.create('Ext.form.ComboBox', {
 			width: 35,
@@ -214,12 +213,12 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 			autoSelect: true,
 			enableKeyEvents: true,
 			listeners: {			
-			keydown:function (combo, e, eOpts) {
-            	if (e.getKey() == 13) {
-            		me.setPage(combo.getValue());
-					me.pageBasedView.showPage(combo.getValue(), false);
-            }
-        }
+				keydown:function (combo, e, eOpts) {
+            		if (e.getKey() == 13) {
+            			me.setPage(combo.getValue());
+						me.pageBasedView.showPage(combo.getValue(), false);
+            		}
+        		}
 			}
 		});
 		
@@ -231,7 +230,13 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 				click: this.prev
 			}
 		},
-		this.combo, {
+		this.combo, 
+		{
+        xtype: 'label',
+        text: 'von '+ test,
+        margins: '5 0 0 5'
+    },
+		{
 			xtype: 'button',
 			cls: 'next toolButton',
 			listeners: {
