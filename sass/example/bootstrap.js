@@ -45,6 +45,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
+  "EdiromOnline.controller.window.source.VerovioView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -84,6 +85,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.source.PageBasedView": [],
   "EdiromOnline.view.window.source.PageSpinner": [],
   "EdiromOnline.view.window.source.SourceView": [],
+  "EdiromOnline.view.window.source.VerovioView": [],
   "EdiromOnline.view.window.text.FacsimileView": [],
   "EdiromOnline.view.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.view.window.text.TextView": [],
@@ -946,6 +948,7 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
+  "EdiromOnline.controller.window.source.VerovioView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -1028,6 +1031,9 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "EdiromOnline.view.window.source.SourceView": [
     "widget.sourceView"
+  ],
+  "EdiromOnline.view.window.source.VerovioView": [
+    "widget.verovioView"
   ],
   "EdiromOnline.view.window.text.FacsimileView": [
     "widget.facsimileView"

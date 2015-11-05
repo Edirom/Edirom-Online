@@ -1,0 +1,1 @@
+vrvToolkit = new verovio.toolkit();

@@ -44,6 +44,7 @@ Ext.define('EdiromOnline.Application', {
         'window.source.SourceView',
         'window.source.PageBasedView',
         'window.source.MeasureBasedView',
+        'window.source.VerovioView',
         'window.text.TextFacsimileSplitView',
         'window.text.TextView'
     ],
@@ -57,13 +58,15 @@ Ext.define('EdiromOnline.Application', {
         'EdiromOnline.view.desktop.App'
     ],
     
+    //renderer: null,
+    
     //TODO:
     activeEdition: 'xmldb:exist:///db/contents/edition-50127042.xml',
     activeWork: 'edirom_work_743373fb-4dcf-4329-90c0-fd1eacc9ea69', 
 
     launch: function() {
         var me = this;
-        
+       
         me.addEvents('workSelected');
         
         Ext.Ajax.request({
@@ -131,5 +134,9 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-    }
+    },
+    
+    getRenderer: function () {
+		return this.renderer;
+	}
 });
