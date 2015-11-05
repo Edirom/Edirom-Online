@@ -103,7 +103,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	},
 	
 	pageOriginalClick: function (me) {
-		me.pageSpinner.setDisabled(false);
+		me.pageSpinner.setDisabled(true);
 		me.pageBasedView.showAllPages();
 	},
 	
