@@ -632,10 +632,26 @@ $underlineColor: #333333;
 		
 		&.KA-tx21 {
 		    @include handschriften;
+		    
+		    div.teidiv0 span.right {
+                display: inline-block;
+                margin-left: 0;
+                position: absolute;
+                right: 3em;
+            }
+            
+            p + p {
+                margin-top: -2em;
+            }
 		}
 		
 		&.K-tx29 {
 		    @include handschriften;
+		    
+		    div.p-in-sp.inline {
+                display: block;
+                margin-left: 2em;
+            }
 		}
 		
 		/*individuelle Styles für Druck */
@@ -679,10 +695,24 @@ $underlineColor: #333333;
 		
 		&.Dp-tx2 {
 		    @include drucke;
+		    
+		    div.teidiv0 span.right {
+                display: inline-block;
+                margin-left: 0;
+                position: absolute;
+                right: 3em;
+            }
 		}
 		
 		&.Dp-tx3 {
 		    @include drucke;
+		    
+		    div.teidiv0 span.right {
+                display: inline-block;
+                margin-left: 0;
+                position: absolute;
+                right: 3em;
+            }
 		    
 		    div.speaker b {
                 letter-spacing: inherit;
