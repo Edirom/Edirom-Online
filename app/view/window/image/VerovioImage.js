@@ -20,7 +20,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	extend: 'Ext.panel.Panel',
 	
 	layout: 'fit',
-		
+	
 	currId: null,
 	renderer: null,
 	text: null,
@@ -38,7 +38,8 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var me = this;
 		me.currId = me.id;
 		
-		me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
+		me.html = '<div id="' + me.id + '_rendCont" class="renderingViewContent"><iframe id="' + me.id +
+		'_rendContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
 		
 		me.callParent();
 	},
@@ -47,57 +48,46 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		var me = this;
 		me.bodyDoc = bodyDoc;
 	},
-		
+	
 	setImageSet: function (imageSet) {
 		var me = this;
 		me.imageSet = imageSet;
 		
-		var contEl = me.el.getById(me.id + '_audioContIFrame');
-		contEl.set({'src': imageSet});
+		var contEl = me.el.getById(me.id + '_rendContIFrame');
+		contEl.set({
+			'src': imageSet
+		});
 		
-		/*var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
-		console.log(iframe);*/
-		//console.log(iframe.numberPages);
-		//var iframe = document.getElementById(me.id + '_audioContIFrame');
-		//var doc = iframe.contentWindow.document;
-		
-		//iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
-		//iframe.createView();
-		//var pageCount = iframe.vrvToolkit.getPageCount();
-		
-  		
-    	//console.log(me.numberPages);
- 		
 	},
 	
-    showPage: function(pageNr, isSetCount){
-     	var me = this;
-     	
-    	var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;
-    	if(isSetCount){
-    		var pageCount = iframe.numberPages;
-    		me.pageSpinner.setStore(pageCount);
-    		me.pageSpinner.setPage(1);
-    	}
+	showPage: function (pageNr, isSetCount) {
+		var me = this;
+		
+		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
+		if (isSetCount) {
+			var pageCount = iframe.numberPages;
+			me.pageSpinner.setStore(pageCount);
+			me.pageSpinner.setPage(1);
+		}
 		iframe.loadPage(pageNr);
-    },
-    
-    showAllPages: function(){
-    	var me = this;
-     	
-    	var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;	   	
+	},
+	
+	showAllPages: function () {
+		var me = this;
+		
+		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
 		iframe.allPages();
-    },
+	},
 	
 	showContinuousWidth: function () {
-	 var me = this;
-		var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;		
+		var me = this;
+		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
 		iframe.loadContinuousWidth();
 	},
 	
 	showContinuousHight: function () {
-	 var me = this;
-		var iframe = Ext.getDom(me.id + '_audioContIFrame').contentWindow;		
+		var me = this;
+		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
 		iframe.loadContinuousHight();
 	},
 	

@@ -70,17 +70,17 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		me.callParent();
 		
-		me.on('afterrender', me.createToolbarEntries, me);		
+		me.on('afterrender', me.createToolbarEntries, me);
 	},
-
+	
 	setIFrameURL: function (imageSet) {
-		var me = this;		
+		var me = this;
 		me.imageSet = imageSet;
 		me.pageBasedView.setImageSet(me.imageSet);
 	},
 	
-	createToolbarEntries: function () {		
-		var me = this;		
+	createToolbarEntries: function () {
+		var me = this;
 		var entries = me.createPageSpinner();
 		Ext.Array.each(entries, function (entry) {
 			me.bottomBar.add(entry);
@@ -96,13 +96,13 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		me.pageSpinner.setDisabled(true);
 		me.pageBasedView.showContinuousWidth();
 	},
-
+	
 	pageClick: function (me) {
 		me.pageSpinner.setDisabled(false);
 		me.pageBasedView.showPage(1, true);
 	},
 	
-	pageOriginalClick: function(me){
+	pageOriginalClick: function (me) {
 		me.pageSpinner.setDisabled(false);
 		me.pageBasedView.showAllPages();
 	},
@@ -122,10 +122,9 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			
 			listeners: {
 				select: function (combo, record, index) {
-					if(combo.getValue() === 'Original'){
+					if (combo.getValue() === 'Original') {
 						me.pageOriginalClick(me);
-					}
-					else if (combo.getValue() === 'Pages') {
+					} else if (combo.getValue() === 'Pages') {
 						me.pageClick(me);
 					} else if (combo.getValue() === 'Continuous Hight') {
 						me.stretchHightClick(me);
@@ -180,7 +179,7 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 		}
 	},
 	
-	setPageBasedView: function(pageBasedView){
+	setPageBasedView: function (pageBasedView) {
 		this.pageBasedView = pageBasedView;
 	},
 	
@@ -189,28 +188,39 @@ Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 	},
 	
 	setStore: function (test) {
-	
-	 var me = this;
-	   
+		
+		var me = this;
+		
 		this.removeAll();
 		
-		var storeField = new Array(test);
-		var value = 0;
-		for (var i = 0; i <= test; i++) {
+		var storeField = new Array(test-1);
+		var value = 1;
+		for (var i = 0; i <= test-1; i++) {
 			storeField[i] = value++;
 		}
 		
 		this.store = storeField;
+		console.log(this.store);
 		
 		this.combo = Ext.create('Ext.form.ComboBox', {
 			width: 35,
 			hideTrigger: true,
 			queryMode: 'local',
-			store: storeField,
+			store: this.store,
 			displayField: 'name',
+			editable: true,
 			valueField: 'id',
 			cls: 'pageInputBox',
-			autoSelect: true
+			autoSelect: true,
+			enableKeyEvents: true,
+			listeners: {			
+			keydown:function (combo, e, eOpts) {
+            	if (e.getKey() == 13) {
+            		me.setPage(combo.getValue());
+					me.pageBasedView.showPage(combo.getValue(), false);
+            }
+        }
+			}
 		});
 		
 		this.add([ {

@@ -38,14 +38,12 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		if (view.initialized) return;
 		view.initialized = true;
 		
-        var uri = view.uri;
-             
-      	view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);	
-      	
+		var uri = view.uri;
+		
+		view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri);
 	},
 	
 	pagesLoaded: function (text, view) {
 		view.setImageSet(text);
 	}
-
 });

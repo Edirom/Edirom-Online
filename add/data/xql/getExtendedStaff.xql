@@ -52,13 +52,11 @@ return
                 			scale: 33,
 							noLayout: 0,
 							pageHeight: initHeight,
-							pageWidth: initWidth,
-							adjustPageHeight: 1
+							pageWidth: initWidth
                 		}});
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);
                 		numberPages = vrvToolkit.getPageCount();
-                		
                 		var svg = vrvToolkit.renderPage(1, options);
 						for (i = 2; i !== vrvToolkit.getPageCount()+1; i++) {{
 							svg = svg + vrvToolkit.renderPage(i, options);
@@ -78,8 +76,6 @@ return
                 		vrvToolkit.loadData(verovioData);
                 		var svg = vrvToolkit.renderPage(pageNr, "");
                 		$("#output").html(svg);
-                		console.log("loadPage");
-                		console.log(numberPages);
                 		return numberPages;
 	 	}}
 	 	
@@ -90,8 +86,7 @@ return
 						var options = JSON.stringify({{
 							scale: 33,
 							pageHeight: pageHeight_1,
-							pageWidth: pageWidth_1,
-							noLayout: 0
+							pageWidth: pageHeight_1
 						}});
 						vrvToolkit.setOptions(options);
 						vrvToolkit.redoLayout();		
@@ -105,8 +100,7 @@ return
 	 	function loadContinuousWidth(){{
 	 		var options = JSON.stringify({{
 							scale: 33,
-							noLayout: 1,
-							adjustPageHeight: 0
+							noLayout: 1
 						}});
 						vrvToolkit.setOptions(options);
 						vrvToolkit.loadData(verovioData);
