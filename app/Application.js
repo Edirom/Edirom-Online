@@ -45,6 +45,7 @@ Ext.define('EdiromOnline.Application', {
         'window.source.SourceView',
         'window.source.PageBasedView',
         'window.source.MeasureBasedView',
+        'window.source.VerovioView',
         'window.text.TextFacsimileSplitView',
         'window.text.TextView'
     ],
@@ -64,7 +65,7 @@ Ext.define('EdiromOnline.Application', {
 
     launch: function() {
         var me = this;
-        
+       
         me.addEvents('workSelected');
         
         Ext.Ajax.request({
@@ -146,5 +147,5 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-    }
+	}
 });

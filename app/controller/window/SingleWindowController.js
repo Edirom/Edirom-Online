@@ -27,6 +27,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         'EdiromOnline.view.window.SummaryView',
         'EdiromOnline.view.window.XmlView',
         'EdiromOnline.view.window.audio.AudioView',
+	'EdiromOnline.view.window.source.VerovioView',
         'EdiromOnline.view.window.source.SourceView',
         'EdiromOnline.view.window.text.FacsimileView',
         'EdiromOnline.view.window.text.TextFacsimileSplitView',
@@ -69,7 +70,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
         var me = this;
         var views = [];
-
+        
         Ext.Array.each(config.views, function(view) {
 
             views.push(this.createView(view.type, {
@@ -108,6 +109,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
             case 'audioView': return getLangString('controller.window.Window_audioView');
+	    case 'verovioView': return getLangString('controller.window.Window_verovioView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
             case 'facsimileView': return 'Faksimile';
             case 'textView': return getLangString('controller.window.Window_textView');
@@ -124,6 +126,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
             case 'audioView': return 'EdiromOnline.view.window.audio.AudioView';
+	    case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
             case 'headerView': return 'EdiromOnline.view.window.HeaderView';
             case 'textView': return 'EdiromOnline.view.window.text.TextView';
             case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';
