@@ -43,6 +43,9 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	pageBasedView: null,
 	
+	comboSet: null,
+	comboDisplayForm: null,
+	
 	cls: 'verovioView',
 	
 	initComponent: function () {
@@ -111,15 +114,54 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		var me = this;
 		
-		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');
+		var storeSet = new Array('Ouverture', 'Satz_1', 'Satz_2', 'Satz_3', 'Satz_4','Satz_5',
+		'Satz_6','Satz_7', 'Satz_8', 'Satz_9', 'Satz_10', 'Satz_11', 'Satz_,12',
+		'Satz_13','Satz_14', 'Satz_15','Satz_16');
+		me.comboSet = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Satz',
+			store: storeSet,
+			width: 150,
+			queryMode: 'local',
+			displayField: 'name',
+			editable: false,
+			labelWidth: 30			
+			/*listeners: {
+				select: function (combo, record, index) {
+					// TODOO: path
+					'data/xql/getExtendedStaff.xql?uri=' + uri
+					//me.pageBasedView.setImageSet(me.imageSet);
+				}
+			}*/
+		});
+		me.comboSet.setValue(storeSet[0]);
 		
+		var storeDisplayForm = new Array('abbr', 'expan');
+		me.comboDisplayForm = Ext.create('Ext.form.ComboBox', {
+			fieldLabel: 'Darstellung',
+			store: storeDisplayForm,
+			queryMode: 'local',
+			width: 150,
+			displayField: 'name',
+			editable: false,
+			labelWidth: 70
+			/*listeners: {
+				select: function (combo, record, index) {
+					// TODOO: path
+					'data/xql/getExtendedStaff.xql?uri=' + uri
+					//me.pageBasedView.setImageSet(me.imageSet);
+				}
+			}*/
+		});
+		me.comboDisplayForm.setValue(storeDisplayForm[0]);
+				
+		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');		
 		var combo = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Rendering View',
 			store: storeField,
 			queryMode: 'local',
+			width: 230,
 			displayField: 'name',
-			editable: false,
-			
+			editable: false,			
 			listeners: {
 				select: function (combo, record, index) {
 					if (combo.getValue() === 'Original') {
@@ -137,14 +179,13 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		combo.setValue(storeField[0]);
 		
 		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.VerovioPageSpinner', {
-			width: 111,
+			width: 120,
 			cls: 'pageSpinner'
-		});
-		
+		});		
 		me.pageBasedView.setPageSpinner(me.pageSpinner);
 		me.pageSpinner.setPageBasedView(me.pageBasedView);
 		
-		return[combo, me.pageSpinner];
+		return[me.comboDisplayForm, me.comboSet, combo, me.pageSpinner];
 	}
 });
 

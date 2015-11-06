@@ -11,7 +11,8 @@ declare namespace transform="http://exist-db.org/xquery/transform";
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $uri := request:get-parameter('uri', '')
-let $uri := 'xmldb:exist:///db/apps/contents/musicContent/source_expan/A/A_mov1.xml'
+(:let $uri := 'xmldb:exist:///db/apps/contents/musicContent/source_expan/A/A_mov1.xml':)
+
 return
 <html>	
     <head>   	
@@ -43,11 +44,14 @@ return
                 }});
                 
                 function allPages(){{
+                	console.log("allPages");
+                  	console.log('getXml.xql?uri={$uri}');
                 	var options = JSON.stringify({{
                 			scale: 33,
 							noLayout: 0,
 							pageHeight: initHeight,
-							pageWidth: initWidth
+							pageWidth: initWidth,
+							adjustPageHeight: 1
                 		}});
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);
