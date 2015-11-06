@@ -20,6 +20,9 @@ xquery version "1.0";
   ID: $Id: getReducedDocument.xql 1328 2012-05-16 14:59:35Z daniel $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
@@ -43,8 +46,11 @@ let $xslInstruction := for $i in util:serialize($xslInstruction, ())
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
                         else()
-
-
+let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
 let $xsl := if($xslInstruction)then(doc($xslInstruction))else('../xslt/teiBody2HTML.xsl')
+
+let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,<param name="idPrefix" value="{$idPrefix}"/>) 
+
 return
-    transform:transform($doc/root(), $xsl, <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+    if($xslInstruction)then(transform:transform($doc/root(), $xsl, <parameters>{$params}</parameters>)
+    else(transform:transform($doc/root(), $xsl, <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))

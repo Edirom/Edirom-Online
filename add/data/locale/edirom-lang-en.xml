@@ -36,6 +36,7 @@
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
         <entry key="controller.window.Window_searchView" value="Search window"/>
         <entry key="controller.window.Window_sourceView" value="Facsimile"/>
+        <entry key="controller.window.Window_verovioView" value="Rendering"/>
         <entry key="controller.window.Window_summaryView" value="Summary"/>
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>

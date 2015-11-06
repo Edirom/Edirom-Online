@@ -22,6 +22,7 @@
 <!-- PARAMs ============================================================ -->
     
     <xsl:include href="edirom_params.xsl"/>
+    <xsl:param name="facsBasePath" select="string('')"/>
     
 <!-- VARIABLEs ============================================================ -->
     

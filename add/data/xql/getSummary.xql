@@ -21,11 +21,12 @@ xquery version "3.0";
 :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
-declare namespace image="http://www.edirom.de/ns/image";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
@@ -174,7 +175,7 @@ declare function local:getSourceSummary($doc, $facsBasePath) {
 declare function local:getImagePath($basePath, $uri, $width) {
     if(starts-with($uri, 'xmldb:exist'))
     then(
-        let $imagePath := doc($uri)/image:image/@file
+        let $imagePath := doc($uri)/edirom_image:image/@file
         return
             concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;mo=fit')
     )
@@ -434,12 +435,13 @@ let $uri := request:get-parameter('uri', '')
 let $type := request:get-parameter('type', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $doc := eutil:getDoc($docUri)
+let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
 
 return
     if($type = 'work')
     then(local:getWorkSummary($doc, $docUri))
     else if($type = 'source')
-    then(local:getSourceSummary($doc, '../../../digilib/Scaler/'))
+    then(local:getSourceSummary($doc, $imagePrefix))
     else if($type = 'text')
-    then(local:getTextSummary($doc, '../../../digilib/Scaler/'))
+    then(local:getTextSummary($doc, $imagePrefix))
     else()
