@@ -21,6 +21,9 @@ let $last_el_folder := substring-before($last_el, '.')
 
 let $result := replace($new_uri, $last_el, concat($last_el_folder, '/source_', $form))
 
+let $result_end := replace($result, 'musicSources', 'musicContent')
+
+
 return
 <html>	
     <head>   	
@@ -42,7 +45,7 @@ return
 	 	var initWidth = $(document).width()* 100 / 33;
 	 	
                 $.ajax({{
-                    url: 'getXml.xql?uri={$result}'
+                    url: 'getXml.xql?uri={$result_end}'
                     ,async: false
                     , dataType: "text"
                     , success: function(data) {{
