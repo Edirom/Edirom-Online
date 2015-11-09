@@ -8,10 +8,18 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
+
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $uri := request:get-parameter('uri', '')
-(:let $uri := 'xmldb:exist:///db/apps/contents/musicContent/source_expan/A/A_mov1.xml':)
+
+let $new_uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
+let $form := if(contains($uri, '?')) then(substring-after($uri, '?')) else($uri)
+
+let $last_el := tokenize($new_uri, "/")[last()]
+let $last_el_folder := substring-before($last_el, '.')
+
+let $result := replace($new_uri, $last_el, concat($last_el_folder, '/source_', $form))
 
 return
 <html>	
@@ -34,7 +42,7 @@ return
 	 	var initWidth = $(document).width()* 100 / 33;
 	 	
                 $.ajax({{
-                    url: 'getXml.xql?uri={$uri}'
+                    url: 'getXml.xql?uri={$result}'
                     ,async: false
                     , dataType: "text"
                     , success: function(data) {{
@@ -44,8 +52,6 @@ return
                 }});
                 
                 function allPages(){{
-                	console.log("allPages");
-                  	console.log('getXml.xql?uri={$uri}');
                 	var options = JSON.stringify({{
                 			scale: 33,
 							noLayout: 0,

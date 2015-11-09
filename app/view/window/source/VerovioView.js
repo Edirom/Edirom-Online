@@ -43,8 +43,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	
 	pageBasedView: null,
 	
-	comboSet: null,
-	comboDisplayForm: null,
+	displayFormCombo: null,
 	
 	cls: 'verovioView',
 	
@@ -110,50 +109,70 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		me.pageBasedView.showAllPages();
 	},
 	
+	createMenuItems: function (me, displayForm) {
+		var items = new Array(17);
+		
+		var item = Ext.create('Ext.menu.Item', {
+			text: 'Ouverture',
+			style: {
+        		backgroundColor:'#E8E8E8'
+    		},
+			handler: function (item) {
+				me.displayFormCombo.setText(displayForm+'/'+item.text);
+				me.pageBasedView.setImageSet('data/xql/getExtendedStaff.xql?uri='+me.uri+'?'+displayForm+'/'+item.text+'.xml');
+			}
+			});
+			items[0] = item;
+			
+		for (var i = 1; i <= 16; i++) {
+			var satzItem = Ext.create('Ext.menu.Item', {
+			text: 'Satz_'+i,
+			style: {
+        		backgroundColor:'#E8E8E8'
+    		},
+			handler: function (item) {
+				me.displayFormCombo.setText(displayForm+'/'+item.text);
+				me.pageBasedView.setImageSet('data/xql/getExtendedStaff.xql?uri='+me.uri+'?'+displayForm+'/'+item.text+'.xml');
+			}
+			});
+			items[i] = satzItem;
+		}
+		
+		return items;
+	},
+	
 	createPageSpinner: function () {
 		
 		var me = this;
 		
-		var storeSet = new Array('Ouverture', 'Satz_1', 'Satz_2', 'Satz_3', 'Satz_4','Satz_5',
-		'Satz_6','Satz_7', 'Satz_8', 'Satz_9', 'Satz_10', 'Satz_11', 'Satz_,12',
-		'Satz_13','Satz_14', 'Satz_15','Satz_16');
-		me.comboSet = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Satz',
-			store: storeSet,
+		/*var displayLabel  = Ext.create('Ext.form.Label', {
+			xtype: 'label',
+        	text: 'Darstellung'
+		});*/
+			
+		me.displayFormCombo = Ext.create('Ext.button.Button', {
+			xtype: 'button',
 			width: 150,
-			queryMode: 'local',
-			displayField: 'name',
-			editable: false,
-			labelWidth: 30			
-			/*listeners: {
-				select: function (combo, record, index) {
-					// TODOO: path
-					'data/xql/getExtendedStaff.xql?uri=' + uri
-					//me.pageBasedView.setImageSet(me.imageSet);
-				}
-			}*/
+			ui: 'plain',
+ 			style:'background-color:#E8E8E8',
+			menu:[Ext.create('Ext.menu.Item', {
+				text: 'abbr',
+				style: {
+        			backgroundColor:'#E8E8E8'
+    			},
+				menu: me.createMenuItems(me, 'abbr')
+			}),
+			
+			Ext.create('Ext.menu.Item', {
+				text: 'expan',
+				style: {
+        			backgroundColor:'#E8E8E8'
+    			},
+				menu: me.createMenuItems(me,'expan')
+			})]
 		});
-		me.comboSet.setValue(storeSet[0]);
-		
-		var storeDisplayForm = new Array('abbr', 'expan');
-		me.comboDisplayForm = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Darstellung',
-			store: storeDisplayForm,
-			queryMode: 'local',
-			width: 150,
-			displayField: 'name',
-			editable: false,
-			labelWidth: 70
-			/*listeners: {
-				select: function (combo, record, index) {
-					// TODOO: path
-					'data/xql/getExtendedStaff.xql?uri=' + uri
-					//me.pageBasedView.setImageSet(me.imageSet);
-				}
-			}*/
-		});
-		me.comboDisplayForm.setValue(storeDisplayForm[0]);
-				
+		me.displayFormCombo.setText('expan/Ouverture');
+			
 		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');		
 		var combo = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Rendering View',
@@ -185,7 +204,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		me.pageBasedView.setPageSpinner(me.pageSpinner);
 		me.pageSpinner.setPageBasedView(me.pageBasedView);
 		
-		return[me.comboDisplayForm, me.comboSet, combo, me.pageSpinner];
+		return[me.displayFormCombo, combo, me.pageSpinner];
 	}
 });
 
