@@ -12,14 +12,13 @@ declare namespace transform="http://exist-db.org/xquery/transform";
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $uri := request:get-parameter('uri', '')
+let $form := request:get-parameter('form', 'expan')
+let $mov := request:get-parameter('mov', '')
 
-let $new_uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
-let $form := if(contains($uri, '?')) then(substring-after($uri, '?')) else($uri)
+let $last_el := tokenize($uri, "/")[last()]
+let $sigla := replace(substring-before($last_el, '.'), 'freidi-musicSource_', '')
 
-let $last_el := tokenize($new_uri, "/")[last()]
-let $last_el_folder := substring-before($last_el, '.')
-
-let $result := replace($new_uri, $last_el, concat($last_el_folder, '/source_', $form))
+let $result := replace($uri, $last_el, concat('source_', $form, '/', $sigla, '/', $sigla, '_', $mov, '.xml'))
 
 let $result_end := replace($result, 'musicSources', 'musicContent')
 

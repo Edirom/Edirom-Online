@@ -109,34 +109,41 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		me.pageBasedView.showAllPages();
 	},
 	
-	createMenuItems: function (me, displayForm) {
-		var items = new Array(17);
+	createMenuItems: function (me, displayForm, displayFormLabel) {
+        var items = new Array();
+
+        var fn = function (item, obj, form, formLabel, mov) {
+		    var me = this;
+		    
+			me.displayFormCombo.setText(formLabel + ' -> ' + item.text);
+        	me.pageBasedView.setImageSet('data/xql/getExtendedStaff.xql?uri='+me.uri+'&form='+form+'&mov=mov'+mov);
+        };
 		
-		var item = Ext.create('Ext.menu.Item', {
-			text: 'Ouverture',
-			style: {
-        		backgroundColor:'#E8E8E8'
-    		},
-			handler: function (item) {
-				me.displayFormCombo.setText(displayForm+'/'+item.text);
-				me.pageBasedView.setImageSet('data/xql/getExtendedStaff.xql?uri='+me.uri+'?'+displayForm+'/'+item.text+'.xml');
-			}
-			});
-			items[0] = item;
-			
-		for (var i = 1; i <= 16; i++) {
-			var satzItem = Ext.create('Ext.menu.Item', {
-			text: 'Satz_'+i,
-			style: {
-        		backgroundColor:'#E8E8E8'
-    		},
-			handler: function (item) {
-				me.displayFormCombo.setText(displayForm+'/'+item.text);
-				me.pageBasedView.setImageSet('data/xql/getExtendedStaff.xql?uri='+me.uri+'?'+displayForm+'/'+item.text+'.xml');
-			}
-			});
-			items[i] = satzItem;
+		if(me.uri == 'xmldb:exist:///db/apps/contents/musicSources/freidi-musicSource_A.xml') {
+    		for (var i = 0; i < 17; i++) {
+    			var mov = Ext.create('Ext.menu.Item', {
+        			text: (i === 0?'Ouvertüre':'Nummer ' + i),
+        			style: {
+                		backgroundColor:'#E8E8E8'
+            		},
+        			handler: Ext.bind(fn, me, [displayForm, displayFormLabel, i], true)
+    			});
+    			items.push(mov);
+    		}
+		}else {
+		    var nos = [6, 8, 9];
+    		for (var i in nos) {
+    			var mov = Ext.create('Ext.menu.Item', {
+        			text: 'Nummer ' + nos[i],
+        			style: {
+                		backgroundColor:'#E8E8E8'
+            		},
+        			handler: Ext.bind(fn, me, [displayForm, displayFormLabel, nos[i]], true)
+    			});
+    			items.push(mov);
+    		}
 		}
+		
 		
 		return items;
 	},
@@ -156,22 +163,22 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			ui: 'plain',
  			style:'background-color:#E8E8E8',
 			menu:[Ext.create('Ext.menu.Item', {
-				text: 'abbr',
+				text: 'Abkürzungen',
 				style: {
         			backgroundColor:'#E8E8E8'
     			},
-				menu: me.createMenuItems(me, 'abbr')
+				menu: me.createMenuItems(me, 'abbr', 'Abkürzungen')
 			}),
 			
 			Ext.create('Ext.menu.Item', {
-				text: 'expan',
+				text: 'Spieltext',
 				style: {
         			backgroundColor:'#E8E8E8'
     			},
-				menu: me.createMenuItems(me,'expan')
+				menu: me.createMenuItems(me,'expan', 'Spieltext')
 			})]
 		});
-		me.displayFormCombo.setText('expan/Ouverture');
+		//me.displayFormCombo.setText('expan/Ouverture');
 			
 		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');		
 		var combo = Ext.create('Ext.form.ComboBox', {
