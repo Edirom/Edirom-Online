@@ -912,10 +912,10 @@ $underlineColor: #333333;
 			text-indent: -1em;
 		}
 		
-		.indent_1 {margin-left: 2em;}
-		.indent_2 {margin-left: 4em;}
-		.indent_3 {margin-left: 6em;}
-		.indent_4 {margin-left: 8em;}
+		.indent_1 {margin-left: 2em !important;}
+		.indent_2 {margin-left: 4em !important;}
+		.indent_3 {margin-left: 6em !important;}
+		.indent_4 {margin-left: 8em !important;}
 		
 		.margin_top {
 			margin-top: 2em;
@@ -1034,6 +1034,10 @@ $underlineColor: #333333;
             div.teidiv0 ul ul li blockquote {
                 margin-left: 4em;
             }
+            
+            .stage.it[id$="braced_2"] {
+    		    @include zugleich_links(-30px, -115px, 200px, -100px);
+			}
 		}
 		
 		&.RMs-tx11 {
@@ -1042,6 +1046,10 @@ $underlineColor: #333333;
 		
 		&.RD-tx1 {
 		  @include drucke;
+		  
+            div.speaker {
+                margin-bottom: 0;
+            }
 		}
 		
 		&.RD-tx2 {
@@ -1050,6 +1058,11 @@ $underlineColor: #333333;
 
 		&.RD-tx3 {
 		  @include drucke;
+
+            div.speaker {
+                margin-bottom: 0;
+                width: 34.5em;
+            }
 		}
 
 		&.RD-tx4 {
@@ -1074,7 +1087,27 @@ $underlineColor: #333333;
 
 		&.RD-tx13 {
 		  @include drucke;
-		}
+
+            div.speaker {
+                margin-bottom: 0;
+            }
+            
+            div.teidiv0 ul ul {
+            
+                &:after {
+                    font-size: 13em;
+                    left: 0.9em;
+                }
+                
+                span.role + blockquote.roleDesc span {
+                    top: 6em;
+                }
+            }
+            
+            .stage.it.inline[id$="braced_1"] {
+				@include zugleich_flex(-350px, -90px, 150px, -75px);
+			}
+        }
 
 		&.RD-tx14 {
 		  @include drucke;
@@ -1082,6 +1115,26 @@ $underlineColor: #333333;
             .stage.it.inline[id$="braced_2"] {
 				@include zugleich_flex(-350px, -70px, 110px, -45px);
 			}
+
+            .stage.it.inline[id$="braced_3"] {
+				@include zugleich_flex(-350px, -70px, 110px, -45px);
+			}
+
+            .stage.it.inline[id$="braced_4"] {
+				@include zugleich_flex(-350px, -70px, 110px, -45px);
+			}
+			
+            div.speaker {
+                margin-bottom: 0;
+            }
+            
+            div.teidiv0 ul ul {
+                &:after {
+                    font-size: 4em;
+                    left: 3.3em;
+                    top: 0.3em;
+                }
+            }
 		}
 
 		&.RD-tx15 {
