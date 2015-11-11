@@ -117,17 +117,42 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         switch(path.substring(0, path.lastIndexOf('/'))) {
             case 'sources/A': sourceHint.update('Quelle: Berlin SBB'); break;
             case 'sources/D1849': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/D1849B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/D1871': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/DJochum': sourceHint.update('Quelle: BSB München'); break;
+            case 'sources/ED-kl1-neu': sourceHint.update('Quelle: Wien ÖNB'); break;
             case 'sources/K13': sourceHint.update('Quelle: Weimar Thüringisches Landesmusikarchiv'); break;
             case 'sources/K15': sourceHint.update('Quelle: Detmold Lippische LB'); break;
-            case 'sources/Kx1': sourceHint.update('Quelle: Berlin SBB'); break;
             case 'sources/KA1': sourceHint.update('Quelle: Wolfenbüttel Herzog August Bibliothek'); break;
             case 'sources/KA19': sourceHint.update('Quelle: Kopenhagen KB'); break;
             case 'sources/KA2': sourceHint.update('Quelle: Wien ÖNB'); break;
             case 'sources/KA26': sourceHint.update('Quelle: Stuttgart Württ. LB'); break;
             case 'sources/KA9': sourceHint.update('Quelle: Frankfurt Universitätsbibliothek'); break;
-            case 'libretto/C_07_KA-tx4_IIA_g_1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'sources/Kx1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_Dp-tx1_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
             case 'libretto/C_07_D-tx2_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_KA-tx_Hamburg': sourceHint.update('Quelle: SUB Hamburg'); break;
+            case 'libretto/C_07_K-tx7_Gotha_Chart-B-01490': sourceHint.update('Quelle: Forschungsbibliothek Gotha'); break;
+            case 'libretto/C_07_Dp-tx2_D-F': sourceHint.update('Quelle: Frankfurt Universitätsbibliothek'); break;
+            case 'libretto/C_07_D-tx3_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_KAtx_Wn': sourceHint.update('Quelle: Wien ÖNB'); break;
+            case 'libretto/C_07_L-tx2_IIA_g_12': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_Dp-tx3_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_ED-tx_D-B': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_K-tx29_Detmold_MUS_N_245_TextB': sourceHint.update('Quelle: Detmold Lippische LB'); break;
+            case 'libretto/C_07_D-tx1_A-Wn': sourceHint.update('Quelle: Wien ÖNB'); break;
+            case 'libretto/C_07_KA-tx4_IIA_g_1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/C_07_K-tx6_Berlin_TO_235': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/VD-tx1': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'libretto/VD-tx2': sourceHint.update('Quelle: Weimar Herzogin Anna Amalia Bibliothek'); break;
             case 'reference/Geisterinsel': sourceHint.update('Quelle: BSB München'); break;
+            case 'reference/BIBT_Schw_161': sourceHint.update('Quelle: Wien Österreichisches Theatermuseum'); break;
+            case 'reference/Gerle': sourceHint.update('Quelle: BSB München'); break;
+            case 'reference/Gespensterbuch': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'reference/von_Caspar_Freischuetz_1812': sourceHint.update('Quelle: München Stadtarchiv'); break;
+            case 'reference/von_Riesch-Freischuetz1821': sourceHint.update('Quelle: Berlin SBB'); break;
+            case 'reference/Unterredung': sourceHint.update('Quelle: BSB München'); break;
+            case 'reference/von_Caspar_Freischuetz_1813': sourceHint.update('Quelle: Stuttgart Württembergische Landesbibliothek'); break;
             default: break;
         }
     },
