@@ -118,7 +118,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             case 'sources/A': sourceHint.update('Quelle: D-B: Berlin SBB'); break;
             case 'sources/D1849': sourceHint.update('Quelle: D-B: Berlin SBB'); break;
             case 'sources/D1849B': sourceHint.update('Quelle: D-B: Berlin SBB'); break;
-            case 'sources/D1871': sourceHint.update('Quelle: D-B: Berlin SBB'); break;
+            case 'sources/D1871': sourceHint.update('Quelle: D-DT: Detmold LLB'); break;
             case 'sources/DJochum': sourceHint.update('Quelle: D-Mbs: München BSB'); break;
             case 'sources/ED-kl1-neu': sourceHint.update('Quelle: A-Wn: Wien ÖNB'); break;
             case 'sources/K13': sourceHint.update('Quelle: D-WRha: Weimar, HfM HA'); break;
