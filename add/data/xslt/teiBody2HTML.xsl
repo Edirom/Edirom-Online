@@ -964,4 +964,13 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
+    
+    <xsl:template match="tei:milestone">
+        <xsl:variable name="className" as="xs:string*">
+            <xsl:for-each select="@* except @xml:id">
+                <xsl:value-of select="concat(local-name(.), '_', string(.))"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <a class="{string-join($className, ' ')}" id="{./string(@xml:id)}"><!-- anchor --></a>
+    </xsl:template>
 </xsl:stylesheet>

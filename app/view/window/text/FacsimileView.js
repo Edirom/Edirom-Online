@@ -188,6 +188,55 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
                 me.setImageSet(pages);
             }
         });
+        
+        Ext.Ajax.request({
+            url: 'data/xql/getChapters.xql',
+            method: 'GET',
+            params: {
+                uri: me.uri,
+                mode: 'pageMode'
+            },
+            success: function(response){
+                var data = response.responseText;
+
+                var chapters = Ext.create('Ext.data.Store', {
+                    fields: ['id', 'name', 'pageId'],
+                    data: Ext.JSON.decode(data)
+                });
+
+                me.setChapters(chapters);
+            }
+        });
+    },
+    
+    setChapters: function(chapters) {
+        var me = this;
+
+        if(chapters.getTotalCount() == 0) return;
+
+        me.gotoMenu =  Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.text.TextView_gotoMenu'),
+            indent: false,
+            cls: 'menuButton',
+            menu : {
+                items: [
+                ]
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+
+        me.chapters = chapters;
+
+        var chapterItems = [];
+        chapters.each(function(chapter) {
+            chapterItems.push({
+                text: chapter.get('name'),
+                handler: Ext.bind(me.showPage, me, chapter.get('pageId'), true)
+            });
+        });
+
+        me.gotoMenu.menu.add(chapterItems);
+        me.gotoMenu.show();
     }
 });
 

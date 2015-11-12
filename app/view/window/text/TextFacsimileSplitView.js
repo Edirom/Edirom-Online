@@ -566,6 +566,48 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         return me.activePage.get('id');
     },
 
+    setChapters: function(chapters) {
+        var me = this;
+
+        if(chapters.getTotalCount() == 0) return;
+
+        me.gotoMenu =  Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.text.TextView_gotoMenu'),
+            indent: false,
+            cls: 'menuButton',
+            menu : {
+                items: [
+                ]
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+
+        me.chapters = chapters;
+
+        var chapterItems = [];
+        chapters.each(function(chapter) {
+            chapterItems.push({
+                text: chapter.get('name'),
+                handler: Ext.bind(me.gotoChapter, me, chapter.get('pageId'), true)
+            });
+        });
+
+        me.gotoMenu.menu.add(chapterItems);
+        me.gotoMenu.show();
+    },
+    
+    gotoChapter: function(menuItem, event, pageId) {
+        this.fireEvent('gotoChapter', this, pageId);
+    },
+    
+    gotoPage: function(pageId) {
+        var me = this;
+        var combo = {'getValue': function() {
+            return pageId;
+        }};
+        me.setPage(combo, null);
+    },
+    
     loadInternalId: function() {
         var me = this;
 
