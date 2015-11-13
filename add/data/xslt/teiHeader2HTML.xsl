@@ -120,6 +120,11 @@
         <xsl:value-of select="."/>
         <xsl:text>) </xsl:text>
     </xsl:template>
+    <xsl:template match="tei:abstract">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
     <xsl:template match="tei:author">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
