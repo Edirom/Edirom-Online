@@ -14,6 +14,7 @@
     <entry xml:id="mrk">Markup Editor</entry>
     <entry xml:id="pbd">Verlagsleiter</entry>
     <entry xml:id="pbl">Herausgeber</entry>
+    <entry xml:id="rce">Tontechnik</entry>
     <entry xml:id="scr">Schreiber</entry>
     <!-- Identifier Klassen -->
     <entry xml:id="labelCode">Labelcode</entry>
@@ -79,11 +80,11 @@
     <entry xml:id="hand">Hand</entry>
     <entry xml:id="identifier">Signatur</entry>
     <entry xml:id="inscription">Aufdruck</entry>
-    <entry xml:id="physLoc">Ort innerhalb eines Repositories</entry>
-    <entry xml:id="physMedium">benutztes Medium</entry>
+    <entry xml:id="physLoc">Aufbewahrungsort</entry>
+    <entry xml:id="physMedium">Material</entry>
     <entry xml:id="plateNum">Platznummer</entry>
     <entry xml:id="provenance">Provenienz</entry>
-    <entry xml:id="repository">Institution</entry>
+    <entry xml:id="repository">Repositorium</entry>
     <entry xml:id="titlePage">Titelseite</entry>
     <entry xml:id="treatHist">Bearbeitungsgeschichte</entry>
     <entry xml:id="treatSched">angesetzte Bearbeitungen</entry>
@@ -111,6 +112,7 @@
     <entry xml:id="soundChan">Tonkanäle</entry>
 
     <!-- TEI -->
+    <entry xml:id="abstract">Editorische Zusammenfassung</entry>
     <entry xml:id="additional">Zusätzliche Informationen</entry>
     <entry xml:id="additions">Ergänzungen</entry>
     <entry xml:id="availability">Verfügbarkeit</entry>
@@ -139,7 +141,7 @@
     <entry xml:id="settlement">Ort</entry>
     <entry xml:id="supportDesc">Material</entry>
     <entry xml:id="handDesc">Schreiber</entry>
-    <entry xml:id="itemList">Objektauflistung</entry>
+    <entry xml:id="itemList">Exemplar(e)</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Verantwortlich</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
