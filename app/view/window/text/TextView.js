@@ -528,6 +528,18 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     gotoChapter: function(menuItem, event, chapterId) {
         this.fireEvent('gotoChapter', this, chapterId);
     },
+    
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'graphic' || type == 'surface' || type == 'zone')
+            return 0;
+            
+        return 70;
+    },
 
     loadInternalId: function() {
         var me = this;

@@ -608,6 +608,15 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.setPage(combo, null);
     },
     
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        return 50;
+    },
+
     loadInternalId: function() {
         var me = this;
 
