@@ -304,8 +304,23 @@
                         <xsl:with-param name="key" select="local-name(.)"/>
                     </xsl:call-template>
                 </xsl:for-each>
-                <xsl:apply-templates select="mei:identifier"/>
                 <xsl:apply-templates select="mei:titleStmt"/>
+                <xsl:if test="count(mei:identifier) gt 0">
+            <xsl:element name="div">
+                <xsl:call-template name="rendToProperty">
+                    <xsl:with-param name="key" select="string('identifier')"/>
+                </xsl:call-template>
+                <xsl:element name="div">
+                    <xsl:attribute name="class">value</xsl:attribute>
+                    <xsl:for-each select="mei:identifier">
+                        <xsl:call-template name="makeSubProperty">
+                            <xsl:with-param name="node" select="."/>
+                            <xsl:with-param name="key" select="@type"/>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </xsl:element>
+            </xsl:element>
+        </xsl:if>
                 <xsl:apply-templates select="mei:pubStmt"/>
                 <xsl:apply-templates select="mei:classification"/>
                 <xsl:if test="mei:langUsage | mei:editionStmt"><!-- TODO test  | mei:classification-->
