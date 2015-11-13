@@ -31,9 +31,13 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		
 		var me = this;
 		
+		viewId = me.id;
+		
 		me.html = '<div id="' + me.id + '_headerCont" class="headerViewContent"></div>';
 		
 		me.callParent();
+		
+		me.on('afterrender', me.createMenuEntries, me, {single: true});
 	},
 	
 	setContent: function (data, uri) {
@@ -41,23 +45,28 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		var contEl = me.el.getById(me.id + '_headerCont');
 		contEl.update(data);
 		
+		placeHolder = uri;
+		content = $('#' + viewId + '_headerCont').annotator();
 		if (annotationOn) {
-			$(document).ready(function () {
-				var content = $('#' + me.id + '_headerCont').annotator();
-				
+			me.showAnnotations();	
+		}
+	},
+	
+	showAnnotations: function(){		
+			$(document).ready(function () {			
 				content.annotator('addPlugin', 'Auth', {
 					tokenUrl: 'http://annotateit.org/api/token',
 					autoFetch: true
 				});
 				
-				content.annotator('addPlugin', 'Store', {
+				test = content.annotator('addPlugin', 'Store', {
 					prefix: 'http://annotateit.org/api',
 					annotationData: {
-						'uri': uri
+						'uri': placeHolder
 					},
 					loadFromSearch: {
 						'limit': 20,
-						'uri': uri
+						'uri': placeHolder
 					},
 					urls: {
 						create: '/annotations',
@@ -70,8 +79,37 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 					
 					showEditPermissionsCheckbox: true
 				});
+				//console.log(test);
 			});
-		}
+		
+	},
+	
+	createMenuEntries: function() {
+		var me = this;
+		
+		var reloadIcon = Ext.create('Ext.panel.Tool', {
+			type: 'refresh',
+            tooltip: 'aktiviere Annotations',
+			handler: function () {
+				if (annotationOn) {
+					me.showAnnotations();	
+				/*	test.annotationData = {
+						'uri': placeHolder
+					},
+					test.loadFromSearch = {
+						'limit': 20,
+						'uri': placeHolder
+					}
+					console.log(test.annotationData);
+					console.log(test.loadFromSearch);*/
+				}
+				else{
+					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
+				}
+			}
+		});
+		
+        me.window.getTopbar().addViewSpecificItem(reloadIcon, me.id);
 	},
 	
 	getContentConfig: function () {

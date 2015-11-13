@@ -66,6 +66,9 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 		
 		me.annotateItButton = Ext.create('Ext.button.Button', {
 			icon: 'resources/css/Bubble.png',
+			tooltip: {
+				text: 'AnnotateIt'
+			},
 			handler: this.openLoginWindow
 		});
 		
@@ -78,7 +81,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 				xtype: 'tbtext', text: 'Freischütz', id: 'homeBtnLabel'
 			},
 			this.workCombo,
-			'->',			
+			'->',
 			//me.searchTextField,
 			me.searchButton,
 			'-',
@@ -93,42 +96,42 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 	 * Handler for get AnnotatorIt home page
 	 */
 	openLoginWindow: function () {
+		
 		new Ext.Window({
 			title: "Login to AnnotateIt",
-			width: 600,
-			height: 400,
-			closable: true,
+			width: 700,
+			height: 500,
+			closable: false,
+			modal: true,
 			layout: 'fit',
+			
 			items:[ {
 				xtype: "component",
 				autoEl: {
 					tag: "iframe",
 					src: "http://annotateit.org/user/login"
-					}
-			}
-			],
-			
-			bbar:[ 
-			 	'->',
-				{
-                    xtype: 'component',
-                    html: 'Please confirm action: '
-                },
-				
-				{
-					text: 'Login',
-					handler: function () {
-						annotationOn = true;
-						this.up('window').close();
-					}
-			 	},
-				{
-					text: 'Logout',
-					handler: function () {
-						annotationOn = false;
-						this.up('window').close();
-					}
-				}]
-			}).show();
+				}
+			}],
+			buttons:[
+			 {
+				text: 'Ok',
+				width: 90,
+				handler: function () {
+					var content = $('#' + this.id).annotator();
+					content.annotator('addPlugin', 'Auth', {
+						tokenUrl: 'http://annotateit.org/api/token',
+						autoFetch: true
+					});
+					annotationOn = true;
+					
+					$(document).ajaxError(function (event, jqxhr, settings, exception) {
+						if (jqxhr.status == 401) {
+							annotationOn = false;
+						}
+					});
+					this.up('window').close();
+				}
+			}]
+		}).show();
 	}
 });
