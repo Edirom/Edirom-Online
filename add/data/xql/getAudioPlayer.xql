@@ -28,8 +28,11 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $doc := eutil:getDoc($docUri)
-let $artist := $doc//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title/mei:persName/text()
-let $album := $doc//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title/mei:title/text()
+let $expressionRef := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:relationList/mei:relation[@rel='isEmbodimentOf']/@target
+let $artist := doc('xmldb:exist:///db/apps/contents/edition/freidi-work.xml')//id(substring-after($expressionRef,'#'))/mei:titleStmt/mei:title/mei:persName
+let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title/text()
+let $albumCoverSurfaceID := substring-after($doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:titlePage/@facs,'#')
+let $albumCover := '../../../contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
                             
 (: TODO: Prüfen, ob die Pfade relativ sind :)
 
@@ -154,7 +157,7 @@ return
 		<!-- End Small Player -->
 
 		<!-- Begin Playlist -->
-		<div id="small-player-playlist">
+		<div id="small-player-playlist" style="height:auto;max-height:590px;margin-bottom:18px;">
 			<div class="information">
 				{$artist} – {$album}
 				<hr/>
