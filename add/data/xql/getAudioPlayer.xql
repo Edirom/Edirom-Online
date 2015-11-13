@@ -30,7 +30,7 @@ let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($u
 let $doc := eutil:getDoc($docUri)
 let $expressionRef := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:relationList/mei:relation[@rel='isEmbodimentOf']/@target
 let $artist := doc('xmldb:exist:///db/apps/contents/edition/freidi-work.xml')//id(substring-after($expressionRef,'#'))/mei:titleStmt/mei:title/mei:persName
-let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title/text()
+let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title[1]/text()
 let $albumCoverSurfaceID := substring-after($doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:titlePage/@facs,'#')
 let $albumCover := '../../../contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
                             
