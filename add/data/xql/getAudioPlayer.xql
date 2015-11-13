@@ -32,7 +32,7 @@ let $expressionRef := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/m
 let $artist := doc('xmldb:exist:///db/apps/contents/edition/freidi-work.xml')//id(substring-after($expressionRef,'#'))/mei:titleStmt/mei:title/mei:persName
 let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title/text()
 let $albumCoverSurfaceID := substring-after($doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:titlePage/@facs,'#')
-let $albumCover := '../../../contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
+let $albumCover := '../../../contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
                             
 (: TODO: Prüfen, ob die Pfade relativ sind :)
 
