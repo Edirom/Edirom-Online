@@ -164,8 +164,16 @@
         </xsl:element>
     </xsl:template>
     <xsl:template match="mei:componentGrp">
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:element name="div">
-            <xsl:call-template name="rendToProperty"/>
+            <xsl:choose>
+                <xsl:when test="$sub">
+                    <xsl:call-template name="rendToSubProperty"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:call-template name="rendToProperty"/>
+                </xsl:otherwise>
+            </xsl:choose>
             <xsl:element name="div">
                 <xsl:attribute name="class">value</xsl:attribute>
                 <xsl:element name="ol">
@@ -223,6 +231,7 @@
     </xsl:template>
     <xsl:template match="mei:expression">
         <xsl:param name="key" select="@label"/>
+        <xsl:param name="sub" tunnel="yes" select="true()"/>
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -238,7 +247,7 @@
             <xsl:element name="div">
                 <xsl:attribute name="class" select="string('value')"/>
                 <xsl:apply-templates>
-                    <xsl:with-param name="sub" select="true()"/>
+                    <xsl:with-param name="sub" select="$sub" tunnel="yes"/>
                 </xsl:apply-templates>
             </xsl:element>
         </xsl:element>
@@ -677,7 +686,7 @@
         </xsl:if>-->
     </xsl:template>
     <xsl:template match="mei:title" name="title" mode="#all">
-        <xsl:param name="sub"/>
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:element name="div">
             <xsl:attribute name="class" select="if($sub)then(string('subProperty'))else(string('property'))"/>
             <xsl:element name="div">
@@ -720,7 +729,7 @@
         <xsl:value-of select="./node()" separator=" "/>
     </xsl:template>
     <xsl:template match="mei:respStmt" name="respStmt">
-        <xsl:param name="sub"/>
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:variable name="key">
             <xsl:choose>
                 <xsl:when test="@label">
@@ -1057,7 +1066,7 @@
         </xsl:call-template>
     </xsl:template>
     <xsl:template match="mei:instrumentation">
-        <xsl:param name="sub"/>
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:element name="div">
             <xsl:attribute name="class" select="if($sub)then(string('subProperty'))else(string('property'))"/>
             <xsl:element name="div">
@@ -1148,7 +1157,7 @@
         </xsl:apply-templates>
     </xsl:template>
     <xsl:template match="mei:edition">
-        <xsl:param name="sub"/>
+        <xsl:param name="sub" tunnel="yes"/>
         <!--<xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -1163,6 +1172,7 @@
         </xsl:element>-->
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="sub" select="$sub" tunnel="yes" />
         </xsl:call-template>
     </xsl:template>
     <xsl:template match="mei:edition" mode="plainCommaSep">
@@ -1343,7 +1353,7 @@
         </xsl:for-each>
     </xsl:template>
     <xsl:template match="mei:classification">
-        <xsl:param name="sub"/>
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:choose>
             <xsl:when test="$sub">
                 <xsl:call-template name="makeSubProperty">
