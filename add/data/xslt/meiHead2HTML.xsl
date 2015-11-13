@@ -1578,7 +1578,7 @@
         </xsl:element>
     </xsl:template>
     
-    <!--<xsl:template match="mei:physLoc">
+    <xsl:template match="mei:physLoc">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -1597,7 +1597,7 @@
                 <xsl:apply-templates mode="plainCommaSep"/>
             </xsl:element>
         </xsl:element>
-    </xsl:template>-->
+    </xsl:template>
     <xsl:template match="mei:physMedium" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
