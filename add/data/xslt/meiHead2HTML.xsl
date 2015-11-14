@@ -497,6 +497,7 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+ 
     <!--<xsl:template match="mei:titleStmt">
 <!-\-        <xsl:element name="div">-\->
 <!-\-            <xsl:attribute name="class">propertyList</xsl:attribute>-\->
@@ -1257,24 +1258,13 @@
     </xsl:apply-templates>
   </xsl:template>-->
     <xsl:template match="mei:editionStmt" mode="plainCommaSep">
+        <xsl:param name="sub" tunnel="yes"/>
         <xsl:apply-templates mode="#current">
-            <xsl:with-param name="sub" select="true()"/>
+            <xsl:with-param name="sub" select="true()" tunnel="yes"/>
         </xsl:apply-templates>
     </xsl:template>
     <xsl:template match="mei:edition">
         <xsl:param name="sub" tunnel="yes"/>
-        <!--<xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
-            <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:value-of select="eof:getLabel('edition')"/>
-            </xsl:element>
-            <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="node()" mode="valueOnly"/>
-                <xsl:value-of select="string(' ')"/>
-            </xsl:element>
-        </xsl:element>-->
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
             <xsl:with-param name="sub" select="$sub" tunnel="yes"/>
@@ -1283,7 +1273,7 @@
     <xsl:template match="mei:edition" mode="plainCommaSep">
         <xsl:apply-templates select="@*"/>
         <xsl:apply-templates select="*" mode="plainCommaSep">
-            <xsl:with-param name="sub" select="true()"/>
+            <xsl:with-param name="sub" select="true()" tunnel="yes"/>
         </xsl:apply-templates>
     </xsl:template>
     <xsl:template match="mei:fig" mode="#all">
