@@ -203,6 +203,35 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    <xsl:template match="mei:componentGrp" mode="plainCommaSep">
+       <!-- <xsl:element name="ul">
+            <xsl:for-each select="*">
+                <xsl:element name="li">
+                    <xsl:apply-templates mode="#current"/>
+                </xsl:element>
+            </xsl:for-each>
+            
+        </xsl:element>-->
+        <xsl:for-each select="*">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="key" select="mei:titleStmt/mei:title"/>
+        </xsl:call-template>
+        </xsl:for-each>
+    </xsl:template>
+    <xsl:template match="mei:expression" mode="subProp">
+        <xsl:value-of select=".//mei:instrVoice/@label" separator=", "/>
+    </xsl:template>
+    <xsl:template match="@xml:id" mode="subProp"/>
+    <!--<xsltemplate match="mei:instrumentation" mode="subProp">
+        <xsl:element name="ul">
+            <xsl:for-each select="*">
+                <xsl:element name="li">
+                    <xsl:apply-templates mode="#current"/>
+                </xsl:element>
+            </xsl:for-each>
+        </xsl:element>
+    </xsltemplate>-->
     <xsl:template match="mei:meiHead">
         <xsl:element name="div">
             <xsl:attribute name="class">meiHead</xsl:attribute>
@@ -1062,6 +1091,9 @@
             <xsl:otherwise/>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="mei:perfMedium" mode="subProp">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
     <!--<xsl:template match="perfMedium">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
@@ -1301,7 +1333,7 @@
                             <xsl:value-of select="@label"/>
                         </xsl:when>
                         <xsl:when test="local-name(child::*[1]) eq 'title'">
-                            <xsl:apply-templates select="./title[1]" mode="valueOnly"/>
+                            <xsl:apply-templates select="./rceedition[1]" mode="valueOnly"/>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:value-of select="eof:getLabel('event')"/>
