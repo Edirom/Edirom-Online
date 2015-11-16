@@ -11,6 +11,7 @@
     <entry xml:id="dst">Distributor</entry>
     <entry xml:id="dtc">Data contributor</entry>
     <entry xml:id="edt">Editor</entry>
+    <entry xml:id="fnd">Funder</entry>
     <entry xml:id="mcp">Kopist (Musik)</entry>
     <entry xml:id="mus">Musiker</entry>
     <entry xml:id="mrk">Markup Editor</entry>
@@ -20,6 +21,7 @@
     <entry xml:id="rce">Tontechnik</entry>
     <entry xml:id="rth">Research tem head</entry>
     <entry xml:id="scr">Schreiber</entry>
+    <entry xml:id="spn">Sponsor</entry>
     <!-- Identifier Klassen -->
     <entry xml:id="labelCode">Labelcode</entry>
     <entry xml:id="orderNo">Bestellnummer</entry>
