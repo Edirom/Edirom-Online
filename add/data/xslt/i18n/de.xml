@@ -7,14 +7,18 @@
     <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
     <entry xml:id="cmp">Komponist</entry>
     <entry xml:id="cnd">Dirigent</entry>
+    <entry xml:id="csl">Consultant</entry>
     <entry xml:id="dst">Distributor</entry>
+    <entry xml:id="dtc">Data contributor</entry>
     <entry xml:id="edt">Editor</entry>
     <entry xml:id="mcp">Kopist (Musik)</entry>
     <entry xml:id="mus">Musiker</entry>
     <entry xml:id="mrk">Markup Editor</entry>
     <entry xml:id="pbd">Verlagsleiter</entry>
     <entry xml:id="pbl">Herausgeber</entry>
+    <entry xml:id="pdr">Project director</entry>
     <entry xml:id="rce">Tontechnik</entry>
+    <entry xml:id="rth">Research tem head</entry>
     <entry xml:id="scr">Schreiber</entry>
     <!-- Identifier Klassen -->
     <entry xml:id="labelCode">Labelcode</entry>
@@ -103,7 +107,7 @@
     <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="handList">Schreiber</entry>
     <entry xml:id="pubStmt">Publikation</entry>
-    <entry xml:id="pubPlace">Ort</entry>
+    <entry xml:id="pupPlace">Ort</entry>
     <entry xml:id="corpName">Körperschaft</entry>
     <entry xml:id="captureMode">Aufnahmemodus</entry>
     <entry xml:id="carrierForm">Datenträger</entry>
@@ -111,7 +115,10 @@
     <entry xml:id="playingSpeed">Abspielgeschwindigkeit</entry>
     <entry xml:id="relationList">FRBR-Beziehungen</entry>
     <entry xml:id="soundChan">Tonkanäle</entry>
-
+    
+    <!-- MEI & TEI -->
+    <entry xml:id="ptr">Link</entry>
+    
     <!-- TEI -->
     <entry xml:id="abstract">Editorische Zusammenfassung</entry>
     <entry xml:id="additional">Zusätzliche Informationen</entry>
@@ -128,6 +135,7 @@
     <entry xml:id="material">Material</entry>
     <entry xml:id="msName">Quellenbezeichnung</entry>
     <entry xml:id="msIdentifier">Repositorium</entry>
+    <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publikation</entry>
     <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
     <entry xml:id="seriesStmt">Reihe</entry>
