@@ -497,6 +497,11 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+        <xsl:template match="mei:history" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
  
     <!--<xsl:template match="mei:titleStmt">
 <!-\-        <xsl:element name="div">-\->
@@ -677,7 +682,7 @@
             </xsl:element>
         </xsl:if>-->
         <xsl:apply-templates select="./mei:pubStmt"/>
-        <xsl:if test="./history and ./history/child::*/node()"><!-- TODO -->
+        <!--<xsl:if test="./history and ./history/child::*/node()">
             <xsl:element name="div">
                 <xsl:attribute name="class">section</xsl:attribute>
                 <xsl:element name="h1">
@@ -695,8 +700,9 @@
                     <xsl:apply-templates select="./history/creation | ./history/p |./history/eventList"/>
                 </xsl:element>
             </xsl:element>
-        </xsl:if>
+        </xsl:if>-->
         <xsl:apply-templates select="mei:physDesc"/>
+        <xsl:apply-templates select="mei:history"/>
         <xsl:if test="./key or ./meter or ./perfMedium or ./castList or mei:componentGrp">
             <xsl:element name="div">
                 <xsl:attribute name="class">section</xsl:attribute>
