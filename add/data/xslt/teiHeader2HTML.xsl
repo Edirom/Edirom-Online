@@ -115,6 +115,9 @@
     <xsl:template name="bodyMicroData"/>
 
 <!-- TEMPLATEs ======================================================= -->
+        <xsl:template match="@role" mode="plainCommaSep">
+        <xsl:value-of select="eof:getLabel(.)"/>
+    </xsl:template>
     <xsl:template match="@when" mode="plainCommaSep">
         <xsl:text> (</xsl:text>
         <xsl:value-of select="."/>
@@ -377,7 +380,7 @@
     <xd:doc scope="component">
         <xd:desc>define subProperties for pubStmt</xd:desc>
     </xd:doc>
-    <xsl:template match="tei:publisher | tei:date[parent::tei:publicationStmt] | tei:idno" mode="plainCommaSep">
+    <xsl:template match="tei:publisher | tei:date[parent::tei:publicationStmt]" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
@@ -394,11 +397,53 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-        <xsl:template match="tei:orgName">
+        <xsl:template match="tei:idno" name="identifier">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:idno[parent::tei:source]" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:idno" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:orgName">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
             <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
         </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:ptr">
+        <xsl:choose>
+            <xsl:when test="parent::tei:edition">
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>[</xsl:text>
+                <xsl:element name="a">
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="@target"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="target">blank_</xsl:attribute><!-- TODO check for edirom internal links -->
+                    <xsl:choose>
+                        <xsl:when test="@label and string-length(@label) gt 0">
+                            <xsl:value-of select="@label"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>Link</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:element>
+                <xsl:text>]</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
