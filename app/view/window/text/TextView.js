@@ -535,7 +535,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         if(me.uri != uri)
             return 0;
         
-        if(type == 'graphic' || type == 'surface' || type == 'zone')
+        if(type == 'unknown' || type == 'graphic' || type == 'surface' || type == 'zone')
             return 0;
             
         return 70;
