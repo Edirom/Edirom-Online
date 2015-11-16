@@ -220,6 +220,24 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+        <xsl:template match="tei:textClass">
+        <xsl:param name="sub" tunnel="yes"/>
+        <xsl:choose>
+            <xsl:when test="$sub">
+                <xsl:call-template name="makeSubProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="tei:textClass" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
     <xsl:template match="tei:analytic" mode="bibl">
         <xsl:element name="div">
             <xsl:call-template name="rendToProperty"/>
