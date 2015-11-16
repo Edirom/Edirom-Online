@@ -12,6 +12,7 @@
     <entry xml:id="dtc">Data contributor</entry>
     <entry xml:id="edt">Editor</entry>
     <entry xml:id="fnd">Funder</entry>
+    <entry xml:id="led">Lead</entry>
     <entry xml:id="mcp">Kopist (Musik)</entry>
     <entry xml:id="mus">Musiker</entry>
     <entry xml:id="mrk">Markup Editor</entry>
@@ -152,6 +153,7 @@
     <entry xml:id="settlement">Ort</entry>
     <entry xml:id="supportDesc">Material</entry>
     <entry xml:id="handDesc">Schreiber</entry>
+    <entry xml:id="handNotes">Schreiber-Anmerkungen</entry>
     <entry xml:id="itemList">Exemplar(e)</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Verantwortlich</entry>
