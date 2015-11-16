@@ -647,7 +647,7 @@
             
             <!--<xsl:element name="div">-->
         <xsl:apply-templates select="mei:titleStmt">
-            <xsl:with-param name="sub" select="true()" tunnel="yes"/>
+            <xsl:with-param name="sub" tunnel="yes"/>
         </xsl:apply-templates>
             <!--</xsl:element>-->
         <xsl:if test="count(mei:identifier) gt 0">
@@ -791,18 +791,28 @@
         </xsl:element>
         <xsl:text>;</xsl:text>
     </xsl:template>
+    <xsl:template match="mei:relationList" mode="subProp">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
+        <xsl:template match="mei:relationList">
+        <xsl:param name="sub" tunnel="yes"/>
+
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                    <xsl:with-param name="sub" tunnel="yes"/>
+                </xsl:call-template>
+    </xsl:template>
     <xsl:template match="mei:relationList" mode="plainCommaSep">
         <xsl:param name="sub" tunnel="yes"/>
         <xsl:choose>
             <xsl:when test="$sub">
                 <xsl:call-template name="makeSubProperty">
                     <xsl:with-param name="node" select="."/>
+                    <xsl:with-param name="sub" tunnel="yes"/>
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:call-template name="makeProperty">
-                    <xsl:with-param name="node" select="."/>
-                </xsl:call-template>
+
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
