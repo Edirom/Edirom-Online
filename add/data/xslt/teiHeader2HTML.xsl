@@ -56,7 +56,15 @@
             <xsl:when test="@* and not(*)">
                 <xsl:apply-templates mode="plainCommaSep"/>
                 <xsl:text> (</xsl:text>
-                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:choose>
+                    <xsl:when test="count(@*) gt 1">
+                        <!--<xsl:call-template name="attCommaSep"/>-->
+                        <xsl:value-of select="@*" separator=", "/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                    </xsl:otherwise>
+                </xsl:choose>
                 <xsl:text>)</xsl:text>
             </xsl:when>
             <!-- kindeskinder und attribute -->
@@ -74,15 +82,28 @@
                 <xsl:apply-templates select="*" mode="plainCommaSep"/>
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
             </xsl:when>
+            <!-- only element children that might have attributes -->
+            <xsl:when test="*/@*">
+                <xsl:for-each select="*">
+                    <xsl:apply-templates select="." mode="plainCommaSep"/>
+                    <xsl:if test="following-sibling::*">
+                        <xsl:text>, </xsl:text>
+                    </xsl:if>
+                </xsl:for-each>
+            </xsl:when>
+            <!-- only element children without attributes -->
             <xsl:when test="*">
                 <xsl:value-of select="*" separator=", "/>
             </xsl:when>
-            <!-- if node is none of the above but has atribute -->
+            <!-- if node is none of the above but has attribute -->
             <xsl:when test="@*">
                 <xsl:text> (</xsl:text>
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
                 <xsl:text>) </xsl:text>
             </xsl:when>
+            <xsl:when test="(comment() and not(*)) or self::comment()"/>
+            <!-- has to be an attribute -->
+            <!--<xsl:when test="node()"></xsl:when>-->
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>
@@ -115,10 +136,35 @@
     <xsl:template name="bodyMicroData"/>
 
 <!-- TEMPLATEs ======================================================= -->
+    <xsl:template match="@role" mode="plainCommaSep">
+        <xsl:value-of select="eof:getLabel(.)"/>
+    </xsl:template>
     <xsl:template match="@when" mode="plainCommaSep">
         <xsl:text> (</xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>) </xsl:text>
+    </xsl:template>
+    <xsl:template match="tei:abstract">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:appInfo">
+        <xsl:for-each select="tei:application">
+            <xsl:element name="div">
+                <xsl:call-template name="rendToProperty"/>
+                <xsl:element name="div">
+                    <xsl:attribute name="class">value</xsl:attribute>
+                    <xsl:value-of select="tei:label/text()"/>
+                    <xsl:if test="@version and string-length(@version) gt 0">
+                        <xsl:value-of select="concat(' (',eof:getLabel('version'), ' ', @version,')')"/>
+                    </xsl:if>
+                    <!--<xsl:text> </xsl:text>
+                    <xsl:apply-templates select="mei:ptr" mode="valueOnly"/>
+                    <xsl:apply-templates select="mei:p"/>--><!--TODO other contents -->
+                </xsl:element>
+            </xsl:element>
+        </xsl:for-each>
     </xsl:template>
     <xsl:template match="tei:author">
         <xsl:call-template name="makeProperty">
@@ -126,6 +172,41 @@
         </xsl:call-template>
     </xsl:template>
     <xsl:template match="tei:author" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:extent" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:publisher">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:publisher" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+    </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:placeName[parent::tei:bibl]">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:placeName" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:date">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:date" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
@@ -148,6 +229,35 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+        <xsl:template match="tei:biblFull">
+               <xsl:element name="div">
+            <xsl:call-template name="rendToProperty"/>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">value</xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates mode="bibl"/>
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+        <xsl:template match="tei:textClass">
+        <xsl:param name="sub" tunnel="yes"/>
+        <xsl:choose>
+            <xsl:when test="$sub">
+                <xsl:call-template name="makeSubProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="tei:textClass" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
     </xsl:template>
     <xsl:template match="tei:analytic" mode="bibl">
         <xsl:element name="div">
@@ -216,6 +326,14 @@
     <xsl:template match="tei:encodingDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
+    <xsl:template match="tei:handNotes">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:handNotes" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
     <xsl:template match="tei:handNote" mode="plainCommaSep">
         <xsl:element name="p">
             <xsl:apply-templates mode="#current"/>
@@ -249,6 +367,11 @@
         <xsl:value-of select="tei:pubPlace, tei:date" separator=", "/>
     </xsl:template>
     <xsl:template match="tei:msContents"/>
+        <xsl:template match="tei:notesStmt">
+        <xsl:element name="div">
+            <xsl:call-template name="makeSection"/>
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="tei:physDesc">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
@@ -372,7 +495,7 @@
     <xd:doc scope="component">
         <xd:desc>define subProperties for pubStmt</xd:desc>
     </xd:doc>
-    <xsl:template match="tei:publisher | tei:date[parent::tei:publicationStmt] | tei:idno" mode="plainCommaSep">
+    <xsl:template match="tei:date[parent::tei:publicationStmt]" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
@@ -388,6 +511,54 @@
             <xsl:attribute name="target">_blank</xsl:attribute>
             <xsl:value-of select="."/>
         </xsl:element>
+    </xsl:template>
+        <xsl:template match="tei:idno" name="identifier">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:idno[parent::tei:source]" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:idno" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:orgName">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
+        </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:ptr">
+        <xsl:choose>
+            <xsl:when test="parent::tei:edition">
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>[</xsl:text>
+                <xsl:element name="a">
+                    <xsl:attribute name="href">
+                        <xsl:value-of select="@target"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="target">blank_</xsl:attribute><!-- TODO check for edirom internal links -->
+                    <xsl:choose>
+                        <xsl:when test="@label and string-length(@label) gt 0">
+                            <xsl:value-of select="@label"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:text>Link</xsl:text>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:element>
+                <xsl:text>]</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
@@ -433,7 +604,12 @@
         </xsl:call-template>
     </xsl:template>
     <xsl:template match="@material" mode="plainCommaSep"/><!-- TODO -->
-    <xsl:template match="tei:extent" mode="plainCommaSep">
+    <xsl:template match="tei:extent">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:extent" mode="plainCommaSep" name="extent">
         <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
             <xsl:attribute name="class">subProperty</xsl:attribute>
