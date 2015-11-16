@@ -224,6 +224,14 @@
     <xsl:template match="tei:encodingDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
+    <xsl:template match="tei:handNotes">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:handNotes" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current"/>
+    </xsl:template>
     <xsl:template match="tei:handNote" mode="plainCommaSep">
         <xsl:element name="p">
             <xsl:apply-templates mode="#current"/>
