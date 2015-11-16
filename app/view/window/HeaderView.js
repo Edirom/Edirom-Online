@@ -27,13 +27,16 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	
 	cls: 'headerView',
 	
+	pageBasedView: null,
+	
 	initComponent: function () {
 		
 		var me = this;
 		
-		viewId = me.id;
-		
-		me.html = '<div id="' + me.id + '_headerCont" class="headerViewContent"></div>';
+		me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+	
+		me.items =[
+		me.pageBasedView];
 		
 		me.callParent();
 		
@@ -42,46 +45,7 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	
 	setContent: function (data, uri) {
 		var me = this;
-		var contEl = me.el.getById(me.id + '_headerCont');
-		contEl.update(data);
-		
-		placeHolder = uri;
-		content = $('#' + viewId + '_headerCont').annotator();
-		if (annotationOn) {
-			me.showAnnotations();	
-		}
-	},
-	
-	showAnnotations: function(){		
-			$(document).ready(function () {			
-				content.annotator('addPlugin', 'Auth', {
-					tokenUrl: 'http://annotateit.org/api/token',
-					autoFetch: true
-				});
-				
-				test = content.annotator('addPlugin', 'Store', {
-					prefix: 'http://annotateit.org/api',
-					annotationData: {
-						'uri': placeHolder
-					},
-					loadFromSearch: {
-						'limit': 20,
-						'uri': placeHolder
-					},
-					urls: {
-						create: '/annotations',
-						update: '/annotations/:id',
-						destroy: '/annotations/:id',
-						search: '/search'
-					},
-					
-					showViewPermissionsCheckbox: true,
-					
-					showEditPermissionsCheckbox: true
-				});
-				//console.log(test);
-			});
-		
+		me.pageBasedView.setContent(data, uri);
 	},
 	
 	createMenuEntries: function() {
@@ -92,16 +56,23 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
             tooltip: 'aktiviere Annotations',
 			handler: function () {
 				if (annotationOn) {
-					me.showAnnotations();	
-				/*	test.annotationData = {
-						'uri': placeHolder
-					},
-					test.loadFromSearch = {
-						'limit': 20,
-						'uri': placeHolder
-					}
-					console.log(test.annotationData);
-					console.log(test.loadFromSearch);*/
+				var uri = me.uri;
+        		var type = me.type;
+					 Ext.Ajax.request({
+            url: 'data/xql/getHeader.xql',
+            method: 'GET',
+            params: {
+                uri: uri,
+                type: type
+            },
+            success: function(response){           
+            		me.pageBasedView.destroy();					
+					me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+					me.add(me.pageBasedView);
+                	me.pageBasedView.setContent(response.responseText, uri+'?type'+type);
+            },
+            scope: this
+        });
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');

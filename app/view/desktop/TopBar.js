@@ -101,7 +101,6 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 			title: "Login to AnnotateIt",
 			width: 700,
 			height: 500,
-			closable: false,
 			modal: true,
 			layout: 'fit',
 			
@@ -112,12 +111,9 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 					src: "http://annotateit.org/user/login"
 				}
 			}],
-			buttons:[
-			 {
-				text: 'Ok',
-				width: 90,
-				handler: function () {
-					var content = $('#' + this.id).annotator();
+			listeners:{
+                 'close':function(win){
+                          var content = $('#' + this.id).annotator();
 					content.annotator('addPlugin', 'Auth', {
 						tokenUrl: 'http://annotateit.org/api/token',
 						autoFetch: true
@@ -129,9 +125,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 							annotationOn = false;
 						}
 					});
-					this.up('window').close();
-				}
-			}]
+                  }
+         }
 		}).show();
 	}
 });
