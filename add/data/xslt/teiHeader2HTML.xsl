@@ -115,7 +115,7 @@
     <xsl:template name="bodyMicroData"/>
 
 <!-- TEMPLATEs ======================================================= -->
-        <xsl:template match="@role" mode="plainCommaSep">
+    <xsl:template match="@role" mode="plainCommaSep">
         <xsl:value-of select="eof:getLabel(.)"/>
     </xsl:template>
     <xsl:template match="@when" mode="plainCommaSep">
@@ -127,6 +127,23 @@
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
+    </xsl:template>
+        <xsl:template match="tei:appInfo">
+        <xsl:for-each select="tei:application">
+            <xsl:element name="div">
+                <xsl:call-template name="rendToProperty"/>
+                <xsl:element name="div">
+                    <xsl:attribute name="class">value</xsl:attribute>
+                    <xsl:value-of select="tei:label/text()"/>
+                    <xsl:if test="@version and string-length(@version) gt 0">
+                        <xsl:value-of select="concat(' (',eof:getLabel('version'), ' ', @version,')')"/>
+                    </xsl:if>
+                    <!--<xsl:text> </xsl:text>
+                    <xsl:apply-templates select="mei:ptr" mode="valueOnly"/>
+                    <xsl:apply-templates select="mei:p"/>--><!--TODO other contents -->
+                </xsl:element>
+            </xsl:element>
+        </xsl:for-each>
     </xsl:template>
     <xsl:template match="tei:author">
         <xsl:call-template name="makeProperty">
