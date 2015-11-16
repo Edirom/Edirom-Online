@@ -155,6 +155,36 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+        <xsl:template match="tei:publisher">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:publisher" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+    </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:placeName[parent::tei:bibl]">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:placeName" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:date">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:date" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
     <xd:doc scope="component">
         <xd:desc>Add a div with class teiHeader then process children</xd:desc>
     </xd:doc>
@@ -405,7 +435,7 @@
     <xd:doc scope="component">
         <xd:desc>define subProperties for pubStmt</xd:desc>
     </xd:doc>
-    <xsl:template match="tei:publisher | tei:date[parent::tei:publicationStmt]" mode="plainCommaSep">
+    <xsl:template match="tei:date[parent::tei:publicationStmt]" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
