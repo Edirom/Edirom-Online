@@ -155,6 +155,7 @@
     <entry xml:id="handDesc">Schreiber</entry>
     <entry xml:id="handNotes">Schreiber-Anmerkungen</entry>
     <entry xml:id="itemList">Exemplar(e)</entry>
+    <entry xml:id="placeName">Ort</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Verantwortlich</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
