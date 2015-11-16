@@ -56,7 +56,15 @@
             <xsl:when test="@* and not(*)">
                 <xsl:apply-templates mode="plainCommaSep"/>
                 <xsl:text> (</xsl:text>
-                <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                <xsl:choose>
+                    <xsl:when test="count(@*) gt 1">
+                        <!--<xsl:call-template name="attCommaSep"/>-->
+                        <xsl:value-of select="@*" separator=", "/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+                    </xsl:otherwise>
+                </xsl:choose>
                 <xsl:text>)</xsl:text>
             </xsl:when>
             <!-- kindeskinder und attribute -->
@@ -74,15 +82,28 @@
                 <xsl:apply-templates select="*" mode="plainCommaSep"/>
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
             </xsl:when>
+            <!-- only element children that might have attributes -->
+            <xsl:when test="*/@*">
+                <xsl:for-each select="*">
+                    <xsl:apply-templates select="." mode="plainCommaSep"/>
+                    <xsl:if test="following-sibling::*">
+                        <xsl:text>, </xsl:text>
+                    </xsl:if>
+                </xsl:for-each>
+            </xsl:when>
+            <!-- only element children without attributes -->
             <xsl:when test="*">
                 <xsl:value-of select="*" separator=", "/>
             </xsl:when>
-            <!-- if node is none of the above but has atribute -->
+            <!-- if node is none of the above but has attribute -->
             <xsl:when test="@*">
                 <xsl:text> (</xsl:text>
                 <xsl:apply-templates select="@*" mode="plainCommaSep"/>
                 <xsl:text>) </xsl:text>
             </xsl:when>
+            <xsl:when test="(comment() and not(*)) or self::comment()"/>
+            <!-- has to be an attribute -->
+            <!--<xsl:when test="node()"></xsl:when>-->
             <xsl:otherwise>
                 <xsl:value-of select="."/>
             </xsl:otherwise>
