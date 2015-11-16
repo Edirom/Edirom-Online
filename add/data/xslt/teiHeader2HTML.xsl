@@ -155,6 +155,11 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+        <xsl:template match="tei:extent" mode="bibl">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
         <xsl:template match="tei:publisher">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
@@ -203,6 +208,17 @@
                 <xsl:apply-templates/>
             </xsl:otherwise>
         </xsl:choose>
+    </xsl:template>
+        <xsl:template match="tei:biblFull">
+               <xsl:element name="div">
+            <xsl:call-template name="rendToProperty"/>
+            <xsl:element name="div">
+                <xsl:call-template name="rendToClass">
+                    <xsl:with-param name="default">value</xsl:with-param>
+                </xsl:call-template>
+                <xsl:apply-templates mode="bibl"/>
+            </xsl:element>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="tei:analytic" mode="bibl">
         <xsl:element name="div">
@@ -312,6 +328,11 @@
         <xsl:value-of select="tei:pubPlace, tei:date" separator=", "/>
     </xsl:template>
     <xsl:template match="tei:msContents"/>
+        <xsl:template match="tei:notesStmt">
+        <xsl:element name="div">
+            <xsl:call-template name="makeSection"/>
+        </xsl:element>
+    </xsl:template>
     <xsl:template match="tei:physDesc">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
@@ -544,7 +565,12 @@
         </xsl:call-template>
     </xsl:template>
     <xsl:template match="@material" mode="plainCommaSep"/><!-- TODO -->
-    <xsl:template match="tei:extent" mode="plainCommaSep">
+    <xsl:template match="tei:extent">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    <xsl:template match="tei:extent" mode="plainCommaSep" name="extent">
         <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
             <xsl:attribute name="class">subProperty</xsl:attribute>
