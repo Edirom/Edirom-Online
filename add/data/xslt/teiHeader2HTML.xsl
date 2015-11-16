@@ -394,6 +394,12 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
+        <xsl:template match="tei:orgName">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
+        </xsl:call-template>
+    </xsl:template>
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
