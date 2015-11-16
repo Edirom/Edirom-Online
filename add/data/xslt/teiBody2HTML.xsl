@@ -408,6 +408,12 @@
                         <xsl:for-each select="*|text()|@*">
                             <xsl:copy-of select="."/>
                         </xsl:for-each>
+                        <xsl:if test="count(text()) = 0">
+                            <xsl:variable name="href" select="@href"/>
+                            <xsl:element name="span">
+                                <xsl:attribute name="class">external-link</xsl:attribute>
+                                [Link: <xsl:value-of select="$href"/>]
+                            </xsl:element></xsl:if>
                     </xsl:copy>
                 </xsl:for-each>
             </xsl:otherwise>

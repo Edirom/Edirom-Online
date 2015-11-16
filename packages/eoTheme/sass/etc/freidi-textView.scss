@@ -1216,7 +1216,118 @@ $underlineColor: #333333;
 		}
 	}
 	
+	.musikgenese, .textgenese, .startwindow {
 	
+	   .teidiv0 {
+	       
+	       line-height: 1.3em;
+	       
+	       & p {
+	           margin-bottom: 2em;
+	       }
+	       
+	       padding: 20px;
+	       
+	       & > p {
+	           margin: 0 0 2em 0;
+	       }
+	       
+	       & > h2 {
+                margin: 0;
+                width: unset;
+           }
+           
+           .link_ref {
+               color: #999999;
+               text-decoration: none;
+               cursor: pointer;
+               
+               &:visited, &:active, &:hover {
+                   color: #666666;                   
+               }
+           }
+           
+           h3 {
+               width: unset;
+               text-align: left;
+           }
+           
+           .citquote {
+               margin: 10px auto;
+               width: 70%;
+               position: relative;
+               
+               & > p {
+                   margin-bottom: 0;
+               }
+               
+               &:before {
+                    color: #999999;
+                    content: '\"';
+                    font-size: 50px;
+                    font-weight: bold;
+                    left: -22px;
+                    position: absolute;
+                    top: 13px;
+                }
+                                  
+               & + .link_ref {
+                   display: block;
+                   font-size: 80%;
+                   text-decoration: none;
+                   text-align: right;
+                   margin-right: 20px;
+               }
+               
+           }
+           
+           .inline .citquote {
+           
+                display: inline;
+                margin-left: 10px !important;
+           
+               &:before {
+                   display: inline-block;
+                   left: -10px;
+                   position: relative;
+                   top: 20px;
+                   width: 10px;
+                }
+                
+                & + .link_ref {
+                    display: inline;
+                    margin: 0;
+                }
+                
+           }
+           
+           table {
+               
+               .citquote {
+                    
+                    margin-top: 0;
+                    width: 80%;
+                    
+                    &:before {
+                        top: -7px;
+                    }
+               
+               }
+               
+               p {
+                   margin-top: 0;
+               }
+               
+               td:first-child + td p:first-child {
+                   display: none;
+               }
+           }
+           
+           li:not(p) {
+               margin-bottom: 25px;
+           }
+        }
+    }	
 }
 
 
