@@ -1327,7 +1327,15 @@ $underlineColor: #333333;
                margin-bottom: 25px;
            }
         }
-    }	
+    }
+    
+    .startwindow {
+        .figure img {
+            float: right;
+            margin-top: -20px;
+            width: 200px;
+        }
+    }
 }
 
 
