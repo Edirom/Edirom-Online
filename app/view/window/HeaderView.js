@@ -28,6 +28,7 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	cls: 'headerView',
 	
 	pageBasedView: null,
+	dataStored: null,
 	
 	initComponent: function () {
 		
@@ -45,6 +46,7 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	
 	setContent: function (data, uri) {
 		var me = this;
+		me.dataStored = data;
 		me.pageBasedView.setContent(data, uri);
 	},
 	
@@ -58,21 +60,12 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 				if (annotationOn) {
 				var uri = me.uri;
         		var type = me.type;
-					 Ext.Ajax.request({
-            url: 'data/xql/getHeader.xql',
-            method: 'GET',
-            params: {
-                uri: uri,
-                type: type
-            },
-            success: function(response){           
-            		me.pageBasedView.destroy();					
-					me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
-					me.add(me.pageBasedView);
-                	me.pageBasedView.setContent(response.responseText, uri+'?type'+type);
-            },
-            scope: this
-        });
+        		var dataStoredTMP = me.dataStored;
+				
+				me.pageBasedView.destroy();					
+				me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+				me.add(me.pageBasedView);
+                me.pageBasedView.setContent(dataStoredTMP, uri+'?type'+type);
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');

@@ -35,6 +35,9 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     annotationsVisible: false,
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
+    
+    pageBasedView: null,
+	dataStored: null,
 
     initComponent: function () {
 
@@ -42,17 +45,42 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
             'gotoChapter',
             'documentLoaded');
 
-        this.items = [
-            {
-                html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
-            }
-        ];
+        this.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+	
+		this.items =[
+		this.pageBasedView];
 
         this.callParent();
 
+		this.on('afterrender', this.createMenuEntries, this, {single: true});
         this.on('afterrender', this.createToolbarEntries, this, {single: true});
         this.window.on('loadInternalLink', this.loadInternalId, this);
     },
+    
+    createMenuEntries: function() {
+		var me = this;
+		
+		var reloadIcon = Ext.create('Ext.panel.Tool', {
+			type: 'refresh',
+            tooltip: 'aktiviere Annotations',
+			handler: function () {
+				if (annotationOn) {
+				var uri = me.uri;
+        		var dataStoredTMP = me.dataStored;
+				
+				me.pageBasedView.destroy();					
+				me.pageBasedView = Ext.create('EdiromOnline.view.window.text.TextViewInner');
+				me.add(me.pageBasedView);
+               	me.pageBasedView.setContent(dataStoredTMP, uri);
+				}
+				else{
+					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
+				}
+			}
+		});
+		
+        me.window.getTopbar().addViewSpecificItem(reloadIcon, me.id);
+	},
 
     createToolbarEntries: function() {
 
@@ -134,14 +162,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     },
 
     toggleNotesVisibility: function(button) {
-        var notes = Ext.query('#' + this.id + '_textCont .note');
+        var notes = Ext.query('#' + this.pageBasedView.id + '_textCont .note');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
     },
 
     togglePbVisibility: function(button) {
-        var notes = Ext.query('#' + this.id + '_textCont .pagebreak');
+        var notes = Ext.query('#' + this.pageBasedView.id + '_textCont .pagebreak');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -151,7 +179,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -254,7 +282,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
@@ -343,7 +371,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = Ext.query('#' + this.id + '_textCont span.annotation');
+        var annotations = Ext.query('#' + this.pageBasedView.id + '_textCont span.annotation');
         var fn = Ext.bind(function(annotation) {
             var className = annotation.className.replace('annotation', '').trim();
             var classes = className.split(' ');
@@ -369,41 +397,9 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     
     	var me = this;
 		
-        Ext.fly(me.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', me);
-         
-        if (annotationOn) {
-			$(document).ready(function () {
-				var content = $('#' + me.id + '_textCont').annotator();
-				
-				content.annotator('addPlugin', 'Auth', {
-					tokenUrl: 'http://annotateit.org/api/token',
-					autoFetch: true
-				});
-				
-				content.annotator('addPlugin', 'Store', {
-					prefix: 'http://annotateit.org/api',
-					annotationData: {
-						'uri': uri
-					},
-					loadFromSearch: {
-						'limit': 20,
-						'uri': uri
-					},
-					urls: {
-						create: '/annotations',
-						update: '/annotations/:id',
-						destroy: '/annotations/:id',
-						search: '/search'
-					},
-					
-					showViewPermissionsCheckbox: true,
-					
-					showEditPermissionsCheckbox: true
-				});
-			});
-		}
-	
+		me.dataStored = text;
+		
+		me.pageBasedView.setContent(text, uri);
     },
 
     setChapters: function(chapters) {
@@ -450,7 +446,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     loadInternalId: function() {
         var me = this;
 
-        var container = Ext.fly(this.id + '_textCont');
+        var container = Ext.fly(this.pageBasedView.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);
@@ -484,7 +480,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         if(menuItem.id.endsWith('stage_2')) stage = 'second';
         if(menuItem.id.endsWith('stage_3')) stage = 'third';
         if(menuItem.id.endsWith('stage_4')) stage = 'last';
-    
+       
         window.doAJAXRequest('data/xql/getText.xql',
             'GET', 
             {
