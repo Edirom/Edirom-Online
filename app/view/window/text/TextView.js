@@ -51,9 +51,9 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		this.textViewInner];
 
         this.callParent();
-
-		this.on('afterrender', this.createMenuEntries, this, {single: true});
+		
         this.on('afterrender', this.createToolbarEntries, this, {single: true});
+        this.on('afterrender', this.createMenuEntries, this, {single: true});
         this.window.on('loadInternalLink', this.loadInternalId, this);
     },
     

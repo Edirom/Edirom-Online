@@ -76,8 +76,8 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         me.callParent();
         
-        me.on('afterrender', this.createMenuEntries, me, {single: true});
         me.on('afterrender', this.createToolbarEntries, me, {single: true});
+        me.on('afterrender', this.createMenuEntries, me, {single: true});
         me.window.on('loadInternalLink', this.loadInternalId, me);
     },
     
