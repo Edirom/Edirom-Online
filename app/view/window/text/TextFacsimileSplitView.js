@@ -36,7 +36,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
     
-    pageBasedView: null,
+    textFacsimileSplitViewInner: null,
 	dataStored: null,
 
     initComponent: function () {
@@ -51,7 +51,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         me.centerPanel = me.imageViewer;
         
-       	me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+       	me.textFacsimileSplitViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
         
         me.westPanel = Ext.create('Ext.panel.Panel', {
             layout: 'fit',
@@ -60,7 +60,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             width: '50%',
             split: true,
             items: [
-                me.pageBasedView
+                me.textFacsimileSplitViewInner
             ]
         });
 
@@ -92,10 +92,10 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 				var uri = me.uri;
         		var dataStoredTMP = me.dataStored;
 				
-				me.pageBasedView.destroy();					
-				me.pageBasedView = Ext.create('EdiromOnline.view.window.text.TextFacsimileSplitViewInner');
-				me.westPanel.add(me.pageBasedView);
-               	me.pageBasedView.setContent(dataStoredTMP, uri);
+				me.textFacsimileSplitViewInner.destroy();					
+				me.textFacsimileSplitViewInner = Ext.create('EdiromOnline.view.window.text.TextFacsimileSplitViewInner');
+				me.westPanel.add(me.textFacsimileSplitViewInner);
+               	me.textFacsimileSplitViewInner.setContent(dataStoredTMP, uri);
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
@@ -257,7 +257,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     },
 
     toggleNotesVisibility: function(button) {
-        var notes = Ext.query('#' + this.pageBasedView.id + '_textCont .note');
+        var notes = Ext.query('#' + this.textFacsimileSplitViewInner.id + '_textCont .note');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -267,7 +267,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.textFacsimileSplitViewInner.id + '_textCont span.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -370,7 +370,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.textFacsimileSplitViewInner.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
@@ -459,7 +459,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = Ext.query('#' + this.pageBasedView.id + '_textCont span.annotation');
+        var annotations = Ext.query('#' + this.textFacsimileSplitViewInner.id + '_textCont span.annotation');
         var fn = Ext.bind(function(annotation) {
             var className = annotation.className.replace('annotation', '').trim();
             var classes = className.split(' ');
@@ -487,7 +487,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 		
 		me.dataStored = text;
 		
-		me.pageBasedView.setContent(text, uri);
+		me.textFacsimileSplitViewInner.setContent(text, uri);
     },
     
     setImageSet: function(imageSet) {
@@ -531,7 +531,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     loadInternalId: function() {
         var me = this;
 
-        var container = Ext.fly(this.pageBasedView.id + '_textCont');
+        var container = Ext.fly(this.textFacsimileSplitViewInner.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);

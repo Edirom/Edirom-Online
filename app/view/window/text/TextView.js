@@ -36,7 +36,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
     
-    pageBasedView: null,
+    textViewInner: null,
 	dataStored: null,
 
     initComponent: function () {
@@ -45,10 +45,10 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
             'gotoChapter',
             'documentLoaded');
 
-        this.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+        this.textViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
 	
 		this.items =[
-		this.pageBasedView];
+		this.textViewInner];
 
         this.callParent();
 
@@ -68,10 +68,10 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 				var uri = me.uri;
         		var dataStoredTMP = me.dataStored;
 				
-				me.pageBasedView.destroy();					
-				me.pageBasedView = Ext.create('EdiromOnline.view.window.text.TextViewInner');
-				me.add(me.pageBasedView);
-               	me.pageBasedView.setContent(dataStoredTMP, uri);
+				me.textViewInner.destroy();					
+				me.textViewInner = Ext.create('EdiromOnline.view.window.text.TextViewInner');
+				me.add(me.textViewInner);
+               	me.textViewInner.setContent(dataStoredTMP, uri);
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
@@ -162,14 +162,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     },
 
     toggleNotesVisibility: function(button) {
-        var notes = Ext.query('#' + this.pageBasedView.id + '_textCont .note');
+        var notes = Ext.query('#' + this.textViewInner.id + '_textCont .note');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
     },
 
     togglePbVisibility: function(button) {
-        var notes = Ext.query('#' + this.pageBasedView.id + '_textCont .pagebreak');
+        var notes = Ext.query('#' + this.textViewInner.id + '_textCont .pagebreak');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -179,7 +179,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.textViewInner.id + '_textCont span.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -282,7 +282,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.pageBasedView.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.textViewInner.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
@@ -371,7 +371,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = Ext.query('#' + this.pageBasedView.id + '_textCont span.annotation');
+        var annotations = Ext.query('#' + this.textViewInner.id + '_textCont span.annotation');
         var fn = Ext.bind(function(annotation) {
             var className = annotation.className.replace('annotation', '').trim();
             var classes = className.split(' ');
@@ -399,7 +399,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		
 		me.dataStored = text;
 		
-		me.pageBasedView.setContent(text, uri);
+		me.textViewInner.setContent(text, uri);
     },
 
     setChapters: function(chapters) {
@@ -446,7 +446,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     loadInternalId: function() {
         var me = this;
 
-        var container = Ext.fly(this.pageBasedView.id + '_textCont');
+        var container = Ext.fly(this.textViewInner.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);

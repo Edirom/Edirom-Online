@@ -27,17 +27,17 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	
 	cls: 'headerView',
 	
-	pageBasedView: null,
+	headerViewInner: null,
 	dataStored: null,
 	
 	initComponent: function () {
 		
 		var me = this;
 		
-		me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+		me.headerViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
 	
 		me.items =[
-		me.pageBasedView];
+		me.headerViewInner];
 		
 		me.callParent();
 		
@@ -47,7 +47,7 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	setContent: function (data, uri) {
 		var me = this;
 		me.dataStored = data;
-		me.pageBasedView.setContent(data, uri);
+		me.headerViewInner.setContent(data, uri);
 	},
 	
 	createMenuEntries: function() {
@@ -62,10 +62,10 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
         		var type = me.type;
         		var dataStoredTMP = me.dataStored;
 				
-				me.pageBasedView.destroy();					
-				me.pageBasedView = Ext.create('EdiromOnline.view.window.HeaderViewInner');
-				me.add(me.pageBasedView);
-                me.pageBasedView.setContent(dataStoredTMP, uri+'?type'+type);
+				me.headerViewInner.destroy();					
+				me.headerViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
+				me.add(me.headerViewInner);
+                me.headerViewInner.setContent(dataStoredTMP, uri+'?type'+type);
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
