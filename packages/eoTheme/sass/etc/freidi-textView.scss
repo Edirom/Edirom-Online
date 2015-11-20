@@ -1318,14 +1318,24 @@ $underlineColor: #333333;
                    margin-top: 0;
                }
                
+               
+               /*
                td:first-child + td p:first-child {
-                   display: none;
+                   display: none;  
                }
+               */
            }
            
            li:not(p) {
                margin-bottom: 25px;
            }
+        }
+    }
+    
+    
+    .musikgenese, .startwindow, .referenceoverview, .audiooverview, .workoverview {
+        td:first-child + td p:first-child {
+            display: none;  
         }
     }
     
