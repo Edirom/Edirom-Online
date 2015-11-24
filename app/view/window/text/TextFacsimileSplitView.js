@@ -36,8 +36,9 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
     
-    textFacsimileSplitViewInner: null,
-	dataStored: null,
+    idView: null,
+	placeHolder: null,
+	content: null,
 
     initComponent: function () {
 
@@ -51,8 +52,6 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         me.centerPanel = me.imageViewer;
         
-       	me.textFacsimileSplitViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
-        
         me.westPanel = Ext.create('Ext.panel.Panel', {
             layout: 'fit',
             region: 'west',
@@ -60,9 +59,13 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             width: '50%',
             split: true,
             items: [
-                me.textFacsimileSplitViewInner
+                {
+                    html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
+                }
             ]
         });
+        
+        me.idView = me.id + '_textCont';
 
         me.westPanel.on('resize', me.calculateSizes, me);
 
@@ -89,13 +92,35 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             tooltip: 'aktiviere Annotations',
 			handler: function () {
 				if (annotationOn) {
-				var uri = me.uri;
-        		var dataStoredTMP = me.dataStored;
-				
-				me.textFacsimileSplitViewInner.destroy();					
-				me.textFacsimileSplitViewInner = Ext.create('EdiromOnline.view.window.text.TextFacsimileSplitViewInner');
-				me.westPanel.add(me.textFacsimileSplitViewInner);
-               	me.textFacsimileSplitViewInner.setContent(dataStoredTMP, uri);
+					me.content.annotator('destroy');
+					
+					me.content = $('#' + me.idView).annotator();
+					
+					me.content.annotator('addPlugin', 'Auth', {
+						tokenUrl: 'http://annotateit.org/api/token',
+						autoFetch: true
+					});
+					
+					me.content.annotator('addPlugin', 'Store', {
+						prefix: 'http://annotateit.org/api',
+						annotationData: {
+							'uri': me.placeHolder
+						},
+						loadFromSearch: {
+							'limit': 20,
+							'uri': me.placeHolder
+						},
+						urls: {
+							create: '/annotations',
+							update: '/annotations/:id',
+							destroy: '/annotations/:id',
+							search: '/search'
+						},
+						
+						showViewPermissionsCheckbox: true,
+						
+						showEditPermissionsCheckbox: true
+					});
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
@@ -257,7 +282,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     },
 
     toggleNotesVisibility: function(button) {
-        var notes = Ext.query('#' + this.textFacsimileSplitViewInner.id + '_textCont .note');
+        var notes = Ext.query('#' + this.id + '_textCont .note');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -267,7 +292,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.textFacsimileSplitViewInner.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.id + '_textCont span.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -370,7 +395,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.textFacsimileSplitViewInner.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
@@ -459,7 +484,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = Ext.query('#' + this.textFacsimileSplitViewInner.id + '_textCont span.annotation');
+        var annotations = Ext.query('#' + this.id + '_textCont span.annotation');
         var fn = Ext.bind(function(annotation) {
             var className = annotation.className.replace('annotation', '').trim();
             var classes = className.split(' ');
@@ -482,12 +507,43 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     },
 
     setContent: function(text, uri) {
-    
-    	var me = this;
-		
-		me.dataStored = text;
-		
-		me.textFacsimileSplitViewInner.setContent(text, uri);
+		var me = this;
+        Ext.fly(me.id + '_textCont').update(text);
+        this.fireEvent('documentLoaded', me);
+        
+        me.placeHolder = uri;
+        
+        if (annotationOn) {
+			$(document).ready(function () {
+				me.content = $('#' + me.id + '_textCont').annotator();
+				
+				me.content.annotator('addPlugin', 'Auth', {
+					tokenUrl: 'http://annotateit.org/api/token',
+					autoFetch: true
+				});
+				
+				me.content.annotator('addPlugin', 'Store', {
+					prefix: 'http://annotateit.org/api',
+					annotationData: {
+						'uri': uri
+					},
+					loadFromSearch: {
+						'limit': 20,
+						'uri': uri
+					},
+					urls: {
+						create: '/annotations',
+						update: '/annotations/:id',
+						destroy: '/annotations/:id',
+						search: '/search'
+					},
+					
+					showViewPermissionsCheckbox: true,
+					
+					showEditPermissionsCheckbox: true
+				});
+			});
+		}      
     },
     
     setImageSet: function(imageSet) {
@@ -531,7 +587,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     loadInternalId: function() {
         var me = this;
 
-        var container = Ext.fly(this.textFacsimileSplitViewInner.id + '_textCont');
+        var container = Ext.fly(this.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);
@@ -566,5 +622,3 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.fireEvent('afterImageChanged', me, null);
     }
 });
-
-

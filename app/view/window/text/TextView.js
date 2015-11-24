@@ -36,8 +36,9 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
     
-    textViewInner: null,
-	dataStored: null,
+    idView: null,
+	placeHolder: null,
+	content: null,
 
     initComponent: function () {
 
@@ -45,13 +46,16 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
             'gotoChapter',
             'documentLoaded');
 
-        this.textViewInner = Ext.create('EdiromOnline.view.window.HeaderViewInner');
-	
-		this.items =[
-		this.textViewInner];
+        this.items = [
+            {
+                html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
+            }
+        ];
+        
+        this.idView = this.id + '_textCont';
 
         this.callParent();
-		
+
         this.on('afterrender', this.createToolbarEntries, this, {single: true});
         this.on('afterrender', this.createMenuEntries, this, {single: true});
         this.window.on('loadInternalLink', this.loadInternalId, this);
@@ -65,13 +69,35 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
             tooltip: 'aktiviere Annotations',
 			handler: function () {
 				if (annotationOn) {
-				var uri = me.uri;
-        		var dataStoredTMP = me.dataStored;
-				
-				me.textViewInner.destroy();					
-				me.textViewInner = Ext.create('EdiromOnline.view.window.text.TextViewInner');
-				me.add(me.textViewInner);
-               	me.textViewInner.setContent(dataStoredTMP, uri);
+					me.content.annotator('destroy');
+					
+					me.content = $('#' + me.idView).annotator();
+					
+					me.content.annotator('addPlugin', 'Auth', {
+						tokenUrl: 'http://annotateit.org/api/token',
+						autoFetch: true
+					});
+					
+					me.content.annotator('addPlugin', 'Store', {
+						prefix: 'http://annotateit.org/api',
+						annotationData: {
+							'uri': me.placeHolder
+						},
+						loadFromSearch: {
+							'limit': 20,
+							'uri': me.placeHolder
+						},
+						urls: {
+							create: '/annotations',
+							update: '/annotations/:id',
+							destroy: '/annotations/:id',
+							search: '/search'
+						},
+						
+						showViewPermissionsCheckbox: true,
+						
+						showEditPermissionsCheckbox: true
+					});
 				}
 				else{
 					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
@@ -162,14 +188,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     },
 
     toggleNotesVisibility: function(button) {
-        var notes = Ext.query('#' + this.textViewInner.id + '_textCont .note');
+        var notes = Ext.query('#' + this.id + '_textCont .note');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
     },
 
     togglePbVisibility: function(button) {
-        var notes = Ext.query('#' + this.textViewInner.id + '_textCont .pagebreak');
+        var notes = Ext.query('#' + this.id + '_textCont .pagebreak');
         Ext.Array.each(notes, function(name, index, notes){
             Ext.get(name).toggleCls('hidden')
         });
@@ -179,7 +205,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.textViewInner.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.id + '_textCont span.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -282,7 +308,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.textViewInner.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
@@ -371,7 +397,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
                 visibleCategories.push(item.categoryId);
         });
 
-        var annotations = Ext.query('#' + this.textViewInner.id + '_textCont span.annotation');
+        var annotations = Ext.query('#' + this.id + '_textCont span.annotation');
         var fn = Ext.bind(function(annotation) {
             var className = annotation.className.replace('annotation', '').trim();
             var classes = className.split(' ');
@@ -397,9 +423,43 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     
     	var me = this;
 		
-		me.dataStored = text;
-		
-		me.textViewInner.setContent(text, uri);
+        Ext.fly(me.id + '_textCont').update(text);
+        this.fireEvent('documentLoaded', me);
+        
+        me.placeHolder = uri;
+         
+        if (annotationOn) {
+			$(document).ready(function () {
+				me.content  = $('#' + me.id + '_textCont').annotator();
+				
+				me.content.annotator('addPlugin', 'Auth', {
+					tokenUrl: 'http://annotateit.org/api/token',
+					autoFetch: true
+				});
+				
+				me.content.annotator('addPlugin', 'Store', {
+					prefix: 'http://annotateit.org/api',
+					annotationData: {
+						'uri': uri
+					},
+					loadFromSearch: {
+						'limit': 20,
+						'uri': uri
+					},
+					urls: {
+						create: '/annotations',
+						update: '/annotations/:id',
+						destroy: '/annotations/:id',
+						search: '/search'
+					},
+					
+					showViewPermissionsCheckbox: true,
+					
+					showEditPermissionsCheckbox: true
+				});
+			});
+		}
+	
     },
 
     setChapters: function(chapters) {
@@ -446,7 +506,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     loadInternalId: function() {
         var me = this;
 
-        var container = Ext.fly(this.textViewInner.id + '_textCont');
+        var container = Ext.fly(this.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);
@@ -480,7 +540,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         if(menuItem.id.endsWith('stage_2')) stage = 'second';
         if(menuItem.id.endsWith('stage_3')) stage = 'third';
         if(menuItem.id.endsWith('stage_4')) stage = 'last';
-       
+    
         window.doAJAXRequest('data/xql/getText.xql',
             'GET', 
             {
@@ -496,5 +556,3 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         );
     }
 });
-
-
