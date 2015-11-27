@@ -1,6 +1,8 @@
 xquery version "3.0";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -12,33 +14,11 @@ let $idPrefix := request:get-parameter('idPrefix', '')
 let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
+let $stage := request:get-parameter('stage', '')
 
-let $uri := if($uri = 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4.xml')
-            then(
-                if(request:get-parameter('stage', '') = 'first')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4_first.xml')
-                else if(request:get-parameter('stage', '') = 'second')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4_second.xml')
-                else if(request:get-parameter('stage', '') = 'third')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4_third.xml')
-                else if(request:get-parameter('stage', '') = 'last')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4_last.xml')
-                else('xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4_first.xml')
-            )
+let $uri := if($stage != '' and $stage != 'genesis')
+            then(replace($uri, '.xml', '_' || $stage || '.xml'))
             else($uri)
-
-let $uri := if($uri = 'xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2.xml')
-            then(
-                if(request:get-parameter('stage', '') = 'first')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_first.xml')
-                else if(request:get-parameter('stage', '') = 'second')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_second.xml')
-                else if(request:get-parameter('stage', '') = 'last')
-                then('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_last.xml')
-                else('xmldb:exist:///db/contents/texts/freidi-librettoSource_L-tx2_first.xml')
-            )
-            else($uri)
-
 
 let $doc := eutil:getDoc($uri)/root()
 
@@ -61,8 +41,23 @@ let $doc := if($page eq '')then($doc)else(
 )
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
+
+let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
+
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $doc := transform:transform($doc, doc($xsl), <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="textType" value="{if(contains($uri, 'referenceTexts'))then('freidi_reference')else if(contains($uri, 'texts'))then('freidi_libretto')else('text')}"/></parameters>)
+let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
+    <param name="textType" value="{if(contains($uri, 'referenceSources'))then('freidi_reference')else if(contains($uri, 'librettoSources'))then('freidi_libretto')else('text')}"/>)
+    
+let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
+    else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))
+
+let $doc := if($stage = 'genesis')
+            then(
+                transform:transform($doc, doc(replace($uri, '.xml', '.xsl')), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>)
+            )
+            else($doc)
+    
 return
+    
     transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)

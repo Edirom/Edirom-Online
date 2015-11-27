@@ -55,7 +55,8 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                 uri: uri,
                 idPrefix: view.id + '_',
                 term: view.window.term,
-                path: view.window.path
+                path: view.window.path,
+                stage: view.stage
             },
             Ext.bind(function(response){
                 this.contentLoaded(view, response.responseText);
@@ -66,6 +67,9 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
     contentLoaded: function(view, content) {
 
         var me = this;
+        
+        console.log("contentLoaded");
+        console.log(view.uri);
 
         view.setContent(content, view.uri);
 
@@ -109,6 +113,7 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                 me.annotInfosLoaded(priorities, categories, view);
             }
         });
+        
     },
 
     chaptersLoaded: function(chapters, view) {

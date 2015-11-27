@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/**
  *  Edirom Online
- *  Copyright (C) 2011 The Edirom Project
+ *  Copyright (C) 2014 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -16,17 +15,35 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
- *
- *  ID: $Id$
- -->
-<prefs>
-    <version>1.0</version>
-    <entries>
-        
-        <entry key="application_language" value="de"/>
-        <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
-        <entry key="image_prefix" value="../../../digilib/Scaler/"/>
-        
-        
-    </entries>
-</prefs>
+ */
+Ext.define('EdiromOnline.controller.window.source.VerovioView', {
+	
+	extend: 'Ext.app.Controller',
+	
+	views:[
+	'window.source.VerovioView'],
+	
+	init: function () {
+		this.control({
+			'verovioView': {
+				afterlayout: this.onSourceViewRendered,
+				single: true
+			}
+		});
+	},
+	
+	onSourceViewRendered: function (view) {
+		var me = this;
+		
+		if (view.initialized) return;
+		view.initialized = true;
+		
+		var uri = view.uri;
+		
+		view.setIFrameURL('data/xql/getExtendedStaff.xql?uri='+uri+'?expan/Overture.xml');
+	},
+	
+	pagesLoaded: function (text, view) {
+		view.setImageSet(text);
+	}
+});

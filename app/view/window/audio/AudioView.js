@@ -33,15 +33,15 @@ Ext.define('EdiromOnline.view.window.audio.AudioView', {
 
         var me = this;
 
-        me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"></div>';
+        me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" src="" seamless="seamless" style="width:100%; height:100%; border:none;"></div>';
 
         me.callParent();
     },
 
-    setContent: function(data) {
+    setIFrameURL: function(url) {
         var me = this;
-        var contEl = me.el.getById(me.id + '_audioCont');
-        contEl.update(data);
+        var contEl = me.el.getById(me.id + '_audioContIFrame');
+        contEl.set({'src': url});
     },
     
     getContentConfig: function() {

@@ -8,9 +8,9 @@
 }*/
 
 
-.textViewContent .freidi_libretto.D-tx2 .speaker + br + .p-in-sp > br:first-child {
+/*.textViewContent .freidi_libretto.D-tx2 .speaker + br + .p-in-sp > br:first-child {
     display: block !important;
-}
+}*/
 
 .ace_editor {
     bottom: 0;

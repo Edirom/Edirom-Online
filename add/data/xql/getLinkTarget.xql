@@ -49,6 +49,9 @@ declare function local:getViews($type, $docUri, $doc) {
         (: AudioView :)
         if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
+		(: VerovioView :)
+        if($doc//mei:body//mei:measure) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
+
         (: TextView :)
         if($type = 'text') then(concat("{type:'textView', defaultView:", if($doc//tei:facsimile//tei:graphic)then("false")else("true") , ", uri:'", $docUri, "'}")) else(),
 
@@ -130,15 +133,15 @@ let $title := (: Work :)
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
 
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then($doc//mei:source/mei:titleStmt[1]/data(mei:title[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
              
               else(string('unknown'))
               

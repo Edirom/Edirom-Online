@@ -31,14 +31,12 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     layout: 'fit',
     
     cls: 'textView',
+    
+    stage: '',
 
     annotationsVisible: false,
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
-    
-    idView: null,
-	placeHolder: null,
-	content: null,
 
     initComponent: function () {
 
@@ -111,53 +109,169 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     createToolbarEntries: function() {
 
         var me = this;
-
-        if(me.uri == 'xmldb:exist:///db/contents/texts/freidi-librettoSource_KA-tx4.xml') {
+        
+        if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx4.xml') {
+            me.stage = 'last';
             
-            var stage1 = Ext.create('Ext.menu.CheckItem', {
-                group: me.id + '_stages',
-                id: me.id + '_stage_1',
-                checked: true,
-                text: '1. Abschrift Kopist Dresden 1 (Juni 1817)',
-                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
-            });
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text in der Abschrift des Dresdner Kopisten 1 (Juni 1817)',
+                checked: false
+            }, {
+                stage: 'second',
+                text: 'Text mit Korrekturen von Weber und fremder Hand (Juni 1817 – UA 1821)',
+                checked: false
+            }, {
+                stage: 'third',
+                text: 'Text mit Korrekturen des Dresdner Kopisten 2 (Anfang 1822)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit den Zusätzen von Jähns (September 1878)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
+        
+        }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_L-tx2.xml') {
+            me.stage = 'last';
             
-            var stage2 = Ext.create('Ext.menu.CheckItem', {
-                group: me.id + '_stages',
-                id: me.id + '_stage_2',
-                checked: false,
-                text: '2. Korrekturschicht Weber (Juni 1817–UA 1821)',
-                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
-            });
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text von Kind in der ersten Niederschrift (März bis Mai 1817)',
+                checked: false
+            }, {
+                stage: 'second',
+                text: 'Text von Kind nach der Überarbeitung des Manuskripts (Juni 1817)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit Korrekturen von Kind und Zusätzen von Jähns (September 1878)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
 
-            var stage3 = Ext.create('Ext.menu.CheckItem', {
-                group: me.id + '_stages',
-                id: me.id + '_stage_3',
-                checked: false,
-                text: '3. Korrekturschicht Kopist Dresden 2 (Anfang 1822)',
-                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
-            });
-
-            var stage4 = Ext.create('Ext.menu.CheckItem', {
-                group: me.id + '_stages',
-                id: me.id + '_stage_4',
-                checked: false,
-                text: 'Vorwort von Jähns',
-                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
-            });
-
-            me.switchTextStages =  Ext.create('Ext.button.Button', {
-                text: 'Textschichten',
-                indent: false,
-                cls: 'menuButton',
-                menu : {
-                    items: [stage1, stage2, stage3, stage4]
-                }
-            });
-            me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
+        }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_K-tx6.xml') {
+            me.stage = 'last';
+            
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text in der Abschrift des Dresdner Kopisten 3 (August 1819)',
+                checked: false
+            }, {
+                stage: 'second',
+                text: 'Text mit Korrekturen des Berliner Kopisten (Mai 1820)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit Korrekturen von verschiedenen fremden Händen (UA Juni 1821)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
+        }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx15.xml') {
+            me.stage = 'last';
+            
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text des Dresdner Kopisten 2 (August 1821)',
+                checked: false
+            }, {
+                stage: 'second',
+                text: 'Text mit Korrekturen von Weber (August 1821)',
+                checked: false
+            }, {
+                stage: 'third',
+                text: 'Text mit Korrekturen von Mosel (August – November 1821)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit Korrekturen von fremder Hand und Zettler (EA November 1821)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
+        }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_KA-tx21.xml') {
+            me.stage = 'last';
+            
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text des Dresdner Kopisten 2 (Oktober 1821)',
+                checked: false
+            }, {
+                stage: 'second',
+                text: 'Text mit Korrekturen von Weber (Oktober 1821)',
+                checked: false
+            }, {
+                stage: 'third',
+                text: 'Text mit Korrekturen von Friedrich Ludwig Schmidt (Oktober 1821–Februar 1822)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit Korrekturen von verschiedenen fremden Händen (EA Februar 1822)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
+        }else if(me.uri == 'xmldb:exist:///db/apps/contents/librettoSources/freidi-librettoSource_K-tx29.xml') {
+            me.stage = 'last';
+            
+            me.createStageMenus([{
+                stage: 'first',
+                text: 'Text in der Abschrift von Friedrich und Hugo Langer (August 1823)',
+                checked: false
+            }, {
+                stage: 'last',
+                text: 'Text mit Korrrekturen von verschiedenen fremden Händen (Datierung unklar)',
+                checked: true
+            }/*, {
+                stage: 'genesis',
+                text: 'Genese des Textes',
+                checked: false
+            }*/]);
         }
     },
 
+    createStageMenus: function(stages) {
+        var me = this;
+        var stageItems = [];
+        
+        // {stage:'first', text:'Genese des Textes', checked:false}
+        for(var i = 0; i < stages.length; i++) {
+            var stage = Ext.create('Ext.menu.CheckItem', {
+                group: me.id + '_stages',
+                id: me.id + '_stage_' + i,
+                checked: stages[i].checked,
+                stage: stages[i].stage,
+                text: stages[i].text,
+                checkHandler: Ext.bind(me.switchTextStages, me, [], 0)
+            });
+            
+            stageItems.push(stage);
+        }
+        
+        me.switchTextStages =  Ext.create('Ext.button.Button', {
+            text: 'Textschichten',
+            indent: false,
+            cls: 'menuButton',
+            menu : {
+                items: stageItems
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.switchTextStages, me.id);
+    },
+    
     checkGlobalAnnotationVisibility: function(visible) {
         
         var me = this;
@@ -428,7 +542,10 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         
         me.placeHolder = uri;
          
-        if (annotationOn) {
+        if (annotationOn ) {
+        	if(typeof me.content !== 'undefind'){
+        		me.content.annotator('destroy');
+        	}
 			$(document).ready(function () {
 				me.content  = $('#' + me.id + '_textCont').annotator();
 				
@@ -536,16 +653,13 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         if(menuItem.checked === false) return;
     
         var me = this;
-        var stage = 'first';
-        if(menuItem.id.endsWith('stage_2')) stage = 'second';
-        if(menuItem.id.endsWith('stage_3')) stage = 'third';
-        if(menuItem.id.endsWith('stage_4')) stage = 'last';
-    
+        me.stage = menuItem.stage;
+
         window.doAJAXRequest('data/xql/getText.xql',
             'GET', 
             {
                 uri: me.uri,
-                stage: stage,
+                stage: me.stage,
                 idPrefix: me.id + '_',
                 term: me.window.term,
                 path: me.window.path

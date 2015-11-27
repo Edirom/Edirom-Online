@@ -36,7 +36,7 @@
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <xsl:param name="numberHeadings">false</xsl:param>
     <xsl:param name="autoHead">false</xsl:param>
-    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/freidi/</xsl:param><!-- ?dw=500&mo=fi -->
+    <xsl:param name="graphicsPrefix"/>
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
     <xsl:param name="textType"/>
@@ -520,10 +520,16 @@
         <xsl:apply-templates
             select="tei:*[not(self::tei:speaker) and not(self::tei:stage[@rend = 'inline'][1])]"/>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <span class="del">
+    <xsl:template match="tei:del" priority="5">
+        <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            <xsl:call-template name="rendToClass">
+                <xsl:with-param name="default">del</xsl:with-param>
+            </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
-        </span>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="tei:lb" priority="5">
         <xsl:choose>
@@ -601,7 +607,7 @@
                     select="./following-sibling::tei:stage[@rend = 'inline'][1]"/></xsl:if>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:l[@part = 'F']">
+    <xsl:template match="tei:l[@part = 'F']" priority="6">
         <xsl:variable name="init" select="preceding::tei:l[@part = 'I'][1]"/>
         <xsl:element name="{if (ancestor::tei:head or ancestor::tei:hi) then 'span' else 'div'}">
             <xsl:attribute name="style"
@@ -659,16 +665,14 @@
     <xsl:template match="tei:add" priority="5">
         <xsl:element
             name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
-            <xsl:if test="./parent::tei:subst and @place='above'">
+            <!-- TODO: Is this necessary for us? -->
+            <!--<xsl:if test="./parent::tei:subst and @place='above'">
                 <xsl:variable name="del" select="preceding-sibling::tei:del"/>
                 <xsl:variable name="delLines" select="count($del//tei:lb)"/>
-                <xsl:variable name="firstLine"
-                    select="if($delLines gt 0) then(normalize-space(string-join($del//tei:lb/preceding-sibling::node()//text(),''))) else(normalize-space(string-join($del//text(),'')))"/>
+                <xsl:variable name="firstLine" select="if($delLines gt 0) then(normalize-space(string-join($del//tei:lb/preceding-sibling::node()//text(),''))) else(normalize-space(string-join($del//text(),'')))"/>
                 <xsl:variable name="offset" select="string-length($firstLine) * 0.45"/>
-                <xsl:attribute name="style"
-                    select="concat('margin-left:-',$offset,'em; margin-top:-',$delLines * 2,'em;')"
-                />
-            </xsl:if>
+                <xsl:attribute name="style" select="concat('margin-left:-',$offset,'em; margin-top:-',$delLines * 2,'em;')"/>
+            </xsl:if>-->
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default">
                     <xsl:choose>
@@ -678,6 +682,9 @@
                     </xsl:choose>
                 </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -687,6 +694,9 @@
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default"> subst </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -944,5 +954,14 @@
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:element>
+    </xsl:template>
+    
+    <xsl:template match="tei:ref[starts-with(@target, '#footnote')]" priority="5">
+        <xsl:variable name="footnote_id" select="substring(./@target, 2)" as="xs:string"/>
+        <xsl:variable name="footnote" select="//tei:note[@xml:id=$footnote_id]//text()" as="xs:string*"/>
+        
+        <span class="footnote" title="{normalize-space(string-join($footnote, ' '))}">
+            <xsl:apply-templates/>
+        </span>
     </xsl:template>
 </xsl:stylesheet>
