@@ -540,10 +540,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         Ext.fly(me.id + '_textCont').update(text);
         this.fireEvent('documentLoaded', me);
         
-        me.placeHolder = uri;
+        me.placeHolder = uri + '?view=textView' + (me.stage != null && typeof me.stage !== 'undefined'?'&stage=' + me.stage:'');
          
         if (annotationOn ) {
-        	if(typeof me.content !== 'undefind'){
+        
+        	if(me.content != null && typeof me.content !== 'undefined'){
         		me.content.annotator('destroy');
         	}
 			$(document).ready(function () {
@@ -557,11 +558,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 				me.content.annotator('addPlugin', 'Store', {
 					prefix: 'http://annotateit.org/api',
 					annotationData: {
-						'uri': uri
+						'uri': me.placeHolder
 					},
 					loadFromSearch: {
 						'limit': 20,
-						'uri': uri
+						'uri': me.placeHolder
 					},
 					urls: {
 						create: '/annotations',
