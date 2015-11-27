@@ -35,6 +35,10 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     annotationsVisible: false,
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
+    
+    idView: null,
+	placeHolder: null,
+	content: null,
 
     initComponent: function () {
 
@@ -60,6 +64,8 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 }
             ]
         });
+        
+        me.idView = me.id + '_textCont';
 
         me.westPanel.on('resize', me.calculateSizes, me);
 
@@ -74,8 +80,56 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.callParent();
         
         me.on('afterrender', this.createToolbarEntries, me, {single: true});
+        me.on('afterrender', this.createMenuEntries, me, {single: true});
         me.window.on('loadInternalLink', this.loadInternalId, me);
     },
+    
+    createMenuEntries: function() {
+		var me = this;
+		
+		var reloadIcon = Ext.create('Ext.panel.Tool', {
+			type: 'refresh',
+            tooltip: 'aktiviere Annotations',
+			handler: function () {
+				if (annotationOn) {
+					me.content.annotator('destroy');
+					
+					me.content = $('#' + me.idView).annotator();
+					
+					me.content.annotator('addPlugin', 'Auth', {
+						tokenUrl: 'http://annotateit.org/api/token',
+						autoFetch: true
+					});
+					
+					me.content.annotator('addPlugin', 'Store', {
+						prefix: 'http://annotateit.org/api',
+						annotationData: {
+							'uri': me.placeHolder
+						},
+						loadFromSearch: {
+							'limit': 20,
+							'uri': me.placeHolder
+						},
+						urls: {
+							create: '/annotations',
+							update: '/annotations/:id',
+							destroy: '/annotations/:id',
+							search: '/search'
+						},
+						
+						showViewPermissionsCheckbox: true,
+						
+						showEditPermissionsCheckbox: true
+					});
+				}
+				else{
+					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
+				}
+			}
+		});
+		
+        me.window.getTopbar().addViewSpecificItem(reloadIcon, me.id);
+	},
 
     createToolbarEntries: function() {
 
@@ -522,10 +576,47 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             Ext.Array.each(annotations, fn);
     },
 
-    setContent: function(text) {
-    
-        Ext.fly(this.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', this);
+    setContent: function(text, uri) {
+		var me = this;
+        Ext.fly(me.id + '_textCont').update(text);
+        this.fireEvent('documentLoaded', me);
+        
+        me.placeHolder = uri;
+        
+        if (annotationOn) {
+        	if(typeof me.content !== 'undefind'){
+        		me.content.annotator('destroy');
+        	}
+			$(document).ready(function () {
+				me.content = $('#' + me.id + '_textCont').annotator();
+				
+				me.content.annotator('addPlugin', 'Auth', {
+					tokenUrl: 'http://annotateit.org/api/token',
+					autoFetch: true
+				});
+				
+				me.content.annotator('addPlugin', 'Store', {
+					prefix: 'http://annotateit.org/api',
+					annotationData: {
+						'uri': uri
+					},
+					loadFromSearch: {
+						'limit': 20,
+						'uri': uri
+					},
+					urls: {
+						create: '/annotations',
+						update: '/annotations/:id',
+						destroy: '/annotations/:id',
+						search: '/search'
+					},
+					
+					showViewPermissionsCheckbox: true,
+					
+					showEditPermissionsCheckbox: true
+				});
+			});
+		}      
     },
     
     setImageSet: function(imageSet) {
@@ -655,5 +746,3 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.fireEvent('afterImageChanged', me, null);
     }
 });
-
-

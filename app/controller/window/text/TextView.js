@@ -71,7 +71,7 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
         console.log("contentLoaded");
         console.log(view.uri);
 
-        view.setContent(content);
+        view.setContent(content, view.uri);
 
         Ext.Ajax.request({
             url: 'data/xql/getChapters.xql',

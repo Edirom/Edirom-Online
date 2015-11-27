@@ -65,7 +65,9 @@ Ext.define('EdiromOnline.Application', {
 
     launch: function() {
         var me = this;
-       
+        
+        annotationOn = false;
+        
         me.addEvents('workSelected');
         
         Ext.Ajax.request({
@@ -147,5 +149,5 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-	}
+    }
 });
