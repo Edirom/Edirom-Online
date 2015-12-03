@@ -17,44 +17,46 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.SummaryView', {
-    extend: 'Ext.panel.Panel',
-
-    requires: [
-    ],
-
-    alias : 'widget.summaryView',
-
-    layout: 'fit',
-    
-    cls: 'summaryView',
-    
-    idView: null,
+	extend: 'Ext.panel.Panel',
+	
+	requires:[],
+	
+	alias: 'widget.summaryView',
+	
+	layout: 'fit',
+	
+	cls: 'summaryView',
+	
+	idView: null,
 	placeHolder: null,
 	content: null,
-
-    initComponent: function () {
-
-        var me = this;
-
-        me.html = '<div id="' + me.id + '_summaryCont" class="summaryViewContent"></div>';
-        
-        me.idView = me.id + '_summaryCont';
-
-        me.callParent();
-        
-        me.on('afterrender', me.createMenuEntries, me, {
+	
+	initComponent: function () {
+		
+		var me = this;
+		
+		me.html = '<div id="' + me.id + '_summaryCont" class="summaryViewContent"></div>';
+		
+		me.idView = me.id + '_summaryCont';
+		
+		me.callParent();
+		
+		me.on('afterrender', me.createMenuEntries, me, {
 			single: true
 		});
-    },
-
-    setContent: function(data, uri) {
-        var me = this;
-        var contEl = me.el.getById(me.id + '_summaryCont');
-        contEl.update(data);
-        
-        me.placeHolder = uri;
-        
-         if (annotationOn) {
+	},
+	
+	setContent: function (data, uri) {
+		var me = this;
+		var contEl = me.el.getById(me.id + '_summaryCont');
+		contEl.update(data);
+		
+		me.placeHolder = uri;
+		
+		if (annotationOn) {
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
 			$(document).ready(function () {
 				me.content = $('#' + me.id + '_summaryCont').annotator();
 				
@@ -85,9 +87,51 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 				});
 			});
 		}
-    },
-    
-    createMenuEntries: function () {
+	},
+	
+	refreshUserAnnot: function () {
+		var me = this;
+		if (annotationOn) {
+			
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
+			
+			me.content = $('#' + me.idView).annotator();
+			
+			me.content.annotator('addPlugin', 'Auth', {
+				tokenUrl: 'http://annotateit.org/api/token',
+				autoFetch: true
+			});
+			
+			me.content.annotator('addPlugin', 'Store', {
+				prefix: 'http://annotateit.org/api',
+				annotationData: {
+					'uri': me.placeHolder
+				},
+				loadFromSearch: {
+					'limit': 20,
+					'uri': me.placeHolder
+				},
+				urls: {
+					create: '/annotations',
+					update: '/annotations/:id',
+					destroy: '/annotations/:id',
+					search: '/search'
+				},
+				
+				showViewPermissionsCheckbox: true,
+				
+				showEditPermissionsCheckbox: true
+			});
+		} else {
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
+		}
+	},
+	
+	createMenuEntries: function () {
 		var me = this;
 		
 		var reloadIcon = Ext.create('Ext.panel.Tool', {
@@ -96,7 +140,9 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 			handler: function () {
 				if (annotationOn) {
 					
-					me.content.annotator('destroy');
+					if (me.content != null && typeof me.content !== 'undefined') {
+						me.content.annotator('destroy');
+					}
 					
 					me.content = $('#' + me.idView).annotator();
 					
@@ -133,11 +179,11 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 		
 		me.window.getTopbar().addViewSpecificItem(reloadIcon, me.id);
 	},
-    
-    getContentConfig: function() {
-        var me = this;
-        return {
-            id: this.id
-        };
-    }
+	
+	getContentConfig: function () {
+		var me = this;
+		return {
+			id: this.id
+		};
+	}
 });

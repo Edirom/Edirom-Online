@@ -54,6 +54,10 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		me.placeHolder = uri;
 		
 		if (annotationOn) {
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
+			
 			$(document).ready(function () {
 				me.content = $('#' + me.id + '_headerCont').annotator();
 				me.content.annotator('addPlugin', 'Auth', {
@@ -85,6 +89,48 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 		}
 	},
 	
+	refreshUserAnnot: function () {
+		var me = this;
+		if (annotationOn) {
+			
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
+			
+			me.content = $('#' + me.idView).annotator();
+			
+			me.content.annotator('addPlugin', 'Auth', {
+				tokenUrl: 'http://annotateit.org/api/token',
+				autoFetch: true
+			});
+			
+			me.content.annotator('addPlugin', 'Store', {
+				prefix: 'http://annotateit.org/api',
+				annotationData: {
+					'uri': me.placeHolder
+				},
+				loadFromSearch: {
+					'limit': 20,
+					'uri': me.placeHolder
+				},
+				urls: {
+					create: '/annotations',
+					update: '/annotations/:id',
+					destroy: '/annotations/:id',
+					search: '/search'
+				},
+				
+				showViewPermissionsCheckbox: true,
+				
+				showEditPermissionsCheckbox: true
+			});
+		} else {
+			if (me.content != null && typeof me.content !== 'undefined') {
+				me.content.annotator('destroy');
+			}
+		}
+	},
+	
 	createMenuEntries: function () {
 		var me = this;
 		
@@ -94,7 +140,9 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 			handler: function () {
 				if (annotationOn) {
 					
-					me.content.annotator('destroy');
+					if (me.content != null && typeof me.content !== 'undefined') {
+						me.content.annotator('destroy');
+					}
 					
 					me.content = $('#' + me.idView).annotator();
 					

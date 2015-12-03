@@ -97,6 +97,24 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 	 */
 	openLoginWindow: function () {
 		
+		var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
+		existingWindows = desktop.getActiveWindowsSet(true);		
+		var storedViews =[];		
+		for (var i = 0; i < existingWindows.items.length; i++) {
+			var view = existingWindows.items[i];
+			if (view.getActiveView().idView.indexOf('_headerCont') > -1 
+				|| view.getActiveView().idView.indexOf('_textCont') > -1 
+				|| view.getActiveView().idView.indexOf('_summaryCont') > -1) {				
+				storedViews.push(view);
+			}
+		}
+		if (storedViews.length > 0) {
+			var win = new EdiromOnline.view.desktop.RefreshDialog();
+			win.show();
+			win.setViews(storedViews);
+		}
+		
+		
 		new Ext.Window({
 			title: "Login to AnnotateIt",
 			width: 700,
@@ -111,9 +129,10 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 					src: "http://annotateit.org/user/login"
 				}
 			}],
-			listeners:{
-                 'close':function(win){
-                          var content = $('#' + this.id).annotator();
+			listeners: {
+				'close': function (win) {
+					
+					var content = $('#' + this.id).annotator();
 					content.annotator('addPlugin', 'Auth', {
 						tokenUrl: 'http://annotateit.org/api/token',
 						autoFetch: true
@@ -125,8 +144,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 							annotationOn = false;
 						}
 					});
-                  }
-         }
+				}
+			}
 		}).show();
 	}
 });
