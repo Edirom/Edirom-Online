@@ -26,6 +26,8 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 	
 	closable: false,
 	
+	autoScroll: true,
+	
 	width: 300,
 	height: 200,
 	
@@ -35,18 +37,33 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 	
 	storedViews: null,
 	
+	annotationOn_old: null,
+	
 	initComponent: function () {
 		
 		var me = this;
+		
+		me.annotationOn_old = annotationOn;
 		
 		me.items =[],
 		
 		me.buttons =[ {
 			text: 'Ok',
 			handler: function () {
+			
+			if(me.annotationOn_old === annotationOn){
+			 if(annotationOn === false){
+			 	alert('Die Annotations sind ausgeschaltet!');
+			 }
+			 else{
+				alert('Die Annotations sind aktuell: keine Aktualisierung notwendig!');
+				}
+			}
+			else{
 				for (var i = 0; i < me.storedViews.length; i++) {
 					var actView = me.storedViews[i].getActiveView();
 					actView.refreshUserAnnot();
+				}
 				}
 				
 				this.up('window').close();
@@ -65,10 +82,10 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 		me.storedViews = storedViews;
 		var names = '';
 		for (var i = 0; i < me.storedViews.length; i++) {
-			names = names + '\r \n' + me.storedViews[i].title;
+			names = names + '<br>' + me.storedViews[i].title +'</br>';
 		}
 		me.add({
-			html: 'Folgende Views werden aktualisiert:' + '\r \n' + names
+			html: '<br>Folgende Views werden aktualisiert:</br>' + names
 		});
 	}
 });

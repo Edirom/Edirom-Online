@@ -54,9 +54,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		this.on('afterrender', this.createToolbarEntries, this, {
 			single: true
 		});
-		this.on('afterrender', this.createMenuEntries, this, {
-			single: true
-		});
+		
 		this.window.on('loadInternalLink', this.loadInternalId, this);
 	},
 	
@@ -95,62 +93,15 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 				
 				showEditPermissionsCheckbox: true
 			});
+			
+			me.content.annotator('addPlugin', 'StoreLogger');
 		} else {
 			if (me.content != null && typeof me.content !== 'undefined') {
 				me.content.annotator('destroy');
 			}
 		}
 	},
-	
-	createMenuEntries: function () {
-		var me = this;
 		
-		var reloadIcon = Ext.create('Ext.panel.Tool', {
-			type: 'refresh',
-			tooltip: 'aktiviere Annotations',
-			handler: function () {
-				if (annotationOn) {
-					
-					if (me.content != null && typeof me.content !== 'undefined') {
-						me.content.annotator('destroy');
-					}
-					
-					me.content = $('#' + me.idView).annotator();
-					
-					me.content.annotator('addPlugin', 'Auth', {
-						tokenUrl: 'http://annotateit.org/api/token',
-						autoFetch: true
-					});
-					
-					me.content.annotator('addPlugin', 'Store', {
-						prefix: 'http://annotateit.org/api',
-						annotationData: {
-							'uri': me.placeHolder
-						},
-						loadFromSearch: {
-							'limit': 20,
-							'uri': me.placeHolder
-						},
-						urls: {
-							create: '/annotations',
-							update: '/annotations/:id',
-							destroy: '/annotations/:id',
-							search: '/search'
-						},
-						
-						showViewPermissionsCheckbox: true,
-						
-						showEditPermissionsCheckbox: true
-					});
-				} else {
-					alert('Annotation-Anzeige ist nicht aktiv: \nSie sind nicht auf AnnotaeIt-Seite angemeldet.');
-				}
-			}
-		});
-		
-		me.window.getTopbar().addViewSpecificItem(reloadIcon, me.id);
-	},
-	
 	createToolbarEntries: function () {
 		
 		var me = this;
@@ -636,8 +587,24 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 					
 					showEditPermissionsCheckbox: true
 				});
+				me.content.annotator('addPlugin', 'StoreLogger');
 			});
 		}
+	},
+	
+	updateWithNewAnnot: function(annotation){
+		var me = this;
+		me.content.annotator('setupAnnotation', annotation);
+	},
+	
+	updateAnnot: function(annotation){
+		var me = this;
+		me.content.annotator('updateAnnotation', annotation);
+	},
+	
+	deleteAnnot: function(annotation){
+		var me = this;
+		me.content.annotator('deleteAnnotation', annotation);
 	},
 	
 	setChapters: function (chapters) {

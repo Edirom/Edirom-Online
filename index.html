@@ -51,5 +51,132 @@
     <base target="_blank"/>
 </head>
 <body>
+	<script>
+		
+		Annotator.Plugin.StoreLogger = function (element) {
+					return {
+						pluginInit: function () {
+							this.annotator
+							.subscribe("annotationCreated", function (annotation) {
+								//console.log("The annotation: %o has just been created!", annotation);
+								
+								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
+								var existingWindows = desktop.getActiveWindowsSet(true);
+										
+								for (var i= 0; i !== existingWindows.items.length; i++) {
+									var view = existingWindows.items[i];
+									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+									  	  view.getActiveView().updateWithNewAnnot(annotation);
+									  	}
+									  }									 
+									 }									
+									}	
+									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+									  	  view.getActiveView().updateWithNewAnnot(annotation);
+									  	}
+									  }									 
+									 }									
+									}	
+									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+									  	  view.getActiveView().updateWithNewAnnot(annotation);
+									  	}
+									  }									 
+									 }									
+									}	
+								}			
+							})
+							.subscribe("annotationUpdated", function (annotation) {
+								//console.log("The annotation: %o has just been updated!", annotation);
+								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
+								var existingWindows = desktop.getActiveWindowsSet(true);		
+										
+								for (var i= 0; i !== existingWindows.items.length; i++) {
+									var view = existingWindows.items[i];
+									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().updateAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().updateAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().updateAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+								}	
+								
+							})
+							.subscribe("annotationDeleted", function (annotation) {
+								//console.log("The annotation: %o has just been deleted!", annotation);
+								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
+								var existingWindows = desktop.getActiveWindowsSet(true);		
+										
+								for (var i= 0; i !== existingWindows.items.length; i++) {
+									var view = existingWindows.items[i];
+									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().deleteAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().deleteAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
+									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
+									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
+									  	if(view.getActiveView().placeHolder === annotation.uri){
+											view.getActiveView().deleteAnnot(annotation);
+											//view.getActiveView().refreshUserAnnot();
+										}
+									}
+									}
+									}	
+								}	
+								
+							});
+						}
+					}
+				}			
+	</script>
 </body>
 </html>
