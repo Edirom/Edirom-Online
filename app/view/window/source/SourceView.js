@@ -198,20 +198,90 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
         me.measureBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
     },
 
-    setMovements: function(movements) {
+    setMovements: function(movements, partwise) {
         var me = this;
-
         me.movements = movements;
         me.measureBasedView.setMovements(movements);
 
         var movementItems = [];
-        movements.each(function(movement) {
-            movementItems.push({
-                text: movement.get('name'),
-                handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
-            });
-        });
+        var partList = [];
+        var partNames =[];
+        
+        movements.data.each(function(movement){
+        
+            if (movement.data.parts.length === 0){
+                movementItems.push({
+                    text: movement.get('name'),
+                    handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
+                });
+            }
+            else
+            {
+                if (partwise)
+                {
+                    movement.data.parts.forEach(function(part){
+                        var exists = partNames.indexOf(part.name);
+                        var obj = {
+                                 text: part.name,
+                                 menu: []
+                             };
+                        if (exists === -1) {
+                            partNames.push(part.name);
+                            partList.push(obj);
+                        } else {
+                             var menu_mov = {
+                                         text: movement.get('name'),
+                                         handler: Ext.bind(me.gotoMovement, me, part.id, true)
+                                     }
 
+                             partList[exists].menu.push(menu_mov);
+                        }
+                    });
+                }
+                else
+                {
+                    var parts = [];
+        
+                    movement.data.parts.forEach(function(part){
+                        parts.push(part);
+                    });
+                    
+                    if (movement.data.parts.length === 0)
+                    {
+                        movementItems.push({
+                            text: movement.get('name'),
+                            handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
+                        });
+                        partList.forEach(function(item){
+                            movementItems.push(item);
+                        });
+                    }
+                    else 
+                    {
+        
+                        var partItems = [];
+                        parts.forEach(function(part){
+                            partItems.push({
+                                text: part.name,
+                                handler: Ext.bind(me.gotoMovement, me, part.id, true)
+                            });
+                        });
+                        movementItems.push({
+                            text: movement.get('name'),
+                            menu: [ partItems ]
+                        });
+                    }
+                }
+            }
+
+        });
+        
+        if(partwise) {
+            partList.forEach(function(item){
+                movementItems.push(item);
+            });
+        }
+        
         me.gotoMenu.menu.add({
             id: me.id + '_gotoMovement',
             text: getLangString('view.window.source.SourceView_gotoMovement'),
