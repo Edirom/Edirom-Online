@@ -43,12 +43,12 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 		
 	},
 	
-	setContent: function (data, uri) {
+	setContent: function (data) {
 		var me = this;
 		var contEl = me.el.getById(me.id + '_summaryCont');
 		contEl.update(data);
 		
-		me.placeHolder = uri;
+		me.placeHolder = me.uri;
 		
 		if (annotationOn) {
 			if (me.content != null && typeof me.content !== 'undefined') {
@@ -65,11 +65,11 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 				me.content.annotator('addPlugin', 'Store', {
 					prefix: 'http://annotateit.org/api',
 					annotationData: {
-						'uri': uri
+						'uri': me.placeHolder
 					},
 					loadFromSearch: {
 						'limit': 20,
-						'uri': uri
+						'uri': me.placeHolder
 					},
 					urls: {
 						create: '/annotations',

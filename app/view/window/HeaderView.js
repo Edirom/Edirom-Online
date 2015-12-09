@@ -43,12 +43,12 @@ Ext.define('EdiromOnline.view.window.HeaderView', {
 	
 	},
 	
-	setContent: function (data, uri) {
+	setContent: function (data) {
 		var me = this;
 		var contEl = me.el.getById(me.id + '_headerCont');
 		contEl.update(data);
 		
-		me.placeHolder = uri;
+		me.placeHolder = me.uri;
 		
 	
 		if (annotationOn) {

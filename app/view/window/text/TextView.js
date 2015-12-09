@@ -545,14 +545,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		Ext.Array.each(annotations, fn);
 	},
 	
-	setContent: function (text, uri) {
+	setContent: function (text) {
 		
 		var me = this;
 		
 		Ext.fly(me.id + '_textCont').update(text);
 		this.fireEvent('documentLoaded', me);
 		
-		me.placeHolder = uri + '?view=textView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
+		me.placeHolder = me.uri + '?view=textView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
 		
 		if (annotationOn) {
 			

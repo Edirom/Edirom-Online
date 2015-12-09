@@ -588,12 +588,12 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 		Ext.Array.each(annotations, fn);
 	},
 	
-	setContent: function (text, uri) {
+	setContent: function (text) {
 		var me = this;
 		Ext.fly(me.id + '_textCont').update(text);
 		this.fireEvent('documentLoaded', me);
 		
-		me.placeHolder = uri + '?view=textFacsimileSplitView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
+		me.placeHolder = me.uri + '?view=textFacsimileSplitView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
 		
 		if (annotationOn) {
 			if (me.content != null && typeof me.content !== 'undefined') {

@@ -50,7 +50,7 @@ Ext.define('EdiromOnline.controller.window.SummaryView', {
                 type: type
             },
             success: function(response){
-                view.setContent(response.responseText, uri);
+                view.setContent(response.responseText);
             },
             scope: this
         });
