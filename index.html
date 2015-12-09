@@ -18,165 +18,155 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  -->
 <html>
-<head>
-    <meta charset="UTF-8"/>
-    <title>EdiromOnline</title>
-    <!-- **CSS** -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
-	
-	<!-- **JQUERY** -->
-	<script type="text/javascript" src="resources/jquery/jquery-2.1.3.js"></script>
-	
-	<!-- **Annotator JS** -->
-	<script type="text/javascript" src="resources/pkg/annotator.min.js"></script>
-	<script type="text/javascript" src="resources/pkg/annotator-full.min.js"></script>
-	
-    <!-- **Raphael JS** -->
-    <script type="text/javascript" src="resources/js/raphael-min.js"></script>
-  
-    <!-- **ACE** -->
-    <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
-    <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+	<head>
+		<meta charset="UTF-8" />
+		<title>EdiromOnline</title>
+		<!-- **CSS** -->
+		<link rel="stylesheet"
+			href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" />
 
-    <!-- <x-compile> -->
-    <!-- <x-bootstrap> -->
-    <link rel="stylesheet" href="bootstrap.css"/>
-    <script src="ext/ext-dev.js"></script>
-    <script src="bootstrap.js"></script>
-    <!-- </x-bootstrap> -->
-        <script src="app.js"></script>
-    <!-- </x-compile> -->   
+		<!-- **JQUERY** -->
+		<script type="text/javascript" src="resources/jquery/jquery-2.1.3.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
-    <base target="_blank"/>
-</head>
-<body>
-	<script>
-		
-		Annotator.Plugin.StoreLogger = function (element) {
+		<!-- **Annotator JS** -->
+		<script type="text/javascript" src="resources/pkg/annotator.min.js"></script>
+		<script type="text/javascript" src="resources/pkg/annotator-full.min.js"></script>
+
+		<!-- **Raphael JS** -->
+		<script type="text/javascript" src="resources/js/raphael-min.js"></script>
+
+		<!-- **ACE** -->
+		<script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- <x-compile> -->
+		<!-- <x-bootstrap> -->
+		<link rel="stylesheet" href="bootstrap.css" />
+		<script src="ext/ext-dev.js"></script>
+		<script src="bootstrap.js"></script>
+		<!-- </x-bootstrap> -->
+		<script src="app.js"></script>
+		<!-- </x-compile> -->
+
+		<link rel="stylesheet" type="text/css" href="resources/css/todo.css" />
+		<base target="_blank" />
+	</head>
+	<body>
+		<script>
+		<!--
+		Annotator.Plugin.RefreshViews = function (element) {			
 					return {
 						pluginInit: function () {
 							this.annotator
-							.subscribe("annotationCreated", function (annotation) {
-								//console.log("The annotation: %o has just been created!", annotation);
-								
+							.subscribe("annotationCreated", function (annotation) {								
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
 								var existingWindows = desktop.getActiveWindowsSet(true);
+								var activeWindow = desktop.getActiveWindow();
+								var activeView;
+								if(typeof activeWindow !== 'undefined'){
+									activeView = desktop.getActiveWindow().getActiveView();
+								}
+								
+								var storedViews =[];
 										
-								for (var i= 0; i !== existingWindows.items.length; i++) {
-									var view = existingWindows.items[i];
-									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-									  	  view.getActiveView().updateWithNewAnnot(annotation);
-									  	}
-									  }									 
-									 }									
-									}	
-									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-									  	  view.getActiveView().updateWithNewAnnot(annotation);
-									  	}
-									  }									 
-									 }									
-									}	
-									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-									  	  view.getActiveView().updateWithNewAnnot(annotation);
-									  	}
-									  }									 
-									 }									
-									}	
-								}			
+								for (var i= 0; i < existingWindows.items.length; i++) {
+									var existView = existingWindows.items[i];
+									var existActiveView = existView.getActiveView();
+									
+									if(typeof existActiveView !== 'undefined' && typeof activeView !== 'undefined'){
+									
+									if(activeView.idView !== existActiveView.idView && existActiveView.placeHolder === annotation.uri){
+										if(existActiveView.idView.indexOf('_headerCont') !== -1
+											&& activeView.idView.indexOf('_headerCont') !== -1
+											|| existActiveView.idView.indexOf('_textCont') !== -1
+											&& activeView.idView.indexOf('_textCont') !== -1
+											|| existActiveView.idView.indexOf('_summaryCont') !== -1
+											&& activeView.idView.indexOf('_summaryCont') !== -1){
+											storedViews.push(existView);									
+										}									
+									}										
+								}
+								}
+								if (storedViews.length > 0) {
+									var win = new EdiromOnline.view.desktop.RefreshDialog();
+									win.show();
+									win.setViews(storedViews, false);
+								}
 							})
 							.subscribe("annotationUpdated", function (annotation) {
-								//console.log("The annotation: %o has just been updated!", annotation);
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
-								var existingWindows = desktop.getActiveWindowsSet(true);		
-										
-								for (var i= 0; i !== existingWindows.items.length; i++) {
-									var view = existingWindows.items[i];
-									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().updateAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().updateAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().updateAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-								}	
+								var existingWindows = desktop.getActiveWindowsSet(true);
+								var activeWindow = desktop.getActiveWindow();
+								var activeView;
+								if(typeof activeWindow !== 'undefined'){
+									activeView = desktop.getActiveWindow().getActiveView();
+								}
 								
+								var storedViews =[];
+										
+								for (var i= 0; i < existingWindows.items.length; i++) {
+									var existView = existingWindows.items[i];
+									var existActiveView = existView.getActiveView();
+									
+									if(typeof existActiveView !== 'undefined'  && typeof activeView !== 'undefined'){
+									
+									if(activeView.idView !== existActiveView.idView && existActiveView.placeHolder === annotation.uri){
+										if(existActiveView.idView.indexOf('_headerCont') !== -1
+											&& activeView.idView.indexOf('_headerCont') !== -1
+											|| existActiveView.idView.indexOf('_textCont') !== -1
+											&& activeView.idView.indexOf('_textCont') !== -1
+											|| existActiveView.idView.indexOf('_summaryCont') !== -1
+											&& activeView.idView.indexOf('_summaryCont') !== -1){
+											storedViews.push(existView);									
+										}									
+									}										
+								}
+								}
+								if (storedViews.length > 0) {
+									var win = new EdiromOnline.view.desktop.RefreshDialog();
+									win.show();
+									win.setViews(storedViews, false);
+								}
 							})
 							.subscribe("annotationDeleted", function (annotation) {
-								//console.log("The annotation: %o has just been deleted!", annotation);
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
-								var existingWindows = desktop.getActiveWindowsSet(true);		
-										
-								for (var i= 0; i !== existingWindows.items.length; i++) {
-									var view = existingWindows.items[i];
-									if(view.getActiveView().idView.indexOf('_headerCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_headerCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().deleteAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-									if(view.getActiveView().idView.indexOf('_textCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_textCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().deleteAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-									if(view.getActiveView().idView.indexOf('_summaryCont') !== -1){
-									 if(desktop.getActiveWindow().getActiveView() !== view.getActiveView()){
-									  if(desktop.getActiveWindow().getActiveView().idView.indexOf('_summaryCont') !== -1){
-									  	if(view.getActiveView().placeHolder === annotation.uri){
-											view.getActiveView().deleteAnnot(annotation);
-											//view.getActiveView().refreshUserAnnot();
-										}
-									}
-									}
-									}	
-								}	
+								var existingWindows = desktop.getActiveWindowsSet(true);
+								var activeWindow = desktop.getActiveWindow();
+								var activeView;
+								if(typeof activeWindow !== 'undefined'){
+									activeView = desktop.getActiveWindow().getActiveView();
+								}
 								
+								var storedViews =[];
+										
+								for (var i= 0; i < existingWindows.items.length; i++) {
+									var existView = existingWindows.items[i];
+									var existActiveView = existView.getActiveView();
+									
+									if(typeof existActiveView !== 'undefined'  && typeof activeView !== 'undefined'){
+										if(activeView.idView !== existActiveView.idView && existActiveView.placeHolder === annotation.uri){
+											if(existActiveView.idView.indexOf('_headerCont') !== -1
+												&& activeView.idView.indexOf('_headerCont') !== -1
+												|| existActiveView.idView.indexOf('_textCont') !== -1
+												&& activeView.idView.indexOf('_textCont') !== -1
+												|| existActiveView.idView.indexOf('_summaryCont') !== -1
+												&& activeView.idView.indexOf('_summaryCont') !== -1){
+												storedViews.push(existView);
+											}									
+										}										
+									}
+									
+								}
+								if (storedViews.length > 0) {
+									var win = new EdiromOnline.view.desktop.RefreshDialog();
+									win.show();
+									win.setViews(storedViews, false);									
+								}									
 							});
 						}
 					}
-				}			
+				}
+				-->
 	</script>
-</body>
+	</body>
 </html>

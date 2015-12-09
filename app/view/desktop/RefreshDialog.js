@@ -39,6 +39,8 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 	
 	annotationOn_old: null,
 	
+	afterLogin: null,
+	
 	initComponent: function () {
 		
 		var me = this;
@@ -51,12 +53,20 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 			text: 'Ok',
 			handler: function () {
 			
-			if(me.annotationOn_old === annotationOn){
-			 if(annotationOn === false){
-			 	alert('Die Annotations sind ausgeschaltet!');
-			 }
-			 else{
-				alert('Die Annotations sind aktuell: keine Aktualisierung notwendig!');
+			if(me.afterLogin){
+				if(me.annotationOn_old === annotationOn){
+			 		if(annotationOn === false){
+			 			alert('Die Annotations sind ausgeschaltet!');
+			 		}
+			 		else{
+						alert('Die Annotations sind aktuell: keine Aktualisierung notwendig!');
+					}
+				}
+				else{
+					for (var i = 0; i < me.storedViews.length; i++) {
+						var actView = me.storedViews[i].getActiveView();
+						actView.refreshUserAnnot();
+					}
 				}
 			}
 			else{
@@ -64,7 +74,8 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 					var actView = me.storedViews[i].getActiveView();
 					actView.refreshUserAnnot();
 				}
-				}
+			}
+			
 				
 				this.up('window').close();
 			}
@@ -75,11 +86,12 @@ Ext.define('EdiromOnline.view.desktop.RefreshDialog', {
 	},
 	
 	
-	setViews: function (storedViews) {
+	setViews: function (storedViews, afterLogin) {
 		
 		var me = this;
 		
 		me.storedViews = storedViews;
+		me.afterLogin = afterLogin;
 		var names = '';
 		for (var i = 0; i < me.storedViews.length; i++) {
 			names = names + '<br>' + me.storedViews[i].title +'</br>';

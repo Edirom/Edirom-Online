@@ -98,7 +98,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 	openLoginWindow: function () {
 		
 		var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
-		existingWindows = desktop.getActiveWindowsSet(true);		
+		var existingWindows = desktop.getActiveWindowsSet(true);		
 		var storedViews =[];		
 		for (var i = 0; i < existingWindows.items.length; i++) {
 			var view = existingWindows.items[i];
@@ -111,7 +111,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 		if (storedViews.length > 0) {
 			var win = new EdiromOnline.view.desktop.RefreshDialog();
 			win.show();
-			win.setViews(storedViews);
+			win.setViews(storedViews, true);
 		}
 		
 		

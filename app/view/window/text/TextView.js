@@ -94,7 +94,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 				showEditPermissionsCheckbox: true
 			});
 			
-			me.content.annotator('addPlugin', 'StoreLogger');
+			me.content.annotator('addPlugin', 'RefreshViews');
 		} else {
 			if (me.content != null && typeof me.content !== 'undefined') {
 				me.content.annotator('destroy');
@@ -587,26 +587,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 					
 					showEditPermissionsCheckbox: true
 				});
-				me.content.annotator('addPlugin', 'StoreLogger');
+				me.content.annotator('addPlugin', 'RefreshViews');
 			});
 		}
 	},
-	
-	updateWithNewAnnot: function(annotation){
-		var me = this;
-		me.content.annotator('setupAnnotation', annotation);
-	},
-	
-	updateAnnot: function(annotation){
-		var me = this;
-		me.content.annotator('updateAnnotation', annotation);
-	},
-	
-	deleteAnnot: function(annotation){
-		var me = this;
-		me.content.annotator('deleteAnnotation', annotation);
-	},
-	
+
 	setChapters: function (chapters) {
 		var me = this;
 		
