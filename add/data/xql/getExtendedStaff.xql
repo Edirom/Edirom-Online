@@ -28,7 +28,7 @@ return
     <head>   	
         <title></title>
     	<!-- **VEROVIO** -->
-    	<script src="../../resources/verovio/verovio-toolkit-0.9.9.js" type="text/javascript" charset="utf-8"></script>
+    	<script src="../../resources/verovio/verovio-toolkit-0.9.10-dev-215f725-256Mb.js" type="text/javascript" charset="utf-8"></script>
     	
     	<!-- **JQUERY** -->
     	<script type="text/javascript" src="../../resources/jquery/jquery-2.1.3.js"  charset="utf-8"></script> 
