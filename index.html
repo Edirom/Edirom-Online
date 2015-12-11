@@ -54,11 +54,16 @@
 	<body>
 		<script>
 		<!--
+			var anttoationToLoad = null;
+			var action = null;
+			var viewToUpdate = null;
 		Annotator.Plugin.RefreshViews = function (element) {			
 					return {
 						pluginInit: function () {
 							this.annotator
-							.subscribe("annotationCreated", function (annotation) {								
+							.subscribe("annotationCreated", function (annotation) {	
+								anttoationToLoad = annotation;
+								action = 'created';
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
 								var existingWindows = desktop.getActiveWindowsSet(true);
 								var activeWindow = desktop.getActiveWindow();
@@ -66,8 +71,6 @@
 								if(typeof activeWindow !== 'undefined'){
 									activeView = desktop.getActiveWindow().getActiveView();
 								}
-								
-								var storedViews =[];
 										
 								for (var i= 0; i < existingWindows.items.length; i++) {
 									var existView = existingWindows.items[i];
@@ -82,18 +85,16 @@
 											&& activeView.idView.indexOf('_textCont') !== -1
 											|| existActiveView.idView.indexOf('_summaryCont') !== -1
 											&& activeView.idView.indexOf('_summaryCont') !== -1){
-											storedViews.push(existView);									
+											existActiveView.refreshUserAnnot();
+											viewToUpdate = existActiveView;
 										}									
 									}										
 								}
 								}
-								if (storedViews.length > 0) {
-									var win = new EdiromOnline.view.desktop.RefreshDialog();
-									win.show();
-									win.setViews(storedViews, false);
-								}
 							})
 							.subscribe("annotationUpdated", function (annotation) {
+								anttoationToLoad = annotation;
+								action = 'updated';
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
 								var existingWindows = desktop.getActiveWindowsSet(true);
 								var activeWindow = desktop.getActiveWindow();
@@ -101,8 +102,6 @@
 								if(typeof activeWindow !== 'undefined'){
 									activeView = desktop.getActiveWindow().getActiveView();
 								}
-								
-								var storedViews =[];
 										
 								for (var i= 0; i < existingWindows.items.length; i++) {
 									var existView = existingWindows.items[i];
@@ -117,18 +116,16 @@
 											&& activeView.idView.indexOf('_textCont') !== -1
 											|| existActiveView.idView.indexOf('_summaryCont') !== -1
 											&& activeView.idView.indexOf('_summaryCont') !== -1){
-											storedViews.push(existView);									
+											existActiveView.refreshUserAnnot();
+											viewToUpdate = existActiveView;
 										}									
 									}										
 								}
 								}
-								if (storedViews.length > 0) {
-									var win = new EdiromOnline.view.desktop.RefreshDialog();
-									win.show();
-									win.setViews(storedViews, false);
-								}
 							})
 							.subscribe("annotationDeleted", function (annotation) {
+								anttoationToLoad = annotation;
+								action = 'deleted';
 								var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
 								var existingWindows = desktop.getActiveWindowsSet(true);
 								var activeWindow = desktop.getActiveWindow();
@@ -136,8 +133,6 @@
 								if(typeof activeWindow !== 'undefined'){
 									activeView = desktop.getActiveWindow().getActiveView();
 								}
-								
-								var storedViews =[];
 										
 								for (var i= 0; i < existingWindows.items.length; i++) {
 									var existView = existingWindows.items[i];
@@ -151,17 +146,46 @@
 												&& activeView.idView.indexOf('_textCont') !== -1
 												|| existActiveView.idView.indexOf('_summaryCont') !== -1
 												&& activeView.idView.indexOf('_summaryCont') !== -1){
-												storedViews.push(existView);
+												existActiveView.refreshUserAnnot();
+												viewToUpdate = existActiveView;
 											}									
 										}										
 									}
 									
+								}							
+							})
+							.subscribe("annotationsLoaded", function (annotations) {
+
+								if(anttoationToLoad !== null){
+									if(action === 'created' || action === 'updated'){
+										for(var i= 0; i < annotations.length; i++){
+											var annotLoaded = annotations[i];
+											if(annotLoaded.id === anttoationToLoad.id){
+												if(action === 'created' && annotLoaded.created !== anttoationToLoad.created){
+										       	viewToUpdate.refreshUserAnnot();
+										 		}
+										 		else if(action === 'updated' && annotLoaded.updated !== anttoationToLoad.updated){
+										 			viewToUpdate.refreshUserAnnot();
+										 		}
+											}
+										
+										}
+									}
+									else if(action === 'deleted'){
+										var found = false;
+										
+										for(var i= 0; i < annotations.length; i++){
+											var annotLoaded = annotations[i];
+										 	if(annotLoaded.id === anttoationToLoad.id){
+										 		found = true;
+												break;										 		
+										 	}
+										}
+										if(found){
+											viewToUpdate.refreshUserAnnot();
+										}
+									}
 								}
-								if (storedViews.length > 0) {
-									var win = new EdiromOnline.view.desktop.RefreshDialog();
-									win.show();
-									win.setViews(storedViews, false);									
-								}									
 							});
 						}
 					}
