@@ -111,7 +111,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
 		if (storedViews.length > 0) {
 			var win = new EdiromOnline.view.desktop.RefreshDialog();
 			win.show();
-			win.setViews(storedViews, true);
+			win.setViews(storedViews);
 		}
 		
 		
