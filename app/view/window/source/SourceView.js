@@ -28,6 +28,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
     requires: [
         'de.edirom.online.view.window.source.PageBasedView',
         'de.edirom.online.view.window.source.MeasureBasedView',
+        'de.edirom.online.model.Movement',
 
         'Ext.draw.Component',
         'Ext.slider.Single',

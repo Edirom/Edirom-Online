@@ -66,7 +66,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
                 var data = response.responseText;
 
                 var movements = Ext.create('Ext.data.Store', {
-                model: 'Movement',
+                model: 'de.edirom.online.model.Movement',
                     data: Ext.JSON.decode(data)
                 });
 

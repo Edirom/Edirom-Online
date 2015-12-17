@@ -19,7 +19,7 @@
  *  ID: $Id: Movement.js $
  */
  
-Ext.define('Movement', {
+Ext.define('de.edirom.online.model.Movement', {
     extend: 'Ext.data.Model',
     fields: [
         {name: 'id',  type: 'string', convert: null},
