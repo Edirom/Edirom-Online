@@ -111,7 +111,8 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		var me = this;
 		
-		var storeField = new Array('Original', 'Pages', 'Continuous Hight', 'Continuous Width');
+		//var storeField = new Array('Original', 'Pages', 'Continuous Height', 'Continuous Width');
+		var storeField = new Array('All Pages', 'Pagebased', 'Continuous Staff');
 		
 		var combo = Ext.create('Ext.form.ComboBox', {
 			fieldLabel: 'Rendering View',
@@ -122,13 +123,13 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			
 			listeners: {
 				select: function (combo, record, index) {
-					if (combo.getValue() === 'Original') {
+					if (combo.getValue() === 'All Pages') {
 						me.pageOriginalClick(me);
-					} else if (combo.getValue() === 'Pages') {
+					} else if (combo.getValue() === 'Pagebased') {
 						me.pageClick(me);
-					} else if (combo.getValue() === 'Continuous Hight') {
-						me.stretchHightClick(me);
-					} else if (combo.getValue() === 'Continuous Width') {
+					/*} else if (combo.getValue() === 'Continuous Height') {
+						me.stretchHightClick(me);*/
+					} else if (combo.getValue() === 'Continuous Staff') {
 						me.stretchWidthClick(me);
 					}
 				}

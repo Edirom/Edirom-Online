@@ -52,7 +52,8 @@ return
                 			scale: 33,
 							noLayout: 0,
 							pageHeight: initHeight,
-							pageWidth: initWidth
+							pageWidth: initWidth,
+							adjustPageHeight: 1
                 		}});
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);
