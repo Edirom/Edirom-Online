@@ -979,4 +979,8 @@
         </xsl:variable>
         <a class="{string-join($className, ' ')}" id="{./string(@xml:id)}"><!-- anchor --></a>
     </xsl:template>
+    
+    <xsl:template match="tei:supplied">
+        <xsl:text>[</xsl:text><xsl:apply-templates/><xsl:text>]</xsl:text>
+    </xsl:template>
 </xsl:stylesheet>
