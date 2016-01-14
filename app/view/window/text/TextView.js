@@ -552,6 +552,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		Ext.fly(me.id + '_textCont').update(text);
 		this.fireEvent('documentLoaded', me);
 		
+		Tipped.create('.tipped', { position: 'top', maxWidth: 300 });
+		
+		Ext.Array.each(Ext.query('.scrollto'), function(dom, n, all) {
+            var elem = Ext.get(dom);
+            var scrollTo = elem.getAttribute('data-footnote');
+            elem.on('click', Ext.bind(me.scrollToId, me, [scrollTo]));
+        }, me);
+		
 		me.placeHolder = me.uri + '?view=textView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
 		
 		if (annotationOn) {
@@ -658,11 +666,13 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 	scrollToId: function (id) {
 		
 		var elem = Ext.get(this.id + '_' + id);
-		
-		var container = Ext.select('#' + this.id + ' div.x-panel-body');
-		container = container.last();
-		
-		elem.scrollIntoView(container, false, true, false);
+		var showHide = !elem.isVisible();
+        
+        if(showHide) elem.show();
+        
+        Ext.getDom(elem).scrollIntoView(true);
+        
+        if(showHide) elem.hide();
 	},
 	
 	getContentConfig: function () {

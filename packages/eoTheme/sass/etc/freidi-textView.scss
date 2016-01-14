@@ -289,6 +289,10 @@ $underlineColor: #333333;
 		margin-left: 2em;
 	}
 	
+	span.noteLabel {
+	    display: none;
+	}
+	
 	.stage {
 		font-style: normal;
 		font-size: 0.9em;

@@ -593,6 +593,8 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 		Ext.fly(me.id + '_textCont').update(text);
 		this.fireEvent('documentLoaded', me);
 		
+		Tipped.create('.tipped', { position: 'top', maxWidth: 300 });
+		
 		me.placeHolder = me.uri + '?view=textFacsimileSplitView' + (me.stage != null && typeof me.stage !== 'undefined' ? '&stage=' + me.stage: '');
 		
 		if (annotationOn) {

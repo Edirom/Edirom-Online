@@ -964,11 +964,27 @@
     
     <xsl:template match="tei:ref[starts-with(@target, '#footnote')]" priority="5">
         <xsl:variable name="footnote_id" select="substring(./@target, 2)" as="xs:string"/>
-        <xsl:variable name="footnote" select="//tei:note[@xml:id=$footnote_id]//text()" as="xs:string*"/>
         
-        <span class="footnote" title="{normalize-space(string-join($footnote, ' '))}">
-            <xsl:apply-templates/>
-        </span>
+        <xsl:choose>
+            <xsl:when test="count(//tei:note[@xml:id=$footnote_id]/*) &gt; 0">
+                <span class="footnote tipped" data-tipped-options="inline: '{$footnote_id}_tipped'">
+                    <xsl:apply-templates/>
+                </span>
+                <div id="{$footnote_id}_tipped" style="display: none;">
+                    <xsl:apply-templates select="//tei:note[@xml:id=$footnote_id]"/>
+                </div>
+            </xsl:when>
+            <xsl:when test="exists(//tei:note[@xml:id=$footnote_id])">
+                <span class="footnote scrollto" data-footnote="{$footnote_id}">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <span class="footnote">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     <xsl:template match="tei:milestone">
