@@ -704,11 +704,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 	
 	gotoPage: function (pageId) {
 		var me = this;
-		var combo = { 'getValue': function () {
-				return pageId;
-			}
-		};
-		me.setPage(combo, null);
+		me.pageSpinner.setPage(me.imageSet.getById(pageId));
 	},
 	
 	getWeightForInternalLink: function (uri, type, id) {

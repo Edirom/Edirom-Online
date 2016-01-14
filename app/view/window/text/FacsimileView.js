@@ -39,7 +39,6 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
 
         this.on('afterrender', this.createMenuEntries, this, {single: true});
         this.on('afterrender', this.createToolbarEntries, this, {single: true});
-        this.on('afterrender', this.onAfterRender, this, {single: true});
         this.imageViewer.on('zoomChanged', this.updateZoom, this);
 
         this.window.on('loadInternalLink', this.loadInternalId, this);
@@ -177,50 +176,6 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
     },
     
-    onAfterRender: function() {
-        var me = this;
-
-        if(me.initialized) return;
-        me.initialized = true;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
-                uri: me.uri
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var pages = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.setImageSet(pages);
-            }
-        });
-        
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
-                uri: me.uri,
-                mode: 'pageMode'
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var chapters = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'pageId'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.setChapters(chapters);
-            }
-        });
-    },
-    
     setChapters: function(chapters) {
         var me = this;
 
@@ -243,13 +198,22 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         chapters.each(function(chapter) {
             chapterItems.push({
                 text: chapter.get('name'),
-                handler: Ext.bind(me.showPage, me, chapter.get('pageId'), true)
+                handler: Ext.bind(me.gotoChapter, me, chapter.get('pageId'), true)
             });
         });
 
         me.gotoMenu.menu.add(chapterItems);
         me.gotoMenu.show();
-    }
+    },
+	
+	gotoChapter: function (menuItem, event, pageId) {
+		this.fireEvent('gotoChapter', this, pageId);
+	},
+    
+    gotoPage: function (pageId) {
+		var me = this;
+		me.pageSpinner.setPage(me.imageSet.getById(pageId));
+	}
 });
 
 Ext.define('EdiromOnline.view.window.source.PageSpinner', {
