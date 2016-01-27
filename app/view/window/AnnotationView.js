@@ -17,8 +17,10 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.AnnotationView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
+    
     cls: 'annotView',
+    
     requires: [
         'Ext.grid.Panel',
         /*'Ext.grid.PagingScroller',*/
@@ -30,10 +32,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout2',
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout3'
     ],
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
 
     alias : 'widget.annotationView',
 
@@ -294,12 +292,25 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         me.listStore.load();
     },
 
-    loadInternalId: function() {
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'annot') {
+            return 70;
+        }
+        
+        return 0;
+    },
+    
+    loadInternalId: function(id, type) {
         var me = this;
 
-        if(me.window.internalIdType == 'annot') {
+        if(type == 'annot') {
             me.window.requestForActiveView(me);
-            me.showSingleAnnotation(me.window.internalId);
+            me.showSingleAnnotation(id);
         }
     },
 

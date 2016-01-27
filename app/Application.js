@@ -113,6 +113,9 @@ Ext.define('EdiromOnline.Application', {
             urlParams[decode(match[1])] = decode(match[2]);
             
         if(typeof urlParams.uri != 'undefined') {
+            if(window.location.hash != '')
+                urlParams.uri = urlParams.uri + window.location.hash; 
+        
             app.on('ready', Ext.bind(window.loadLink, me, [urlParams.uri, {sort:'sortGrid'}], false), me, {single: true});
         }
     },

@@ -1,6 +1,6 @@
 /**
  *  Edirom Online
- *  Copyright (C) 2014 The Edirom Project
+ *  Copyright (C) 2016 The Edirom Project
  *  http://www.edirom.de
  *
  *  Edirom Online is free software: you can redistribute it and/or modify
@@ -15,39 +15,41 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
-Ext.define('EdiromOnline.view.window.audio.AudioView', {
-
-    extend: 'EdiromOnline.view.window.View',
-
-    requires: [
-    ],
-
-    alias : 'widget.audioView',
-
-    layout: 'fit',
+Ext.define('EdiromOnline.view.window.View', {
+    extend: 'Ext.panel.Panel',
     
-    cls: 'audioView',
-
-    initComponent: function () {
-
-        var me = this;
-
-        me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"><iframe id="' + me.id + '_audioContIFrame" src="" seamless="seamless" style="width:100%; height:100%; border:none;"></div>';
-
-        me.callParent();
-    },
-
-    setIFrameURL: function(url) {
-        var me = this;
-        var contEl = me.el.getById(me.id + '_audioContIFrame');
-        contEl.set({'src': url});
+    mixins: {
+        observable: 'Ext.util.Observable'
     },
     
     getContentConfig: function() {
         var me = this;
         return {
-            id: this.id
+            id: me.id
         };
+    },
+    
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        return 0;
+    },
+    
+    loadInternalId: function(internalId, internalIdType) {
+        var me = this;
+        return false;
     }
 });
+/*
+
+createMenuEntries
+createToolbarEntries
+hideToolbarEntries
+showToolbarEntries
+
+*/

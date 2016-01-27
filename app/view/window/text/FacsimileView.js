@@ -1,9 +1,5 @@
 Ext.define('EdiromOnline.view.window.text.FacsimileView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
         'EdiromOnline.view.window.image.ImageViewer'

@@ -151,10 +151,7 @@ Ext.define('EdiromOnline.view.window.Window', {
         
         for(var i = 0; i < me.views.length; i++) {
             var view = me.views[i].view;
-            var weight = 0;
-            
-            if(typeof view.getWeightForInternalLink === 'function')
-                weight = view.getWeightForInternalLink(me.doc, me.internalIdType, me.internalId);
+            var weight = view.getWeightForInternalLink(me.doc, me.internalIdType, me.internalId);
             
             if(view.defaultView)
                 weight += 5;
@@ -200,8 +197,23 @@ Ext.define('EdiromOnline.view.window.Window', {
         if (typeof viewToShow === 'undefined')
             viewToShow = me.views[0].view;
 
-        me.requestForActiveView(viewToShow);
-
+        if(viewToShow.isVisible()) {
+            me.requestForActiveView(viewToShow);
+            viewToShow.loadInternalId(me.internalId, me.internalIdType);            
+        }else {
+            me.requestForActiveView(viewToShow);
+            Ext.defer(me.callInternalLinkWhenVisible, 1000, me, [viewToShow, me.internalId, me.internalIdType, 0]);
+        }
+        
+    },
+    callInternalLinkWhenVisible: function(view, id, type, n) {
+        var me = this;
+        
+        if(view.isVisible()) {
+            view.loadInternalId(id, type);
+        }else if(n < 5){
+            Ext.defer(me.callInternalLinkWhenVisible, 500, me, [view, id, type, n++]);
+        }
     },
     
     getContentConfig: function() {

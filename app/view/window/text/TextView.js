@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.text.TextView', {
-	extend: 'Ext.panel.Panel',
-	
-	mixins: {
-		observable: 'Ext.util.Observable'
-	},
+	extend: 'EdiromOnline.view.window.View',
 	
 	requires:[],
 	
@@ -652,14 +648,14 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 		return 70;
 	},
 	
-	loadInternalId: function () {
+	loadInternalId: function (internalId, internalIdType) {
 		var me = this;
 		
-		var container = Ext.fly(this.id + '_textCont');
-		var elem = container.getById(me.id + '_' + me.window.internalId);
+		var container = Ext.fly(me.id + '_textCont');
+		var elem = container.getById(me.id + '_' + internalId);
 		if (elem) {
 			me.window.requestForActiveView(me);
-			me.scrollToId(me.window.internalId);
+			me.scrollToId(internalId);
 		}
 	},
 	
