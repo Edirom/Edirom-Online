@@ -70,6 +70,10 @@ declare function local:getViews($type, $docUri, $doc) {
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
+
+        (: iFrameView :)
+        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),
+        
         (: XmlView :)
         concat("{type:'xmlView', label: 'XML Quelle',uri:'", $docUri, "'}"),
 
@@ -125,6 +129,10 @@ let $type :=
              else if(exists($doc/tei:TEI))
              then(string('text'))
              
+             (: HTML :)
+             else if(exists($doc/html))
+             then(string('html'))
+             
              else(string('unknown'))
              
 let $title := (: Work :)
@@ -142,6 +150,10 @@ let $title := (: Work :)
               (: Text :)
               else if(exists($doc/tei:TEI))
               then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
+              
+              (: HTML :)
+              else if($type = 'html')
+              then($doc//head/data(title))
              
               else(string('unknown'))
               
