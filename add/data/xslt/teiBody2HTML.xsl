@@ -999,4 +999,15 @@
     <xsl:template match="tei:supplied">
         <xsl:text>[</xsl:text><xsl:apply-templates/><xsl:text>]</xsl:text>
     </xsl:template>
+<xsl:template match="tei:note[@type='commentary']">
+        <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
+        <div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+            <i class="fa fa-comment-o fa-fw fa-lg"/>
+        </div>
+        <div id="tip{$no}" style="display: none;">
+            <strong>Kommentar Einzelquelle</strong>
+            <br/>
+            <xsl:apply-templates/>
+        </div>
+        </xsl:template>
 </xsl:stylesheet>
