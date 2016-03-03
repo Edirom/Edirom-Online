@@ -34,7 +34,6 @@ Ext.define('EdiromOnline.Application', {
         'window.AnnotationView',
         'window.HeaderView',
         'window.HelpWindow',
-        'window.RenderingView',
         'window.SingleWindowController',
         'window.SummaryView',
         'window.WindowController',
