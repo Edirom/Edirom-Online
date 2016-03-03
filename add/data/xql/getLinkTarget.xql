@@ -58,9 +58,6 @@ declare function local:getViews($type, $docUri, $doc) {
         (: AnnotationView :)
         if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
         
-        (: RenderingView :)
-(:        if($doc//mei:note) then(concat("{type:'renderingView',uri:'", $docUri, "'}")) else(),:)
-        
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
