@@ -152,7 +152,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 Ext.define('EdiromOnline.view.window.source.PageSpinner', {
 	extend: 'Ext.container.Container',
 	
-	alias: 'widget.pageSpinner',
+	alias: 'widget.verovioPageSpinner',
 	
 	layout: 'hbox',
 	
