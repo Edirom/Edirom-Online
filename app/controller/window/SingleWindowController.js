@@ -24,6 +24,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         'EdiromOnline.view.window.HeaderView',
         //TODO:'de.edirom.online.view.window.SearchView',
         'EdiromOnline.view.window.SummaryView',
+        'EdiromOnline.view.window.iFrameView',
         'EdiromOnline.view.window.XmlView',
         'EdiromOnline.view.window.audio.AudioView',
         'EdiromOnline.view.window.source.SourceView',
@@ -104,6 +105,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getLabel: function(type) {
         switch(type) {
             case 'summaryView': return getLangString('controller.window.Window_summaryView');
+            case 'iFrameView': return getLangString('controller.window.Window_iFrameView');
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
             case 'verovioView': return getLangString('controller.window.Window_verovioView');
@@ -120,6 +122,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getViewClass: function(type) {
         switch(type) {
             case 'summaryView': return 'EdiromOnline.view.window.SummaryView';
+            case 'iFrameView': return 'EdiromOnline.view.window.iFrameView';
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
             case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
