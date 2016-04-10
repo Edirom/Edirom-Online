@@ -336,17 +336,18 @@
                                 <xsl:value-of select="replace(@target, '\[.*\]', '')"/>
                                 <xsl:text>', {</xsl:text>
                                 <xsl:value-of select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
-                                <xsl:text>})</xsl:text>
+                                <xsl:text>}); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink("</xsl:text>
                                 <xsl:value-of select="@target"/>
-                                <xsl:text>")</xsl:text>
+                                <xsl:text>"); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:otherwise>
                     </xsl:choose>
+                    <xsl:attribute name="href" select="@target"/>
                     <xsl:if test="@xml:id">
                         <xsl:copy-of select="@xml:id"/>
                     </xsl:if>
