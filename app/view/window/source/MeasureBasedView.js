@@ -78,7 +78,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         });
 
         me.measureSpinner = Ext.create('EdiromOnline.view.window.source.MeasureSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner', //TODO
             owner: me,
             hidden: true

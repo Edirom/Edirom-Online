@@ -133,8 +133,8 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		});
 		combo.setValue(storeField[0]);
 		
-		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
-			width: 111,
+		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.VerovioPageSpinner', {
+			width: 120,
 			cls: 'pageSpinner'
 		});
 		
@@ -145,7 +145,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	}
 });
 
-Ext.define('EdiromOnline.view.window.source.PageSpinner', {
+Ext.define('EdiromOnline.view.window.source.VerovioPageSpinner', {
 	extend: 'Ext.container.Container',
 	
 	alias: 'widget.verovioPageSpinner',
