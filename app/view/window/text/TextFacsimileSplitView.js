@@ -403,12 +403,54 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         return me.activePage.get('id');
     },
 
-    loadInternalId: function() {
+	setChapters: function (chapters) {
         var me = this;
 
-        var container = Ext.fly(this.id + '_textCont');
-        var elem = container.getById(me.id + '_' + me.window.internalId);
-        if(elem) {
+		if (chapters.getTotalCount() == 0) return;
+		
+		me.gotoMenu = Ext.create('Ext.button.Button', {
+			text: getLangString('view.window.text.TextView_gotoMenu'),
+			indent: false,
+			cls: 'menuButton',
+			menu: {
+				items:[]
+			}
+		});
+		me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+		
+		me.chapters = chapters;
+		
+		var chapterItems =[];
+		chapters.each(function (chapter) {
+			chapterItems.push({
+				text: chapter.get('name'),
+				handler: Ext.bind(me.gotoChapter, me, chapter.get('pageId'), true)
+			});
+		});
+		
+		me.gotoMenu.menu.add(chapterItems);
+		me.gotoMenu.show();
+	},
+	
+	gotoChapter: function (menuItem, event, pageId) {
+		this.fireEvent('gotoChapter', this, pageId);
+	},
+	
+	gotoPage: function (pageId) {
+		var me = this;
+		me.pageSpinner.setPage(me.imageSet.getById(pageId));
+	},
+	
+	getWeightForInternalLink: function (uri, type, id) {
+		var me = this;
+		
+		if (me.uri != uri)
+		return 0;
+		
+		return 50;
+	},
+	
+	loadInternalId: function (id, type) {
             me.window.requestForActiveView(me);
             me.scrollToId(me.window.internalId);
         }

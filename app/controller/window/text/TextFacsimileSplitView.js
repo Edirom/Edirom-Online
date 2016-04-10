@@ -43,6 +43,7 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
 
         view.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
         view.on('afterImageChanged', me.onAfterImageChanged, me);
+        view.on('gotoChapter', me.onGotoChapter, me);
 
         ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
@@ -64,6 +65,25 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
                 });
 
                 view.setImageSet(pages);
+            }
+        });
+        
+        Ext.Ajax.request({
+            url: 'data/xql/getChapters.xql',
+            method: 'GET',
+            params: {
+                uri: view.uri,
+                mode: 'pageMode'
+            },
+            success: function(response){
+                var data = response.responseText;
+
+                var chapters = Ext.create('Ext.data.Store', {
+                    fields: ['id', 'name', 'pageId'],
+                    data: Ext.JSON.decode(data)
+                });
+
+                me.chaptersLoaded(chapters, view);
             }
         });
     },
@@ -114,6 +134,10 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
         });
     },
     
+    chaptersLoaded: function(chapters, view) {
+        view.setChapters(chapters);
+    },
+    
     annotInfosLoaded: function(priorities, categories, view) {
         view.setAnnotationFilter(priorities, categories);
     },
@@ -143,6 +167,10 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
 
         else
             view.hideAnnotations();
+    },
+    
+    onGotoChapter: function(view, pageId) {
+        view.gotoPage(pageId);
     },
     
     onBeforeDestroy: function(view) {
