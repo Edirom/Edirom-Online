@@ -404,6 +404,18 @@ $underlineColor: #333333;
 	div.note {display: none;}
 	span.note {display: none;}
 
+    i.inline-comment {
+        position: relative;
+        top: -2px;
+        margin: 0 3px 0 2px;
+        cursor: pointer;
+        color: #999999;
+        
+        &:hover {
+            color: #cc3333;                   
+        }
+    }
+
 	span.hi {
 		letter-spacing: 0.1em;
 	}
@@ -1270,7 +1282,7 @@ $underlineColor: #333333;
                }
                
                &:before {
-                    color: #999999;
+                    color: #cccccc;
                     content: '\"';
                     font-size: 50px;
                     font-weight: bold;
@@ -1308,6 +1320,27 @@ $underlineColor: #333333;
                 }
                 
            }
+           
+           
+           span.quote.inline {
+                color: #666666;
+                
+                &:before {
+                    color: #999999;
+                    content: "\"";
+                    font-size: 1.3em;
+                    position: relative;
+                    top: 0.1em;
+                }
+                
+                &:after {
+                    color: #999999;
+                    content: "\"";
+                    font-size: 1.3em;
+                    position: relative;
+                    top: 0.1em;
+                }
+            }
            
            table {
                
