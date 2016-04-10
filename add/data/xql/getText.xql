@@ -33,6 +33,7 @@ let $uri := request:get-parameter('uri', '')
 let $idPrefix := request:get-parameter('idPrefix', '')
 let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
+let $page := request:get-parameter('page', '')
 let $doc := eutil:getDoc($uri)/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
@@ -45,6 +46,13 @@ let $xslInstruction := for $i in util:serialize($xslInstruction, ())
 
 let $doc := if($term eq '')then($doc)else($doc//tei:text[ft:query(., $term)]/ancestor::tei:TEI)
 let $doc := if($term eq '')then($doc)else(util:expand($doc))
+
+let $doc := if($page eq '')then($doc)else(
+    let $pb1 := $doc//tei:pb[@facs eq '#' || $page]/@n
+    let $pb2 := ($doc//tei:pb[@facs eq '#' || $page]/following::tei:pb)[1]/@n
+    return
+        transform:transform($doc, doc('../xslt/reduceToPage.xsl'), <parameters><param name="pb1" value="{$pb1}"/><param name="pb2" value="{$pb2}"/></parameters>)
+)
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
