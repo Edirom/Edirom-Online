@@ -98,3 +98,6 @@ span.smcaps {
 span.italic {
     font-style: italic;
 }
+.hidden {
+    display: none;
+}
