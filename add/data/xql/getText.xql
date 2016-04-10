@@ -52,8 +52,7 @@ let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('e
 
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
-    <param name="textType" value="{if(contains($uri, 'referenceTexts'))then('freidi_reference')else if(contains($uri, 'texts'))then('freidi_libretto')else('text')}"/>)
+let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>)
     
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
     else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>)
