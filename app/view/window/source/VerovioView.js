@@ -114,6 +114,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			fieldLabel: 'Rendering View',
 			store: storeField,
 			queryMode: 'local',
+			width: 230,
 			displayField: 'name',
 			editable: false,
 			
