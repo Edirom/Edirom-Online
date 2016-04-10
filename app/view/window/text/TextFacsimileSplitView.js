@@ -358,9 +358,11 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     },
 
     setContent: function(text) {
-//TODO
-        Ext.fly(this.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', this);
+		var me = this;
+		Ext.fly(me.id + '_textCont').update(text);
+		this.fireEvent('documentLoaded', me);
+		
+		Tipped.create('#' + me.id + '_textCont .tipped', { position: 'top', maxWidth: 300 });
     },
     
     setImageSet: function(imageSet) {
