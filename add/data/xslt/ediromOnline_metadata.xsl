@@ -10,30 +10,46 @@
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class" select="string('propertyList')"/>
-                <!--                <xsl:apply-templates/>-->
                 <xsl:for-each select="@*">
                     <xsl:call-template name="makeProperty">
                         <xsl:with-param name="key" select="local-name(.)"/>
                     </xsl:call-template>
                 </xsl:for-each>
-                <!--<xsl:for-each select="*">
-                    <xsl:call-template name="makeProperty">
-                        <xsl:with-param name="key" select="local-name(.)"/>
-                    </xsl:call-template>
-                </xsl:for-each>-->
                 <xsl:apply-templates/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
     
     <xsl:template name="rendToSection">
+        <xsl:param name="key">
+            <xsl:value-of select="eof:getLabel(local-name())"/>
+        </xsl:param>
         <xsl:attribute name="class">section</xsl:attribute>
         <xsl:element name="h1">
             <xsl:attribute name="class" select="string('key')"/>
-            <xsl:value-of select="eof:getLabel(local-name())"/>
+            <xsl:value-of select="$key"/>
         </xsl:element>
     </xsl:template>
     
+    <xsl:template name="propOrSub">
+        <xsl:param name="sub"/>
+        <xsl:param name="key"/>
+        <xsl:param name="node"/>
+        <xsl:choose>
+            <xsl:when test="$sub">
+                <xsl:call-template name="makeSubProperty">
+                    <xsl:with-param name="node" select="."/>
+                    <xsl:with-param name="key" select="$key"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="makeProperty">
+                    <xsl:with-param name="node" select="."/>
+                    <xsl:with-param name="key" select="$key"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
     <xsl:template name="rendToProperty">
         <xsl:param name="key" select="local-name()"/>
         <xsl:attribute name="class">property</xsl:attribute>
@@ -46,15 +62,19 @@
     <xsl:template name="makeProperty">
         <xsl:param name="node"/>
         <xsl:param name="key" select="local-name($node)"/>
+        <xsl:param name="sub"/>
         <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:attribute name="class" select="if($sub)then(string('subProperty'))else(string('property'))"/>
             <xsl:element name="div">
-                <xsl:attribute name="class" select="string('key')"/>
+                <xsl:attribute name="class" select="if($sub)then('subKey')else(string('key'))"/>
                 <xsl:value-of select="eof:getLabel($key)"/>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class" select="string('value')"/>
-                <xsl:apply-templates select="." mode="plainCommaSep"/>
+                <xsl:apply-templates select="." mode="plainCommaSep">
+                    <xsl:with-param name="sub" select="true()"/>
+                
+                </xsl:apply-templates>
                 <!--<xsl:value-of select=".//* | .//@*"></xsl:value-of>-->
                 <!-- TODO:apply-templates und weitere templates für header// -->
             </xsl:element>
