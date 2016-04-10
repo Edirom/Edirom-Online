@@ -197,6 +197,9 @@
                 <xsl:when test="starts-with(@url, 'http://')">
                     <xsl:value-of select="@url"/>
                 </xsl:when>
+                <xsl:when test="starts-with(@url, '/exist/')">
+                    <xsl:value-of select="@url"/>
+                </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="concat($graphicsPrefix, @url)"/>
                     <xsl:if test="not(contains(@url,'.'))">
