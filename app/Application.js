@@ -95,7 +95,24 @@ Ext.define('EdiromOnline.Application', {
         me.getController('LanguageController').initLangFile(me.activeEdition);
         me.initDataStores();
 
-        Ext.create('EdiromOnline.view.desktop.App', {app: this});
+        var app = Ext.create('EdiromOnline.view.desktop.App', {app: this});
+
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+            urlParams[decode(match[1])] = decode(match[2]);
+            
+        if(typeof urlParams.uri != 'undefined') {
+            if(window.location.hash != '')
+                urlParams.uri = urlParams.uri + window.location.hash; 
+        
+            app.on('ready', Ext.bind(window.loadLink, me, [urlParams.uri, {sort:'sortGrid'}], false), me, {single: true});
+        }
     },
     
     initDataStores: function() {
