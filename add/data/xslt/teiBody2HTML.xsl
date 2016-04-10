@@ -533,10 +533,16 @@
         <xsl:apply-templates
             select="tei:*[not(self::tei:speaker) and not(self::tei:stage[@rend = 'inline'][1])]"/>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <span class="del">
+    <xsl:template match="tei:del" priority="5">
+        <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            <xsl:call-template name="rendToClass">
+                <xsl:with-param name="default">del</xsl:with-param>
+            </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
-        </span>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="tei:lb" priority="5">
         <xsl:choose>
@@ -614,7 +620,7 @@
                     select="./following-sibling::tei:stage[@rend = 'inline'][1]"/></xsl:if>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:l[@part = 'F']">
+    <xsl:template match="tei:l[@part = 'F']" priority="6">
         <xsl:variable name="init" select="preceding::tei:l[@part = 'I'][1]"/>
         <xsl:element name="{if (ancestor::tei:head or ancestor::tei:hi) then 'span' else 'div'}">
             <xsl:attribute name="style"
@@ -691,6 +697,9 @@
                     </xsl:choose>
                 </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -700,6 +709,9 @@
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default"> subst </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -946,7 +958,7 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="5">
+    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="6">
         
         <xsl:variable name="default">
             <xsl:next-match/>
