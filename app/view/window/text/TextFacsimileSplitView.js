@@ -451,9 +451,20 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 	},
 	
 	loadInternalId: function (id, type) {
+		var me = this;
+		
+		if(type == 'graphic' || type == 'surface') {
             me.window.requestForActiveView(me);
-            me.scrollToId(me.window.internalId);
+            me.gotoPage(id);
+		}else {
+		
+    		var container = Ext.fly(me.id + '_textCont');
+    		var elem = container.getById(me.id + '_' + id);
+    		if (elem) {
+    			me.window.requestForActiveView(me);
+    			me.scrollToId(id);
         }
+    	}
     },
 
     getContentConfig: function() {

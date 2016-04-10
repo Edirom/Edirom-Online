@@ -40,6 +40,18 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         this.window.on('loadInternalLink', this.loadInternalId, this);
     },
 
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'graphic' || type == 'surface' || type == 'zone')
+            return 70;
+            
+        return 0;
+    },
+
     loadInternalId: function() {
         var me = this;
 

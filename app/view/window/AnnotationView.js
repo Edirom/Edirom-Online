@@ -20,6 +20,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
     extend: 'EdiromOnline.view.window.View',
     
     cls: 'annotView',
+    
     requires: [
         'Ext.grid.Panel',
         /*'Ext.grid.PagingScroller',*/
@@ -291,12 +292,25 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         me.listStore.load();
     },
 
-    loadInternalId: function() {
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'annot') {
+            return 70;
+        }
+        
+        return 0;
+    },
+    
+    loadInternalId: function(id, type) {
         var me = this;
 
-        if(me.window.internalIdType == 'annot') {
+        if(type == 'annot') {
             me.window.requestForActiveView(me);
-            me.showSingleAnnotation(me.window.internalId);
+            me.showSingleAnnotation(id);
         }
     },
 
