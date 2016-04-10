@@ -127,7 +127,7 @@ let $type :=
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
+              then(($doc//mei:work/mei:titleStmt)[1]/data(mei:title[1]))
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
@@ -135,11 +135,11 @@ let $title := (: Work :)
 
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then($doc//mei:source/mei:titleStmt[1]/data(mei:title[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
              
               else(string('unknown'))
               
