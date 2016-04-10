@@ -17,7 +17,8 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.AnnotationView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
+    
     cls: 'annotView',
     requires: [
         'Ext.grid.Panel',
@@ -30,10 +31,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout2',
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout3'
     ],
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
 
     alias : 'widget.annotationView',
 

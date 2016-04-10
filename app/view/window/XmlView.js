@@ -17,7 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.XmlView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
     ],

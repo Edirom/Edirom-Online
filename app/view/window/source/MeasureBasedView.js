@@ -18,12 +18,8 @@
  *
  */
 Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
     
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
-
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
         'Ext.selection.CheckboxModel',
