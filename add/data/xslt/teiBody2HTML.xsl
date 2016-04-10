@@ -395,6 +395,7 @@
             <xsl:otherwise>
                 <xsl:variable name="id" select="@xml:id"/>
                 <xsl:variable name="targetExternal" select="@type"/>
+                <xsl:variable name="targetInternal" select="starts-with(@target, '#')" as="xs:boolean"/>
                 <xsl:variable name="link">
                     <xsl:call-template name="makeTEILink">
                         <xsl:with-param name="ptr" select="false()"/>
@@ -408,9 +409,18 @@
                         <xsl:if test="$targetExternal eq 'external'">
                             <xsl:attribute name="target" select="'_blank'"/>
                         </xsl:if>
+                        <xsl:if test="$targetInternal">
+                            <xsl:attribute name="target" select="'_self'"/>
+                        </xsl:if>
                         <xsl:for-each select="*|text()|@*">
                             <xsl:copy-of select="."/>
                         </xsl:for-each>
+                    <xsl:if test="count(text()) = 0">
+                            <xsl:variable name="href" select="@href"/>
+                            <xsl:element name="span">
+                                <xsl:attribute name="class">external-link</xsl:attribute>
+                                [Link: <xsl:value-of select="$href"/>]
+                            </xsl:element></xsl:if>
                     </xsl:copy>
                 </xsl:for-each>
             </xsl:otherwise>
