@@ -25,6 +25,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         //TODO:'de.edirom.online.view.window.SearchView',
         'EdiromOnline.view.window.SummaryView',
         'EdiromOnline.view.window.XmlView',
+        'EdiromOnline.view.window.audio.AudioView',
         'EdiromOnline.view.window.source.SourceView',
         'EdiromOnline.view.window.text.FacsimileView',
         'EdiromOnline.view.window.text.TextFacsimileSplitView',
@@ -106,6 +107,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
             case 'verovioView': return getLangString('controller.window.Window_verovioView');
+            case 'audioView': return getLangString('controller.window.Window_audioView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
             case 'facsimileView': return 'Faksimile';
             case 'textView': return getLangString('controller.window.Window_textView');
@@ -121,6 +123,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
             case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
+            case 'audioView': return 'EdiromOnline.view.window.audio.AudioView';
             case 'headerView': return 'EdiromOnline.view.window.HeaderView';
             case 'textView': return 'EdiromOnline.view.window.text.TextView';
             case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';
