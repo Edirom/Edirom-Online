@@ -994,6 +994,19 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <xsl:template match="tei:milestone">
+        <xsl:variable name="className" as="xs:string*">
+            <xsl:for-each select="@* except @xml:id">
+                <xsl:value-of select="concat(local-name(.), '_', string(.))"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <a class="{string-join($className, ' ')}" id="{./string(@xml:id)}"><!-- anchor --></a>
+    </xsl:template>
+    
+    <xsl:template match="tei:supplied">
+        <xsl:text>[</xsl:text><xsl:apply-templates/><xsl:text>]</xsl:text>
+    </xsl:template>
     <xsl:template match="tei:note[@type='commentary']">
         <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
         <!-- für Einzelkommentare -->
@@ -1010,5 +1023,20 @@
         <div id="tip{$no}" style="display: none;">
             <xsl:apply-templates/>
         </div>
+    </xsl:template>
+    
+    <xsl:template match="tei:quote" priority="5">
+        <xsl:choose>
+            <xsl:when test="parent::tei:cit[@rend = 'inline']">
+                <span class="quote inline">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="citquote">
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>
