@@ -198,6 +198,9 @@
                 <xsl:when test="starts-with(@url, 'http://')">
                     <xsl:value-of select="@url"/>
                 </xsl:when>
+                <xsl:when test="starts-with(@url, '/exist/')">
+                    <xsl:value-of select="@url"/>
+                </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="concat($graphicsPrefix, @url)"/>
                     <xsl:if test="not(contains(@url,'.'))">
@@ -334,17 +337,18 @@
                                 <xsl:value-of select="replace(@target, '\[.*\]', '')"/>
                                 <xsl:text>', {</xsl:text>
                                 <xsl:value-of select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
-                                <xsl:text>})</xsl:text>
+                                <xsl:text>}); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink("</xsl:text>
                                 <xsl:value-of select="@target"/>
-                                <xsl:text>")</xsl:text>
+                                <xsl:text>"); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:otherwise>
                     </xsl:choose>
+                    <xsl:attribute name="href" select="@target"/>
                     <xsl:if test="@xml:id">
                         <xsl:copy-of select="@xml:id"/>
                     </xsl:if>
@@ -392,6 +396,7 @@
             <xsl:otherwise>
                 <xsl:variable name="id" select="@xml:id"/>
                 <xsl:variable name="targetExternal" select="@type"/>
+                <xsl:variable name="targetInternal" select="starts-with(@target, '#')" as="xs:boolean"/>
                 <xsl:variable name="link">
                     <xsl:call-template name="makeTEILink">
                         <xsl:with-param name="ptr" select="false()"/>
@@ -404,6 +409,9 @@
                         </xsl:if>
                         <xsl:if test="$targetExternal eq 'external'">
                             <xsl:attribute name="target" select="'_blank'"/>
+                        </xsl:if>
+                        <xsl:if test="$targetInternal">
+                            <xsl:attribute name="target" select="'_self'"/>
                         </xsl:if>
                         <xsl:for-each select="*|text()|@*">
                             <xsl:copy-of select="."/>
@@ -999,15 +1007,36 @@
     <xsl:template match="tei:supplied">
         <xsl:text>[</xsl:text><xsl:apply-templates/><xsl:text>]</xsl:text>
     </xsl:template>
-<xsl:template match="tei:note[@type='commentary']">
+    <xsl:template match="tei:note[@type='commentary']">
         <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
-        <div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+        <!-- für Einzelkommentare -->
+        <!--<div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
             <i class="fa fa-comment-o fa-fw fa-lg"/>
         </div>
         <div id="tip{$no}" style="display: none;">
             <strong>Kommentar Einzelquelle</strong>
             <br/>
             <xsl:apply-templates/>
+        </div>-->
+        <!-- Für Kommentare im Text -->
+        <span class="tipped" data-tipped-options="inline: 'tip{$no}'"><i class="fa fa-comment-o inline-comment"/></span>
+        <div id="tip{$no}" style="display: none;">
+            <xsl:apply-templates/>
         </div>
-        </xsl:template>
+    </xsl:template>
+    
+    <xsl:template match="tei:quote" priority="5">
+        <xsl:choose>
+            <xsl:when test="parent::tei:cit[@rend = 'inline']">
+                <span class="quote inline">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="citquote">
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
 </xsl:stylesheet>
