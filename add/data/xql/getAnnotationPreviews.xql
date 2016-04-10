@@ -109,7 +109,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := $elems[1]/root()//mei:source/mei:titleStmt/mei:title/text()
+            let $source := $elems[1]/root()//mei:source/mei:titleStmt/mei:title[1]/text()
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
