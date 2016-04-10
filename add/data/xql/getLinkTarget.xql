@@ -40,6 +40,9 @@ declare function local:getViews($type, $docUri, $doc) {
         (: HeaderView :)
         if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
 
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),
+        
         (: SourceView :)
         if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView',uri:'", $docUri, "'}")) else(),
 
@@ -66,6 +69,9 @@ declare function local:getViews($type, $docUri, $doc) {
 :)
         (: XmlView :)
         concat("{type:'xmlView',uri:'", $docUri, "'}")
+
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
     ), ',')
 };
 
