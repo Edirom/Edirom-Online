@@ -32,22 +32,22 @@ let $expressionRef := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/m
 let $artist := doc('xmldb:exist:///db/apps/contents/edition/freidi-work.xml')//id(substring-after($expressionRef,'#'))/mei:titleStmt/mei:title/mei:persName
 let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title[1]/text()
 let $albumCoverSurfaceID := substring-after($doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:titlePage/@facs,'#')
-let $albumCover := '../../../contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
+let $albumCover := '../../../exist/apps/contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
                             
 (: TODO: Prüfen, ob die Pfade relativ sind :)
 
-let $albumCover := '../../../contents/audioSources/' || $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:extent[@label='cover']/mei:fig/mei:graphic/string(@target)
+let $albumCover := '../../../exist/apps/contents/audioSources/' || $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:extent[@label='cover']/mei:fig/mei:graphic/string(@target)
 let $records := for $rec in $doc//mei:recording
                 let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
                 let $recTitle := $recSource/mei:titleStmt/mei:title
-                let $avFile := '../../../contents/audioData/' || $rec/mei:avFile[2]/string(@target)
+                let $avFile := '../../../exist/apps/contents/audioData/' || $rec/mei:avFile[2]/string(@target)
                 return
                     '{
     					"name": "' || replace($recTitle, '"', '\\"') || '"
     					,"artist": "' || replace($artist, '"', '\\"') || '"
     					,"album": "' || replace($album, '"', '\\"') || '"
     					,"url": "' || $avFile || '"
-    					,"live": false' || (if($albumCover = '../../../contents/audioSources/')then()else(
+    					,"live": false' || (if($albumCover = '../../../exist/apps/contents/audioSources/')then()else(
     					',"cover_art_url": "' || $albumCover || '"')) || '
 				    }'
 
@@ -166,7 +166,7 @@ return
 			for $rec at $i in $doc//mei:recording
                 let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
                 let $recTitle := $recSource/mei:titleStmt/mei:title/text()
-                let $avFile := '../../../contents/audioData/' || $rec/mei:avFile[2]/string(@target)
+                let $avFile := '../../../exist/apps/contents/audioData/' || $rec/mei:avFile[2]/string(@target)
                 return
                 
                     <div class="amplitude-song-container amplitude-play-pause playlist-item" amplitude-song-index="{$i - 1}">
