@@ -970,4 +970,45 @@
             </xsl:for-each>
         </xsl:element>
     </xsl:template>
+<xsl:template match="tei:ref[starts-with(@target, '#footnote')]" priority="5">
+        <xsl:variable name="footnote_id" select="substring(./@target, 2)" as="xs:string"/>
+        
+        <xsl:choose>
+            <xsl:when test="count(//tei:note[@xml:id=$footnote_id]/*) &gt; 0">
+                <span class="footnote tipped" data-tipped-options="inline: '{$footnote_id}_tipped'">
+                    <xsl:apply-templates/>
+                </span>
+                <div id="{$footnote_id}_tipped" style="display: none;">
+                    <xsl:apply-templates select="//tei:note[@xml:id=$footnote_id]"/>
+                </div>
+            </xsl:when>
+            <xsl:when test="exists(//tei:note[@xml:id=$footnote_id])">
+                <span class="footnote scrollto" data-footnote="{$footnote_id}">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <span class="footnote">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    <xsl:template match="tei:note[@type='commentary']">
+        <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
+        <!-- für Einzelkommentare -->
+        <!--<div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+            <i class="fa fa-comment-o fa-fw fa-lg"/>
+        </div>
+        <div id="tip{$no}" style="display: none;">
+            <strong>Kommentar Einzelquelle</strong>
+            <br/>
+            <xsl:apply-templates/>
+        </div>-->
+        <!-- Für Kommentare im Text -->
+        <span class="tipped" data-tipped-options="inline: 'tip{$no}'"><i class="fa fa-comment-o inline-comment"/></span>
+        <div id="tip{$no}" style="display: none;">
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
 </xsl:stylesheet>
