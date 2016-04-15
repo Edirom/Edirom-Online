@@ -74,8 +74,14 @@ declare function local:getViews($type, $docUri, $doc) {
         (: iFrameView :)
         if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),
         
+        (: TextView for work object :) (: Das ist nötig, um beim Werkobjekt in MEI einen TEI-Text anzeigen zu können:)
+        if($docUri = 'xmldb:exist:///db/apps/contents/edition/freidi-work.xml') then("{type:'textView', defaultView: true, uri:'xmldb:exist:///db/apps/contents/edition/freidi-work-overview.xml'}") else(),
+
         (: XmlView :)
-        concat("{type:'xmlView', label: 'XML Quelle',uri:'", $docUri, "'}"),
+        concat("{type:'xmlView', label: 'XML Quelle', uri:'", $docUri, "'}"),
+
+        (: TextView for work object :) (: Das ist nötig, um beim Werkobjekt in MEI einen TEI-Text anzeigen zu können:)
+        if($docUri = 'xmldb:exist:///db/apps/contents/edition/freidi-work.xml') then("{type:'xmlView', label: 'XML Text', uri:'xmldb:exist:///db/apps/contents/edition/freidi-work-overview.xml'}") else(),
 
         (: SourceDescriptionView :)
         if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
