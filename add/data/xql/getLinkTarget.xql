@@ -62,7 +62,7 @@ declare function local:getViews($type, $docUri, $doc) {
         if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', label: 'Text-Faksimile', uri:'", $docUri, "'}")) else(),
 
         (: AnnotationView :)
-        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView', defaultView:true, uri:'", $docUri, "'}")) else(),
         
         (: RenderingView :)
 (:        if($doc//mei:note) then(concat("{type:'renderingView',uri:'", $docUri, "'}")) else(),:)
