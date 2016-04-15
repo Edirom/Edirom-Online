@@ -40,6 +40,10 @@ let $doc := if($page eq '')then($doc)else(
         transform:transform($doc, doc('../xslt/reduceToPage.xsl'), <parameters><param name="pb1" value="{$pb1}"/><param name="pb2" value="{$pb2}"/></parameters>)
 )
 
+let $doc := if(not(contains($uri, 'librettoSources')))
+            then($doc)
+            else(transform:transform($doc, doc('../xslt/librettoComments.xsl'), <parameters><param name="librettoCommentsFileName" value="xmldb:exist:///db/apps/contents/edition/freidi-librettoComments.xml"/></parameters>))
+
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
 let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))

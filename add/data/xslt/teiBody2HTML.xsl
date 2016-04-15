@@ -1009,22 +1009,49 @@
     </xsl:template>
     <xsl:template match="tei:note[@type='commentary']">
         <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
-        <!-- für Einzelkommentare -->
-        <!--<div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
-            <i class="fa fa-comment-o fa-fw fa-lg"/>
+        <xsl:choose>
+            <xsl:when test="$textType='freidi_libretto'">
+                <!-- für Einzelkommentare -->
+                <div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+                    <i class="fa fa-comment-o fa-fw" style="color:black;"/>
+                </div>
+                <div id="tip{$no}" style="display: none;">
+                    <strong>Kommentar Einzelquelle</strong>
+                    <br/>
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- Für Kommentare im Text -->
+                <span class="tipped" data-tipped-options="inline: 'tip{$no}'">
+                    <i class="fa fa-comment-o inline-comment"/>
+                </span>
+                <div id="tip{$no}" style="display: none;">
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="tei:note[@freidi.type='freidi.libretto.multi.comment']" priority="15">
+        <!-- für quellenübergreifende Kommentare -->
+        <xsl:variable name="no" select="count(./preceding::tei:note[@freidi.type='freidi.libretto.multi.comment'])"/>
+        <div class="note_K tipped" data-tipped-options="inline: 'mtip{$no}'" style="float:right; margin-right: 30px;">
+            <xsl:choose>
+                <xsl:when test="@type=('diaries','musicalsource')">
+                    <i class="fa fa-leanpub fa-fw" style="color:black;"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <i class="fa fa-comments-o fa-fw" style="color:black;"/>
+                </xsl:otherwise>
+            </xsl:choose>
         </div>
-        <div id="tip{$no}" style="display: none;">
-            <strong>Kommentar Einzelquelle</strong>
+        <div id="mtip{$no}" style="display: none;">
+            <strong>Quellenübergreifender Kommentar</strong>
             <br/>
-            <xsl:apply-templates/>
-        </div>-->
-        <!-- Für Kommentare im Text -->
-        <span class="tipped" data-tipped-options="inline: 'tip{$no}'"><i class="fa fa-comment-o inline-comment"/></span>
-        <div id="tip{$no}" style="display: none;">
             <xsl:apply-templates/>
         </div>
     </xsl:template>
-    
     <xsl:template match="tei:quote" priority="5">
         <xsl:choose>
             <xsl:when test="parent::tei:cit[@rend = 'inline']">
