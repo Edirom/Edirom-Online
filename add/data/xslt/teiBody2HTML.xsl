@@ -1038,8 +1038,11 @@
         <xsl:variable name="no" select="count(./preceding::tei:note[@freidi.type='freidi.libretto.multi.comment'])"/>
         <div class="note_K tipped" data-tipped-options="inline: 'mtip{$no}'" style="float:right; margin-right: 30px;">
             <xsl:choose>
-                <xsl:when test="@type=('diaries','musicalsource')">
+                <xsl:when test="@type='diaries'">
                     <i class="fa fa-leanpub fa-fw" style="color:black;"/>
+                </xsl:when>
+                <xsl:when test="@type='musicalsource'">
+                    <i class="fa fa-music fa-fw" style="color:black;"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <i class="fa fa-comments-o fa-fw" style="color:black;"/>
