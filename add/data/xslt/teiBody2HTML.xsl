@@ -1012,7 +1012,7 @@
         <xsl:choose>
             <xsl:when test="$textType='freidi_libretto'">
                 <!-- für Einzelkommentare -->
-                <div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+                <div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 15px;">
                     <i class="fa fa-comment-o fa-fw" style="color:black;"/>
                 </div>
                 <div id="tip{$no}" style="display: none;">
@@ -1036,7 +1036,7 @@
     <xsl:template match="tei:note[@freidi.type='freidi.libretto.multi.comment']" priority="15">
         <!-- für quellenübergreifende Kommentare -->
         <xsl:variable name="no" select="count(./preceding::tei:note[@freidi.type='freidi.libretto.multi.comment'])"/>
-        <div class="note_K tipped" data-tipped-options="inline: 'mtip{$no}'" style="float:right; margin-right: 30px;">
+        <div class="note_K tipped" data-tipped-options="inline: 'mtip{$no}'" style="float:right; margin-right: 15px;">
             <xsl:choose>
                 <xsl:when test="@type='diaries'">
                     <i class="fa fa-leanpub fa-fw" style="color:black;"/>
@@ -1052,6 +1052,16 @@
         <div id="mtip{$no}" style="display: none;">
             <strong>Quellenübergreifender Kommentar</strong>
             <br/>
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    <xsl:template match="tei:note[@freidi.type='freidi.libretto.variance.comment']" priority="15">
+        <!-- für Varianz-Kommentare -->
+        <xsl:variable name="no" select="count(./preceding::tei:note[@freidi.type='freidi.libretto.variance.comment'])"/>
+        <div class="note_K tipped" data-tipped-options="inline: 'vtip{$no}'" style="float:right; margin-right: 15px;">
+            <i class="fa fa-code-fork fa-rotate-90 fa-fw fa-lg" style="color:black;"/>
+        </div>
+        <div id="vtip{$no}" style="display: none;">
             <xsl:apply-templates/>
         </div>
     </xsl:template>
