@@ -69,6 +69,9 @@
             <xsl:if test="@fontweight">
                 font-weight: <xsl:value-of select="@fontweight"/>;
             </xsl:if>
+            <xsl:if test="not(@fontweight) and @rend='bold'">
+                font-weight: <xsl:value-of select="'bold'"/>;
+            </xsl:if>
             <xsl:if test="@fontstyle">
                 font-style: <xsl:value-of select="if(@fontstyle eq 'ital') then('italic') else(@fontstyle)"/>;
             </xsl:if>
@@ -92,6 +95,14 @@
                 <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
             </xsl:if>
         </br>
+    </xsl:template>
+    <xsl:template match="mei:quote">
+        <span class="quote">
+            <xsl:if test="@xml:id">
+                <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
+            </xsl:if>
+            <xsl:apply-templates select="* | text()"/>
+        </span>
     </xsl:template>
     <xsl:template match="mei:fig[./mei:graphic]">
         <!-- TODO: abfangen, wenn sowohl fig als auch graphic eine ID haben… -->
