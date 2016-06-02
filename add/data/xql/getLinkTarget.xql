@@ -43,6 +43,9 @@ declare function local:getViews($type, $docUri, $doc) {
         (: SourceView :)
         if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true ,uri:'", $docUri, "'}")) else(),
 
+		(: VerovioView :)
+        if($doc//mei:body//mei:measure) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
+
         (: TextView :)
         if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true ,uri:'", $docUri, "'}")) else(),
 
@@ -54,9 +57,6 @@ declare function local:getViews($type, $docUri, $doc) {
 
         (: AnnotationView :)
         if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
-        
-        (: RenderingView :)
-(:        if($doc//mei:note) then(concat("{type:'renderingView',uri:'", $docUri, "'}")) else(),:)
         
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),

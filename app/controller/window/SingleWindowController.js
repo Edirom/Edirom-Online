@@ -22,7 +22,6 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
     requires: [
         'EdiromOnline.view.window.HeaderView',
-        'EdiromOnline.view.window.RenderingView',
         //TODO:'de.edirom.online.view.window.SearchView',
         'EdiromOnline.view.window.SummaryView',
         'EdiromOnline.view.window.XmlView',
@@ -68,7 +67,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
         var me = this;
         var views = [];
-
+        
         Ext.Array.each(config.views, function(view) {
 
             views.push(this.createView(view.type, {
@@ -106,11 +105,11 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'summaryView': return getLangString('controller.window.Window_summaryView');
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
+            case 'verovioView': return getLangString('controller.window.Window_verovioView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
             case 'facsimileView': return 'Faksimile';
             case 'textView': return getLangString('controller.window.Window_textView');
             case 'annotationView': return getLangString('controller.window.Window_annotationView');
-            case 'renderingView': return getLangString('controller.window.Window_renderingView');
             case 'textFacsimileSplitView': return getLangString('controller.window.Window_textFacsimileSplitView');
             //TODO:case 'searchView': return 'Suche';
         }
@@ -121,11 +120,11 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
             case 'summaryView': return 'EdiromOnline.view.window.SummaryView';
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
+            case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
             case 'headerView': return 'EdiromOnline.view.window.HeaderView';
             case 'textView': return 'EdiromOnline.view.window.text.TextView';
             case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';
             case 'annotationView': return 'EdiromOnline.view.window.AnnotationView';
-            case 'renderingView': return 'EdiromOnline.view.window.RenderingView';
             case 'textFacsimileSplitView': return 'EdiromOnline.view.window.text.TextFacsimileSplitView';
             //TODO:case 'searchView': return 'EdiromOnline.view.window.SearchView';
         }
