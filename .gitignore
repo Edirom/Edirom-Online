@@ -1,0 +1,4 @@
+build-xar/
+build/
+tmp/
+*.xpr
