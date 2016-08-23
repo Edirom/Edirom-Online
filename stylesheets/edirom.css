@@ -1,0 +1,40 @@
+/* Customizing the stylesheet */
+
+a {
+  color: #B5A88F;
+}
+
+.btn {
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.page-header {
+  background-color: #9bb58f;
+  background-image: linear-gradient(120deg, #ffa600, #9bb58f);
+}
+
+.main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
+  color: #ffa600;
+}
+
+
+.project-tagline {
+  opacity: 0.8;
+}
+
+.breadcrumb {
+    margin: 0 auto;
+    max-width: 60rem;
+    padding-left: 2rem;
+}
+
+section.breadcrumb {
+    font-size: 0.8em;
+}
+
+ul#authors {
+    list-style:none;
+    padding-left: 0;
+}
