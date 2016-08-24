@@ -24,14 +24,42 @@
                 .tar.gz</a>
         </section>
         <section class="breadcrumb">
-            <p>Edirom Online &#8594; Objects and Media</p>
+            <p><a href="index.html">Edirom Online</a> &#8594; <a href="objects-and-media.html"
+                    >Objects and Media</a></p>
         </section>
         <section class="main-content">
             <h3>
-                <a id="what-is-edirom-online" class="anchor" href="#what-is-edirom-online"
+                <a id="objects-and-media" class="anchor" href="#objects-and-media"
                     aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"
                     ></span></a>Objects and media used in Edirom Online</h3>
-            <p>A short description of Edirom Online</p>
+            <p>General things…</p>
+            <!-- WORK -->
+            <h4>
+                <a id="work" class="anchor" href="#work" aria-hidden="true"
+                    ><span aria-hidden="true" class="octicon octicon-link"></span></a>Work</h4>
+            <p>…</p>
+            <p>If an MEI file is considered to be a work object or not, is defined in <code>getLinkTarget.xql</code> (<a class="no-style" href="https://github.com/Edirom/Edirom-Online/blob/develop/add/data/xql/getLinkTarget.xql"><i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>), which says: the XML file is a work document, if it is in the MEI namespace and there is a <code>work</code> element in the header.</p>
+            <pre><code>declare namespace mei="http://www.music-encoding.org/ns/mei";
+if(exists($doc//mei:mei) and exists($doc//mei:work))</code></pre>
+            <!-- MUSIC NOTATION -->
+            <h4>
+                <a id="music-notation" class="anchor" href="#music-notation" aria-hidden="true"
+                        ><span aria-hidden="true" class="octicon octicon-link"></span></a>Music
+                notation </h4>
+            <p>A music notation object in Edirom Online is used for digital representations of
+                documents with notated music (manuscripts, prints, …) and born digital musical
+                compositions encoded in MEI.</p>
+            <p>If an MEI file is considered to be a music notation object or not, is defined in <code>getLinkTarget.xql</code> (<a class="no-style" href="https://github.com/Edirom/Edirom-Online/blob/develop/add/data/xql/getLinkTarget.xql"><i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>), which says: the XML file is a music notation document, if it is in the MEI namespace, it is not a work object (see <a href="#work">definition of a work object</a>) and there is a <code>source</code> element in the header.</p>
+            <pre><code>declare namespace mei="http://www.music-encoding.org/ns/mei";
+if(exists($doc//mei:mei) and exists($doc//mei:source))</code></pre>
+            <p>The title of a music notation object is expected to be defined in <code>$doc//mei:source/mei:titleStmt/data(mei:title[1])</code>.</p>
+            <h5>Validation of music notation object</h5>
+<!--            <p></p>-->
+            <h5>Views</h5>
+            <p>The XQuery <code>getLinkTarget.xql</code> (<a class="no-style" href="https://github.com/Edirom/Edirom-Online/blob/develop/add/data/xql/getLinkTarget.xql"><i class="fa fa-external-link" aria-hidden="true"></i>
+            </a>) also defines which views are available for a music notation object.</p>
             
             <footer class="site-footer">
                 <span class="site-footer-owner"><a href="https://github.com/Edirom/Edirom-Online"

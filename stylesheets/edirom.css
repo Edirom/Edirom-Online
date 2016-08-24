@@ -1,7 +1,7 @@
 /* Customizing the stylesheet */
 
 a {
-  color: #B5A88F;
+  color: #16A085;
 }
 
 .btn {
@@ -12,13 +12,16 @@ a {
 
 .page-header {
   background-color: #9bb58f;
-  background-image: linear-gradient(120deg, #ffa600, #9bb58f);
+  background-image: linear-gradient(120deg, #ffa600, #16A085);
 }
 
 .main-content h1, .main-content h2, .main-content h3, .main-content h4, .main-content h5, .main-content h6 {
   color: #ffa600;
 }
 
+.main-content code {
+    color: #505c61;
+}
 
 .project-tagline {
   opacity: 0.8;
@@ -28,6 +31,10 @@ a {
     margin: 0 auto;
     max-width: 60rem;
     padding-left: 2rem;
+}
+
+.breadcrumb a {
+    color: rgb(96, 108, 113);
 }
 
 section.breadcrumb {
