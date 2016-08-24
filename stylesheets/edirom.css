@@ -38,3 +38,16 @@ ul#authors {
     list-style:none;
     padding-left: 0;
 }
+
+a.no-style {
+    color: #606c71;
+}
+
+a.no-style:hover {
+    text-decoration: none;
+}
+
+.fa {
+    padding-left: 2px;
+    font-size: 0.9em;
+}
