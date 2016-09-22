@@ -204,14 +204,14 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             
             var pageId = view.getActivePage().get('id');
 
-            Ext.Ajax.request({
-                url: 'data/xql/getAnnotationsOnPage.xql',
-                method: 'GET',
-                params: {
-                    uri: view.uri,
+            window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
+                'GET', 
+                {
+                    uri: uri,
                     pageId: pageId
                 },
-                success: function(response){
+                Ext.bind(function(response){
+                    var me = this;
                     var data = response.responseText;
 
                     var annotations = Ext.create('Ext.data.Store', {
@@ -220,9 +220,8 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                     });
 
                     me.annotationsLoaded(annotations, view, pageId);
-                }
-            });
-
+                }, this)
+            );
         }else {
             view.hideAnnotations();
         }
