@@ -28,6 +28,8 @@ xquery version "1.0";
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace svg="http://www.w3.org/2000/svg";
@@ -75,7 +77,7 @@ declare function local:findAnnotations($uri as xs:string, $elemIds as xs:string*
 	functx:distinct-deep(
 		for $id in $elemIds
 		let $query := <query><phrase>{concat($uri, '#', $id)}</phrase></query>
-		return collection('/db/contents')//mei:annot[ft:query(@plist, $query)]
+		return collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot[ft:query(@plist, $query)]
 	)
 };
 
