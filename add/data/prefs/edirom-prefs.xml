@@ -27,6 +27,6 @@
         <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
         <entry key="image_prefix" value="../../../digilib/Scaler/"/>
         
-        
+        <entry key="edition_path" value="/db/apps/contents"/>
     </entries>
 </prefs>
