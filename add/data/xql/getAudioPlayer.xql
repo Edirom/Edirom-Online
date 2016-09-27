@@ -28,27 +28,21 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $doc := eutil:getDoc($docUri)
-let $expressionRef := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:relationList/mei:relation[@rel='isEmbodimentOf']/@target
-let $artist := doc('xmldb:exist:///db/apps/contents/edition/freidi-work.xml')//id(substring-after($expressionRef,'#'))/mei:titleStmt/mei:title/mei:persName
+let $artist := $doc//mei:titleStmt/mei:respStmt/mei:persName[@role='artist']
 let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title[1]/text()
-let $albumCoverSurfaceID := substring-after($doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:titlePage/@facs,'#')
-let $albumCover := '../../../exist/apps/contents/audioSources/' || $doc//id($albumCoverSurfaceID)/mei:graphic/@target
-                            
-(: TODO: Prüfen, ob die Pfade relativ sind :)
-
-let $albumCover := '../../../exist/apps/contents/audioSources/' || $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:physDesc/mei:extent[@label='cover']/mei:fig/mei:graphic/string(@target)
+let $albumCover := $doc//mei:graphic[@type='cover']/string(@target)
 let $records := for $rec in $doc//mei:recording
                 let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
                 let $recTitle := $recSource/mei:titleStmt/mei:title
-                let $avFile := '../../../exist/apps/contents/audioData/' || $rec/mei:avFile[2]/string(@target)
+                let $avFile := $rec/mei:avFile[1]/string(@target)
                 return
                     '{
     					"name": "' || replace($recTitle, '"', '\\"') || '"
     					,"artist": "' || replace($artist, '"', '\\"') || '"
     					,"album": "' || replace($album, '"', '\\"') || '"
     					,"url": "' || $avFile || '"
-    					,"live": false' || (if($albumCover = '../../../exist/apps/contents/audioSources/')then()else(
-    					',"cover_art_url": "' || $albumCover || '"')) || '
+    					,"live": false' ||
+    					',"cover_art_url": "' || $albumCover || '"' || '
 				    }'
 
 let $audioConfig := '{
