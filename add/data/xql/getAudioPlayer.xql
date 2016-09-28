@@ -29,7 +29,7 @@ let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 let $doc := eutil:getDoc($docUri)
 let $artist := $doc//mei:titleStmt/mei:respStmt/mei:persName[@role='artist']
-let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source/mei:titleStmt/mei:title[1]/text()
+let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source[1]/mei:titleStmt/mei:title[1]/text()
 let $albumCover := $doc//mei:graphic[@type='cover']/string(@target)
 let $records := for $rec in $doc//mei:recording
                 let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
