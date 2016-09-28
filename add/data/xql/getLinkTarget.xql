@@ -35,7 +35,7 @@ declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
         (: SummaryView :)
-        concat("{type:'summaryView',uri:'", $docUri, "'}"),
+        (:concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
         if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
@@ -62,7 +62,7 @@ declare function local:getViews($type, $docUri, $doc) {
         if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
 
         (: AnnotationView :)
-        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView', defaultView:true, uri:'", $docUri, "'}")) else(),
         
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
