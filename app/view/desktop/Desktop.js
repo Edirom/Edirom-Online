@@ -294,6 +294,7 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
         var height = me.body.getHeight(true);
 
         width -= me.navigator.getWidth();
+        height -= 10;
 
         return {
             width: width,
