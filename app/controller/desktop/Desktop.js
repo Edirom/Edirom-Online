@@ -98,9 +98,20 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
         this.desktop.switchDesktop(desk);
     },
 
+    cloneWinsCollectionWithoutMinimized: function(wins) {
+        var set = new Ext.util.MixedCollection();
+
+        wins.each(function(win) {
+            if(!win.minimized) set.add(win);
+        });
+
+        return set;
+    },
+
     sortHorizontally: function() {
         var desktop = this.desktop;
         var wins = desktop.getActiveWindowsSet(true);
+        wins = this.cloneWinsCollectionWithoutMinimized(wins);
 
         if(wins == null || wins.length == 0)
 	        return;
@@ -137,6 +148,7 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
     sortVertically: function() {
         var desktop = this.desktop;
         var wins = desktop.getActiveWindowsSet(true);
+        wins = this.cloneWinsCollectionWithoutMinimized(wins);
 
         if(wins == null || wins.length == 0)
 	        return;
@@ -173,6 +185,7 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
     sortGrid: function() {
         var desktop = this.desktop;
         var wins = desktop.getActiveWindowsSet(true);
+        wins = this.cloneWinsCollectionWithoutMinimized(wins);
 
         if(wins == null || wins.length == 0)
             return;
@@ -213,7 +226,6 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
             left = left + (size.width / optArray[0]);
         });
     },
-
     getGridPositioning: function(numWins) {
         var desktop = this.desktop;
         var size = desktop.getUsableSize();
