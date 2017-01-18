@@ -117,8 +117,8 @@ let $title := (: Work :)
               then($doc//mei:workDesc/mei:work/mei:titleStmt/data(mei:title[1]))
               
               (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
+              then($doc//mei:sourceDesc/mei:source/mei:titleStmt/data(mei:title[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
