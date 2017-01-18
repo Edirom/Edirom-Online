@@ -864,9 +864,6 @@
             </xsl:element>
         </xsl:for-each>
     </xsl:template>-->
-    <xsl:template match="geogName" mode="valueOnly">
-        <xsl:apply-templates select="node()"/>
-    </xsl:template>
     <xsl:template match="langUsage">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
