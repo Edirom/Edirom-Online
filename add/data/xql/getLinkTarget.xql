@@ -113,8 +113,8 @@ let $type :=
              else(string('unknown'))
              
 let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
+              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
+              then($doc//mei:workDesc/mei:work/mei:titleStmt/data(mei:title[1]))
               
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
