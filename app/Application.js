@@ -82,6 +82,10 @@ Ext.define('EdiromOnline.Application', {
             scope: this
         });
         
+        var workParam = me.getURLParameter('work');
+        if(workParam !== null)
+            me.activeWork = workParam;
+        
         Ext.Ajax.request({
             url: 'data/xql/getWorkID.xql',
             async: false,
