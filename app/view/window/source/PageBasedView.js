@@ -211,6 +211,16 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         me.imageViewer.removeShapes('annotations');
     },
 
+    hideOverlay: function(overlayId) {
+        var me = this;
+        me.imageViewer.removeSVGOverlay(overlayId);
+    },
+
+    showOverlay: function(overlayId, overlay) {
+        var me = this;
+        me.imageViewer.addSVGOverlay(overlayId, overlay);
+    },
+
     updateZoom: function(zoom) {
         this.zoomSlider.suspendEvents();
         this.zoomSlider.setValue(Math.round(zoom * 100));
