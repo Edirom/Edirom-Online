@@ -40,16 +40,18 @@ declare function local:getLocalizedName($node) {
 
 declare function local:getCategory($category) {
 
-    <div class="navigatorCategory" id="{$category/@xml:id}">
-        <div class="navigatorCategoryTitle">
-            { $category/edirom:names/edirom:name[1]/text() }
+    let $name := local:getLocalizedName($category)
+    return
+        <div class="navigatorCategory" id="{$category/@xml:id}">
+            <div class="navigatorCategoryTitle">
+                { $name }
+            </div>
+            {
+                for $elem in $category/edirom:navigatorItem
+                return
+                    local:getItem($elem)
+            }
         </div>
-        {
-            for $elem in $category/edirom:navigatorItem
-            return
-                local:getItem($elem)
-        }
-    </div>
 };
 
 declare function local:getItem($item) {
@@ -59,7 +61,7 @@ declare function local:getItem($item) {
     return
 
     <div class="navigatorItem" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
-        { $item//edirom:name[1]/node() }
+        { local:getLocalizedName($item) }
     </div>
 };
 
