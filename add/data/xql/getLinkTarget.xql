@@ -69,7 +69,7 @@ declare function local:getViews($type, $docUri, $doc) {
 :)
 
         (: iFrameView :)
-        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),
+        if($type = 'html') then(concat("{type:'iFrameView', label: '", 'HTML-Seite' ,"' ,uri:'", $docUri, "'}")) else(),
         
         (: XmlView :)
         concat("{type:'xmlView',uri:'", $docUri, "'}"),
@@ -131,6 +131,12 @@ let $type :=
              else if(exists($doc/html))
              then(string('html'))
              
+             else if(contains($docUri, '.html'))
+             then(string('html'))
+             
+             else if(contains($docUri, '$encyclo'))
+             then(string('html'))
+             
              else(string('unknown'))
              
 let $title := (: Work :)
@@ -149,10 +155,16 @@ let $title := (: Work :)
               else if(exists($doc/tei:TEI))
               then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
               
+              else if($type = 'html' and contains($docUri, 'rwaEncyclo'))
+              then('Umfeld der Werke')
+              
+              else if($type = 'html' and contains($docUri, 'rwaTextComp'))
+              then('Textvergleich')
+              
               (: HTML :)
               else if($type = 'html')
               then($doc//head/data(title))
-             
+              
               else(string('unknown'))
               
 let $internalIdType := if(exists($internal))
