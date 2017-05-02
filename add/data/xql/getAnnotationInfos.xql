@@ -53,7 +53,7 @@ let $annots := collection(eutil:getPreference('edition_path', request:get-parame
 return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name/text()
+            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name[1]/text()
             order by $name
             return
                 concat('{id:"', $category, '",name:"', $name,'"}')
@@ -61,7 +61,7 @@ return concat('{categories: [',
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name/text()
+            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name[1]/text()
             order by $name
             return
                 concat('{id:"', $priority, '",name:"', $name,'"}')
