@@ -1,0 +1,65 @@
+.sub {
+    font-size: 60%;
+    vertical-align: sub;
+}
+
+span.uline {
+    border-bottom: 1px solid;
+}
+
+.annotView .ref {
+    color: rgb(146, 64, 92);
+}
+
+.annotView .ref:hover {
+    color: rgb(146, 64, 92);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+
+span.title {
+    font-style: italic;
+}
+
+@font-face{
+    font-family: bravura;
+    src: url('../fonts/bravura/woff/BravuraText.woff');
+}
+
+span.musicalSymbol {
+    font-family: bravura;
+}
+
+p {
+    line-height: 1.5;
+}
+
+.annotView .contentBox {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.contentBox h1 {
+    color: DimGray;
+}
+
+.ediromWindow .annotation.rwaAnnotPrio1 .annotIcon {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(255, 48, 25, 0.85) 0px, rgba(207, 4, 4, 0.85) 100%) repeat scroll 0 0;
+}
+.ediromWindow .annotation.rwaAnnotPrio2 .annotIcon {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(255, 233, 91, 0.85) 0px, rgba(255, 107, 15, 0.85) 100%) repeat scroll 0 0;
+}
+.ediromWindow .annotation.rwaAnnotPrio3 .annotIcon {
+    background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(254, 252, 234, 0.85) 0px, rgba(241, 218, 54, 0.85) 100%) repeat scroll 0 0;
+}
+
+.ediromWindow .measureInner {
+    background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
+    border-radius: 15px;
+    padding: 3px 5px 0;
+    text-shadow: 0 1px 2px #000, 0 0 5px #fff;
+    font-size: 20px;
+    background-color: grey;
+    color: white;
+}
