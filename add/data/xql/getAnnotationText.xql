@@ -46,7 +46,7 @@ return
     
     <div class="annotView">
         <div class="contentBox">
-            <h1>{$annot/mei:title/text()}</h1>
+            <h1>{$annot/mei:title[1]/text()}</h1>
             {annotation:getContent($annot,'')} 
         </div>
     </div>

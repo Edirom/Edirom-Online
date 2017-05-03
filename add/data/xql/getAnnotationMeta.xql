@@ -70,10 +70,10 @@ return
                 <div class="key">{$categoriesLabel}</div>
                 <div class="value">{string-join($categories, ', ')}</div>
             </div>
-            <div class="property sourceLabel">
+            <!--<div class="property sourceLabel">
                 <div class="key">{$sourcesLabel}</div>
                 <div class="value">{string-join($sources, ', ')}</div>
-            </div>
+            </div>-->
             <div class="property sourceSiglums">
                 <div class="key">{$siglaLabel}</div>
                 <div class="value">{string-join($sigla, ', ')}</div>
