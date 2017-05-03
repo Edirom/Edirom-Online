@@ -61,8 +61,8 @@ Ext.define('EdiromOnline.Application', {
     ],
     
     //TODO:
-    activeEdition: 'xmldb:exist:///db/contents/edition-50127042.xml',
-    activeWork: 'edirom_work_743373fb-4dcf-4329-90c0-fd1eacc9ea69', 
+    activeEdition: 'xmldb:exist:///db/contents/edition-rwa/ediromEditions/rwaVol_II-1.xml',
+    activeWork: '', 
 
     launch: function() {
         var me = this;
