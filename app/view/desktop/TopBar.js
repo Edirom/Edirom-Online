@@ -68,11 +68,14 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 flex: 1,
                 cls: 'ux-desktop-topbar-flex',
                 items: [
-                   // me.homeButton,
-                   // { xtype: 'tbtext', text: '', id: 'homeBtnLabel' },
-                   // this.workCombo,
-                   // me.searchTextField,
-                    me.searchButton
+                		me.homeButton,
+						{ xtype: 'tbtext', text: 'Reger-Werkausgabe', id: 'homeBtnLabel' },
+						this.workCombo,
+//                     '->',
+                    
+                    me.workCombo,
+						// me.searchTextField,
+                    	me.searchButton
                 ]
             })
         ];
