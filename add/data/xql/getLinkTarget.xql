@@ -54,6 +54,9 @@ declare function local:getViews($type, $docUri, $doc) {
 
         (: TextView :)
         if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
+        
+        (: Music TextView :)
+        if($doc//mei:div[1][matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
         (: SourceView :)
         if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
@@ -68,8 +71,11 @@ declare function local:getViews($type, $docUri, $doc) {
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
 
-        (: iFrameView :)
-        if($type = 'html') then(concat("{type:'iFrameView', label: '", 'HTML-Seite' ,"' ,uri:'", $docUri, "'}")) else(),
+        (: iFrameView, RWA :)
+        if($type = 'html') then(concat("{type:'iFrameView', label: '", 'HTML' ,"' ,uri:'", $docUri, "'}")) else(),
+        
+        (: iFrameView, generic :)
+(:        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),:)
         
         (: XmlView :)
         concat("{type:'xmlView',uri:'", $docUri, "'}"),
@@ -164,7 +170,7 @@ let $title := (: Work :)
               (: HTML :)
               else if($type = 'html')
               then($doc//head/data(title))
-              
+             
               else(string('unknown'))
               
 let $internalIdType := if(exists($internal))
