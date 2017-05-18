@@ -66,6 +66,10 @@ Ext.define('EdiromOnline.Application', {
        
         me.addEvents('workSelected');
         
+        var editionParam = me.getURLParameter('edition');
+        if(editionParam !== null)
+            me.activeEdition = editionParam;
+        
         Ext.Ajax.request({
             url: 'data/xql/getEditionURI.xql',
             async: false,
@@ -77,6 +81,10 @@ Ext.define('EdiromOnline.Application', {
             },
             scope: this
         });
+        
+        var workParam = me.getURLParameter('work');
+        if(workParam !== null)
+            me.activeWork = workParam;
         
         Ext.Ajax.request({
             url: 'data/xql/getWorkID.xql',
@@ -131,5 +139,9 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-	}
+	},
+	
+	getURLParameter: function(parameter) {
+        return decodeURIComponent((new RegExp('[?|&]' + parameter + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
 });
