@@ -46,9 +46,9 @@ declare function local:getCategory($category, $depth) {
         <div class="navigatorCategoryTitle{if($depth = 1)then()else($depth)}">
             {
                 if($depth = 1)
-                then($category/edirom:names/edirom:name[1]/text())
+                then(local:getLocalizedName($category))
                 else(
-                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$category/edirom:names/edirom:name[1]/text()}<i class="fa fa-caret-right fa-fw"></i></span>
+                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{local:getLocalizedName($category)}<i class="fa fa-caret-right fa-fw"></i></span>
                 )
             }            
         </div>
@@ -72,7 +72,7 @@ declare function local:getCategory($category, $depth) {
             }
             </div>
     </div>
-    };
+};
 
 declare function local:getItem($item, $depth) {
 
