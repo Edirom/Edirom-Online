@@ -28,6 +28,17 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedName($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
+      then $node/edirom:names/edirom:name[@xml:lang = $lang]/text()
+      else $node/edirom:names/edirom:name[1]/text()
+
+};
+
 declare function local:getCategory($category, $depth) {
 
 
@@ -61,7 +72,7 @@ declare function local:getCategory($category, $depth) {
             }
             </div>
     </div>
-};
+    };
 
 declare function local:getItem($item, $depth) {
 
@@ -70,7 +81,7 @@ declare function local:getItem($item, $depth) {
     return
 
     <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
-        { $item//edirom:name[1]/node() }
+        { local:getLocalizedName($item) }
     </div>
 };
 
