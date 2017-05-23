@@ -41,11 +41,20 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
 
 declare variable $imageWidth := 600;
 declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
 
+declare function local:getLocalizedTitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     
@@ -109,7 +118,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := $elems[1]/root()//mei:source/mei:titleStmt/mei:title[1]/text()
+            let $source := local:getLocalizedTitle($elems[1]/root()//mei:source/mei:titleStmt)
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
@@ -296,7 +305,10 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                     
                     let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
                     
-                    let $label := if(count($measureNs) gt 1) then (concat('Takte ',$measureNs[1], ' bis ', $measureNs[last()])) else (concat('Takt ', $measureNs[1]))
+                    let $label := if ($lang = 'de') 
+                                    then (if(count($measureNs) gt 1) then (concat('Takte ',$measureNs[1], '-', $measureNs[last()])) else (concat('Takt ', $measureNs[1])))
+                                    else (if(count($measureNs) gt 1) then (concat('Bars ',$measureNs[1], '-', $measureNs[last()])) else (concat('Bar ', $measureNs[1])))
+                                    
                     return 
                 
                         concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr,', '),')')

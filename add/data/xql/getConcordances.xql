@@ -30,10 +30,21 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedName($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
+      then $node/edirom:names/edirom:name[@xml:lang = $lang]/text()
+      else $node/edirom:names/edirom:name[1]/text()
+
+};
+
 declare function local:getGroups($parent) {
     if($parent/edirom:groups)
     then(
-        concat('{', 'label: "', $parent/edirom:groups/string(@label), '", groups: [', local:getSingleGroups($parent/edirom:groups), ']}')
+        concat('{', 'label: "', local:getLocalizedName($parent/edirom:groups), '", groups: [', local:getSingleGroups($parent/edirom:groups), ']}')
     )
     else(string('null'))
 };
@@ -44,7 +55,7 @@ declare function local:getSingleGroups($parent) {
         return
                 concat('
                 {',
-                    'name: "', $group/string(@name), '", ',
+                    'name: "', local:getLocalizedName($group), '", ',
                     'connections: ', local:getConnections($group),
                 '}')
     , ',')
@@ -53,7 +64,7 @@ declare function local:getSingleGroups($parent) {
 declare function local:getConnections($parent) {
     if($parent/edirom:connections)
     then(
-        concat('{', 'label: "', $parent/edirom:connections/string(@label), '", connections: [', local:getSingleConnections($parent/edirom:connections), ']}')
+        concat('{', 'label: "', local:getLocalizedName($parent/edirom:connections), '", connections: [', local:getSingleConnections($parent/edirom:connections), ']}')
     )
     else(string('null'))
 };
@@ -84,7 +95,7 @@ return (
         return
                 concat('
                 {',
-                    'name: "', $concordance/string(@name), '", ',
+                    'name: "', local:getLocalizedName($concordance), '", ',
                     'groups: ', local:getGroups($concordance), ', ',
                     'connections: ', local:getConnections($concordance),
                 '}')

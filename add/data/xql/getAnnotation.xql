@@ -42,6 +42,17 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 declare variable $imageWidth := 600;
 declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedTitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
 (: TODO: in Modul auslagern :)
 (:~
     Gets the zone holding the graphical representation of an element
@@ -84,7 +95,7 @@ declare function local:getPriority($annot as node()) {
     
     return
         if($elem/mei:name)
-        then(normalize-space($elem/mei:name[1]/text()))
+        then(normalize-space(local:getLocalizedTitle($elem)))
         else($locID)
 };
 
@@ -111,7 +122,7 @@ declare function local:getCategories($annot as node()) {
                    let $elem := $doc/id($locID)
                    return
                        if($elem/mei:name)
-                       then($elem/mei:name[1]/text())
+                       then(local:getLocalizedTitle($elem))
                        else($locID)
     return $string
 };
@@ -190,15 +201,15 @@ declare function local:getItemLabel($elem as element()) {
     let $name := local-name($elem)
     return (
         if($name = 'measure')
-        then(concat('Takt ',$elem/@n))
+        then(if ($lang = 'de') then (concat('Takt ',$elem/@n)) else (concat('Bar ',$elem/@n)))
         else(),
         
         if($name = 'staff')
-        then(concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr,', Takt ',$elem/ancestor::mei:measure/@n))
+        then(if ($lang = 'de') then (concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr,', Takt ',$elem/ancestor::mei:measure/@n)) else(concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr,', Bar ',$elem/ancestor::mei:measure/@n)))
         else(),
         
         if($name = 'zone')
-        then(concat('Ausschnitt (S. ',$elem/parent::mei:surface/@n,')'))
+        then(if ($lang = 'de') then (concat('Ausschnitt (S. ',$elem/parent::mei:surface/@n,')')) else (concat('Detail (p. ',$elem/parent::mei:surface/@n,')')))
         else()
     )    
 };
@@ -262,16 +273,28 @@ let $annot := $doc/id($internalId)
 let $participants := annotation:getParticipants($annot)
 
 let $priority := local:getPriority($annot)
-let $priorityLabel := 'Priority'
+let $priorityLabel := if ($lang = 'de')
+                        then('Priorität')
+                        else('Priority')
 
 let $categories := local:getCategories($annot)
-let $categoriesLabel := if(count($categories) gt 1)then('Categories')else('Category')
+let $categoriesLabel := if ($lang = 'de')
+                        then (if(count($categories) gt 1)then('Kategorien')else('Kategorie'))
+                        else(if(count($categories) gt 1)then('Categories')else('Category'))
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants)
-let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
+let $sourcesLabel := if ($lang = 'de')
+                        then (if(count($sources) gt 1)then('Quellen')else('Quelle'))
+                        else(if(count($sources) gt 1)then('Sources')else('Source'))
 
 let $sigla := source:getSiglaAsArray($participants)
-let $siglaLabel := if(count($sigla) gt 1)then('Sources')else('Source')
+let $siglaLabel := if ($lang = 'de')
+                        then (if(count($sigla) gt 1)then('Siglen')else('Siglum'))
+                        else(if(count($sigla) gt 1)then('Sources')else('Source'))
+                        
+let $annotIDlabel := if ($lang = 'de')
+                            then ('Anm.-ID')
+                            else ('Annot.-ID')
 
 return
     if($target eq 'view')
@@ -295,9 +318,13 @@ return
                     <div class="key">{$siglaLabel}</div>
                     <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
+                <div class="property annotID">
+                    <div class="key">{$annotIDlabel}</div>
+                    <div class="value">{$internalId}</div>
+                </div>
             </div>
             <div class="contentBox">
-                <h1>{$annot/mei:title[1]/text()}</h1>
+                <h1>{local:getLocalizedTitle($annot)}</h1>
                 {annotation:getContent($annot,'')} 
             </div>
             <div class="previewArea">
@@ -311,7 +338,7 @@ return
                                 <img src="{local:getImageAreaPath($imageBasePath, $zone, $imageWidth)}" class="previewImg" onclick="loadLink('{$pUri}')" />
                                 <input type="hidden" class="previewImgData" value="{concat('{width:', number($zone/@lrx) - number($zone/@ulx), ', height:', number($zone/@lry) - number($zone/@uly), '}')}"/>
                             </div>
-                            <div class="label">{concat('Takt ', $elem/@n)}</div>
+                            <div class="label">{if ($lang = 'de') then (concat('Takt ', $elem/@n)) else (concat('Bar ', $elem/@n))}</div>
                         </div>
                 }
             </div>
@@ -336,9 +363,13 @@ return
                     <div class="key">{$siglaLabel}</div>
                     <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
+                <div class="property annotID">
+                    <div class="key">{$annotIDlabel}</div>
+                    <div class="value">{$internalId}</div>
+                </div>
             </div>
             <div class="contentBox">
-                <h1>{$annot/mei:title[1]/text()}</h1>
+                <h1>{local:getLocalizedTitle($annot)}</h1>
                 {annotation:getContent($annot,'')}
             </div>
             <div class="previewArea">

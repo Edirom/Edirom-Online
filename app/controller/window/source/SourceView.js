@@ -76,7 +76,8 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
         window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
             'GET', 
             {
-                uri: view.uri
+                uri: view.uri,
+                lang: getPreference('application_language')
             },
             Ext.bind(function(response){
                 var me = this;
@@ -203,12 +204,14 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             if(typeof view.getActivePage() == 'undefined') return;
             
             var pageId = view.getActivePage().get('id');
+            var lang = getPreference('application_language');
 
             window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
                 'GET', 
                 {
                     uri: view.uri,
-                    pageId: pageId
+                    pageId: pageId,
+                    lang: lang
                 },
                 Ext.bind(function(response){
                     var me = this;

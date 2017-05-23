@@ -282,7 +282,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             model: 'EdiromOnline.model.Annotation',
             autoLoad: false
         });
-        me.listStore.getProxy().extraParams = {uri: me.uri};
+        me.listStore.getProxy().extraParams = {uri: me.uri, lang: getPreference('application_language')};
 
         return me.listStore;
     },
@@ -474,7 +474,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum);//  + ": " + label;
 
             if(type == 'text') {
 
@@ -571,7 +571,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum);//  + ": " + label;
 
             var shape = null;
 
@@ -586,13 +586,12 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
             shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
 
-            /*
             var stepLeft = shape.query('div.stepLeft')[0];
             stepLeft.on('click', me.previousParticipantSingle, me);
 
             var stepRight = shape.query('div.stepRight')[0];
             stepRight.on('click', me.nextParticipantSingle, me);
-            */
+            
         }
 
         me.calculateLimitingImageFactor();
