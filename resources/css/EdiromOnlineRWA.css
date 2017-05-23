@@ -44,6 +44,7 @@ p {
     color: DimGray;
 }
 
+
 .ediromWindow .annotation.rwaAnnotPrio1 .annotIcon {
     background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(255, 48, 25, 0.85) 0px, rgba(207, 4, 4, 0.85) 100%) repeat scroll 0 0;
 }
@@ -54,6 +55,149 @@ p {
     background: rgba(0, 0, 0, 0) linear-gradient(to bottom, rgba(254, 252, 234, 0.85) 0px, rgba(241, 218, 54, 0.85) 100%) repeat scroll 0 0;
 }
 
+.annotation.Notentext .annotIcon:before {
+    font-family: bravura;
+    content: "\E1D5";
+    position: relative;
+    top: 5px;
+    left: 0.55em
+}
+
+.annotation.HalsungBalkung .annotIcon:before {
+    font-family: bravura;
+    content: "\E1F3";
+    position: relative;
+    top: 5px;
+    left: 0.59em
+}
+
+.annotation.TaktartMetrum .annotIcon:before {
+    font-family: bravura;
+    content: "\E099";
+    position: relative;
+    top: -15px;
+    left: 0.21em;
+    font-size: 25px;
+}
+
+.annotation.Pausensetzung .annotIcon:before {
+    font-family: bravura;
+    content: "\E4E5";
+    position: relative;
+    top: -1px;
+    left: 0.45em;
+    font-size: 17px;
+}
+
+.annotation.Tondauer .annotIcon:before {
+    font-family: bravura;
+    content: "\E1D2";
+    position: relative;
+    top: -2px;
+    left: 0.28em;
+    font-size: 20px;
+}
+
+.annotation.Vortragsanweisung .annotIcon:before {
+    font-family: bravura;
+    content: "rit.";
+    font-style: italic;
+    position: relative;
+    top: 1px;
+    left: 0.23em;
+    font-size: 10px;
+}
+
+.annotation.Artikulation .annotIcon:before {
+    font-family: bravura;
+    content: "\E4B2";
+    position: relative;
+    top: -1px;
+    left: 0.23em;
+    font-size: 25px;
+}
+
+.annotation.Dynamik .annotIcon:before {
+    font-family: bravura;
+    content: "\E520";
+    position: relative;
+    top: -2px;
+    left: 0.5em;
+    font-size: 12px;
+}
+
+.annotation.Pedalsetzung .annotIcon:before {
+    font-family: bravura;
+    content: "\E650";
+    position: relative;
+    top: 1px;
+    left: 0.09em;
+    font-size: 12px;
+}
+
+.annotation.Phrasierungsboegen .annotIcon:before {
+/*    font-family: bravura;*/
+    content: "---";
+    position: relative;
+    top: 1px;
+    left: 0.09em;
+    font-size: 12px;
+}
+
+.annotation.Bogensetzung .annotIcon:before {
+    font-family: bravura;
+    content: "\E4BA";
+    position: relative;
+    top: -10px;
+    left: 0.08em;
+    font-size: 40px;
+}
+
+.annotation.Beschreibung .annotIcon:before {
+    font-family: FontAwesome;
+    content: "\f0e5";
+    position: relative;
+    left: 0.2em;
+    font-size: 13px;
+}
+
+.annotation.Hinzufügung .annotIcon:before {
+/*    font-family: bravura;*/
+    content: "+";
+    position: relative;
+    top: 2px;
+    left: 0.5em;
+    font-size: 15px;
+}
+
+.annotation.RasurTektur .annotIcon:before {
+    font-family: FontAwesome;
+    content: "\f12d";
+    position: relative;
+    top: 2px;
+    left: 0.2em;
+    font-size: 12px;
+}
+
+.annotation.Streichung  .annotIcon:before {
+    /*font-family: bravura;*/
+    content: "xxx";
+    position: relative;
+    top: 2px;
+    left: 0.25em;
+    font-size: 9px;
+}
+
+.annotation.Liedtext .annotIcon:before {
+    /*font-family: bravura;
+    content: "\E595";*/
+    content: "text";
+    position: relative;
+    top: 3px;
+    left: 0.15em;
+    font-size: 9px;
+}
+
 .ediromWindow .measureInner {
     background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
     border-radius: 15px;
@@ -62,4 +206,235 @@ p {
     font-size: 20px;
     background-color: grey;
     color: white;
+}
+
+.annotationList .x-grid-row-selected .x-grid-cell, .annotationList .x-grid-row-selected .x-grid-rowwrap-div {
+    background: -moz-linear-gradient(top, rgb(215, 185, 180), rgb(146, 64, 92));
+    color: rgb(248, 238, 218);
+}
+
+.ediromDesktop .ux-wallpaper {
+   background-image: none!important;
+   background-color: black!important;
+}
+
+
+
+.x-toolbar-default {
+    background-color: DimGray;
+    /*background-image: -moz-linear-gradient(center top , #f2f2f2, #e0e0e0 30%, #ccc 65%, #bdbdbd);*/
+    background-image: -moz-linear-gradient(center top, #5b5b5b 0%, #424242 39.62%, #222222 65%, #383838 100%);
+    border-color: silver;
+    border-width: 1px;
+}
+
+div#ediromToolbar {
+    background-image: -moz-linear-gradient(center top , #f2f2f2, #e0e0e0 30%, #ccc 65%, #bdbdbd);
+    background-color:rgb(248, 238, 218) !important;
+}
+
+#homeBtnLabel {
+    color: rgb(146, 64, 92);
+}
+
+.x-menu-item-active {
+    background-color: rgb(146, 64, 92);
+    color: rgb(248, 238, 218) !important;
+}
+
+/* HELP WINDOW */
+.helpWindow div.textViewContent {
+    padding: 10px 10px 10px 20px;
+}
+
+.helpWindow div.textViewContent ul {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.helpWindow div.textViewContent table {
+    margin-left: 0;
+    margin-bottom: 10px;
+}
+
+.helpWindow div.textViewContent table
+
+.helpWindow h1, .helpWindow h2, .helpWindow h3, .helpWindow h4 {
+    margin-left: -10px;
+} 
+
+.helpWindow h3 {
+    margin-top: 20px;
+}
+
+.helpWindow h4 {
+    margin-top: 10px;
+    clear: both;
+}
+
+.helpWindow p, .helpWindow dl {
+    margin-bottom: 10px;
+}
+
+.helpWindow .textViewContent tr.label td {
+    background-color: #e5e5e5;
+}
+
+.helpWindow .textViewContent img {
+    max-width: 100%;
+}
+
+.helpWindow .textViewContent dt{
+    
+}
+
+.helpWindow .textViewContent dd{
+    margin-bottom: 12px;
+}
+
+.helpWindow .textViewContent .term {
+    font-weight:bold;
+}
+
+.helpWindow .textViewContent .figure {
+    display:block;
+    clear:both;
+    margin-bottom: 12px;
+}
+
+.helpWindow .textViewContent .figure div.table{
+    margin-bottom: 0em !important;
+}
+
+.helpWindow .textViewContent .figure + *{
+    display:block;
+    clear:both;
+}
+
+.helpWindow .textViewContent .figure img{
+    float:left;
+    margin-right:6px;
+    margin-bottom:6px;
+}
+
+/*.helpWindow .textViewContent .figure img:nth-child(n+2){
+    margin-left:10px;
+}*/
+
+.helpWindow .textViewContent .figure .p{
+    display:block;
+}
+
+.helpWindow .textViewContent .figure .caption{
+    display:block;
+    clear:both;
+}
+
+/* SEARCH WINDOW */
+
+.searchWindow .searchResultDoc {
+    margin: 5px;
+}
+
+.searchWindow .searchResultDoc .doc {
+    margin-top: 10px;    
+}
+
+.searchWindow .searchResultDoc:first-child .doc {
+    margin-top: 0;
+}
+
+.searchWindow .searchResultDoc p {
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.searchWindow .hit {
+    color: #1354B5;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #e5e5e5,#cccccc);
+    cursor: pointer;
+}
+
+span.searchResult {
+    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+}
+
+div.annotation.combinedHighlight div.annotIcon {
+    border: 1px solid white;
+}
+
+.searchWindow .x-toolbar {
+    background: -moz-linear-gradient(top, #e5e5e5, #cccccc);
+    border-bottom: 1px solid #999999;
+}
+
+.searchWindow .x-toolbar .x-form-text {
+    border-radius: 5px;
+    padding: 0 5px;
+    border: 1px solid #999999;
+    box-shadow: 0 0 1px #666666 inset;
+    font-size: 90%;
+}
+
+.searchWindow .taskSquareButton.search {
+    background-position: 0 -2px !important;
+}
+
+.searchWindow .taskSquareButton.search.over {
+    background-position: 0 -2px !important;
+    border-color: #999999;
+}
+
+.searchWindow .searchResultDoc > .doc {
+    padding: 1px 8px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #f5f5f5, #e5e5e5);
+    box-shadow: 0 1px 2px #666666;
+    margin-top: 20px;
+}
+
+.searchWindow .searchResultDoc .resultTitle {
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.searchWindow .searchResultDoc .resultCount {
+    color: #666666;
+    font-size: 80%;
+}
+
+.searchWindow .searchResultOverview {
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.searchWindow .searchResultOverview .num {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: -moz-linear-gradient(top, #e5e5e5,#cccccc);
+}
+
+.searchWindow .searchResult {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.searchWindow .hitP {
+    border-left: 3px solid #e5e5e5;
+    padding-left: 0px;
+    margin-left: 5px;
+}
+
+.searchWindow .showMore {
+    color: #666666;
+    font-size: 85%;
+    margin: 5px 0 15px 5px;
+    cursor: pointer;
 }
