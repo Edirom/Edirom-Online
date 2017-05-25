@@ -40,7 +40,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         });
         
         me.workCombo = Ext.create('Ext.button.Button', {
-            text: 'Werk',
+            text: 'work',
             id: 'workSwitch',
             cls: 'insetButton',
             indent: false,
@@ -71,10 +71,16 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 		me.homeButton,
 						{ xtype: 'tbtext', text: 'Reger-Werkausgabe', id: 'homeBtnLabel' },
 						this.workCombo,
-//                     '->',
-                    
-                    me.workCombo,
-						// me.searchTextField,
+						{
+							xtype: 'splitter',
+							html: '&#160;',
+							height: 14,
+							width: 2, // TODO - there should be a CSS way here
+							cls: 'x-toolbar-separator x-toolbar-separator-horizontal ediTopBarSep'
+            			},
+                    	me.workCombo,
+                    	'->',
+// 						me.searchTextField,
                     	me.searchButton
                 ]
             })

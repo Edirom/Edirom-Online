@@ -234,8 +234,58 @@ div#ediromToolbar {
 }
 
 #homeBtnLabel {
-    color: rgb(146, 64, 92);
+/*     color: rgb(146, 64, 92); */
 }
+
+.ediTopBarSep {
+	border-width: 0 2px 0 1px;
+	border-color: DimGray;
+	border-radius: 3px;
+}
+
+.ediTaskBarSep {
+	border-width: 0 2px 0 1px;
+	border-color: LightGray;
+	border-radius: 3px;
+}
+
+#ediromTaskbar .ux-desktop-trayclock {
+	display: none;
+}
+
+#workSwitch {
+/* 	top: 11px !important; */
+/* 	margin-left: 20px !important; */
+/* 	border-bottom: 1px solid gray !important; */
+	padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 5px !important;
+    top: 9px !important;
+    font-size: 14px;
+    color: DimGray;
+}
+
+#workSwitch:hover {
+	box-shadow: 1px 2px 4px #888888;
+	border-radius: 20px;
+	}
+
+span#workSwitch-btnInnerEl:before {
+	color: rgb(146, 64, 92);
+	font-family: FontAwesome;
+	content: '\f054 ';
+	padding-right: 5px;
+	font-size: 10px;
+}
+
+/*
+#workswitch:before {
+	font-family: FontAwesome;
+	content: "\f078";
+	color: white;
+	
+}
+*/
 
 .x-menu-item-active {
     background-color: rgb(146, 64, 92);
