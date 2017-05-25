@@ -58,6 +58,7 @@
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
+        <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
