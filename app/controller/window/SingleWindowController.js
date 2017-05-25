@@ -49,6 +49,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
     onWindowRendered: function(win) {
         var me = this;
+        var lang = getPreference('application_language');
 
         if(win.initialized) return;
         win.initialized = true;
@@ -56,7 +57,8 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         window.doAJAXRequest('data/xql/getLinkTarget.xql',
             'POST', 
             {
-                uri: win.uri
+                uri: win.uri,
+                lang: lang
             },
             Ext.bind(function(response){
                 var data = response.responseText;

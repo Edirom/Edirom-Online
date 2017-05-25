@@ -31,6 +31,27 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedMEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
+declare function local:getLocalizedTEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/tei:title/@xml:lang)
+      then $node/tei:title[@xml:lang = $lang]/text()
+      else $node/tei:title[1]/text()
+
+};
+
+
 declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
@@ -147,25 +168,25 @@ let $type :=
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then(($doc//mei:work/mei:titleStmt)[1]/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
 
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt[1]/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
+              then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
               
               else if($type = 'html' and contains($docUri, 'rwaEncyclo'))
-              then('Umfeld der Werke')
+              then(if ($lang = 'de') then('Umfeld der Werke') else ('Context of the Works'))
               
               else if($type = 'html' and contains($docUri, 'rwaTextComp'))
-              then('Textvergleich')
+              then(if ($lang =  'de') then('Textvergleich') else ('Text comparison'))
               
               (: HTML :)
               else if($type = 'html')
