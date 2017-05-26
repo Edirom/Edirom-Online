@@ -60,27 +60,37 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 filters: []
             }],
             columns: [
+// 	            Not needed for RWA
+/*
             	{
                     header: getLangString('view.window.AnnotationView_No'),
                     dataIndex: 'pos',
                     width: 35
                 },
+*/
                 {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
-                    flex: 2,
-                    filter: true
+                    flex: 4,
+                    filter: true,
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Categories'),
                     dataIndex: 'categories',
-                    flex: 1,
-                    filter: true
+                    flex: 2,
+                    filter: true,
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Priority'),
                     dataIndex: 'priority',
-                    hidden: true
+                    flex: 1,
+                    filter: true,
+                },
+                {
+                    header: getLangString('view.window.AnnotationView_Sigla'),
+                    dataIndex: 'sigla',
+                    flex: 2,
+                    filter: true,
                 }
             ]
         });

@@ -73,6 +73,7 @@
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
+        <entry key="view.window.AnnotationView_Sigla" value="Source"/>
         <entry key="view.window.AnnotationView_List" value="List"/>
         <entry key="view.window.AnnotationView_Display" value="Display"/>
         <entry key="view.window.AnnotationView_Grid" value="Grid view"/>

@@ -84,6 +84,18 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     let $title := normalize-space(local:getLocalizedTitle($anno))
     let $doc := $anno/root()
     let $prio := local:getLocalizedName($doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2)))
+    let $pList := distinct-values(tokenize($anno/@plist, ' '))
+    let $pList := for $p in $pList 
+                    return if ( contains($p, '#'))
+                                then (substring-before($p, '#'))
+                                else $p
+    let $sigla := string-join(
+                    for $p in distinct-values($pList)
+                    let $pDoc := doc($p)
+                    return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
+                            then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
+                            else ()
+    , ', ')
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs
@@ -97,6 +109,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
             '", "categories": "', $cats,
             '", "priority": "', $prio,
             '", "pos": "', $count,
+            '", "sigla": "', $sigla,
             '" }', '')
 };
 
