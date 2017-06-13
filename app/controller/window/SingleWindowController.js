@@ -73,7 +73,24 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var me = this;
         var views = [];
         
+        //console.log("onMetaDataLoaded config");
+        //console.log(config);
+        
         Ext.Array.each(config.views, function(view) {
+	        
+	        //console.log("onMetaDataLoaded");
+	        //console.log(view);
+	        
+	        var uri = view.uri;
+	        
+	        if(view.type == "iFrameView" && config["term"] != "" && config["path"] != "") {
+		        //console.log("TERM FOUND");
+		        uri = uri + "?term=" + config["term"] + "&path=" + config["path"] + "#searchTarget";
+	        }
+	        
+	        if(view.type == "iFrameView" && config["internalId"] != "") {
+		        uri = uri + "#" + config["internalId"];
+	        }
 
             views.push(this.createView(view.type, {
                 window:win,
@@ -81,7 +98,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
                 viewType: view.type,
                 viewLabel: view.label,
                 defaultView: view.defaultView,
-                uri:view.uri
+                uri:uri
             }));
 
         }, me);
@@ -97,6 +114,9 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var id = type;
         var label = (config.viewLabel && config.viewLabel != ''?config.viewLabel:me.getLabel(type));
         var viewClass = me.getViewClass(type);
+        
+        //console.log("createView");
+        //console.log(config);
 
         return {
             id: id,
