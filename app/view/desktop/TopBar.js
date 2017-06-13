@@ -45,6 +45,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
             cls: 'insetButton',
             indent: false,
             menu : {
+	            maxHeight:500,
                 items: []
             }
         });
