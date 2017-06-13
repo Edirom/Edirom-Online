@@ -116,8 +116,8 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
     clear: function() {
         var me = this;
-        console.log("clear");
-        console.log(me.shapes);
+        //console.log("clear");
+        //console.log(me.shapes);
 
         // remove all shapes
         var keys = [];
@@ -127,7 +127,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         
         for(var i = 0; i < keys.length; i++) {
 	        var groupName = keys[i];
-	        console.log(groupName);
+	        //console.log(groupName);
             me.removeShapes(groupName);
         };
 
@@ -415,7 +415,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     removeShapes: function(groupName) {
-	    console.log("removeShape: " + groupName)
+	    //console.log("removeShape: " + groupName)
         var me = this;
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
 
@@ -430,7 +430,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             }catch(e) {
                 id = shape.id;
             }
-			console.log(shapeDiv.getById(me.id + '_' + id));
+			//console.log(shapeDiv.getById(me.id + '_' + id));
             Ext.removeNode(shapeDiv.getById(me.id + '_' + id).dom);
         };
 
