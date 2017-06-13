@@ -163,5 +163,6 @@
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>
         
+        <entry key="contentsWord" value="Inhaltsverzeichnis"/>
     </entries>
 </langFile>
