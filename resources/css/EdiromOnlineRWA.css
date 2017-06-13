@@ -1,3 +1,8 @@
+.ediromWindow .x-panel-body {
+    overflow: hidden !important;
+}
+
+
 .sub {
     font-size: 60%;
     vertical-align: sub;
@@ -265,6 +270,15 @@ div#ediromToolbar {
 	border-width: 0 2px 0 1px;
 	border-color: LightGray;
 	border-radius: 3px;
+}
+
+.x-toolbar-separator, #helpBtn{
+display: none;
+    
+}
+
+#ediromTaskbar {
+	z-index: 30000 !important;
 }
 
 #ediromTaskbar .ux-desktop-trayclock {
