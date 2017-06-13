@@ -72,25 +72,25 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
                     flex: 4,
-                    filter: true,
+                    filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Categories'),
                     dataIndex: 'categories',
                     flex: 2,
-                    filter: true,
+                    filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Priority'),
                     dataIndex: 'priority',
                     flex: 1,
-                    filter: true,
+                    filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Sigla'),
                     dataIndex: 'sigla',
                     flex: 2,
-                    filter: true,
+                    filter: true
                 }
             ]
         });
