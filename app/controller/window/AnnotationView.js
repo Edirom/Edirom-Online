@@ -81,7 +81,8 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             'GET', 
             {
                 uri: uri,
-                edition: editionId
+                /*From Freidi: edition: editionId*/
+                edition: EdiromOnline.getApplication().activeEdition
             },
             Ext.bind(function(response){
                 var data = Ext.JSON.decode(response.responseText);

@@ -91,6 +91,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     showImage: function(path, width, height, pageId) {
+    
         var me = this;
 
         me.imgWidth = width;
@@ -115,6 +116,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     clear: function() {
+    
         var me = this;
 
         // remove all shapes
@@ -141,6 +143,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     addAnnotations: function(annotations) {
+    	
         var me = this;
 
         me.shapes.add('annotations', []);
@@ -161,7 +164,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             var categories = annotation.get('categories');
             var priority = annotation.get('priority');
             var fn = annotation.get('fn');
-
+           
             var plist = Ext.Array.toArray(annotation.get('plist'));
             Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
 
@@ -209,7 +212,10 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                         'GET', 
                         {
                             uri: uri,
-                            target: 'tip'
+                            target: 'tip',
+                            edition: EdiromOnline.getApplication().activeEdition
+                       
+
                         },
                         Ext.bind(function(response){
                             this.update(response.responseText);
@@ -223,6 +229,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     listenForShapeLink: function(e, dom, args) {
+    
         var me = this;
 
         if(e.button != 0) return;
@@ -235,10 +242,12 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     openShapeLink: function(e, dom, args) {
+    	
         eval(args.fn);
     },
 
     addMeasures: function(shapes) {
+   
         var me = this;
 
         me.shapes.add('measures', shapes);
@@ -275,6 +284,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     highlightShape: function(event, owner, shape) {
+    
         shape.addCls('highlighted');
         
         var annotId = shape.getAttribute('data-edirom-annot-id');
@@ -283,6 +293,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     deHighlightShape: function(event, owner, shape) {
+    
         shape.removeCls('highlighted');
         
         var annotId = shape.getAttribute('data-edirom-annot-id');
@@ -291,6 +302,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     repositionShapes: function() {
+    
         var me = this;
 
         if(me.shapesHidden) return;
@@ -394,17 +406,20 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     getShapes: function(groupName) {
+    
         var me = this;
         return me.shapes.get(groupName);
     },
 
     getShapeElem: function(shapeId) {
+   
         var me = this;
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
         return shapeDiv.getById(me.id + '_' + shapeId);
     },
 
     removeShapes: function(groupName) {
+   
         var me = this;
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
 
@@ -432,6 +447,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     hideShapes: function() {
+    
         var me = this;
         if(!me.shapesHidden) {
             me.shapesHidden = true;
@@ -441,6 +457,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     showShapes: function() {
+    
         var me = this;
         if(me.shapesHidden) {
             me.shapesHidden = false;
@@ -451,6 +468,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     addSVGOverlay: function(overlayId, overlay) {
+    
         var me = this;
         var sibling = me.el.getById(me.id + '_facsContEvents');
 
@@ -471,13 +489,14 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     removeSVGOverlay: function(overlayId) {
+    
         var me = this;
         me.svgOverlays.get(overlayId).destroy();
         me.svgOverlays.removeAtKey(overlayId);
     },
 
     onMouseDown: function(e) {
-
+   
         var me = this;
 
         me.hiResImg.hide();
@@ -494,6 +513,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     onMouseMove: function(e) {
+    
         var me = this;
 
         var offX = me.mouseOffX - (me.posX - e.getPageX());
@@ -503,6 +523,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     onMouseUp: function(e) {
+   
         var me = this;
 
         Ext.getDoc().un('mousemove', me.onMouseMove, me);
@@ -518,6 +539,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     onScroll: function(e) {
+    
         var me = this, delta;
 
         me.hiResImg.hide();
@@ -550,6 +572,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     hiResAfterScroll: function(zoomTime) {
+    
         var me = this;
 
         if(me.lastZoom == zoomTime) {
@@ -559,12 +582,14 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     fitInImage: function() {
+    
         var me = this;
 
         me.showRect(0, 0, me.imgWidth, me.imgHeight);
     },
 
     showRect: function(x, y, width, height, highlight) {
+    
         var me = this;
 
         me.hiResImg.hide();
@@ -600,6 +625,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
     
     getActualRect: function() {
+    
         var me = this;
         return {
             x: Math.max(Math.round(- me.offX / me.zoom), 0),
@@ -610,6 +636,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     createTempRect: function(x, y, width, height) {
+    
         var me = this;
 
         if(!me.shapes.containsKey('temp'))
@@ -647,6 +674,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     destroyTempRect: function(shape) {
+    
         var me = this;
         
         if(typeof me.el == 'undefined') return;
@@ -667,6 +695,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     setZoomAndCenter: function(z) {
+    
         var me = this;
 
         me.hiResImg.hide();
@@ -684,6 +713,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     setSVGZoom: function(z) {
+    
         var me = this;
 
         me.zoom = z;
@@ -700,6 +730,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     setSVGOffset: function(x, y) {
+    
         var me = this;
 
         me.offX = x;
@@ -715,7 +746,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     },
 
     calculateHiResImg: function() {
-
+    
         var me = this;
 
         if(me.zoom < me.baseImgZoom || typeof me.hiResImg == 'undefined') return;
@@ -772,9 +803,11 @@ Ext.define('EdiromOnline.view.window.image.ImageLoader', {
 
         Ext.apply(me, config);
         me.img = new Image();
+        
     },
 
     addJob: function(job) {
+   
         var me = this;
 
         me.queue.push(job);
@@ -786,7 +819,7 @@ Ext.define('EdiromOnline.view.window.image.ImageLoader', {
     },
 
     runJob: function(me, job) {
-
+    
         if(Ext.Array.indexOf(me.queue, job) != me.queue.length - 1) {
             return;
         }

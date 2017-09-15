@@ -532,7 +532,7 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
         });
 
         // replace normal window close w/fadeOut animation:
-        win.doClose = function ()  {
+       /* win.doClose = function ()  {
             win.doClose = Ext.emptyFn; // dblclick can call again...
             win.el.disableShadow();
             win.el.fadeOut({
@@ -542,7 +542,7 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
                     }
                 }
             });
-        };
+        };*/
 
         return win;
     },

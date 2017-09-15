@@ -38,8 +38,8 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
-
+(:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
+(:declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";:)
 
 declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:string, $annotations as element()*, $elems as element()*) as xs:string* {
     for $annotation in $annotations
@@ -116,9 +116,12 @@ declare function local:getAnnotSVGs($surfaceUri as xs:string, $anno as element()
     return
         string-join(
             for $fig in $figs
+            let $fig := string($fig/@xml:id)
+            let $xslInstruction := $fig/svg:svg
+            let $ser := util:serialize($xslInstruction, ())
+            let $repl := replace(replace($ser, '"', '\\"'), '\n', '')
             return 
-		        concat('{id:"', $annoId, '__', string($fig/@xml:id), '",svg:"', replace(replace(util:serialize($fig/svg:svg, ()), '"', '\\"'), '\n', ''),'"}')
-        , ",")
+		        concat('{id:"', $annoId, '__', $fig, '",svg:"', $repl,'"}'), ",")
 };
 
 (:~
@@ -148,10 +151,15 @@ let $measureLike :=
 
 let $targetLike := $zones | $measureLike
 
+
 let $annotations := local:findAnnotations($uri, $targetLike/@xml:id)
+
+let $annots := collection('/db/contents')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $test := local:getAnnotations($uriSharp, $surfaceId, $annots, $targetLike)
 
 return (
     concat('[',
-	    string-join(local:getAnnotations($uriSharp, $surfaceId, $annotations, $targetLike), ','),
+	    string-join($test, ','),
     ']')
 )
+

@@ -20,7 +20,7 @@ Ext.define('EdiromOnline.Application', {
     name: 'EdiromOnline',
 
     extend: 'Ext.app.Application',
-
+    
     controllers: [
         'AJAXController',
         'LanguageController',
@@ -61,13 +61,17 @@ Ext.define('EdiromOnline.Application', {
     ],
     
     //TODO:
-    activeEdition: 'xmldb:exist:///db/contents/edition-50127042.xml',
-    activeWork: 'edirom_work_743373fb-4dcf-4329-90c0-fd1eacc9ea69', 
+    activeEdition: 'xmldb:exist:///db/contents/h-moll/edition.xml',
+   /* activeWork: 'edirom_work_743373fb-4dcf-4329-90c0-fd1eacc9ea69', */
 
     launch: function() {
         var me = this;
        
         me.addEvents('workSelected');
+        
+        var editionParam = me.getURLParameter('edition');
+        if(editionParam !== null)
+            me.activeEdition = editionParam;
         
         Ext.Ajax.request({
             url: 'data/xql/getEditionURI.xql',
@@ -80,6 +84,10 @@ Ext.define('EdiromOnline.Application', {
             },
             scope: this
         });
+        
+        var workParam = me.getURLParameter('work');
+        if(workParam !== null)
+            me.activeWork = workParam;
         
         Ext.Ajax.request({
             url: 'data/xql/getWorkID.xql',
@@ -151,5 +159,9 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-	}
+	},
+	
+	getURLParameter: function(parameter) {
+        return decodeURIComponent((new RegExp('[?|&]' + parameter + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
 });

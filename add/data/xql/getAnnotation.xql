@@ -34,13 +34,17 @@ import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
-
 declare variable $imageWidth := 600;
-declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $imageBasePath := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
 
 (: TODO: in Modul auslagern :)
 (:~
@@ -167,8 +171,15 @@ declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as 
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
     
+    let $cut_path := substring-before($imagePath, '.')
+    
+    let $im_path := if($imageserver = 'digilib')
+    	then(concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $height, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit'))
+    	else(   	   		
+    		concat($basePath, $cut_path, '/0-0-0.jpg'))    
     return
-        concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $height, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
+		$im_path
+
 };
 
 (:
@@ -243,13 +254,26 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
     for $zone in $zones
     let $e := $elems[substring(@facs,2) = $zone/@xml:id][1]
     let $e := if($e)then($e)else($zone)
-    return
-        <div class="previewItem" style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
+    
+    let $test := if($imageserver  = 'digilib')
+    	then(
+    	<div class="previewItem" style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
             <div class="imgBox">
                 <img src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}" class="previewImg" />
             </div>
             <div class="label">{local:getItemLabel($e)}</div>
         </div>
+    	)
+    	else(
+    	<div class="previewItem" style="width: {256}px; height: {256}px;">
+            <div class="imgBox">
+                <img src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}" class="previewImg" />
+            </div>
+            <div class="label">{local:getItemLabel($e)}</div>
+        </div>
+    	)
+    	
+    	return $test
 };
 
 let $uri := request:get-parameter('uri', '')
@@ -300,21 +324,41 @@ return
                 <h1>{$annot/mei:title/text()}</h1>
                 {annotation:getContent($annot,'')} 
             </div>
-            <div class="previewArea">
+           
+            	<!-- <div class="previewArea">
                 {
+                
+                 if($imageserver = 'digilib') then ( 
                     for $pUri in tokenize($annot/string(@plist), ' ')
                     let $elem := doc(substring-before($pUri, '#'))/id(substring-after($pUri, '#'))
-                    let $zone := local:getZone($elem)
-                    return
+                    let $zone := local:getZone($elem)                              	
+        				return
                         <div class="previewItem">
-                            <div class="imgBox">
+                            <div class="imgBox">                          
                                 <img src="{local:getImageAreaPath($imageBasePath, $zone, $imageWidth)}" class="previewImg" onclick="loadLink('{$pUri}')" />
                                 <input type="hidden" class="previewImgData" value="{concat('{width:', number($zone/@lrx) - number($zone/@ulx), ', height:', number($zone/@lry) - number($zone/@uly), '}')}"/>
                             </div>
                             <div class="label">{concat('Takt ', $elem/@n)}</div>
                         </div>
+            		
+                  )
+            	else(
+                	for $pUri in tokenize($annot/string(@plist), ' ')
+                    let $elem := doc(substring-before($pUri, '#'))/id(substring-after($pUri, '#'))
+                    let $zone := local:getZone($elem)  
+                	return
+    				<div class="previewItem">
+                            <div class="imgBox">                          
+                                <img src="{local:getImageAreaPath($imageBasePath, $zone, $imageWidth)}" class="previewImg" onclick="loadLink('{$pUri}')" />
+                                <input type="hidden" class="previewImgData" value="{concat('{width:', number($zone/@lrx) - number($zone/@ulx), ', height:', number($zone/@lry) - number($zone/@uly), '}')}"/>
+                            </div>
+                            <div class="label">{concat('Takt ', $elem/@n)}</div>
+                        </div>
+    				)
+     
                 }
-            </div>
+            </div>-->
+            
         </div>
     )
     else(
@@ -341,12 +385,12 @@ return
                 <h1>{$annot/mei:title/text()}</h1>
                 {annotation:getContent($annot,'')}
             </div>
-            <div class="previewArea">
+           <!-- <div class="previewArea">
                 {
                     local:calculatePreviewsForTip(tokenize($annot/string(@plist),' '))
                     
                 }
-            </div>
+            </div>-->
         </div>
         
     )
