@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.source.VerovioView', {
-	extend: 'Ext.panel.Panel',
-	
-	mixins: {
-		observable: 'Ext.util.Observable'
-	},
+	extend: 'EdiromOnline.view.window.View',
 	
 	requires:[
 	'EdiromOnline.view.window.image.VerovioImage',
@@ -118,6 +114,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 			fieldLabel: 'Rendering View',
 			store: storeField,
 			queryMode: 'local',
+			width: 230,
 			displayField: 'name',
 			editable: false,
 			
@@ -137,8 +134,8 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		});
 		combo.setValue(storeField[0]);
 		
-		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.PageSpinner', {
-			width: 111,
+		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.VerovioPageSpinner', {
+			width: 120,
 			cls: 'pageSpinner'
 		});
 		
@@ -149,7 +146,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	}
 });
 
-Ext.define('EdiromOnline.view.window.source.PageSpinner', {
+Ext.define('EdiromOnline.view.window.source.VerovioPageSpinner', {
 	extend: 'Ext.container.Container',
 	
 	alias: 'widget.verovioPageSpinner',

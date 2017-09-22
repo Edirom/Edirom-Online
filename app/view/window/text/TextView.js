@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.text.TextView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
     ],
@@ -339,8 +335,18 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
     },
 
     setContent: function(text) {
-        Ext.fly(this.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', this);
+        var me = this;
+		
+		Ext.fly(me.id + '_textCont').update(text);
+		this.fireEvent('documentLoaded', me);
+		
+		Tipped.create('#' + me.id + '_textCont .tipped', { position: 'top', maxWidth: 300 });
+		
+		Ext.Array.each(Ext.query('.scrollto'), function(dom, n, all) {
+            var elem = Ext.get(dom);
+            var scrollTo = elem.getAttribute('data-footnote');
+            elem.on('click', Ext.bind(me.scrollToId, me, [scrollTo]));
+        }, me);
     },
 
     setChapters: function(chapters) {
@@ -384,10 +390,22 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         this.fireEvent('gotoChapter', this, chapterId);
     },
 
-    loadInternalId: function() {
-        var me = this;
+    getWeightForInternalLink: function (uri, type, id) {
+		var me = this;
+		
+		if (me.uri != uri)
+		return 0;
+		
+		if (type == 'unknown' || type == 'graphic' || type == 'surface' || type == 'zone')
+		return 0;
+		
+		return 70;
+	},
+	
+	loadInternalId: function (internalId, internalIdType) {
+		var me = this;
 
-        var container = Ext.fly(this.id + '_textCont');
+        var container = Ext.fly(me.id + '_textCont');
         var elem = container.getById(me.id + '_' + me.window.internalId);
         if(elem) {
             me.window.requestForActiveView(me);
@@ -399,13 +417,16 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         
         var elem = Ext.get(this.id + '_' + id);
 
-        var container = Ext.select('#' + this.id + ' div.x-panel-body');
-        container = container.last();
+        var showHide = !elem.isVisible();
 
-        elem.scrollIntoView(container, false, true, false);
-    },
-    
-    getContentConfig: function() {
+        if(showHide) elem.show();
+        
+        Ext.getDom(elem).scrollIntoView(true);
+        
+        if(showHide) elem.hide();
+	},
+	
+	getContentConfig: function() {
         var me = this;
         return {
             id: this.id

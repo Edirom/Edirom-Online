@@ -35,19 +35,25 @@ declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
         (: SummaryView :)
-        concat("{type:'summaryView',uri:'", $docUri, "'}"),
+        (:concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
         if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
 
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),
+        
         (: SourceView :)
-        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
+
+        (: AudioView :)
+        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
 		(: VerovioView :)
-        if($doc//mei:body//mei:measure) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:body//mei:measure and $doc//mei:body//mei:note) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
 
         (: TextView :)
-        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView',uri:'", $docUri, "'}")) else(),
+        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
         (: SourceView :)
         if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
@@ -56,13 +62,20 @@ declare function local:getViews($type, $docUri, $doc) {
         if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
 
         (: AnnotationView :)
-        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView', defaultView:true, uri:'", $docUri, "'}")) else(),
         
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
+
+        (: iFrameView :)
+        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),
+        
         (: XmlView :)
-        concat("{type:'xmlView',uri:'", $docUri, "'}")
+        concat("{type:'xmlView',uri:'", $docUri, "'}"),
+
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
     ), ',')
 };
 
@@ -101,6 +114,10 @@ let $type :=
              if(exists($doc//mei:mei) and exists($doc//mei:work))
              then(string('work'))
              
+             (: Recording :)
+             else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+             then(string('recording'))
+             
              (: Source / Score :)
              else if(exists($doc//mei:mei) and exists($doc//mei:source))
              then(string('source'))
@@ -110,19 +127,31 @@ let $type :=
              else if(exists($doc/tei:TEI))
              then(string('text'))
              
+             (: HTML :)
+             else if(exists($doc/html))
+             then(string('html'))
+             
              else(string('unknown'))
              
 let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
+              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
+              then(($doc//mei:workDesc/mei:work/mei:titleStmt)[1]/data(mei:title[1]))
               
+              (: Recording :)
+              else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
+
               (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
+              then(($doc//mei:sourceDesc/mei:source/mei:titleStmt)[1]/data(mei:title[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
+              
+              (: HTML :)
+              else if($type = 'html')
+              then($doc//head/data(title))
              
               else(string('unknown'))
               

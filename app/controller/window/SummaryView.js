@@ -17,42 +17,46 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.controller.window.SummaryView', {
+	
+	extend: 'Ext.app.Controller',
+	
+	views:[
+	'window.SummaryView'],
+	
+	init: function () {
+		this.control({
+			'summaryView': {
+				show: this.onAfterLayout
+			}
+		});
+	},
+	
+	onAfterLayout: function (view) {
+		
+		var me = this;
+		
+		if (view.initialized) return;
+		view.initialized = true;
+		
+		var uri = view.uri;
+		var type = view.type;
+		var app = EdiromOnline.getApplication();
+		var activeEdition = app.activeEdition
+		
+		Ext.Ajax.request({
+			url: 'data/xql/getSummary.xql',
+			method: 'GET',
+			params: {
+				uri: uri,
+				type: type,
+				edition: activeEdition
+			},
+			success: function (response) {				
+				var data = response.responseText;
 
-    extend: 'Ext.app.Controller',
-
-    views: [
-        'window.SummaryView'
-    ],
-
-    init: function() {
-        this.control({
-            'summaryView': {
-               show : this.onAfterLayout
-            }
-        });
-    },
-
-    onAfterLayout: function(view) {
-
-        var me = this;
-
-        if(view.initialized) return;
-        view.initialized = true;
-
-        var uri = view.uri;
-        var type = view.type;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getSummary.xql',
-            method: 'GET',
-            params: {
-                uri: uri,
-                type: type
-            },
-            success: function(response){
-                view.setContent(response.responseText);
-            },
-            scope: this
-        });
-    }
+                view.setContent(data);
+			},
+			scope: this
+		});
+	}
 });

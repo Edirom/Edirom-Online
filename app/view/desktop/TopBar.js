@@ -27,6 +27,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
     alias : 'widget.topbar',
 	id : 'ediromToolbar',
 	
+    height: 41,
+
     initComponent: function () {
 
         var me = this;
@@ -69,8 +71,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                    // me.homeButton,
                    // { xtype: 'tbtext', text: '', id: 'homeBtnLabel' },
                    // this.workCombo,
-                    '->',
-                    //me.searchTextField,
+                   // me.searchTextField,
                     me.searchButton
                 ]
             })

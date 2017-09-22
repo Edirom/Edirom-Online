@@ -24,7 +24,10 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         'EdiromOnline.view.window.HeaderView',
         //TODO:'de.edirom.online.view.window.SearchView',
         'EdiromOnline.view.window.SummaryView',
+        'EdiromOnline.view.window.iFrameView',
         'EdiromOnline.view.window.XmlView',
+        'EdiromOnline.view.window.audio.AudioView',
+	'EdiromOnline.view.window.source.VerovioView',
         'EdiromOnline.view.window.source.SourceView',
         'EdiromOnline.view.window.text.FacsimileView',
         'EdiromOnline.view.window.text.TextFacsimileSplitView',
@@ -103,11 +106,13 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getLabel: function(type) {
         switch(type) {
             case 'summaryView': return getLangString('controller.window.Window_summaryView');
+            case 'iFrameView': return getLangString('controller.window.Window_iFrameView');
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
-            case 'verovioView': return getLangString('controller.window.Window_verovioView');
+            case 'audioView': return getLangString('controller.window.Window_audioView');
+	        case 'verovioView': return getLangString('controller.window.Window_verovioView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
-            case 'facsimileView': return 'Faksimile';
+            case 'facsimileView': return 'Facsimile';
             case 'textView': return getLangString('controller.window.Window_textView');
             case 'annotationView': return getLangString('controller.window.Window_annotationView');
             case 'textFacsimileSplitView': return getLangString('controller.window.Window_textFacsimileSplitView');
@@ -118,9 +123,11 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getViewClass: function(type) {
         switch(type) {
             case 'summaryView': return 'EdiromOnline.view.window.SummaryView';
+            case 'iFrameView': return 'EdiromOnline.view.window.iFrameView';
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
-            case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
+            case 'audioView': return 'EdiromOnline.view.window.audio.AudioView';
+	    case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
             case 'headerView': return 'EdiromOnline.view.window.HeaderView';
             case 'textView': return 'EdiromOnline.view.window.text.TextView';
             case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';
