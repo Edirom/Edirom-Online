@@ -28,16 +28,27 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedName($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
+      then $node/edirom:names/edirom:name[@xml:lang = $lang]/text()
+      else $node/edirom:names/edirom:name[1]/text()
+};
+
 declare function local:getCategory($category, $depth) {
 
-
+    let $name := local:getLocalizedName($category)
+    return
     <div class="navigatorCategory{if($depth = 1)then()else($depth)}" id="{$category/@xml:id}">
         <div class="navigatorCategoryTitle{if($depth = 1)then()else($depth)}">
             {
                 if($depth = 1)
-                then($category/edirom:names/edirom:name[1]/text())
+                then($name)
                 else(
-                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$category/edirom:names/edirom:name[1]/text()}<i class="fa fa-caret-right fa-fw"></i></span>
+                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$name}<i class="fa fa-caret-right fa-fw"></i></span>
                 )
             }            
         </div>
@@ -70,7 +81,7 @@ declare function local:getItem($item, $depth) {
     return
 
     <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
-        { $item//edirom:name[1]/node() }
+        { local:getLocalizedName($item) }
     </div>
 };
 
