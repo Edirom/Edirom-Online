@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs xd" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:mei="http://www.music-encoding.org/ns/mei" 
+	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs xd" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -69,6 +72,9 @@
             <xsl:if test="@fontweight">
                 font-weight: <xsl:value-of select="@fontweight"/>;
             </xsl:if>
+            <xsl:if test="not(@fontweight) and @rend='bold'">
+                font-weight: <xsl:value-of select="'bold'"/>;
+            </xsl:if>
             <xsl:if test="@fontstyle">
                 font-style: <xsl:value-of select="if(@fontstyle eq 'ital') then('italic') else(@fontstyle)"/>;
             </xsl:if>
@@ -92,6 +98,14 @@
                 <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
             </xsl:if>
         </br>
+    </xsl:template>
+    <xsl:template match="mei:quote">
+        <span class="quote">
+            <xsl:if test="@xml:id">
+                <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
+            </xsl:if>
+            <xsl:apply-templates select="* | text()"/>
+        </span>
     </xsl:template>
     <xsl:template match="mei:fig[./mei:graphic]">
         <!-- TODO: abfangen, wenn sowohl fig als auch graphic eine ID haben… -->

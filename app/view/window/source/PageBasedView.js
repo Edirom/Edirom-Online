@@ -18,14 +18,11 @@
  *
  */
 Ext.define('EdiromOnline.view.window.source.PageBasedView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
-        'EdiromOnline.view.window.image.ImageViewer'
+        'EdiromOnline.view.window.image.ImageViewer',
+        'EdiromOnline.view.window.image.LeafletFacsimile'
     ],
 
     alias : 'widget.pageBasedView',
@@ -38,38 +35,61 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     imageToShow: null,
     
     cls: 'pageBasedView',
-
+    
     initComponent: function () {
-
-        this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
-
+    
+    	var image_server = getPreference('image_server');
+    	
+    	if(image_server === 'leaflet'){
+    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
+    		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
+    	}
+    	else{
+    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+    	}
+    
         this.items = [
             this.imageViewer
         ];
 
         this.callParent();
-
-        this.imageViewer.on('zoomChanged', this.updateZoom, this);
+        
+ 		this.imageViewer.on('zoomChanged', this.updateZoom, this);
+        
     },
 
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
-
-        var annotations = me.imageViewer.getShapes('annotations');
+     
+     	var image_server = getPreference('image_server');
+     
+         var annotations = me.imageViewer.getShapes('annotations');
+          
+            if(image_server === 'leaflet'){   
+            	me.imageViewer.removeShapes('annotations');
+            	me.imageViewer.addAnnotations(annotations);
+        		me.imageViewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
+        		return;
+        }
+                 
         var fn = Ext.bind(function(annotation) {
             var annotDiv = this.imageViewer.getShapeElem(annotation.id);
+         
             var className = annotDiv.dom.className.replace('annotation', '').trim();
+            
             var classes = className.split(' ');
-
+            
             var hasCategory = false;
             var hasPriority = false;
 
             for(var i = 0; i < classes.length; i++) {
                 hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
+                
                 hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
+               
             }
-
-            annotDiv.setVisible(hasCategory & hasPriority);
+            annotDiv.setVisible(true);
+            //annotDiv.setVisible(hasCategory & hasPriority);
         }, me);
 
         if(annotations.each)
@@ -79,6 +99,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     },
 
     setImageSet: function(imageSet) {
+    
         var me = this;
         me.imageSet = imageSet;
 
@@ -135,7 +156,10 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         var me = this;
 
-        me.zoomSlider = Ext.create('Ext.slider.Single', {
+       var image_server = getPreference('image_server');
+    	
+    	if(image_server === 'digilib'){
+    		me.zoomSlider = Ext.create('Ext.slider.Single', {
             width: 140,
             value: 100,
             increment: 5,
@@ -151,30 +175,45 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
                 change: Ext.bind(me.zoomChanged, me, [], 0)
             }
         });
+    	}
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner',
             owner: me
         });
         
         me.separator = Ext.create('Ext.toolbar.Separator');
         
+        if(image_server === 'digilib'){
         return [me.zoomSlider, me.separator, me.pageSpinner];
+        }
+        else{
+        	 return [me.pageSpinner];
+        }
     },
     
     hideToolbarEntries: function() {
         var me = this;
-        me.zoomSlider.hide();
+        if(typeof me.zoomSlider !== 'undefined'){
+        	me.zoomSlider.hide();
+        }       
         me.pageSpinner.hide();
-        me.separator.hide();
+        if(typeof me.separator !== 'undefined'){
+        	me.separator.hide();
+        }        
     },
     
     showToolbarEntries: function() {
         var me = this;
-        me.zoomSlider.show();
+        if(typeof me.zoomSlider !== 'undefined'){
+        	me.zoomSlider.show();
+        }         
         me.pageSpinner.show();
-        me.separator.show();
+        if(typeof me.separator !== 'undefined'){
+        	 me.separator.show();
+        }  
+       
     },
     
     fitFacsimile: function() {
@@ -205,16 +244,38 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         var me = this;
         me.imageViewer.addAnnotations(annotations);
     },
+    
+     showOverlay: function(overlayId, overlay) {
+        var me = this;
+        me.imageViewer.showOverlay(overlayId, overlay);
+    },
+    
+     hideOverlay: function(overlayId) {
+        var me = this;
+        me.imageViewer.hideOverlay(overlayId);
+    },
 
     hideAnnotations: function() {
         var me = this;
         me.imageViewer.removeShapes('annotations');
     },
 
+    hideOverlay: function(overlayId) {
+        var me = this;
+        me.imageViewer.removeSVGOverlay(overlayId);
+    },
+
+    showOverlay: function(overlayId, overlay) {
+        var me = this;
+        me.imageViewer.addSVGOverlay(overlayId, overlay);
+    },
+
     updateZoom: function(zoom) {
-        this.zoomSlider.suspendEvents();
-        this.zoomSlider.setValue(Math.round(zoom * 100));
-        this.zoomSlider.resumeEvents();
+    	if(typeof this.zoomSlider !== 'undefined'){
+        	this.zoomSlider.suspendEvents();
+        	this.zoomSlider.setValue(Math.round(zoom * 100));
+        	this.zoomSlider.resumeEvents();
+        }          
     },
 
     zoomChanged: function(slider) {

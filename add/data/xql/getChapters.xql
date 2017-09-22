@@ -53,40 +53,55 @@ declare function local:changeFormat($n) as xs:string {
 };
 
 let $uri := request:get-parameter('uri', '')
+let $mode := request:get-parameter('mode', '')
 let $tei := eutil:getDoc($uri)/root()
 
-let $ret := for $chapter in $tei//tei:div[@type='chapter'] | $tei//tei:div1
-            let $n := if($chapter/@n)then(concat($chapter/@n, ': '))else('')
-            let $label := if($chapter/tei:head)then($chapter/tei:head)else($chapter/text())
-            let $label := if(string-length($label) > 30)then(concat(substring($label, 1, 30), '…'))else($label)
+let $ret := for $elem in $tei//tei:div[@type='chapter'] | $tei//tei:div1 | $tei//tei:milestone[@unit='number'] | $tei//tei:div[@type='act']
+            let $pageId := if($mode = 'pageMode')then(substring-after($elem/preceding::tei:pb[1]/@facs, '#'))else('-1')
             return
-                concat('{',
-                    'id: "', $chapter/string(@xml:id), '", ',
-                    'name: "', concat($n, $label), '"',
-                '}')
+                if(($elem/local-name() = 'div' and $elem[@type='chapter']) or $elem/local-name() = 'div1')
+                then(
+                    let $chapter := $elem
+                    let $n := if($chapter/@n)then(concat($chapter/@n, ': '))else('')
+                    let $label := if($chapter/tei:head)then($chapter/tei:head)else($chapter/text())
+                    let $label := if(string-length($label) > 30)then(concat(substring($label, 1, 30), '…'))else($label)
+                    return
+                        concat('{',
+                            'id: "', $chapter/string(@xml:id), '", ',
+                            'name: "', concat($n, $label), '", ',
+                            'pageId: "', $pageId, '"',
+                        '}')
+                )
+                else if($elem/local-name() = 'milestone' and $elem[@unit='number'])
+                then(
+                    let $numbers := $elem
+                    let $n := concat('No. ', $numbers/@n)
+                    order by $numbers/number(replace(@n, '\D', '')), $numbers/@n
+                    return
+                        concat('{',
+                            'id: "', $numbers/string(@xml:id), '", ',
+                            'name: "', $n, '", ',
+                            'pageId: "', $pageId, '"',
+                        '}')
+                )
+                else if($elem/local-name() = 'div' and $elem[@type='act'])
+                then(
+                    let $act := $elem
+                    let $label := local:changeFormat($act/@n)                                        
+                    return
+                        for $scene in $act//tei:div[@type='scene']
+                        let $label := $label || ' - ' || string-join(for $t in $scene/tei:head//text()
+                                                        return
+                                                            if(matches($t, '\w'))then($t)else(), '')
+                        let $label := if(string-length($label) > 40)then(concat(substring($label, 1, 40), '…'))else($label)
+                        let $pageId := if($mode = 'pageMode')then(substring-after($scene/preceding::tei:pb[1]/@facs, '#'))else('-1')
+                        return
+                            concat('{',
+                                '"id": "', $scene/string(@xml:id), '", ',
+                                '"name": "', $label, '", ',
+                                'pageId: "', $pageId, '"',
+                            '}')
+                )
+                else()
 
-let $ret2 := for $numbers in $tei//tei:milestone[@unit='number']
-            let $n := concat('No. ', $numbers/@n)
-            order by $numbers/number(replace(@n, '\D', '')), $numbers/@n
-            return
-                concat('{',
-                    'id: "', $numbers/string(@xml:id), '", ',
-                    'name: "', $n, '"',
-                '}')
-
-let $ret3 := for $act in $tei//tei:div[@type='act']
-            let $label := local:changeFormat($act/@n)                                        
-            return
-                for $scene in $act//tei:div[@type='scene']
-                let $label := $label || ' - ' || string-join(for $t in $scene/tei:head//text()
-                                                return
-                                                    if(matches($t, '\w'))then($t)else(), '')
-                let $label := if(string-length($label) > 40)then(concat(substring($label, 1, 40), '…'))else($label)
-                return
-                    concat('{',
-                        '"id": "', $scene/string(@xml:id), '", ',
-                        '"name": "', $label, '"',
-                    '}')
-
-
-return concat('[', string-join($ret, ','), string-join($ret2, ','), string-join($ret3, ','), ']')
+return concat('[', string-join($ret, ','), ']')

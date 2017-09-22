@@ -44,6 +44,8 @@ return
     then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
     else if($type = 'source')
     then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
+    else if($type = 'recording')
+    then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
     else if($type = 'text')
     then(transform:transform($doc, concat($base, 'teiHeader2HTML.xsl'),<parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
     else()

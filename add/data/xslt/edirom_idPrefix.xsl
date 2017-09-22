@@ -22,6 +22,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    <xsl:template match="@data-tipped-options">
+        <xsl:attribute name="data-tipped-options" select="replace(., 'inline: ''', concat('inline: ''', $idPrefix))"/>
+    </xsl:template>
     <xsl:template match="@*">
         <xsl:copy/>
     </xsl:template>

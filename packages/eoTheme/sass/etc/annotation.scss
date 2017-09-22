@@ -1,0 +1,338 @@
+$metaBox_bg: #e5e5e5;
+$pFlow_bg: #666666;
+
+$ui_baseFont: 'Open Sans', 'Courier New', Courier, sans-serif;
+$ui_baseFont_size: 14px;
+$content_baseFont: 'Caudex', Arial, sans-serif;
+$content_baseFont_size: 14px;
+
+.annotationList {
+	.x-panel-header-default {
+		@include background(linear-gradient(top,#ffffff,#e5e5e5));
+	}
+	
+	.x-grid-row-selected .x-grid-cell, .x-grid-row-selected .x-grid-rowwrap-div {
+		@include background(linear-gradient(top,lighten(#ffd538,10%), lighten(#f07822,10%)));
+	}
+	
+}
+
+
+.annotView {
+	margin: 10px;
+	
+	.metaBox {
+		border: 1px solid #999999;
+		
+		@include background(linear-gradient(top, $metaBox_bg, darken($metaBox_bg, 20%)));
+		@include border-radius(5px, 5px);
+		
+		padding: 10px;
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		width: 240px;
+		max-height: 180px;
+		overflow: auto;
+		
+		font-family: $ui_baseFont;
+		font-size: $ui_baseFont_size * 0.8;
+				
+		.property {
+			
+			margin-bottom: 5px;
+			
+			.key {
+				padding-right: 0px;
+				font-size: $ui_baseFont_size * 0.8;
+				color: #777777 !important;
+				font-weight: 300;
+			}
+			.value {
+				min-height: 5px;
+				min-width: 5px;
+				
+				.pLink {
+					text-decoration: none;
+					color: #666666;
+				}
+			}
+			
+		}
+		
+	}
+	
+	.contentBox {
+	
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		bottom: 190px;
+		width: 250px;
+		overflow: auto;
+		
+		padding: 10px;
+		
+		font-family: $content_baseFont;
+		font-size: $content_baseFont_size;
+		
+		h1 {
+		    font-size: 1.1em;
+		}
+		
+	}
+	
+	.previewArea {
+		@include background(linear-gradient(top, #666666 0%, #cccccc 75%, #999999 100%));
+		@include border-radius(5px, 5px);
+		@include box-shadow(0 1px 6px #000000 inset);
+		
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		bottom: 10px;
+		left: 260px;
+		
+		.previewItem {
+			float: left;
+			position: relative;
+			
+			// @width will be set locally in the HTML file
+			// @height will be set locally in the HTML file
+			// Depending on the ratio of the image shown in the previewItem, an additional class will be set (see below)
+						
+			.imgBox {
+				
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				bottom: 30px;
+				left: 10px;
+				
+				padding: 2px;
+				
+				text-align: center;
+				
+				img {
+					@include box-shadow();
+				}					
+				
+			}
+			
+			.label {
+				position: absolute;
+				bottom: 5px;
+				left: 0px;
+				right: 0px;
+				
+				height: 20px;
+				padding: 0px 10px;
+				text-align: center;
+				font-family: $ui_baseFont;
+				font-size: $ui_baseFont_size * 0.7;
+				color: #ffffff;
+			}		
+		}
+		
+		.previewItem.widthLimited img {
+			width: 100%;
+		}
+						
+		.previewItem.heightLimited img {
+			height: 100%;
+		}
+	}
+
+}
+
+
+.annotTip {
+	margin: 10px;
+	
+	.metaBox {
+		display: none;
+		border: 1px solid #999999;
+		
+		@include background(linear-gradient(top, $metaBox_bg, darken($metaBox_bg, 20%)));
+		@include border-radius(5px, 5px);
+		
+		padding: 10px;
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		width: 240px;
+		max-height: 180px;
+		overflow: auto;
+		
+		font-family: $ui_baseFont;
+		font-size: $ui_baseFont_size * 0.8;
+				
+		.property {
+			
+			margin-bottom: 5px;
+			
+			.key {
+				padding-right: 0px;
+				font-size: $ui_baseFont_size * 0.8;
+				color: #777777 !important;
+				font-weight: 300;
+			}
+			.value {
+				min-height: 5px;
+				min-width: 5px;
+				
+				.pLink {
+					text-decoration: none;
+					color: #666666;
+				}
+			}
+			
+		}
+		
+	}
+	
+	.contentBox {
+	
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		bottom: 0px;
+		width: 250px;
+		overflow: hidden;
+		
+		padding: 10px;
+		
+		font-family: $content_baseFont;
+		font-size: $content_baseFont_size * 0.8;
+		
+	}
+	
+	.previewArea {
+		@include background(linear-gradient(top, $pFlow_bg, darken($pFlow_bg, 20%)));
+		@include border-radius(5px, 5px);
+		
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		bottom: 10px;
+		left: 260px;
+		padding: 8px;
+		
+		.previewItem {
+			float: left;
+			position: relative;
+			margin: 2px;
+			// @width will be set locally in the HTML file
+			// @height will be set locally in the HTML file
+			.imgBox {
+				
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				left: 0px;
+				
+				padding: 0px;
+				
+				text-align: center;
+				vertical-align: center;
+				
+				img {
+					@include box-shadow();
+				}					
+				
+			}
+			
+			.label {
+				position: absolute;
+				bottom: 2px;
+				left: 0px;
+				right: 0px;
+				
+				height: 20px;
+				padding: 0px 10px;
+				text-align: center;
+				font-family: $ui_baseFont;
+				font-size: $ui_baseFont_size * 0.7;
+				color: #ffffff;
+			}		
+		}
+		
+	}
+
+}
+
+.annotationView .x-splitter-vertical {
+	background-image: -moz-radial-gradient(50% 50% , ellipse cover, #999999, #ffffff 50%);
+	cursor: ew-resize;
+}
+
+.annotationView .x-splitter-horizontal {
+	background-image: -moz-radial-gradient(50% 50% , ellipse cover, #999999, #ffffff 50%);
+	cursor: ns-resize;
+}
+
+.annotationView .previewArea .previewItem .txtBox {
+    background-color: white;
+    bottom: 30px;
+    box-shadow: 0 0 5px #333333;
+    left: 10px;
+    padding: 4px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    overflow: auto;
+}
+
+.annotationViewContent .contentBox {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: inherit;
+}
+
+.annotationViewContent .metaBox {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: inherit;
+    max-height: inherit;
+    margin: 10px;
+}
+
+.annotationViewContent .previewArea {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+}
+
+.annotationViewContent .stepLeft {
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	left: -10px;
+	width: 50px;
+	height: 80px;
+	background-image: url('../pix/annotPreviewBackward.png');
+	z-index: 20000;
+}
+
+.annotationViewContent .stepRight {
+	position: absolute;
+	top: 50%;
+	margin-top: -40px;
+	right: -10px;
+	width: 50px;
+	height: 80px;
+	background-image: url('../pix/annotPreviewForward.png');
+	z-index: 20000;
+}
+
+
+
+/*The rendering of annotation symbols on facsimile pages is described with SCSS rules defined in _facsimile.scss.*/
+

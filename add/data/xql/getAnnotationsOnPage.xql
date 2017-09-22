@@ -28,6 +28,8 @@ xquery version "1.0";
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace svg="http://www.w3.org/2000/svg";
@@ -36,8 +38,8 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
-
+(:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
+(:declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";:)
 
 declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:string, $annotations as element()*, $elems as element()*) as xs:string* {
     for $annotation in $annotations
@@ -74,8 +76,8 @@ declare function local:findAnnotations($uri as xs:string, $elemIds as xs:string*
     (: TODO: check if annotations hold URIs or IDRefs :)
 	functx:distinct-deep(
 		for $id in $elemIds
-		let $query := <query><phrase>{concat($uri, '#', $id)}</phrase></query>
-		return collection('/db/contents')//mei:annot[ft:query(@plist, $query)]
+		let $query := <query><term>{concat($uri, '#', $id)}</term></query>
+		return collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot/@plist[tokenize(string(.), '\s+') = concat($uri, '#', $id)]/..
 	)
 };
 
@@ -114,9 +116,12 @@ declare function local:getAnnotSVGs($surfaceUri as xs:string, $anno as element()
     return
         string-join(
             for $fig in $figs
+            let $fig := string($fig/@xml:id)
+            let $xslInstruction := $fig/svg:svg
+            let $ser := util:serialize($xslInstruction, ())
+            let $repl := replace(replace($ser, '"', '\\"'), '\n', '')
             return 
-		        concat('{id:"', $annoId, '__', string($fig/@xml:id), '",svg:"', replace(replace(util:serialize($fig/svg:svg, ()), '"', '\\"'), '\n', ''),'"}')
-        , ",")
+		        concat('{id:"', $annoId, '__', $fig, '",svg:"', $repl,'"}'), ",")
 };
 
 (:~
@@ -146,10 +151,15 @@ let $measureLike :=
 
 let $targetLike := $zones | $measureLike
 
+
 let $annotations := local:findAnnotations($uri, $targetLike/@xml:id)
+
+let $annots := collection('/db/contents')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $test := local:getAnnotations($uriSharp, $surfaceId, $annots, $targetLike)
 
 return (
     concat('[',
-	    string-join(local:getAnnotations($uriSharp, $surfaceId, $annotations, $targetLike), ','),
+	    string-join($test, ','),
     ']')
 )
+

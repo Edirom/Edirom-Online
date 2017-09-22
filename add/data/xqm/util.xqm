@@ -143,8 +143,12 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
      let $projectFile := doc(edition:getPreferencesURI($edition))
      
      return    
-     if($projectFile != null) then ($projectFile//entry[@key = $key]/string(@value))
-     else ($file//entry[@key = $key]/string(@value))
+        if($projectFile != 'null') then ($projectFile//entry[@key = $key]/string(@value))
+        else ($file//entry[@key = $key]/string(@value))
+         
+(:from freidi:)
+     (:if($projectFile) then ($projectFile//entry[@key = $key]/string(@value))
+     else ($file//entry[@key = $key]/string(@value)):)
      
 };
 

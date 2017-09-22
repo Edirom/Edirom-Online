@@ -58,7 +58,7 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
                     fields: ['id', 'label', 'selectedByDefault', 'selected'],
                     data: Ext.JSON.decode(data)
                 });
-
+				
                 me.partsLoaded(parts, view);
             }, me)
         );
@@ -81,7 +81,6 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
                     fields: ['id', 'measures', 'name', 'mdivs'],
                     data: Ext.JSON.decode(data)
                 });
-
                 me.measuresLoaded(measures, view);
             }
         });        
@@ -160,14 +159,14 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
         var me = this;
         
         if(visible) {
-            Ext.Ajax.request({
-                url: 'data/xql/getAnnotationsOnPage.xql',
-                method: 'GET',
-                params: {
+            window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
+                'GET', 
+                {
                     uri: uri,
                     pageId: pageId
                 },
-                success: function(response){
+                Ext.bind(function(response){
+                    var me = this;
                     var data = response.responseText;
 
                     var annotations = Ext.create('Ext.data.Store', {
@@ -176,8 +175,8 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
                     });
 
                     me.annotationsLoaded(annotations, viewer, pageId, sourceView);
-                }
-            });
+                }, this)
+            );
         }else {
             viewer.removeShapes('annotations');
         }
