@@ -57,23 +57,22 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
 
-        Ext.Ajax.request({
-            url: 'data/xql/getMovements.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getMovements.xql',
+            'GET',
+            {
                 uri: view.uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var movements = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name'],
+                model: 'de.edirom.online.model.Movement',
                     data: Ext.JSON.decode(data)
                 });
 
                 me.movementsLoaded(movements, view);
-            }
-        });
+            }, this)
+        );
         
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',

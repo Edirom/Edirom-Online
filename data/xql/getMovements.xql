@@ -34,8 +34,16 @@ let $mei := doc($uri)/root()
 let $ret := for $movement in $mei//mei:mdiv
             return
                 concat('{',
-                    'id: "', $movement/string(@xml:id), '", ',
-                    'name: "', $movement/string(@label), '"',
+                    '"id": "', $movement/string(@xml:id), '", ',
+                    '"name": "', $movement/string(@label), '", ',
+                    '"parts": [',
+                        string-join(
+                        for $part in $movement//mei:part
+                        return ( concat('{', 
+                            '"id": "', $part/string(@xml:id), '", ',
+                            '"name": "', $part/string(@label), '"',
+                        '}')),',')
+                     ,']',
                 '}')
 
 return concat('[', string-join($ret, ','), ']')
