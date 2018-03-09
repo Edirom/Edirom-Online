@@ -1,9 +1,5 @@
 Ext.define('EdiromOnline.view.window.text.FacsimileView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
         'EdiromOnline.view.window.image.ImageViewer'
@@ -39,10 +35,21 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
 
         this.on('afterrender', this.createMenuEntries, this, {single: true});
         this.on('afterrender', this.createToolbarEntries, this, {single: true});
-        this.on('afterrender', this.onAfterRender, this, {single: true});
         this.imageViewer.on('zoomChanged', this.updateZoom, this);
 
         this.window.on('loadInternalLink', this.loadInternalId, this);
+    },
+
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'graphic' || type == 'surface' || type == 'zone')
+            return 70;
+            
+        return 0;
     },
 
     loadInternalId: function() {
@@ -144,7 +151,7 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         me.bottomBar.add(me.zoomSlider);
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner',
             owner: me
         });
@@ -165,28 +172,42 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
     },
     
-    onAfterRender: function() {
+    setChapters: function(chapters) {
         var me = this;
 
-        if(me.initialized) return;
-        me.initialized = true;
+        if(chapters.getTotalCount() == 0) return;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
-                uri: me.uri
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var pages = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.setImageSet(pages);
+        me.gotoMenu =  Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.text.TextView_gotoMenu'),
+            indent: false,
+            cls: 'menuButton',
+            menu : {
+                items: [
+                ]
             }
         });
-    }
+        me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+
+        me.chapters = chapters;
+
+        var chapterItems = [];
+        chapters.each(function(chapter) {
+            chapterItems.push({
+                text: chapter.get('name'),
+                handler: Ext.bind(me.gotoChapter, me, chapter.get('pageId'), true)
+            });
+        });
+
+        me.gotoMenu.menu.add(chapterItems);
+        me.gotoMenu.show();
+    },
+	
+	gotoChapter: function (menuItem, event, pageId) {
+		this.fireEvent('gotoChapter', this, pageId);
+	},
+    
+    gotoPage: function (pageId) {
+		var me = this;
+		me.pageSpinner.setPage(me.imageSet.getById(pageId));
+	}
 });

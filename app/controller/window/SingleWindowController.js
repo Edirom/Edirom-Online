@@ -24,7 +24,10 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         'EdiromOnline.view.window.HeaderView',
         //TODO:'de.edirom.online.view.window.SearchView',
         'EdiromOnline.view.window.SummaryView',
+        'EdiromOnline.view.window.iFrameView',
         'EdiromOnline.view.window.XmlView',
+        'EdiromOnline.view.window.audio.AudioView',
+	'EdiromOnline.view.window.source.VerovioView',
         'EdiromOnline.view.window.source.SourceView',
         'EdiromOnline.view.window.text.FacsimileView',
         'EdiromOnline.view.window.text.TextFacsimileSplitView',
@@ -46,6 +49,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
     onWindowRendered: function(win) {
         var me = this;
+        var lang = getPreference('application_language');
 
         if(win.initialized) return;
         win.initialized = true;
@@ -53,7 +57,8 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         window.doAJAXRequest('data/xql/getLinkTarget.xql',
             'POST', 
             {
-                uri: win.uri
+                uri: win.uri,
+                lang: lang
             },
             Ext.bind(function(response){
                 var data = response.responseText;
@@ -68,7 +73,24 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var me = this;
         var views = [];
         
+        //console.log("onMetaDataLoaded config");
+        //console.log(config);
+        
         Ext.Array.each(config.views, function(view) {
+	        
+	        //console.log("onMetaDataLoaded");
+	        //console.log(view);
+	        
+	        var uri = view.uri;
+	        
+	        if(view.type == "iFrameView" && config["term"] != "" && config["path"] != "") {
+		        //console.log("TERM FOUND");
+		        uri = uri + "?term=" + config["term"] + "&path=" + config["path"] + "#searchTarget";
+	        }
+	        
+	        if(view.type == "iFrameView" && config["internalId"] != "") {
+		        uri = uri + "#" + config["internalId"];
+	        }
 
             views.push(this.createView(view.type, {
                 window:win,
@@ -76,7 +98,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
                 viewType: view.type,
                 viewLabel: view.label,
                 defaultView: view.defaultView,
-                uri:view.uri
+                uri:uri
             }));
 
         }, me);
@@ -92,6 +114,9 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var id = type;
         var label = (config.viewLabel && config.viewLabel != ''?config.viewLabel:me.getLabel(type));
         var viewClass = me.getViewClass(type);
+        
+        //console.log("createView");
+        //console.log(config);
 
         return {
             id: id,
@@ -103,9 +128,11 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getLabel: function(type) {
         switch(type) {
             case 'summaryView': return getLangString('controller.window.Window_summaryView');
+            case 'iFrameView': return getLangString('controller.window.Window_iFrameView');
             case 'xmlView': return getLangString('controller.window.Window_xmlView');
             case 'sourceView': return getLangString('controller.window.Window_sourceView');
-            case 'verovioView': return getLangString('controller.window.Window_verovioView');
+            case 'audioView': return getLangString('controller.window.Window_audioView');
+	        case 'verovioView': return getLangString('controller.window.Window_verovioView');
             case 'headerView': return getLangString('controller.window.Window_headerView');
             case 'facsimileView': return 'Faksimile';
             case 'textView': return getLangString('controller.window.Window_textView');
@@ -118,9 +145,11 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
     getViewClass: function(type) {
         switch(type) {
             case 'summaryView': return 'EdiromOnline.view.window.SummaryView';
+            case 'iFrameView': return 'EdiromOnline.view.window.iFrameView';
             case 'xmlView': return 'EdiromOnline.view.window.XmlView';
             case 'sourceView': return 'EdiromOnline.view.window.source.SourceView';
-            case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
+            case 'audioView': return 'EdiromOnline.view.window.audio.AudioView';
+	    case 'verovioView': return 'EdiromOnline.view.window.source.VerovioView';
             case 'headerView': return 'EdiromOnline.view.window.HeaderView';
             case 'textView': return 'EdiromOnline.view.window.text.TextView';
             case 'facsimileView': return 'EdiromOnline.view.window.text.FacsimileView';

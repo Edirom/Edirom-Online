@@ -36,6 +36,7 @@
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
         <entry key="controller.window.Window_searchView" value="Suche"/>
         <entry key="controller.window.Window_sourceView" value="Faksimile"/>
+        <entry key="controller.window.Window_audioView" value="Audio"/>
         <entry key="controller.window.Window_verovioView" value="Rendering"/>
         <entry key="controller.window.Window_summaryView" value="Zusammenfassung"/>
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Faksimile"/>
@@ -57,6 +58,7 @@
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
+        <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
@@ -71,6 +73,7 @@
         <entry key="view.window.AnnotationView_Priority" value="Priorität"/>
         <entry key="view.window.AnnotationView_Participants" value="Subjekte"/>
         <entry key="view.window.AnnotationView_Source" value="Quelle"/>
+        <entry key="view.window.AnnotationView_Sigla" value="Quelle"/>
         <entry key="view.window.AnnotationView_List" value="Liste"/>
         <entry key="view.window.AnnotationView_Display" value="Darstellung"/>
         <entry key="view.window.AnnotationView_Grid" value="Rasteransicht"/>
@@ -160,5 +163,6 @@
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>
         
+        <entry key="contentsWord" value="Inhaltsverzeichnis"/>
     </entries>
 </langFile>

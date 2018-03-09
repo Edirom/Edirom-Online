@@ -4,6 +4,7 @@
 /*Edirom*/
 @import 'facsimile.scss';
 @import 'xml.scss';
+@import 'toolbar.scss';
  
 //@import 'textViewContent.scss';
 @import 'textView.scss';
@@ -13,3 +14,6 @@
 //@import 'freidi-texts.scss';
 @import 'freidi-textView.scss';
 @import 'freidi.scss';
+
+/*Annotations*/
+@import 'annotation.scss';

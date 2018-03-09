@@ -67,7 +67,8 @@ Ext.define('EdiromOnline.controller.window.search.SearchWindow', {
         window.doAJAXRequest('data/xql/search.xql',
             'GET', 
             {
-                term: term
+                term: term,
+                lang: getPreference('application_language')
             },
             Ext.bind(function(response){
                 me.win.setResult(response.responseText);

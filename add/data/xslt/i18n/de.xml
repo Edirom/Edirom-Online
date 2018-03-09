@@ -6,11 +6,30 @@
     <entry xml:id="titleStmt">Titelangabe</entry>
     <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
     <entry xml:id="cmp">Komponist</entry>
+    <entry xml:id="cnd">Dirigent</entry>
+    <entry xml:id="csl">Consultant</entry>
+    <entry xml:id="dst">Distributor</entry>
+    <entry xml:id="dtc">Data contributor</entry>
+    <entry xml:id="edt">Editor</entry>
+    <entry xml:id="fnd">Funder</entry>
+    <entry xml:id="led">Lead</entry>
     <entry xml:id="mcp">Kopist (Musik)</entry>
+    <entry xml:id="mus">Musiker</entry>
+    <entry xml:id="mrk">Markup Editor</entry>
+    <entry xml:id="pbd">Verlagsleiter</entry>
+    <entry xml:id="pbl">Herausgeber</entry>
+    <entry xml:id="pdr">Project director</entry>
+    <entry xml:id="rce">Tontechnik</entry>
+    <entry xml:id="rth">Research tem head</entry>
     <entry xml:id="scr">Schreiber</entry>
+    <entry xml:id="spn">Sponsor</entry>
+    <!-- Identifier Klassen -->
+    <entry xml:id="labelCode">Labelcode</entry>
+    <entry xml:id="orderNo">Bestellnummer</entry>
+    <entry xml:id="EAN">Artikelnummer (EAN)</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
-    <entry xml:id="series">Serien</entry>
+    <entry xml:id="series">Reihe</entry>
     <entry xml:id="publicationDate">Publikationsdatum</entry>
     <!-- Veröffentlichung -->
     <entry xml:id="sourceDesc">Quellenbeschreibung</entry>
@@ -42,7 +61,7 @@
     <entry xml:id="dateNotbefore">nicht vor</entry>
     <entry xml:id="dateNotafter">nicht nach</entry>
     <entry xml:id="encodingDesc">Angaben zu der Codierung</entry>
-    <entry xml:id="samplingDecl">Bereichsbeispiel</entry>
+    <entry xml:id="samplingDecl">Auswahlverfahren</entry>
     <entry xml:id="editorialDecl">Editorische Entscheidung</entry>
     <entry xml:id="correctionPrinciples">Über Korrekturen</entry>
     <entry xml:id="interpretationPrinciples">Über Interpretation</entry>
@@ -64,15 +83,15 @@
     <entry xml:id="dimensions">Dimensionen</entry>
     <entry xml:id="unit">Einheit</entry>
     <entry xml:id="exhibHist">Ausstellungsgeschichte</entry>
-    <entry xml:id="extent">Größe</entry>
+    <entry xml:id="extent">Umfang</entry>
     <entry xml:id="hand">Hand</entry>
     <entry xml:id="identifier">Signatur</entry>
     <entry xml:id="inscription">Aufdruck</entry>
-    <entry xml:id="physLoc">Ort innerhalb eines Repositories</entry>
-    <entry xml:id="physMedium">benutztes Medium</entry>
+    <entry xml:id="physLoc">Aufbewahrungsort</entry>
+    <entry xml:id="physMedium">Material</entry>
     <entry xml:id="plateNum">Platznummer</entry>
     <entry xml:id="provenance">Provenienz</entry>
-    <entry xml:id="repository">Institution</entry>
+    <entry xml:id="repository">Repositorium</entry>
     <entry xml:id="titlePage">Titelseite</entry>
     <entry xml:id="treatHist">Bearbeitungsgeschichte</entry>
     <entry xml:id="treatSched">angesetzte Bearbeitungen</entry>
@@ -86,12 +105,27 @@
     <entry xml:id="unpub">Unveröffentlicht</entry>
     <entry xml:id="geogName">Ort</entry>
     <!-- MEI -->
+    <entry xml:id="annot">Annotation</entry>
+    <entry xml:id="componentGrp">Bestandteile</entry>
+    <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="handList">Schreiber</entry>
-    <entry xml:id="puStmt">Publikation</entry>
-    <entry xml:id="puPlace">Ort</entry>
+    <entry xml:id="pubStmt">Publikation</entry>
+    <entry xml:id="pupPlace">Ort</entry>
 
 
+    <entry xml:id="corpName">Körperschaft</entry>
+    <entry xml:id="captureMode">Aufnahmemodus</entry>
+    <entry xml:id="carrierForm">Datenträger</entry>
+    <entry xml:id="fileChar">Eigenschaften</entry>
+    <entry xml:id="playingSpeed">Abspielgeschwindigkeit</entry>
+    <entry xml:id="relationList">FRBR-Beziehungen</entry>
+    <entry xml:id="soundChan">Tonkanäle</entry>
+    
+    <!-- MEI & TEI -->
+    <entry xml:id="ptr">Link</entry>
+    
     <!-- TEI -->
+    <entry xml:id="abstract">Editorische Zusammenfassung</entry>
     <entry xml:id="additional">Zusätzliche Informationen</entry>
     <entry xml:id="additions">Ergänzungen</entry>
     <entry xml:id="availability">Verfügbarkeit</entry>
@@ -106,9 +140,10 @@
     <entry xml:id="material">Material</entry>
     <entry xml:id="msName">Quellenbezeichnung</entry>
     <entry xml:id="msIdentifier">Repositorium</entry>
+    <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publikation</entry>
     <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
-    <entry xml:id="seriesStmt">Serien</entry>
+    <entry xml:id="seriesStmt">Reihe</entry>
     <entry xml:id="title_a">Titel (analytisch)</entry>
     <entry xml:id="title_m">Titel (monographisch)</entry>
     <entry xml:id="title_j">Titel (in einem Journal)</entry>
@@ -120,9 +155,11 @@
     <entry xml:id="settlement">Ort</entry>
     <entry xml:id="supportDesc">Material</entry>
     <entry xml:id="handDesc">Schreiber</entry>
-    <entry xml:id="itemList">Objektauflistung</entry>
+    <entry xml:id="handNotes">Schreiber-Anmerkungen</entry>
+    <entry xml:id="itemList">Exemplar(e)</entry>
+    <entry xml:id="placeName">Ort</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
-    <entry xml:id="respStmt">Haftung</entry>
+    <entry xml:id="respStmt">Verantwortlich</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
 
@@ -138,9 +175,15 @@
     <entry xml:id="leaf">Blatt</entry>
     <entry xml:id="cm">cm</entry>
     
+    <entry xml:id="title_desc">Beschreibender Titel</entry>
+    <entry xml:id="title_main">Haupttitel</entry>
+    <entry xml:id="title_sub">Untertitel</entry>
+    
     <!-- FreiDi /content -->
     <entry xml:id="width">Breite</entry>
     <entry xml:id="height">Höhe</entry>
     <entry xml:id="descLink">Quellenbeschreibung</entry>
     
+<entry xml:id="singers">Sänger</entry>
+    <entry xml:id="musicians">Musiker</entry>
 </language>

@@ -28,6 +28,18 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedName($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:name/@xml:lang)
+      then $node/mei:name[@xml:lang = $lang]/text()
+      else $node/mei:name[1]/text()
+
+};
 
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
@@ -47,18 +59,22 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
-let $annots := collection('/db/contents')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $annots := collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
+            let $name := local:getLocalizedName((collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1])
+            order by $name
             return
-                concat('{id:"', $category, '",name:"', (collection('/db/contents')//id($category))[1]/mei:name/text(),'"}')
+                concat('{id:"', $category, '",name:"', $name,'"}')
         , ','),
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
+            let $name := local:getLocalizedName((collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1])
+            order by $name
             return
-                concat('{id:"', $priority, '",name:"', (collection('/db/contents')//id($priority))[1]/mei:name/text(),'"}')
+                concat('{id:"', $priority, '",name:"', $name,'"}')
         , ','),
         ']}')

@@ -155,11 +155,11 @@ $button-default-color: #000000;
 	}
 
 	.x-window-body > span > div:first-child > div:first-child {
-		display: none;		
+// 		display: none;		
 	}
 	
 	.x-btn-default-small {
-		@include background-image(linear-gradient-bevel(top,darken($base-color,20%)));
+		@include background-image(linear-gradient-bevel(top,darken($window-base-color,20%)));
 		
 		.x-btn-inner {
 			line-height: 19px;

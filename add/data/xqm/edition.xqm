@@ -90,6 +90,6 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 : @return The URI
 :)
 declare function edition:findEdition() as xs:string {
-    let $edition := (collection('/db')//edirom:edition)[1]
+    let $edition := (collection('/db/apps')//edirom:edition)[1]
     return 'xmldb:exist://' || document-uri($edition/root())
 };

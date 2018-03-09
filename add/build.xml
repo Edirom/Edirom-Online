@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="EdiromOnline">
-    <property name="project.version" value="0.1"/>
-    <property name="project.app" value="Edirom-Online"/>
+<project default="xar" name="Edirom-Online-RWA">
+    <property name="project.version" value="1.0"/>
+    <property name="project.app" value="Edirom-Online-RWA"/>
     <property name="build.dir" value="../build-xar"/>
     <property name="temp.dir" value="temp"/>
     <tstamp/>

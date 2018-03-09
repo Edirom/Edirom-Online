@@ -189,15 +189,16 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	}
 }
 
-/* FreiDi */
+/* FreiDi, now RWA */
 
 
 #homeBtn {
-	background-image: url('pix/Logo_miniInset.png');
+	background-image: url('pix/rwa.png');
 	background-repeat: no-repeat;
 	width: 45px;
 	height: 41px;
-	background-position: 12px 5px;
+	background-position: 4px 3px;
+	background-size: 88%;
 	
 	/*background-color: transparent;
 	background-position: 0 5px;
@@ -222,15 +223,17 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	font-size: 13px;
 	top: 16px;
 	left: 0;
-	content:'Modul I – Orgelwerke';
+	content:'Band II/1 – Lieder I';
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+/*
 #workSwitch {
 	//display: ;
 	margin-left: auto;
 	margin-right: auto;
 }
+*/
 
 .taskSquareButton.search {
 	

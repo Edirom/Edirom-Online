@@ -67,6 +67,9 @@ Ext.define('EdiromOnline.view.window.Window', {
     setWindowConfig: function(config) {
         var me = this;
 
+		//console.log("setWindowConfig");
+		//console.log(config);
+
         me.setTitle(config['title'] || getLangString('global_unknown'));
         Ext.apply(me, config);
 
@@ -91,48 +94,7 @@ Ext.define('EdiromOnline.view.window.Window', {
 
     onWindowFinishedRendering: function() {
         var me = this;
-
-        var viewToShow = me.views[0].view;
-        
-        //console.log(me.doc + " " + me.internalIdType + " " + me.internalId);
-
-        for(var i = 0; i < me.views.length; i++) {
-            var view = me.views[i].view;
-            
-            //console.log(view.viewType + " " + view.uri);
-
-            /*if(view.viewType == 'textView' && view.uri.match(/#.+$/))
-                view.on('show', Ext.bind(view.scrollToId, view, [view.uri], false), view);*/
-
-            if(me.internalIdType == 'unknown' && view.defaultView)
-                viewToShow = view;
-
-            else if(me.internalIdType == 'note' && view.viewType == 'textView' && view.uri == me.doc) {
-                view.on('documentLoaded', Ext.bind(view.scrollToId, view, [me.internalId], false), view);
-                viewToShow = view;
-
-            }else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
-                view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
-                viewToShow = view;
-
-            }else if(me.internalIdType == 'zone' && view.viewType == 'sourceView') {
-                view.on('show', Ext.bind(view.gotoZone, view, [me.internalId], false), view);
-                viewToShow = view;
-
-            }else if(me.internalIdType == 'measure' && view.viewType == 'sourceView') {
-                view.on('show', Ext.bind(view.gotoMeasure, view, [me.internalId], false), view);
-                viewToShow = view;
-
-            }else if((me.internalIdType == 'surface' || me.internalIdType == 'graphic') && view.viewType == 'sourceView') {
-                view.on('show', Ext.bind(view.showPage, view, [me.internalId], false), view);
-                viewToShow = view;
-            
-            }else if(view.defaultView) {
-                viewToShow = view;
-            }
-        }
-        
-        me.requestForActiveView(viewToShow);
+        me.loadInternalId(me.internalId, me.internalIdType, true);
     },
 
     getTopbarConfig: function () {
@@ -177,13 +139,84 @@ Ext.define('EdiromOnline.view.window.Window', {
         return this.getLayout().getActiveItem();
     },
 
-    loadInternalId: function(internalId, internalIdType) {
+    loadInternalId: function(internalId, internalIdType, ignoreActiveView) {
 
         var me = this;
         me.internalId = internalId;
         me.internalIdType = internalIdType;
 
-        me.fireEvent('loadInternalLink');
+        var viewWeights = Ext.create('Ext.data.Store', {
+            fields: [
+                {name: 'view', type: 'object'},
+                {name: 'weight', type: 'int'}
+             ]
+        });
+        
+        for(var i = 0; i < me.views.length; i++) {
+            var view = me.views[i].view;
+            var weight = view.getWeightForInternalLink(me.doc, me.internalIdType, me.internalId);
+            
+            if(view.defaultView)
+                weight += 5;
+                
+            if((typeof ignoreActiveView === 'undefined' || !ignoreActiveView) && me.getActiveView() == view)
+                weight += 30;
+            
+            viewWeights.add({view: view, weight: weight});
+            
+            /*
+            if(me.internalIdType == 'unknown' && view.defaultView)
+                viewToShow = view;
+
+            else if(me.internalIdType == 'note' && view.viewType == 'textView' && view.uri == me.doc) {
+                view.on('documentLoaded', Ext.bind(view.scrollToId, view, [me.internalId], false), view);
+                viewToShow = view;
+
+            }else if(me.internalIdType == 'annot' && view.viewType == 'annotationView') {
+                view.on('show', Ext.bind(view.showSingleAnnotation, view, [me.internalId], false), view);
+                viewToShow = view;
+
+            }else if(me.internalIdType == 'zone' && view.viewType == 'sourceView') {
+                view.on('show', Ext.bind(view.gotoZone, view, [me.internalId], false), view);
+                viewToShow = view;
+
+            }else if(me.internalIdType == 'measure' && view.viewType == 'sourceView') {
+                view.on('show', Ext.bind(view.gotoMeasure, view, [me.internalId], false), view);
+                viewToShow = view;
+
+            }else if((me.internalIdType == 'surface' || me.internalIdType == 'graphic') && view.viewType == 'sourceView') {
+                view.on('show', Ext.bind(view.showPage, view, [me.internalId], false), view);
+                viewToShow = view;
+            
+            }else if(view.defaultView) {
+                viewToShow = view;
+            }
+            */
+        }
+        
+        viewWeights.sort('weight', 'DESC');
+            
+        var viewToShow = viewWeights.first().get('view');
+        if (typeof viewToShow === 'undefined')
+            viewToShow = me.views[0].view;
+
+        if(viewToShow.isVisible()) {
+            me.requestForActiveView(viewToShow);
+            viewToShow.loadInternalId(me.internalId, me.internalIdType);            
+        }else {
+            me.requestForActiveView(viewToShow);
+            Ext.defer(me.callInternalLinkWhenVisible, 1000, me, [viewToShow, me.internalId, me.internalIdType, 0]);
+        }
+        
+    },
+    callInternalLinkWhenVisible: function(view, id, type, n) {
+        var me = this;
+        
+        if(view.isVisible()) {
+            view.loadInternalId(id, type);
+        }else if(n < 5){
+            Ext.defer(me.callInternalLinkWhenVisible, 500, me, [view, id, type, n++]);
+        }
     },
     
     getContentConfig: function() {

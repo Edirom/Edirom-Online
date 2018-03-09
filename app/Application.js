@@ -36,14 +36,17 @@ Ext.define('EdiromOnline.Application', {
         'window.HelpWindow',
         'window.SingleWindowController',
         'window.SummaryView',
+        'window.iFrameView',
         'window.WindowController',
         'window.XmlView',
         'window.concordanceNavigator.ConcordanceNavigator',
+        'window.audio.AudioView',
         'window.search.SearchWindow',
         'window.source.SourceView',
         'window.source.PageBasedView',
         'window.source.MeasureBasedView',
         'window.source.VerovioView',
+        'window.text.FacsimileView',
         'window.text.TextFacsimileSplitView',
         'window.text.TextView'
     ],
@@ -58,13 +61,17 @@ Ext.define('EdiromOnline.Application', {
     ],
     
     //TODO:
-    activeEdition: 'xmldb:exist:///db/contents/edition-RWA/edition-RWA.xml',
-    activeWork: 'edirom_work_e6de17cf-febd-4fc7-8ead-d3016e97ea55', 
+    activeEdition: 'xmldb:exist:///db/contents/edition-rwa/ediromEditions/rwaVol_II-1.xml',
+    activeWork: '', 
 
     launch: function() {
         var me = this;
        
         me.addEvents('workSelected');
+        
+        var editionParam = me.getURLParameter('edition');
+        if(editionParam !== null)
+            me.activeEdition = editionParam;
         
         Ext.Ajax.request({
             url: 'data/xql/getEditionURI.xql',
@@ -77,6 +84,10 @@ Ext.define('EdiromOnline.Application', {
             },
             scope: this
         });
+        
+        var workParam = me.getURLParameter('work');
+        if(workParam !== null)
+            me.activeWork = workParam;
         
         Ext.Ajax.request({
             url: 'data/xql/getWorkID.xql',
@@ -95,7 +106,24 @@ Ext.define('EdiromOnline.Application', {
         me.getController('LanguageController').initLangFile(me.activeEdition);
         me.initDataStores();
 
-        Ext.create('EdiromOnline.view.desktop.App', {app: this});
+        var app = Ext.create('EdiromOnline.view.desktop.App', {app: this});
+
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+            urlParams[decode(match[1])] = decode(match[2]);
+            
+        if(typeof urlParams.uri != 'undefined') {
+            if(window.location.hash != '')
+                urlParams.uri = urlParams.uri + window.location.hash; 
+        
+            app.on('ready', Ext.bind(window.loadLink, me, [urlParams.uri, {sort:'sortGrid'}], false), me, {single: true});
+        }
     },
     
     initDataStores: function() {
@@ -113,7 +141,7 @@ Ext.define('EdiromOnline.Application', {
             storeId: 'Works'
         });
 
-        works.getProxy().extraParams = {editionId: this.activeEdition};
+        works.getProxy().extraParams = {editionId: this.activeEdition, lang: getPreference('application_language')};
         works.load();
     },
     
@@ -131,5 +159,9 @@ Ext.define('EdiromOnline.Application', {
         var edition = editions.getAt(editionIndex);
         
         edition[fnName](callback, arguments);
-	}
+	},
+	
+	getURLParameter: function(parameter) {
+        return decodeURIComponent((new RegExp('[?|&]' + parameter + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
 });

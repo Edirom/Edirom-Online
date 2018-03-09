@@ -218,3 +218,26 @@
 
 	
 }
+
+.annotationViewContent {
+
+    .quote {
+        color: #666666;
+         &:before {
+            color: #999999;
+            content: "\"";
+            font-size: 1.3em;
+            position: relative;
+            top: 0.1em;
+         }
+         
+         &:after {
+            color: #999999;
+            content: "\"";
+            font-size: 1.3em;
+            position: relative;
+            top: 0.1em;
+         }
+    }
+    
+}

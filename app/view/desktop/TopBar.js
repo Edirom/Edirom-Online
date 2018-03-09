@@ -27,6 +27,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
     alias : 'widget.topbar',
 	id : 'ediromToolbar',
 	
+    height: 41,
+
     initComponent: function () {
 
         var me = this;
@@ -38,11 +40,12 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
         });
         
         me.workCombo = Ext.create('Ext.button.Button', {
-            text: 'Werk',
+            text: 'work',
             id: 'workSwitch',
             cls: 'insetButton',
             indent: false,
             menu : {
+	            maxHeight:500,
                 items: []
             }
         });
@@ -66,14 +69,20 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 flex: 1,
                 cls: 'ux-desktop-topbar-flex',
                 items: [
-
-                    me.homeButton,
-                    { xtype: 'tbtext', text: 'Reger-Werkausgabe', id: 'homeBtnLabel' },
-                    this.workCombo,
-                    
-                    me.workCombo,
-                    //me.searchTextField,
-                    me.searchButton
+                		me.homeButton,
+						{ xtype: 'tbtext', text: 'Reger-Werkausgabe', id: 'homeBtnLabel' },
+						this.workCombo,
+						{
+							xtype: 'splitter',
+							html: '&#160;',
+							height: 14,
+							width: 2, // TODO - there should be a CSS way here
+							cls: 'x-toolbar-separator x-toolbar-separator-horizontal ediTopBarSep'
+            			},
+                    	me.workCombo,
+                    	'->',
+// 						me.searchTextField,
+                    	me.searchButton
                 ]
             })
         ];

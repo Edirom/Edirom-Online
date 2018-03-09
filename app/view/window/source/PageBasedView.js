@@ -18,11 +18,7 @@
  *
  */
 Ext.define('EdiromOnline.view.window.source.PageBasedView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
         'EdiromOnline.view.window.image.ImageViewer'
@@ -153,7 +149,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         });
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner',
             owner: me
         });

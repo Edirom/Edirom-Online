@@ -31,38 +31,78 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedMEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
+declare function local:getLocalizedTEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/tei:title/@xml:lang)
+      then $node/tei:title[@xml:lang = $lang]/text()
+      else $node/tei:title[1]/text()
+
+};
+
+
 declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
         (: SummaryView :)
-        concat("{type:'summaryView',uri:'", $docUri, "'}"),
+        (:concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
-        if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
+(:        if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),:)
 
+        (: SourceDescriptionView :)
+(:        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),:)
+        
         (: SourceView :)
-        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true ,uri:'", $docUri, "'}")) else(),
+        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
+
+        (: AudioView :)
+(:        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),:)
 
 		(: VerovioView :)
-        if($doc//mei:body//mei:measure) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
+(:        if($doc//mei:body//mei:measure and $doc//mei:body//mei:note) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),:)
 
         (: TextView :)
-        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true ,uri:'", $docUri, "'}")) else(),
+        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
+        
+        (: Music TextView :)
+(:        if($doc//mei:div[1][matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),:)
 
         (: SourceView :)
         if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
 
         (: TextFacsimileSplitView :)
-        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
+(:        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),:)
 
         (: AnnotationView :)
-        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView',uri:'", $docUri, "'}")) else(),
+        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView', defaultView:true, uri:'", $docUri, "'}")) else(),
         
         (: SearchView :)
 (:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
 :)
+
+        (: iFrameView, RWA :)
+        if($type = 'html') then(concat("{type:'iFrameView', label: '", 'HTML' ,"' ,uri:'", $docUri, "'}")) else(),
+        
+        (: iFrameView, generic :)
+(:        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),:)
+        
         (: XmlView :)
-        concat("{type:'xmlView',uri:'", $docUri, "'}")
+(:        concat("{type:'xmlView',uri:'", $docUri, "'}"),:)
+
+        (: SourceDescriptionView :)
+        if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
     ), ',')
 };
 
@@ -101,6 +141,10 @@ let $type :=
              if(exists($doc//mei:mei) and exists($doc//mei:work))
              then(string('work'))
              
+             (: Recording :)
+             else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+             then(string('recording'))
+             
              (: Source / Score :)
              else if(exists($doc//mei:mei) and exists($doc//mei:source))
              then(string('source'))
@@ -110,19 +154,43 @@ let $type :=
              else if(exists($doc/tei:TEI))
              then(string('text'))
              
+             (: HTML :)
+             else if(exists($doc/html))
+             then(string('html'))
+             
+             else if(contains($docUri, '.html'))
+             then(string('html'))
+             
+             else if(contains($docUri, '$encyclo'))
+             then(string('html'))
+             
              else(string('unknown'))
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
               
+              (: Recording :)
+              else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+              then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
+
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
+              
+              else if($type = 'html' and contains($docUri, 'rwaEncyclo'))
+              then(if ($lang = 'de') then('Umfeld der Werke') else ('Context of the Works'))
+              
+              else if($type = 'html' and contains($docUri, 'rwaTextComp'))
+              then(if ($lang =  'de') then('Textvergleich') else ('Text comparison'))
+              
+              (: HTML :)
+              else if($type = 'html')
+              then($doc//head/data(title))
              
               else(string('unknown'))
               
