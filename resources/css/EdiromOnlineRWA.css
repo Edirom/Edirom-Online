@@ -8,6 +8,10 @@
     vertical-align: sub;
 }
 
+sup {
+    font-size: 65% !important;
+}
+
 span.uline {
     border-bottom: 1px solid;
 }
