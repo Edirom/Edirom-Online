@@ -34,8 +34,8 @@ declare function local:getLocalizedName($node) {
   let $nodeName := local-name($node)
   return
       if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/text()
-      else $node/edirom:names/edirom:name[1]/text()
+      then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
+      else $node/edirom:names/edirom:name[1]/node()
 
 };
 
