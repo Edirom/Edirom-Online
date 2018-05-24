@@ -138,7 +138,7 @@ let $internal := if(exists($internal))then($internal)else(
 
 let $type := 
              (: Work :)
-             if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:source)))
+             if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
              then(string('work'))
              
              (: Recording :)
@@ -167,7 +167,7 @@ let $type :=
              else(string('unknown'))
              
 let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:source)))
+              if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
               then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
               
               (: Recording :)
