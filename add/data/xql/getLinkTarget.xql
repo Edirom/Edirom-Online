@@ -173,10 +173,18 @@ let $title := (: Work :)
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
               then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
+              
+              (: Edition :)
+              else if (exists($doc//mei:mei) and starts-with($doc//mei:mei/@xml:id, 'rwa_edition'))
+              then($doc//mei:fileDesc//mei:titleStmt//mei:title[@type = 'main'][@xml:lang = $lang])
 
-              (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source))
+              (: Source / Score without Shelfmark:)
+              else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
               then(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]))
+              
+              (: Source / Score with Shelfmark:)
+              else if(exists($doc//mei:mei) and exists($doc//mei:source) and exists($doc//mei:identifier[@type='shelfmark']))
+              then(concat(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]),' | ',$doc//mei:source//mei:identifier[@type='shelfmark']))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
