@@ -1,7 +1,11 @@
-/*.ediromWindow .x-panel-body {
+/* prevents scroll bars in sourceView windows on Windows */
+.ediromWindow .x-panel-body {
     overflow: hidden !important;
 }
-*/
+
+/* reenables scroll bar in searchWindows on Windows */
+.searchWindow .x-panel-body {
+    overflow-y: scroll !important;
 
 .sub {
     font-size: 60%;
