@@ -479,12 +479,13 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var page = participant['page'];
             var source = participant['source'];
             var siglum = participant['siglum'];
+            var part = participant['part'];
             var digilibBaseParams = participant['digilibBaseParams'];
             var digilibSizeParams = participant['digilibSizeParams'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum);//  + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part);//  + ": " + label;
 
             if(type == 'text') {
 

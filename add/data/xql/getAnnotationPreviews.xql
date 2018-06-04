@@ -79,7 +79,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
@@ -120,6 +120,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
             let $source := local:getLocalizedTitle($elems[1]/root()//mei:source/mei:titleStmt)
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
+            let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
             let $imgWidth := number($graphic/@width)
@@ -134,7 +135,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
-                local:toJSON($type, $label, $mdiv, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
+                local:toJSON($type, $label, $mdiv, $part, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
 };
 
 declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
@@ -329,7 +330,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, 
+declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
@@ -337,6 +338,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '{"type":"',$type,
         '","label":"',$label,
         '","mdiv":"',$mdiv,
+        '","part":"',$part,
         '","page":"',$page,
         '","source":"',$source,
         '","siglum":"',$siglum,
