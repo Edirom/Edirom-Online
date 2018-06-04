@@ -6,6 +6,7 @@
 /* reenables scroll bar in searchWindows on Windows */
 .searchWindow .x-panel-body {
     overflow-y: scroll !important;
+}
 
 .sub {
     font-size: 60%;
