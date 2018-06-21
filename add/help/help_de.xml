@@ -75,7 +75,7 @@
                <p>Nichtsdestotrotz kann eine auf <term type="ediromGui" key="global_appName"/> basierende Edition aber auch auf anderen Datenträger gespeichert und verbreitet werden.
                   Dies erfordert jedoch die lokale Installation auf einem Computer. Sollte die vorliegende Version der <term type="ediromGui" key="global_appName"/> eine solch verbreitete 
                   Ausgabe sein, kann der entsprechende Autor oder Verlag kontaktiert werden, um weitere Informationen rund um die Installation auf dem Computer zu erhalten.</p>
-               <note type="editorial">Projektspezifische Informationen zur Installationsroutine sollten nachfolgend als XML-Kommentare eingeschoben werden.</note>
+<!--               <note type="editorial">Projektspezifische Informationen zur Installationsroutine sollten nachfolgend als XML-Kommentare eingeschoben werden.</note>-->
                <!--<div type="div2">
                   <head>Windows </head>
                   <p>If <hi rend="italic">AutoRun</hi> is activated in Windows, the Edirom installation program will open automatically when the DVD is inserted. Otherwise, start the program by running the <hi rend="italic">setup.exe</hi> file on the DVD. Follow the instructions provided in the installation program. Once installation is complete, you'll see the application listed in the <hi rend="italic">Start menu</hi> under <hi rend="italic">All Programs</hi> as '<hi rend="italic">Edirom</hi>' or a different name, depending on the edition.</p>
@@ -89,7 +89,7 @@
                <head>Start der Anwendung </head>
               <p><term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt. Die einzige Systemvorgabe, um <term type="ediromGui" key="global_appName"/> vernünftig ausführen zu können, ist die Installation eines Javascript-fähigen Browsers.</p>
               <p>Sollte die aktuelle Version von <term type="ediromGui" key="global_appName"/> installiert werden müssen, kann rund um Fragen, die die Installation auf dem persönlichen Rechner betreffen, der entsprechende Autor oder Verlag kontaktiert werden.</p>
-               <note type="editorial">Projektspezifische Informationen zum Start der Anwendung sollten entweder darüber, also den vorhergehenden Paragraphen ersetzend, oder nachfolgend eingeschoben werden.</note>
+               <!--<note type="editorial">Projektspezifische Informationen zum Start der Anwendung sollten entweder darüber, also den vorhergehenden Paragraphen ersetzend, oder nachfolgend eingeschoben werden.</note>-->
             </div>
          </div>
         
@@ -798,7 +798,7 @@
         
        <!-- WORKING WITH ANNOTATIONS =================================================================================== -->
       <div type="div1" xml:id="annotations">
-         <head>Arbeiten Mit Annotationen</head>
+         <head>Arbeiten mit Annotationen</head>
          <p>Annotationen, die aus dem Kritischen Bericht einer Edition kommen, können in <term type="ediromGui" key="global_appName"/> auf unterschiedliche Weise geöffnet werden.
             (1) Symbole, die bereits in der Quelle angezeigt werden, liefern bereits eine große Bandbreite an Informationen. Durch einen Doppelklick kann dadurch auch der komplette Kritische Bericht erreicht werden.
             (2) Der komplette Kritische Bericht ist üblicherweise über den <ptr target="#help_ontroller.window.Window_annotationView"/> eines Werkes verfügbar.</p>
@@ -897,7 +897,7 @@
       <head>Hilfe (Edirom Benutzeroberfläche)</head>
       <p>Das <term>Hilfe (Edirom Benutzeroberfläche)</term> Fenster ist (im Gegensatz zu den Fenstern mit den Inhalten) ein Stand-Alone-Fenster, das nur einmal geöffnet werden kann. 
       Wenn sie den Button jedoch öfters klicken, erscheint die Schaltfläche für das Zeigen bzw. Verbergen des Hilfe-Fensters. Das heißt es wird in den Vordergrund gestellt, sollte es hinter anderen Fenstern versteckt sein.</p>
-      <note type="editorial">--Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? --</note>
+      <!--<note type="editorial">-\-Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? -\-</note>-->
    </div>
    <!-- bwb @ daniel implementation status; -->
         <!--<div type="div1" xml:id="shortCuts">
