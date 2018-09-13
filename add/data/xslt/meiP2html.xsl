@@ -120,7 +120,10 @@
                 <xsl:attribute name="title" select="./mei:caption//text()"/>
                 <xsl:attribute name="alt" select="./mei:caption//text()"/>
             </xsl:if>
-            <xsl:attribute name="src" select="concat($imagePrefix,'?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
+            <xsl:attribute name="src" select="./mei:graphic/data(@target)"/>
+            <xsl:if test="./mei:graphic/@rend">
+                <xsl:attribute name="style" select="./mei:graphic/data(@rend)"/>
+            </xsl:if>
         </img>
     </xsl:template>
     <xsl:template match="text()">

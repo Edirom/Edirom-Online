@@ -291,7 +291,7 @@ let $priorityLabel := 'Priority'
 let $categories := local:getCategories($annot)
 let $categoriesLabel := if(count($categories) gt 1)then('Categories')else('Category')
 
-let $sources := eutil:getDocumentsLabelsAsArray($participants)
+let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
 let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
 
 let $sigla := source:getSiglaAsArray($participants)
@@ -322,7 +322,7 @@ return
             </div>
             <div class="contentBox">
                 <h1>{$annot/mei:title/text()}</h1>
-                {annotation:getContent($annot,'')} 
+                {annotation:getContent($annot,'', $edition)} 
             </div>
            
             	<!-- <div class="previewArea">
@@ -382,8 +382,8 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <h1>{$annot/mei:title/text()}</h1>
-                {annotation:getContent($annot,'')}
+                <!--<h1>{annotation:getTitle($annot, '', $edition)}</h1>-->
+                {annotation:getContent($annot,'', $edition)}
             </div>
            <!-- <div class="previewArea">
                 {

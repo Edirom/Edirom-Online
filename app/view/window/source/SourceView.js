@@ -392,7 +392,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 		var image_server = getPreference('image_server');
 
         Ext.Array.each(entries, function(entry) {
-			if(image_server === 'digilib'){
+			if(image_server === 'digilib' || image_server === 'openseadragon'){
 				me.bottomBar.add(entry);    
 			}
 			else if(entry.initialCls !== 'zoomSlider' && entry.xtype !== 'tbseparator'){

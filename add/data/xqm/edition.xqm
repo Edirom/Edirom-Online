@@ -50,6 +50,17 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
 };
 
 (:~
+: Returns a list of URIs pointing to Editions
+:
+: @return The list of URIs
+:)
+declare function edition:getUris() as xs:string* {
+    
+    for $edition in collection('/db/apps')//edirom:edition
+    return 'xmldb:exist://' || document-uri($edition/root())
+};
+
+(:~
 : Returns a list of URIs pointing to referenced Works
 :
 : @param $uri The URI of the Edition's document to process

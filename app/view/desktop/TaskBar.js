@@ -42,7 +42,8 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
                     'sortHorizontally', 
                     'sortVertically', 
                     'openConcordanceNavigator', 
-                    'openSearchWindow');
+                    'openSearchWindow',
+                    'switchLanguage');
 
         me.windowSort = new Ext.toolbar.Toolbar(me.getWindowSortConfig());
         me.globalTools = new Ext.toolbar.Toolbar(me.getGlobalToolsConfig());
@@ -61,7 +62,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             me.windowSort,
             me.globalTools,
             //me.desktopSwitch,
-            me.quickStart,
+            //me.quickStart,
             {
                 xtype: 'splitter', html: '&#160;',
                 height: 14, width: 2, // TODO - there should be a CSS way here
@@ -70,10 +71,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             me.windowBar1,
             me.windowBar2,
             me.windowBar3,
-            me.windowBar4,
+            me.windowBar4/*,
             '-',
             me.helpPrefs,
-            me.tray
+            me.tray*/
         ];
 
         me.setActiveWindowBar(1);
@@ -219,6 +220,14 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             //handler: Ext.bind(me.fireEvent, me, ['openConcordanceNavigator'], false)
         });
 
+        me.langButton = Ext.create('Ext.button.Button', {
+            id: 'langBtn',
+            cls: 'taskSquareButton lang',
+            tooltip: { text: getLangString('view.desktop.TaskBar_lang'), align: 'bl-tl' },
+            handler: Ext.bind(me.fireEvent, me, ['switchLanguage'], false)
+        });
+
+    
         me.helpButton = Ext.create('Ext.button.Button', {
             id: 'helpBtn',
             cls: 'taskSquareButton help',
@@ -227,9 +236,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
         });
 
         return {
-            width: 32,//64,
+            width: 64,
             items: [
-                me.helpButton/*,
+                me.helpButton,
+                me.langButton/*,
                 me.prefButton*/
             ]
         };

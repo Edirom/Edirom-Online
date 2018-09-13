@@ -22,6 +22,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
+        'EdiromOnline.view.window.image.OpenSeaDragonViewer',
         'EdiromOnline.view.window.image.LeafletFacsimile',
         'Ext.selection.CheckboxModel',
         'Ext.layout.container.Border'
@@ -416,7 +417,9 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     	if(image_server === 'leaflet'){
     		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     	}
-    	else{
+    	else if(image_server === 'openseadragon'){
+    		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%'});
+    	}else {
     		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
     	}
        
@@ -522,8 +525,9 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         	var viewer = null;   	
     		if(image_server === 'leaflet'){
     			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
-    		}
-    		else{
+    		} else if(image_server === 'openseadragon'){
+    			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
+    		} else{
     			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
     		}
             

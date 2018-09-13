@@ -20,6 +20,9 @@ xquery version "3.0";
   ID: $Id: getLinkTarget.xql 1334 2012-06-14 12:40:33Z daniel $
 :)
 
+import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
+import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
@@ -97,6 +100,8 @@ let $path := if(contains($path, '&amp;'))then(substring-before($path, '&amp;'))e
 let $doc := eutil:getDoc($docUri)
 let $internal := $doc/id($internalId)
 
+let $edition := request:get-parameter('edition', '')
+
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
 let $internal := if(exists($internal))then($internal)else(
                         if(starts-with($internalId, 'measure_') and $doc//mei:parts)
@@ -135,7 +140,7 @@ let $type :=
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
-              then(($doc//mei:workDesc/mei:work/mei:titleStmt)[1]/data(mei:title[1]))
+              then(work:getLabel($uri, $edition))
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
@@ -143,11 +148,11 @@ let $title := (: Work :)
 
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
-              then(($doc//mei:sourceDesc/mei:source/mei:titleStmt)[1]/data(mei:title[1]))
+              then(source:getLabel($uri, $edition))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:fileDesc/tei:titleStmt/data(tei:title[1]))
+              then(teitext:getLabel($uri, $edition))
               
               (: HTML :)
               else if($type = 'html')

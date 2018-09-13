@@ -22,6 +22,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
+        'EdiromOnline.view.window.image.OpenSeaDragonViewer',
         'EdiromOnline.view.window.image.LeafletFacsimile'
     ],
 
@@ -43,8 +44,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     	if(image_server === 'leaflet'){
     		this.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
-    	}
-    	else{
+    	}else if(image_server === 'openseadragon') {
+    	    this.imageViewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer');
+    	}else{
     		this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
     	}
     
@@ -176,6 +178,24 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             }
         });
     	}
+    	if (image_server === 'openseadragon') {
+            me.zoomSlider = Ext.create('Ext.slider.Single', {
+                width: 140,
+                value: 100,
+                increment: 5,
+                minValue: 90,
+                maxValue: 700,
+                checkChangeBuffer: 100,
+                useTips: true,
+                cls: 'zoomSlider',
+                tipText: function(thumb) {
+                    return Ext.String.format('{0}%', thumb.value);
+                },
+                listeners: {
+                    change: Ext.bind(me.zoomChanged, me, [], 0)
+                }
+            });
+        }
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
             width: 121,
@@ -185,7 +205,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         
         me.separator = Ext.create('Ext.toolbar.Separator');
         
-        if(image_server === 'digilib'){
+        if(image_server === 'digilib' || image_server === 'openseadragon'){
         return [me.zoomSlider, me.separator, me.pageSpinner];
         }
         else{

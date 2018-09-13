@@ -35,7 +35,8 @@ Ext.define('EdiromOnline.controller.desktop.TaskBar', {
                 switchDesktop: {
                     fn: this.onSwitchDesktop,
                     scope: this
-                }
+                },
+                switchLanguage: this.onSwitchLanguage
             },
             'taskbar button[action=toggleMeasureVisibility]': {
                 click: me.onMeasureVisibilityChanged
@@ -48,24 +49,48 @@ Ext.define('EdiromOnline.controller.desktop.TaskBar', {
 
     onTaskbarRendered: function(taskbar) {
         this.taskbars.push(taskbar);
+        /*this.updateLanguageButton();*/
     },
-
+    
     onSwitchDesktop: function(num) {
         this.application.switchDesktop(num);
     },
     
+    onSwitchLanguage: function() {
+        var lang = window.getLanguage();
+        
+        switch (lang) {
+            case ('de'):
+                lang = 'en';
+                break;
+            case ('en'):
+                lang = 'de';
+                break;
+            default:
+                lang = 'de';
+                break;
+        }
+        window.setCookie('edirom-language', lang);
+        /*this.updateLanguageButton();*/
+        if(window.confirm(window.getLangString('controller.desktop.TaskBar_confirmReload')))
+            window.location.href = window.location.protocol + '//' + window.location.host + window.location.pathname + '?edition=' + EdiromOnline.getApplication().getActiveEdition() + '&work=' + EdiromOnline.getApplication().activeWork;
+    },
+    
     onMeasureVisibilityChanged: function(button, event) {
         var me = this;
-        
         var tools = me.application.getController('ToolsController');
         tools.setGlobalMeasureVisibility(button.pressed);
     },
     
     onAnnotationVisibilityChanged: function(button, event) {
         var me = this;
-        
         var tools = me.application.getController('ToolsController');
         tools.setGlobalAnnotationVisibility(button.pressed);
+    },
+    
+    updateLanguageButton: function() {
+        var lang = window.getLanguage();
+        
+        Ext.get('langBtn-btnInnerEl').dom.innerHTML = lang.toUpperCase();
     }
 });
-

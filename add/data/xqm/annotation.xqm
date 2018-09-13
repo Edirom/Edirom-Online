@@ -43,13 +43,13 @@ declare namespace transform="http://exist-db.org/xquery/transform";
 : @param $uri The document to process
 : @return The JSON representation
 :)
-declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
+declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:string) as xs:string {
     let $doc := doc($uri)
     let $annos := $doc//mei:annot[@type = 'editorialComment']
     return
         string-join(
             for $anno in $annos
-            return annotation:toJSON($anno)
+            return annotation:toJSON($anno, $edition)
         , ',')
 };
 
@@ -60,9 +60,9 @@ declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
 : @param $anno The Annotation to process
 : @return The JSON representation
 :)
-declare function annotation:toJSON($anno as element()) as xs:string {
+declare function annotation:toJSON($anno as element(), $edition as xs:string) as xs:string {
     let $id := $anno/@xml:id
-    let $title := normalize-space($anno/mei:title[1])
+    let $title := annotation:getTitle($anno, '', $edition)
     let $doc := $anno/root()
     let $prio := $doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2))/mei:name[1]/text()
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
@@ -74,7 +74,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     
     return
         concat('{ "id": "', $id, 
-            '", "title": "', $title, 
+            '", "title": "', normalize-space($title), 
             '", "categories": "', $cats,
             '", "priority": "', $prio,
             '", "pos": "', $count,
@@ -88,9 +88,8 @@ declare function annotation:toJSON($anno as element()) as xs:string {
 : @param $idPrefix A prefix for all ids (because of uniqueness in application)
 : @return The HTML representation
 :)
-declare function annotation:getContent($anno as element(), $idPrefix as xs:string) {
+declare function annotation:getContent($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
 
-    let $p := $anno/mei:p
     
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
     let $xsltBase := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
@@ -100,10 +99,24 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
 	let $imageBasePath := if($imageserver = 'leaflet')
 		then(eutil:getPreference('leaflet_prefix', $edition))
 		else(eutil:getPreference('image_prefix', $edition))
+    let $language := eutil:getLanguage($edition)
     
+    let $p := $anno/mei:p[not(@xml:lang) or @xml:lang = $language]
     let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{$imageBasePath}"/></parameters>)
     return   
         $html
+};
+
+(:~
+: Returns a HTML representation of an Annotation's title
+:
+: @param $anno The Annotation to process
+: @param $idPrefix A prefix for all ids (because of uniqueness in application)
+: @return The HTML representation
+:)
+declare function annotation:getTitle($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
+
+    $anno/mei:title[not(@xml:lang) or @xml:lang = eutil:getLanguage($edition)]/text()
 };
 
 (:~

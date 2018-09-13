@@ -30,6 +30,8 @@ module namespace teitext="http://www.edirom.de/xquery/teitext";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 (:~
 : Returns whether a document is a work or not
 :
@@ -47,7 +49,7 @@ declare function teitext:isText($uri as xs:string) as xs:boolean {
 : @param $source The URIs of the Text's document to process
 : @return The label
 :)
-declare function teitext:getLabel($uri as xs:string) as xs:string {
-     
-    doc($uri)//tei:titleStmt/data(tei:title[1])
+declare function teitext:getLabel($uri as xs:string, $edition as xs:string) as xs:string {
+    let $language := eutil:getLanguage($edition)
+    return doc($uri)//tei:titleStmt/data(tei:title[not(@xml:lang) or @xml:lang = $language])
 };

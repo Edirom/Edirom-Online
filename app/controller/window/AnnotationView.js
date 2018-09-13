@@ -53,30 +53,28 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
 
         var editionId = this.application.activeEdition;
     
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationText.xql',
-            method: 'GET',
-            params: {
-                uri: uri
+        window.doAJAXRequest('data/xql/getAnnotationText.xql',
+            'GET', 
+            {
+                uri: uri,
+                edition: EdiromOnline.getApplication().activeEdition
             },
-            success: function(response){
+            Ext.bind(function(response){
                 view.setContent(response.responseText);
+            }, this)
+        );
+        
+        window.doAJAXRequest('data/xql/getAnnotationMeta.xql',
+            'GET', 
+            {
+                uri: uri,
+                edition: EdiromOnline.getApplication().activeEdition
             },
-            scope: this
-        });
-
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationMeta.xql',
-            method: 'GET',
-            params: {
-                uri: uri
-            },
-            success: function(response){
+            Ext.bind(function(response){
                 view.setMeta(response.responseText);
-            },
-            scope: this
-        });
-
+            }, this)
+        );
+        
         window.doAJAXRequest('data/xql/getAnnotationPreviews.xql',
             'GET', 
             {
