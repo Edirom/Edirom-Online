@@ -34,8 +34,8 @@ declare function local:getLocalizedName($node) {
   let $nodeName := local-name($node)
   return
       if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/text()
-      else $node/edirom:names/edirom:name[1]/text()
+      then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
+      else $node/edirom:names/edirom:name[1]/node()
 };
 
 declare function local:getCategory($category, $depth) {
@@ -78,9 +78,12 @@ declare function local:getItem($item, $depth) {
 
     let $target := $item/replace(@targets, '\[.*\]', '')
     let $cfg := concat('{', replace(substring-before($item/substring-after(@targets, '['), ']'), '=', ':'), '}')
+    let $target := if(starts-with($target, 'javascript:'))
+                    then(replace($target, 'javascript:', ''))
+                    else(concat("loadLink('", $target, "', ", $cfg, ")"))
     return
 
-    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
+    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="{$target}">
         { local:getLocalizedName($item) }
     </div>
 };
