@@ -3,6 +3,8 @@ xquery version "1.0";
 declare variable $exist:path external;
 declare variable $exist:resource external;
 
+declare option exist:serialize "method=xhtml media-type=application/xhtml+html";
+
 if ($exist:path eq "/") then
     (: forward root path to index.xql :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
