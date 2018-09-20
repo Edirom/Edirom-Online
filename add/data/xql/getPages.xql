@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -32,7 +32,9 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
-let $mei := eutil:getDoc($uri)/root()
+let $mei := if(starts-with($uri, 'xmldb:exist://'))
+            then(eutil:getDoc($uri)/root())
+            else()
 
 let $ret := for $surface in $mei//mei:surface
             (:let $image := doc($surface/mei:graphic[@type='facsimile']/string(@target))/img:image:)
@@ -61,4 +63,22 @@ let $ret := if(count($ret) = 0)
             )
             else($ret)
 
-return concat('[', string-join($ret, ','), ']')
+let $ret := if(count($ret) = 0 and starts-with($uri, 'asp-backend://'))
+            then(
+                let $api := 'http://nashira.upb.de:5001/' || substring-after($uri, 'asp-backend://')
+                let $source := json-doc($api)
+                let $pages := map:get($source, 'images')
+                return
+                    array:for-each($pages, function($page) {
+                        concat('{',
+                            'id: "', map:get($page, 'id'), '", ',
+                            'path: "', map:get($page, 'imagepath'), '", ',
+                            'name: "', map:get($page, 'name'), '", ',
+                            'width: "', map:get($page, 'width'), '", ',
+                            'height: "', map:get($page, 'height'), '"',
+                        '}')
+                    })
+            )
+            else($ret)
+
+return concat('[', string-join(data($ret), ','), ']')
