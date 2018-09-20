@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -97,80 +97,119 @@ let $term := if(contains($term, '&amp;'))then(substring-before($term, '&amp;'))e
 let $path := if(contains($uriParams, 'path='))then(substring-after($uriParams, 'path='))else()
 let $path := if(contains($path, '&amp;'))then(substring-before($path, '&amp;'))else($path)
 
-let $doc := eutil:getDoc($docUri)
-let $internal := $doc/id($internalId)
+return
+    if(contains($docUri, 'xmldb:exist://'))
+    then(
 
-let $edition := request:get-parameter('edition', '')
-
-(: Specific handling of virtual measure IDs for parts in OPERA project :)
-let $internal := if(exists($internal))then($internal)else(
-                        if(starts-with($internalId, 'measure_') and $doc//mei:parts)
-                        then(
-                            let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
-                            let $measureN := functx:substring-after-last($internalId, '_')
-                            return
-                                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
-                        )
-                        else($internal)
-                    )
-
-let $type := 
-             (: Work :)
-             if(exists($doc//mei:mei) and exists($doc//mei:work))
-             then(string('work'))
-             
-             (: Recording :)
-             else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-             then(string('recording'))
-             
-             (: Source / Score :)
-             else if(exists($doc//mei:mei) and exists($doc//mei:source))
-             then(string('source'))
-             
-             
-             (: Text :)
-             else if(exists($doc/tei:TEI))
-             then(string('text'))
-             
-             (: HTML :)
-             else if(exists($doc/html))
-             then(string('html'))
-             
-             else(string('unknown'))
-             
-let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
-              then(work:getLabel($uri, $edition))
-              
-              (: Recording :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
-
-              (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
-              then(source:getLabel($uri, $edition))
-              
-              (: Text :)
-              else if(exists($doc/tei:TEI))
-              then(teitext:getLabel($uri, $edition))
-              
-              (: HTML :)
-              else if($type = 'html')
-              then($doc//head/data(title))
-             
-              else(string('unknown'))
-              
-let $internalIdType := if(exists($internal))
-                       then(local-name($internal))
-                       else('unknown')
-
-return 
-    concat("{",
-          "type:'", $type, 
-          "',title:'", $title, 
-          "',doc:'", $docUri,
-          "',views:[", local:getViews($type, $docUri, $doc), "]",
-          ",internalId:'", $internalId, $internalIdParam, 
-          "',term:'", $term,
-          "',path:'", $path,
-          "',internalIdType:'", $internalIdType, "'}")
+        let $doc := eutil:getDoc($docUri)
+        let $internal := $doc/id($internalId)
+        
+        let $edition := request:get-parameter('edition', '')
+        
+        (: Specific handling of virtual measure IDs for parts in OPERA project :)
+        let $internal := if(exists($internal))then($internal)else(
+                                if(starts-with($internalId, 'measure_') and $doc//mei:parts)
+                                then(
+                                    let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
+                                    let $measureN := functx:substring-after-last($internalId, '_')
+                                    return
+                                        ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
+                                )
+                                else($internal)
+                            )
+        
+        let $type := 
+                     (: Work :)
+                     if(exists($doc//mei:mei) and exists($doc//mei:work))
+                     then(string('work'))
+                     
+                     (: Recording :)
+                     else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+                     then(string('recording'))
+                     
+                     (: Source / Score :)
+                     else if(exists($doc//mei:mei) and exists($doc//mei:source))
+                     then(string('source'))
+                     
+                     
+                     (: Text :)
+                     else if(exists($doc/tei:TEI))
+                     then(string('text'))
+                     
+                     (: HTML :)
+                     else if(exists($doc/html))
+                     then(string('html'))
+                     
+                     else(string('unknown'))
+                     
+        let $title := (: Work :)
+                      if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
+                      then(work:getLabel($uri, $edition))
+                      
+                      (: Recording :)
+                      else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+                      then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
+        
+                      (: Source / Score :)
+                      else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
+                      then(source:getLabel($uri, $edition))
+                      
+                      (: Text :)
+                      else if(exists($doc/tei:TEI))
+                      then(teitext:getLabel($uri, $edition))
+                      
+                      (: HTML :)
+                      else if($type = 'html')
+                      then($doc//head/data(title))
+                     
+                      else(string('unknown'))
+                      
+        let $internalIdType := if(exists($internal))
+                               then(local-name($internal))
+                               else('unknown')
+        
+        return 
+            concat("{",
+                  "type:'", $type, 
+                  "',title:'", $title, 
+                  "',doc:'", $docUri,
+                  "',views:[", local:getViews($type, $docUri, $doc), "]",
+                  ",internalId:'", $internalId, $internalIdParam, 
+                  "',term:'", $term,
+                  "',path:'", $path,
+                  "',internalIdType:'", $internalIdType, "'}")
+    )
+    else if(contains($docUri, 'asp-backend://'))
+    then(
+        let $api := 'http://nashira.upb.de:5001/' || substring-after($docUri, 'asp-backend://')
+        let $obj := json-doc($api)
+        let $type := if(contains($docUri, 'asp-backend://work'))
+                        then('work')
+                        else if(contains($docUri, 'asp-backend://sheet'))
+                        then('source')
+                        else('unknown')
+        
+        let $title := if(contains($docUri, 'asp-backend://work'))
+                        then(map:get($obj, 'title'))
+                        else if(contains($docUri, 'asp-backend://sheet'))
+                        then(map:get($obj, 'name'))
+                        else('unknown')
+        
+        let $views := if(contains($docUri, 'asp-backend://work'))
+                        then(concat("{type:'headerView', defaultView:true, uri:'", $docUri, "'}"))
+                        else if(contains($docUri, 'asp-backend://sheet'))
+                        then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}"))
+                        else('')
+        
+        return
+            concat("{",
+                    "type:'", $type, 
+                    "',title:'", $title, 
+                    "',doc:'", $docUri,
+                    "',views:[", $views, "]",
+                    ",internalId:'", $internalId, $internalIdParam, 
+                    "',term:'", $term,
+                    "',path:'", $path,
+                    "',internalIdType:'unknown'}")
+    )
+    else ()

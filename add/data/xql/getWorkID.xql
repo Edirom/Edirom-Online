@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2014 The Edirom Project
@@ -24,15 +24,18 @@ xquery version "3.0";
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
-
-declare namespace edirom="http://www.edirom.de/ns/1.3";
-
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
 let $workId := request:get-parameter('workId', '')
+
+let $api := 'http://nashira.upb.de:5001/works'
+let $json := json-doc($api)
+let $workIds := array:for-each($json, function($work) {
+        xs:string(map:get($work, 'id'))
+    })
+
 return
-    if(doc($uri)//edirom:work[@xml:id = $workId])
+    if($workId = $workIds)
     then($workId)
-    else(work:findWorkID($uri))
+    else(array:get($workIds, 1))

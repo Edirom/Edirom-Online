@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -34,14 +34,19 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('editionId', '')
-let $workUris := edition:getWorkUris($uri)
+let $api := 'http://nashira.upb.de:5001/works'
+let $works := json-doc($api)
 
 return
     concat('[',
 	    string-join(
 	       
-	       for $workUri in $workUris
-	       return work:toJSON($workUri, $uri)
-	       
+            data(array:for-each($works, function($work) {
+                concat('{',
+                    'id: "', xs:string(map:get($work, 'id')), '", ',
+                    'doc: "asp-backend://work/', map:get($work, 'id'), '", ',
+                    'title: "', map:get($work, 'title'), '"',
+                '}')
+            }))	       
 	    , ','),
     ']')

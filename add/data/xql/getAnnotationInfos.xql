@@ -47,23 +47,31 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 };
 
 let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
-let $annots := collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
-return concat('{categories: [',
-        string-join(
-            for $category in local:getDistinctCategories($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name/text()
-            order by $name
-            return
-                concat('{id:"', $category, '",name:"', $name,'"}')
-        , ','),
-        '], priorities: [',
-        string-join(
-            for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name/text()
-            order by $name
-            return
-                concat('{id:"', $priority, '",name:"', $name,'"}')
-        , ','),
-        ']}')
+return
+    if(starts-with($uri, 'xmldb:exist://'))
+    then(
+        let $mei := doc($uri)/root()
+        let $annots := collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+        
+        return concat('{categories: [',
+                string-join(
+                    for $category in local:getDistinctCategories($annots)
+                    let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name/text()
+                    order by $name
+                    return
+                        concat('{id:"', $category, '",name:"', $name,'"}')
+                , ','),
+                '], priorities: [',
+                string-join(
+                    for $priority in local:getDistinctPriorities($annots)
+                    let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name/text()
+                    order by $name
+                    return
+                        concat('{id:"', $priority, '",name:"', $name,'"}')
+                , ','),
+                ']}')
+    )
+    else(
+        '{categories: [], priorities: []}'
+    )

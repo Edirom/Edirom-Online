@@ -27,9 +27,16 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
-
-let $ret := for $part in $mei//mei:instrumentation/mei:instrVoice
-            return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:true, selected:true}')
-
-return concat('[', string-join($ret, ','), ']')
+return
+    if(starts-with($uri, 'xmldb:exist://'))
+    then (
+        let $mei := doc($uri)/root()
+        
+        let $ret := for $part in $mei//mei:instrumentation/mei:instrVoice
+                    return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:true, selected:true}')
+        
+        return concat('[', string-join($ret, ','), ']')
+    )
+    else (
+        '[]'
+    )

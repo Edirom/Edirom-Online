@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -62,8 +62,23 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
 
 let $uri := request:get-parameter('uri', '')
 let $mdivID := request:get-parameter('mdiv', '')
-let $mei := doc($uri)/root()
-
-let $ret := local:getMeasures($mei, $mdivID)
-
-return concat('[', string-join($ret, ','), ']')
+return
+    if(starts-with($uri, 'xmldb:exist://'))
+    then(
+        let $mei := doc($uri)/root()
+        let $ret := local:getMeasures($mei, $mdivID)
+        return concat('[', string-join($ret, ','), ']')
+    )
+    else(
+        let $api := 'http://nashira.upb.de:5001/segment/' || $mdivID || '/measures'
+            let $measures := json-doc($api)
+            let $ret := array:for-each($measures, function($measure) {
+                    concat('{',
+                        'id: "', map:get($measure, 'id'), '", ',
+                        'measures: [{id:"', map:get($measure, 'id'), '", voice: "score"}], ',
+                        'mdivs: ["', $mdivID, '"], ',
+                        'name: "', map:get($measure, 'name'), '"',
+                    '}')
+                })
+            return concat('[', string-join(data($ret), ','), ']')
+    )

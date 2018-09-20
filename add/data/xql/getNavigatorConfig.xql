@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -28,99 +28,54 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare function local:getScores($work) {
+    array:for-each(map:get($work, 'sources'), function($source) {
+        <div class="navigatorItem" onclick="loadLink('asp-backend://sheet/{ map:get($source, 'id') }', {{}})">{ map:get($source, 'name') }</div>
+    })
+};
+
 declare variable $lang := request:get-parameter('lang', '');
-
-declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
-      else $node/edirom:names/edirom:name[1]/node()
-};
-
-declare function local:getCategory($category, $depth) {
-
-    let $name := local:getLocalizedName($category)
-    return
-    <div class="navigatorCategory{if($depth = 1)then()else($depth)}" id="{$category/@xml:id}">
-        <div class="navigatorCategoryTitle{if($depth = 1)then()else($depth)}">
-            {
-                if($depth = 1)
-                then($name)
-                else(
-                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$name}<i class="fa fa-caret-right fa-fw"></i></span>
-                )
-            }            
-        </div>
-            <div id="{$category/@xml:id}-items" class="{if($depth = 1)then()else('hidden')}">
-            {
-                for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
-                return
-                    if(local-name($elem) eq 'navigatorItem')
-                    then(
-                        local:getItem($elem, $depth)
-                    )
-                    else if(local-name($elem) eq 'navigatorSeparator')
-                    then(
-                        local:getSeparator()
-                    )
-                    else if(local-name($elem) eq 'navigatorCategory')
-                    then(
-                        local:getCategory($elem, $depth + 1)
-                    )
-                    else()
-            }
-            </div>
-    </div>
-};
-
-declare function local:getItem($item, $depth) {
-
-    let $target := $item/replace(@targets, '\[.*\]', '')
-    let $cfg := concat('{', replace(substring-before($item/substring-after(@targets, '['), ']'), '=', ':'), '}')
-    let $target := if(starts-with($target, 'javascript:'))
-                    then(replace($target, 'javascript:', ''))
-                    else(concat("loadLink('", $target, "', ", $cfg, ")"))
-    return
-
-    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="{$target}">
-        { local:getLocalizedName($item) }
-    </div>
-};
-
-declare function local:getSeparator() {
-
-    <div class="navigatorSeparator"></div>
-};
-
-declare function local:getDefinition($navConfig) {
-    
-    let $elems := $navConfig/*
-    
-    for $elem in $elems
-    
-    return
-        
-        if(local-name($elem) eq 'navigatorItem')
-        then(
-            local:getItem($elem, 1)
-        )
-        else if(local-name($elem) eq 'navigatorSeparator')
-        then(
-            local:getSeparator()
-        )
-        else if(local-name($elem) eq 'navigatorCategory')
-        then(
-            local:getCategory($elem, 1)
-        )
-        else()
-};
 
 let $editionId := request:get-parameter('editionId', '')
 let $workId := request:get-parameter('workId', '')
-let $edition := doc($editionId)/root()
-let $work := $edition/id($workId)
-let $navConfig := $work/edirom:navigatorDefinition
+let $lang := request:get-parameter('lang', 'de')
+
+let $api := 'http://nashira.upb.de:5001/work/' || $workId
+let $work := json-doc($api)
 
 return
-    local:getDefinition($navConfig)
+    <div>
+
+<div class="navigatorCategory" id="navCategory-10101">
+    <div class="navigatorCategoryTitle">Edition ZenMEM Backend</div>
+    <div id="navCategory-10101-items" class="">
+        <div class="navigatorItem" id="navItem-10101" onclick="loadLink('asp-backend://work/{ $workId }', {{}})">{ map:get($work, 'title') }</div>
+    </div>
+</div>
+<div class="navigatorSeparator"></div>
+<div class="navigatorCategory" id="navCategory-0101">
+    <div class="navigatorCategoryTitle">{ if($lang = 'de') then 'Notentexte' else 'Scores' }</div>
+    <div id="navCategory-0101-items" class="">
+    {
+        local:getScores($work)
+    }
+    </div>
+</div>
+<div class="navigatorCategory" id="navCategory-21">
+    <div class="navigatorCategoryTitle">{ if($lang = 'de') then 'Kritischer Bericht' else 'Critical Report' }</div>
+    <div id="navCategory-21-items" class="">
+        <div class="navigatorItem" id="navItem-22" onclick="loadLink('xmldb:exist:///db/apps/zenmem-backend/annotations.xml', {{}})">{ if($lang = 'de') then 'Anmerkungen' else 'Annotations' }</div>
+    </div>
+</div>
+<div class="navigatorSeparator"></div>
+<div class="navigatorCategory" id="navCategory-932">
+    <div class="navigatorCategoryTitle">{ if($lang = 'de') then 'Einstellungen und Hilfe' else 'Settings and Help' }</div>
+    <div id="navCategory-932-items" class="">
+        <div class="navigatorItem" id="navItem-934" onclick="EdiromOnline.getApplication().getController('desktop.TaskBar').onSwitchLanguage()">
+            <i xmlns="http://www.edirom.de/ns/1.3" class="fa fa-flag" style="margin-right: 7px;" aria-hidden="true"></i>{ if($lang = 'de') then 'Sprache auf Englisch umschalten' else 'Switch language to German' }</div>
+        <div class="navigatorItem" id="navItem-935" onclick="loadLink('xmldb:exist:///db/apps/zenmem-backend/first-steps.xml', {{}})">{ if($lang = 'de') then 'Kurzanleitung' else 'Short help' }</div>
+    </div>
+</div>
+<div class="navigatorSeparator"></div>
+<div class="navigatorItem" id="" onclick="loadLink('xmldb:exist:///db/apps/zenmem-backend/imprint.xml', {{}})">{ if($lang = 'de') then 'Impressum' else 'Imprint' }</div>
+</div>

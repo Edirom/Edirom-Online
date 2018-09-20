@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -34,18 +34,36 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $type := request:get-parameter('type', '')
 let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
-let $doc := eutil:getDoc($docUri)
 let $lang := request:get-parameter('lang', 'de')
 
-let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
-
 return
-    if($type = 'work')
-    then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
-    else if($type = 'source')
-    then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
-    else if($type = 'recording')
-    then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
-    else if($type = 'text')
-    then(transform:transform($doc, concat($base, 'teiHeader2HTML.xsl'),<parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
-    else()
+    if(starts-with($uri, 'xmldb:exist://'))
+    then (
+        let $doc := eutil:getDoc($docUri)
+        
+        let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
+        
+        return
+            if($type = 'work')
+            then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
+            else if($type = 'source')
+            then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
+            else if($type = 'recording')
+            then(transform:transform($doc, concat($base, 'meiHead2HTML.xsl'), <parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
+            else if($type = 'text')
+            then(transform:transform($doc, concat($base, 'teiHeader2HTML.xsl'),<parameters><param name="base" value="{$base}"/><param name="lang" value="{$lang}"/></parameters>))
+            else()
+    )
+    else(
+        let $api := 'http://nashira.upb.de:5001/' || substring-after($uri, 'asp-backend://')
+        let $obj := json-doc($api)
+        return
+            <div style="max-width: 500px; margin: 0 auto;">
+                <h1 style="text-align:center;">{if($type='work')then(map:get($obj, 'title'))else(map:get($obj, 'name'))}</h1>
+                <div><span style="display: inline-block; padding-right: 10px; width: 150px; text-align:right;">Komponist:</span><span>{map:get($obj, 'composer')}</span></div>
+                <div><span style="display: inline-block; padding-right: 10px; width: 150px; text-align:right;">Jahr:</span><span>{map:get($obj, 'year')}</span></div>
+                <div><span style="display: inline-block; padding-right: 10px; width: 150px; text-align:right;">Signatur:</span><span>{map:get($obj, 'signature')}</span></div>
+                <div><span style="display: inline-block; padding-right: 10px; width: 150px; text-align:right; vertical-align:top;">Beschreibung:</span><span>{map:get($obj, 'description')}</span></div>
+            </div>
+    )
+    

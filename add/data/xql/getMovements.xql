@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -28,14 +28,31 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
+let $uri := request:get-parameter('uri', 'asp-backend://sheet/4')
+return
+    if(starts-with($uri, 'xmldb:exist://'))
+    then(
+        let $mei := doc($uri)/root()
+        let $ret := for $movement in $mei//mei:mdiv
+                    return
+                        concat('{',
+                            'id: "', $movement/string(@xml:id), '", ',
+                            'name: "', $movement/string(@label), '"',
+                        '}')
+    
+        return concat('[', string-join($ret, ','), ']')
+    )
+    else if(starts-with($uri, 'asp-backend://'))
+    then(
+        let $api := 'http://nashira.upb.de:5001/' || substring-after($uri, 'asp-backend://') || '/segments'
+        let $movements := json-doc($api)
+        let $ret := array:for-each($movements, function($movement) {
+                        concat('{',
+                            'id: "', map:get($movement, 'id'), '", ',
+                            'name: "', map:get($movement, 'name'), '"',
+                        '}')
+                    })
+        return concat('[', string-join(data($ret), ','), ']')
+    )
+    else()
 
-let $ret := for $movement in $mei//mei:mdiv
-            return
-                concat('{',
-                    'id: "', $movement/string(@xml:id), '", ',
-                    'name: "', $movement/string(@label), '"',
-                '}')
-
-return concat('[', string-join($ret, ','), ']')

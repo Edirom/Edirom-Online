@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -63,20 +63,91 @@ declare function local:getMeasure($mei, $measure, $movementId) as xs:string {
         '}')
 };
 
+declare function local:getBoundingBox($vertices, $width, $height) {
+    let $xValues := array:for-each($vertices, function($vertex) {
+                    map:get($vertex, 'x')
+                })
+    let $yValues := array:for-each($vertices, function($vertex) {
+                    map:get($vertex, 'y')
+                })
+    let $ulx := round(min($xValues) * 0.01 * $width)
+    let $uly := round(min($yValues) * 0.01 * $height)
+    let $lrx := round(max($xValues) * 0.01 * $width)
+    let $lry := round(max($yValues) * 0.01 * $height)
+    return concat('ulx: "', $ulx, '", ',
+                  'uly: "', $uly, '", ',
+                  'lrx: "', $lrx, '", ',
+                  'lry: "', $lry, '"')
+};
+
 let $id := request:get-parameter('id', '')
 let $measureIdName := request:get-parameter('measure', '')
 let $movementId := request:get-parameter('movementId', '')
 let $measureCount := request:get-parameter('measureCount', '1')
 
-let $mei := doc($id)/root()
-
-let $measure := local:findMeasure($mei, $movementId, $measureIdName)
-let $extraMeasures := for $i in (2 to xs:integer($measureCount))
-                      let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
-                      return
-                        if($m)then(local:getMeasure($mei, $m, $movementId))else() 
-
 return
-    concat('[',
-        string-join((local:getMeasure($mei, $measure, $movementId), $extraMeasures), ','),
-    ']')
+    if(starts-with($id, 'xmldb:exist://'))
+    then (
+        let $mei := doc($id)/root()
+        
+        let $measure := local:findMeasure($mei, $movementId, $measureIdName)
+        let $extraMeasures := for $i in (2 to xs:integer($measureCount))
+                              let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
+                              return
+                                if($m)then(local:getMeasure($mei, $m, $movementId))else() 
+        
+        return
+            concat('[',
+                string-join((local:getMeasure($mei, $measure, $movementId), $extraMeasures), ','),
+            ']')
+    )
+    else (
+    
+        if($measureCount = '1')
+        then(    
+            let $api := 'http://nashira.upb.de:5001/measure/' || $measureIdName
+            let $measure := json-doc($api)
+            let $api := 'http://nashira.upb.de:5001/image/' || map:get($measure, 'imageId')
+            let $page := json-doc($api)
+            let $boundingBox := local:getBoundingBox(map:get($measure, 'vertices'), map:get($page, 'width'), map:get($page, 'height'))
+            let $ret := concat('{',
+                            'measureId:"', $measureIdName, '",',
+                            'zoneId:"zone-', $measureIdName, '",',
+                            'pageId:"', map:get($measure, 'imageId'), '", ',
+                            'movementId:"', $movementId, '",',
+                            'path: "', map:get($page, 'imagepath'), '", ',
+                            'width: "', map:get($page, 'width'), '", ',
+                            'height: "', map:get($page, 'height'), '", ',
+                            $boundingBox,
+                        '}')
+                        
+            return concat('[', $ret, ']')
+            
+            (:{
+              "id": 0,
+              "vertices": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ],
+              "segmentId": 0,
+              "imageId": 0,
+              "name": "string"
+            }:)
+            
+            
+        )else (
+            (:let $api := 'http://nashira.upb.de:5001/segment/' || $movementId || '/measures'
+            let $measures := json-doc($api)
+            let $ret := array:for-each($measures, function($measure) {
+                    concat('{',
+                        'id: "', map:get($measure, 'id'), '", ',
+                        'measures: [{id:"', map:get($measure, 'id'), '", voice: "score"}], ',
+                        'mdivs: ["', $mdivID, '"], ',
+                        'name: "', map:get($measure, 'name'), '"',
+                    '}')
+                }):)
+            concat('[', ']')
+        )
+    )
