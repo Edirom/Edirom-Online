@@ -150,19 +150,21 @@ Ext.define('de.edirom.online.controller.LinkController', {
                 }
 
                 if(singleUri.indexOf('#') != -1) {
-
-                    Ext.Ajax.request({
-                        url: 'data/xql/getInternalIdType.xql',
-                        method: 'GET',
-                        params: {
-                            uri: singleUri
-                        },
-                        success: function(response){
-                            win.loadInternalId(singleUri.split('#')[1], response.responseText.trim());
-                            win.show();
-                        },
-                        scope: this
-                    });
+                    
+                    window.doAJAXRequest('data/xql/getInternalIdType.xql',
+                    'GET',
+                    {
+                        uri: singleUri
+                    },
+                        Ext.bind(function(response){
+                                win.loadInternalId(singleUri.split('#')[1], response.responseText.trim());
+                                win.show();
+                            },
+                            {
+                                scope: this
+                            }
+                        )
+                    );
                 }else
                     win.showView('summaryView');
                     
