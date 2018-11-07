@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:exist="http://exist.sourceforge.net/NS/exist" exclude-result-prefixes="#default xs tei exist xhtml" version="2.0">
+<xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:exist="http://exist.sourceforge.net/NS/exist"
+    exclude-result-prefixes="#default xs tei exist xhtml" version="2.0">
     <xsl:import href="tei/common2/tei-param.xsl"/>
     <xsl:import href="tei/common2/tei.xsl"/>
     <xsl:import href="tei/xhtml2/tei-param.xsl"/>
@@ -25,14 +29,16 @@
     <xsl:import href="tei/xhtml2/transcr.xsl"/>
     <xsl:import href="tei/xhtml2/verse.xsl"/>
     <xsl:import href="tei/common2/verbatim.xsl"/>
-    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
+    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes"
+        indent="yes"/>
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
 
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <xsl:param name="numberHeadings">false</xsl:param>
     <xsl:param name="autoHead">false</xsl:param>
-    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/</xsl:param><!-- ?dw=500&mo=fi -->
+    <xsl:param name="graphicsPrefix">../../../digilib/Scaler/</xsl:param>
+    <!-- ?dw=500&mo=fi -->
     <!-- END OVERWRITE TEI-PARAMS -->
     <xsl:variable name="masterFile" select="string('file')"/>
     <xsl:variable name="i18n" select="document(concat($base, 'tei/i18n.xml'))"/>
@@ -54,6 +60,8 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
+    
+    <!-- OVERWRITE TEI-FUNCTIONS -->
     <xsl:function name="tei:getLabel" xpath-default-namespace="">
         <xsl:param name="key"/>
         <xsl:choose>
@@ -76,10 +84,12 @@
                 <xsl:value-of select="round($dpi * number(substring-before($value,'in')))"/>
             </xsl:when>
             <xsl:when test="contains($value,'pt')">
-                <xsl:value-of select="round($dpi * (number(substring-before($value,'pt')) div 72))"/>
+                <xsl:value-of select="round($dpi * (number(substring-before($value,'pt')) div 72))"
+                />
             </xsl:when>
             <xsl:when test="contains($value,'cm')">
-                <xsl:value-of select="round($dpi * (number(substring-before($value,'cm')) div 2.54 ))"/>
+                <xsl:value-of
+                    select="round($dpi * (number(substring-before($value,'cm')) div 2.54 ))"/>
             </xsl:when>
             <xsl:when test="contains($value,'px')">
                 <xsl:value-of select="substring-before($value,'px')"/>
@@ -89,12 +99,17 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
+    
+    <!-- END OVERWRITE TEI-FUNCTIONS -->
+    <xsl:include href="edirom_tei_common.xsl"/>
     <xsl:template name="makeSection">
         <xsl:param name="element"/>
         <xsl:element name="div">
             <xsl:attribute name="class" select="string('section')"/>
             <xsl:element name="h1">
-                <xsl:value-of select="if(tei:getLabel(local-name($element)) != '')then(tei:getLabel(local-name($element)))else(local-name($element))"/>
+                <xsl:value-of
+                    select="if(tei:getLabel(local-name($element)) != '')then(tei:getLabel(local-name($element)))else(local-name($element))"
+                />
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class" select="string('propertyList')"/>
@@ -143,7 +158,8 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:if test="not($Depth = '')">
-                    <xsl:element name="{if (number($Depth)+$divOffset &gt;6) then 'div'                     else concat('h',number($Depth) + $divOffset)}">
+                    <xsl:element
+                        name="{if (number($Depth)+$divOffset &gt;6) then 'div'                     else concat('h',number($Depth) + $divOffset)}">
                         <xsl:choose>
                             <xsl:when test="@rend">
                                 <xsl:call-template name="rendToClass">
@@ -170,7 +186,8 @@
                     </xsl:element>
                     <xsl:if test="$topNavigationPanel='true' and $nav='true'">
                         <xsl:call-template name="xrefpanel">
-                            <xsl:with-param name="homepage" select="concat($masterFile,$standardSuffix)"/>
+                            <xsl:with-param name="homepage"
+                                select="concat($masterFile,$standardSuffix)"/>
                             <xsl:with-param name="mode" select="local-name(.)"/>
                         </xsl:call-template>
                     </xsl:if>
@@ -197,16 +214,21 @@
                         <xsl:value-of select="$graphicsSuffix"/>
                     </xsl:if>
                     <xsl:text>?</xsl:text>
-                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-- | @scale -->
+                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale">
+                        <!-- | @scale -->
                         <xsl:for-each select="current-group()">
                             <xsl:choose>
                                 <xsl:when test="name() = 'height'">
-                                    <xsl:value-of select="concat('dh=', tei:calcDimension(.), '&amp;', 'amp;')"/>
+                                    <xsl:value-of
+                                        select="concat('dh=', tei:calcDimension(.), '&amp;', 'amp;')"
+                                    />
                                 </xsl:when>
                                 <xsl:when test="name() = 'width'">
-                                    <xsl:value-of select="concat('dw=', tei:calcDimension(.), '&amp;', 'amp;')"/>
+                                    <xsl:value-of
+                                        select="concat('dw=', tei:calcDimension(.), '&amp;', 'amp;')"
+                                    />
                                 </xsl:when>
-<!--                            <xsl:when test="name() = 'scale'">
+                                <!--                            <xsl:when test="name() = 'scale'">
                                     <xsl:value-of select="concat('dh=', tei:calcDimension(.), '&', 'amp;')"/>
                                 </xsl:when>-->
                                 <xsl:otherwise/>
@@ -221,8 +243,7 @@
                 <xsl:when test="@url = ''">error<xsl:value-of select="$graphicsSuffix"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:message terminate="yes">Cannot work out how to do a graphic
-                    </xsl:message>
+                    <xsl:message terminate="yes">Cannot work out how to do a graphic </xsl:message>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -326,7 +347,8 @@
                                 <xsl:text>loadLink('</xsl:text>
                                 <xsl:value-of select="replace(@target, '\[.*\]', '')"/>
                                 <xsl:text>', {</xsl:text>
-                                <xsl:value-of select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
+                                <xsl:value-of
+                                    select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
                                 <xsl:text>})</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
@@ -415,9 +437,40 @@
             <xsl:apply-templates select="text()"/>
         </xsl:element>
     </xsl:template>
-<xsl:template match="exist:match">
+    <xsl:template match="exist:match">
         <span class="searchResult">
             <xsl:apply-templates/>
         </span>
+    </xsl:template>
+<doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>Process tei:sic</desc>
+    </doc>
+    <xsl:template match="tei:sic">
+        <xsl:apply-templates/>
+        <span class="plain"> [sic]</span>
+    </xsl:template>
+    <xsl:template match="tei:head[parent::tei:lg]">
+        <span class="lg-head">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
+    <!-- bwb following template experimental for staticTableHead -->
+    <xsl:template match="tei:table[@rend='staticHead']" priority="1.0">
+        <div class="staticTableBox">
+            <div class="staticTableHeader">
+                <table>
+                    <tbody>
+                        <xsl:apply-templates select="tei:row[@role='label']"/>
+                    </tbody>
+                </table>
+            </div>
+            <div class="staticTableCont">
+                <table>
+                    <tbody>
+                        <xsl:apply-templates select="tei:row[@role='data']"/>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </xsl:template>
 </xsl:stylesheet>
