@@ -28,7 +28,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-declare function local:findMeasure($mei, $movementId, $measureIdName, $part) { (:, $part:)
+declare function local:findMeasures($mei, $movementId, $measureIdName, $part) { (:, $part:)
     let $m := $mei/id($measureIdName)
     return
         if($m)
@@ -37,8 +37,8 @@ declare function local:findMeasure($mei, $movementId, $measureIdName, $part) { (
         
         else(
             if($part != '')
-            then(($mei/id($movementId)//mei:part[mei:staffDef/@decls = concat('#',$part)]//mei:measure[@n eq $measureIdName])[1])
-            else(($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1])
+            then(($mei/id($movementId)//mei:part[mei:staffDef/@decls = concat('#',$part)]//mei:measure[@n eq $measureIdName]))(:$measureIdName])[1]):)
+            else(($mei/id($movementId)//mei:measure[@n eq $measureIdName]))(:$measureIdName])[1]):)
        )
         
 (:        else(
@@ -73,22 +73,33 @@ declare function local:getMeasure($mei, $measure) as xs:string {
         '}')
 };
 
+declare function local:getMeasures($mei, $measures) as xs:string {
+    
+    string-join(
+        for $measure in $measures 
+        return local:getMeasure($mei, $measure)
+    ,', ')
+};
+
 let $id := request:get-parameter('id', '')
 let $measureIdName := request:get-parameter('measure', '')
 let $movementId := request:get-parameter('movementId', '')
-let $measureCount := request:get-parameter('measureCount', '1')
+let $measureCount := request:get-parameter('measureCount', '')
 let $part := request:get-parameter('stimme', '')
 (:let $part := request:get-parameter('part', ''):)
 
 let $mei := doc($id)/root()
 
-let $measure := local:findMeasure($mei, $movementId, $measureIdName, $part) (:, $part:)
+(: ~
+ : $measure calls local:findMeasure
+ :)
+let $measures := local:findMeasures($mei, $movementId, $measureIdName, $part) (:, $part:)
 let $extraMeasures := for $i in (2 to xs:integer($measureCount))
-                      let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
+                      let $m := $measures[last()]/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
                       return
                         if($m)then(local:getMeasure($mei, $m))else() 
 
 return
     concat('[',
-        string-join((local:getMeasure($mei, $measure), $extraMeasures), ','),
+        string-join((local:getMeasures($mei, $measures), $extraMeasures), ','),
     ']')
