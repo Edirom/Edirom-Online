@@ -740,7 +740,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
 
 Ext.define('de.edirom.online.view.window.source.IntervalSpinner', {
     extend: 'Ext.form.Spinner',
-    
+    cls: 'intervalSpinner', //bwb-2017
     step: 1,
     size: 4,
     
