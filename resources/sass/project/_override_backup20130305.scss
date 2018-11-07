@@ -1,0 +1,1294 @@
+/*
+ *	The variables in this file will only affect the scss files in the 'edirom'-folder,
+ *	but not the extJS defaults. If you want to access these variables, use the file 
+ *	'extOverride.scss' instead.
+ */
+
+
+@import "compass/css3/images";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+
+@import '_variables.scss';
+@import 'project/_fonts.scss';
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	DESKTOP									 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.ediromDesktop.x-panel-body-default {
+	@include background(linear-gradient(top, #444444, #000000));
+}
+
+.x-panel-body-default {
+	border-color: #444444;
+}
+
+.x-border-box .prelRemark {
+    font-size: 0.9em;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+/** FRAGE: Ist problematisch wegen nicht eingehaltenem Einzug bei Zeilenumbrüchen **/
+/*
+.x-border-box .prelRemark li:before{
+        content: '– ';
+}
+*/
+
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	NAVIGATOR								 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.navigatorCategory {
+	margin-bottom: 10px;
+	padding-left: 5px;
+}
+
+.navigatorCategoryTitle {
+	padding: 2px 5px 2px 5px;
+	color: #777777;
+	font-family: $label_baseFont;
+	font-size: $label_baseFont_size;
+}
+
+.navigatorItem {
+	padding: 1px 5px;
+	cursor: pointer;
+	font-family: $content_baseFont;
+	font-size: $navigatorItem_fontSize !important;
+	color: $content_baseFont_color;
+}
+
+.navigatorSeparator {
+	margin: 10px 30px 7px;
+	height: 1px;
+	border-bottom: 1px solid #999999;
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Window						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+/* „Fit Image“ Button in der Toolbar eines SourceView */
+.ediromWindow .toolButton.fit {
+	left: 147px !important;
+}
+
+/* Anzeige der aktuellen Anmerkungsnummer in der Toolbar des Anmerkungsfensters */
+.ediromWindow .activeAnnotation {
+    position: relative !important;
+    left: 0px !important;
+    top: 2px !important;
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Tips						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.annotTip .metaBox {
+    display: block;
+}
+
+.annotTip .previewArea {
+    display:none;
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Metabox					 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+/* Ausblenden der Prioritäten im Metadatenbereich der Anmerkungen */
+.metaBox .property.priority {
+    display: none;    
+}
+
+.metaBox .property.sourceLabel {
+    display: none;
+}
+
+/* Hintergrund der Metadaten in den Anmerkungen*/
+.annotView .metaBox {
+    background: none;
+    border: none;    
+}
+.annotView .ref {
+    cursor:pointer;
+    color:#1354B5;    
+}
+
+/* Hervorhebung der Takte */
+div.measure.highlighted {
+    border: none;
+    box-shadow: none;
+}
+
+/* Abstand zwischen Überschrift und Text in Anmerkungen */
+.annotView .contentBox h1 {
+    margin-bottom: 10px;    
+}
+
+/*linkfunktion in den Annotationen*/
+.annotView .span {
+    background-color: #aaaaaa;
+    /*cursor: pointer;*/
+    
+}
+/* Hervorhebung der Annotationspunke */
+.ediromAnnotPrio1.highlighted {
+    border: none;
+    box-shadow: none;
+}
+
+.annotView .metaBox .property_sourceLabel {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Source View				 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.annotation {
+	/*Describes the icons and rendering of annotations on facsimile pages*/
+	
+	.annotIcon {
+		width: 20px;
+		height: 16px;
+		border:  1px solid #666666;
+		@include border-radius(3px, 3px);
+		/* @include box-shadow(0 2px 4px #000000); */
+		z-index: 1;
+		font-size: 11px;
+		box-shadow: none;
+	}
+	
+	&.highlighted {
+		@include border-radius(3px, 3px);
+		/* @include box-shadow(0 0 20px rgba(0,0,0,0.5)); */
+	}
+	
+	&.ediromAnnotPrio1 .annotIcon {
+		@include background(linear-gradient(top,rgba(255,73,73,0.85) 0%, rgba(180,14,14,0.85) 100%));
+	}
+	
+	&.ediromAnnotCategory_Music {
+		.annotIcon:before {
+    		content: "M";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.37em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: "S";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.55em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Text {
+		.annotIcon:before {
+    		content: "T";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.5em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Text.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotPrio2 .annotIcon {
+		@include background(linear-gradient(top,rgba(255,233,91,0.85) 0%, rgba(255,107,15,0.85) 100%));
+	}
+	
+	&.ediromAnnotPrio3 .annotIcon {
+		@include background(linear-gradient(top,rgba(254,252,234,0.85) 0%, rgba(241,218,54,0.85) 100%));
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Text Edition				 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+table.librettoEdition span.note span.annotation {
+
+	@include background(linear-gradient(top, rgba(255, 73, 73, 0.85), rgba(180, 14, 14, 0.85)));
+	@include border-radius(3px);
+	/* @include box-shadow(0 2px 4px rgba(0,0,0,0.5)); */
+    
+    border: 1px solid #666666;
+    height: 15px;
+    width: 18px;
+    z-index: 1;
+    font-size: 11px;
+    display: inline-block;
+    box-shadow: none;
+    margin-right: 1px;
+    
+    &.ediromAnnotCategory_Text:before {
+		content: "T";
+		line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Stage:before {
+    content: "S";
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music:before {
+    content: "M";
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Text.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+}
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	TEXT									 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.headerViewContent div.value {
+    font-family: $content_baseFont;
+}
+
+//Table of Contents
+.textViewContent div.toc ol {
+	font-family: $content_baseFont;
+	/* font-size: $content_baseFont_size; Wird nicht mehr benötigt, da nur <a> und keine <p>*/
+    
+	line-height: 1.1 !important;
+  
+    background-color: #ededed;
+  	
+   	border-radius: 10px;
+
+	margin-bottom: 60px;
+   	margin-left: 20px;
+    margin-right: 20px;
+    
+    padding-top: 2.5em;
+    padding-bottom: 1.5em;
+    padding-left: 3em;
+    padding-right: 3em;
+    
+    list-style: none;
+}
+
+.textViewContent div.toc ol li {
+	list-style: none;
+}
+
+.textViewContent div.toc li a {
+	font-size: 0.86*$content_baseFont_size !important;
+	color: $linkColor;
+}
+
+.textViewContent div ol {
+	font-family: $content_baseFont;
+	font-size: $content_baseFont_size;
+	
+	line-height: 1.6em;
+	
+	margin-bottom: 0.8em;
+   	margin-left: 5em;
+    margin-right: 1.5em; 
+}
+
+.textViewContent div ol li {
+	list-style: decimal outside;
+	margin-bottom: 0.8em;
+}
+
+.textViewContent div ol.roman li {
+	list-style: upper-roman outside;
+}
+
+.textViewContent div ul {
+	font-family: $content_baseFont;
+	font-size: $content_baseFont_size;
+	
+	line-height: 1.6em;
+	
+	text-align: left;
+	
+	margin-bottom: 0.8em;
+   	margin-left: 5em;
+    margin-right: 1.5em; 
+}
+
+.textViewContent div > ul > li.item {
+	margin-bottom: 0.8em;
+	text-indent: -0.7em;
+}
+
+.textViewContent div > ul > li.item:before {
+	content: "–" " ";
+}
+
+.textViewContent p, .textViewContent div.p {
+    text-align:justify;
+    margin-bottom: 0.8em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
+    font-family: $content_baseFont;
+    font-size: $content_baseFont_size;
+    line-height: 1.6em;
+}
+
+.textViewContent div.p {
+    padding: 0 !important;
+}
+
+.textViewContent div {
+	padding-left: 2.5em;
+	padding-right: 2.5em;
+	text-align: justify;
+}
+
+.textViewContent div.lg {
+	line-height: 1.6;
+	
+	margin-top: 0.8em;
+	margin-bottom: 0.8em;
+	margin-left: 16em;
+}
+
+.textViewContent div.l {
+	font-family: $content_baseFont;
+	font-size: 0.86*$content_baseFont_size;
+}
+
+.textViewContent div.line {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: 4em;
+	margin-right: 30em;
+	border-bottom: 1px solid #333333;
+	
+}
+
+.textViewContent div.footnotes {
+	line-height: 1.5
+}
+
+.textViewContent div.note {
+ 	font-family: $content_baseFont;
+ 	font-size: 0.79*$content_baseFont_size;
+ 	
+ 	color: #494949;
+ 	
+ 	margin-left: 1em;
+ 	margin-right: 1em;
+}
+
+.textViewContent div.citquote {
+    font-family: $content_baseFont;
+    font-size: 0.86*$content_baseFont_size !important; 
+    
+    line-height: 1.6;
+    text-align:justify;
+    
+    margin-top: 1.8em;
+    margin-bottom: 1.8em;
+    margin-left:2em;
+	margin-right:2em;  
+}
+
+.textViewContent h1.rend {
+    /* margin-left: 0.4em;   */ 
+    font-style: normal;
+    margin-top: 7px;
+}
+
+.textViewContent h2 {
+	font-family: $content_baseFont;
+    font-size: 1.86*$content_baseFont_size !important; /* font-size:16px; */
+    font-weight: lighter;
+    text-align: center;
+	
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: 1em;
+	/* padding-bottom: 24px; */
+    
+}
+
+.textViewContent h2.headComment {
+    margin-left: 0.4em; 
+    /* font-size: 1.2em; */
+}
+
+.textViewContent h3 {
+    font-family: $content_baseFont;
+    font-size: 1.29*$content_baseFont_size;
+    font-weight: lighter; /* normal */
+    font-style: normal;
+    
+    color: #494949;
+    
+    margin-top: 2em; /* 15px; */
+    margin-bottom: 0.5em; /* 10px; */
+	margin-left: 1.15em;
+    margin-right: 1.15em;
+    
+}
+
+.textViewContent span.noteLabel {
+    display: none;
+    margin-left: 0.4em;
+}
+
+.textViewContent span.double_underline {
+	border-bottom: medium double;
+}
+
+.textViewContent .ref { 
+    cursor: pointer;
+    color: #1354B5; 
+}
+
+.textViewContent a {
+	/* margin-bottom: 0.8em;
+    margin-left: 2em;
+    margin-right: 2em;*/
+    color: $linkColor;
+    text-decoration: none;
+    font-family: $content_baseFont;
+    /* font-size: 1.15*$content_baseFont_size; */
+}
+
+.textViewContent a.sup {
+  font-family: sans-serif;
+  font-size: 0.72*$content_baseFont_size;
+  
+  background-color: #ededed;
+  border-radius: 2px 2px 2px 2px;
+  
+  margin-left: 1px;
+  margin-right: 1px;
+  
+  padding-top: 2px;
+  padding-left: 2px;
+  padding-right: 2px; 
+  
+  top: -0.6em;
+  
+  position: relative;
+  text-decoration:none;
+}
+
+.textViewContent class_sup {
+	font-size: 11px;
+	line-height: 12px;
+	vertical-align: super;
+	text-decoration: inherit;
+	font-style: inherit;
+	font-weight: inherit;
+}
+
+.textViewContent class_sub {
+	font-size:11px;
+	line-height: 5px;
+	vertical-align:sub;
+}
+
+
+.textViewContent table.table, .textViewContent table.table tr, .textViewContent table.table td {
+	border: medium none;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	font-family: $content_baseFont;
+	font-size:1em;   
+} 
+
+
+/* Tabellen */
+
+table.topLinks {
+	display:none;
+	background-color: #aaaaaa;
+	border: 1px solid #999999;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-collapse:collapse;
+	width: 100%;
+	text-align:center;
+	position:fixed;
+	top: -1px;
+	height: 20px;
+	z-index: 1000;
+}
+
+table.topLinks span {
+    cursor: pointer;
+}
+
+table.table td.celllabel {
+    font-weight:bold;
+}
+    
+table.table td.number {
+    max-width: 50px;
+    min-width: 50px;
+}
+    
+table.table td.fix {
+    max-width: 500px;
+    min-width: 500px;
+}
+
+.table.caption {
+    font-size:1.05em;
+}   
+
+caption, th {
+    margin-left:0.5em;
+    margin-bottom: 2px;
+    margin-top: 15px;
+    font-size: 1.05em;
+    font-weight:bold;
+/*    margin-left: 1.5em;  */
+}
+
+/* Listen */
+
+.listhead {
+   	font-family: $content_baseFont;
+   	font-size: 1.1*$content_baseFont_size;
+   	font-weight: normal;
+   /* 
+ margin-left: 3em;
+    margin-bottom: 9px;
+ */
+}
+
+
+/* 
+.item {
+	font-family: $content_baseFont;
+   	font-size: 0.9*$content_baseFont_size;
+   	font-weight: normal;
+}
+ */
+
+/*.textViewContent div.teidiv1 {
+    margin-bottom: 2em;
+    }*/
+
+/* 
+.teidiv1 {
+    margin-bottom:26px;
+}
+ */
+
+	
+
+.textViewContent div.toc li:before {
+	/* content: "\203A" " "; */
+	/* list-style: decimal outside; */
+    /*
+margin-left: 1em;
+    margin-bottom: 1em;
+*/
+   /*  font-size: 1.1em; */
+}
+
+
+/*
+.textViewContent div.toc {
+	background-color: #F5F5F5;
+   	border-radius: 10px;
+   	margin-bottom: 60px;
+   	margin-left: 50px;
+    margin-right: 50px;
+}
+*/
+
+/*
+.textViewContent div {
+	font-family: $content_baseFont;
+	font-size: $content_baseFont_size;
+    line-height: 2em;
+   	padding: 1.5em;
+   	
+}
+*/
+
+/* 
+.textViewContent .div.ul.numbered {
+	list-style-type: decimal;
+	margin-left: 50px;
+    margin-right: 50px;
+    padding: 1.5em;
+}
+ */
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	TEXT: Text Edition						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+
+div.librettoVersionBanner {
+	position:absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40px;
+	
+	border-bottom: 1px solid #cccccc;
+	
+	box-shadow: 0.1em 0.1em 0.2em;
+	
+	z-index: 10;
+}
+
+div.scrollCont {
+	position:absolute;
+	top: 40px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+}
+
+table.librettoEdition {
+    font-family: $content_baseFont;
+    font-size: 1.4em;
+    min-width: 600px;
+}
+
+/** Zellen **/
+
+	table.librettoEdition td {
+		vertical-align: baseline;
+	}
+
+/** Ein- und Ausblenden der unterschiedlichen Versionsansichten **/
+
+	table.librettoEditionHeader.score td {
+	
+		&.text1ColumnHeader {
+    	display:none;
+    	}
+    	
+    	&.technicalColumnHeader {
+    	display:none;
+    	}
+	}
+	
+	table.librettoEditionHeader.libretto td {
+		
+		&.text2ColumnHeader {
+    	display:none;
+    	}
+    	
+    	&.technicalColumnRightHeader {
+    	display:none;
+    	}
+	}
+
+	table.librettoEdition.score {
+		
+		tr.text1Column {
+    	display:none;
+    	}
+
+    	td {
+    		&.text1Column {
+	    	display:none;
+	    	}
+	    	
+	    	&.technicalColumn {
+		    display:none;
+		    }
+		}
+	}
+	
+	table.librettoEdition.libretto {
+		
+		tr.text2Column {
+    	display:none;
+    	}
+
+    	td {
+    		&.text2Column {
+	    	display:none;
+	    	}
+	    	
+	    	&.technicalColumnRight {
+		    display:none;
+		    }
+		}
+	}
+	
+		
+	/** Kopfzeile **/
+	table.librettoEditionHeader td {
+	height: 40px;
+	color: grey;
+	text-transform: uppercase;
+	/* letter-spacing: 0.5; */
+	font-size: 14px;
+	
+		&.technicalColumnHeader {
+		min-width: 50px;
+		padding-right: 10px;
+		text-align: right;	
+		}
+	
+		&.text1ColumnHeader {
+		width: 350px;
+		min-width: 350px;
+		max-width: 350px;
+		
+		padding: 0 10px;			
+		
+		text-align: center;
+		}
+		
+		&.annotationColumnHeader {
+		vertical-align: baseline;
+		min-width: 80px;
+		text-align: center;
+		}
+		
+		&.text2ColumnHeader {		
+		width: 350px;
+		min-width: 350px;
+		max-width: 350px;
+		
+		padding: 0 10px;
+		
+		text-align: center;
+		}
+		
+		&.bufferColumnHeader {
+		width: 100%;
+		}
+	}
+
+	/*
+table.librettoEdition {
+	margin-bottom: 2.5em;
+	}
+*/
+		
+	/** Tabelle mit den beiden Texten **/
+	table.librettoEdition td {
+	
+		&.technicalColumn {
+		min-width: 50px;
+		padding-right: 10px;
+		text-align: right;
+		}
+	
+		&.text1Column {
+		min-width: 350px;
+		max-width: 350px;
+		width: 350px;
+		background-color: #F5F5F5;
+		padding: 0 10px;
+		border-left: 0.5px solid #cccccc;
+		border-right: 0.5px solid #cccccc;
+		}
+	
+		&.annotationColumn {
+		vertical-align: baseline;
+		min-width: 80px;
+		text-align: center;
+		}
+	 	
+		&.text2Column {
+		min-width: 350px;
+		max-width: 350px;
+		width: 350px;
+		background-color: #F5F5F5;
+		padding: 0 10px;
+		border-left: 0.5px solid #cccccc;
+		border-right: 0.5px solid #cccccc;
+		}
+		
+		&.technicalColumnRight {
+		min-width: 50px;
+		padding-left: 10px;
+		text-align: left;
+		}
+		
+		&.bufferColumn {
+		width: 100%;
+		}
+	}
+	
+
+/** Text **/
+	
+	/* Formatierung des Werktitels */
+	table.librettoEdition span.titlePart.type_main {
+		font-size: 24px;
+	   	line-height: 32px; 
+		/* font-weight: bold; */
+		display: block;
+		text-align: center;
+		margin-bottom: 64px;
+		margin-top: 1em;
+	}
+	
+	/* Formatierung von ? Rücksprache mit Janette -> wohl veraltet. Löschen?*/
+	table.librettoEdition span.titlePart.type_version {
+    	font-size: 1.5em;
+    	display: block;
+		margin-bottom: 2.5em;
+    	margin-top: 2em;
+	}
+
+	/* Textorientierung der Gattungsangabe, der Aufführungsangabe, des Impressums, des Titelzusatzes */
+	table.librettoEdition span.titlePart.type_genre, table.librettoEdition span.titlePart.type_performance, table.librettoEdition span.docImprint, table.librettoEdition span.byline {
+		display: block;
+		text-align: center;
+	}
+	
+	/* Textformatierung der Gattungsangabe und der Aufführungsangabe */
+	table.librettoEdition span.titlePart.type_genre, table.librettoEdition span.titlePart.type_performance {
+		font-size: 16px;
+		line-height: 24px; 
+	}
+	
+	/* Textformatierung des Impressums */
+	table.librettoEdition span.docImprint {
+		font-size: 12px;
+		font-style: normal;
+		margin-bottom: 72px;
+		margin-top: 64px;
+		/*border-style: solid;*/
+	}
+	
+	/* Textformatierung des Titelzusatzes */
+	table.librettoEdition span.byline {
+		font-size: 1em;  
+	}
+	/* FRAGE: Klasse kommt zweimal vor und beeinflusst sich teilweise gegenseitig */
+	table.librettoEdition span.byline {
+		display: block;
+		margin: 0.6em 0em 3em 0em;
+		margin-top: 4em;
+		font-size: 10.5px;
+	}
+	
+	/* Formatierung der Überschrift der Personenliste */
+	table.librettoEdition span.castList > span.head {
+		text-transform: uppercase;
+		font-size: 14px;
+		display: block;
+		margin-bottom: 0.7em;
+		/*margin-left: 1.5em;*/
+	}
+	
+	/* Formatierung der Personeneinträge */
+	table.librettoEdition castItem {
+		margin-top: 12px;
+		position: relative; 
+		text-align: left;
+	}
+	
+	/* Formatierung der Rolleneinträge */
+	table.librettoEdition span.role {
+		font-size: 12px;
+		line-height: 16px;  
+	   	font-style: normal;
+	}
+	
+	/* Formatierung der Schauspielereinträge */
+	table.librettoEdition span.actor {
+		 font-style: italic;
+		 font-size: 10.5px;
+		 display: inline-block;
+		 text-align: left;
+		 position: absolute;
+		 left: 660px;
+		 }
+	
+	/* Szenenüberschriften */
+	table.librettoEdition span.head {
+		font-size: 16px;
+		text-transform: uppercase;
+		display: inline-block;
+		margin-top: 48px; 
+		margin-bottom: 5px;
+	}
+	
+	/* Vers- und Nummernangaben */
+	table.librettoEdition span.verseNumber, table.librettoEdition span.musicalNumber {
+		color: #666666;
+		font-size: 10.2px;
+	}
+	
+	/* Nummernangaben */
+	table.librettoEdition span.musicalNumber {
+		 font-weight: bold;   
+	}
+	
+	/* Regieanweisungen */
+	table.librettoEdition span.stage {
+		font-style: italic;
+		font-size: 10.5px;
+		line-height: 16px; 
+		display: inline-block;
+		/*line-height: 1.3em;*/
+	}
+	
+	table.librettoEdition span.stage.type_cast, table.librettoEdition span.stage.type_setting {
+		margin-bottom: 16px;
+	}
+	
+	/* Rollenangabe */
+	table.librettoEdition span.speaker {
+		font-variant: small-caps;
+		line-height: 16px; 
+		font-size: 12px;
+		color: #000000;
+		display: block;
+		margin-top: 12px;
+		font-style: normal;
+		letter-spacing: 0.08px
+	}
+	
+	/*table.librettoEdition span.speaker:first-letter {
+		font-size: 12px;
+	}*/
+	
+/** Zeilen und Zeilengruppen **/
+	table.librettoEdition td span.l {
+    	font-size: 12px;
+		/*line-height: 1.3em; */
+		/*margin: 3px 0px 3px 1em;*/
+	}
+
+	table.librettoEdition span.lg {
+ 		margin: 0px 0px 0px 2em;
+	}
+	
+	table.librettoEdition span.lg.l_first {
+    	margin: 12px 0 0 3em;
+    	display: block;
+	}
+
+	/*table.librettoEdition span.lg.l_last {
+		margin-bottom: 12px;
+    	display:block;
+	}*/
+	
+	table.librettoEdition span.lg.part_I.l_last {
+        margin-bottom: 0px;
+	}
+	
+	table.librettoEdition span.lg.part_M.l_last {
+		margin-bottom:0px;
+	}
+
+	table.librettoEdition span.lg.part_M.l_first {
+     	margin: 0px 0px 0px 2em;
+	}
+
+	table.librettoEdition span.lg.part_F.l_first {
+     	margin: 0px 0px 0px 2em;
+	}
+
+	table.librettoEdition span.l.synch_I.lg {
+    	margin-left: 1.5em;
+	}
+
+	table.librettoEdition span.l.synch_M.lg {
+    	margin-left: 1.5em;
+	}
+
+	table.librettoEdition span.l.synch_F.lg {
+    	margin-left: 1.5em;
+	}
+
+	table.librettoEdition span.l.synch_I:before {
+    	content:'\23A7';
+    	font-size: 1em;
+    	font-style: normal;
+		position: relative;
+		left:-1.5em; 
+		color: black; 
+	}
+
+	table.librettoEdition span.l.synch_I.lg.part_I:before {
+    	content:'\23A7';
+    	font-size: 1em;
+    	font-style: normal;
+		position: relative;
+		left:-1.5em;
+		color: black;
+	}
+
+	/*table.librettoEdition span.l.synch_F {
+    	margin-left: -0.5em;
+	}*/
+
+	table.librettoEdition span.l.synch_F:before {
+    	content:'\23A9'; 
+    	font-style: normal;
+    	font-size: 1em;
+   		position: relative; 
+		left: -1.5em;
+		color: black;
+	}
+
+	table.librettoEdition span.l_first.synch_M:before {
+    	content: '\23AA';
+    	font-size: 1em;
+   		/*margin-left: 24px;*/
+   		font-style: normal;
+		position: relative; 
+		left: -1.5em; color: black
+	}
+   
+	table.librettoEdition span.l_last.synch_M:before {
+    	content: '\23AA';
+    	font-size: 1em;
+   		/*margin-left: 24px;*/
+   		font-style: normal;
+		position: relative; 
+		left: -1.5em; color: black
+	}
+
+	table.librettoEdition span.lg.part_M.l_first.synch_M:before {
+		content: '\23AA'; 
+		font-size: 1em; 
+		font-style: normal; 
+		/*margin-left: -12px; */
+		position: relative; 
+		left: -1.5em; color: black
+	}
+
+	table.librettoEdition span.l.synch_M:before {
+		content: '\23AA'; 
+		font-size: 1em; 
+		font-style: normal; 
+		/*margin-left: -12px; */
+		position: relative; 
+		left: -1.5em; color: black
+	}
+
+	/** FRAGE: Zitatformatierungen? **/
+	table.librettoEdition span.quote.type_pieceTitle  {
+		font-style: italic;
+	}
+
+	table.librettoEdition span.quote.type_aria {
+		font-style: italic;
+    	/*line-height: 1.3em; */
+	}
+	
+	table.librettoEdition span.lg span.quote.type_ariaText {
+		margin-left: 0
+	}
+	
+	/** FRAGE: ? **/
+	table.librettoEdition span[onclick]  {
+		cursor:pointer;
+    	color: #1354B5;
+	}
+
+	table.librettoEdition span.supplied {
+    	visibility:hidden;
+    	font-size: 12px;
+    	margin-left: 0px;
+	}
+	
+	table.librettoEdition span.hi.rend_italic {
+		font-size: 10.5px; 
+		font-style: italic; 
+		font-variant: normal; 
+		font-weight: normal; 
+		text-transform: none
+	}
+
+		
+	table.librettoEdition.score span.actor {
+     	/*font-style: italic;
+     	font-size: 10.5px;
+     	display:inline-block;
+     	text-align:left;*/
+     	position: absolute;
+     	left: 290px;
+     }
+
+	table.librettoEdition span.stage span.abbr {
+		display: none;
+	}
+	
+	table.librettoEdition span.hi {
+		font-variant:normal;
+		font-weight:normal;
+		font-style: italic;
+		text-transform:none;
+		font-size: 0.8em;
+	}
+
+	table.librettoEdition li {
+    list-style: none outside none;
+    font-size: 1.1em;
+    margin-left: 2.5em;
+    margin-right:0.4em;
+    font-family: $content_baseFont;
+    margin-bottom:8px;
+    text-align:justify;
+}
+	
+	
+/* 	*************************************** */
+	/** FRAGE **/
+	
+    
+
+    
+/*.relevant{
+    border-bottom: 0.3px solid #B8B8B8;
+    margin-bottom:1em;
+
+}*/
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

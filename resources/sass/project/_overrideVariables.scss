@@ -10,6 +10,7 @@
 @import "compass/css3/box-shadow";
 @import "compass/css3/text-shadow";
 
+
 /***Basics***/
 
 $base-color: #666666;
@@ -24,40 +25,23 @@ $ui_baseFont_contrast: #999999;
 
 /***Content Fonts***/
 
-$content_baseFont: 'Caudex', Arial, sans-serif;
-$content_baseFont_size: 14px;
+$content_baseFont: 'Bitstream', Arial, sans-serif;
+$content_baseFont_size: 0.8125rem; /* bei Standardgröße von 16px entspricht das 13px */
 $content_baseFont_color: #000000;
 $content_baseFont_contrast: #999999;
 
 /***Label Fonts***/
 
-$label_baseFont: 'Open Sans', Arial, sans-serif;
-$label_baseFont_size: 12px;
+$label_baseFont: 'Bitstream', Arial, sans-serif;
+$label_baseFont_size: 12.5px;
 $label_baseFont_color: #000000;
 $label_baseFont_contrast: #999999;
 
+/*** Navigator Item Fonts ***/
 
+$navigatorItem_fontSize: 0.75rem;
+$linkColor: #1354B5;
 
-
-/***Content***/
-
-.content, .content * {
-	font-family: $content_baseFont;
-	font-size: $content_baseFont_size;
-	color: $content_baseFont_color;
-}
-
-.ui, .ui * {
-	font-family: $ui_baseFont;
-	font-size:$ui_baseFont_size;
-	color: $ui_baseFont_color;
-}
-
-.label, .label *, .key, .key * {
-	font-family: $label_baseFont;
-	font-size: $label_baseFont_size;
-	color: $label_baseFont_color;
-}
 
 /***Headings***/
 
@@ -65,4 +49,3 @@ $headerBackgroundsBoxed: true;
 $headerBackgroundsTopColor: #87e0fd;
 $headerBackgroundsBottomColor: #05abe0;
 
-@import 'project/_overrideVariables.scss';

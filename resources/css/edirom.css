@@ -364,6 +364,7 @@ div.measure span.measureInnerEmpty {
 
 .helpWindow h4 {
     margin-top: 10px;
+    clear: both;
 }
 
 .helpWindow p, .helpWindow dl {
@@ -408,6 +409,7 @@ div.measure span.measureInnerEmpty {
 .helpWindow .textViewContent .figure img{
     float:left;
     margin-right:6px;
+    margin-bottom:6px;
 }
 
 /*.helpWindow .textViewContent .figure img:nth-child(n+2){

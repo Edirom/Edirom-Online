@@ -1,0 +1,1582 @@
+/*
+ *	The variables in this file will only affect the scss files in the 'edirom'-folder,
+ *	but not the extJS defaults. If you want to access these variables, use the file 
+ *	'extOverride.scss' instead.
+ */
+
+
+@import "compass/css3/images";
+@import "compass/css3/border-radius";
+@import "compass/css3/box-shadow";
+@import "compass/css3/text-shadow";
+
+@import '_variables.scss';
+@import 'project/_fonts.scss';
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	DESKTOP									 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.ediromDesktop.x-panel-body-default {
+	@include background(linear-gradient(top, #444444, #000000));
+}
+
+.x-panel-body-default {
+	border-color: #444444;
+}
+
+.x-border-box .prelRemark {
+    font-size: 0.9em;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+// centering window headings
+.x-window-header-text-default {
+	margin-left: 60px;
+}
+
+// text lable of menue buttons
+.topbar .x-btn-center {
+	top: 2px;
+}
+
+.x-menu {
+	z-index: 62000 !important;
+}
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	NAVIGATOR								 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+// navigator category
+.navigatorCategory {
+	margin-bottom: 10px;
+	padding-left: 5px;
+}
+
+// navigator category title
+.navigatorCategoryTitle {
+	padding: 2px 5px 2px 5px;
+	color: #777777;
+	font-family: $label_baseFont;
+	font-size: $label_baseFont_size;
+}
+
+// navigator items
+.navigatorItem {
+	padding: 1px 5px;
+	cursor: pointer;
+	font-family: $content_baseFont;
+	font-size: $navigatorItem_fontSize !important;
+	color: $content_baseFont_color;
+	
+	border: 1px solid transparent;
+	
+	margin-right: 5px;
+	
+	overflow: hidden;
+	
+	text-overflow: ellipsis;
+	
+	white-space: nowrap;
+	
+	// on hover
+	&:hover {
+		@include background(linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent);
+		/* border-color: #EBB900; */
+		border: 1px solid #EBB900;
+		border-radius: 3px;
+		color: black;
+		/* box-shadow: 1px 1px 1px grey; */
+		}
+}
+
+// navigtor separator
+.navigatorSeparator {
+	margin: 10px 30px 7px;
+	height: 1px;
+	border-bottom: 1px solid #999999;
+}
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	SOURCE VIEW								 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+// „Fit Image“ button in SourceView toolbar
+.ediromWindow .toolButton.fit {
+	left: 147px !important;
+}
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Window						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+
+// show annotation number in toolbar
+.ediromWindow .activeAnnotation {
+    position: relative !important;
+    left: 0px !important;
+    top: 2px !important;
+}
+
+// metabox properties
+.metaBox .property {
+	
+	// do not show priorities
+	&.priority {
+	   display: none;    
+	}
+	
+	// do not show source labels
+	&.sourceLabel {
+    	display: none;
+    }
+}
+
+// text formating
+.annotView {
+	
+	// headings
+	h1 {
+		font-family: $content_baseFont;
+		font-size: 1.077*$content_baseFont_size !important;
+		font-weight: lighter;
+		/* letter-spacing: 0.25; */
+		padding-bottom: 5px;
+		/* border-bottom: 3px solid #cccccc; */
+		margin-bottom: 10px;
+	}
+	
+	// paragraphs
+	p {
+		font-family: $content_baseFont;
+		font-size: 0.923*$content_baseFont_size !important;
+		line-height: 1.6em;
+		/* letter-spacing: -0.25; */
+		text-align: justify;
+	}
+	
+	
+}
+
+// contentBox
+.contentBox {
+	margin: 10px !important;
+}
+	
+// vertical splitter
+.x-splitter-vertical {
+	background: none !important;
+	border-right: 1px solid #cccccc;
+	width: 3px !important;
+}
+
+// horizontal splitter
+.x-splitter-horizontal {
+	background: none !important;
+	border-top: 1px solid #cccccc;
+	height: 3px !important;
+}
+
+// metaBox
+.annotView .metaBox {
+	font-family: $content_baseFont !important;
+	font-size: 0.7692*$content_baseFont_size !important;
+	background: none;
+    border: none;    
+}
+
+// metaBox labels
+.lable, .key {
+	font-family: $label_baseFont;
+	/* font-size: 0.7692*$content_baseFont_size !important; */
+}
+
+.annotView .metaBox .property_sourceLabel {
+    display: none;
+}
+
+// metaBox values
+.annotview .metabox .property .value {
+	font-family: $content_baseFont;
+	/* font-size: 0.7692*$content_baseFont_size !important; */
+}
+
+.annotView .ref {
+    cursor:pointer;
+    color:#1354B5;    
+}
+
+// bar highlight
+div.measure.highlighted {
+    border: none;
+    box-shadow: none;
+}
+
+/*linkfunktion in den Annotationen*/
+.annotView .span {
+    background-color: #aaaaaa;
+}
+
+/* Hervorhebung der Annotationspunke */
+.ediromAnnotPrio1.highlighted {
+    border: none;
+    box-shadow: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Tips						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+
+// display the contetnBox
+.annotTip .contentBox{
+
+	margin-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	height: 120px;
+	width: 175px;
+	border-bottom: 1px solid grey;
+	top: -8px;
+	
+	// headings
+	h1 {
+		font-family: $content_baseFont;
+		font-size: 0.76923*$content_baseFont_size !important; //0.846
+		font-weight: lighter;
+		/* letter-spacing: 0.25; */
+/* 		padding-bottom: 5px; */
+/* 		border-bottom: 2px solid #cccccc; */
+		margin-bottom: 5px;
+	}
+	
+	// paragraphs
+	p {
+		font-family: $content_baseFont;
+		font-size: 0.73077*$content_baseFont_size !important; //0.769
+		line-height: 1.35em;
+		/* letter-spacing: -0.25; */
+		/* text-align: justify; */
+	}
+}
+
+// display the metaBox
+.annotTip .metaBox {
+    display: block;
+    background: none;
+    border: none;
+    padding-left: 0px;
+	padding-right: 0px;
+	
+	bottom: -8px;
+	
+	font-size: 0.69231*$content_baseFont_size !important;
+	
+}
+	
+.annotTip .metaBox .property .key {
+	font-size: 0.69231*$content_baseFont_size !important;
+}
+	
+
+
+// do not display the previewArea
+.annotTip .previewArea {
+    display: none;
+}
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Music Edition 				 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.annotation {
+	/*Describes the icons and rendering of annotations on facsimile pages*/
+	
+	.annotIcon {
+		width: 20px;
+		height: 16px;
+		border:  1px solid #666666;
+		@include border-radius(3px, 3px);
+		/* @include box-shadow(0 2px 4px #000000); */
+		z-index: 1;
+		font-size: 11px;
+		box-shadow: none;
+	}
+	
+	&.highlighted {
+		@include border-radius(3px, 3px);
+		/* @include box-shadow(0 0 20px rgba(0,0,0,0.5)); */
+	}
+	
+	&.ediromAnnotPrio1 .annotIcon {
+		@include background(linear-gradient(top,rgba(255,73,73,0.85) 0%, rgba(180,14,14,0.85) 100%));
+	}
+	
+	&.ediromAnnotCategory_Music {
+		.annotIcon:before {
+    		content: "M";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.37em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: "S";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.55em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Text {
+		.annotIcon:before {
+    		content: "T";
+	    	position: relative;
+    		top: -1px;
+    		left: 0.5em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotCategory_Text.ediromAnnotCategory_Stage {
+		.annotIcon:before {
+    		content: none;
+	    	position: relative;
+    		top: -1px;
+    		left: 0.45em;
+    	}
+	}
+	
+	&.ediromAnnotPrio2 .annotIcon {
+		@include background(linear-gradient(top,rgba(255,233,91,0.85) 0%, rgba(255,107,15,0.85) 100%));
+	}
+	
+	&.ediromAnnotPrio3 .annotIcon {
+		@include background(linear-gradient(top,rgba(254,252,234,0.85) 0%, rgba(241,218,54,0.85) 100%));
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	ANNOTATIONS: Text Edition				 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+table.librettoEdition span.note span.annotation {
+
+	@include background(linear-gradient(top, rgba(255, 73, 73, 0.85), rgba(180, 14, 14, 0.85)));
+	@include border-radius(3px);
+	/* @include box-shadow(0 2px 4px rgba(0,0,0,0.5)); */
+    
+    border: 1px solid #666666;
+    height: 15px;
+    width: 18px;
+    z-index: 1;
+    font-size: 11px;
+    display: inline-block;
+    box-shadow: none;
+    margin-right: 1px;
+    
+    &.ediromAnnotCategory_Text:before {
+		content: "T";
+		line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Stage:before {
+    content: "S";
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music:before {
+    content: "M";
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Text.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Music.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+	
+	&.ediromAnnotCategory_Text.ediromAnnotCategory_Stage:before {
+	content: "X";
+	color: transparent;
+    line-height: 13px;
+	}
+}
+
+
+
+
+
+
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	TEXT									 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+.headerViewContent div.value {
+    font-family: $content_baseFont;
+}
+
+// text view content
+div.textViewContent {
+	
+	// editorial text content
+	div.editorial {
+	
+			margin-bottom: 100px;
+	
+			h1.rend {
+			    font-style: normal;
+			    margin-top: 7px;
+			}
+			
+			//
+			h2 {
+				font-family: $content_baseFont;
+			    font-size: 1.85*$content_baseFont_size !important; /* font-size:14px; */
+			    font-weight: lighter;
+			    text-align: center;
+				
+				margin: 2em 1em;
+				
+				&.headComment {
+					margin-left: 0.4em;
+				}
+			}
+			
+			//
+			h3 {
+			    font-family: $content_baseFont;
+			    font-size: 1.3077*$content_baseFont_size !important;
+			    font-weight: lighter;
+			    font-style: normal;
+			    
+			    color: #494949;
+			    
+			    margin: 2em 1.15em 0.5em 1.15em;  
+			}
+		
+		div {
+			padding-right: 5em;
+			padding-left: 5em;
+			
+			text-align: justify;
+			
+			// table of contents
+			&.toc {
+				
+				// box containing the toc
+				ol {
+					font-family: $content_baseFont;
+    
+					line-height: 1.75 !important;
+  
+					background-color: #ededed;
+					
+					border-radius: 5px;
+					
+					border: 1px solid #cccccc;
+
+					margin-bottom: 60px;
+					margin-left: 20px;
+					margin-right: 20px;
+    
+					padding: 1.5em 3em;
+    
+					list-style: none;
+					
+					// toc items
+					li {
+						list-style: none;
+						margin: 0px;
+						
+						// links in toc items
+						a {
+							font-size: 0.86*$content_baseFont_size !important;
+							color: $linkColor;
+						}
+					}
+				}
+			}
+			
+			// ordered lists in text
+			ol {
+				font-family: $content_baseFont;
+				font-size: $content_baseFont_size;
+				
+				line-height: 1.8em;
+				
+				margin-bottom: 0.8em;
+			   	margin-left: 5em;
+			    margin-right: 1.5em;
+			    
+			    // numbered list items (decimal)
+			    li {
+				    list-style: decimal outside;
+				    margin-bottom: 0.8em;
+			    }
+			    
+			     // ordered lists in text with roman numbering
+			    &.roman li {
+			       	list-style: upper-roman outside;
+			    }   
+			}
+			
+			// unordered lists in text
+			ul {
+				font-family: $content_baseFont;
+				font-size: $content_baseFont_size;
+				
+				line-height: 1.8em;
+				
+				text-align: justify;
+				
+				margin-bottom: 0.8em;
+			   	margin-left: 5em;
+			    margin-right: 1.5em;
+			    
+			    list-style-position: outside;
+			    
+			    // list items
+			    li.item {
+				    margin-bottom: 0.8em;
+				    text-indent: -0.55em;
+				    
+				    &:before {
+					    content: "–" " ";
+					    display: inline-block;
+					    letter-spacing: 8px;
+				    }
+			    }
+			}
+			
+			// paragraphs
+			p, &.p {
+				font-family: $content_baseFont;
+			    font-size: $content_baseFont_size;
+				
+				line-height: 1.8em;
+				
+				text-align:justify;
+			    
+			    margin-right: 1.5em;
+			    margin-bottom: 0.8em;
+			    margin-left: 1.5em;
+			}
+			
+			// paragraphs
+			&.p {
+				padding: 0 !important;
+			}
+			
+			// line groups
+			&.lg {
+				font-family: $content_baseFont;
+				font-size: 0.86*$content_baseFont_size !important; 
+			    
+				line-height: 1.8;
+				
+				margin-top: 2em;
+				margin-bottom: 2em;
+				margin-left: 4em;
+			}
+			
+			// lines
+			&.l {
+				font-family: $content_baseFont;
+				font-size: 0.86*$content_baseFont_size;
+			}
+			
+			// line	between text and notes
+			&.line {
+				margin: 6em 30em 3em 6.75em;
+				border-bottom: 1px solid #333333;	
+			}
+			
+			// footnotes
+			&.footnotes {
+				line-height: 1.5
+			}
+			
+			// footnotes
+			&.note {
+			 	font-family: $content_baseFont;
+			 	font-size: 0.79*$content_baseFont_size;
+			 	
+			 	text-indent: -2em;
+			 	
+			 	color: #494949;
+			 	
+			 	margin-left: 1em;
+			 	margin-right: 1em;
+			}
+			
+			// citations
+			&.citquote {
+			    font-family: $content_baseFont;
+			    font-size: 0.86*$content_baseFont_size !important; 
+			    
+			    line-height: 1.8;
+			    text-align:justify;
+			    
+			    margin: 1.8em 2em;
+			    }
+			
+			//
+			span {
+				
+				// note Lables
+				&.noteLabel {
+				    display: none;
+				    margin-left: 0.4em;
+				}
+			
+				// double underline
+				&.double_underline {
+					border-bottom: medium double;
+				}
+			}
+			
+			// references
+			&.ref { 
+			    cursor: pointer;
+			    color: #1354B5;
+			    
+			    
+			}
+			
+			// links
+			a {
+			    color: $linkColor;
+			    text-decoration: none;
+			    font-family: $content_baseFont;
+			    
+			    // on hover
+			    &:hover {
+				    cursor: pointer;
+			    }
+			    
+			    &.sup {
+				    font-family: sans-serif;
+				    font-size: 0.72*$content_baseFont_size;
+				    
+				    background-color: #ededed;
+				    border-radius: 2px 2px;
+				    
+				    margin-left: 1px;
+				    margin-right: 1px;
+				    
+				    padding-top: 2px;
+				    padding-left: 2px;
+				    padding-right: 2px; 
+				    
+				    top: -0.6em;
+				    
+				    position: relative;
+				    text-decoration:none;
+				}
+			}
+			
+			//
+			&.footnotes a.sup{
+				display: inline-block;
+				position: relative;
+				right: 0px;
+				width: 15px;
+				text-align: right;
+				/*
+				
+				background-color: transparent !important;
+    display: inline;
+    left: 25px;
+    padding: 0 2px;
+    position: absolute;
+    text-align: right;
+    width: 15px;
+    
+    
+    //darin enthalten ein neues span mit folgenden Werten:     
+    a.sup span.hi
+    
+    background-color: #EDEDED;
+    border-radius: 2px 2px 2px 2px;
+    padding: 2px 2px 0;
+    font-weight: normal;
+				
+	//div.note muss zusätzlich noch 
+	
+	position: relative;
+	text-indent: 0;
+	
+	bekommen. 
+				
+				
+				*/
+				
+			}
+			
+			&.class_sup {
+				font-size: 11px;
+				line-height: 12px;
+				vertical-align: super;
+				text-decoration: inherit;
+				font-style: inherit;
+				font-weight: inherit;
+			}
+			
+			&.class_sub {
+				font-size:11px;
+				line-height: 5px;
+				vertical-align:sub;
+			}
+		}	
+	}
+	
+	//
+	div.sourceDescription {
+		font-family: $content_baseFont;
+		font-size: $content_baseFont_size;
+		
+		padding-right: 5em;
+		padding-left: 5em;
+		
+		line-height: 1.8em;
+		
+		h2 {
+			font-family: $content_baseFont;
+		    font-size: 1.85*$content_baseFont_size !important; /* font-size:14px; */
+		    font-weight: lighter;
+		    text-align: center;
+			
+			margin: 2em 1em 1em 1em;
+			
+			&.headComment {
+				margin-left: 0.4em;
+			}
+		}
+		
+		h3 {
+			font-family: $content_baseFont;
+		    font-size: 1.125*$content_baseFont_size !important;
+		    font-weight: lighter;
+		    font-style: normal;
+		    text-align: center;
+		    
+		    color: #494949;
+		    
+		    margin: 2.5em 1em 1.15em;
+		    padding-bottom: 10px;
+		    
+		    border-bottom: 2px solid #cccccc;	
+		}
+		
+		// blabla		
+		/*
+table.table {
+			
+			tr, td {
+				margin-left: 1em;
+				margin-bottom: 1em;
+				
+				line-height: 1.6em;
+				
+				border: none;
+			}
+		}
+*/
+		
+		// Was ist das?
+		table.topLinks {
+			display:none;
+			background-color: #aaaaaa;
+			border: 1px solid #999999;
+			padding: 5px;
+			margin-bottom: 10px;
+			border-collapse:collapse;
+			width: 100%;
+			text-align:center;
+			position:fixed;
+			top: -1px;
+			height: 20px;
+			z-index: 1000;
+		}
+		
+		table.topLinks span {
+			cursor: pointer;
+		}
+		
+		// Überschriften links
+		table.table td.celllabel {
+		    font-weight: normal;
+		    color: #777777;
+		}
+		
+		// Überschriften links
+		table.table td.description {
+		    font-weight: normal;
+		    color: #777777;
+		}
+		
+		// Überschriften links
+		table.table td.number {
+		    max-width: 50px;
+		    min-width: 50px;
+		    font-weight: normal;
+		    color: #777777;
+		}
+		
+		// fixe Breite von Zellen    
+		table.table td.fix {
+		    max-width: 500px;
+		    min-width: 500px;
+		}
+		
+		// Tabellenüberschriften
+		.table.caption {
+		    font-size:1.05em;
+		} 
+ 
+	}
+}
+
+// Tabellen allgemein
+
+// table-div in list of sources
+div.table {
+	padding-left: 0em !important;
+	padding-right: 0em !important;
+	
+	margin-bottom: 4em !important;
+}
+
+.textViewContent {
+	table.table, table.table tr, table.table td {
+		border: medium none;
+		
+		margin-left: 1em;
+		margin-right: 1em;
+		margin-bottom: 1em;
+		
+		font-family: $content_baseFont;
+		font-size: $content_baseFont_size;   
+	} 
+}
+
+
+
+/* Tabellen */
+
+table.topLinks {
+	display:none;
+	background-color: #aaaaaa;
+	border: 1px solid #999999;
+	padding: 5px;
+	margin-bottom: 10px;
+	border-collapse:collapse;
+	width: 100%;
+	text-align:center;
+	position:fixed;
+	top: -1px;
+	height: 20px;
+	z-index: 1000;
+}
+
+table.topLinks span {
+    cursor: pointer;
+}
+
+table.table td.celllabel {
+    font-weight:bold;
+}
+    
+table.table td.number {
+    max-width: 50px;
+    min-width: 50px;
+}
+    
+table.table td.fix {
+    max-width: 500px;
+    min-width: 500px;
+}
+
+.table.caption {
+    font-size:1.05em;
+}   
+
+// List of Sources
+
+// table caption
+div.editorial table caption, th {
+	font-family: $content_baseFont;
+	font-size: 1.125*$content_baseFont_size !important;
+	font-weight: light;
+	font-style: normal;
+		    
+	text-align: left;
+		    
+	color: #494949;
+		    
+	margin-top: 0em !important;
+	margin-right: 0.4em !important;
+	margin-bottom: 1em !important;
+	margin-left: 0.4em !important;
+	padding-bottom: 10px;
+	
+	border-bottom: 1px solid #cccccc;
+	
+    /*
+margin-left:0.5em;
+    margin-bottom: 2px;
+    margin-top: 15px;
+    font-size: 1.05em;
+    font-weight:bold;
+*/
+/*    margin-left: 1.5em;  */
+}
+
+div.editorial div.relevant h3 {
+	font-family: $content_baseFont;
+			    font-size: 1.125*$content_baseFont_size !important;
+			    font-weight: lighter;
+			    font-style: normal;
+			    text-align: left;
+			    
+			    color: #494949;
+			    
+			    margin: 2em 1.3em 1em 1.3em;  
+			    
+			    padding-bottom: 5px;
+	
+	border-bottom: 1px solid #cccccc;
+}
+
+div.editorial div.irrelevant h3 {
+	font-family: $content_baseFont;
+			    font-size: 1.125*$content_baseFont_size !important;
+			    font-weight: lighter;
+			    font-style: normal;
+			    text-align: left;
+			    
+			    color: #494949;
+			    
+			    margin: 2em 1.3em 1em 1.3em;  
+			    
+			    padding-bottom: 5px;
+	
+	border-bottom: 1px solid #cccccc;
+}
+
+/* Listen */
+
+.listhead {
+   	font-family: $content_baseFont;
+   	font-size: 1.1*$content_baseFont_size;
+   	font-weight: normal;
+}
+
+
+/** * * * * * * * * * * * * * * * * * * * * **/
+/*	TEXT: Text Edition						 */
+/** * * * * * * * * * * * * * * * * * * * * **/
+
+// different "Display" modes of the Text Edition
+
+// display both versions without "technicalColumnRight"
+table.librettoEditionHeader td.technicalColumnRightHeader {
+display: none;
+}
+	
+table.librettoEdition td.technicalColumnRight {
+display: none;
+}
+
+// display "score" version only
+table.librettoEditionHeader.score td {
+
+	&.text1ColumnHeader {
+	display:none;
+	}
+	
+	&.technicalColumnLeftHeader {
+	display:none;
+	}
+	
+	&.technicalColumnRightHeader {
+	display: block;
+	}
+}
+
+table.librettoEdition.score {
+	
+	tr.text1Column {
+	display:none;
+	}
+
+	td {
+		&.text1Column {
+    	display:none;
+    	}
+    	
+    	&.technicalColumnLeft {
+	    display:none;
+	    }
+	    
+	    &.technicalColumnRight {
+	    display: block;
+	    }
+	}
+}
+
+// display "libretto" version only
+table.librettoEditionHeader.libretto td {
+	
+	&.text2ColumnHeader {
+	display:none;
+	}
+	
+	&.technicalColumnRightHeader {
+	display:none;
+	}
+}
+
+table.librettoEdition.libretto {
+	
+	tr.text2Column {
+	display:none;
+	}
+
+	td {
+		&.text2Column {
+    	display:none;
+    	}
+    	
+    	&.technicalColumnRight {
+	    display:none;
+	    }
+	}
+}
+
+
+// header and content box
+div {
+	
+	&.textEditionHeader {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 40px;
+		
+		border-bottom: 1px solid #cccccc;
+		box-shadow: 0.1em 0.1em 0.2em;
+		
+		z-index: 10;
+		}
+	
+	&.scrollCont {
+		position:absolute;
+		top: 40px;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		
+		overflow: auto;
+		}
+}
+
+
+// header table
+table.librettoEditionHeader {
+	/* padding-left: 10px; */
+	font-family: $content_baseFont;
+	
+	td {
+		height: 40px;
+		color: grey;
+		text-transform: uppercase;
+		font-size: 14px;
+		
+		
+			&.technicalColumnLeftHeader {
+			min-width: 50px;
+			padding-right: 10px;
+			text-align: right;	
+			}
+		
+			&.text1ColumnHeader {
+			width: 350px;
+			min-width: 350px;
+			max-width: 350px;
+			
+			padding: 0 10px;			
+			
+			text-align: center;
+			
+			border-left: 0.5px solid transparent;
+			border-right: 0.5px solid transparent;			}
+			
+			&.annotationColumnHeader {
+			vertical-align: baseline;
+			min-width: 80px;
+			text-align: center;
+			}
+			
+			&.text2ColumnHeader {		
+			width: 350px;
+			min-width: 350px;
+			max-width: 350px;
+			
+			padding: 0 10px;
+			
+			text-align: center;
+			
+			border-left: 0.5px solid transparent;
+			border-right: 0.5px solid transparent;
+			}
+			
+			&.bufferColumnHeader {
+			width: 100%;
+			}
+	}
+}
+
+table.librettoEdition {
+	margin-bottom: 50px;
+}
+
+table.librettoEdition tr:last-child .text1column {
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 10px;
+}
+
+table.librettoEdition tr:last-child .text2column {
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 10px;
+}
+
+//
+// content table **
+table.librettoEdition {
+	font-family: $content_baseFont;
+	font-size: 1.4em;	//ToDo
+	min-width: 600px;
+	/* padding-left: 10px; */
+	
+	// cells
+	td {
+	vertical-align: baseline;
+		
+		&.technicalColumnLeft {
+		min-width: 50px;
+		padding-right: 10px;
+		text-align: right;
+		}
+	
+		&.text1Column {
+		min-width: 350px;
+		max-width: 350px;
+		width: 350px;
+		background-color: #F5F5F5;
+		padding: 0 10px;
+		border-left: 0.5px solid #cccccc;
+		border-right: 0.5px solid #cccccc;
+		}
+	
+		&.annotationColumn {
+		vertical-align: baseline;
+		min-width: 80px;
+		text-align: center;
+		}
+	 	
+		&.text2Column {
+		min-width: 350px;
+		max-width: 350px;
+		width: 350px;
+		background-color: #F5F5F5;
+		padding: 0 10px;
+		border-left: 0.5px solid #cccccc;
+		border-right: 0.5px solid #cccccc;
+		}
+		
+		&.technicalColumnRight {
+		min-width: 50px;
+		padding-left: 10px;
+		text-align: left;
+		}
+		
+		&.bufferColumn {
+		width: 100%;
+		}
+		
+		span.l {
+			font-size: 12px;
+			/*line-height: 1.3em; */ //ToDo
+			/*margin: 3px 0px 3px 1em;*/ //ToDo
+		}
+	}
+	
+	// actors of score version in display score version
+	&.score {
+		span.actor {
+			position: absolute;
+			left: 290px;
+		}
+	}
+
+	// libretto text
+	span {
+	
+		&.titlePart {
+			
+			&.type_main {
+				font-size: 24px;
+			   	line-height: 32px; 
+				display: block;
+				text-align: center;
+				margin-bottom: 64px;
+				margin-top: 1em;
+			}
+			
+			&.type_version {
+		    	font-size: 1.5em;
+		    	display: block;
+				margin-bottom: 2.5em;
+		    	margin-top: 2em;
+	    	}
+	    	
+	    	&.type_genre, &.type_performance {
+		    	display: block;
+		    	text-align: center;
+		    	
+		    	font-size: 16px;
+		    	line-height: 24px;
+	    	}
+	    }
+    	
+		&.docImprint, &.byline {
+		   display: block;
+		   text-align: center;
+		}
+	   
+		&.docImprint {
+		   font-size: 12px;
+		   font-style: normal;
+		   margin-bottom: 72px;
+		   margin-top: 64px;
+		}
+	   
+		&.byline {
+		   /* font-size: 1em; */ //ToDo
+		   /* margin: 0.6em 0em 3em 0em; */ //ToDo
+		   margin-top: 4em;
+		   font-size: 10.5px;  
+		}
+	   
+		&.castList > &.head {
+		   text-transform: uppercase;
+		   font-size: 14px;
+		   display: block;
+		   margin-bottom: 0.7em;
+		   /*margin-left: 1.5em;*/ //ToDo
+		}
+		
+		&.role {
+			font-size: 12px;
+			line-height: 16px;
+			font-style: normal;
+	   	}
+	   	
+	   	&.actor {
+		   	font-style: italic;
+		   	font-size: 10.5px;
+		   	display: inline-block;
+		   	text-align: left;
+		   	position: absolute;
+		   	left: 660px; //left: 600px; ToDo
+		}
+	   	
+	   	&.head {
+		   	font-size: 16px;
+		   	text-transform: uppercase;
+		   	display: inline-block;
+		   	margin-top: 48px; 
+		   	margin-bottom: 5px;
+		}
+	   	
+	   	&.verseNumber, &.musicalNumber {
+		   	color: #666666;
+		   	font-size: 10.2px;
+	   	}
+	   	
+	   	&.musicalNumber {
+		   	font-weight: bold;   
+		}
+	   	
+	   	&.stage {
+		   	font-style: italic;
+		   	font-size: 10.5px;
+		   	line-height: 16px; 
+		   	display: inline-block; // display: none; ToDo
+		   	/*line-height: 1.3em;*/ //ToDo
+		   	
+		   	&.type_cast, &.type_setting {
+			   	margin-bottom: 16px;
+		   	}
+		}
+	   	
+	   	&.speaker {
+			font-variant: small-caps;
+			line-height: 16px; 
+			font-size: 12px;
+			color: #000000;
+			display: block;
+			margin-top: 12px;
+			font-style: normal;
+			letter-spacing: 0.08px
+		}
+	   	
+	   	&.lg {
+		   	margin: 0px 0px 0px 2em;
+		   	
+		   	&.l_first {
+			   	margin: 12px 0 0 3em;
+			   	display: block;
+			}
+			
+			&.part_I.l_last {
+				margin-bottom: 0px;
+			}
+			
+			&.part_M {
+			
+				&.l_last {
+					margin-bottom:0px;
+				}
+				
+				&.l_first {
+					margin: 0px 0px 0px 2em;
+					
+					&.synch_M:before {
+						content: '\23AA'; 
+						font-size: 1em; 
+						font-style: normal;
+						position: relative; 
+						left: -1.5em; color: black
+					}
+				}
+			}
+			
+			&.part_F.l_first {
+				margin: 0px 0px 0px 2em;
+			}
+			
+			span.quote.type_ariaText {
+				margin-left: 0;
+			}
+		}
+
+	   	&.l {
+		   	
+		   	&.synch_I.lg, &.synch_M.lg, &.synch_F.lg {
+			   	margin-left: 1.5em;
+			}
+			
+			&.synch_I:before {
+				content:'\23A7';
+				font-size: 1em;
+				font-style: normal;
+				position: relative;
+				left:-1.5em; 
+				color: black; 
+			}
+			
+			&.synch_I.lg.part_I:before {
+				content:'\23A7';
+				font-size: 1em;
+				font-style: normal;
+				position: relative;
+				left:-1.5em;
+				color: black;
+			}
+			
+			&.synch_F:before {
+				content:'\23A9'; 
+				font-style: normal;
+				font-size: 1em;
+				position: relative;
+				left: -1.5em;
+				color: black;
+			}
+			
+			&.synch_M:before {
+				content: '\23AA'; 
+				font-size: 1em; 
+				font-style: normal;
+				position: relative; 
+				left: -1.5em;
+				color: black;
+			}
+	   	}
+	   	
+	   	&.l_first.synch_M:before {
+		   	content: '\23AA';
+		   	font-size: 1em;
+		   	font-style: normal;
+		   	position: relative; 
+		   	left: -1.5em; color: black
+		}
+		
+		&.l_last.synch_M:before {
+			content: '\23AA';
+			font-size: 1em;
+			font-style: normal;
+			position: relative; 
+			left: -1.5em; color: black
+		}
+		
+		&.quote {
+		
+			&.type_pieceTitle, &.type_aria {
+				font-style: italic;
+			}	
+		}
+		
+		&.supplied {
+			visibility:hidden;
+			font-size: 12px;
+			margin-left: 0px;
+		}
+		
+		&.hi {
+			font-variant:normal;
+			font-weight:normal;
+			font-style: italic;
+			text-transform:none;
+			font-size: 0.8em;
+		
+			&.rend_italic {
+				font-size: 10.5px; 
+				font-style: italic; 
+				font-variant: normal; 
+				font-weight: normal; 
+				text-transform: none;
+			}
+		}
+		
+		&.abbr {
+			display: none;
+		} 
+	}
+	
+	span[onclick] {
+		cursor:pointer;
+    	color: #1354B5;
+	}
+	
+	castItem {
+		margin-top: 12px;
+		position: relative; 
+		text-align: left;
+	}
+	
+	li {
+		list-style: none outside none;
+		font-size: 1.1em;
+		margin-left: 2.5em;
+		margin-right:0.4em;
+		font-family: $content_baseFont;
+		margin-bottom:8px;
+		text-align:justify;
+	}
+	
+	
+	
+}
