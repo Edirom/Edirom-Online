@@ -229,14 +229,15 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
                         if (exists === -1) {
                             partNames.push(part.name);
                             partList.push(obj);
-                        } else {
+                            exists = partNames.length - 1;
+                        } /*else {*/
                              var menu_mov = {
                                          text: movement.get('name'),
                                          handler: Ext.bind(me.gotoMovement, me, part.id, true)
                                      }
 
                              partList[exists].menu.push(menu_mov);
-                        }
+                        /*}*/
                     });
                 }
                 else
