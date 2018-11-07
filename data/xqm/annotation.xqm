@@ -73,7 +73,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
                             then $pDoc//mei:sourceDesc/mei:source/mei:identifier//text()
                             else ()
     , ', ')
-    let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
+    let $catURIs := tokenize(replace($anno/mei:ptr[matches(@type, 'categories')]/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs
                     return $doc/id($u)/mei:name[1]/text() 
@@ -152,7 +152,7 @@ declare function annotation:getCategories($anno as element()) as xs:string {
 :)
 declare function annotation:getCategoriesAsArray($anno as element()) as xs:string* {
     
-    let $uris := tokenize($anno/mei:ptr[@type eq 'categories']/string(@target),' ')
+    let $uris := tokenize($anno/mei:ptr[matches(@type, 'categories')]/string(@target),' ')
     
     let $string := for $uri in $uris 
                    let $doc := if(starts-with($uri,'#'))
