@@ -71,13 +71,12 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
 
         view.setContent(content);
 
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getChapters.xql',
+            'GET',
+            {
                 uri: view.uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var chapters = Ext.create('Ext.data.Store', {
@@ -86,8 +85,8 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
                 });
 
                 me.chaptersLoaded(chapters, view);
-            }
-        });
+            })
+        );
 
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationInfos.xql',
