@@ -41,7 +41,7 @@ declare function local:getPath($node as node()) as xs:string {
 
 let $term := request:get-parameter('term', '')
 
-let $trans :=   <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#default xhtml" version="2.0">
+let $trans :=   <xsl:stylesheet  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
                     <!--<xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>-->
                     <xsl:template match="/">
                         <xsl:apply-templates/>
@@ -52,7 +52,7 @@ let $trans :=   <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="
                             <xsl:apply-templates/>
                         </span>
                     </xsl:template>
-                    <xsl:template match="node() | @* | comment() | processing-instruction()">
+                    <xsl:template match="element() | @*">
                         <xsl:copy>
                             <xsl:apply-templates select="@* | node()"/>
                         </xsl:copy>
