@@ -1,0 +1,11 @@
+/Volumes/daniel/Programme/SenchaSDK
+
+In command/src/modules/GenerateJSB.js
+cmd: 'appbuilder/ext-app-builder',
+
+Alle Dateien einfügen (Debug-Modus im HTML anschalten)
+command/sencha create jsb -a ~/Entwicklung/Repositories/EdiromOnline/index.html -p ~/Entwicklung/Repositories/EdiromOnline/build-all-used-classes.jsb3
+
+Javascript Datei bauen (alte js-Dateien löschen)
+
+command/sencha build -p ~/Entwicklung/Repositories/EdiromOnline/build-all-used-classes.jsb3 -d ~/Entwicklung/Repositories/EdiromOnline/

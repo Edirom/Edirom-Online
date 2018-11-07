@@ -25,7 +25,8 @@ declare namespace edirom="http://www.edirom.de/ns/1.3";
  
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
  
-let $edition := (collection('/db/contents')//edirom:edition)[1]
+let $edition := request:get-parameter('edition', '')
+let $edition := (collection($edition)//edirom:edition)[1]
 return
 concat("
 Ext.application({
