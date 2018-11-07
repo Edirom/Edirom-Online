@@ -198,7 +198,11 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
     setMeasure: function(combo, store, measureCount) {
 
         var me = this;
-
+        /* nbeer
+        var measureCount = (typeof measureCount === 'number') ? measureCount : 1;
+                console.log(measureCount);
+                console.log(typeof measureCount);
+        */
         if(typeof store.getById !== 'function')
             store = combo.store;
 
