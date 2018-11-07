@@ -60,8 +60,8 @@
             </xsl:choose>
         </xsl:variable>
         <xsl:variable name="style">
-            <xsl:if test="@color"> color: <xsl:choose><xsl:when test="starts-with(@color, 'x')"> #<xsl:value-of
-                            select="substring(@color, 2)"/>
+            <xsl:if test="@color"> color: <xsl:choose><xsl:when test="starts-with(@color, 'x')">
+                            #<xsl:value-of select="substring(@color, 2)"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <xsl:value-of select="@color"/>
@@ -72,7 +72,7 @@
             <xsl:if test="@fontweight"> font-weight: <xsl:value-of select="@fontweight"/>; </xsl:if>
             <xsl:if test="@fontstyle"> font-style: <xsl:value-of
                     select="if(@fontstyle eq 'ital') then('italic') else(@fontstyle)"/>; </xsl:if>
-        <xsl:if test="@fontsize"> font-size: <xsl:value-of select="@fontsize"/>; </xsl:if>
+            <xsl:if test="@fontsize"> font-size: <xsl:value-of select="@fontsize"/>; </xsl:if>
         </xsl:variable>
         <xsl:element name="{$elName}">
             <xsl:if test="@xml:id">
@@ -120,7 +120,7 @@
             <xsl:if test="./mei:graphic/@width">
                 <xsl:attribute name="width" select="concat((./mei:graphic/@width * 100), '%')"/>
             </xsl:if>
-        <xsl:attribute name="src"
+            <xsl:attribute name="src"
                 select="concat('http://localhost:19099/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=1000&amp;dh=500&amp;mo=file,q2')"/>
             <!-- ,'&dw=150&mo=fit' -->
         </img>
