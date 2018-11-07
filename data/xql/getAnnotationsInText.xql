@@ -66,7 +66,7 @@ declare function local:getAnnotations($uriSharp as xs:string, $annotations as el
            	'id: "', $id, '", ',
            	'plist: [', $plist, '], ',
            	'svgList: [], ',
-           	'fn: "loadLink(\"', $uri, '\")", ',
+           	'fn: "loadLink(\"', $uri, '\", {\"width\":825})", ',
            	'uri: "', $uri, '", ',
            	'priority: "', $prio, '", ',
            	'categories: "', $cat, '"',
