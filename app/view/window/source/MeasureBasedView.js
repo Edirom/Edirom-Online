@@ -546,32 +546,6 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
             me.imageViewers[viewerCount - 1].show();
         });
         
-        /*
-         [{
-            measureId:"bar-1211019",
-            zoneId:"zone_bar-1211019",
-             pageId:"facsimile-121101",
-             path: "edition-74338555/work-1/source-12/00000007.jpg",
-             width: "1308",
-             height: "948",
-             ulx: "1035",
-             uly: "43",
-             lrx: "1185",
-             lry: "833"
-         },{
-            measureId:"bar-12120210",
-            zoneId:"zone_bar-12120210",
-            pageId:"facsimile-121102", 
-            path: "edition-74338555/work-1/source-12/00000008.jpg", 
-            width: "1307", 
-            height: "948", 
-            ulx: "139", 
-            uly: "51", 
-            lrx: "315", 
-            lry: "836"
-         }]
-         */
-        
         for(var i = 0; i < viewerCount; i++) {
             
             var viewer = me.imageViewers[i];
