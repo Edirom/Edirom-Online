@@ -55,7 +55,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
         me.addEvents('measureVisibilityChange',
             'annotationsVisibilityChange',
-            'overlayVisiblityChange',
+            'overlayVisibilityChange',
             'gotoMovement',
             'gotoMeasure',
             'gotoMeasureByName',
@@ -322,17 +322,19 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     overlayVisibilityChanged: function(item, event) {
         var me = this;
-        me.fireEvent('overlayVisiblityChange', me, item.overlayId, item.checked);
+        me.fireEvent('overlayVisibilityChange', me, item.overlayId, item.checked);
     },
 
     hideOverlay: function(overlayId) {
         var me = this;
         me.pageBasedView.hideOverlay(overlayId);
+        me.measureBasedView.hideOverlay(overlayId);
     },
 
     showOverlay: function(overlayId, overlay) {
         var me = this;
         me.pageBasedView.showOverlay(overlayId, overlay);
+        me.measureBasedView.showOverlay(overlayId, overlay);
     },
 
     getImageSet: function() {
