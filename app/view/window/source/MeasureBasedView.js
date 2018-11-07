@@ -78,11 +78,11 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
             }
         });
 
-        me.measureSpinner = Ext.create('de.edirom.online.view.window.source.MeasureSpinner', {
-            width: 111,
-            cls: 'pageSpinner', //TODO
-            owner: me,
-            hidden: true
+        me.pageSpinner = Ext.create('de.edirom.online.view.window.source.MeasureSpinner', {
+            width: 139, //bwb-2018
+            cls: 'measureSpinner', //bwb-2018 was pageSpinner
+            owner: me//,
+            //hidden: true //bwb-2018
         });
         
         me.intervalSpinner = Ext.create('de.edirom.online.view.window.source.IntervalSpinner', {
