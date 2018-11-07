@@ -60,7 +60,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    
+
     <!-- OVERWRITE TEI-FUNCTIONS -->
     <xsl:function name="tei:getLabel" xpath-default-namespace="">
         <xsl:param name="key"/>
@@ -99,7 +99,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
     <!-- END OVERWRITE TEI-FUNCTIONS -->
     <xsl:include href="edirom_tei_common.xsl"/>
     <xsl:template name="makeSection">
@@ -404,6 +404,58 @@
                     <xsl:apply-templates/>
                 </a>
             </xsl:when>
+            <!-- external links in XULwrapper-App           -->
+            <xsl:when test="starts-with(@target, 'http:')">
+                <a>
+                    <xsl:attribute name="onclick">
+                        <xsl:text>loadExternalLink("</xsl:text>
+                        <xsl:value-of select="@target"/>
+                        <xsl:text>")</xsl:text>
+                    </xsl:attribute>
+                    <xsl:if test="@xml:id">
+                        <xsl:copy-of select="@xml:id"/>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="@rend">
+                            <xsl:attribute name="class">
+                                <xsl:value-of select="@rend"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:when test="@rendition">
+                            <xsl:call-template name="applyRendition"/>
+                        </xsl:when>
+                        <xsl:when test="parent::tei:item/parent::tei:list[@rend]">
+                            <xsl:attribute name="class">
+                                <xsl:value-of select="parent::tei:item/parent::tei:list/@rend"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:when test="parent::tei:item[@rend]">
+                            <xsl:attribute name="class">
+                                <xsl:value-of select="parent::tei:item/@rend"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:attribute name="class">
+                                <xsl:value-of select="$class"/>
+                            </xsl:attribute>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                    <xsl:if test="@type">
+                        <xsl:attribute name="type">
+                            <xsl:value-of select="@type"/>
+                        </xsl:attribute>
+                    </xsl:if>
+                    <xsl:choose>
+                        <xsl:when test="@n">
+                            <xsl:attribute name="title">
+                                <xsl:value-of select="@n"/>
+                            </xsl:attribute>
+                        </xsl:when>
+                    </xsl:choose>
+                    <xsl:call-template name="xrefHook"/>
+                    <xsl:apply-templates/>
+                </a>
+            </xsl:when>
             <xsl:otherwise>
                 <xsl:variable name="id" select="@xml:id"/>
                 <xsl:variable name="targetExternal" select="@type"/>
@@ -442,7 +494,7 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
-<doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
         <desc>Process tei:sic</desc>
     </doc>
     <xsl:template match="tei:sic">
