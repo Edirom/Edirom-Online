@@ -410,8 +410,8 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
-        borderTop: 0,
-        borderBottom: 1,
+        borderTop: 2,
+        borderBottom: 2,
         borderLeft: 0,
         borderRight: 0
     },
@@ -484,6 +484,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         if(me.measure == measure && me.owner.intervalSpinner.getValue() == measureCount) return;
         
         me.measure = measure;
+
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
@@ -689,6 +690,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
 
     setMeasure: function(id, measureCount) {
         this.combo.setValue(id);
+        
         this.owner.setMeasure(this.combo, this.combo.store, measureCount);
     },
     
