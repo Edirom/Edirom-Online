@@ -30,7 +30,7 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-let $id := request:get-parameter('id', '')
+let $id := request:get-parameter('uri', '')
 let $measureId := request:get-parameter('measureId', '')
 let $measureCount := if(contains($measureId, 'tstamp2='))then(number(substring-before(substring-after($measureId, 'tstamp2='), 'm')) + 1)else(1)
 let $measureId := if(contains($measureId, '?'))then(substring-before($measureId, '?'))else($measureId)

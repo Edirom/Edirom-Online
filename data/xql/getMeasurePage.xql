@@ -28,14 +28,25 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-declare function local:findMeasure($mei, $movementId, $measureIdName) {
+declare function local:findMeasure($mei, $movementId, $measureIdName, $part) { (:, $part:)
     let $m := $mei/id($measureIdName)
     return
         if($m)
         then($m)
+        (:else(($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1]):)
+        
         else(
-            ($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1]
-        )
+            if($part != '')
+            then(($mei/id($movementId)//mei:part[mei:staffDef/@decls = concat('#',$part)]//mei:measure[@n eq $measureIdName])[1])
+            else(($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1])
+       )
+        
+(:        else(
+            if($part != '')
+            then(($mei/id($movementId)//mei:part[mei:staffDef/@decls = concat('#',$part)]//mei:measure[@n eq $measureIdName])[1])
+            else(($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1])
+       )
+       :)
 };
 
 declare function local:getMeasure($mei, $measure) as xs:string {
@@ -66,10 +77,12 @@ let $id := request:get-parameter('id', '')
 let $measureIdName := request:get-parameter('measure', '')
 let $movementId := request:get-parameter('movementId', '')
 let $measureCount := request:get-parameter('measureCount', '1')
+let $part := request:get-parameter('stimme', '')
+(:let $part := request:get-parameter('part', ''):)
 
 let $mei := doc($id)/root()
 
-let $measure := local:findMeasure($mei, $movementId, $measureIdName)
+let $measure := local:findMeasure($mei, $movementId, $measureIdName, $part) (:, $part:)
 let $extraMeasures := for $i in (2 to xs:integer($measureCount))
                       let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
                       return

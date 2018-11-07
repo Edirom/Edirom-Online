@@ -118,6 +118,17 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         view.showMeasure(data);
     },
     
+    showMeasures: function(measures) {
+        var me = this;
+        me.imageViewer.addMeasures(measures);
+    },
+
+    hideMeasures: function() {
+        var me = this;
+        me.imageViewer.removeShapes('measures');
+    },
+
+    
     onMeasureVisibilityChange: function(viewer, visible, pageId, uri, args) {
         var me = this;
         

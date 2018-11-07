@@ -56,7 +56,6 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
-
         window.doAJAXRequest('data/xql/getMovements.xql',
             'GET',
             {
@@ -117,7 +116,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
     },
 
     movementsLoaded: function(movements, view) {
-        view.setMovements(movements);
+        view.setMovements(movements, true);//TODO make second parameter (partwise true/false) a global option in prefs
     },
 
     annotInfosLoaded: function(priorities, categories, view) {
@@ -297,18 +296,17 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
 
         var me = this;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getMeasure.xql',
-            method: 'GET',
-            params: {
-                id: view.uri,
-                measureId: measureId
-            },
-            success: Ext.bind(function(response){
+        window.doAJAXRequest('data/xql/getMeasure.xql',
+          'GET',
+          {
+             uri: view.uri,
+             measureId: measureId
+          },
+          Ext.bind(function(response){
                 var data = response.responseText;
                 this.gotoMeasure(Ext.JSON.decode(data), view);
             }, me)
-        });
+          );
     },
 
     gotoMeasure: function(result, view) {
@@ -318,7 +316,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var movementId = result.movementId;
         var measureCount = result.measureCount;
 
-        if(measureId != '' && movementId != '') {
+        if(measureId !== '' && movementId !== '') {
             view.showMeasure(movementId, measureId, measureCount);
         }
     },
