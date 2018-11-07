@@ -35,7 +35,8 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
             'horizontalMeasureViewer': {
                 showMeasure: this.onShowMeasure,
                 measureVisibilityChange: this.onMeasureVisibilityChange,
-                annotationsVisibilityChange: this.onAnnotationsVisibilityChange
+                annotationsVisibilityChange: this.onAnnotationsVisibilityChange,
+                overlayVisibilityChange: this.onOverlayVisibilityChange
             }
         });
     },
@@ -127,6 +128,40 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         }
     },
     
+    onOverlayVisibilityChange: function(viewer, pageId, uri, overlayId, visible, overlay) {//?remove overlay
+        var me = this;
+        
+        if(visible) {
+            me.fetchOverlay(uri, pageId, overlayId, Ext.bind(me.overlayOnPageLoaded, me, [viewer, pageId, overlayId], true));
+        }else {
+            viewer.removeSVGOverlay(overlayId);
+        }
+    },
+    
+    fetchOverlay: function(uri, pageId, overlayId, fn) {
+            Ext.Ajax.request({
+                url: 'data/xql/getOverlayOnPage.xql',
+                method: 'GET',
+                params: {
+                    uri: uri,
+                    pageId: pageId,
+                    overlayId: overlayId
+                },
+                success: function(response){
+                    var data = response.responseText;
+                    
+                    if(data.trim() == '') return;
+                    
+                    var overlay = data;
+                    
+                    if(typeof fn == 'function')
+                        fn(overlay);
+
+                }
+            });
+
+    },
+    
     fetchMeasures: function(uri, pageId, fn) {
         Ext.Ajax.request({
             url: 'data/xql/getMeasuresOnPage.xql',
@@ -154,6 +189,13 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
         if(pageId != viewer.imgId) return;
 
         viewer.addMeasures(measures);
+    },
+    
+    overlayOnPageLoaded: function(overlay, viewer, pageId, overlayId) {
+
+        if(pageId != viewer.imgId) return;
+
+        viewer.addSVGOverlay(overlayId, overlay);
     },
     
     onAnnotationsVisibilityChange: function(viewer, visible, pageId, uri, sourceView, args) {
