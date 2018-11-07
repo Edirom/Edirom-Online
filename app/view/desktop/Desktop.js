@@ -311,7 +311,7 @@ Ext.define('de.edirom.online.view.desktop.Desktop' ,{
         }
 
         ret.items.push(
-                { text: getLangString('view.desktop.Desktop_Tile'), handler: me.tileWindows, scope: me, minWindows: 1 },
+                /*{ text: getLangString('view.desktop.Desktop_Tile'), handler: me.tileWindows, scope: me, minWindows: 1 },*/
                 { text: getLangString('view.desktop.Desktop_Cascade'), handler: me.cascadeWindows, scope: me, minWindows: 1 })
 
         return ret;
