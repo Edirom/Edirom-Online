@@ -1660,7 +1660,7 @@
     </doc>
     <xsl:template match="tei:sic">
         <xsl:apply-templates/>
-        <xsl:text> (sic)</xsl:text>
+        <xsl:text> [sic!]</xsl:text>
     </xsl:template>
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
         <desc>Process element signed</desc>
