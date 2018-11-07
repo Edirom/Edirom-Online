@@ -125,7 +125,7 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
         me.svgOverlays.each(function(svg) {
            svg.destroy();
         });
-        me.svgOverlays.removeAll();
+        me.svgOverlays.removeAll(me.svgOverlays.items);
 
         me.el.getById(me.id + '_facsCont').update('');
 

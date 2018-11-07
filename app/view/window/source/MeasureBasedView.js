@@ -355,6 +355,32 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
         me.viewers.each(function(v) {
             v.annotationFilterChanged(visibleCategories, visiblePriorities);
         });
+    },
+
+    hideOverlay: function(overlayId) {
+        var me = this;
+        var state = false;
+        
+        me.viewers.each(function(v){
+            Ext.Array.each(v.imageViewers, function(viewer) {
+                if(viewer.isVisible()) {
+                     viewer.removeSVGOverlay(overlayId);
+                }
+            });
+        });
+    },
+
+    showOverlay: function(overlayId, overlay) {
+        var me = this;
+        var state = true;
+        
+        me.viewers.each(function(v){
+            Ext.Array.each(v.imageViewers, function(viewer) {
+                if(viewer.isVisible()) {
+                    viewer.addSVGOverlay(overlayId, overlay);
+                }
+            });
+        });
     }
 });
 
@@ -392,7 +418,8 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         
         me.addEvents('showMeasure',
             'measureVisibilityChange',
-            'annotationsVisibilityChange');
+            'annotationsVisibilityChange',
+            'overlayVisibilityChange');
         
         // SourceView
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
@@ -434,6 +461,17 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         var me = this;
         me.fireEvent('measureVisibilityChange', viewer, me.owner.owner.measuresVisible, viewer.imgId, me.owner.owner.uri);
         me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);
+        //OPERA bwb
+/*        me.fireEvent('overlayVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);*/
+        me.owner.owner.overlayMenu.menu.items.each(function(item){
+            if(item.checked){
+                console.log('measureBased fire for: ' + item.overlayId + ' checked: ' + item.checked);
+                console.log(me.owner.owner);
+                /*me.owner.owner.fireEvent('overlayVisibilityChange', me.owner, item.overlayId, true);*/
+                //viewer, pageId, uri, overlayId, visible
+                me.fireEvent('overlayVisibilityChange', viewer, viewer.imgId, me.owner.owner.uri, item.overlayId, item.checked);//me.owner.owner.uri, me.owner.owner, 
+            }
+        });
     },
     
     setMeasure: function(measure, measureCount) {
@@ -594,7 +632,35 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
             else
                 Ext.Array.each(annotations, fn);
         });
+    },
+    
+    addSVGOverlay: function(overlayId, overlay) {
+        var me = this;
+        var sibling = me.el.getById(me.id + '_facsContEvents');
+
+        var dh = Ext.DomHelper;
+        var id = Ext.id({});
+        var svg = dh.insertBefore(sibling, {
+            id: me.id + '_' + id,
+            tag: 'div',
+            cls: 'overlay',
+            html: overlay
+        }, true);
+
+        svg.child('svg', true).setAttribute("width", me.imgWidth * me.zoom);
+        svg.child('svg', true).setAttribute("height", me.imgHeight * me.zoom);
+        svg.child('svg', true).setAttribute("style", "top:" +  me.offY + "px; left:" +  me.offX + "px; position: absolute;");
+
+        me.svgOverlays.add(overlayId, svg);
+    },
+
+    removeSVGOverlay: function(overlayId) {
+        var me = this;
+        me.svgOverlays.get(overlayId).destroy();
+        me.svgOverlays.removeAtKey(overlayId);
     }
+    
+    
 });
 
 //TODO: mit de.edirom.online.view.window.source.PageSpinner zusammen legen

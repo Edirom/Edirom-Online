@@ -44,7 +44,7 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
 
         view.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         view.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
-        view.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
+        view.on('overlayVisibilityChange', me.onOverlayVisibilityChange, me);
         view.on('gotoMovement', me.onGotoMovement, me);
         view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
         view.on('gotoMeasure', me.onGotoMeasure, me);
@@ -241,6 +241,9 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
         var me = this;
 
         if(visible) {
+        
+            // If there is now active page, we don't need to load overlays
+            if(typeof view.getActivePage() == 'undefined') return;
 
             var pageId = view.getActivePage().get('id');
 
