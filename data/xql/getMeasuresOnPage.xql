@@ -45,6 +45,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
 
     for $zone in $surface/mei:zone[@type='measure']
     let $measure := $mei//mei:measure[@facs=concat('#', $zone/@xml:id)]
+    let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
     return
         concat('{',
             'zoneId: "', $zone/string(@xml:id), '", ',
@@ -53,7 +54,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
             'lrx: "', $zone/string(@lrx), '", ',
             'lry: "', $zone/string(@lry), '", ',
             'id: "', $measure/string(@xml:id), '", ',
-            'name: "', $measure/string(@n), '", ',
+            'name: "', $measureLabel, '", ',
             'type: "', $measure/string(@type), '", ',
             'rest: "', local:getMRest($measure), '"',
         '}')

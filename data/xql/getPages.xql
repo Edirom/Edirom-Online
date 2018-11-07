@@ -38,7 +38,7 @@ let $ret := for $surface in $mei//mei:surface
                 concat('{',
                     'id: "', $surface/string(@xml:id), '", ',
                     'path: "', $graphic/string(@target), '", ',
-                    'name: "', $surface/string(@n), '", ',
+                    'name: "', if ($surface/@label) then ($surface/string(@label)) else ($surface/string(@n)), '", ',
                     'width: "', $graphic/string(@width), '", ',
                     'height: "', $graphic/string(@height), '"',
                 '}')
