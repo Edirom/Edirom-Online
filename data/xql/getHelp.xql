@@ -19,7 +19,7 @@ xquery version "1.0";
 
 :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes expand-xincludes=yes";
 
 let $lang := request:get-parameter('lang', 'en')
 let $idPrefix := request:get-parameter('idPrefix', '')
