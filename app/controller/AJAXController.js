@@ -37,6 +37,9 @@ Ext.define('de.edirom.online.controller.AJAXController', {
             
         if(typeof(retryNo) === 'undefined')
             retryNo = 2;
+            
+/*            */
+//        console.log(url); 
 
         var fn = Ext.bind(function(response, options, retryNoInt) {
         

@@ -43,7 +43,7 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
 
     onAfterLayout: function(view) {
 
-        return;
+        //return;
 
         var me = this;
 
@@ -112,7 +112,9 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             },
             Ext.bind(function(response){
                 var participantUris = response.responseText;
+                console.log(participantUris);
                 var windows = linkController.loadLink(participantUris, {sort:'sortGrid', useExisting: false, onlyExisting: false, sortIncludes: [view.window]});
+                console.log(windows);
                 view.closeAllButton.windows = windows;
                 view.closeAllButton.enable();
             }, me)

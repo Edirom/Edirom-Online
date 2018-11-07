@@ -201,6 +201,7 @@ Ext.define('de.edirom.online.view.window.source.SourceView', {
 
     setMovements: function(movements, partwise) {
         var me = this;
+
         me.movements = movements;
         me.measureBasedView.setMovements(movements);
 
