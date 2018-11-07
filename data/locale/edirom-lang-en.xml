@@ -23,7 +23,7 @@
     <lang>en</lang>
     <version>1.0</version>
     <entries>
-        
+
         <!-- *** APPLICATION-UI *** -->
 
         <entry key="global_cancel" value="Cancel"/>
@@ -39,7 +39,7 @@
         <entry key="controller.window.Window_summaryView" value="Summary"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-View"/>
-        
+
         <entry key="view.desktop.Desktop_Cascade" value="Cascade"/>
         <entry key="view.desktop.Desktop_Close" value="Close"/>
         <entry key="view.desktop.Desktop_CloseAll" value="Close All"/>
@@ -48,7 +48,7 @@
         <entry key="view.desktop.Desktop_Minimize" value="Minimize"/>
         <entry key="view.desktop.Desktop_Restore" value="Restore"/>
         <entry key="view.desktop.Desktop_Tile" value="Tile"/>
-        
+
         <entry key="view.desktop.TaskBar_concordanceNav" value="Open concordance navigator"/>
         <entry key="view.desktop.TaskBar_measureNumbers" value="Show measure numbers"/>
         <entry key="view.desktop.TaskBar_annotations" value="Show annotations"/>
@@ -61,7 +61,7 @@
         <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
         <entry key="view.desktop.TaskBar_Sort_vertical" value="Sort windows vertically"/>
         <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
-        
+
         <entry key="view.window.AnnotationView_Title" value="Annotation"/>
         <entry key="view.window.AnnotationView_No" value="No."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
@@ -69,22 +69,24 @@
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
+        <entry key="view.window.AnnotationView_Sources" value="Sources"/>
         <entry key="view.window.AnnotationView_List" value="List"/>
         <entry key="view.window.AnnotationView_Display" value="Display"/>
         <entry key="view.window.AnnotationView_Grid" value="Grid view"/>
         <entry key="view.window.AnnotationView_Single" value="Single view"/>
         <entry key="view.window.AnnotationView_ListView" value="List view"/>
-        
+
         <entry key="view.window.AnnotationView_PreviousAnnotation" value="Previous annotation"/>
         <entry key="view.window.AnnotationView_NextAnnotation" value="Next annotation"/>
         <entry key="view.window.AnnotationView_OpenAll" value="Open all sources"/>
         <entry key="view.window.AnnotationView_CloseAll" value="Close all sources"/>
         <entry key="view.window.HelpWindow_Title" value="Help"/>
         <entry key="view.window.TobBar_View" value="View"/>
-        
-        <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title" value="Concordances"/>
+
+        <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Title"
+            value="Concordances"/>
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Show" value="Show"/>
-        
+
         <entry key="view.window.search.SearchWindow_Title" value="Search"/>
         <entry key="view.window.source.SourceView_categoriesMenu" value="Categories…"/>
         <entry key="view.window.source.SourceView_prioMenu" value="Priorities…"/>
@@ -98,11 +100,15 @@
         <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
         <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Page Spinner"/>
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Measure based view"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Previous measure"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Measure Spinner"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure"
+            value="Previous measure"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner"
+            value="Measure Spinner"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Next measure"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Select movement"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Select parts"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox"
+            value="Select movement"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices"
+            value="Select parts"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Annotations"/>
         <entry key="view.window.source.SourceView_ShowAnnotations" value="Show/Hide annotations"/>
         <entry key="view.window.source.SourceView_gotoMenu" value="Go to…"/>
@@ -118,8 +124,8 @@
         <entry key="view.window.text.TextView_categoriesMenu" value="Categories…"/>
         <entry key="view.window.text.TextView_gotoChapter" value="Go to chapter/number…"/>
         <entry key="view.window.text.TextView_viewMenu" value="Display"/>
-        
-        
+
+
         <!-- naming gui elements -->
         <entry key="view.desktop.Desktop" value="Desktop"/>
         <entry key="view.desktop.TopBar" value="Toolbar"/>
@@ -141,26 +147,27 @@
         <entry key="view.window.source.SourceView_pageNaviation" value="Page navigation"/>
         <entry key="view.window.source.SourceView_measureBasedCombo" value="Movement combo box"/>
         <entry key="view.window.source.SourceView_measureBasedRange" value="Measure range"/>
-        
+
         <entry key="view.window.xmlView_decreaseFontSize.label" value="A-"/>
         <entry key="view.window.xmlView_decreaseFontSize.title" value="Decrease font size"/>
         <entry key="view.window.xmlView_increaseFontSize.label" value="A+"/>
         <entry key="view.window.xmlView_increaseFontSize.title" value="Increase font size"/>
         <entry key="view.window.xmlView_showLineNumbers.label" value="Line #"/>
         <entry key="view.window.xmlView_showLineNumbers.title" value="Show line numbers"/>
-      
+
         <entry key="view.window.pref_generalSettings" value="General"/>
         <entry key="view.window.pref_programSettings" value="Program settings"/>
         <entry key="view.window.pref_concNavSettings" value="Concordance Navigator settings"/>
         <entry key="view.window.pref_windowSettings" value="Window settings"/>
         <entry key="view.window.pref_langSettings" value="Language settings"/>
-        <entry key="Number field with left and right arrows" value="Number field with left and right arrows"/>
+        <entry key="Number field with left and right arrows"
+            value="Number field with left and right arrows"/>
 
         <!-- DATA -->
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>
-    <!-- XSL-FO specific -->
+        <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Table of contents"/>
     </entries>
 </langFile>
