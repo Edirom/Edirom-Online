@@ -212,28 +212,64 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
 
         var id = combo.getValue();
         var measures = store.getById(id);
-        
+        /* nbeer
+        var distinctVoices = [];
+        console.log(distinctVoices);
+        */
+        /*var distinctVoices = [], output = [], l = measures.measures.length, i;
+        for( i=0; i<l; i++) {
+            if( distinctVoices[measures.measures[i].voice]) continue;
+            distinctVoices[measures.measures[i].voice] = true;
+            output.push(measures.measures[i].voice);
+            };*/
         Ext.Array.each(measures.get('measures'), function(m) {
             
             var voice = m['voice'];
+            var partLabel = m['partLabel'];
             
+            /* nbeer
+                var counts = Ext.Array.filter(measures.get('measures'), function(m) {
+                return m['voice'] == voice;
+            }).length;
+                Ext.Array.each(measures.get('measures'), function(x) {
+                    if (x['voice'] == voice) {counts++};
+                });
+                distinctVoices[voice] = counts;
+                
+        });
+        
+        Ext.Array.each(Object.keys(distinctVoices), function(key) {
+        
+            var voice = key;
+            var count = distinctVoices[key];
+            var measureCountModifier = count - 1;
+            var m = Ext.Array.filter(measures.get('measures'), function(m) {
+                return m['voice'] == key;
+            })[0];
+            console.log(voice);
+            if(voice == 'score' || me.parts.getById(voice).get('selected')) {
+                
+           */     
+                
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
-            
                 var viewer = me.viewers.get(voice);
                 
                 if(typeof viewer == 'undefined') {
                     viewer = Ext.create('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
-                        owner: me
+                        owner: me,
+                        partLabel: partLabel
                     });
                     
                     me.viewers.add(voice, viewer);
                     me.add(viewer);
                 }
-    
+                /* nbeer */
+                //viewer.setMeasure(m, measureCount + measureCountModifier);
                 viewer.show();
+                
             }
         });
-
+        /* nbeer */
         Ext.Array.each(measures.get('measures'), function(m) {
             
             var voice = m['voice'];
@@ -243,6 +279,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureBasedView', {
                 viewer.setMeasure(m, measureCount);
             }
         });
+        /* nbeer */
     },
     
     reloadDisplay: function() {
@@ -407,6 +444,8 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
     
     border: false,
     
+    partLabel: '',
+    
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
@@ -429,7 +468,7 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
         
-        var viewer = Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1});
+        var viewer = Ext.create('de.edirom.online.view.window.image.ImageViewer', {flex: 1, partLabel: me.partLabel});
         viewer.on('imageChanged', me.onViewerImageChange, me);
         
         me.imageViewers = [viewer];
