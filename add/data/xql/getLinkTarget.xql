@@ -184,7 +184,7 @@ let $title := (: Work :)
               
               (: Source / Score with Shelfmark:)
               else if(exists($doc//mei:mei) and exists($doc//mei:source) and exists($doc//mei:identifier[@type='shelfmark']))
-              then(concat(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]),' | ',$doc//mei:source//mei:identifier[@type='shelfmark']))
+              then(concat(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1]),' | ',normalize-space($doc//mei:source//mei:identifier[@type='shelfmark'])))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
