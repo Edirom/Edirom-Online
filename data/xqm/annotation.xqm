@@ -60,7 +60,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     let $id := $anno/@xml:id
     let $title := $anno/mei:title/normalize-space(text())
     let $doc := $anno/root()
-    let $prio := $doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2))/mei:name[1]/text()
+    let $prio := $doc/id(substring($anno/mei:ptr[matches(@type, 'priority')]/@target,2))/mei:name[1]/text()
     let $pList := distinct-values(tokenize($anno/@plist, ' '))
     let $pList := for $p in $pList 
                     return if ( contains($p, '#'))
@@ -117,7 +117,7 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
 :)
 declare function annotation:getPriority($anno as element()) as xs:string {
     
-    let $uri := $anno/mei:ptr[@type eq 'priority']/string(@target)
+    let $uri := $anno/mei:ptr[matches(@type, 'priority')]/string(@target)
     
     let $doc := if(starts-with($uri,'#'))
                 then($anno/root())
