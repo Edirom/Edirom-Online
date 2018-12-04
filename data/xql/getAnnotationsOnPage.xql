@@ -26,7 +26,7 @@ xquery version "1.0";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+import module namespace functx = "http://www.functx.com";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
