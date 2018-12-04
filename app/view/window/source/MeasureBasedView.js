@@ -739,7 +739,7 @@ Ext.define('de.edirom.online.view.window.source.MeasureSpinner', {
         me.removeAll();
         
         me.combo = Ext.create('Ext.form.ComboBox', {
-            width: 63, //bwb-2018
+            width: 100,
             hideTrigger: true,
             queryMode: 'local',
             store: store,
