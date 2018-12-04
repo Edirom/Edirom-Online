@@ -405,7 +405,7 @@
                 </a>
             </xsl:when>
             <!-- external links in XULwrapper-App           -->
-            <xsl:when test="starts-with(@target, 'http:')">
+            <xsl:when test="starts-with(@target, 'http')">
                 <a>
                     <xsl:attribute name="onclick">
                         <xsl:text>loadExternalLink("</xsl:text>
