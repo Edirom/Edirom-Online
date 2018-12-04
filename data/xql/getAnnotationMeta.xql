@@ -31,7 +31,7 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace image="http://www.edirom.de/ns/image";
+declare namespace img="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
