@@ -32,4 +32,4 @@ let $uri := request:get-parameter('uri', '')
 return
     if(doc-available($uri))
     then($uri)
-    else(edition:findEdition())
+    else(edition:findEdition($uri))
