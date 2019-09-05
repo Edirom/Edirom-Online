@@ -382,7 +382,7 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <!--<h1>{annotation:getTitle($annot, '', $edition)}</h1>-->
+                <h1>{annotation:getTitle($annot, '', $edition)}</h1>
                 {annotation:getContent($annot,'', $edition)}
             </div>
            <!-- <div class="previewArea">
