@@ -245,8 +245,7 @@
                         <xsl:value-of select="$graphicsSuffix"/>
                     </xsl:if>
                     <xsl:text>?</xsl:text>
-                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale">
-                        <!-- | @scale -->
+                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-- | @scale -->
                         <xsl:for-each select="current-group()">
                             <xsl:choose>
                                 <xsl:when test="name() = 'height'">
