@@ -205,6 +205,37 @@
     <xsl:template name="showGraphic">
         <xsl:variable name="File">
             <xsl:choose>
+                <xsl:when test="contains(@url, '?')">
+                    <xsl:variable name="view">
+                        <xsl:value-of select="substring-before(substring-after(@url, 'view='), '/')"/>
+                    </xsl:variable>
+                    <xsl:variable name="offset">
+                        <xsl:value-of select="substring-before(substring-after(@url, 'offset='), '/')"/>
+                    </xsl:variable>
+                    <xsl:variable name="dimension">
+                        <xsl:value-of select="substring-after(@url, 'dimension=')"/>
+                    </xsl:variable>
+                    <xsl:variable name="dw">
+                        <xsl:value-of select="substring-before($view, '-')"/>
+                    </xsl:variable>
+                    <xsl:variable name="dh">
+                        <xsl:value-of select="substring-after($view, '-')"/>
+                    </xsl:variable>
+                    <xsl:variable name="wx">
+                        <xsl:value-of select="substring-before($offset, '-')"/>
+                    </xsl:variable>
+                    <xsl:variable name="wy">
+                        <xsl:value-of select="substring-after($offset, '-')"/>
+                    </xsl:variable>
+                    <xsl:variable name="ww">
+                        <xsl:value-of select="substring-before($dimension, '-')"/>
+                    </xsl:variable>
+                    <xsl:variable name="wh">
+                        <xsl:value-of select="substring-after($dimension, '-')"/>
+                    </xsl:variable>
+                    <!--                offset=0.2-0.2/dimension=0.3-0.3   -->
+                    <xsl:value-of select="concat($graphicsPrefix, substring-before(@url, '?'), '?dw=', $dw, '&amp;', 'amp;dh=', $dh, '&amp;', 'amp;wx=', $wx, '&amp;', 'amp;wy=', $wy, '&amp;', 'amp;ww=', $ww, '&amp;', 'amp;wh=', $ww, '&amp;', 'amp;mo=fill')"/>
+                </xsl:when>
                 <xsl:when test="starts-with(@url, 'http://')">
                     <xsl:value-of select="@url"/>
                 </xsl:when>
