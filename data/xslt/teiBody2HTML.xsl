@@ -434,13 +434,13 @@
                     <xsl:apply-templates/>
                 </a>
             </xsl:when>
-            <!-- external links in XULwrapper-App           -->
+            <!-- external links in Wrapper-App           -->
             <xsl:when test="starts-with(@target, 'http')">
                 <a>
                     <xsl:attribute name="onclick">
-                        <xsl:text>loadExternalLink("</xsl:text>
+                        <xsl:text>require('electron').shell.openExternal('</xsl:text>
                         <xsl:value-of select="@target"/>
-                        <xsl:text>")</xsl:text>
+                        <xsl:text>')</xsl:text>
                     </xsl:attribute>
                     <xsl:if test="@xml:id">
                         <xsl:copy-of select="@xml:id"/>
