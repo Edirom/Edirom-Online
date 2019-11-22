@@ -171,15 +171,18 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
     },
     
     fetchMeasures: function(uri, pageId, fn) {
-        Ext.Ajax.request({
-            url: 'data/xql/getMeasuresOnPage.xql',
-            method: 'GET',
-            params: {
+    
+        var me = this;
+        
+        window.doAJAXRequest('data/xql/getMeasuresOnPage.xql',
+            'GET',
+            {
                 uri: uri,
                 pageId: pageId
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
+
                 var measures = Ext.create('Ext.data.Store', {
                     fields: ['zoneId', 'ulx', 'uly', 'lrx', 'lry', 'id', 'name', 'type', 'rest'],
                     data: Ext.JSON.decode(data)
@@ -187,8 +190,8 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
 
                 if(typeof fn == 'function')
                     fn(measures);
-            }
-        });
+            }, me)
+        );
     },
     
     measuresOnPageLoaded: function(measures, viewer, pageId) {
