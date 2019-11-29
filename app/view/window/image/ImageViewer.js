@@ -259,8 +259,9 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
             var y = shape.get('uly');
             var width = shape.get('lrx') - shape.get('ulx');
             var height = shape.get('lry') - shape.get('uly');
+            var visibility = shape.get('visibility');
 
-            var measure = tpl.append(shapeDiv, [me.id + '_' + id, name, (name === ''?'measureInnerEmpty':'measureInner')], true);
+            var measure = tpl.insertFirst(shapeDiv,[me.id + '_' + id, name, (visibility === 'false' ? 'measureInnerEmpty': 'measureInner')], true);
 
             measure.setStyle({
                 position: 'absolute'
