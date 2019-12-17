@@ -43,8 +43,8 @@ declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:s
     for $annotation in $annotations
 	let $id := $annotation/string(@xml:id)
 	let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
-	let $prio := $annotation/mei:ptr[@type="priority"]/replace(@target, '#', '')
-	let $cat := $annotation/mei:ptr[@type="categories"]/replace(@target, '#', '')
+	let $prio := $annotation/mei:ptr[matches(@type, 'priority')]/replace(@target, '#', '')
+	let $cat := $annotation/mei:ptr[matches(@type, 'categories')]/replace(@target, '#', '')
 	let $plist := for $p in tokenize($annotation/@plist, '\s+')
 					return if(starts-with($p, $uriSharp))then(substring-after($p, $uriSharp))else()
     let $plist := local:getParticipants($id, $plist, $elems)
