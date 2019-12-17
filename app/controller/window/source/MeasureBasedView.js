@@ -184,7 +184,7 @@ Ext.define('de.edirom.online.controller.window.source.MeasureBasedView', {
                 var data = response.responseText;
 
                 var measures = Ext.create('Ext.data.Store', {
-                    fields: ['zoneId', 'ulx', 'uly', 'lrx', 'lry', 'id', 'name', 'type', 'rest'],
+                    fields: ['zoneId', 'ulx', 'uly', 'lrx', 'lry', 'id', 'name', 'type', 'rest', 'visibility'],
                     data: Ext.JSON.decode(data)
                 });
 
