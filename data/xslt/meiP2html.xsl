@@ -121,7 +121,7 @@
                 <xsl:attribute name="width" select="concat((./mei:graphic/@width * 100), '%')"/>
             </xsl:if>
             <xsl:attribute name="src"
-                select="concat('http://localhost:19099/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=1000&amp;dh=500&amp;mo=file,q2')"/>
+                select="concat('http://localhost:19103/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=1000&amp;dh=500&amp;mo=file,q2')"/>
             <!-- ,'&dw=150&mo=fit' -->
         </img>
     </xsl:template>
