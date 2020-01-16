@@ -271,9 +271,10 @@ let $sources := eutil:getDocumentsLabelsAsArray($participants)
 let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
 
 let $sigla := source:getSiglaAsArray($participants)
-let $siglaLabel := if(count($sigla) gt 1)then('Sources')else('Source')
+(: remove ME and TE from sources before count, tbachmann 2020-01-16, OPERA :)
+let $siglaLabel := if(count($sigla[not(.=('ME', 'TE'))]) gt 1)then('Sources')else('Source')
 
-(: remove ME and Te FROM sources; tbachmann 2020-01-08, OPERA :)
+(: remove ME and TE from sources; tbachmann 2020-01-08, OPERA :)
 let $siglaReduced := $sigla[not(.=('ME', 'TE'))]
 
 
