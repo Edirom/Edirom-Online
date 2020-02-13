@@ -102,8 +102,8 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
     
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
     let $xsltBase := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
-    
-    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+    let $server := concat(request:get-server-name(), ':', request:get-server-port())
+    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/><param name="server" value="{$server}"/></parameters>)
     return
     
         $html

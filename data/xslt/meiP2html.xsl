@@ -13,6 +13,7 @@
     </xd:doc>
     <xsl:output method="xhtml" media-type="text/html" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="idPrefix" select="string('')"/>
+    <xsl:param name="server" select="string('')"/>
     <xsl:template match="/">
         <xsl:apply-templates/>
     </xsl:template>
@@ -120,8 +121,9 @@
             <xsl:if test="./mei:graphic/@width">
                 <xsl:attribute name="width" select="concat((./mei:graphic/@width * 100), '%')"/>
             </xsl:if>
-            <xsl:attribute name="src"
-                select="concat('http://localhost:19103/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=1000&amp;dh=500&amp;mo=file,q2')"/>
+            <!--<xsl:attribute name="src"
+                select="concat('http://localhost:19103/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;dw=1000&amp;dh=500&amp;mo=file,q2')"/>-->
+            <xsl:attribute name="src" select="concat('http://', $server, '/digilib/Scaler?fn=',./mei:graphic/@target,'&amp;mo=q2')"/>
             <!-- ,'&dw=150&mo=fit' -->
         </img>
     </xsl:template>
