@@ -74,6 +74,9 @@
             <xsl:if test="@fontstyle"> font-style: <xsl:value-of
                     select="if(@fontstyle eq 'ital') then('italic') else(@fontstyle)"/>; </xsl:if>
             <xsl:if test="@fontsize"> font-size: <xsl:value-of select="@fontsize"/>; </xsl:if>
+            <xsl:if test="@text-decoration">
+                text-decoration: <xsl:value-of select="@text-decoration"/>;
+            </xsl:if>
         </xsl:variable>
         <xsl:element name="{$elName}">
             <xsl:if test="@xml:id">
