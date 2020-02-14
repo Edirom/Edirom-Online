@@ -209,13 +209,13 @@ Ext.define('de.edirom.online.view.desktop.TaskBar', {
             handler: Ext.bind(me.fireEvent, me, ['openHelp'], false)
         });
 
-        return {
+        /*return {
             width: 32,//64,
             items: [
-                me.helpButton/*,
-                me.prefButton*/
+                me.helpButton/\*,
+                me.prefButton*\/
             ]
-        };
+        };*/
     },
 
     onButtonContextMenu: function (e) {
