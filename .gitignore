@@ -5,3 +5,5 @@ Thumbs.db
 /build
 /tmp
 *.xpr
+_build
+build4desktopApp
