@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="EdiromOnline">
+<project default="updateApp" name="EdiromOnline">
+    <tstamp>
+        <format property="buildDateTime" pattern="yyyyMMdd-HHmm"  locale="en,UK" />
+    </tstamp>
+    <xmlproperty file="expath-pkg.xml"/>
     <property name="project.version" value="0.1"/>
-    <property name="project.app" value="EdiromOnline"/>
+    <property name="project.app" value="EdiromOnline-OPERA"/>
     <property name="build.dir" value="build"/>
+    
+    <property name="p.exist.dir" value="/Applications/eXist-db 2.2.app/Contents/Resources/eXist-db/"/>
+    <property name="p.target.exist.url" value="xmldb:exist://localhost:19103/exist/xmlrpc/db/"/>
+    <property name="p.target.user" value="admin"/>
+    <property name="p.target.pass" value=""/>
+    
+    <property name="p.export.dir" location="build4desktopApp"/>
+    
+    <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
+        <classpath>
+            <fileset dir="${p.exist.dir}/lib/core">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${p.exist.dir}/lib/endorsed">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${p.exist.dir}/lib/optional">
+                <include name="*.jar"/>
+            </fileset>
+            <pathelement location="${p.exist.dir}/exist.jar"/>
+            <pathelement location="${p.exist.dir}/exist-optional.jar"/>
+        </classpath>
+    </typedef>
+    
+    <target name="updateApp">
+        <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}apps" collection="EdiromOnline" user="${p.target.user}" password="${p.target.pass}"/>
+        <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}apps" collection="EdiromOnline" user="${p.target.user}" password="${p.target.pass}"/>
+        
+        <xdb:store  xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}apps/EdiromOnline" user="${p.target.user}" password="${p.target.pass}" createcollection="true" createsubcollections="true">
+            <fileset dir="${p.export.dir}"/>
+        </xdb:store>
+        
+        <xdb:create xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}system/config/db" collection="contents" user="${p.target.user}" password="${p.target.pass}"/>
+        <xdb:store  xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}system/config/db/contents" user="${p.target.user}" password="${p.target.pass}" createcollection="true" createsubcollections="true">
+            <fileset dir="${p.export.dir}" includes="collection.xconf"/>
+        </xdb:store>
+        
+        <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://localhost:19103/exist/xmlrpc/db" queryfile="setPermissions.xql" user="${p.target.user}" password="${p.target.pass}"/>
+<!--        <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="xmldb:exist://localhost:19103/exist/xmlrpc/db" queryfile="reindex.xql" user="${p.target.user}" password="${p.target.pass}"/>-->
+    </target>
+    
     <target name="xar">
         <mkdir dir="${build.dir}"/>
         <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
