@@ -4,7 +4,7 @@ rm -R ./build4desktopApp
 
 mkdir ./build4desktopApp
 
-cp -R ./app ./build4desktopApp
+#cp -R ./app ./build4desktopApp
 cp -R ./data ./build4desktopApp
 cp -R ./ext-ux ./build4desktopApp
 cp -R ./extjs ./build4desktopApp
