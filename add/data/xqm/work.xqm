@@ -32,12 +32,30 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 declare function local:getLocalizedTitle($node) {
-  let $lang := request:get-parameter('lang', '')
+  (:let $lang := request:get-parameter('lang', '')
   let $nodeName := local-name($node)
   return
       if ($lang = $node/mei:title/@xml:lang)
       then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
+      else $node/mei:title[1]/text() :)
+    let $lang := request:get-parameter('lang', '')
+    let $nodeName := local-name($node)
+    let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text()
+    (:let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:title[@type='perf']/text():)
+    let $identifierOpus := $node/../mei:identifier[@type='opus']/text()
+    let $identifierWoo := $node/../mei:identifier[@type='woo']/text()
+    let $identifierGenre := $node/../mei:identifier[@type='genre']/text()
+    let $titleNew := if($identifierOpus)
+                    then(concat($titleMain,' op. ',$identifierOpus))
+                    else if($identifierWoo)
+                    then(concat($titleMain,' WoO ',$identifierGenre,'/',$identifierWoo))
+                    else()
+    return
+      if ($identifierOpus or $identifierWoo)
+      then (normalize-space(string($titleNew)))
+      else if ($lang = $node/mei:title/@xml:lang)
+      then ($node/mei:title[@xml:lang = $lang]/text())
+      else ($node/mei:title[1]/text())
 
 };
 

@@ -35,11 +35,22 @@ declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getLocalizedMEITitle($node) {
   let $nodeName := local-name($node)
+  let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text()
+  let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:title[@type='perf']/text()
+  let $identifierOpus := $node/../mei:identifier[@type='opus']/text()
+  let $identifierWoo := $node/../mei:identifier[@type='woo']/text()
+  let $identifierGenre := $node/../mei:identifier[@type='genre']/text()
+  let $titleNew := if($identifierOpus)
+                    then(concat($titleMain,' ',$titlePerf,' op. ',$identifierOpus))
+                    else if($identifierWoo)
+                    then(concat($titleMain,' ',$titlePerf,' WoO ',$identifierGenre,'/',$identifierWoo))
+                    else()
   return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
+      if ($titleNew)
+      then ($titleNew)
+      else if ($lang = $node/mei:title/@xml:lang)
+      then ($node/mei:title[@xml:lang = $lang]/text())
+      else ($node/mei:title[1]/text())
 };
 
 declare function local:getLocalizedTEITitle($node) {
@@ -176,7 +187,7 @@ let $title := (: Work :)
               
               (: Edition :)
               else if (exists($doc//mei:mei) and starts-with($doc//mei:mei/@xml:id, 'rwa_edition'))
-              then($doc//mei:fileDesc//mei:titleStmt//mei:title[@type = 'main'][@xml:lang = $lang])
+              then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
 
               (: Source / Score without Shelfmark:)
               else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
