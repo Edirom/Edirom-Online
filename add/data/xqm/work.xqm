@@ -74,7 +74,7 @@ declare function work:toJSON($uri as xs:string) as xs:string {
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
 (:                'title: "', local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)/replace(., '"', '\\"'), '"',:)
-                'title: "', replace(string(local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)), '"', '\\"'), '"',
+                'title: "', normalize-space(replace(string(local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)), '"', '\\"')), '"',
             '}')
 };
 
