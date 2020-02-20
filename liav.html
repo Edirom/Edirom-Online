@@ -30,12 +30,11 @@
         
         <!-- **JQUERY** -->
         <!--		<script type="text/javascript" src="resources/jquery/jquery-2.1.3.js"/>-->
-        <script>erequire = require;</script>
+        <script>remote = require('electron').remote;</script>
         <script>window.$ = window.jQuery = require('jquery');</script>
-    
+        
         <!-- **Raphael JS** -->
         <!--    <script type="text/javascript" src="resources/js/raphael-min.js"/>-->
-        
         <script>window.Raphael = require('raphael');</script>
         
         <!-- **ACE** -->
@@ -43,7 +42,7 @@
         <script src="main/js/utils/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
         
         <!-- ** DEBUG / DEVELOP ** -->
-       <!-- <script type="text/javascript" src="extjs/ext-debug.js"/>
+        <!-- <script type="text/javascript" src="extjs/ext-debug.js"/>
         <script type="text/javascript">
             Ext.Loader.setConfig({
                 paths: {'Ext.ux': 'ext-ux'},
