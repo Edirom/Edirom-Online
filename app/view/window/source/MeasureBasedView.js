@@ -508,8 +508,8 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
 /*        me.fireEvent('overlayVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);*/
         me.owner.owner.overlayMenu.menu.items.each(function(item){
             if(item.checked){
-                console.log('measureBased fire for: ' + item.overlayId + ' checked: ' + item.checked);
-                console.log(me.owner.owner);
+/*                console.log('measureBased fire for: ' + item.overlayId + ' checked: ' + item.checked);*/
+/*                console.log(me.owner.owner);*/
                 /*me.owner.owner.fireEvent('overlayVisibilityChange', me.owner, item.overlayId, true);*/
                 //viewer, pageId, uri, overlayId, visible
                 me.fireEvent('overlayVisibilityChange', viewer, viewer.imgId, me.owner.owner.uri, item.overlayId, item.checked);//me.owner.owner.uri, me.owner.owner, 
@@ -645,10 +645,12 @@ Ext.define('de.edirom.online.view.window.source.HorizontalMeasureViewer', {
                 annotDiv.setVisible(hasCategory & hasPriority);
             }, me);
     
-            if(annotations.each)
-                annotations.each(fn);
-            else
-                Ext.Array.each(annotations, fn);
+            if(annotations != undefined) {
+                if(annotations.each)
+                    annotations.each(fn);
+                else
+                    Ext.Array.each(annotations, fn);
+            }
         });
     },
     
