@@ -119,14 +119,13 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
     onAnnotationsVisibilityChange: function(view, visible) {
         var me = this;
 
-        if(visible)
-            Ext.Ajax.request({
-                url: 'data/xql/getAnnotationsInText.xql',
-                method: 'GET',
-                params: {
+        if(visible) {
+            window.doAJAXRequest('data/xql/getAnnotationsInText.xql',
+                'GET',
+                {
                     uri: view.uri
                 },
-                success: function(response){
+                Ext.bind(function(response){
                     var data = response.responseText;
 
                     var annotations = Ext.create('Ext.data.Store', {
@@ -135,10 +134,10 @@ Ext.define('de.edirom.online.controller.window.text.TextView', {
                     });
 
                     me.annotationsLoaded(annotations, view);
-                }
-            });
-
-        else
+                }, this)
+                
+            );
+       } else
             view.hideAnnotations();
     },
 
