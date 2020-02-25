@@ -65,18 +65,16 @@ Ext.define('de.edirom.online.controller.window.AnnotationView', {
             scope: this
         });
 
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationMeta.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getAnnotationMeta.xql',
+            'GET', 
+            {
                 uri: uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 view.setMeta(response.responseText);
-            },
-            scope: this
-        });
-
+            }, this)
+        );
+        
         window.doAJAXRequest('data/xql/getAnnotationPreviews.xql',
             'GET', 
             {
