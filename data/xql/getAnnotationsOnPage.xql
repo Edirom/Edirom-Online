@@ -47,11 +47,7 @@ declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:s
 	let $cat := $annotation/mei:ptr[matches(@type, 'categories')]/replace(@target, '#', '')
 	let $plist := for $p in tokenize($annotation/@plist, '\s+')
 					return if(starts-with($p, $uriSharp))then(substring-after($p, $uriSharp))else()
-    let $plist := 
-(:        OPERA (LiaV) hack: show "Bobbele" of Introductory Notes in source A at top left corner /TBa. 2020-01-14 :)
-        if(fn:contains($uriSharp, 'opera_source_786a4e99-aacd-459d-a40a-79c894e92497') and count(fn:tokenize($cat, " ")) = 3)
-        then(local:getParticipantsIN($id, $plist, $elems))
-        else(local:getParticipants($id, $plist, $elems))
+    let $plist := local:getParticipants($id, $plist, $elems)
     let $svgList := local:getAnnotSVGs(concat($uriSharp, $surfaceId), $annotation)
 	return
 		concat('
@@ -100,18 +96,6 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
             let $coord := local:getCoordinates($p)
 			return 
 		        concat('{id:"', $annoId, '__', string($p/@xml:id), '",ulx:', $coord[1], ',uly:', $coord[2], ',lrx:', $coord[3], ',lry:', $coord[4],'}')
-        , ",")
-};
-(: OPERA (LiaV) hack: show "Bobbele" of Introductory Notes in source A at top left corner /TBa. 2020-01-14 :)
-declare function local:getParticipantsIN($annoId as xs:string, $plist as xs:string*, $elems as element()*) as xs:string {
-
-    let $participants := $elems[@xml:id = $plist]
-    return
-        string-join(
-            for $p in $participants
-            let $coord := local:getCoordinates($p)
-			return 
-		        concat('{id:"', $annoId, '__', string($p/@xml:id), '",ulx:', 150, ',uly:', 150, ',lrx:', 150, ',lry:', 150,'}')
         , ",")
 };
 
