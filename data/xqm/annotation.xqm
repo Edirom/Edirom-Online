@@ -70,7 +70,12 @@ declare function annotation:toJSON($anno as element()) as xs:string {
                     for $p in distinct-values($pList)
                     let $pDoc := doc($p)
                     return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier)
-                            then $pDoc//mei:sourceDesc/mei:source/mei:identifier//text()
+                            then 
+(:                                remove ME and TE from sources; tbachmann 2020-01-08, OPERA :)
+                                if ($pDoc//mei:sourceDesc/mei:source/mei:identifier//text() != 'ME' and $pDoc//mei:sourceDesc/mei:source/mei:identifier//text() != 'TE')
+                                then
+                                    $pDoc//mei:sourceDesc/mei:source/mei:identifier//text()
+                                else ()
                             else ()
     , ', ')
     let $catURIs := tokenize(replace($anno/mei:ptr[matches(@type, 'categories')]/@target,'#',''),' ')
