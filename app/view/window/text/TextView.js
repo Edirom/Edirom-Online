@@ -184,7 +184,7 @@ Ext.define('de.edirom.online.view.window.text.TextView', {
                             this.update(response.responseText);
                         }, this)
                         
- );
+                    );
                 }, tip);
 
             }, me);

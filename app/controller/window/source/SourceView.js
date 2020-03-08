@@ -166,8 +166,8 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
     },
 
     fetchMeasures: function(uri, pageId, fn) {
-        
-            var me = this;
+    
+        var me = this;
         
         window.doAJAXRequest('data/xql/getMeasuresOnPage.xql',
             'GET',

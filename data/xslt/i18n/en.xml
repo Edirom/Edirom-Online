@@ -62,7 +62,7 @@
     <entry xml:id="exhibHist">Exhibition history</entry>
     <entry xml:id="extent">Extent</entry>
     <entry xml:id="hand">Hand</entry>
-    <entry xml:id="inscription">Inscription</entry>    
+    <entry xml:id="inscription">Inscription</entry>
     <entry xml:id="physLoc">Location within a repository</entry>
     <entry xml:id="physMedium">Medium used</entry>
     <entry xml:id="plateNum">Plate number</entry>

@@ -215,9 +215,8 @@ Ext.define('de.edirom.online.view.window.image.ImageViewer', {
                         this.update(response.responseText);
                         }, this)
                         
-                        );
-                },
-                tip);
+                    );
+                }, tip);
             });
         });
 

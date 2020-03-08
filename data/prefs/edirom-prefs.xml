@@ -22,9 +22,7 @@
 <prefs>
     <version>1.0</version>
     <entries>
-        
         <entry key="application_language" value="de"/>
         <entry key="annotation_layout" value="de.edirom.online.view.window.annotationLayouts.AnnotationLayout1"/>
-        
     </entries>
 </prefs>
