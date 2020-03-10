@@ -1,56 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<project name="EdiromOnline" default=".help">
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="xar" name="EdiromOnline">
+    <xmlproperty file="expath-pkg.xml"/>
+    
     <!--
     The build-impl.xml file imported here contains the guts of the build process. It is
     a great idea to read that file to understand how the process works, but it is best to
     limit your changes to this file.
     -->
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
-
-    <!--
-    The following targets can be provided to inject logic before and/or after key steps
-    of the build process:
-
-        The "init-local" target is used to initialize properties that may be personalized
-        for the local machine.
-
-            <target name="-before-init-local"/>
-            <target name="-after-init-local"/>
-
-        The "clean" target is used to clean build output from the build.dir.
-
-            <target name="-before-clean"/>
-            <target name="-after-clean"/>
-
-        The general "init" target is used to initialize all other properties, including
-        those provided by Sencha Cmd.
-
-            <target name="-before-init"/>
-            <target name="-after-init"/>
-        
-        The "page" target performs the call to Sencha Cmd to build the 'all-classes.js' file.
-
-            <target name="-before-page"/>
-            <target name="-after-page"/>
-
-        The "build" target performs the call to Sencha Cmd to build the application.
-
-            <target name="-before-build"/>
-            <target name="-after-build"/>
-    -->
     
-    <property name="project.version" value="1.0"/>
-    <property name="project.app" value="EdiromOnline-RWA"/>
-    <property name="build.dir" value="build"/>
-
-    <target name="build-plus">
+    
+    <tstamp>
+        <format property="DATETIME" pattern="yyyyMMdd-HHmmss"  locale="en,UK" />
+    </tstamp>
+    <property name="project.version" value="${package(version)}"/>
+    <property name="project.app" value="${package(abbrev)}"/>
+    <property name="build.dir" value="build-temp"/>
+    <property name="build.deploy" value="build"/>
+    <property name="p.target.user" value="admin"/>
+    <property name="p.target.pass" value=""/>
+    <property name="p.target.exist.url" value="xmldb:exist://reger-max.mri.intern:8092/exist/xmlrpc/db/"/>
+    <property name="p.target.exist.tmp" value="installer"/>
+    <property name="xar.name" value="${project.app}-${project.version}-${DATETIME}.xar"/>
+    <property name="xar.destination" value=""/>
+    <property environment="env" />
+    
+    <!-- Sencha Temp-Dir   -->
+    <property name="temp.dir" value="temp"/>
+    
+    <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
+        <classpath>
+            <fileset dir="${env.EXIST_PATH}/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </classpath>
+    </typedef>
+    
+    <target name="upload" depends="xar">
+        <echo message="Uploading packages ..."/>
+        <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" user="${p.target.user}" password="${p.target.pass}" createcollection="true">
+            <fileset dir="${build.deploy}">
+                <include name="${xar.name}"/>
+            </fileset>
+        </xdb:store>
+    </target>
+    
+    <target name="deploy-xar" depends="upload">
+        <echo message="Deploying xar ${xar.name}"/>
+        <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" user="${p.target.user}" password="${p.target.pass}"
+            queryFile="scripts/deploy.xql" outputproperty="deploy.output">
+            <variable name="temp" value="${p.target.exist.tmp}"/>
+            <variable name="xar" value="${xar.name}"/>
+        </xdb:xquery>
+        <echo message="${deploy.output}"/>
+        <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" resource="${xar.name}" user="${p.target.user}" password="${p.target.pass}"/>
+    </target>
+    
+    <target name="xar" depends="prep-existdb">
+        <mkdir dir="${build.deploy}"/>
+        <zip basedir="${build.dir}" destfile="${build.deploy}/${xar.name}" excludes="${temp.dir}/*"/>
+    </target>
+    
+    <target name="copy-xar" depends="xar">
+        <copy file="${build.deploy}/${xar.name}" todir="${xar.destination}"/>
+    </target>
+    
+    <target name="prep-existdb" depends="sencha">
         <copy todir="${build.dir}">
-            <fileset dir="${basedir}/add"/>
+            <fileset dir="./add"/>
+        </copy>
+        <copy todir="${build.dir}">
+            <file file="build.xml"/>
+            <file file="expath-pkg.xml"/>
         </copy>
     </target>
     
-    <target name="xar">
-        <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
+    <target name="sencha" depends="clean">
+        <exec executable="sencha">
+            <arg value="app"/>
+            <arg value="build"/>
+        </exec>
+        <delete dir="build/temp/"></delete>
     </target>
+
+    
+        
+    <!--<target name="xar">
+        <mkdir dir="${build.dir}"/>
+        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-${DSTAMP}${TSTAMP}.xar" excludes="${temp.dir}/*"/>
+    </target>-->
 </project>
