@@ -19,7 +19,7 @@
     <property name="build.deploy" value="build"/>
     <property name="p.target.user" value="admin"/>
     <property name="p.target.pass" value=""/>
-    <property name="p.target.exist.url" value="xmldb:exist://reger-max.mri.intern:8092/exist/xmlrpc/db/"/>
+    <property name="p.target.exist.url" value=""/>
     <property name="p.target.exist.tmp" value="installer"/>
     <property name="xar.name" value="${project.app}-${project.version}-${DATETIME}.xar"/>
     <property name="xar.destination" value=""/>
