@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.source.SourceView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
         'EdiromOnline.view.window.source.PageBasedView',
@@ -94,20 +90,32 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me.window.on('loadInternalLink', me.loadInternalId, me);
     },
 
-    loadInternalId: function() {
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+            
+        if(type == 'measure' || type == 'zone' || type == 'surface' || type == 'graphic')
+            return 70;
+        
+        return 0;
+    },
+        
+    loadInternalId: function(id, type) {
         var me = this;
 
-        if(me.window.internalIdType == 'measure') {
+        if(type == 'measure') {
             me.window.requestForActiveView(me);
-            me.gotoMeasure(me.window.internalId);
+            me.gotoMeasure(id);
         
-        }else if(me.window.internalIdType == 'zone') {
+        }else if(type == 'zone') {
             me.window.requestForActiveView(me);
-            me.gotoZone(me.window.internalId);
+            me.gotoZone(id);
         
-        }else if(me.window.internalIdType == 'surface' || me.window.internalIdType == 'graphic' ) {
+        }else if(type == 'surface' || type == 'graphic' ) {
             me.window.requestForActiveView(me);
-            me.showPage(me.window.internalId);
+            me.showPage(id);
         }
     },
 

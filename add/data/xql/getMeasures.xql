@@ -50,12 +50,13 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
     
     else(
         for $measure in $mei/id($mdivID)//mei:measure
+        let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n)
         return
             concat('{',
                 'id: "', $measure/@xml:id, '", ',
                 'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
                 'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
-                'name: "', $measure/@n, '"',
+                'name: "', $measureLabel, '"', (: Hier Unterscheiden wg. Auftakt. :)
             '}')
     )
 };

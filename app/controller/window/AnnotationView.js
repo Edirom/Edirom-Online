@@ -51,11 +51,15 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
 
     onShowAnnotation: function(view, uri) {
 
+        var editionId = this.application.activeEdition;
+        var lang = getPreference('application_language');
+    
         Ext.Ajax.request({
             url: 'data/xql/getAnnotationText.xql',
             method: 'GET',
             params: {
-                uri: uri
+                uri: uri,
+                lang: lang
             },
             success: function(response){
                 view.setContent(response.responseText);
@@ -67,7 +71,8 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             url: 'data/xql/getAnnotationMeta.xql',
             method: 'GET',
             params: {
-                uri: uri
+                uri: uri,
+                lang: lang
             },
             success: function(response){
                 view.setMeta(response.responseText);
@@ -78,7 +83,9 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
         window.doAJAXRequest('data/xql/getAnnotationPreviews.xql',
             'GET', 
             {
-                uri: uri
+                uri: uri,
+                edition: editionId,
+                lang: lang
             },
             Ext.bind(function(response){
                 var data = Ext.JSON.decode(response.responseText);

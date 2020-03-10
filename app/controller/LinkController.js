@@ -97,9 +97,10 @@ Ext.define('EdiromOnline.controller.LinkController', {
                 //TODO: internal link
     
             }else if(singleUri.match(/^(http|mailto):\/\//)) {
-                //TODO: open in new window
+                window.open (singleUri,"_blank");
     
             }else if(singleUri.match(/^(ext|file):\/\//)) {
+	            //console.log(singleUri);
                 //TODO: external (not possible in browser)
     
             }else {
@@ -135,10 +136,18 @@ Ext.define('EdiromOnline.controller.LinkController', {
             var win = uriWindows.get(singleUri);
             var posConfig = (positions == null?{}:positions['win_' + i]);
             var cfg = Ext.apply(config, posConfig);
+            
+            //console.log(singleUri);
+            //console.log(win);
+            //console.log(cfg);
+           
 
-            if(win == 'newWindow')
+            if(win == 'newWindow') {
+	            if(cfg['y']) {
+	            	cfg['y'] = cfg['y'] - 41; // hack: height of TopBar
+	            }
                 windowsUsed.add(this.parseExistLink(singleUri, cfg));
-
+            }
             else {
 
                 if(cfg['width']) {

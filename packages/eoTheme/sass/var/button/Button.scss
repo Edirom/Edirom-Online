@@ -28,7 +28,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.grid {
 	background-image: url('pix/arrangeButtons.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -37,7 +37,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.vertical {
 	background-image: url('pix/arrangeButtons.png');
 	background-position: -24px 0;
-	
+
 	&:hover {
 		background-position: -24px -24px;
 	}
@@ -46,7 +46,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.horizontal {
 	background-image: url('pix/arrangeButtons.png');
 	background-position: -48px 0;
-	
+
 	&:hover {
 		background-position: -48px -24px;
 	}
@@ -55,7 +55,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.annotations {
 	background-image: url('pix/annotations.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -64,7 +64,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.measureNumbers {
 	background-image: url('pix/measureNumbers.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -73,7 +73,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.concordance {
 	background-image: url('pix/concordanceNavigator.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -82,7 +82,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.help {
 	background-image: url('pix/help.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -91,7 +91,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.search {
 	background-image: url('pix/search.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
@@ -103,12 +103,12 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	background-repeat: no-repeat;
 	background-color: transparent;
 	border-width: 0;
-	
+
 	&.x-btn-default-toolbar-small {
 		border-width: 0;
 		background-color: transparent;
 	}
-	
+
 	&.x-pressed {
 		box-shadow: 0 1px 1px #000000 inset;
 		background-color: #e1e1e1;
@@ -118,7 +118,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .toolButton.pageBasedView {
 	background-image: url('pix/pageView.png');
 	background-position: 0 -1px;
-	
+
 	&:hover {
 		background-position: 0 -1px;
 	}
@@ -127,7 +127,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .toolButton.measureBasedView {
 	background-image: url('pix/barView.png');
 	background-position: 0 -1px;
-	
+
 	&:hover {
 		background-position: 0 -1px;
 	}
@@ -138,12 +138,12 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	background-position: 3px 2px;
 	border: none;
 	background-color: transparent;
-	
+
 	&:hover, &.x-pressed {
 		box-shadow: 0 1px 1px #000000 inset;
 		background-color: #e1e1e1;
 	}
-	
+
 }
 
 .toolButton.next {
@@ -151,7 +151,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	background-position: 3px 2px;
 	border: none;
 	background-color: transparent;
-	
+
 	&:hover, &.x-pressed {
 		box-shadow: 0 1px 1px #000000 inset;
 		background-color: #e1e1e1;
@@ -163,7 +163,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	background-position: 0 0;
 	border: none;
 	background-color: transparent;
-	
+
 	&:hover, &.pressed {
 		/*background-position: 0 -24px;*/
 		box-shadow: 0 1px 1px #000000 inset;
@@ -173,32 +173,33 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 
 /*Button in the Taskbar, used as buttons for the edirom windows*/
 .taskbarWindowButton.x-btn-default-toolbar-small {
-	
+
 	cursor: pointer;
 	padding-top: 3px !important;
 	padding-bottom: 3px;
 	border: none !important;
-	
+
 	@include background-image(linear-gradient-bevel(top,darken($edirom-taskbarWindowButton-background-color,10%)));
 	box-shadow: 0 1px 1px rgba(0,0,0,0.4) inset;
-	
+
 	&.x-pressed {
 		@include background-image(linear-gradient-bevel(top,lighten($edirom-taskbarWindowButton-background-color,5%)));
-	
+
 		box-shadow: 0 1px 1px #000000 inset;
 	}
 }
 
-/* FreiDi */
+/* FreiDi, now RWA */
 
 
 #homeBtn {
-	background-image: url('pix/Logo_miniInset.png');
+	background-image: url('pix/rwa.png');
 	background-repeat: no-repeat;
-	width: 40px;
+	width: 41px;
 	height: 41px;
-	background-position: 12px 5px;
-	
+	background-position: 4px 3px;
+	background-size: 88%;
+
 	/*background-color: transparent;
 	background-position: 0 5px;
     background-repeat: no-repeat;
@@ -222,16 +223,18 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	font-size: 13px;
 	top: 16px;
 	left: 0;
-	content:'Digital';
+	content:'Band II/8';
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
+/*
 #workSwitch {
-	display: none;
+	display: ;
+	margin-left: auto;
+	margin-right: auto;
 }
+*/
 
 .taskSquareButton.search {
-	
+
 }
-
-

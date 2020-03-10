@@ -17,8 +17,10 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.AnnotationView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
+    
     cls: 'annotView',
+    
     requires: [
         'Ext.grid.Panel',
         /*'Ext.grid.PagingScroller',*/
@@ -30,10 +32,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout2',
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout3'
     ],
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
 
     alias : 'widget.annotationView',
 
@@ -62,27 +60,37 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 filters: []
             }],
             columns: [
+// 	            Not needed for RWA
+/*
             	{
                     header: getLangString('view.window.AnnotationView_No'),
                     dataIndex: 'pos',
                     width: 35
                 },
+*/
                 {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
-                    flex: 2,
+                    flex: 4,
                     filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Categories'),
                     dataIndex: 'categories',
-                    flex: 1,
+                    flex: 2,
                     filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Priority'),
                     dataIndex: 'priority',
-                    hidden: true
+                    flex: 1,
+                    filter: true
+                },
+                {
+                    header: getLangString('view.window.AnnotationView_Sigla'),
+                    dataIndex: 'sigla',
+                    flex: 2,
+                    filter: true
                 }
             ]
         });
@@ -284,7 +292,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             model: 'EdiromOnline.model.Annotation',
             autoLoad: false
         });
-        me.listStore.getProxy().extraParams = {uri: me.uri};
+        me.listStore.getProxy().extraParams = {uri: me.uri, lang: getPreference('application_language')};
 
         return me.listStore;
     },
@@ -294,12 +302,25 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         me.listStore.load();
     },
 
-    loadInternalId: function() {
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+        
+        if(type == 'annot') {
+            return 70;
+        }
+        
+        return 0;
+    },
+    
+    loadInternalId: function(id, type) {
         var me = this;
 
-        if(me.window.internalIdType == 'annot') {
+        if(type == 'annot') {
             me.window.requestForActiveView(me);
-            me.showSingleAnnotation(me.window.internalId);
+            me.showSingleAnnotation(id);
         }
     },
 
@@ -458,12 +479,13 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var page = participant['page'];
             var source = participant['source'];
             var siglum = participant['siglum'];
+            var part = participant['part'];
             var digilibBaseParams = participant['digilibBaseParams'];
             var digilibSizeParams = participant['digilibSizeParams'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part);//  + ": " + label;
 
             if(type == 'text') {
 
@@ -560,7 +582,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum);//  + ": " + label;
 
             var shape = null;
 
@@ -575,13 +597,12 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
             shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
 
-            /*
             var stepLeft = shape.query('div.stepLeft')[0];
             stepLeft.on('click', me.previousParticipantSingle, me);
 
             var stepRight = shape.query('div.stepRight')[0];
             stepRight.on('click', me.nextParticipantSingle, me);
-            */
+            
         }
 
         me.calculateLimitingImageFactor();

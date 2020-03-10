@@ -18,12 +18,8 @@
  *
  */
 Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
-    extend: 'Ext.panel.Panel',
+    extend: 'EdiromOnline.view.window.View',
     
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
-
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
         'Ext.selection.CheckboxModel',
@@ -82,7 +78,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         });
 
         me.measureSpinner = Ext.create('EdiromOnline.view.window.source.MeasureSpinner', {
-            width: 111,
+            width: 121,
             cls: 'pageSpinner', //TODO
             owner: me,
             hidden: true
@@ -591,11 +587,13 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     
                 annotDiv.setVisible(hasCategory & hasPriority);
             }, me);
-    
-            if(annotations.each)
-                annotations.each(fn);
-            else
-                Ext.Array.each(annotations, fn);
+            
+            if(annotation != undefined) {
+                if(annotations.each)
+                    annotations.each(fn);
+                else
+                    Ext.Array.each(annotations, fn);
+            }
         });
     }
 });
