@@ -351,6 +351,9 @@ Ext.define('de.edirom.online.controller.window.source.SourceView', {
             if(view.imageSet == null) {
                 view.on('afterImagesLoaded', Ext.bind(view.showZone, view, [result], false), view, [{single:true}]);
                 view.showPage(pageId);
+                
+                // OPERA: hacky fix for Spots
+                view.showZone(result);
             
             }else if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId) {
                 view.showPage(pageId);
