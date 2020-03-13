@@ -8,7 +8,7 @@
     <property name="project.app" value="EdiromOnline-OPERA"/>
     <property name="build.dir" value="build"/>
     
-    <property name="p.exist.dir" value="/Applications/eXist-db 2.2.app/Contents/Resources/eXist-db/"/>
+    <property name="p.exist.dir" value="/Applications/eXist-db2.2.app/Contents/Resources/eXist-db/"/>
     <property name="p.target.exist.url" value="xmldb:exist://localhost:19103/exist/xmlrpc/db/"/>
     <property name="p.target.user" value="admin"/>
     <property name="p.target.pass" value=""/>
