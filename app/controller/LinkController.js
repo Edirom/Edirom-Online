@@ -92,7 +92,11 @@ Ext.define('EdiromOnline.controller.LinkController', {
 
                 }else
                     uriWindows.add(singleUri, 'newWindow');
-    
+            
+            }else if (singleUri.match(/^rwaEncyclo:\/\//)) {
+                window.open(singleUri, 'test');
+                console.log(singleUri);
+            
             }else if(singleUri.match(/^#/)) {
                 //TODO: internal link
     
