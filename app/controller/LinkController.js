@@ -94,7 +94,7 @@ Ext.define('EdiromOnline.controller.LinkController', {
                     uriWindows.add(singleUri, 'newWindow');
             
             }else if (singleUri.match(/^rwaEncyclo:\/\//)) {
-                window.open(singleUri, 'test');
+                window.open(singleUri.replace('rwaEncyclo://', 'https://exist-dev.mri.intern/rwaOnline/'), 'test');
                 console.log(singleUri);
             
             }else if(singleUri.match(/^#/)) {
