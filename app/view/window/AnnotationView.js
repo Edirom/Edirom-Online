@@ -442,8 +442,9 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         });
 
         me.setPreviewGrid(participants);
-        me.setPreviewSingle(participants);
-        me.setPreviewList(participants);
+        // PB: Probably not needed when we only use grid view
+        // me.setPreviewSingle(participants);
+        // me.setPreviewList(participants);
     },
 
     setPreviewGrid: function(participants) {
@@ -480,6 +481,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var source = participant['source'];
             var siglum = participant['siglum'];
             var part = participant['part'];
+            // modifications for single-use-serve
             // var digilibBaseParams = participant['digilibBaseParams'];
             // var digilibSizeParams = participant['digilibSizeParams'];
             var digilibURL = participant['digilibURL'];
