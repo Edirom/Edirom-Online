@@ -330,7 +330,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
+(:declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
@@ -344,6 +344,37 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '","siglum":"',$siglum,
         '","digilibBaseParams":"',$digilibBaseParams,
         '","digilibSizeParams":"',$digilibSizeParams,
+        '","hiddenData":"',$hiddenData,
+        '","content":"',$content,
+        '","linkUri":"',$linkUri,
+        '"}'
+    )
+};:)
+
+(: Test: single url for images in annotation view :)
+
+declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
+    $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
+    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
+        
+        let $random := util:uuid()
+        let $digilibURL := encode-for-uri(concat($digilibBaseParams, 'dw=600&amp;dh=600', $digilibSizeParams))
+        let $registerURL := concat('http://localhost:3000/register/?token=', $random, '&amp;url=', $digilibURL)
+        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
+        let $singleURL := concat('http://reger-max.mri.intern:3000/resolve/?token=', $random)
+        return
+    
+    concat(
+        '{"type":"',$type,
+        '","label":"',$label,
+        '","mdiv":"',$mdiv,
+        '","part":"',$part,
+        '","page":"',$page,
+        '","source":"',$source,
+        '","siglum":"',$siglum,
+(:        '","digilibBaseParams":"',$digilibBaseParams,:)
+(:        '","digilibSizeParams":"',$digilibSizeParams,:)
+        '","digilibURL":"', $singleURL,
         '","hiddenData":"',$hiddenData,
         '","content":"',$content,
         '","linkUri":"',$linkUri,
