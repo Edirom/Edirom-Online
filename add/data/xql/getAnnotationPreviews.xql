@@ -360,7 +360,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         let $random := util:uuid()
         let $digilibURL := encode-for-uri(concat($digilibBaseParams, 'dw=600&amp;dh=600', $digilibSizeParams))
         let $registerURL := concat('http://localhost:3000/register/?token=', $random, '&amp;url=', $digilibURL)
-        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
+(:        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>):)
         let $singleURL := concat('http://reger-max.mri.intern:3000/resolve/?token=', $random)
         return
     
