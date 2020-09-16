@@ -442,8 +442,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         });
 
         me.setPreviewGrid(participants);
-        me.setPreviewSingle(participants);
-        me.setPreviewList(participants);
+/*        me.setPreviewSingle(participants);*/
+/*        me.setPreviewList(participants);*/
     },
 
     setPreviewGrid: function(participants) {
