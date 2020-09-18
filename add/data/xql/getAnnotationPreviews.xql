@@ -357,29 +357,38 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
         
-        let $random := util:uuid()
-        let $digilibURL := encode-for-uri(concat($digilibBaseParams, 'dw=600&amp;dh=600', $digilibSizeParams))
-        let $registerURL := concat('http://localhost:3000/register/?token=', $random, '&amp;url=', $digilibURL)
-        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
-        let $singleURL := concat('http://reger-max.mri.intern:3000/resolve/?token=', $random)
+        let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
+        let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
+                            then 
+                                try {
+                                    (
+                                        let $random := util:uuid()
+                                        let $registerURL := concat('http://localhost:3000/register/?token=', $random, '&amp;url=', encode-for-uri($digilibURL))
+                                        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
+                                        return
+                                            concat('http://reger-max.mri.intern:3000/resolve/?token=', $random)
+                                    )
+                                } catch *{
+                                    
+                                    ''
+                                }
+                                
+                            else (replace($digilibURL, 'http:', 'http:'))
         return
-    
-    concat(
-        '{"type":"',$type,
-        '","label":"',$label,
-        '","mdiv":"',$mdiv,
-        '","part":"',$part,
-        '","page":"',$page,
-        '","source":"',$source,
-        '","siglum":"',$siglum,
-(:        '","digilibBaseParams":"',$digilibBaseParams,:)
-(:        '","digilibSizeParams":"',$digilibSizeParams,:)
-        '","digilibURL":"', $singleURL,
-        '","hiddenData":"',$hiddenData,
-        '","content":"',$content,
-        '","linkUri":"',$linkUri,
-        '"}'
-    )
+            concat(
+                '{"type":"',$type,
+                '","label":"',$label,
+                '","mdiv":"',$mdiv,
+                '","part":"',$part,
+                '","page":"',$page,
+                '","source":"',$source,
+                '","siglum":"',$siglum,
+                '","digilibURL":"', $singleURL,
+                '","hiddenData":"',$hiddenData,
+                '","content":"',$content,
+                '","linkUri":"',$linkUri,
+                '"}'
+            )
 };
 
 let $uri := request:get-parameter('uri', '')
