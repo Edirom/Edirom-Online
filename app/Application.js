@@ -61,9 +61,8 @@ Ext.define('EdiromOnline.Application', {
         'EdiromOnline.view.desktop.App'
     ],
     
-    //TODO:
-    activeEdition: 'xmldb:exist:///db/contents/h-moll/edition.xml',
-   /* activeWork: 'edirom_work_743373fb-4dcf-4329-90c0-fd1eacc9ea69', */
+    activeEdition: '',
+    activeWork: '',
 
     launch: function() {
         var me = this;
