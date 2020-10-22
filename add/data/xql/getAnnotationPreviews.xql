@@ -358,15 +358,17 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
         
         let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
+        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriexistdbconf/config.xml')/config/single-serv-registerURL/string()
+        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriexistdbconf/config.xml')/config/single-serv-resolveURL/string()
         let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
                             then 
                                 try {
                                     (
                                         let $random := util:uuid()
-                                        let $registerURL := concat('http://localhost:3000/register/?token=', $random, '&amp;url=', encode-for-uri($digilibURL))
+                                        let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($digilibURL))
                                         let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
                                         return
-                                            concat('http://reger-max.mri.intern:3000/resolve/?token=', $random)
+                                            concat($singel-serv-resolveURL, '?token=', $random)
                                     )
                                 } catch *{
                                     
