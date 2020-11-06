@@ -64,7 +64,16 @@ declare function source:getLabels($sources as xs:string*, $edition as xs:string)
 declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
     
     let $language := eutil:getLanguage($edition)
-    return doc($source)//mei:source/mei:titleStmt/data(mei:title[not(@xml:lang) or @xml:lang = $language])
+    let $label := doc($source)//mei:source/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language]
+    let $label := if($label)
+                    then($label)
+                    else(doc($source)//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language])
+    let $label := if($label)
+                    then($label)
+                    else('unknown title')
+    return
+        string($label)
+
 };
 
 (:~
