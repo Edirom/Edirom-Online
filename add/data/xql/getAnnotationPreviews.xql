@@ -358,14 +358,17 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
         
         let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
-        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriexistdbconf/config.xml')/config/single-serv-registerURL/string()
-        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriexistdbconf/config.xml')/config/single-serv-resolveURL/string()
+        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')/config/single-serv-registerURL/string()
+        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')/config/single-serv-resolveURL/string()
+        let $docuservURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')/config/docuservURL/string()
+        let $docuservURLinternal := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')/config/docuservURLinternal/string()
         let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
                             then 
                                 try {
                                     (
                                         let $random := util:uuid()
-                                        let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($digilibURL))
+                                        let $internalDigiLibURL := replace($digilibURL, $docuservURL, $docuservURLinternal)
+                                        let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($internalDigiLibURL))
                                         let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
                                         return
                                             concat($singel-serv-resolveURL, '?token=', $random)
