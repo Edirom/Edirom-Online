@@ -62,7 +62,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             me.windowSort,
             me.globalTools,
             //me.desktopSwitch,
-            //me.quickStart,
+            me.quickStart,
             {
                 xtype: 'splitter', html: '&#160;',
                 height: 14, width: 2, // TODO - there should be a CSS way here
