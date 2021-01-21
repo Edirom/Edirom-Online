@@ -93,8 +93,12 @@
             <replacevalue><![CDATA[src="edirom/history.js"]]></replacevalue>
         </replace>
         <replace file="${build.dir}/index.html">
-            <replacetoken><![CDATA[href="resources/EdiromOnline-all.css"]]></replacetoken>
-            <replacevalue><![CDATA[href="edirom/resources/EdiromOnline-all.css"]]></replacevalue>
+            <replacetoken><![CDATA[href="resources]]></replacetoken>
+            <replacevalue><![CDATA[href="edirom/resources]]></replacevalue>
+        </replace>
+        <replace file="${build.dir}/index.html">
+            <replacetoken><![CDATA[src="resources]]></replacetoken>
+            <replacevalue><![CDATA[src="edirom/resources]]></replacevalue>
         </replace>
     </target>
 
