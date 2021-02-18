@@ -84,7 +84,7 @@
     </target>
     
     <target name="replace" depends="prep-existdb">
-        <replace file="${build.dir}/index.html">
+        <!--<replace file="${build.dir}/index.html">
             <replacetoken><![CDATA[src="app.js"]]></replacetoken>
             <replacevalue><![CDATA[src="edirom/app.js"]]></replacevalue>
         </replace>
@@ -99,7 +99,7 @@
         <replace file="${build.dir}/index.html">
             <replacetoken><![CDATA[src="resources]]></replacetoken>
             <replacevalue><![CDATA[src="edirom/resources]]></replacevalue>
-        </replace>
+        </replace>-->
     </target>
 
     
