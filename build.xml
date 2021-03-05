@@ -39,7 +39,7 @@
             <target name="-after-build"/>
     -->
     
-    <property name="project.version" value="0.1"/>
+    <property name="project.version" value="0.10.0"/>
     <property name="project.app" value="EdiromOnline"/>
     <property name="build.dir" value="build"/>
 
