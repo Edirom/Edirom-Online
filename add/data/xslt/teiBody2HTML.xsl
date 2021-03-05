@@ -109,7 +109,7 @@
     </xsl:template>
     <xsl:template name="bodyMicroData"/>
     <xsl:template match="/">
-        <xsl:apply-templates select="//tei:text"/>
+        <xsl:apply-templates select="//tei:text[not(@xml:lang) or @xml:lang = $lang]"/>
     </xsl:template>
     <xsl:template name="divContents">
         <xsl:param name="Depth"/>
@@ -197,13 +197,17 @@
                 <xsl:when test="starts-with(@url, 'http://')">
                     <xsl:value-of select="@url"/>
                 </xsl:when>
+                <xsl:when test="starts-with(@url, '/exist/')">
+                    <xsl:value-of select="@url"/>
+                </xsl:when>
                 <xsl:when test="@url != ''">
-                    <xsl:value-of select="concat($graphicsPrefix, @url)"/>
+                    <xsl:value-of select="@url"/>
+                    <!--<xsl:value-of select="concat($graphicsPrefix, @url)"/>
                     <xsl:if test="not(contains(@url,'.'))">
                         <xsl:value-of select="$graphicsSuffix"/>
                     </xsl:if>
                     <xsl:text>?</xsl:text>
-                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-- | @scale -->
+                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-\- | @scale -\->
                         <xsl:for-each select="current-group()">
                             <xsl:choose>
                                 <xsl:when test="name() = 'height'">
@@ -212,9 +216,9 @@
                                 <xsl:when test="name() = 'width'">
                                     <xsl:value-of select="concat('dw=', tei:calcDimension(.), '&amp;', 'amp;')"/>
                                 </xsl:when>
-<!--                            <xsl:when test="name() = 'scale'">
+<!-\-                            <xsl:when test="name() = 'scale'">
                                     <xsl:value-of select="concat('dh=', tei:calcDimension(.), '&', 'amp;')"/>
-                                </xsl:when>-->
+                                </xsl:when>-\->
                                 <xsl:otherwise/>
                             </xsl:choose>
                         </xsl:for-each>
@@ -222,7 +226,7 @@
                     <xsl:if test="not(@width | @height | @scale)">
                         <xsl:value-of select="concat('dw=350', '&amp;', 'amp;')"/>
                     </xsl:if>
-                    <xsl:text>mo=fit</xsl:text>
+                    <xsl:text>mo=fit</xsl:text>-->
                 </xsl:when>
                 <xsl:when test="@url = ''">error<xsl:value-of select="$graphicsSuffix"/>
                 </xsl:when>
@@ -333,17 +337,18 @@
                                 <xsl:value-of select="replace(@target, '\[.*\]', '')"/>
                                 <xsl:text>', {</xsl:text>
                                 <xsl:value-of select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
-                                <xsl:text>})</xsl:text>
+                                <xsl:text>}); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
                         <xsl:otherwise>
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink("</xsl:text>
                                 <xsl:value-of select="@target"/>
-                                <xsl:text>")</xsl:text>
+                                <xsl:text>"); return false;</xsl:text>
                             </xsl:attribute>
                         </xsl:otherwise>
                     </xsl:choose>
+                    <xsl:attribute name="href" select="@target"/>
                     <xsl:if test="@xml:id">
                         <xsl:copy-of select="@xml:id"/>
                     </xsl:if>
@@ -391,6 +396,7 @@
             <xsl:otherwise>
                 <xsl:variable name="id" select="@xml:id"/>
                 <xsl:variable name="targetExternal" select="@type"/>
+                <xsl:variable name="targetInternal" select="starts-with(@target, '#')" as="xs:boolean"/>
                 <xsl:variable name="link">
                     <xsl:call-template name="makeTEILink">
                         <xsl:with-param name="ptr" select="false()"/>
@@ -404,9 +410,18 @@
                         <xsl:if test="$targetExternal eq 'external'">
                             <xsl:attribute name="target" select="'_blank'"/>
                         </xsl:if>
+                        <xsl:if test="$targetInternal">
+                            <xsl:attribute name="target" select="'_self'"/>
+                        </xsl:if>
                         <xsl:for-each select="*|text()|@*">
                             <xsl:copy-of select="."/>
                         </xsl:for-each>
+                    <xsl:if test="count(text()) = 0">
+                            <xsl:variable name="href" select="@href"/>
+                            <xsl:element name="span">
+                                <xsl:attribute name="class">external-link</xsl:attribute>
+                                [Link: <xsl:value-of select="$href"/>]
+                            </xsl:element></xsl:if>
                     </xsl:copy>
                 </xsl:for-each>
             </xsl:otherwise>
@@ -519,10 +534,16 @@
         <xsl:apply-templates
             select="tei:*[not(self::tei:speaker) and not(self::tei:stage[@rend = 'inline'][1])]"/>
     </xsl:template>
-    <xsl:template match="tei:del">
-        <span class="del">
+    <xsl:template match="tei:del" priority="5">
+        <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            <xsl:call-template name="rendToClass">
+                <xsl:with-param name="default">del</xsl:with-param>
+            </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
-        </span>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="tei:lb" priority="5">
         <xsl:choose>
@@ -600,7 +621,7 @@
                     select="./following-sibling::tei:stage[@rend = 'inline'][1]"/></xsl:if>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:l[@part = 'F']">
+    <xsl:template match="tei:l[@part = 'F']" priority="6">
         <xsl:variable name="init" select="preceding::tei:l[@part = 'I'][1]"/>
         <xsl:element name="{if (ancestor::tei:head or ancestor::tei:hi) then 'span' else 'div'}">
             <xsl:attribute name="style"
@@ -677,6 +698,9 @@
                     </xsl:choose>
                 </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -686,6 +710,9 @@
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default"> subst </xsl:with-param>
             </xsl:call-template>
+            <xsl:if test="@hand">
+                <xsl:attribute name="data-eo-hand" select="@hand"/>
+            </xsl:if>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -932,7 +959,7 @@
         </span>
     </xsl:template>
 
-    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="5">
+    <xsl:template match="tei:*[@rend = 'underline' and @n = '2']" priority="6">
         
         <xsl:variable name="default">
             <xsl:next-match/>
@@ -943,5 +970,74 @@
                 <xsl:copy-of select="."/>
             </xsl:for-each>
         </xsl:element>
+    </xsl:template>
+<xsl:template match="tei:ref[starts-with(@target, '#footnote')]" priority="5">
+        <xsl:variable name="footnote_id" select="substring(./@target, 2)" as="xs:string"/>
+        
+        <xsl:choose>
+            <xsl:when test="count(//tei:note[@xml:id=$footnote_id]/*) &gt; 0">
+                <span class="footnote tipped" data-tipped-options="inline: '{$footnote_id}_tipped'">
+                    <xsl:apply-templates/>
+                </span>
+                <div id="{$footnote_id}_tipped" style="display: none;">
+                    <xsl:apply-templates select="//tei:note[@xml:id=$footnote_id]"/>
+                </div>
+            </xsl:when>
+            <xsl:when test="exists(//tei:note[@xml:id=$footnote_id])">
+                <span class="footnote scrollto" data-footnote="{$footnote_id}">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <span class="footnote">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="tei:milestone">
+        <xsl:variable name="className" as="xs:string*">
+            <xsl:for-each select="@* except @xml:id">
+                <xsl:value-of select="concat(local-name(.), '_', string(.))"/>
+            </xsl:for-each>
+        </xsl:variable>
+        <a class="{string-join($className, ' ')}" id="{./string(@xml:id)}"><!-- anchor --></a>
+    </xsl:template>
+    
+    <xsl:template match="tei:supplied">
+        <xsl:text>[</xsl:text><xsl:apply-templates/><xsl:text>]</xsl:text>
+    </xsl:template>
+    <xsl:template match="tei:note[@type='commentary']">
+        <xsl:variable name="no" select="count(./preceding::tei:note[@type='commentary'])"/>
+        <!-- für Einzelkommentare -->
+        <!--<div class="note_K tipped" data-tipped-options="inline: 'tip{$no}'" style="float:right; margin-right: 30px;">
+            <i class="fa fa-comment-o fa-fw fa-lg"/>
+        </div>
+        <div id="tip{$no}" style="display: none;">
+            <strong>Kommentar Einzelquelle</strong>
+            <br/>
+            <xsl:apply-templates/>
+        </div>-->
+        <!-- Für Kommentare im Text -->
+        <span class="tipped" data-tipped-options="inline: 'tip{$no}'"><i class="fa fa-comment-o inline-comment"/></span>
+        <div id="tip{$no}" style="display: none;">
+            <xsl:apply-templates/>
+        </div>
+    </xsl:template>
+    
+    <xsl:template match="tei:quote" priority="5">
+        <xsl:choose>
+            <xsl:when test="parent::tei:cit[@rend = 'inline']">
+                <span class="quote inline">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <div class="citquote">
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
 </xsl:stylesheet>

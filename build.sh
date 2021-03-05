@@ -4,7 +4,7 @@
 sencha ant clean
 
 # building the app
-sencha app build
+sencha app build $1
 
 # get additional stuff for exist-db
 ant build-plus

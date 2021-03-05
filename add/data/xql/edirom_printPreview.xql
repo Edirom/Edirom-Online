@@ -18,7 +18,14 @@ declare option exist:serialize "method=html media-type=text/html omit-xml-declar
 
 declare variable $lang := 'en';
 declare variable $base := concat('file:', replace(system:get-module-load-path(),'\\','/'), '/../xslt/');
-declare variable $facsBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
+
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $facsBasePath := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
+
+(:declare variable $facsBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));:)
 declare variable $printResolution := 150;
 declare variable $facsAreaWidth := 6.5;(: in inch :)
 declare variable $facsMetaHeight := 30;
@@ -87,7 +94,7 @@ let $paras  := <parameters>
                  <param name="facsAreaWidth" value="{$facsAreaWidth}"/>
                  <param name="printResolution" value="{$printResolution}"/>
                  <param name="facsImgParas" value="{eof:getFacsImgParas($facsAreaWidth)}"/>
-                 <param name="facsBasePath" value="{eutil:getPreference('image_prefix', request:get-parameter('edition', ''))}"/>
+                 <param name="facsBasePath" value="{$facsBasePath}"/>
                </parameters>
 
 let $width := eof:getPageRegionBodyWidth()

@@ -45,11 +45,14 @@ Ext.define('EdiromOnline.controller.navigator.Navigator', {
     fetchNavigatorContent: function(workId) {
 
         var editionId = this.application.activeEdition;
+        var lang = window.getLanguage('application_language');
+
         Ext.Ajax.request({
             url: 'data/xql/getNavigatorConfig.xql',
             params: {
                 editionId: editionId,
-                workId: workId
+                workId: workId,
+                lang: lang
             },
             success: function(response){
 

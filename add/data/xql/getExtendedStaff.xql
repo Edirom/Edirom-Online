@@ -12,10 +12,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $docUri := if(contains($uri, '///')) then(substring-after($uri, '///')) else($uri)
-(:let $action := if(contains($docUri, '?')) then(substring-after($docUri, '?')) else($docUri)
-let $temp := if(contains($docUri, '?')) then(substring-before($docUri, '?')) else($docUri)
-let $newUri := concat('http://localhost:8080/exist/rest/', $temp):)
-let $newUri := concat('http://localhost:8080/exist/rest/', $docUri)
+let $newUri := concat('/exist/rest/', $docUri)
 
 return
 <html>	
@@ -52,7 +49,8 @@ return
                 			scale: 33,
 							noLayout: 0,
 							pageHeight: initHeight,
-							pageWidth: initWidth
+							pageWidth: initWidth,
+							adjustPageHeight: 1
                 		}});
                 		vrvToolkit.setOptions( options );
                 		vrvToolkit.loadData(verovioData);

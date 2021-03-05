@@ -6,43 +6,44 @@ Ext.define('EdiromOnline.view.window.util.PageSpinner', {
     layout: 'hbox',
 
     initComponent: function () {
-
-        this.items = [
+        var me = this;
+        me.items = [
         ];
-        this.callParent();
+        me.callParent();
     },
 
     next: function() {
+        var me = this;
+        me.store.clearFilter(false);
 
-        this.store.clearFilter(false);
-
-        var oldIndex = this.store.findExact('id', this.combo.getValue());
-        if(oldIndex + 1 < this.store.getCount())
-            this.setPage(this.store.getAt(oldIndex + 1).get('id'));
+        var oldIndex = me.store.findExact('id', me.combo.getValue());
+        if(oldIndex + 1 < me.store.getCount())
+            me.setPage(me.store.getAt(oldIndex + 1).get('id'));
     },
 
     prev: function() {
+        var me = this;
+        me.store.clearFilter(false);
 
-        this.store.clearFilter(false);
-
-        var oldIndex = this.store.findExact('id', this.combo.getValue());
+        var oldIndex = me.store.findExact('id', me.combo.getValue());
         if(oldIndex > 0)
-            this.setPage(this.store.getAt(oldIndex - 1).get('id'));
+            me.setPage(me.store.getAt(oldIndex - 1).get('id'));
     },
 
     setPage: function(id) {
-        this.combo.setValue(id);
-        this.owner.setPage(this.combo, this.combo.store);
+        var me = this;
+        me.combo.setValue(id);
+        me.owner.setPage(me.combo, me.combo.store);
     },
 
     setStore: function(store) {
+        var me = this;
+        me.removeAll();
 
-        this.removeAll();
+        me.store = store;
 
-        this.store = store;
-
-        this.combo = Ext.create('Ext.form.ComboBox', {
-            width: 35,
+        me.combo = Ext.create('Ext.form.ComboBox', {
+            width: 45,
             hideTrigger: true,
             queryMode: 'local',
             store: store,
@@ -52,26 +53,28 @@ Ext.define('EdiromOnline.view.window.util.PageSpinner', {
             autoSelect: true
         });
 
-        this.add([
+        me.add([
             {
                 xtype: 'button',
                 cls : 'prev toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_previousPage'), align: 'bl-tl' },
                 listeners:{
-                     scope: this,
-                     click: this.prev
+                     scope: me,
+                     click: me.prev
                 }
             },
-            this.combo,
+            me.combo,
             {
                 xtype: 'button',
                 cls : 'next toolButton',
+                tooltip: { text: getLangString('view.window.source.SourceView_PageBasedView_nextPage'), align: 'bl-tl' },
                 listeners:{
-                     scope: this,
-                     click: this.next
+                     scope: me,
+                     click: me.next
                 }
             }
         ]);
 
-        this.combo.on('select', this.owner.setPage, this.owner);
+        me.combo.on('select', me.owner.setPage, me.owner);
     }
 });

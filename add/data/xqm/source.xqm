@@ -30,6 +30,8 @@ module namespace source = "http://www.edirom.de/xquery/source";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 (:~
 : Returns whether a document is a work or not
 :
@@ -47,9 +49,9 @@ declare function source:isSource($uri as xs:string) as xs:boolean {
 : @param $sources The URIs of the Sources' documents to process
 : @return The labels
 :)
-declare function source:getLabels($sources as xs:string*) as xs:string {
+declare function source:getLabels($sources as xs:string*, $edition as xs:string) as xs:string {
     string-join(
-        for $source in $sources return source:getLabel($source)
+        for $source in $sources return source:getLabel($source, $edition)
     , ', ')
 };
 
@@ -59,9 +61,10 @@ declare function source:getLabels($sources as xs:string*) as xs:string {
 : @param $source The URIs of the Source's document to process
 : @return The label
 :)
-declare function source:getLabel($source as xs:string) as xs:string {
-     
-    doc($source)//mei:source/mei:titleStmt/data(mei:title[1])
+declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
+    
+    let $language := eutil:getLanguage($edition)
+    return doc($source)//mei:source/mei:titleStmt/data(mei:title[not(@xml:lang) or @xml:lang = $language])
 };
 
 (:~

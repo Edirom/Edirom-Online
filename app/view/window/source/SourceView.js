@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.source.SourceView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
         'EdiromOnline.view.window.source.PageBasedView',
@@ -94,20 +90,32 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me.window.on('loadInternalLink', me.loadInternalId, me);
     },
 
-    loadInternalId: function() {
+    getWeightForInternalLink: function(uri, type, id) {
+        var me = this;
+        
+        if(me.uri != uri)
+            return 0;
+            
+        if(type == 'measure' || type == 'zone' || type == 'surface' || type == 'graphic')
+            return 70;
+        
+        return 0;
+    },
+        
+    loadInternalId: function(id, type) {
         var me = this;
 
-        if(me.window.internalIdType == 'measure') {
+        if(type == 'measure') {
             me.window.requestForActiveView(me);
-            me.gotoMeasure(me.window.internalId);
+            me.gotoMeasure(id);
         
-        }else if(me.window.internalIdType == 'zone') {
+        }else if(type == 'zone') {
             me.window.requestForActiveView(me);
-            me.gotoZone(me.window.internalId);
+            me.gotoZone(id);
         
-        }else if(me.window.internalIdType == 'surface' || me.window.internalIdType == 'graphic' ) {
+        }else if(type == 'surface' || type == 'graphic' ) {
             me.window.requestForActiveView(me);
-            me.showPage(me.window.internalId);
+            me.showPage(id);
         }
     },
 
@@ -275,7 +283,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var me = this;
 
         me.pageBasedView.setPage(combo, store);
-
+        
         if(me.measuresVisible)
             this.fireEvent('measureVisibilityChange', me, true);
 
@@ -285,7 +293,6 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     showPage: function(pageId) {
         var me = this;
-
         me.pageBasedView.showPage(pageId);
     },
 
@@ -381,13 +388,21 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me.bottomBar.add({xtype:'tbseparator'});
 
         var entries = me.pageBasedView.createToolbarEntries();
+
+		var image_server = getPreference('image_server');
+
         Ext.Array.each(entries, function(entry) {
-            me.bottomBar.add(entry);        
+			if(image_server === 'digilib' || image_server === 'openseadragon'){
+				me.bottomBar.add(entry);    
+			}
+			else if(entry.initialCls !== 'zoomSlider' && entry.xtype !== 'tbseparator'){
+				me.bottomBar.add(entry);  
+			}      
         });
         
         entries = me.measureBasedView.createToolbarEntries();
-        Ext.Array.each(entries, function(entry) {
-            me.bottomBar.add(entry);        
+        Ext.Array.each(entries, function(entry) {			
+				me.bottomBar.add(entry);     
         });
     },
 
@@ -430,7 +445,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var me = this;
         me.measuresVisible = state;
         me.measuresVisibilitySetLocaly = true;
-
+        
         this.fireEvent('measureVisibilityChange', me, state);
     },
 
@@ -451,7 +466,8 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             movements: me.movements,
             callback: Ext.bind(function(measure, movementId) {
                 this.fireEvent('gotoMeasureByName', this, measure, movementId);
-            }, me)
+            }, 
+            me)
         }).show();
     },
 
@@ -461,10 +477,12 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
+       
         if(me.activeView !== 'measureBasedView')
-            me.switchInternalView('measureBasedView');
-            
+        	me.switchInternalView('measureBasedView');
+       
         me.measureBasedView.showMeasure(movementId, measureId, measureCount);
+   
     },
     
     gotoZone: function(zoneId) {

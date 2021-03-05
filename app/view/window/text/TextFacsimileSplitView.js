@@ -17,11 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
-    extend: 'Ext.panel.Panel',
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
+    extend: 'EdiromOnline.view.window.View',
 
     requires: [
     ],
@@ -36,14 +32,24 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     annotationsLoaded: false,
     annotationsVisibilitySetLocaly: false,
 
+	image_server: null,
+
     initComponent: function () {
 
         var me = this;
         
         me.addEvents('annotationsVisibilityChange', 'afterImagesLoaded', 'afterImageChanged',
             'documentLoaded');
+            
+        me.image_server = getPreference('image_server');
+    	
+    	if(me.image_server === 'leaflet'){
+    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
+    	}
+    	else{
+    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+    	}
 
-        me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
         me.imageViewer.region = 'center';
 
         me.centerPanel = me.imageViewer;
@@ -81,26 +87,28 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
-        me.zoomSlider = Ext.create('Ext.slider.Single', {
-            width: 140,
-            value: 100,
-            increment: 5,
-            minValue: 10,
-            maxValue: 400,
-            checkChangeBuffer: 100,
-            useTips: true,
-            cls: 'zoomSlider',
-            tipText: function(thumb){
-                return Ext.String.format('{0}%', thumb.value);
-            },
-            listeners: {
-                change: Ext.bind(me.zoomChanged, me, [], 0)
-            }
-        });
-        me.bottomBar.add(me.zoomSlider);
+		if(me.image_server === 'digilib'){
+        	me.zoomSlider = Ext.create('Ext.slider.Single', {
+            	width: 140,
+            	value: 100,
+            	increment: 5,
+            	minValue: 10,
+            	maxValue: 400,
+            	checkChangeBuffer: 100,
+            	useTips: true,
+            	cls: 'zoomSlider',
+            	tipText: function(thumb){
+                	return Ext.String.format('{0}%', thumb.value);
+            	},
+            	listeners: {
+                	change: Ext.bind(me.zoomChanged, me, [], 0)
+            	}
+        	});
+        	me.bottomBar.add(me.zoomSlider);
+		}
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
-            width: 111,
+			width: 121,
             cls: 'pageSpinner',
             owner: me
         });
@@ -362,9 +370,11 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     },
 
     setContent: function(text) {
-//TODO
-        Ext.fly(this.id + '_textCont').update(text);
-        this.fireEvent('documentLoaded', this);
+		var me = this;
+		Ext.fly(me.id + '_textCont').update(text);
+		this.fireEvent('documentLoaded', me);
+		
+		Tipped.create('#' + me.id + '_textCont .tipped', { position: 'top', maxWidth: 300 });
     },
     
     setImageSet: function(imageSet) {
@@ -405,15 +415,68 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         return me.activePage.get('id');
     },
 
-    loadInternalId: function() {
+	setChapters: function (chapters) {
         var me = this;
 
-        var container = Ext.fly(this.id + '_textCont');
-        var elem = container.getById(me.id + '_' + me.window.internalId);
-        if(elem) {
+		if (chapters.getTotalCount() == 0) return;
+		
+		me.gotoMenu = Ext.create('Ext.button.Button', {
+			text: getLangString('view.window.text.TextView_gotoMenu'),
+			indent: false,
+			cls: 'menuButton',
+			menu: {
+				items:[]
+			}
+		});
+		me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+		
+		me.chapters = chapters;
+		
+		var chapterItems =[];
+		chapters.each(function (chapter) {
+			chapterItems.push({
+				text: chapter.get('name'),
+				handler: Ext.bind(me.gotoChapter, me, chapter.get('pageId'), true)
+			});
+		});
+		
+		me.gotoMenu.menu.add(chapterItems);
+		me.gotoMenu.show();
+	},
+	
+	gotoChapter: function (menuItem, event, pageId) {
+		this.fireEvent('gotoChapter', this, pageId);
+	},
+	
+	gotoPage: function (pageId) {
+		var me = this;
+		me.pageSpinner.setPage(me.imageSet.getById(pageId));
+	},
+	
+	getWeightForInternalLink: function (uri, type, id) {
+		var me = this;
+		
+		if (me.uri != uri)
+		return 0;
+		
+		return 50;
+	},
+	
+	loadInternalId: function (id, type) {
+		var me = this;
+		
+		if(type == 'graphic' || type == 'surface') {
             me.window.requestForActiveView(me);
-            me.scrollToId(me.window.internalId);
+            me.gotoPage(id);
+		}else {
+		
+    		var container = Ext.fly(me.id + '_textCont');
+    		var elem = container.getById(me.id + '_' + id);
+    		if (elem) {
+    			me.window.requestForActiveView(me);
+    			me.scrollToId(id);
         }
+    	}
     },
 
     getContentConfig: function() {
