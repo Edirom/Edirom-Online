@@ -42,6 +42,7 @@
     <property name="project.version" value="0.10.0"/>
     <property name="project.app" value="EdiromOnline"/>
     <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="build-xar"/>
 
     <target name="build-plus">
         <copy todir="${build.dir}">
@@ -53,7 +54,8 @@
     </target>
     
     <target name="xar">
-        <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}.xar" excludes="${build.dir}/*"/>
+        <mkdir dir="${dist.dir}"/>
+        <zip basedir="${build.dir}" destfile="${dist.dir}/${project.app}.xar"/>
     </target>
+    
 </project>

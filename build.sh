@@ -10,7 +10,4 @@ sencha app build $1
 ant build-plus
 
 # build xar
-cd build
-ant
-
-cd ..
+ant xar
