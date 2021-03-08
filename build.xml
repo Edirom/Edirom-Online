@@ -46,6 +46,9 @@
     <target name="build-plus">
         <copy todir="${build.dir}">
             <fileset dir="${basedir}/add"/>
+            <filterset begintoken="@" endtoken="@">
+                <filter token="project.version" value="${project.version}"/>
+            </filterset>
         </copy>
     </target>
     
