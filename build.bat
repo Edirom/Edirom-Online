@@ -9,7 +9,4 @@ sencha app build
 call ant build-plus
 
 :: build xar
-chdir .\build
-call ant
-
-chdir ..
+call ant xar
