@@ -40,8 +40,10 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 : @return Is work or not
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
-    
-    exists(doc($uri)//mei:mei) and exists(doc($uri)//mei:source)
+    let $doc := eutil:getDoc($uri)
+    return
+        exists($doc//mei:mei) and exists($doc//mei:source) (:mei2 and ?3 :)
+        or ($doc//mei:mei/@meiversion = "4.0.1" and exists($doc//mei:manifestation[@singleton='true'])) (:mei4 :)
 };
 
 (:~
