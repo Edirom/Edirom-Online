@@ -25,6 +25,7 @@ xquery version "1.0";
 : This module provides library functions for Sources
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 module namespace source = "http://www.edirom.de/xquery/source";
 
@@ -33,7 +34,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (:~
-: Returns whether a document is a work or not
+: Returns whether a document is a source or not
 :
 : @param $uri The URI of the document
 : @return Is work or not
