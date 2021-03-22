@@ -149,9 +149,9 @@ declare function local:getCoordinates($participant as element()) as xs:integer+ 
 };
 
 let $edition := request:get-parameter('edition', '')
-let $uri := request:get-parameter('uri', '')
-let $uriSharp := concat($uri, '#')
-let $mei := doc($uri)/root()
+let $sourceUri := request:get-parameter('uri', '')
+let $sourceUriSharp := concat($sourceUri, '#')
+let $mei := doc($sourceUri)/root()
 let $surfaceId := request:get-parameter('pageId', '')
 
 let $surface := $mei/id($surfaceId)
@@ -167,8 +167,8 @@ let $svgLike := $surface//svg:svg
 let $targetLike := $zones | $measureLike | $svgLike
 let $targetLikeIds := $zones/@xml:id | $measureLike/@xml:id | $svgLike/@id
 
-let $annotations := local:findAnnotations($edition, $uri, $targetLikeIds)
-let $annots := local:getAnnotations($uriSharp, $surfaceId, $annotations, $targetLike)
+let $annotations := local:findAnnotations($edition, $sourceUri, $targetLikeIds)
+let $annots := local:getAnnotations($sourceUriSharp, $surfaceId, $annotations, $targetLike)
 
 return (
     concat('[',
