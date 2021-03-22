@@ -117,7 +117,7 @@ declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, 
     
         for $svg in $participants
         let $id := $svg/@id
-        let $ser := util:serialize($svg, ())
+        let $ser := fn:serialize($svg, ())
         let $repl := replace(replace($ser, '"', '\\"'), '\n', '')
         return concat('{id:"', $annoId, '__', $id, '",svg:"', $repl,'"}')
     

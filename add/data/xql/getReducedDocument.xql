@@ -41,7 +41,7 @@ let $doc := transform:transform($doc, $xsl, <parameters><param name="selectionId
 let $doc := $doc/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
-let $xslInstruction := for $i in util:serialize($xslInstruction, ())
+let $xslInstruction := for $i in fn:serialize($xslInstruction, ())
                         return
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
