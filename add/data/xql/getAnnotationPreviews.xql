@@ -24,6 +24,7 @@ xquery version "1.0";
     Returns the HTML for a specific annotation for an AnnotationView.
     
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+    @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
@@ -77,7 +78,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc, $edition), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
