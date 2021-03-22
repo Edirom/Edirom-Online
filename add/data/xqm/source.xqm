@@ -65,9 +65,11 @@ declare function source:getLabels($sources as xs:string*, $edition as xs:string)
 : @return The label
 :)
 declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
-    
+    let $sourceDoc := doc($source)
     let $language := eutil:getLanguage($edition)
-    let $label := doc($source)//mei:source/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language]
+    let $label := if($sourceDoc/mei:mei/@meiversion = "4.0.1")(:TODO encoding of source labels may heavily differ in certain encoding contexts, thus introduction of class="http://www.edirom.de/edirom-online/source/label":)
+                    then $sourceDoc//mei:manifestation[@singleton='true']/mei:titleStmt/mei:title[@class = "http://www.edirom.de/edirom-online/source/label"][not(@xml:lang) or @xml:lang = $language]
+                    else $sourceDoc//mei:source/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language]
     let $label := if($label)
                     then($label)
                     else(doc($source)//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language])
