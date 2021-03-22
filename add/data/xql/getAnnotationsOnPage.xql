@@ -21,10 +21,11 @@ xquery version "3.0";
 :)
 
 (:~
-    Returns a JSON sequence with all anotations on a specific page.
-    
-    @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
-:)
+ :  Returns a JSON sequence with all anotations on a specific page.
+ :  
+ :  @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+ :  @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
+ :)
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
@@ -40,7 +41,15 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:string, $annotations as element()*, $elems as element()*) as xs:string* {
+(: Returns a JSON array of annotations
+ : 
+ : @param sourceUriSharp the xmldb-uri of a mei-source with a trailing #
+ : @param surfaceId the xml:id of a mei:surface element
+ : @param annotations the mei:annotation elements to consider
+ : @returns a JSON array of annotations
+ :)
+
+declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId as xs:string, $annotations as element()*, $elems as element()*) as xs:string* {
     for $annotation in $annotations
 	let $id := $annotation/string(@xml:id)
 	let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
@@ -64,11 +73,13 @@ declare function local:getAnnotations($uriSharp as xs:string, $surfaceId as xs:s
 };
 
 (:~
-    Finds all annotations in all works.
-    
-    @param $elems The elements to check (most likely measures and zones)
-    @returns A sequence of annotation elements
-:)
+ : Returns all annotations in all works of a edirom-edition containing references to a list of IDs from one source
+ :  
+ : @param $edition The xmldb-uri to the edirom-edition file
+ : @param $uri The xmldb-uri to the source-file
+ : @param $elemIds The element-IDs to check (most likely measures and zones)
+ : @returns A sequence of mei:annot elements
+ :)
 declare function local:findAnnotations($edition as xs:string, $uri as xs:string, $elemIds as xs:string*) as element()* {
 
     (: TODO: search in other documents and in other collections :)
