@@ -136,10 +136,10 @@ declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, 
 };
 
 (:~
-    Reads the coordinates of an element
-    
-    @param $participant The element to process
-    @returns A sequence with coordiantes (ulx, uly, lrx, lry)
+ : Reads the coordinates of an element
+ : 
+ : @param $participant The element to process
+ : @returns A sequence with coordiantes (ulx, uly, lrx, lry)
 :)
 declare function local:getCoordinates($participant as element()) as xs:integer+ {
     let $zone := if(name($participant) = 'measure' or name($participant) = 'staff') then($participant/root()/id(substring($participant/@facs, 2))) else($participant)
