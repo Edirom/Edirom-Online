@@ -56,7 +56,7 @@ declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId a
 	let $prio := $annotation/mei:ptr[@type="priority"]/replace(@target, '#', '')
 	let $cat := $annotation/mei:ptr[@type="categories"]/replace(@target, '#', '')
 	let $plist := for $p in tokenize($annotation/@plist, '\s+')
-					return if(starts-with($p, $uriSharp))then(substring-after($p, $uriSharp))else()
+					return if(starts-with($p, $sourceUriSharp))then(substring-after($p, $sourceUriSharp))else()
     let $svgList := local:getAnnotSVGs($id, $plist, $elems)
     let $plist := local:getParticipants($id, $plist, $elems)
 	return
