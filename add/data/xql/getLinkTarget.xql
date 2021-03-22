@@ -124,7 +124,7 @@ let $type :=
              then(string('recording'))
              
              (: Source / Score :)
-             else if(exists($doc//mei:mei) and (exists($doc//mei:source) or ($doc//mei:mei/@meiversion = "4.0.1" and exists($doc//mei:manifestation[@singleton='true']))))
+             else if(source:isSource($docUri))
              then(string('source'))
              
              
