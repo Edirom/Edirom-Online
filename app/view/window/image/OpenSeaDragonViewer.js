@@ -267,7 +267,12 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 
                 var anno = document.createElement("div");
                 anno.id = me.id + '_' + id;
-                anno.className = "annotation " + categories + ' ' + priority;               
+                anno.className = "annotation " + categories + ' ' + priority;
+                
+                var annoIcon = document.createElement("div");
+                annoIcon.id = anno.id + '_inner';
+                annoIcon.className = "annotIcon";
+                anno.append(annoIcon);
                 
                 var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
                 var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
