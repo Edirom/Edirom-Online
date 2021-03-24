@@ -44,6 +44,7 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Faksimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-Ansicht"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-Ansicht"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Überlappen"/>
         <entry key="view.desktop.Desktop_Close" value="Schließen"/>
@@ -160,6 +161,7 @@
         
         
         <!-- DATA -->
+        <entry key="Annotation" value="Anmerkung"/>
         <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>
