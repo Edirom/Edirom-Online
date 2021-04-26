@@ -288,7 +288,8 @@ declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:i
 };
 
 declare function local:getItemLabel($elems as element()*) as xs:string {
-    
+    let $language := eutil:getLanguage($edition)
+    return
     string-join(
     for $type in distinct-values(for $elem in $elems return local-name($elem))
     let $items := for $elem in $elems return if(local-name($elem) eq $type) then($elem) else()
@@ -296,8 +297,8 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
             if(local-name($items[1]) eq 'measure')
             then(
                 if(count($items) gt 1)
-                then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n)))
-                else(eutil:getLanguageString('Bar_n', ($items[1]/@n)))
+                then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
+                else(eutil:getLanguageString('Bar_n', ($items[1]/@n), $language))
             )
             else
             
