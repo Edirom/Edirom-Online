@@ -117,7 +117,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $sourceTitle := source:getLabel($doc, $edition) (:$elems[1]/root()//mei:source/mei:titleStmt/mei:title[1]/text():)(:fails due to mei4:)
+            let $sourceLabel := source:getLabel($doc, $edition)
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
@@ -133,7 +133,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
-                local:toJSON($type, $label, $mdiv, $page, $sourceTitle, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
+                local:toJSON($type, $label, $mdiv, $page, $sourceLabel, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
 };
 
 declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
