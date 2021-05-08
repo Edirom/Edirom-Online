@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ bazga-dev ]
+#  pull_request:
+#    branches: [ bazga-dev ]
+
+env:
+  DOCKER_IMAGE: bwbohl/sencha-cmd
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker run --rm -v `pwd`:/app -w /app bwbohl/sencha-cmd app build
