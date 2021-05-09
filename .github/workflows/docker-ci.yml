@@ -18,4 +18,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker run --rm -v `pwd`:/app -w /app bwbohl/sencha-cmd app build
+      run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
