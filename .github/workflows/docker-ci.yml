@@ -17,5 +17,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build Edirom Online from bazga-dev
       run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
+    - name: Archive EdiromOnline.xar
+    - uses: actions/upload-artifact@v2
+      with:
+        name: EdiromOnline.xar
+        path: build-xar/EdiromOnline.xar
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn` 
