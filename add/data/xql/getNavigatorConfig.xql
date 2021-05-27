@@ -82,7 +82,7 @@ declare function local:getItem($item, $depth) {
     (: forward any target to "mri_…" to RWA Online :)
     (: We want to use our own object view for work descriptions :)
     let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
-    let $RWAOnlineURL := $RWAconfigDoc/rwaOnlineURL
+    let $RWAOnlineURL := $RWAconfigDoc//rwaOnlineURL
     let $target := for $t in tokenize($target, ' ')
                     return
                     if (starts-with($t, 'mri_'))
