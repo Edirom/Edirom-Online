@@ -64,7 +64,14 @@ declare function local:getLocalizedName($node) {
 :)
 declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
     let $doc := doc($uri)
-    let $annos := $doc//mei:annot[@type = 'editorialComment']
+    
+    (: start RWA specific modification. Apply another type of annotations :)
+    let $annotType := if(contains(request:get-parameter('uri', ''), '?'))
+                      then(substring-after(request:get-parameter('uri', ''), 'annotType='))
+                      else('editorialComment')
+    (: end RWA specific modification. :)
+    
+    let $annos := $doc//mei:annot[@type = $annotType]
     return
         string-join(
             for $anno in $annos
