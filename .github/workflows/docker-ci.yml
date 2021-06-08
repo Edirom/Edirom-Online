@@ -23,4 +23,15 @@ jobs:
       with:
         name: EdiromOnline.xar
         path: build-xar/EdiromOnline.xar
-        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn` 
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: jaapio/keelsh-deploy@master
+        with:
+          keelBaseUrl: http://keel.euryanthe.de
+          image: 'bazga/existdb'
+          tag: 'latest'
