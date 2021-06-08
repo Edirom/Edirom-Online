@@ -54,7 +54,7 @@
         <entry key="view.desktop.Desktop_Restore" value="Wiederherstellen"/>
         <entry key="view.desktop.Desktop_Tile" value="Nebeneinander"/>
         
-        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
+        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
         <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
         <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
