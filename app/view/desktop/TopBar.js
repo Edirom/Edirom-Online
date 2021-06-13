@@ -70,7 +70,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 items: [
                    // me.homeButton,
                    // { xtype: 'tbtext', text: '', id: 'homeBtnLabel' },
-                   // this.workCombo,
+                    this.workCombo,
                    // me.searchTextField,
                     me.searchButton
                 ]
