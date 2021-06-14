@@ -147,7 +147,7 @@ let $title := (: Work :)
               then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
 
               (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
+              else if(source:isSource($docUri))
               then(source:getLabel($uri, $edition))
               
               (: Text :)
