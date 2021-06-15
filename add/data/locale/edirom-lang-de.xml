@@ -55,18 +55,18 @@
         <entry key="view.desktop.Desktop_Tile" value="Nebeneinander"/>
         
         <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
-        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
-        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
+        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
+        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
-        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
+        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
-        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
-        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
-        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
+        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
+        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
         
         <entry key="view.window.AnnotationView_Title" value="Anmerkungen"/>
         <entry key="view.window.AnnotationView_No" value="Nr."/>
