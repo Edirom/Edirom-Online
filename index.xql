@@ -57,6 +57,12 @@ comment{"
         
         <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
         <!-- TODO if prefs css then include here -->
+        {
+            if ($preferences//entry[@key = "additional_css_path" and @value != ''])
+            then
+                <link rel="stylesheet" href="{$preferences//entry[@key = "additional_css_path"]/@value}"/>
+            else ()
+        }
         <script type="text/javascript" src="app.js"/>
         
         <!-- **WHERE TO OPEN LINKS** -->
