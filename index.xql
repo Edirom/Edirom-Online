@@ -30,7 +30,7 @@ comment{"
 <html>
     <head>
         <meta charset="UTF-8"/>
-        <title>EdiromOnline</title>
+        <title>{edition:getName($editionUri)} – EdiromOnline</title>
         <!-- **CSS** -->
         <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
         
