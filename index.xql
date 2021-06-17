@@ -60,7 +60,7 @@ comment{"
         {
             if ($preferences//entry[@key = "additional_css_path" and @value != ''])
             then
-                <link rel="stylesheet" href="{$preferences//entry[@key = "additional_css_path"]/@value}"/>
+                <link rel="stylesheet" href="{string-join((request:get-context-path(), 'rest', substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///')), '/')}"/>
             else ()
         }
         <script type="text/javascript" src="app.js"/>
