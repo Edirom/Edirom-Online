@@ -4,7 +4,7 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "data
 
 declare variable $edition := request:get-parameter("edition", "");
 declare variable $editionUri := edition:findEdition($edition);
-declare variable $preferences := prefs:getPrefs($edition);(:TODO:)
+declare variable $preferences := doc(edition:getPreferencesURI($editionUri));
 comment{"
  *  Edirom Online
  *  Copyright (C) 2014 The Edirom Project
