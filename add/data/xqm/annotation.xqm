@@ -68,7 +68,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs
-                    return $doc/id($u)/mei:name[1]/text() 
+                    return annotation:category_getName($doc/id($u), eutil:getLanguage($edition)) 
                  , ', ')
     let $count := count($anno/preceding-sibling::mei:annot) + 1
     
