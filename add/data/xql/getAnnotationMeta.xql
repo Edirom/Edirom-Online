@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -48,16 +48,24 @@ let $annot := $doc/id($internalId)
 let $participants := annotation:getParticipants($annot)
 
 let $priority := annotation:getPriority($annot)
-let $priorityLabel := 'Priority'
+let $priorityLabel := switch($priority)
+                      case "" return ()
+                      default return eutil:getLanguageString('view.window.AnnotationView_Priority', ())
 
 let $categories := annotation:getCategoriesAsArray($annot)
-let $categoriesLabel := if(count($categories) gt 1)then('Categories')else('Category')
+let $categoriesLabel := switch(count($categories))
+                        case 0 return ()
+                        case 1 return eutil:getLanguageString('view.window.AnnotationView_Category', ())
+                        default return eutil:getLanguageString('view.window.AnnotationView_Categories', ())
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
-let $sourcesLabel := if(count($sources) gt 1)then('Sources')else('Source')
+let $sourcesLabel := if(count($sources) gt 1)then(eutil:getLanguageString('view.window.AnnotationView_Sources', ()))else(eutil:getLanguageString('view.window.AnnotationView_Source', ()))
 
 let $sigla := source:getSiglaAsArray($participants)
-let $siglaLabel := if(count($sigla) gt 1)then('Sources')else('Source')
+let $siglaLabel := switch(count($sigla))
+                    case 0 return ()
+                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Source', ())
+                    default return eutil:getLanguageString('view.window.AnnotationView_Sources', ())
 
 return
 
