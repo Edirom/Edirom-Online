@@ -187,3 +187,15 @@ span.italic {
 .hidden {
     display: none;
 }
+
+.annotTip {
+    width: 100% !important;
+}
+
+.annotTip .metaBox {
+    width: 100% !important;
+}
+
+.annotTip .contentBox {
+    width: 100% !important;
+}
