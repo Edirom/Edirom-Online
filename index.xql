@@ -56,7 +56,7 @@ comment{"
         <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
         
         <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
-        {if}
+        <!-- TODO if prefs css then include here -->
         <script type="text/javascript" src="app.js"/>
         
         <!-- **WHERE TO OPEN LINKS** -->
