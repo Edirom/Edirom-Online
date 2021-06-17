@@ -191,3 +191,17 @@ declare function annotation:getParticipants($anno as element()) as xs:string* {
     
     return $uris
 };
+
+(:~
+: Returns an annotation category's name
+:
+: @param $category The category to process
+: @return one name
+:)
+declare function annotation:category_getName($category as element(), $language as xs:string) {
+    let $names := $category/mei:name
+    return
+        switch (count($names[@xml:lang = $language]))
+            case 1 return $names[@xml:lang = $language]
+            default return $names[1]
+};
