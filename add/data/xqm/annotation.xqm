@@ -25,6 +25,7 @@ xquery version "1.0";
 : This module provides library functions for Annotations
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
