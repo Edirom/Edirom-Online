@@ -9,6 +9,15 @@ if ($exist:path eq "/") then
     (: forward root path to index.xql :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
         <forward url="index.html"/>
+else if ($exist:path eq "/") then
+    (: redirect root path to index.html :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="index.html"/>
+    </dispatch>
+else if ($exist:path eq "/index.html") then
+    (: forward index.html to index.xql :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="index.xql"/>
     </dispatch>
 (:else if (starts-with($exist:path, "/data")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
