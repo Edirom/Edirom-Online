@@ -5,6 +5,9 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "data
 declare variable $edition := request:get-parameter("edition", "");
 declare variable $editionUri := edition:findEdition($edition);
 declare variable $preferences := doc(edition:getPreferencesURI($editionUri));
+
+declare option exist:serialize "method=html5 media-type=text/html omit-xml-declaration=yes indent=yes";
+
 comment{"
  *  Edirom Online
  *  Copyright (C) 2014 The Edirom Project
