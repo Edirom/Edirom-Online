@@ -72,13 +72,13 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 			}
 		});
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getAnnotationInfos.xql',
-			method: 'GET',
-			params: {
-				uri: view.uri
+		window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
+			'GET',
+			{
+				uri: view.uri,
+				edition: EdiromOnline.getApplication().activeEdition
 			},
-			success: function (response) {
+			Ext.bind(function (response) {
 				var data = response.responseText;
 				data = Ext.JSON.decode(data);
 				
@@ -92,8 +92,8 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 				});
 				
 				me.annotInfosLoaded(priorities, categories, view);
-			}
-		});
+			}, this)
+		);
 		
 		Ext.Ajax.request({
 			url: 'data/xql/getOverlays.xql',
