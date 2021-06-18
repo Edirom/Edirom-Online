@@ -29,6 +29,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
@@ -47,13 +48,16 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 };
 
 let $uri := request:get-parameter('uri', '')
+let $edition := request:get-parameter('edition', '')
 let $mei := doc($uri)/root()
-let $annots := collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $edition_path := eutil:getPreference('edition_path', $edition)
+let $annots := collection($edition_path)//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name/text()
+            let $categoryElement := (collection($edition_path)/id($category))[1]
+            let $name := annotation:category_getName($categoryElement, eutil:getLanguage($edition))
             order by $name
             return
                 concat('{id:"', $category, '",name:"', $name,'"}')
@@ -61,7 +65,7 @@ return concat('{categories: [',
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name/text()
+            let $name := (collection($edition_path)//id($priority))[1]/mei:name/text() (:TODO add multilang support :)
             order by $name
             return
                 concat('{id:"', $priority, '",name:"', $name,'"}')
