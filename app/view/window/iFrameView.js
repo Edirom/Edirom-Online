@@ -45,6 +45,7 @@ Ext.define('EdiromOnline.view.window.iFrameView', {
 	setContent: function (url) {
 		var me = this;
 		var contEl = me.el.getById(me.id + '_iFrameViewContIFrame');
+		contEl.on('load', function() { this.updateTitle(); }, me);
 		contEl.set({'src': url});
 	},
 	
@@ -53,5 +54,12 @@ Ext.define('EdiromOnline.view.window.iFrameView', {
 		return {
 			id: this.id
 		};
+	},
+
+	updateTitle: function() {
+		var me = this;
+		var contEl = me.el.getById(me.id + '_iFrameViewContIFrame');
+		var title = contEl.dom.contentDocument.title;
+		me.window.setTitle(title);
 	}
 });

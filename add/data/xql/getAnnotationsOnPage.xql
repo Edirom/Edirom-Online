@@ -96,7 +96,9 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
             for $p in $participants
             let $coord := local:getCoordinates($p)
 			return 
-		        concat('{id:"', $annoId, '__', string($p/@xml:id), '",ulx:', $coord[1], ',uly:', $coord[2], ',lrx:', $coord[3], ',lry:', $coord[4],'}')
+		        concat('{id:"', $annoId, '__', string($p/@xml:id),
+		        '",type:"', string($p/@type),
+		        '",ulx:', $coord[1], ',uly:', $coord[2], ',lrx:', $coord[3], ',lry:', $coord[4],'}')
         , ",")
 };
 
@@ -117,7 +119,7 @@ declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, 
     
         for $svg in $participants
         let $id := $svg/@id
-        let $ser := fn:serialize($svg, ())
+        let $ser := util:serialize($svg, ())
         let $repl := replace(replace($ser, '"', '\\"'), '\n', '')
         return concat('{id:"', $annoId, '__', $id, '",svg:"', $repl,'"}')
     
@@ -149,7 +151,7 @@ let $zones := $surface//mei:zone
 let $measureLike := 
     for $id in $zones[@type = 'measure' or @type = 'staff']/string(@xml:id)
 	let $ref := concat('#', $id)
-	return $mei//*[@facs = $ref]
+	return $mei//*[contains(@facs, $ref)]
 	
 let $svgLike := $surface//svg:svg
 

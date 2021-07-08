@@ -44,6 +44,7 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-View"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-View"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Cascade"/>
         <entry key="view.desktop.Desktop_Close" value="Close"/>
@@ -163,6 +164,7 @@
         <entry key="Number field with left and right arrows" value="Number field with left and right arrows"/>
 
         <!-- DATA -->
+        <entry key="Annotation" value="Annotation"/>
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>

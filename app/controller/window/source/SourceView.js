@@ -72,16 +72,17 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 			}
 		});
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getAnnotationInfos.xql',
-			method: 'GET',
-			params: {
-				uri: view.uri
-			},
-			success: function (response) {
-				var data = response.responseText;
-				data = Ext.JSON.decode(data);
-				
+		window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
+            'GET', 
+            {
+                uri: view.uri
+            },
+            Ext.bind(function(response){
+                var me = this;
+                var data = response.responseText;
+
+                data = Ext.JSON.decode(data);
+			
 				var priorities = Ext.create('Ext.data.Store', {
 					fields:[ 'id', 'name'],
 					data: data[ 'priorities']
@@ -92,9 +93,9 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 				});
 				
 				me.annotInfosLoaded(priorities, categories, view);
-			}
-		});
-		
+            }, this)
+        );
+	
 		Ext.Ajax.request({
 			url: 'data/xql/getOverlays.xql',
 			method: 'GET',

@@ -11,101 +11,39 @@ declare namespace transform="http://exist-db.org/xquery/transform";
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $uri := request:get-parameter('uri', '')
-let $docUri := if(contains($uri, '///')) then(substring-after($uri, '///')) else($uri)
-let $newUri := concat('/exist/rest/', $docUri)
-
+let $edition := request:get-parameter('edition', '')
 return
-<html>	
-    <head>   	
-        <title></title>
-    	<!-- **VEROVIO** -->
-    	<script src="../../resources/verovio/verovio-toolkit-0.9.9.js" type="text/javascript" charset="utf-8"></script>
-    	
-    	<!-- **JQUERY** -->
-    	<script type="text/javascript" src="../../resources/jquery/jquery-2.1.3.js"  charset="utf-8"></script> 
+<html>
+    <head>
+        <title>Verovio</title>
+        <script src="https://www.verovio.org/javascript/latest/verovio-toolkit.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+        <script src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>
+        <script src="/resources/js/he.js"></script>
+
+        <script src="/resources/js/tipped/tipped.js"></script>
+        <link rel="stylesheet" type="text/css" href="/resources/css/tipped/tipped.css"/>
+        
+        <link rel="stylesheet" type="text/css" href="/resources/css/verovio-view.css"/>
+        
     </head>
 	<body>
-        <div id="output"/>		 
-	</body>	
-	<script type="text/javascript">
-		vrvToolkit = new verovio.toolkit();
-	 	var verovioData;
-	 	
-	 	var initHeight = $(document).height()* 100 / 33;
-	 	var initWidth = $(document).width()* 100 / 33;
-	 	
-                $.ajax({{
-                    url: '{$newUri}'
-                    ,async: false
-                    , dataType: "text"
-                    , success: function(data) {{
-                        verovioData = data; 
-                		allPages();               		
-                    }}
-                }});
-                
-                function allPages(){{
-                	var options = JSON.stringify({{
-                			scale: 33,
-							noLayout: 0,
-							pageHeight: initHeight,
-							pageWidth: initWidth,
-							adjustPageHeight: 1
-                		}});
-                		vrvToolkit.setOptions( options );
-                		vrvToolkit.loadData(verovioData);
-                		numberPages = vrvToolkit.getPageCount();
-                		var svg = vrvToolkit.renderPage(1, options);
-						for (i = 2; i !== vrvToolkit.getPageCount()+1; i++) {{
-							svg = svg + vrvToolkit.renderPage(i, options);
-						}}
-                		$("#output").html(svg);
-                }}
-            
-	 	function loadPage(pageNr){{
-	 		var options = JSON.stringify({{
-                			scale: 33,
-							noLayout: 0,
-							pageHeight: initHeight,
-							pageWidth: initWidth,
-							adjustPageHeight: 1
-                		}});
-                		vrvToolkit.setOptions( options );
-                		vrvToolkit.loadData(verovioData);
-                		var svg = vrvToolkit.renderPage(pageNr, "");
-                		$("#output").html(svg);
-                		return numberPages;
-	 	}}
-	 	
-	 	
-	 	function loadContinuousHight(){{
-	 		var pageHeight_1 = $(document).height();
-						var pageWidth_1 = $(document).width();
-						var options = JSON.stringify({{
-							scale: 33,
-							pageHeight: pageHeight_1,
-							pageWidth: pageHeight_1
-						}});
-						vrvToolkit.setOptions(options);
-						vrvToolkit.redoLayout();		
-						var svg = vrvToolkit.renderPage(1, options);
-						for (i = 2; i !== vrvToolkit.getPageCount()+1; i++) {{
-							svg = svg + vrvToolkit.renderPage(i, options);
-						}}
-						$("#output").html(svg);
-	 	}}
-	 	
-	 	function loadContinuousWidth(){{
-	 		var options = JSON.stringify({{
-							scale: 33,
-							noLayout: 1
-						}});
-						vrvToolkit.setOptions(options);
-						vrvToolkit.loadData(verovioData);
-						var svg = vrvToolkit.renderPage(1, options);
-						$("#output").html(svg);
-			 
-	 	}}
-	  	
-		</script>		
+        <div id="output"></div>
+        <div id="toolbar" class="noselect">
+            <span class="button" onclick="prevPage()">
+                <span class="iconify" data-icon="mdi-chevron-left" style="font-size: 1.3em;"></span>
+            </span>
+            <span id="page">1</span> / <span id="pageCount">1</span>
+            <span class="button" onclick="nextPage()">
+                <span class="iconify" data-icon="mdi-chevron-right" style="font-size: 1.3em;"></span>
+            </span>
+        </div>
+        <div class='lds-roller'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        
+        <script>
+            var uri = "{$uri}";
+            var edition = "{$edition}";
+        </script>
+        <script src="/resources/js/verovio-view.js"></script>
+    </body>
 </html>

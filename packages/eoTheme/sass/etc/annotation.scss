@@ -148,6 +148,7 @@ $content_baseFont_size: 14px;
 
 .annotTip {
 	margin: 10px;
+	height: 100%;
 	
 	.metaBox {
 		display: none;
@@ -193,17 +194,20 @@ $content_baseFont_size: 14px;
 	
 	.contentBox {
 	
-		position: absolute;
-		top: 0px;
-		left: 0px;
-		bottom: 0px;
-		width: 250px;
+		width: 100%;
 		overflow: hidden;
-		
-		padding: 10px;
 		
 		font-family: $content_baseFont;
 		font-size: $content_baseFont_size * 0.8;
+		
+		h1 {
+		    font-size: 1.3em;
+		}
+
+		span.ref {
+			cursor: pointer;
+			text-decoration: underline;
+		}
 		
 	}
 	
