@@ -72,7 +72,10 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 declare function work:getLabel($work as xs:string, $edition as xs:string) as xs:string {
      
     let $language := eutil:getLanguage($edition)
-    return doc($work)//mei:work/mei:titleStmt/data(mei:title[not(@xml:lang) or @xml:lang = $language][1])
+    return
+        if(doc($work)/mei:mei[@meiversion="4.0.1"])
+        then doc($work)//mei:work/data(mei:title[not(@xml:lang) or @xml:lang = $language][1])
+        else doc($work)//mei:work/mei:titleStmt/data(mei:title[not(@xml:lang) or @xml:lang = $language][1])
 };
 
 (:~

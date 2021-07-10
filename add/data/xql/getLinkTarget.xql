@@ -124,7 +124,7 @@ let $type :=
              then(string('recording'))
              
              (: Source / Score :)
-             else if(exists($doc//mei:mei) and exists($doc//mei:source))
+             else if(source:isSource($docUri))
              then(string('source'))
              
              

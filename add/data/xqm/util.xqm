@@ -105,7 +105,7 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*) as xs:string {
 
-    eutil:getLanguageString($key, $values, 'en')
+    eutil:getLanguageString($key, $values, eutil:getLanguage(''))
 };
 
 (:~
@@ -118,7 +118,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
 
-    let $base := concat('file:', system:get-module-load-path())
+    let $base := system:get-module-load-path()
     let $file := doc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
     
     let $string := $file//entry[@key = $key]/string(@value)
