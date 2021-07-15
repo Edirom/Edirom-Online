@@ -25,6 +25,8 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
+import module namespace functx="http://www.functx.com";
+
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
