@@ -52,9 +52,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                     $labelsAnalyzed
                             )
                             else ($mdiv//mei:measure/@n)
-        let $log := console:log(concat('labels: ', string-join($measureNs, ', ')))
         let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
-        let $log := console:log(concat('distinct: ', string-join($measureNsDistinct, ', ')))
         return
             for $measureN in $measureNsDistinct
             let $measureNNumber := number($measureN)
