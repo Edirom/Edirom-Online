@@ -250,6 +250,10 @@ p {
     color: rgb(248, 238, 218);
 }
 
+span.dblu {
+    border-bottom: 3px double;
+}
+
 .ediromDesktop .ux-wallpaper {
    background-image: none!important;
    background-color: black!important;
