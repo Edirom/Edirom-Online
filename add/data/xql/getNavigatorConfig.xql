@@ -24,6 +24,8 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
+declare namespace conf="https://www.maxreger.info/conf";
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
@@ -82,7 +84,7 @@ declare function local:getItem($item, $depth) {
     (: forward any target to "mri_…" to RWA Online :)
     (: We want to use our own object view for work descriptions :)
     let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
-    let $RWAOnlineURL := $RWAconfigDoc//rwaOnlineURL
+    let $RWAOnlineURL := $RWAconfigDoc//conf:rwaOnlineURL
     let $target := for $t in tokenize($target, ' ')
                     return
                     if (starts-with($t, 'mri_'))
