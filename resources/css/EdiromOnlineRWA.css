@@ -540,3 +540,11 @@ div.annotation.combinedHighlight div.annotIcon {
     margin: 5px 0 15px 5px;
     cursor: pointer;
 }
+
+.openAll {
+    display: none;
+}
+
+.closeAll {
+    display: none;
+}
