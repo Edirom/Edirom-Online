@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -25,6 +25,8 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
+import module namespace functx="http://www.functx.com";
+
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
@@ -32,13 +34,42 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
     if($mei//mei:parts)
     then(
         let $mdiv := $mei/id($mdivID)
-        return
-            for $measureN in distinct-values($mdiv//mei:measure/@n)
-            let $measureNNumber := number($measureN)
-            let $measures := $mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))]
-            let $measures := for $measure in $mdiv//mei:measure[@n = $measureN] | $measures 
+        let $measureNs := if ($mdiv//mei:measure/@label)
+                            then (
+                                let $labels := $mdiv//mei:measure/@label/string()
+                                for $label in $labels
+                                let $labelsAnalyzed := if (contains($label, '–'))
+                                                        then ((:substring-before($label, '–'):)
+                                                            let $first := substring-before($label, '–')
+                                                            let $last := substring-after($label, '–')
+                                                            let $steps := xs:integer(number($last) - number($first) + number(1))
+                                                            for $i in 1 to $steps
+                                                            return
+                                                                string(number($first) + $i - 1)
+                                                        )
+                                                        else ($label)
                                 return
-                                    concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                    $labelsAnalyzed
+                            )
+                            else ($mdiv//mei:measure/@n)
+        let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
+        return
+            for $measureN in $measureNsDistinct
+            let $measureNNumber := number($measureN)
+            let $measures := if ($mdiv//mei:measure/@label)
+                                then ($mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
+                                else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
+            let $measures := if ($mdiv//mei:measure/@label)
+                                then (
+                                    for $measure in $mdiv//mei:measure[@label = $measureN] | $measures 
+                                    return
+                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                )
+                                else (
+                                    for $measure in $mdiv//mei:measure[@n = $measureN] | $measures 
+                                    return
+                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                )
             return
                 concat('{',
                     'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',

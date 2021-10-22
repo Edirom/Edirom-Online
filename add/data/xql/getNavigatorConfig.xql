@@ -24,6 +24,8 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
+declare namespace conf="https://www.maxreger.info/conf";
+
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
@@ -77,6 +79,20 @@ declare function local:getCategory($category, $depth) {
 declare function local:getItem($item, $depth) {
 
     let $target := $item/replace(@targets, '\[.*\]', '')
+    
+    (: RWA specific implementation, starts here: :)
+    (: forward any target to "mri_…" to RWA Online :)
+    (: We want to use our own object view for work descriptions :)
+    let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+    let $RWAOnlineURL := $RWAconfigDoc//conf:rwaOnlineURL
+    let $target := for $t in tokenize($target, ' ')
+                    return
+                    if (starts-with($t, 'mri_'))
+                    then (concat($RWAOnlineURL, $t, '.html'))
+                    else ($t)
+    let $target := string-join($target, ' ')
+    (: RWA specific implementation, ends here. :)
+    
     let $cfg := concat('{', replace(substring-before($item/substring-after(@targets, '['), ']'), '=', ':'), '}')
     return
 
@@ -91,8 +107,10 @@ declare function local:getSeparator() {
 };
 
 declare function local:getDefinition($navConfig) {
-    
-    let $elems := $navConfig/*
+(:  Small temp. fix to hide RWA Object links in Navigator on public machines…  :)
+    let $elems := if (contains(request:get-server-name(), 'reger-werkausgabe.de'))
+                    then ($navConfig/*[not(./edirom:names/edirom:name[@xml:lang = 'de'] = 'Edition')])
+                    else ($navConfig/*)
     
     for $elem in $elems
     

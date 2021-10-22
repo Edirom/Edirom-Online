@@ -1,3 +1,8 @@
+/* possible workaround for explosiv edirom windows in rwa online. Does not work in Safari!!! but everywhere else.*/
+body {
+    overflow: clip !important;
+}
+
 /* prevents scroll bars in sourceView windows on Windows */
 .ediromWindow .x-panel-body {
     overflow: hidden !important;
@@ -243,6 +248,10 @@ p {
 .annotationList .x-grid-row-selected .x-grid-cell, .annotationList .x-grid-row-selected .x-grid-rowwrap-div {
     background: -moz-linear-gradient(top, rgb(215, 185, 180), rgb(146, 64, 92));
     color: rgb(248, 238, 218);
+}
+
+span.dblu {
+    border-bottom: 3px double;
 }
 
 .ediromDesktop .ux-wallpaper {
@@ -530,4 +539,12 @@ div.annotation.combinedHighlight div.annotIcon {
     font-size: 85%;
     margin: 5px 0 15px 5px;
     cursor: pointer;
+}
+
+.openAll {
+    display: none;
+}
+
+.closeAll {
+    display: none;
 }
