@@ -45,7 +45,7 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
             {',
                 'id: "', $edition/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-                'name: "', $edition/edirom:editionName, '"',
+                'name: "', if ($edition/edirom:editionName/*) then ('Edirom Edition') else ($edition/edirom:editionName), '"',
             '}')
 };
 

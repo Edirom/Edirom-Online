@@ -115,7 +115,7 @@ declare function local:getViews($type, $docUri, $doc) {
 (:        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),:)
         
         (: XmlView :)
-        concat("{type:'xmlView',uri:'", $docUri, "'}"),
+(:        concat("{type:'xmlView',uri:'", $docUri, "'}"),:)
 
         (: SourceDescriptionView :)
         if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
@@ -184,7 +184,10 @@ let $type :=
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
-              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
+              (: RWA specific implementation, starts here: :)
+              then(if ($lang = 'de') then('Lesarten') else ('Critical remarks'))
+              (: RWA specific implementation, ends here. :)
+              (:then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1]):)
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))

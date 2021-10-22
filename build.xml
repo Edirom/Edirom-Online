@@ -56,7 +56,7 @@
         <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" resource="${xar.name}" user="${p.target.user}" password="${p.target.pass}"/>
     </target>
     
-    <target name="xar" depends="prep-existdb">
+    <target name="xar" depends="replace">
         <mkdir dir="${build.deploy}"/>
         <zip basedir="${build.dir}" destfile="${build.deploy}/${xar.name}" excludes="${temp.dir}/*"/>
     </target>
@@ -81,6 +81,25 @@
             <arg value="build"/>
         </exec>
         <delete dir="build/temp/"></delete>
+    </target>
+    
+    <target name="replace" depends="prep-existdb">
+        <!--<replace file="${build.dir}/index.html">
+            <replacetoken><![CDATA[src="app.js"]]></replacetoken>
+            <replacevalue><![CDATA[src="edirom/app.js"]]></replacevalue>
+        </replace>
+        <replace file="${build.dir}/index.html">
+            <replacetoken><![CDATA[src="history.js"]]></replacetoken>
+            <replacevalue><![CDATA[src="edirom/history.js"]]></replacevalue>
+        </replace>
+        <replace file="${build.dir}/index.html">
+            <replacetoken><![CDATA[href="resources]]></replacetoken>
+            <replacevalue><![CDATA[href="edirom/resources]]></replacevalue>
+        </replace>
+        <replace file="${build.dir}/index.html">
+            <replacetoken><![CDATA[src="resources]]></replacetoken>
+            <replacevalue><![CDATA[src="edirom/resources]]></replacevalue>
+        </replace>-->
     </target>
 
     

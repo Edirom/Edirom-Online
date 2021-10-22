@@ -64,7 +64,14 @@ declare function local:getLocalizedName($node) {
 :)
 declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
     let $doc := doc($uri)
-    let $annos := $doc//mei:annot[@type = 'editorialComment']
+    
+    (: start RWA specific modification. Apply another type of annotations :)
+    let $annotType := if(contains(request:get-parameter('uri', ''), '?'))
+                      then(substring-after(request:get-parameter('uri', ''), 'annotType='))
+                      else('editorialComment')
+    (: end RWA specific modification. :)
+    
+    let $annos := $doc//mei:annot[@type = $annotType]
     return
         string-join(
             for $anno in $annos
@@ -126,7 +133,7 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
     let $xsltBase := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
     
-    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),
+    let $html := transform:transform($p,concat($xsltBase,'meiP2html_rwaOnline.xsl'),
     <parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{eutil:getPreference('image_prefix', request:get-parameter('edition', ''))}"/></parameters>)
     return
     

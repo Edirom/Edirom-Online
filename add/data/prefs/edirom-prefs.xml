@@ -22,12 +22,7 @@
 <prefs>
     <version>1.0</version>
     <entries>
-        
         <entry key="application_language" value="de"/>
         <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
-        <!--        <entry key="image_prefix" value="http://reger-max.mri.intern:8086/digilib/Scaler/"/>-->
-        <entry key="image_prefix" value="http://reger-theo.mri.intern:8081/digilib/Scaler/"/>
-        
-        <entry key="edition_path" value="/db/apps/contents"/>
     </entries>
 </prefs>

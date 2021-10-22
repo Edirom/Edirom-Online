@@ -32,35 +32,26 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 declare function local:getLocalizedTitle($node) {
-  (:let $lang := request:get-parameter('lang', '')
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text() :)
+
     let $lang := request:get-parameter('lang', '')
     let $nodeName := local-name($node)
-    let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text()
-    (:let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:title[@type='perf']/text():)
-    let $identifierOpus := $node/../mei:identifier[@type='opus']/text()
-    let $identifierWoo := $node/../mei:identifier[@type='woo']/text()
-    let $identifierNo := $node/../mei:identifier[@type='no']/text()
-    let $identifierGenre := $node/../mei:identifier[@type='genre']/text()
-    let $titleNew := if($identifierOpus and $identifierNo)
-                    then(concat($titleMain,' op. ',$identifierOpus,' Nr.',$identifierNo))
-                    else  if($identifierOpus)
-                    then(concat($titleMain,' op. ',$identifierOpus))
-                    else if($identifierWoo and $identifierNo)
-                    then(concat($titleMain,' WoO ',$identifierGenre,'/',$identifierWoo,' Nr.',$identifierNo))
-                    else if($identifierWoo)
-                    then(concat($titleMain,' WoO ',$identifierGenre,'/',$identifierWoo))
+    let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='main']/text()
+    let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='perf']/text()
+    let $identifierCategory := $node/mei:identifier[@type='category']/text()
+    let $identifierGenre := $node/mei:identifier[@type='genre']/text()
+    let $identifierCounter := $node/mei:identifier[@type='counter']/text()
+    let $identifierNo := $node/mei:identifier[@type='no']/text()
+    let $titleNew := if($identifierCategory = 'opus' and $identifierNo)
+                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else () , ' op. ', $identifierCounter,' Nr. ', $identifierNo))
+                        else if($identifierCategory = 'opus')
+                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' op. ', $identifierCounter))
+                        else if($identifierCategory = 'woo' and $identifierNo)
+                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre ,'/', $identifierCounter,' Nr. ', $identifierNo))
+                        else if($identifierCategory = 'woo')
+                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre, '/', $identifierCounter))
                     else()
     return
-      if ($identifierOpus or $identifierWoo)
-      then (normalize-space(string($titleNew)))
-      else if ($lang = $node/mei:title/@xml:lang)
-      then ($node/mei:title[@xml:lang = $lang]/text())
-      else ($node/mei:title[1]/text())
+        normalize-space(string($titleNew))
 
 };
 

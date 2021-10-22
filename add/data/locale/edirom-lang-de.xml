@@ -107,9 +107,11 @@
         <entry key="view.window.source.SourceView_viewMenu" value="Darstellung"/>
         <entry key="view.window.source.SourceView_PageBasedView" value="Seitenbasierte Ansicht"/>
         <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Vorherige Seite"/>
+        <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Seitenauswahl"/>
         <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Nächste Seite"/>
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Taktauswahl" />
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Stimmenauswahl"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
@@ -125,7 +127,7 @@
         <entry key="view.desktop.Desktop" value="Desktop"/>
         <entry key="view.desktop.TopBar" value="Symbolleiste"/>
         <entry key="view.desktop.TopBar_searchField" value="Suchfeld"/>
-            <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
+        <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
         <entry key="view.desktop.TaskBar" value="Task-Leiste"/>
         <entry key="view.desktop.TaskBar_btnDesktop" value="Button der Task-Leiste"/>
         <entry key="view.window.TopBar" value="Symbolleiste im Fenster"/>

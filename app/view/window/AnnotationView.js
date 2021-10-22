@@ -442,8 +442,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         });
 
         me.setPreviewGrid(participants);
-        me.setPreviewSingle(participants);
-        me.setPreviewList(participants);
+/*        me.setPreviewSingle(participants);*/
+/*        me.setPreviewList(participants);*/
     },
 
     setPreviewGrid: function(participants) {
@@ -480,8 +480,9 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var source = participant['source'];
             var siglum = participant['siglum'];
             var part = participant['part'];
-            var digilibBaseParams = participant['digilibBaseParams'];
-            var digilibSizeParams = participant['digilibSizeParams'];
+            // var digilibBaseParams = participant['digilibBaseParams'];
+            // var digilibSizeParams = participant['digilibSizeParams'];
+            var digilibURL = participant['digilibURL'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
@@ -497,7 +498,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 square |= true;
 
             }else {
-                var shape = tplImg.append(div, [id, digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
+                var shape = tplImg.append(div, [id, /* digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams*/ digilibURL, hiddenData, label], true);
                 shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
 
                 elems.push(shape);
