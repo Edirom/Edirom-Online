@@ -74,14 +74,9 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var views = [];
         
         Ext.Array.each(config.views, function(view) {
-	        
-	        //console.log("onMetaDataLoaded");
-	        //console.log(view);
-	        
 	        var uri = view.uri;
 	        
 	        if(view.type == "iFrameView" && config["term"] != "" && config["path"] != "") {
-		        //console.log("TERM FOUND");
 		        uri = uri + "?term=" + config["term"] + "&path=" + config["path"] + "#searchTarget";
 	        }
 	        
