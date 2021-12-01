@@ -36,7 +36,6 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace conf="https://www.maxreger.info/conf";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
