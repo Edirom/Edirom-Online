@@ -86,12 +86,12 @@ let $return :=
     let $search := 
         if(string-length($term) gt 0)
         then(
-            collection('/db/contents/edition-rwa')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents/edition-rwa')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents/edition-rwa')//mei:mei[ft:query(., $term)]
-            | collection('/db/contents/edition-rwa')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-            | collection('/db/contents/edition-rwa')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
-            | collection('db/contents/edition-rwa')//mei:annot[contains(@xml:id, $term)]
+            collection('/db')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//mei:mei[ft:query(., $term)]
+            | collection('/db')//mei:title[ft:query(., $term)]/ancestor::mei:mei
+            | collection('/db')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+            | collection('/db')//mei:annot[contains(@xml:id, $term)]
         )
         else()
     
