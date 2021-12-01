@@ -141,9 +141,7 @@ let $return :=
             let $internalId := if(local-name($hit) eq 'annot')then($hit/@xml:id)else if($match/@xml:id)then($match/@xml:id)else()
             return
                 <div class="hitP" style="{if($i gt 3)then('display:none;')else('')}">{
-                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="{
-                if (contains($uri, 'edition-rwa/texts/' ))
-                then (concat('loadLink(&apos;xmldb:exist:///db/apps/rwaEncyclo/$encyclo/', substring-after($uri, 'edition-rwa/texts/'), '?path=', $path, '&amp;term=', replace($term, '"', '\\"'), '&apos;, {})')) else (concat('loadLink(&apos;xmldb:exist://', $uri, if($internalId)then(concat('#', $internalId))else(), '?path=', $path, '&amp;term=', replace($term, '"', '\\"'),'&apos;);')) }" />,
+                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={replace($term, '"', '\\"')}');" />,
                     util:function(xs:QName("local:filter"), 2))
                }</div>
             ,
