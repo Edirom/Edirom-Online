@@ -60,7 +60,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 filters: []
             }],
             columns: [
-/*
             	{
                     header: getLangString('view.window.AnnotationView_No'),
                     dataIndex: 'pos',
