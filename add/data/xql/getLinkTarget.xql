@@ -160,10 +160,7 @@ let $type :=
              
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
-              (: RWA specific implementation, starts here: :)
-              then(if ($lang = 'de') then('Lesarten') else ('Critical remarks'))
-              (: RWA specific implementation, ends here. :)
-              (:then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1]):)
+              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
