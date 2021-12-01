@@ -60,7 +60,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 filters: []
             }],
             columns: [
-// 	            Not needed for RWA
 /*
             	{
                     header: getLangString('view.window.AnnotationView_No'),
