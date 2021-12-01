@@ -99,7 +99,6 @@ Ext.define('EdiromOnline.controller.LinkController', {
                 window.open (singleUri,"_blank");
     
             }else if(singleUri.match(/^(ext|file):\/\//)) {
-	            //console.log(singleUri);
                 //TODO: external (not possible in browser)
     
             }else {
