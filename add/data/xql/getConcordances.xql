@@ -85,7 +85,7 @@ let $id := request:get-parameter('id', '')
 let $mei := doc($id)/root()
 let $workId := request:get-parameter('workId', '')
 let $work := $mei/id($workId)
-let $concordances := $work//edirom:concordance[@name != 'Lied-Verse']
+let $concordances := $work//edirom:concordance
 
 return (
     concat('[',
