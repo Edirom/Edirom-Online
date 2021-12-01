@@ -165,10 +165,6 @@ let $title := (: Work :)
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
               then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
-              
-              (: Edition :)
-              else if (exists($doc//mei:mei) and starts-with($doc//mei:mei/@xml:id, 'rwa_edition'))
-              then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
 
               (: Source / Score without Shelfmark:)
               else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
