@@ -350,50 +350,6 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '"}'
     )
 };:)
-
-(: Test: single url for images in annotation view :)
-
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
-    $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
-    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
-        
-        let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
-        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-registerURL/string()
-        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-resolveURL/string()
-        let $docuservURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURL/string()
-        let $docuservURLinternal := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURLinternal/string()
-        let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
-                            then 
-                                try {
-                                    (
-                                        let $random := util:uuid()
-                                        let $internalDigiLibURL := replace($digilibURL, $docuservURL, $docuservURLinternal)
-                                        let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($internalDigiLibURL))
-                                        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
-                                        return
-                                            concat($singel-serv-resolveURL, '?token=', $random)
-                                    )
-                                } catch *{
-                                    
-                                    ''
-                                }
-                                
-                            else (replace($digilibURL, 'http:', 'http:'))
-        return
-            concat(
-                '{"type":"',$type,
-                '","label":"',$label,
-                '","mdiv":"',$mdiv,
-                '","part":"',$part,
-                '","page":"',$page,
-                '","source":"',$source,
-                '","siglum":"',$siglum,
-                '","digilibURL":"', $singleURL,
-                '","hiddenData":"',$hiddenData,
-                '","content":"',$content,
-                '","linkUri":"',$linkUri,
-                '"}'
-            )
 };
 
 let $uri := request:get-parameter('uri', '')
