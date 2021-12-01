@@ -27,12 +27,6 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 
-(: RWA specific implementation, starts here: :)
-let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
-let $RWAOnlineURL := $RWAconfigDoc//conf:rwaOnlineURL
-let $RWATextCompURL := concat($RWAOnlineURL, substring-after($uri, 'apps/'))
-(: RWA specific implementation, ends here. :)
-
 return
     (: RWA specific implementation, starts here: :)
     if (starts-with($uri, 'xmldb:exist:///db/apps/rwaTextComp/'))
