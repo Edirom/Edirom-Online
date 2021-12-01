@@ -582,7 +582,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum);//  + ": " + label;
+            label = (siglum == ''?source:siglum) + ": " + label;
 
             var shape = null;
 
