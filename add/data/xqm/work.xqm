@@ -33,26 +33,11 @@ declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 declare function local:getLocalizedTitle($node) {
 
-    let $lang := request:get-parameter('lang', '')
-    let $nodeName := local-name($node)
-    let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='main']/text()
-    let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='perf']/text()
-    let $identifierCategory := $node/mei:identifier[@type='category']/text()
-    let $identifierGenre := $node/mei:identifier[@type='genre']/text()
-    let $identifierCounter := $node/mei:identifier[@type='counter']/text()
-    let $identifierNo := $node/mei:identifier[@type='no']/text()
-    let $titleNew := if($identifierCategory = 'opus' and $identifierNo)
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else () , ' op. ', $identifierCounter,' Nr. ', $identifierNo))
-                        else if($identifierCategory = 'opus')
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' op. ', $identifierCounter))
-                        else if($identifierCategory = 'woo' and $identifierNo)
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre ,'/', $identifierCounter,' Nr. ', $identifierNo))
-                        else if($identifierCategory = 'woo')
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre, '/', $identifierCounter))
-                    else()
+    let $lang := request:get-parameter('lang', '')     
     return
-        normalize-space(string($titleNew))
-
+      if ($lang = $node/mei:title/@xml:lang)
+      then (normalize-space($node/mei:title[@xml:lang = $lang]/text()))
+      else (normalize-space($node/mei:title[1]/text()))
 };
 
 (:~
