@@ -178,12 +178,6 @@ let $title := (: Work :)
               else if(exists($doc/tei:TEI))
               then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
               
-              else if($type = 'html' and contains($docUri, 'rwaEncyclo'))
-              then(if ($lang = 'de') then('Umfeld der Werke') else ('Context of the Works'))
-              
-              else if($type = 'html' and contains($docUri, 'rwaTextComp'))
-              then(if ($lang =  'de') then('Textvergleich') else ('Text comparison'))
-              
               (: HTML :)
               else if($type = 'html')
               then($doc//head/data(title))
