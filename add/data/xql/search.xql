@@ -129,8 +129,6 @@ let $return :=
               else(string('unknown'))
     order by ft:score($hit) descending
     return
-(:   loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}'); :)
-    
         <div class="searchResultDoc">
             <div class="doc"><span class="resultTitle" onclick="{
                 if (contains($uri, 'edition-rwa/texts/' ))
