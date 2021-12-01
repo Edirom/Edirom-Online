@@ -41,9 +41,6 @@ Ext.define('EdiromOnline.controller.window.iFrameView', {
 
         var uri = view.uri;
         
-        //console.log("iFrameView:onAfterLayout");
-        //console.log(view);
-        
         Ext.Ajax.request({
             url: 'data/xql/getiFrameURL.xql',
             method: 'GET',
