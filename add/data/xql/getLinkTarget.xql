@@ -57,7 +57,7 @@ declare function local:getViews($type, $docUri, $doc) {
 (:        concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
-(:        if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),:)
+        if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
 
         (: SourceDescriptionView :)
 (:        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),:)
