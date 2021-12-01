@@ -499,7 +499,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 square |= true;
 
             }else {
-                var shape = tplImg.append(div, [id, /* digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams*/ digilibURL, hiddenData, label], true);
+                var shape = tplImg.append(div, [id, digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
                 shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
 
                 elems.push(shape);
