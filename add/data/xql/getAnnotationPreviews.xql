@@ -349,7 +349,6 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '","linkUri":"',$linkUri,
         '"}'
     )
-};:)
 };
 
 let $uri := request:get-parameter('uri', '')
