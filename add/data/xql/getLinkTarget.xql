@@ -66,7 +66,7 @@ declare function local:getViews($type, $docUri, $doc) {
         if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
         (: AudioView :)
-(:        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),:)
+        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),
 
 		(: VerovioView :)
 (:        if($doc//mei:body//mei:measure and $doc//mei:body//mei:note) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),:)
