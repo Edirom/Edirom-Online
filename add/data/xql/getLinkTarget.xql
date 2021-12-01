@@ -35,29 +35,11 @@ declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getLocalizedMEITitle($node) {
   let $nodeName := local-name($node)
-  let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text()
-  let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:title[@type='perf']/text()
-  let $identifierOpus := $node/../mei:identifier[@type='opus']/text()
-  let $identifierWoo := $node/../mei:identifier[@type='woo']/text()
-  let $identifierNo := $node/../mei:identifier[@type='no']/text()
-  let $identifierGenre := $node/../mei:identifier[@type='genre']/text()
-  let $titleNew := if($identifierOpus and $identifierNo)
-                    then(concat($titleMain,' op. ',$identifierOpus,' Nr.',$identifierNo))
-                    else  if($identifierOpus)
-                    then(concat($titleMain,' op. ',$identifierOpus))
-                    else if($identifierWoo and $identifierNo)
-                    then(concat($titleMain,' WoO ',$identifierGenre,'/',$identifierWoo,' Nr.',$identifierNo))
-                    else if($identifierWoo)
-                    then(concat($titleMain,' WoO ',$identifierGenre,'/',$identifierWoo))
-                    else()
   return
-      if ($titleNew)
-      then ($titleNew)
-      else if ($lang = $node/mei:title/@xml:lang)
+      if ($lang = $node/mei:title/@xml:lang)
       then ($node/mei:title[@xml:lang = $lang]/text())
       else ($node/mei:title[1]/text())
 };
-
 declare function local:getLocalizedTEITitle($node) {
   let $nodeName := local-name($node)
   return
