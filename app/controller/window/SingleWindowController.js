@@ -106,9 +106,6 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var id = type;
         var label = (config.viewLabel && config.viewLabel != ''?config.viewLabel:me.getLabel(type));
         var viewClass = me.getViewClass(type);
-        
-        //console.log("createView");
-        //console.log(config);
 
         return {
             id: id,
