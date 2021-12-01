@@ -73,9 +73,6 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var me = this;
         var views = [];
         
-        //console.log("onMetaDataLoaded config");
-        //console.log(config);
-        
         Ext.Array.each(config.views, function(view) {
 	        
 	        //console.log("onMetaDataLoaded");
