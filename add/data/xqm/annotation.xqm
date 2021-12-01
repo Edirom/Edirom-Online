@@ -62,13 +62,13 @@ declare function local:getLocalizedName($node) {
 : @param $uri The document to process
 : @return The JSON representation
 :)
-declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
+declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:string) as xs:string {
     let $doc := doc($uri)
     let $annos := $doc//mei:annot[@type = 'editorialComment']
     return
         string-join(
             for $anno in $annos
-            return annotation:toJSON($anno)
+            return annotation:toJSON($anno, $edition)
         , ',')
 };
 
@@ -79,7 +79,7 @@ declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
 : @param $anno The Annotation to process
 : @return The JSON representation
 :)
-declare function annotation:toJSON($anno as element()) as xs:string {
+declare function annotation:toJSON($anno as element(), $edition as xs:string) as xs:string {
     let $id := $anno/@xml:id
     let $title := normalize-space(local:getLocalizedTitle($anno))
     let $doc := $anno/root()
@@ -105,7 +105,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     
     return
         concat('{ "id": "', $id, 
-            '", "title": "', $title, 
+            '", "title": "', normalize-space($title), 
             '", "categories": "', $cats,
             '", "priority": "', $prio,
             '", "pos": "', $count,
@@ -120,17 +120,35 @@ declare function annotation:toJSON($anno as element()) as xs:string {
 : @param $idPrefix A prefix for all ids (because of uniqueness in application)
 : @return The HTML representation
 :)
-declare function annotation:getContent($anno as element(), $idPrefix as xs:string) {
-    let $p := $anno/mei:p
+declare function annotation:getContent($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
+
     
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
     let $xsltBase := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
     
-    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),
-    <parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{eutil:getPreference('image_prefix', request:get-parameter('edition', ''))}"/></parameters>)
-    return
+    let $edition := request:get-parameter('edition', '')
+	let $imageserver :=  eutil:getPreference('image_server', $edition)
+	let $imageBasePath := if($imageserver = 'leaflet')
+		then(eutil:getPreference('leaflet_prefix', $edition))
+		else(eutil:getPreference('image_prefix', $edition))
+    let $language := eutil:getLanguage($edition)
     
+    let $p := $anno/mei:p[not(@xml:lang) or @xml:lang = $language]
+    let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{$imageBasePath}"/></parameters>)
+    return   
         $html
+};
+
+(:~
+: Returns a HTML representation of an Annotation's title
+:
+: @param $anno The Annotation to process
+: @param $idPrefix A prefix for all ids (because of uniqueness in application)
+: @return The HTML representation
+:)
+declare function annotation:getTitle($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
+
+    $anno/mei:title[not(@xml:lang) or @xml:lang = eutil:getLanguage($edition)]/text()
 };
 
 (:~
@@ -139,7 +157,7 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
 : @param $anno The Annotation to process
 : @return The priority
 :)
-declare function annotation:getPriority($anno as element()) as xs:string {
+declare function annotation:getPriority($anno as element()) as xs:string* {
     
     let $uri := $anno/mei:ptr[@type eq 'priority']/string(@target)
     

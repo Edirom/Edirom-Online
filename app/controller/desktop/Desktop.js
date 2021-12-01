@@ -233,7 +233,7 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
         var positions = {};
 
         var left = 0;
-        var top = desktop.getTopBarHeight();
+        var top = 0;
 
         var optArray = this.findOptimalLenBrt(numWins);
 
@@ -252,6 +252,56 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
             };
 
             left = left + (size.width / optArray[0]);
+        }
+
+        return positions;
+    },
+    
+    getHorizontalPositioning: function(numWins) {
+        var desktop = this.desktop;
+        var size = desktop.getUsableSize();
+        var w = size.width/numWins;
+        
+        var positions = {};
+
+        var left = 0;
+        var top = 0;
+
+        for(var i = 0; i < numWins; i++) {
+
+            positions['win_' + i] = {
+                y: top + 2,
+                x: left + 3,
+                width: w - 6,
+                height: size.height - 4
+            };
+
+            left = left + w;
+        }
+
+        return positions;
+    },
+    
+    getVerticalPositioning: function(numWins) {
+        var desktop = this.desktop;
+        var size = desktop.getUsableSize();
+        var h = size.height/numWins;
+        
+        var positions = {};
+
+        var left = 0;
+        var top = 0;
+
+        for(var i = 0; i < numWins; i++) {
+
+            positions['win_' + i] = {
+                y: top + 2,
+                x: left + 3,
+                width: size.width - 6,
+                height: h - 4
+            };
+
+            top = top + h;
         }
 
         return positions;

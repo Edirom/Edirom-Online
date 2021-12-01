@@ -31,6 +31,8 @@
         <entry key="global_loading" value="Lade…"/>
         <entry key="global_unknown" value="Unbekannt"/>
         
+        <entry key="controller.desktop.TaskBar_confirmReload" value="Die Anwendung muss neu gestartet werden, damit die Spracheinstellung vollständig umgesetzt wird."/>
+        
         <entry key="controller.window.Window_annotationView" value="Anmerkung"/>
         <entry key="controller.window.Window_headerView" value="Metadaten"/>
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
@@ -57,6 +59,7 @@
         <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
+        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
         <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>

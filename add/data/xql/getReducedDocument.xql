@@ -41,12 +41,19 @@ let $doc := transform:transform($doc, $xsl, <parameters><param name="selectionId
 let $doc := $doc/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
-let $xslInstruction := for $i in util:serialize($xslInstruction, ())
+let $xslInstruction := for $i in fn:serialize($xslInstruction, ())
                         return
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
                         else()
-let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
+                        
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $imagePrefix := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
+                        
+(:let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
 let $xsl := if($xslInstruction)then(doc($xslInstruction))else('../xslt/teiBody2HTML.xsl')
 
 let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,<param name="idPrefix" value="{$idPrefix}"/>) 

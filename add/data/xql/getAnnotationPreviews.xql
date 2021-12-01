@@ -24,6 +24,7 @@ xquery version "3.1";
     Returns the HTML for a specific annotation for an AnnotationView.
     
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+    @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
@@ -36,16 +37,23 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 declare variable $lang := request:get-parameter('lang', '');
-
 declare variable $imageWidth := 600;
-declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $imageBasePath := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
+
+(:declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
+:)
 
 declare function local:getLocalizedTitle($node) {
   let $nodeName := local-name($node)
@@ -131,7 +139,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $rect := local:getBoundingZone($zones)
             
             let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
+            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), ', origH:', $imgHeight, ', origW:', $imgWidth,'}')
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
@@ -253,8 +261,12 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
     
+    let $fields := if($imageserver = 'leaflet')then(substring-before($imagePath, '.') )else()
+   
+			
     return
-        concat($basePath, $imagePath, '?')
+    if($imageserver = 'leaflet')then(concat($imageBasePath,$fields))else(concat($basePath, $imagePath, '?'))
+        
 };
 
 (: TODO: in Modul auslagern :)

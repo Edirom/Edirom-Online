@@ -20,6 +20,9 @@ xquery version "3.0";
   ID: $Id: getLinkTarget.xql 1334 2012-06-14 12:40:33Z daniel $
 :)
 
+import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
+import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
@@ -118,6 +121,8 @@ let $path := if(contains($path, '&amp;'))then(substring-before($path, '&amp;'))e
 let $doc := eutil:getDoc($docUri)
 let $internal := $doc/id($internalId)
 
+let $edition := request:get-parameter('edition', '')
+
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
 let $internal := if(exists($internal))then($internal)else(
                         if(starts-with($internalId, 'measure_') and $doc//mei:parts)
@@ -158,12 +163,15 @@ let $type :=
              else(string('unknown'))
              
 let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
+
+              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
               then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
+
               
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
               then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
+
 
               (: Source / Score without Shelfmark:)
               else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
@@ -176,6 +184,7 @@ let $title := (: Work :)
               (: Text :)
               else if(exists($doc/tei:TEI))
               then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
+
               
               (: HTML :)
               else if($type = 'html')

@@ -109,7 +109,7 @@
     </xsl:template>
     <xsl:template name="bodyMicroData"/>
     <xsl:template match="/">
-        <xsl:apply-templates select="//tei:text"/>
+        <xsl:apply-templates select="//tei:text[not(@xml:lang) or @xml:lang = $lang]"/>
     </xsl:template>
     <xsl:template name="divContents">
         <xsl:param name="Depth"/>
@@ -201,12 +201,13 @@
                     <xsl:value-of select="@url"/>
                 </xsl:when>
                 <xsl:when test="@url != ''">
-                    <xsl:value-of select="concat($graphicsPrefix, @url)"/>
+                    <xsl:value-of select="@url"/>
+                    <!--<xsl:value-of select="concat($graphicsPrefix, @url)"/>
                     <xsl:if test="not(contains(@url,'.'))">
                         <xsl:value-of select="$graphicsSuffix"/>
                     </xsl:if>
                     <xsl:text>?</xsl:text>
-                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-- | @scale -->
+                    <xsl:for-each-group group-by="parent::node()" select="@width | @height | @scale"><!-\- | @scale -\->
                         <xsl:for-each select="current-group()">
                             <xsl:choose>
                                 <xsl:when test="name() = 'height'">
@@ -215,9 +216,9 @@
                                 <xsl:when test="name() = 'width'">
                                     <xsl:value-of select="concat('dw=', tei:calcDimension(.), '&amp;', 'amp;')"/>
                                 </xsl:when>
-<!--                            <xsl:when test="name() = 'scale'">
+<!-\-                            <xsl:when test="name() = 'scale'">
                                     <xsl:value-of select="concat('dh=', tei:calcDimension(.), '&', 'amp;')"/>
-                                </xsl:when>-->
+                                </xsl:when>-\->
                                 <xsl:otherwise/>
                             </xsl:choose>
                         </xsl:for-each>
@@ -225,7 +226,7 @@
                     <xsl:if test="not(@width | @height | @scale)">
                         <xsl:value-of select="concat('dw=350', '&amp;', 'amp;')"/>
                     </xsl:if>
-                    <xsl:text>mo=fit</xsl:text>
+                    <xsl:text>mo=fit</xsl:text>-->
                 </xsl:when>
                 <xsl:when test="@url = ''">error<xsl:value-of select="$graphicsSuffix"/>
                 </xsl:when>

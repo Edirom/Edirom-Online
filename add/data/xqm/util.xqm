@@ -60,9 +60,9 @@ declare function eutil:getDoc($uri) {
 : @param $docs The URIs of the documents to process
 : @return The labels
 :)
-declare function eutil:getDocumentsLabels($docs as xs:string*) as xs:string {
+declare function eutil:getDocumentsLabels($docs as xs:string*, $edition as xs:string) as xs:string {
     string-join(
-        eutil:getDocumentsLabelsAsArray($docs)
+        eutil:getDocumentsLabelsAsArray($docs, $edition)
     , ', ')
 };
 
@@ -72,8 +72,8 @@ declare function eutil:getDocumentsLabels($docs as xs:string*) as xs:string {
 : @param $docs The URIs of the documents to process
 : @return The labels
 :)
-declare function eutil:getDocumentsLabelsAsArray($docs as xs:string*) as xs:string* {
-    for $doc in $docs return eutil:getDocumentLabel($doc)
+declare function eutil:getDocumentsLabelsAsArray($docs as xs:string*, $edition as xs:string) as xs:string* {
+    for $doc in $docs return eutil:getDocumentLabel($doc, $edition)
 };
 
 (:~
@@ -82,16 +82,16 @@ declare function eutil:getDocumentsLabelsAsArray($docs as xs:string*) as xs:stri
 : @param $doc The URIs of the document to process
 : @return The label
 :)
-declare function eutil:getDocumentLabel($doc as xs:string) as xs:string {
+declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string) as xs:string {
     
     if(work:isWork($doc))
-    then(work:getLabel($doc))
+    then(work:getLabel($doc, $edition))
     
     else if(source:isSource($doc))
-    then(source:getLabel($doc))
+    then(source:getLabel($doc, $edition))
     
     else if(teitext:isText($doc))
-    then(teitext:getLabel($doc))
+    then(teitext:getLabel($doc, $edition))
 
     else('')
 };
@@ -143,8 +143,29 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
      let $projectFile := doc(edition:getPreferencesURI($edition))
      
      return    
-     if($projectFile) then ($projectFile//entry[@key = $key]/string(@value))
-     else ($file//entry[@key = $key]/string(@value))
+        if($projectFile != 'null' and $projectFile//entry[@key = $key]) then ($projectFile//entry[@key = $key]/string(@value))
+        else ($file//entry[@key = $key]/string(@value))
+         
+(:from freidi:)
+     (:if($projectFile) then ($projectFile//entry[@key = $key]/string(@value))
+     else ($file//entry[@key = $key]/string(@value)):)
      
 };
 
+(:~
+: Return the application and content language 
+:
+: @param $edition The edition's path
+: @return The language key
+:)
+declare function eutil:getLanguage($edition as xs:string?) as xs:string {
+
+     if(request:get-cookie-names() = 'edirom-language')
+     then(
+        request:get-cookie-value('edirom-language')
+     )
+     else(
+         eutil:getPreference('application_language', $edition)
+     )
+     
+};

@@ -18,48 +18,47 @@
  *
  */
 Ext.define('EdiromOnline.controller.window.source.PageBasedView', {
-
-    extend: 'Ext.app.Controller',
-
-    views: [
-        'window.source.PageBasedView'
-    ],
-
-    init: function() {
-        this.control({
-            'pageBasedView': {
-                afterlayout: this.onPageBasedViewRendered,
-                single: true
-            }
-        });
-    },
-
-    onPageBasedViewRendered: function(view) {
-        var me = this;
-
-        if(view.initialized) return;
-        view.initialized = true;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
-                uri: view.owner.uri
-            },
-            success: function(response){
-                var data = response.responseText;
-
-                var pages = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-                    data: Ext.JSON.decode(data)
-                });
-
-                me.pagesLoaded(pages, view);
-            }
-        });
-    },
-
-    pagesLoaded: function(pages, view) {
-        view.setImageSet(pages);
-    }
+	
+	extend: 'Ext.app.Controller',
+	
+	views:[
+	'window.source.PageBasedView'],
+	
+	init: function () {
+		this.control({
+			'pageBasedView': {
+				afterlayout: this.onPageBasedViewRendered,
+				single: true
+			}
+		});
+	},
+	
+	onPageBasedViewRendered: function (view) {
+		var me = this;
+		
+		if (view.initialized) return;
+		view.initialized = true;
+		
+		Ext.Ajax.request({
+			url: 'data/xql/getPages.xql',
+			method: 'GET',
+			params: {
+				uri: view.owner.uri
+			},
+			success: function (response) {
+				var data = response.responseText;
+				
+				var pages = Ext.create('Ext.data.Store', {
+					fields:[ 'id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
+					data: Ext.JSON.decode(data)
+				});
+				
+				me.pagesLoaded(pages, view);
+			}
+		});
+	},
+	
+	pagesLoaded: function (pages, view) {
+		view.setImageSet(pages);
+	}
 });

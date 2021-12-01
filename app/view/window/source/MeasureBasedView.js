@@ -22,6 +22,8 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
+        'EdiromOnline.view.window.image.OpenSeaDragonViewer',
+        'EdiromOnline.view.window.image.LeafletFacsimile',
         'Ext.selection.CheckboxModel',
         'Ext.layout.container.Border'
     ],
@@ -37,6 +39,8 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     
     cls: 'measureBasedView',
     
+    measures: null,
+   
     initComponent: function () {
 
         var me = this;
@@ -101,7 +105,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             cls : 'voiceFilter toolButton',
             tooltip: { text: getLangString('view.window.source.SourceView_MeasureBasedView_selectVoices'), align: 'bl-tl' },
             margin: '0 0 0 5',
-            disabled: true,
+           // disabled: false,
             hidden: true
         });
         
@@ -175,40 +179,50 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         }else if(me.imageSet.getCount() > 0)
         */
-            me.measureSpinner.setMeasure(me.measures.getAt(0));
+        
+           me.measureSpinner.setMeasure(me.measures.getAt(0));
     },
     
     showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
         
-        if(me.mdivSelector.getValue() != movementId) {
-            me.mdivSelector.setValue(movementId);
-            me.setMdiv(me.mdivSelector);
-        }
-        
-        if(typeof me.measures == 'undefined' || me.measures == null || me.measures.getById(measureId) == null) {
+       
+      // if(me.mdivSelector.getValue() != movementId) {
+
+        me.mdivSelector.setValue(movementId);
+        me.setMdiv(me.mdivSelector);
+      //  }
+       
+        if(typeof me.measures === 'undefined' || me.measures === null) {
+        	
             Ext.defer(me.showMeasure, 300, me, [movementId, measureId, measureCount], false);
             return;
         }
-        
-        me.measureSpinner.setMeasure(me.measures.getById(measureId), measureCount);
+     
+        me.measureSpinner.setMeasure(measureId, measureCount);
     },
     
     setMeasure: function(combo, store, measureCount) {
-
+		
         var me = this;
 
         if(typeof store.getById !== 'function')
             store = combo.store;
+
 
         me.viewers.each(function(v) {
             v.hide();
         });
 
         var id = combo.getValue();
-        var measures = store.getById(id);
         
-        Ext.Array.each(measures.get('measures'), function(m) {
+        me.measures = store.getById(id);
+        
+        if(me.measures === null){
+        	return;
+        }
+        
+        Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
             
@@ -229,12 +243,13 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             }
         });
 
-        Ext.Array.each(measures.get('measures'), function(m) {
+        Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
             
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
+                
                 viewer.setMeasure(m, measureCount);
             }
         });
@@ -396,8 +411,18 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         // SourceView
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
-        
-        var viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+               
+        var image_server = getPreference('image_server');
+        var viewer = null;   	
+    	if(image_server === 'leaflet'){
+    		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
+    	}
+    	else if(image_server === 'openseadragon'){
+    		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%'});
+    	}else {
+    		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+    	}
+       
         viewer.on('imageChanged', me.onViewerImageChange, me);
         
         me.imageViewers = [viewer];
@@ -447,6 +472,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     },
     
     showMeasure: function(data) {
+    
         var me = this;
         
         Ext.Array.each(me.imageViewers, function(viewer) {
@@ -460,6 +486,8 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actPage = '';
         var actSystem = 0;
         var lastULX = 0;
+        
+         var image_server = getPreference('image_server');
         
         Ext.Array.each(data, function(d) {
             
@@ -493,7 +521,16 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             if(typeof me.imageViewers[viewerCount - 1] == 'undefined') {
             
-                var viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+            
+        	var viewer = null;   	
+    		if(image_server === 'leaflet'){
+    			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
+    		} else if(image_server === 'openseadragon'){
+    			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
+    		} else{
+    			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+    		}
+            
                 viewer.on('imageChanged', me.onViewerImageChange, me);
             
                 me.imageViewers[viewerCount - 1] = viewer;
@@ -543,7 +580,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             var viewer = me.imageViewers[i];
             var group = grouped[groupKeys[i]];
             
-            if(group.measures[0]['path'] != viewer.imgPath) {
+            if(group.measures[0]['path'] != viewer.imgPath || image_server === 'leaflet') {
                 viewer.clear();
                 viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
             }
@@ -562,18 +599,31 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             var width = lrx - ulx;
             var height = lry - uly;
-    
+            
             viewer.showRect(ulx, uly, width, height, true);
         }
     },
     
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
-        
+
+
+		var image_server = getPreference('image_server');
+     
         Ext.Array.each(me.imageViewers, function(viewer) {
             var annotations = viewer.getShapes('annotations');
+
+ 			if(image_server === 'leaflet'){   
+            	//viewer.removeShapes('annotations');
+            	viewer.addAnnotations(annotations);
+        		//viewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
+        		
+       		}
+			else{
+
             var fn = Ext.bind(function(annotation) {
                 var annotDiv = viewer.getShapeElem(annotation.id);
+
                 var className = annotDiv.dom.className.replace('annotation', '').trim();
                 var classes = className.split(' ');
     
@@ -594,7 +644,9 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                 else
                     Ext.Array.each(annotations, fn);
             }
+            }
         });
+
     }
 });
 
@@ -607,6 +659,8 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
     layout: 'hbox',
     
     mdivSelected: -1,
+    
+    combo: null,
 
     initComponent: function () {
 
@@ -645,8 +699,11 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
     },
 
     setMeasure: function(id, measureCount) {
-        this.combo.setValue(id);
-        this.owner.setMeasure(this.combo, this.combo.store, measureCount);
+       if(this.combo !== null){
+       	 this.combo.setValue(id);
+       	 this.owner.setMeasure(this.combo, this.combo.store, measureCount);
+       }      
+        
     },
     
     setStore: function(store) {

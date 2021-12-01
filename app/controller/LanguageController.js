@@ -29,12 +29,11 @@ Ext.define('EdiromOnline.controller.LanguageController', {
 
     init: function() {
         window.getLangString = Ext.bind(this.getLanguageString, this);
+        window.getLanguage = Ext.bind(this.getLanguage, this);
         this.langFiles = new Ext.util.MixedCollection();
     },
 
-    initLangFile: function(editionURI) {
-
-        var lang = getPreference('application_language');
+    initLangFile: function(editionURI, lang) {
 
         Ext.Ajax.request({
             url: 'data/xql/getLanguageFile.xql',
@@ -56,7 +55,7 @@ Ext.define('EdiromOnline.controller.LanguageController', {
 
         var me = this;
 
-        var lang = getPreference('application_language');
+        var lang = me.getLanguage();
 
         var args = Ext.Array.toArray(arguments, 1);
 
@@ -76,5 +75,12 @@ Ext.define('EdiromOnline.controller.LanguageController', {
         return string.replace(Ext.String.formatRe, function(m, i) {
             return args[i];
         });
+    },
+    
+    getLanguage: function() {
+        if(window.getCookie('edirom-language') !== '')
+            return window.getCookie('edirom-language');
+        
+        return getPreference('application_language');
     }
 });

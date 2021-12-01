@@ -111,13 +111,20 @@ Ext.define('EdiromOnline.controller.LinkController', {
         var positions = null;
         var i = 0;
 
-        if(config['sort'] && config['sort'] == 'sortGrid') {
+        if(config['sort']) {
         
             if(config['sortIncludes'] && Array.isArray(config['sortIncludes']))
                 i = config['sortIncludes'].length;
             
-            positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
+            if(config['sort'] == 'sortGrid')
+                positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
             
+            if(config['sort'] == 'sortVertically')
+                positions = this.application.getController('desktop.Desktop').getVerticalPositioning(uriWindows.getCount() + i);
+
+            if(config['sort'] == 'sortHorizontally')
+                positions = this.application.getController('desktop.Desktop').getHorizontalPositioning(uriWindows.getCount() + i);
+
             if(i > 0) {
                 for(var j = 0; j < config['sortIncludes'].length; j++) {
                     var win = config['sortIncludes'][j];

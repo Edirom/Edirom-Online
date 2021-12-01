@@ -1,3 +1,51 @@
+.textViewContent h1 {
+    font-size: 1.3em !important;
+}
+
+.navigatorSeparator {
+    height: 1px;
+    background-color: #aaaaaa;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.textViewContent .teidiv0 > p, .textViewContent .teidiv0 > .listhead {
+    margin-left: 2em !important;
+    margin-right: 2em;
+}
+
+.textViewContent .teidiv0 > div.note {
+    display: block;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+#ediromToolbar .x-btn-default-toolbar-small {
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #dddddd), color-stop(30%, #c3c3c3), color-stop(65%, #b8b8b8), color-stop(100%, #a0a0a0));
+    background-image: -webkit-linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
+    background-image: -moz-linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
+    background-image: -o-linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
+    background-image: linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
+}
+
+span.smufl {
+    font-family: 'Bravura';
+    font-size: 1.5em;
+    display: inline-block;
+    vertical-align: 4px;
+    padding-left: 2px;
+    line-height: 14px;
+}
+
+@font-face { 
+    font-family: 'Bravura'; 
+    src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'), 
+        url('../fonts/bravura/woff/Bravura.woff') format('woff'),
+        url('../fonts/bravura/otf/Bravura.otf') format('opentype'),
+        url('../fonts/bravura/svg/Bravura.svg#bravuraregular') format('svg');
+}
+
 .ace_editor {
     bottom: 0;
     left: 0;
@@ -12,8 +60,29 @@
     position: absolute;
     right: 0;
     top: 0;
+    overflow: hidden;
 }
 
+.measure {
+    text-align: center;
+    z-index: 5;
+}
+
+.measureInner {
+    position: relative;
+    float: left;
+    left: 50%;
+    transform: translate(0, -50%);
+    
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+}
+
+.ediromWindow .annotation {
+    /* border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.3); */
+    z-index: 10;
+}
 
 /*text Metadata*/
 

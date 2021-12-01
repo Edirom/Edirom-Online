@@ -32,12 +32,14 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $lang := request:get-parameter('lang', '')
+let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')
@@ -56,7 +58,7 @@ let $categoriesLabel := if ($lang = 'de')
                         then (if(count($categories) gt 1)then('Kategorien')else('Kategorie'))
                         else(if(count($categories) gt 1)then('Categories')else('Category'))
 
-let $sources := eutil:getDocumentsLabelsAsArray($participants)
+let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
 let $sourcesLabel := if ($lang = 'de')
                         then (if(count($sources) gt 1)then('Quellen')else('Quelle'))
                         else(if(count($sources) gt 1)then('Sources')else('Source'))

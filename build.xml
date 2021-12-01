@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="Edirom-Online-RWA">
+<project default="xar" name="Edirom-Online">
     <xmlproperty file="expath-pkg.xml"/>
     
     <!--
@@ -8,8 +8,7 @@
     limit your changes to this file.
     -->
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
-    
-    
+
     <tstamp>
         <format property="DATETIME" pattern="yyyyMMdd-HHmmss"  locale="en,UK" />
     </tstamp>

@@ -37,7 +37,7 @@ let $page := request:get-parameter('page', '')
 let $doc := eutil:getDoc($uri)/root()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
-let $xslInstruction := for $i in util:serialize($xslInstruction, ())
+let $xslInstruction := for $i in fn:serialize($xslInstruction, ())
                         return
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
@@ -56,14 +56,23 @@ let $doc := if($page eq '')then($doc)else(
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
-let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', ''))
+let $edition := request:get-parameter('edition', '')
+let $imageserver :=  eutil:getPreference('image_server', $edition)
+let $imagePrefix := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition))
+
+(:let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
 
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>)
+let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
+                <param name="graphicsPrefix" value="{$imagePrefix}"/>,
+                <param name="lang" value="{eutil:getLanguage($edition)}"/>
+                )
     
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
-    else(transform:transform($doc, doc($xsl), <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))
+    else(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
 
 return
     

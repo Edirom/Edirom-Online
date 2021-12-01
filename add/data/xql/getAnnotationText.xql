@@ -29,6 +29,7 @@ import module namespace annotation="http://www.edirom.de/xquery/annotation" at "
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
@@ -45,6 +46,7 @@ declare function local:getLocalizedName($node) {
 
 };
 
+let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')
@@ -56,6 +58,6 @@ return
     <div class="annotView">
         <div class="contentBox">
             <h1>{local:getLocalizedName($annot)}</h1>
-            {annotation:getContent($annot,'')} 
+            {annotation:getContent($annot,'', $edition)} 
         </div>
     </div>
