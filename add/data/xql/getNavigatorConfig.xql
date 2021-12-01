@@ -91,10 +91,7 @@ declare function local:getSeparator() {
 };
 
 declare function local:getDefinition($navConfig) {
-(:  Small temp. fix to hide RWA Object links in Navigator on public machines…  :)
-    let $elems := if (contains(request:get-server-name(), 'reger-werkausgabe.de'))
-                    then ($navConfig/*[not(./edirom:names/edirom:name[@xml:lang = 'de'] = 'Edition')])
-                    else ($navConfig/*)
+let $elems := $navConfig/*
     
     for $elem in $elems
     
