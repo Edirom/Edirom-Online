@@ -477,9 +477,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var source = participant['source'];
             var siglum = participant['siglum'];
             var part = participant['part'];
-            // var digilibBaseParams = participant['digilibBaseParams'];
-            // var digilibSizeParams = participant['digilibSizeParams'];
-            var digilibURL = participant['digilibURL'];
+            var digilibBaseParams = participant['digilibBaseParams'];
+            var digilibSizeParams = participant['digilibSizeParams'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
