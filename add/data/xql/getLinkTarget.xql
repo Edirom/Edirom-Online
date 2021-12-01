@@ -156,9 +156,6 @@ let $type :=
              else if(contains($docUri, '.html'))
              then(string('html'))
              
-             else if(contains($docUri, '$encyclo'))
-             then(string('html'))
-             
              else(string('unknown'))
              
 let $title := (: Work :)
