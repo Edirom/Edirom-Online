@@ -23,8 +23,6 @@ xquery version "3.0";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-declare namespace conf="https://www.maxreger.info/conf";
-
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
