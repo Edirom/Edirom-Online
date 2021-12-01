@@ -130,16 +130,11 @@ let $return :=
     order by ft:score($hit) descending
     return
         <div class="searchResultDoc">
-            <div class="doc"><span class="resultTitle" onclick="{
-                if (contains($uri, 'edition-rwa/texts/' ))
-                then (concat('loadLink(&apos;xmldb:exist:///db/apps/rwaEncyclo/$encyclo/', substring-after($uri, 'edition-rwa/texts/'), '?term=', replace($term, '"', '\\"'), '&apos;, {})'))
-                else(concat('loadLink(&apos;xmldb:exist://', $uri,
-                    if(local-name($hit) eq 'annot')
-                    then(concat('#', $hit/@xml:id))
-                    else(), '?term=', replace($term, '"', '\\"'),'&apos;);'))}">{$title}</span><span class="resultCount">{
-                    if ($lang = 'de')
-                    then(concat('(', $hitCount, ' Treffer', ')'))
-                    else(concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')'))}</span></div>
+            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}');">{$title}</span><span class="resultCount">{
+            if ($lang = 'de')
+            then(concat('(', $hitCount, ' Treffer', ')'))
+            else(concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')'))
+            }</span></div>
         {(
             for $match at $i in $expanded//*[./exist:match]
             let $path := local:getPath($match)
