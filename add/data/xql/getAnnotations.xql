@@ -41,7 +41,7 @@ return
     concat('
         {
             "success": true,
-            "total": ', count(doc($uri)//mei:annot[@type = $annotType]), ',
+            "total": ', count(doc($uri)//mei:annot[@type = 'editorialComment']), ',
             "annotations": [', annotation:annotationsToJSON($uri), ']
         }
     ')
