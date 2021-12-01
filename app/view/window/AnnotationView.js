@@ -491,8 +491,11 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             if(type == 'text') {
 
                 var shape = tplText.append(div, [id, content, label], true);
-                shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
-
+                // shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
+                shape.on('dblclick', function() {
+                   loadLink(participant.linkUri, {});
+                });
+                
                 elems.push(shape);
 
                 square |= true;
@@ -587,22 +590,26 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
             var shape = null;
 
-            if(type == 'text')
+            if(type == 'text') {
                 shape = tplText.append(div, [content, hiddenData, label], true);
 
-            else
+            } else {
                 shape = tplImg.append(div, [digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
-
+            }
+            
             shape.setWidth('100%');
             shape.setHeight('100%');
 
             shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
-
+            
+            // does not seem to be implemented yet
+            /* 
             var stepLeft = shape.query('div.stepLeft')[0];
             stepLeft.on('click', me.previousParticipantSingle, me);
 
             var stepRight = shape.query('div.stepRight')[0];
             stepRight.on('click', me.nextParticipantSingle, me);
+            */
             
         }
 
