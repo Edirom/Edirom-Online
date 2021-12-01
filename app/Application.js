@@ -62,7 +62,7 @@ Ext.define('EdiromOnline.Application', {
     ],
     
     activeEdition: '',
-    activeWork: '',
+    activeWork: '', 
 
     launch: function() {
         var me = this;
@@ -144,7 +144,7 @@ Ext.define('EdiromOnline.Application', {
             storeId: 'Works'
         });
 
-        works.getProxy().extraParams = {editionId: this.activeEdition};
+        works.getProxy().extraParams = {editionId: this.activeEdition, lang: getPreference('application_language')};
         works.load();
     },
     

@@ -40,15 +40,13 @@ declare function local:getLocalizedName($node) {
 
 declare function local:getCategory($category, $depth) {
 
-    let $name := local:getLocalizedName($category)
-    return
     <div class="navigatorCategory{if($depth = 1)then()else($depth)}" id="{$category/@xml:id}">
         <div class="navigatorCategoryTitle{if($depth = 1)then()else($depth)}">
             {
                 if($depth = 1)
-                then($name)
+                then(local:getLocalizedName($category))
                 else(
-                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$name}<i class="fa fa-caret-right fa-fw"></i></span>
+                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{local:getLocalizedName($category)}<i class="fa fa-caret-right fa-fw"></i></span>
                 )
             }            
         </div>
@@ -83,7 +81,7 @@ declare function local:getItem($item, $depth) {
                     else(concat("loadLink('", $target, "', ", $cfg, ")"))
     return
 
-    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="{$target}">
+    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
         { local:getLocalizedName($item) }
     </div>
 };
@@ -94,8 +92,7 @@ declare function local:getSeparator() {
 };
 
 declare function local:getDefinition($navConfig) {
-    
-    let $elems := $navConfig/*
+let $elems := $navConfig/*
     
     for $elem in $elems
     

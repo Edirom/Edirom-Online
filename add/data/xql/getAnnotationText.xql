@@ -35,6 +35,17 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedName($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
@@ -46,8 +57,7 @@ return
     
     <div class="annotView">
         <div class="contentBox">
-            <h1>{annotation:getTitle($annot,'', $edition)}</h1>
+            <h1>{local:getLocalizedName($annot)}</h1>
             {annotation:getContent($annot,'', $edition)} 
         </div>
     </div>
-    

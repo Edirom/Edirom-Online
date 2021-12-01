@@ -394,8 +394,8 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
-        borderTop: 0,
-        borderBottom: 1,
+        borderTop: 2,
+        borderBottom: 2,
         borderLeft: 0,
         borderRight: 0
     },
@@ -637,12 +637,14 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     
                 annotDiv.setVisible(hasCategory & hasPriority);
             }, me);
-    
-            if(annotations.each)
-                annotations.each(fn);
-            else
-                Ext.Array.each(annotations, fn);
-}
+            
+            if(annotation != undefined) {
+                if(annotations.each)
+                    annotations.each(fn);
+                else
+                    Ext.Array.each(annotations, fn);
+            }
+            }
         });
 
     }
