@@ -65,7 +65,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                     dataIndex: 'pos',
                     width: 35
                 },
-*/
                 {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
