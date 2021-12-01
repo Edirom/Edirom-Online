@@ -77,20 +77,6 @@ declare function local:getCategory($category, $depth) {
 declare function local:getItem($item, $depth) {
 
     let $target := $item/replace(@targets, '\[.*\]', '')
-    
-    (: RWA specific implementation, starts here: :)
-    (: forward any target to "mri_…" to RWA Online :)
-    (: We want to use our own object view for work descriptions :)
-    let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
-    let $RWAOnlineURL := $RWAconfigDoc//conf:rwaOnlineURL
-    let $target := for $t in tokenize($target, ' ')
-                    return
-                    if (starts-with($t, 'mri_'))
-                    then (concat($RWAOnlineURL, $t, '.html'))
-                    else ($t)
-    let $target := string-join($target, ' ')
-    (: RWA specific implementation, ends here. :)
-    
     let $cfg := concat('{', replace(substring-before($item/substring-after(@targets, '['), ']'), '=', ':'), '}')
     return
 
