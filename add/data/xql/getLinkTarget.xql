@@ -73,9 +73,6 @@ declare function local:getViews($type, $docUri, $doc) {
 
         (: TextView :)
         if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
-        
-        (: Music TextView :)
-(:        if($doc//mei:div[1][matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),:)
 
         (: SourceView :)
         if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
