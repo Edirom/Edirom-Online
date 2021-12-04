@@ -73,19 +73,26 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
-                    flex: 2,
+                    flex: 4,
                     filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Categories'),
                     dataIndex: 'categories',
-                    flex: 1,
+                    flex: 2,
                     filter: true
                 },
                 {
                     header: getLangString('view.window.AnnotationView_Priority'),
                     dataIndex: 'priority',
-                    hidden: true
+                    flex: 1,
+                    filter: true
+                },
+                {
+                    header: getLangString('view.window.AnnotationView_Sigla'),
+                    dataIndex: 'sigla',
+                    flex: 2,
+                    filter: true
                 }
             ]
         });
@@ -313,8 +320,10 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             model: 'EdiromOnline.model.Annotation',
             autoLoad: false
         });
+
         me.listStore.getProxy().extraParams = {
             uri: me.uri,
+            lang: getPreference('application_language'),
             edition: EdiromOnline.getApplication().activeEdition
         };
 
@@ -514,18 +523,22 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var page = participant['page'];
             var source = participant['source'];
             var siglum = participant['siglum'];
+            var part = participant['part'];
             var digilibBaseParams = participant['digilibBaseParams'];
             var digilibSizeParams = participant['digilibSizeParams'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part);//  + ": " + label;
 
             if(type == 'text') {
 
                 var shape = tplText.append(div, [id, content, label], true);
-                shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
-
+                // shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
+                shape.on('dblclick', function() {
+                   loadLink(participant.linkUri, {});
+                });
+                
                 elems.push(shape);
 
                 square |= true;
@@ -666,10 +679,10 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
             var shape = null;
 
-            if(type == 'text')
+            if(type == 'text') {
                 shape = tplText.append(div, [content, hiddenData, label], true);
 
-            else{
+            }else{
 				if (me.image_server === 'digilib') {
                     shape = tplImg.append(div, [digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
     
@@ -722,6 +735,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var stepRight = shape.query('div.stepRight')[0];
             stepRight.on('click', me.nextParticipantSingle, me);
             */
+            
         }
 
         me.calculateLimitingImageFactor();

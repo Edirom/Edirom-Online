@@ -22,8 +22,29 @@ import module namespace kwic="http://exist-db.org/xquery/kwic";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace request="http://exist-db.org/xquery/request";
 
 (:declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";:)
+
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedMEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
+declare function local:getLocalizedTEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/tei:title/@xml:lang)
+      then $node/tei:title[@xml:lang = $lang]/text()
+      else $node/tei:title[1]/text()
+
+};
 
 declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
   if ($mode eq 'before') then 
@@ -41,7 +62,7 @@ declare function local:getPath($node as node()) as xs:string {
 
 let $term := request:get-parameter('term', '')
 
-let $trans :=   <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="#default xhtml" version="2.0">
+let $trans :=   <xsl:stylesheet  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
                     <!--<xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>-->
                     <xsl:template match="/">
                         <xsl:apply-templates/>
@@ -52,7 +73,7 @@ let $trans :=   <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="
                             <xsl:apply-templates/>
                         </span>
                     </xsl:template>
-                    <xsl:template match="node() | @* | comment() | processing-instruction()">
+                    <xsl:template match="element() | @*">
                         <xsl:copy>
                             <xsl:apply-templates select="@* | node()"/>
                         </xsl:copy>
@@ -65,22 +86,25 @@ let $return :=
     let $search := 
         if(string-length($term) gt 0)
         then(
-            collection('/db/contents')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents')//mei:mei[ft:query(., $term)]
-            | collection('/db/contents')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-            | collection('/db/contents')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+            collection('/db')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//mei:mei[ft:query(., $term)]
+            | collection('/db')//mei:title[ft:query(., $term)]/ancestor::mei:mei
+            | collection('/db')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+            | collection('/db')//mei:annot[contains(@xml:id, $term)]
         )
         else()
     
     return (
         
         if(count($search) gt 0)
-        then(
-            <div class="searchResultOverview">Hits in <span class="num">{count($search)}</span> documents:</div>
+        then( if ($lang = 'de')
+                then(<div class="searchResultOverview">Die Suche ergab Treffer in <span class="num">{count($search)}</span> Objekten:</div>)
+                else (<div class="searchResultOverview">Hits in <span class="num">{count($search)}</span> objects:</div>)
         )
-        else(
-            <div class="searchResultOverview">No match found.</div>
+        else( if ($lang = 'de')
+                then(<div class="searchResultOverview">Die Suche ergab keine Treffer.</div>)
+                else(<div class="searchResultOverview">No match found.</div>)
         )
         ,
     
@@ -92,21 +116,25 @@ let $return :=
     let $uri := document-uri($doc)
     let $title := (: Annotation :)
               if(local-name($hit) eq 'annot')
-              then($hit/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($hit))
               (: Work :)
               else if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then($doc//mei:work/mei:titleStmt/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt))
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then($doc//mei:source/mei:titleStmt/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt))
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then($doc//tei:titleStmt/data(tei:title[1]))
+              then(local:getLocalizedTEITitle($doc//tei:titleStmt))
               else(string('unknown'))
     order by ft:score($hit) descending
     return
         <div class="searchResultDoc">
-            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}');">{$title}</span><span class="resultCount">{concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')')}</span></div>
+            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}');">{$title}</span><span class="resultCount">{
+            if ($lang = 'de')
+            then(concat('(', $hitCount, ' Treffer', ')'))
+            else(concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')'))
+            }</span></div>
         {(
             for $match at $i in $expanded//*[./exist:match]
             let $path := local:getPath($match)
@@ -118,7 +146,7 @@ let $return :=
                }</div>
             ,
             if($hitCount gt 3)
-            then(<div class="showMore" onclick="Ext.Element(this).parent().select('div').show(); Ext.Element(this).hide();">show all hits</div>)
+            then(<div class="showMore" onclick="$(this).parent().find('div').show(); $(this).hide();">{if ($lang = 'de') then ('Alle Treffer zeigen') else ('show all hits')}</div>)
             else()
         )}</div>
         )

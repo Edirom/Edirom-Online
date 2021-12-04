@@ -33,6 +33,14 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
+declare function local:getLocalizedTitle($node) {
+
+    let $lang := request:get-parameter('lang', '')     
+    return
+      if ($lang = $node/mei:title/@xml:lang)
+      then (normalize-space($node/mei:title[@xml:lang = $lang]/text()))
+      else (normalize-space($node/mei:title[1]/text()))
+};
 
 (:~
 : Returns a JSON representation of a Work
@@ -48,7 +56,7 @@ declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:str
             {',
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-                'title: "', work:getLabel($uri, $edition), '"',
+                'title: "', local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)/replace(., '"', '\\"'), '"',             
             '}')
 };
 
@@ -71,8 +79,7 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 :)
 declare function work:getLabel($work as xs:string, $edition as xs:string) as xs:string {
      
-    let $language := eutil:getLanguage($edition)
-    return doc($work)//mei:work/mei:titleStmt/data(mei:title[not(@xml:lang) or @xml:lang = $language][1])
+    local:getLocalizedTitle(doc($work)//mei:work/mei:titleStmt)
 };
 
 (:~

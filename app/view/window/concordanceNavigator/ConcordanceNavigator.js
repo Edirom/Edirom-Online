@@ -61,12 +61,12 @@ Ext.define('EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator',
 
     items: [],
 
-    expandedHeight: 210,
+    expandedHeight: 230,
     collapsedHeight: 165,
 
-    width: 300,
+    width: 250,
     height: 165,
-    x: 300,
+    x: 250,
     y: 200,
 
     initComponent: function() {
