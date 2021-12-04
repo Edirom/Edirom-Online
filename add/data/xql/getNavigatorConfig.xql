@@ -81,7 +81,7 @@ declare function local:getItem($item, $depth) {
                     else(concat("loadLink('", $target, "', ", $cfg, ")"))
     return
 
-    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="loadLink('{$target}', {$cfg})">
+    <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="{$target}">
         { local:getLocalizedName($item) }
     </div>
 };
