@@ -5,6 +5,7 @@
     
     <property name="project.version" value="0.11.0"/>
     <property name="project.app" value="EdiromOnline"/>
+    <property name="project.title" value="Edirom Online"/>
     <property name="build.dir" value="build"/>
     <property name="dist.dir" value="build-xar"/>
     <property name="temp.dir.name" value="temp"/>
@@ -17,6 +18,8 @@
             <fileset dir="${basedir}/add"/>
             <filterset begintoken="@" endtoken="@">
                 <filter token="project.version" value="${project.version}"/>
+                <filter token="project.app" value="${project.app}"/>
+                <filter token="project.title" value="${project.title}"/>
             </filterset>
         </copy>
     </target>
