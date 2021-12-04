@@ -28,4 +28,4 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 
 return
-        replace($uri, 'xmldb:exist:///db/', concat('http://', request:get-server-name(), ':', request:get-server-port(), '/exist/'))
+    replace($uri, 'xmldb:exist:///db/', concat('https://', request:get-server-name(), '/'))

@@ -413,9 +413,19 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <h1>{local:getLocalizedTitle($annot)}</h1>
-                {annotation:getContent($annot,'', $edition)}
-
+                {
+                    if($annot/mei:annot)
+                    then(
+                        for $a in $annot/mei:annot
+                        return
+                            (<h1>{annotation:getLocalizedTitle($annot)}</h1>,
+                            annotation:getContent($a,'', $edition))
+                    )
+                    else(
+                        (<h1>{annotation:getLocalizedTitle($annot)}</h1>,
+                        annotation:getContent($annot,'', $edition))
+                    )
+                }
             </div>
            <!-- <div class="previewArea">
                 {

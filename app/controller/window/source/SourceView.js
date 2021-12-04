@@ -17,7 +17,6 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.controller.window.source.SourceView', {
-
     extend: 'Ext.app.Controller',
 
     views: [
@@ -82,6 +81,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             Ext.bind(function(response){
                 var me = this;
                 var data = response.responseText;
+
                 data = Ext.JSON.decode(data);
 
                 var priorities = Ext.create('Ext.data.Store', {

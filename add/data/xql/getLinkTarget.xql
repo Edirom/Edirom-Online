@@ -29,6 +29,7 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace html="http://www.w3.org/1999/xhtml";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -154,7 +155,7 @@ let $type :=
              then(string('text'))
              
              (: HTML :)
-             else if(exists($doc/html))
+             else if(exists($doc/html) or exists($doc/html:html))
              then(string('html'))
              
              else if(contains($docUri, '.html'))
