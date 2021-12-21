@@ -63,8 +63,8 @@ declare function eutil:getLocalizedName($node, $lang) {
     else if ($node/edirom:names)
         then (
             if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-            then $node/edirom:names/edirom:name[@xml:lang = $lang]/normalize-space(text())
-            else $node/edirom:names/edirom:name[1]/normalize-space(text())
+            then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
+            else $node/edirom:names/edirom:name[1]/node()
     )
     else ($node)
 };
