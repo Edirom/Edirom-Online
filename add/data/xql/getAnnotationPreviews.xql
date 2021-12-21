@@ -48,14 +48,14 @@ declare variable $imageWidth := 600;
 declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
 
-declare function local:getLocalizedTitle($node) {
+(:declare function local:getLocalizedTitle($node) {
   let $nodeName := local-name($node)
   return
       if ($lang = $node/mei:title/@xml:lang)
       then $node/mei:title[@xml:lang = $lang]/text()
       else $node/mei:title[1]/text()
 
-};
+};:)
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     
@@ -119,7 +119,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := local:getLocalizedTitle($elems[1]/root()//mei:source/mei:titleStmt)
+            let $source := eutil:getLocalizedName($elems[1]/root()//mei:source/mei:titleStmt, $lang)
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
             let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
             

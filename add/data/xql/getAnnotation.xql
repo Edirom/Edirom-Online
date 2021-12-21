@@ -44,14 +44,14 @@ declare variable $imageBasePath := eutil:getPreference('image_prefix', request:g
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedTitle($node) {
+(:declare function local:getLocalizedTitle($node) {
   let $nodeName := local-name($node)
   return
       if ($lang = $node/mei:title/@xml:lang)
       then $node/mei:title[@xml:lang = $lang]/text()
       else $node/mei:title[1]/text()
 
-};
+};:)
 
 (: TODO: in Modul auslagern :)
 (:~
@@ -95,7 +95,7 @@ declare function local:getPriority($annot as node()) {
     
     return
         if($elem/mei:name)
-        then(normalize-space(local:getLocalizedTitle($elem)))
+        then(normalize-space(eutil:getLocalizedName($elem, $lang)))
         else($locID)
 };
 
@@ -122,7 +122,7 @@ declare function local:getCategories($annot as node()) {
                    let $elem := $doc/id($locID)
                    return
                        if($elem/mei:name)
-                       then(local:getLocalizedTitle($elem))
+                       then(eutil:getLocalizedName($elem, $lang))
                        else($locID)
     return $string
 };
@@ -324,7 +324,7 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <h1>{local:getLocalizedTitle($annot)}</h1>
+                <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
                 {annotation:getContent($annot,'')} 
             </div>
             <div class="previewArea">
@@ -369,7 +369,7 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <h1>{local:getLocalizedTitle($annot)}</h1>
+                <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
                 {annotation:getContent($annot,'')}
             </div>
             <div class="previewArea">
