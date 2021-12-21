@@ -37,15 +37,6 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(:declare function local:getLocalizedName($node, $lang) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};:)
-
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')

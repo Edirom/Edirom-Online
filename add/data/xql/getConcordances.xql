@@ -33,15 +33,6 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(:declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/normalize-space(text())
-      else $node/edirom:names/edirom:name[1]/normalize-space(text())
-
-};:)
-
 declare function local:getGroups($parent) {
     if($parent/edirom:groups)
     then(

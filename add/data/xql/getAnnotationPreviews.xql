@@ -47,16 +47,6 @@ declare variable $lang := request:get-parameter('lang', '');
 declare variable $imageWidth := 600;
 declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
 
-
-(:declare function local:getLocalizedTitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};:)
-
 declare function local:getParticipants($annot as element()) as xs:string* {
     
     let $participants := tokenize($annot/string(@plist), ' ')

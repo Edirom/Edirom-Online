@@ -34,15 +34,6 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(:declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
-      else $node/edirom:names/edirom:name[1]/node()
-
-};:)
-
 declare function local:getCategory($category, $depth) {
 
 

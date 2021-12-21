@@ -32,15 +32,6 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(:declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:name/@xml:lang)
-      then $node/mei:name[@xml:lang = $lang]/text()
-      else $node/mei:name[1]/text()
-
-};:)
-
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
         for $category in $annots/mei:ptr[@type="categories"]/replace(@target, '#', '')

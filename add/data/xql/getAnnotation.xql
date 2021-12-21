@@ -44,15 +44,6 @@ declare variable $imageBasePath := eutil:getPreference('image_prefix', request:g
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(:declare function local:getLocalizedTitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};:)
-
 (: TODO: in Modul auslagern :)
 (:~
     Gets the zone holding the graphical representation of an element
