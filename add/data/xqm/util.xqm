@@ -34,6 +34,8 @@ import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitex
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom="http://www.edirom.de/ns/1.3";
+
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 (:~
