@@ -37,6 +37,38 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 (:~
+: Returns a localized string
+:
+: @param $node The node to be processed
+: @return The string
+:)
+
+declare function eutil:getLocalizedName($node, $lang) {
+  let $nodeName := local-name($node)
+  return
+    if ($node/mei:title)
+    then (
+        if ($lang = $node/mei:title/@xml:lang)
+        then $node/mei:title[@xml:lang = $lang]/text()
+        else $node/mei:title[1]/text()
+    )
+    else if ($node/mei:name)
+    then (
+        if ($lang = $node/mei:name/@xml:lang)
+        then $node/mei:name[@xml:lang = $lang]/text()
+        else $node/mei:name[1]/text()
+    )
+    else if ($node/edirom:names)
+        then (
+            if ($lang = $node/edirom:names/edirom:name/@xml:lang)
+            then $node/edirom:names/edirom:name[@xml:lang = $lang]/normalize-space(text())
+            else $node/edirom:names/edirom:name[1]/normalize-space(text())
+    )
+    else ($node)
+};
+
+
+(:~
 : Returns a document
 :
 : @param $uri The URIs of the documents to process

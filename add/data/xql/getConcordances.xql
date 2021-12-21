@@ -20,6 +20,7 @@ xquery version "1.0";
   ID: $Id: getConcordances.xql 1219 2012-01-20 08:33:28Z daniel $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -32,19 +33,19 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedName($node) {
+(:declare function local:getLocalizedName($node) {
   let $nodeName := local-name($node)
   return
       if ($lang = $node/edirom:names/edirom:name/@xml:lang)
       then $node/edirom:names/edirom:name[@xml:lang = $lang]/normalize-space(text())
       else $node/edirom:names/edirom:name[1]/normalize-space(text())
 
-};
+};:)
 
 declare function local:getGroups($parent) {
     if($parent/edirom:groups)
     then(
-        concat('{', 'label: "', local:getLocalizedName($parent/edirom:groups), '", groups: [', local:getSingleGroups($parent/edirom:groups), ']}')
+        concat('{', 'label: "', eutil:getLocalizedName($parent/edirom:groups, $lang), '", groups: [', local:getSingleGroups($parent/edirom:groups), ']}')
     )
     else(string('null'))
 };
@@ -55,7 +56,7 @@ declare function local:getSingleGroups($parent) {
         return
                 concat('
                 {',
-                    'name: "', local:getLocalizedName($group), '", ',
+                    'name: "', eutil:getLocalizedName($group, $lang), '", ',
                     'connections: ', local:getConnections($group),
                 '}')
     , ',')
@@ -64,7 +65,7 @@ declare function local:getSingleGroups($parent) {
 declare function local:getConnections($parent) {
     if($parent/edirom:connections)
     then(
-        concat('{', 'label: "', local:getLocalizedName($parent/edirom:connections), '", connections: [', local:getSingleConnections($parent/edirom:connections), ']}')
+        concat('{', 'label: "', eutil:getLocalizedName($parent/edirom:connections, $lang), '", connections: [', local:getSingleConnections($parent/edirom:connections), ']}')
     )
     else(string('null'))
 };
@@ -95,7 +96,7 @@ return (
         return
                 concat('
                 {',
-                    'name: "', local:getLocalizedName($concordance), '", ',
+                    'name: "', eutil:getLocalizedName($concordance, $lang), '", ',
                     'groups: ', local:getGroups($concordance), ', ',
                     'connections: ', local:getConnections($concordance),
                 '}')
