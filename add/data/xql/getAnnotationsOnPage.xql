@@ -115,7 +115,7 @@ declare function local:getAnnotSVGs($surfaceUri as xs:string, $anno as element()
         string-join(
             for $fig in $figs
             return 
-		        concat('{id:"', $annoId, '__', string($fig/@xml:id), '",svg:"', replace(replace(util:serialize($fig/svg:svg, ()), '"', '\\"'), '\n', ''),'"}')
+		        concat('{id:"', $annoId, '__', string($fig/@xml:id), '",svg:"', replace(replace(fn:serialize($fig/svg:svg, ()), '"', '\\"'), '\n', ''),'"}')
         , ",")
 };
 
