@@ -44,7 +44,7 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 declare function local:findAnnotations($uri as xs:string) as element()* {
 
     (: TODO: check if annotations hold URIs or IDRefs :)
-	collection('/db/contents')//mei:annot[matches(@plist, $uri)]
+	collection('/db/apps/contents')//mei:annot[matches(@plist, $uri)]
 };
 
 

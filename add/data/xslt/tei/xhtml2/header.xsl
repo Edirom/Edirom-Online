@@ -81,11 +81,11 @@ of this software, even if advised of the possibility of such damage.
       </xsl:if>
       <xsl:if test="key('ALL-EXTRENDITION',1)">
          <style type="text/css">
-	   <xsl:for-each select="key('ALL-EXTRENDITION',1)">
-	     <xsl:variable name="pointer">
+	   <!--<xsl:for-each select="key('ALL-EXTRENDITION',1)">
+	     <!-\-<xsl:variable name="pointer">
 	       <xsl:value-of select="."/>
-	     </xsl:variable>
-	     <xsl:for-each select="key('RENDITION',$pointer)[1]">
+	     </xsl:variable>-\->
+	     <!-\-<xsl:for-each select="key('RENDITION',$pointer)[1]">
 	       <xsl:for-each select="document($pointer)">
 		 <xsl:text>&#10;.</xsl:text>
 		 <xsl:value-of select="@xml:id"/>
@@ -93,9 +93,9 @@ of this software, even if advised of the possibility of such damage.
 		 <xsl:value-of select="."/>
 		 <xsl:text>;&#10;}</xsl:text>
 	       </xsl:for-each>
-	     </xsl:for-each>
-	   </xsl:for-each>
-         </style>
+	     </xsl:for-each>-\->
+	   </xsl:for-each>-->
+	       </style>
       </xsl:if>
   </xsl:template>
 

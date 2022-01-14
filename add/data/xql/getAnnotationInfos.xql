@@ -47,18 +47,18 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
-let $annots := collection('/db/contents')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $annots := collection('/db/apps/contents/edition')//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
             return
-                concat('{id:"', $category, '",name:"', (collection('/db/contents')//id($category))[1]/mei:name/text(),'"}')
+                concat('{id:"', $category, '",name:"', (collection('/db/apps/contents/edition')//id($category))[1]/mei:name/text(),'"}')
         , ','),
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
             return
-                concat('{id:"', $priority, '",name:"', (collection('/db/contents')//id($priority))[1]/mei:name/text(),'"}')
+                concat('{id:"', $priority, '",name:"', (collection('/db/apps/contents/edition')//id($priority))[1]/mei:name/text(),'"}')
         , ','),
         ']}')

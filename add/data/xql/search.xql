@@ -65,11 +65,11 @@ let $return :=
     let $search := 
         if(string-length($term) gt 0)
         then(
-            collection('/db/contents')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents')//mei:mei[ft:query(., $term)]
-            | collection('/db/contents')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-            | collection('/db/contents')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+            collection('/db/apps/contents')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db/apps/contents')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db/apps/contents')//mei:mei[ft:query(., $term)]
+            | collection('/db/apps/contents')//mei:title[ft:query(., $term)]/ancestor::mei:mei
+            | collection('/db/apps/contents')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
         )
         else()
     

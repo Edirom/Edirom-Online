@@ -75,7 +75,7 @@ declare function local:findAnnotations($uri as xs:string, $elemIds as xs:string*
 	functx:distinct-deep(
 		for $id in $elemIds
 		let $query := <query><phrase>{concat($uri, '#', $id)}</phrase></query>
-		return collection('/db/contents')//mei:annot[ft:query(@plist, $query)]
+		return collection('/db/apps/contents')//mei:annot[ft:query(@plist, $query)]
 	)
 };
 
