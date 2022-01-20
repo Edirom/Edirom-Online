@@ -48,15 +48,6 @@ declare variable $imageBasePath := if($imageserver = 'leaflet')
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedTitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};
-
 (: TODO: in Modul auslagern :)
 (:~
     Gets the zone holding the graphical representation of an element
@@ -99,7 +90,7 @@ declare function local:getPriority($annot as node()) {
     
     return
         if($elem/mei:name)
-        then(normalize-space(local:getLocalizedTitle($elem)))
+        then(normalize-space(eutil:getLocalizedName($elem, $lang)))
         else($locID)
 };
 
@@ -126,7 +117,7 @@ declare function local:getCategories($annot as node()) {
                    let $elem := $doc/id($locID)
                    return
                        if($elem/mei:name)
-                       then(local:getLocalizedTitle($elem))
+                       then(eutil:getLocalizedName($elem, $lang))
                        else($locID)
     return $string
 };
@@ -348,7 +339,7 @@ return
                 </div>
             </div>
             <div class="contentBox">
-                <h1>{local:getLocalizedTitle($annot)}</h1>
+                <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
                 {annotation:getContent($annot,'')} 
             </div>
            
@@ -418,7 +409,7 @@ return
                     then(
                         for $a in $annot/mei:annot
                         return
-                            (<h1>{annotation:getLocalizedTitle($annot)}</h1>,
+                            (<h1>{annotation:getLocalizedTitle($annot)}</h1>, (:TODO vs eutil:getLocalizedName($annot, $lang) :)
                             annotation:getContent($a,'', $edition))
                     )
                     else(

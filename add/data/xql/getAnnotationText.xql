@@ -26,6 +26,7 @@ xquery version "1.0";
     @author <a href="mailto:kepper@edirom.de">Johannes Kepper</a>
 :)
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -37,14 +38,6 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};
 
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
@@ -57,7 +50,7 @@ return
     
     <div class="annotView">
         <div class="contentBox">
-            <h1>{local:getLocalizedName($annot)}</h1>
-            {annotation:getContent($annot,'', $edition)} 
+            <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
+            {annotation:getContent($annot,'')} 
         </div>
     </div>
