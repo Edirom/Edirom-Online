@@ -31,6 +31,8 @@
         <entry key="global_loading" value="Loading…"/>
         <entry key="global_unknown" value="Unknown"/>
 
+        <entry key="controller.desktop.TaskBar_confirmReload" value="The application must be reloaded for the language setting to be performed completely."/>
+
         <entry key="controller.window.Window_annotationView" value="Annotations"/>
         <entry key="controller.window.Window_headerView" value="Meta data"/>
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
@@ -42,6 +44,7 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-View"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-View"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Cascade"/>
         <entry key="view.desktop.Desktop_Close" value="Close"/>
@@ -57,6 +60,7 @@
         <entry key="view.desktop.TaskBar_annotations" value="Show annotations"/>
         <entry key="view.desktop.TaskBar_help" value="Help"/>
         <entry key="view.desktop.TaskBar_pref" value="Preferences"/>
+        <entry key="view.desktop.TaskBar_lang" value="Switch language"/>
         <entry key="view.desktop.TaskBar_home" value="Home"/>
         <entry key="view.desktop.TaskBar_work" value="Select work"/>
         <entry key="view.desktop.TaskBar_search" value="Search"/>
@@ -96,7 +100,7 @@
         <entry key="view.window.source.SourceView_gotoMovement" value="Go to movement/number…"/>
         <entry key="view.window.source.SourceView_layersMenu" value="Layers…"/>
         <entry key="view.window.source.SourceView_showMeasures" value="Show/Hide measures"/>
-        <entry key="view.window.source.SourceView_fitView" value="Fit facsimile"/>
+        <entry key="view.window.source.SourceView_fitView" value="Fit score"/>
         <entry key="view.window.source.SourceView_PageBasedView" value="Page based view"/>
         <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Previous page"/>
         <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Next page"/>
@@ -162,6 +166,7 @@
         <entry key="Number field with left and right arrows" value="Number field with left and right arrows"/>
 
         <!-- DATA -->
+        <entry key="Annotation" value="Annotation"/>
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>

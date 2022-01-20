@@ -88,6 +88,21 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	}
 }
 
+.taskSquareButton.lang {
+	background-image: url('pix/lang.png');
+	background-position: 0 0;
+	
+	&:hover {
+		background-position: 0 -24px;
+	}
+	
+	.x-btn-inner {
+	    font-size: 10px;
+	    color: #666;
+	    padding: 4px 3px;
+	}
+}
+
 .taskSquareButton.search {
 	background-image: url('pix/search.png');
 	background-position: 0 0;
@@ -223,7 +238,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 	font-size: 13px;
 	top: 16px;
 	left: 0;
-	content:'Band II/8';
+	content:'';
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 

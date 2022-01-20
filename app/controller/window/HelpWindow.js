@@ -43,7 +43,7 @@ Ext.define('EdiromOnline.controller.window.HelpWindow', {
             'GET', 
             {
                 uri: win.uri,
-                lang: getPreference('application_language'),
+                lang: window.getLanguage(),
                 idPrefix: win.id
             },
             Ext.bind(function(response){

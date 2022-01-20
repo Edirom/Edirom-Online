@@ -30,7 +30,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         'EdiromOnline.view.utils.Lightbox',
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout1',
         'EdiromOnline.view.window.annotationLayouts.AnnotationLayout2',
-        'EdiromOnline.view.window.annotationLayouts.AnnotationLayout3'
+        'EdiromOnline.view.window.annotationLayouts.AnnotationLayout3',
+        'EdiromOnline.view.window.annotationLayouts.AnnotationLayout4'
     ],
 
     alias : 'widget.annotationView',
@@ -38,11 +39,15 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
     layout: 'card',
     
     cls: 'annotationView',
+    
+    image_server: null,
+	imageLeafletContainer: null,
 
+    
     initComponent: function () {
 
         var me = this;
-
+       
         me.addEvents('showAnnotation');
 
         me.activeSingleAnnotation = "";
@@ -60,14 +65,11 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 filters: []
             }],
             columns: [
-// 	            Not needed for RWA
-/*
             	{
                     header: getLangString('view.window.AnnotationView_No'),
                     dataIndex: 'pos',
                     width: 35
                 },
-*/
                 {
                     header: getLangString('view.window.AnnotationView_TitleLabel'),
                     dataIndex: 'title',
@@ -151,6 +153,31 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             ],
             border: 0
         });
+        
+          me.image_server = getPreference('image_server');
+        
+        if (me.image_server === 'leaflet') {		
+			
+			me.imageLeafletContainer = new EdiromOnline.view.window.image.ImageLeafletContainer();
+
+//Ext.create('EdiromOnline.view.window.image.ImageLeafletContainer');
+
+			//me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
+			
+			me.participantsPanel = Ext.create('Ext.panel.Panel', {
+            		layout: 'card',
+            		border: 0,
+            		items: [
+            			me.imageLeafletContainer,
+            			me.participantsPanelGrid,
+                me.participantsPanelSingle,
+                me.participantsPanelList
+           			 ]
+        		});
+					
+		} else {
+        
+        
         me.participantsPanel = Ext.create('Ext.panel.Panel', {
             layout: 'card',
             border: 0,
@@ -160,6 +187,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 me.participantsPanelList
             ]
         });
+        }
 
         var annotLayoutClass = getPreference('annotation_layout');
 
@@ -292,7 +320,12 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             model: 'EdiromOnline.model.Annotation',
             autoLoad: false
         });
-        me.listStore.getProxy().extraParams = {uri: me.uri, lang: getPreference('application_language')};
+
+        me.listStore.getProxy().extraParams = {
+            uri: me.uri,
+            lang: getPreference('application_language'),
+            edition: EdiromOnline.getApplication().activeEdition
+        };
 
         return me.listStore;
     },
@@ -410,9 +443,11 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
     setContent: function(data) {
         var me = this;
         var cont = me.el.getById(me.id + '_annotationCont');
+        
         cont.update(data);
-
+       
         var imgs = cont.query('img');
+        
         Ext.Array.each(imgs, function(img) {
             var elem = new Ext.Element(img);
             elem.on('click', me.imgClicked, me, {image: elem});
@@ -441,14 +476,23 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             participant.id = Ext.id();
         });
 
-        me.setPreviewGrid(participants);
-/*        me.setPreviewSingle(participants);*/
-/*        me.setPreviewList(participants);*/
+    	if (me.image_server === 'digilib') {
+    	 	me.setPreviewGrid(participants);
+            me.setPreviewSingle(participants);
+            me.setPreviewList(participants);
+    	} else if(me.image_server === 'openseadragon'){
+    	 	me.setPreviewGrid(participants);
+            me.setPreviewSingle(participants);
+            me.setPreviewList(participants);
+    	} else{
+    		me.imageLeafletContainer.removeAll(true);
+    		me.setPreviewGrid(participants);
+    	}
     },
 
     setPreviewGrid: function(participants) {
         var me = this;
-
+      
         var el = me.el.getById(me.id + '_annotationParticipants');
         el.update('<div class="annotView"><div class="previewArea"></div></div>');
         var div = el.query('div.previewArea');
@@ -480,9 +524,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var source = participant['source'];
             var siglum = participant['siglum'];
             var part = participant['part'];
-            // var digilibBaseParams = participant['digilibBaseParams'];
-            // var digilibSizeParams = participant['digilibSizeParams'];
-            var digilibURL = participant['digilibURL'];
+            var digilibBaseParams = participant['digilibBaseParams'];
+            var digilibSizeParams = participant['digilibSizeParams'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
@@ -491,27 +534,76 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             if(type == 'text') {
 
                 var shape = tplText.append(div, [id, content, label], true);
-                shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
-
+                // shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
+                shape.on('dblclick', function() {
+                   loadLink(participant.linkUri, {});
+                });
+                
                 elems.push(shape);
 
                 square |= true;
 
             }else {
-                var shape = tplImg.append(div, [id, /* digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams*/ digilibURL, hiddenData, label], true);
-                shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
 
-                elems.push(shape);
+				if (me.image_server === 'digilib') {
 
-                var imgData = Ext.JSON.decode(hiddenData);
+                    var shape = tplImg.append(div, [id, digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
+                    shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
+    
+                    elems.push(shape);
+    
+                    var imgData = Ext.JSON.decode(hiddenData);
+    
+                    if(imgData.height / imgData.width > 2.0)
+                        tall |= true;
+                    else if(imgData.width / imgData.height > 2.0)
+                        wide |= true;
+                    else
+                        square |= true;
+                
+                }else if(me.image_server === 'openseadragon') {
+                
+                
+                    var imgBase = window.getPreference("image_prefix");
+                    var imgPath = digilibBaseParams.substring(imgBase.length, digilibBaseParams.lastIndexOf('?'));
+                    var imgData = Ext.JSON.decode(hiddenData);
+                    var imgSrc = imgBase + imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
+                    
+                    var shape = tplImg.append(div, [id, imgSrc, hiddenData, label], true);
+                    shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
+    
+                    elems.push(shape);
+    
+                    if(imgData.height / imgData.width > 2.0)
+                        tall |= true;
+                    else if(imgData.width / imgData.height > 2.0)
+                        wide |= true;
+                    else
+                        square |= true;
+                }else{
+    				var imgData = Ext.JSON.decode(hiddenData);
+    				var imagePath = participant['digilibBaseParams'];
+    	 				
+    				var imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1, margin: '10 10 10 10'});
+    					
+    				var imageLeafletDetails = Ext.create('EdiromOnline.view.window.image.ImageLeafletDetails', {height: '100%', flex:1, items:[imageViewer, {
+    				xtype: 'label',
+            		html: source,
+            		margin: '0 10 0 10'
+    
+    			}] });	
+    				me.imageLeafletContainer.add(imageLeafletDetails);
+    
+    				imageViewer.showImage(imagePath, imgData.origW, imgData.origH, 'annot');
+    				var rectangle = imageViewer.showRect(imgData.x, imgData.y, imgData.width, imgData.height, null);
+    				rectangle.on('dblclick', function (e) { 
+             			me.participantClickedGrid(e, me, {participant: id});
+    
+          			});
+    
+    			}
 
-                if(imgData.height / imgData.width > 2.0)
-                    tall |= true;
-                else if(imgData.width / imgData.height > 2.0)
-                    wide |= true;
-                else
-                    square |= true;
-            }
+		    }
         });
 
         var h = 100.00;
@@ -542,7 +634,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
     setPreviewSingle: function(participants) {
         var me = this;
-
+       
         if(participants.length > 0) {
             var participant = participants[0];
             me.setPreviewSingleById(participant['id']);
@@ -583,26 +675,66 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum);//  + ": " + label;
+            label = (siglum == ''?source:siglum) + ": " + label;
 
             var shape = null;
 
-            if(type == 'text')
+            if(type == 'text') {
                 shape = tplText.append(div, [content, hiddenData, label], true);
 
-            else
-                shape = tplImg.append(div, [digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
-
-            shape.setWidth('100%');
-            shape.setHeight('100%');
-
-            shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
-
+            }else{
+				if (me.image_server === 'digilib') {
+                    shape = tplImg.append(div, [digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
+    
+                	shape.setWidth('100%');
+                	shape.setHeight('100%');
+    
+                	shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
+				
+				}else if(me.image_server === 'openseadragon') {
+                
+                    var imgBase = window.getPreference("image_prefix");
+                    var imgPath = digilibBaseParams.substring(imgBase.length, digilibBaseParams.lastIndexOf('?'));
+                    var imgData = Ext.JSON.decode(hiddenData);
+                    var imgSrc = imgBase + imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
+                    
+                    shape = tplImg.append(div, [imgSrc, hiddenData, label], true);
+    
+                	shape.setWidth('100%');
+                	shape.setHeight('100%');
+    
+                	shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
+                        
+				}
+				else{
+					var imgData = Ext.JSON.decode(hiddenData);
+					var imagePath = participant['digilibBaseParams'];
+ 				
+					var imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1, margin: '10 10 10 10'});
+					
+					var imageLeafletDetails = Ext.create('EdiromOnline.view.window.image.ImageLeafletDetails', {height: '100%', flex:1, items:[imageViewer, {
+        				xtype: 'label',
+                		html: source,
+                		margin: '0 10 0 10'
+        
+        			}] });	
+					me.imageLeafletContainer.add(imageLeafletDetails);
+					
+					imageViewer.showImage(imagePath, imgData.origW, imgData.origH, 'annot');
+					var rectangle = imageViewer.showRect(imgData.x, imgData.y, imgData.width, imgData.height, null);
+					rectangle.on('dblclick', function (e) { 
+						
+         				me.participantClickedSingle('dblclick', me, {participant: id});
+      				});
+				}
+			}
+           /*
             var stepLeft = shape.query('div.stepLeft')[0];
             stepLeft.on('click', me.previousParticipantSingle, me);
 
             var stepRight = shape.query('div.stepRight')[0];
             stepRight.on('click', me.nextParticipantSingle, me);
+            */
             
         }
 
@@ -680,7 +812,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
     participantClickedGrid: function(e, item, args) {
         var me = this;
-
+		
         me.setPreviewSingleById(args['participant'], 'grid');
         me.switchActiveLayout('single');
     },

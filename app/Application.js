@@ -20,9 +20,10 @@ Ext.define('EdiromOnline.Application', {
     name: 'EdiromOnline',
 
     extend: 'Ext.app.Application',
-
+    
     controllers: [
         'AJAXController',
+        'CookieController',
         'LanguageController',
         'PreferenceController',
         'ToolsController',
@@ -60,13 +61,14 @@ Ext.define('EdiromOnline.Application', {
         'EdiromOnline.view.desktop.App'
     ],
     
-    //TODO:
     activeEdition: '',
     activeWork: '', 
 
     launch: function() {
         var me = this;
-       
+        
+        window.getActiveEdition = Ext.bind(this.getActiveEdition, this);
+
         me.addEvents('workSelected');
         
         var editionParam = me.getURLParameter('edition');
@@ -103,7 +105,8 @@ Ext.define('EdiromOnline.Application', {
         });
         
         me.getController('PreferenceController').initPreferences(me.activeEdition);
-        me.getController('LanguageController').initLangFile(me.activeEdition);
+        me.getController('LanguageController').initLangFile(me.activeEdition, 'de');
+        me.getController('LanguageController').initLangFile(me.activeEdition, 'en');
         me.initDataStores();
 
         var app = Ext.create('EdiromOnline.view.desktop.App', {app: this});
@@ -143,6 +146,16 @@ Ext.define('EdiromOnline.Application', {
 
         works.getProxy().extraParams = {editionId: this.activeEdition, lang: getPreference('application_language')};
         works.load();
+    },
+    
+    getActiveEdition: function() {
+        return this.activeEdition;
+    },
+    
+    selectEdition: function(editionId) {
+        this.activeEdition = editionId;
+        this.fireEvent('editionSelected', editionId);
+        window.open(window.location.pathname + '?edition=' + editionId, "_self");
     },
     
     selectWork: function(workId) {

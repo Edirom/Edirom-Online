@@ -31,6 +31,8 @@
         <entry key="global_loading" value="Lade…"/>
         <entry key="global_unknown" value="Unbekannt"/>
         
+        <entry key="controller.desktop.TaskBar_confirmReload" value="Die Anwendung muss neu gestartet werden, damit die Spracheinstellung vollständig umgesetzt wird."/>
+        
         <entry key="controller.window.Window_annotationView" value="Anmerkung"/>
         <entry key="controller.window.Window_headerView" value="Metadaten"/>
         <entry key="controller.window.Window_renderingView" value="Rendering"/>
@@ -42,6 +44,7 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Faksimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-Ansicht"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-Ansicht"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Überlappen"/>
         <entry key="view.desktop.Desktop_Close" value="Schließen"/>
@@ -57,6 +60,7 @@
         <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
+        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
         <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
@@ -161,6 +165,7 @@
         
         
         <!-- DATA -->
+        <entry key="Annotation" value="Anmerkung"/>
         <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>

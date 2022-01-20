@@ -17,7 +17,6 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.controller.window.source.SourceView', {
-
     extend: 'Ext.app.Controller',
 
     views: [
@@ -82,6 +81,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             Ext.bind(function(response){
                 var me = this;
                 var data = response.responseText;
+
                 data = Ext.JSON.decode(data);
 
                 var priorities = Ext.create('Ext.data.Store', {
@@ -225,146 +225,149 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                     me.annotationsLoaded(annotations, view, pageId);
                 }, this)
             );
-        }else {
-            view.hideAnnotations();
-        }
-    },
-
-    annotationsLoaded: function(annotations, view, pageId) {
-
-        if(pageId != view.getActivePage().get('id')) return;
-
-        view.showAnnotations(annotations);
-    },
-
-    onOverlayVisibilityChange: function(view, overlayId, visible) {
-        var me = this;
-
-        if(visible) {
-
-            var pageId = view.getActivePage().get('id');
-
-            Ext.Ajax.request({
-                url: 'data/xql/getOverlayOnPage.xql',
-                method: 'GET',
-                params: {
-                    uri: view.uri,
-                    pageId: pageId,
-                    overlayId: overlayId
-                },
-                success: function(response){
-                    var data = response.responseText;
-
-                    if(data.trim() == '') return;
-
-                    me.overlayLoaded(view, pageId, overlayId, data);
-                }
-            });
-
-        }else {
-            view.hideOverlay(overlayId);
-        }
-    },
-
-    overlayLoaded: function(view, pageId, overlayId, overlay) {
-
-        if(pageId != view.getActivePage().get('id')) return;
-
-        view.showOverlay(overlayId, overlay);
-    },
-
-    onGotoMeasureByName: function(view, measure, movementId) {
-        var me = this;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getMeasurePage.xql',
-            method: 'GET',
-            params: {
-                id: view.uri,
-                measure: measure,
-                movementId: movementId
-            },
-            success: Ext.bind(function(response){
-                var data = response.responseText;
-                this.gotoMeasure(Ext.JSON.decode(data)[0], view);
-            }, me)
-        });
-    },
-
-    onGotoMeasure: function(view, measureId) {
-
-        var me = this;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getMeasure.xql',
-            method: 'GET',
-            params: {
-                id: view.uri,
-                measureId: measureId
-            },
-            success: Ext.bind(function(response){
-                var data = response.responseText;
-                this.gotoMeasure(Ext.JSON.decode(data), view);
-            }, me)
-        });
-    },
-
-    gotoMeasure: function(result, view) {
-        var me = this;
-
-        var measureId = result.measureId;
-        var movementId = result.movementId;
-        var measureCount = result.measureCount;
-
-        if(measureId != '' && movementId != '') {
-            view.showMeasure(movementId, measureId, measureCount);
-        }
-    },
-
-    onGotoZone: function(view, zoneId) {
-
-        var me = this;
-
-        Ext.Ajax.request({
-            url: 'data/xql/getZone.xql',
-            method: 'GET',
-            params: {
-                uri: view.uri,
-                zoneId: zoneId
-            },
-            success: Ext.bind(function(response){
-                var data = response.responseText;
-                this.gotoZone(Ext.JSON.decode(data), view);
-            }, me)
-        });
-    },
-
-    gotoZone: function(result, view) {
-        var me = this;
-
-        var zoneId = result.zoneId;
-        var pageId = result.pageId;
-
-        if(zoneId != '' && pageId != '') {
-            
-            if(view.imageSet == null) {
-                view.on('afterImagesLoaded', Ext.bind(view.showZone, view, [result], false), view, [{single:true}]);
-                view.showPage(pageId);
-            
-            }else if(typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId) {
-                view.showPage(pageId);
-                view.showZone(result);
-                
-            }else {
-                view.showZone(result);
-            }
-        }
-    },
-    
-    onSourceViewDestroyed: function(view) {
-        var me = this;
-        
-        ToolsController.removeMeasureVisibilityListener(view.id);
-        ToolsController.removeAnnotationVisibilityListener(view.id);
-    }
+			
+		} else {
+			view.hideAnnotations();
+		}
+	},
+	
+	annotationsLoaded: function (annotations, view, pageId) {
+		
+		if (pageId != view.getActivePage().get('id')) return;
+		
+		view.showAnnotations(annotations);
+	},
+	
+	onOverlayVisibilityChange: function (view, overlayId, visible) {
+		var me = this;
+		
+		if (visible) {
+			
+			var pageId = view.getActivePage().get('id');
+			
+			Ext.Ajax.request({
+				url: 'data/xql/getOverlayOnPage.xql',
+				method: 'GET',
+				params: {
+					uri: view.uri,
+					pageId: pageId,
+					overlayId: overlayId
+				},
+				success: function (response) {
+					var data = response.responseText;
+					
+					if (data.trim() == '') return;
+					
+					me.overlayLoaded(view, pageId, overlayId, data);
+				}
+			});
+		} else {
+			view.hideOverlay(overlayId);
+		}
+	},
+	
+	overlayLoaded: function (view, pageId, overlayId, overlay) {
+		
+		if (pageId != view.getActivePage().get('id')) return;
+		
+		view.showOverlay(overlayId, overlay);
+	},
+	
+	onGotoMeasureByName: function (view, measure, movementId) {
+		var me = this;
+		
+		Ext.Ajax.request({
+			url: 'data/xql/getMeasurePage.xql',
+			method: 'GET',
+			params: {
+				id: view.uri,
+				measure: measure,
+				movementId: movementId
+			},
+			success: Ext.bind(function (response) {
+				var data = response.responseText;
+				this.gotoMeasure(Ext.JSON.decode(data)[0], view);
+			},
+			me)
+		});
+	},
+	
+	onGotoMeasure: function (view, measureId) {
+		
+		var me = this;
+		
+		Ext.Ajax.request({
+			url: 'data/xql/getMeasure.xql',
+			method: 'GET',
+			params: {
+				id: view.uri,
+				measureId: measureId
+			},
+			success: Ext.bind(function (response) {
+				var data = response.responseText;
+				this.gotoMeasure(Ext.JSON.decode(data), view);
+			},
+			me)
+		});
+	},
+	
+	gotoMeasure: function (result, view) {
+		var me = this;
+		
+		var measureId = result.measureId;
+		var movementId = result.movementId;
+		var measureCount = result.measureCount;
+		
+		if (measureId != '' && movementId != '') {
+			view.showMeasure(movementId, measureId, measureCount);
+		}
+	},
+	
+	onGotoZone: function (view, zoneId) {
+		
+		var me = this;
+		
+		Ext.Ajax.request({
+			url: 'data/xql/getZone.xql',
+			method: 'GET',
+			params: {
+				uri: view.uri,
+				zoneId: zoneId
+			},
+			success: Ext.bind(function (response) {
+				var data = response.responseText;
+				this.gotoZone(Ext.JSON.decode(data), view);
+			},
+			me)
+		});
+	},
+	
+	gotoZone: function (result, view) {
+		var me = this;
+		
+		var zoneId = result.zoneId;
+		var pageId = result.pageId;
+		
+		if (zoneId != '' && pageId != '') {
+			
+			if (view.imageSet == null) {
+				view.on('afterImagesLoaded', Ext.bind(view.showZone, view,[result], false), view,[ {
+					single: true
+				}]);
+				view.showPage(pageId);
+			} else if (typeof view.getActivePage() == 'undefined' || view.getActivePage().get('id') != pageId) {
+				view.showPage(pageId);
+				view.showZone(result);
+			} else {
+				view.showZone(result);
+			}
+		}
+	},
+	
+	onSourceViewDestroyed: function (view) {
+		var me = this;
+		
+		ToolsController.removeMeasureVisibilityListener(view.id);
+		ToolsController.removeAnnotationVisibilityListener(view.id);
+	}
 });

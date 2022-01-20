@@ -2,7 +2,8 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
     extend: 'EdiromOnline.view.window.View',
 
     requires: [
-        'EdiromOnline.view.window.image.ImageViewer'
+        'EdiromOnline.view.window.image.ImageViewer',
+        'EdiromOnline.view.window.image.LeafletFacsimile'
     ],
 
     alias : 'widget.facsimileView',
@@ -17,11 +18,21 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
     measuresVisible: false,
     annotationsVisible: false,
 
+	image_server: null,
+
     initComponent: function () {
 
         this.addEvents();
+        
+        this.image_server = getPreference('image_server');
+    	
+    	if(this.image_server === 'leaflet'){
+    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
+    	}
+    	else{
+    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+    	}
 
-        this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
         this.imageViewer.region = 'center';
 
         this.bottomBar = new EdiromOnline.view.window.BottomBar({owner:this, region:'south'});
@@ -132,23 +143,25 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
 
         var me = this;
 
-        me.zoomSlider = Ext.create('Ext.slider.Single', {
-            width: 140,
-            value: 100,
-            increment: 5,
-            minValue: 10,
-            maxValue: 400,
-            checkChangeBuffer: 100,
-            useTips: true,
-            cls: 'zoomSlider',
-            tipText: function(thumb){
-                return Ext.String.format('{0}%', thumb.value);
-            },
-            listeners: {
-                change: Ext.bind(me.zoomChanged, me, [], 0)
-            }
-        });
-        me.bottomBar.add(me.zoomSlider);
+		if(me.image_server === 'digilib'){
+        	me.zoomSlider = Ext.create('Ext.slider.Single', {
+            	width: 140,
+            	value: 100,
+            	increment: 5,
+            	minValue: 10,
+            	maxValue: 400,
+            	checkChangeBuffer: 100,
+            	useTips: true,
+            	cls: 'zoomSlider',
+            	tipText: function(thumb){
+                	return Ext.String.format('{0}%', thumb.value);
+            	},
+            	listeners: {
+                	change: Ext.bind(me.zoomChanged, me, [], 0)
+            	}
+        	});
+        	me.bottomBar.add(me.zoomSlider);
+		}
 
         me.pageSpinner = Ext.create('EdiromOnline.view.window.util.PageSpinner', {
             width: 121,

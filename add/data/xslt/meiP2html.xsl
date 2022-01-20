@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs xd" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	xmlns:mei="http://www.music-encoding.org/ns/mei" 
+	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs xd" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -117,7 +120,10 @@
                 <xsl:attribute name="title" select="./mei:caption//text()"/>
                 <xsl:attribute name="alt" select="./mei:caption//text()"/>
             </xsl:if>
-            <xsl:attribute name="src" select="concat($imagePrefix,'?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
+            <xsl:attribute name="src" select="./mei:graphic/data(@target)"/>
+            <xsl:if test="./mei:graphic/@rend">
+                <xsl:attribute name="style" select="./mei:graphic/data(@rend)"/>
+            </xsl:if>
         </img>
     </xsl:template>
     <xsl:template match="text()">

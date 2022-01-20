@@ -1,111 +1,34 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="Edirom-Online-RWA">
-    <xmlproperty file="expath-pkg.xml"/>
+<?xml version="1.0" encoding="utf-8"?>
+<project name="EdiromOnline" default="xar">
     
-    <!--
-    The build-impl.xml file imported here contains the guts of the build process. It is
-    a great idea to read that file to understand how the process works, but it is best to
-    limit your changes to this file.
-    -->
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
+    <property name="project.version" value="0.11.0"/>
+    <property name="project.app" value="EdiromOnline"/>
+    <property name="project.title" value="Edirom Online"/>
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="build-xar"/>
+    <property name="temp.dir.name" value="temp"/>
+    <property name="temp.dir" value="${build.dir}/${temp.dir.name}"/>
     
-    <tstamp>
-        <format property="DATETIME" pattern="yyyyMMdd-HHmmss"  locale="en,UK" />
-    </tstamp>
-    <property name="project.version" value="${package(version)}"/>
-    <property name="project.app" value="${package(abbrev)}"/>
-    <property name="build.dir" value="build-temp"/>
-    <property name="build.deploy" value="build"/>
-    <property name="p.target.user" value="admin"/>
-    <property name="p.target.pass" value=""/>
-    <property name="p.target.exist.url" value=""/>
-    <property name="p.target.exist.tmp" value="installer"/>
-    <property name="xar.name" value="${project.app}-${project.version}-${DATETIME}.xar"/>
-    <property name="xar.destination" value=""/>
-    <property environment="env" />
-    
-    <!-- Sencha Temp-Dir   -->
-    <property name="temp.dir" value="temp"/>
-    
-    <typedef resource="org/exist/ant/antlib.xml" uri="http://exist-db.org/ant">
-        <classpath>
-            <fileset dir="${env.EXIST_PATH}/lib">
-                <include name="*.jar"/>
-            </fileset>
-        </classpath>
-    </typedef>
-    
-    <target name="upload" depends="xar">
-        <echo message="Uploading packages ..."/>
-        <xdb:store xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" user="${p.target.user}" password="${p.target.pass}" createcollection="true">
-            <fileset dir="${build.deploy}">
-                <include name="${xar.name}"/>
-            </fileset>
-        </xdb:store>
-    </target>
-    
-    <target name="deploy-xar" depends="upload">
-        <echo message="Deploying xar ${xar.name}"/>
-        <xdb:xquery xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" user="${p.target.user}" password="${p.target.pass}"
-            queryFile="scripts/deploy.xql" outputproperty="deploy.output">
-            <variable name="temp" value="${p.target.exist.tmp}"/>
-            <variable name="xar" value="${xar.name}"/>
-        </xdb:xquery>
-        <echo message="${deploy.output}"/>
-        <xdb:remove xmlns:xdb="http://exist-db.org/ant" uri="${p.target.exist.url}${p.target.exist.tmp}" resource="${xar.name}" user="${p.target.user}" password="${p.target.pass}"/>
-    </target>
-    
-    <target name="xar" depends="replace">
-        <mkdir dir="${build.deploy}"/>
-        <zip basedir="${build.dir}" destfile="${build.deploy}/${xar.name}" excludes="${temp.dir}/*"/>
-    </target>
-    
-    <target name="copy-xar" depends="xar">
-        <copy file="${build.deploy}/${xar.name}" todir="${xar.destination}"/>
-    </target>
-    
-    <target name="prep-existdb" depends="sencha">
-        <copy todir="${build.dir}">
-            <fileset dir="./add"/>
-        </copy>
-        <copy todir="${build.dir}">
-            <file file="build.xml"/>
-            <file file="expath-pkg.xml"/>
-        </copy>
-    </target>
-    
-    <target name="sencha" depends="clean">
-        <exec executable="sencha">
-            <arg value="app"/>
-            <arg value="build"/>
-        </exec>
-        <delete dir="build/temp/"></delete>
-    </target>
-    
-    <target name="replace" depends="prep-existdb">
-        <!--<replace file="${build.dir}/index.html">
-            <replacetoken><![CDATA[src="app.js"]]></replacetoken>
-            <replacevalue><![CDATA[src="edirom/app.js"]]></replacevalue>
-        </replace>
-        <replace file="${build.dir}/index.html">
-            <replacetoken><![CDATA[src="history.js"]]></replacetoken>
-            <replacevalue><![CDATA[src="edirom/history.js"]]></replacevalue>
-        </replace>
-        <replace file="${build.dir}/index.html">
-            <replacetoken><![CDATA[href="resources]]></replacetoken>
-            <replacevalue><![CDATA[href="edirom/resources]]></replacevalue>
-        </replace>
-        <replace file="${build.dir}/index.html">
-            <replacetoken><![CDATA[src="resources]]></replacetoken>
-            <replacevalue><![CDATA[src="edirom/resources]]></replacevalue>
-        </replace>-->
-    </target>
+    <tstamp/>
 
+    <target name="build-plus">
+        <copy todir="${build.dir}">
+            <fileset dir="${basedir}/add"/>
+            <filterset begintoken="@" endtoken="@">
+                <filter token="project.version" value="${project.version}"/>
+                <filter token="project.app" value="${project.app}"/>
+                <filter token="project.title" value="${project.title}"/>
+            </filterset>
+        </copy>
+    </target>
     
-        
-    <!--<target name="xar">
-        <mkdir dir="${build.dir}"/>
-        <zip basedir="." destfile="${build.dir}/${project.app}-${project.version}-${DSTAMP}${TSTAMP}.xar" excludes="${temp.dir}/*"/>
-    </target>-->
+    <target name="xar">
+        <mkdir dir="${dist.dir}"/>
+        <zip basedir="${build.dir}" destfile="${dist.dir}/${project.app}-${project.version}-${DSTAMP}-${TSTAMP}.xar">
+            <exclude name="${temp.dir.name}/**"/>
+        </zip>
+    </target>
+    
 </project>

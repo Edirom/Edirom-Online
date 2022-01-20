@@ -23,25 +23,12 @@ xquery version "3.0";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-declare namespace conf="https://www.maxreger.info/conf";
-
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
-
-(: RWA specific implementation, starts here: :)
-let $RWAconfigDoc := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
-let $RWAOnlineURL := $RWAconfigDoc//conf:rwaOnlineURL
-let $RWATextCompURL := concat($RWAOnlineURL, substring-after($uri, 'apps/'))
-(: RWA specific implementation, ends here. :)
-
+let $uri := replace($uri, 'xmldb:exist:///db/', concat(request:get-scheme(), '://', request:get-server-name(), ':', request:get-server-port(), '/'))
 return
-    (: RWA specific implementation, starts here: :)
-    if (starts-with($uri, 'xmldb:exist:///db/apps/rwaTextComp/'))
-    then (concat($RWAOnlineURL, 'rwaTextComp/loader.html?target=', $RWATextCompURL ))
-    else if (starts-with($uri, 'xmldb:exist:///db/apps/'))
-    then (replace($uri, 'xmldb:exist:///db/', concat('http://', request:get-server-name(), ':', request:get-server-port(), '/exist/')))
-    else ()
-    (: RWA specific implementation, ends here. :)
+    if(contains(request:get-url(), '/exist/'))
+    then(replace($uri, '/apps', '/exist/apps'))
+    else($uri)
     
-    (:    replace($uri, 'xmldb:exist:///db/', concat('http://', request:get-server-name(), ':', request:get-server-port(), '/exist/')):)

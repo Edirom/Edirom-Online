@@ -67,9 +67,6 @@ Ext.define('EdiromOnline.view.window.Window', {
     setWindowConfig: function(config) {
         var me = this;
 
-		//console.log("setWindowConfig");
-		//console.log(config);
-
         me.setTitle(config['title'] || getLangString('global_unknown'));
         Ext.apply(me, config);
 

@@ -34,18 +34,15 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
-
-(: start RWA specific modification. Apply another type of annotations :)
-let $annotType := if(contains($uri, '?')) then(substring-after($uri, 'annotType=')) else('editorialComment')
-let $uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
-(: end RWA specific modification. :)
+let $uri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 
 return 
     concat('
         {
             "success": true,
-            "total": ', count(doc($uri)//mei:annot[@type = $annotType]), ',
-            "annotations": [', annotation:annotationsToJSON($uri), ']
+            "total": ', count(doc($uri)//mei:annot[@type = 'editorialComment']), ',
+            "annotations": [', annotation:annotationsToJSON($uri, $edition), ']
         }
     ')

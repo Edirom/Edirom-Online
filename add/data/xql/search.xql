@@ -86,12 +86,12 @@ let $return :=
     let $search := 
         if(string-length($term) gt 0)
         then(
-            collection('/db/contents/edition-rwa')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents/edition-rwa')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-            | collection('/db/contents/edition-rwa')//mei:mei[ft:query(., $term)]
-            | collection('/db/contents/edition-rwa')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-            | collection('/db/contents/edition-rwa')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
-            | collection('db/contents/edition-rwa')//mei:annot[contains(@xml:id, $term)]
+            collection('/db')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+            | collection('/db')//mei:mei[ft:query(., $term)]
+            | collection('/db')//mei:title[ft:query(., $term)]/ancestor::mei:mei
+            | collection('/db')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+            | collection('/db')//mei:annot[contains(@xml:id, $term)]
         )
         else()
     
@@ -129,33 +129,24 @@ let $return :=
               else(string('unknown'))
     order by ft:score($hit) descending
     return
-(:   loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}'); :)
-    
         <div class="searchResultDoc">
-            <div class="doc"><span class="resultTitle" onclick="{
-                if (contains($uri, 'edition-rwa/texts/' ))
-                then (concat('loadLink(&apos;xmldb:exist:///db/apps/rwaEncyclo/$encyclo/', substring-after($uri, 'edition-rwa/texts/'), '?term=', replace($term, '"', '\\"'), '&apos;, {})'))
-                else(concat('loadLink(&apos;xmldb:exist://', $uri,
-                    if(local-name($hit) eq 'annot')
-                    then(concat('#', $hit/@xml:id))
-                    else(), '?term=', replace($term, '"', '\\"'),'&apos;);'))}">{$title}</span><span class="resultCount">{
-                    if ($lang = 'de')
-                    then(concat('(', $hitCount, ' Treffer', ')'))
-                    else(concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')'))}</span></div>
+            <div class="doc"><span class="resultTitle" onclick="loadLink('xmldb:exist://{$uri}{if(local-name($hit) eq 'annot')then(concat('#', $hit/@xml:id))else()}?term={replace($term, '"', '\\"')}');">{$title}</span><span class="resultCount">{
+            if ($lang = 'de')
+            then(concat('(', $hitCount, ' Treffer', ')'))
+            else(concat('(', $hitCount, ' hit', if($hitCount gt 1)then('s')else(''), ')'))
+            }</span></div>
         {(
             for $match at $i in $expanded//*[./exist:match]
             let $path := local:getPath($match)
             let $internalId := if(local-name($hit) eq 'annot')then($hit/@xml:id)else if($match/@xml:id)then($match/@xml:id)else()
             return
                 <div class="hitP" style="{if($i gt 3)then('display:none;')else('')}">{
-                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="{
-                if (contains($uri, 'edition-rwa/texts/' ))
-                then (concat('loadLink(&apos;xmldb:exist:///db/apps/rwaEncyclo/$encyclo/', substring-after($uri, 'edition-rwa/texts/'), '?path=', $path, '&amp;term=', replace($term, '"', '\\"'), '&apos;, {})')) else (concat('loadLink(&apos;xmldb:exist://', $uri, if($internalId)then(concat('#', $internalId))else(), '?path=', $path, '&amp;term=', replace($term, '"', '\\"'),'&apos;);')) }" />,
+                kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{if($internalId)then(concat('#', $internalId))else()}?path={$path}&amp;term={replace($term, '"', '\\"')}');" />,
                     util:function(xs:QName("local:filter"), 2))
                }</div>
             ,
             if($hitCount gt 3)
-            then(<div class="showMore" onclick="Ext.Element(this).parent().select('div').show(); Ext.Element(this).hide();">{if ($lang = 'de') then ('Alle Treffer zeigen') else ('show all hits')}</div>)
+            then(<div class="showMore" onclick="$(this).parent().find('div').show(); $(this).hide();">{if ($lang = 'de') then ('Alle Treffer zeigen') else ('show all hits')}</div>)
             else()
         )}</div>
         )

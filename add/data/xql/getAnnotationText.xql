@@ -30,6 +30,7 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
@@ -37,6 +38,8 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
+
+let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')

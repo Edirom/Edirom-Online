@@ -29,7 +29,39 @@
 		text-align: center;
 	}
 	
-	.annotation.ediromAnnotPrio1 .annotIcon {
+	.annotation {
+	/*Describes the icons and rendering of annotations on facsimile pages*/
+	
+		.annotIcon {
+			width: 20px;
+			height: 16px;
+			border:  1px solid #666666;
+			@include border-radius(3px, 3px);
+			@include box-shadow(0 2px 4px #000000);
+			z-index: 1;
+		}
+		
+		&.highlighted {
+			@include border-radius(3px, 3px);
+			@include box-shadow(0 0 20px rgba(0,0,0,0.5));
+		}
+		
+		&.ediromAnnotPrio1 .annotIcon {
+			@include background(linear-gradient(top,rgba(255,48,25,0.85) 0%, rgba(207,4,4,0.85) 100%));
+		}
+		
+		&.ediromAnnotPrio2 .annotIcon {
+			@include background(linear-gradient(top,rgba(255,233,91,0.85) 0%, rgba(255,107,15,0.85) 100%));
+		}
+		
+		&.ediromAnnotPrio3 .annotIcon {
+			@include background(linear-gradient(top,rgba(254,252,234,0.85) 0%, rgba(241,218,54,0.85) 100%));
+		}
+		
+	}
+	
+/*	From Freischütz
+.annotation.ediromAnnotPrio1 .annotIcon {
         background: rgba(0, 0, 0, 0) linear-gradient(to bottom , rgba(255, 48, 25, 0.85) 0%, rgba(207, 4, 4, 0.85) 100%) repeat scroll 0 0;
     }
     
@@ -48,6 +80,6 @@
         height: 16px;
         width: 20px;
         z-index: 1;
-    }
+    }*/
 	
 }

@@ -41,7 +41,7 @@ return
 	    string-join(
 	       
 	       for $workUri in $workUris
-	       return work:toJSON($workUri)
+	       return work:toJSON($workUri, $uri)
 	       
 	    , ','),
     ']')

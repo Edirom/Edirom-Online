@@ -28,31 +28,18 @@ xquery version "3.0";
 :)
 module namespace work = "http://www.edirom.de/xquery/work";
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 declare function local:getLocalizedTitle($node) {
 
-    let $lang := request:get-parameter('lang', '')
-    let $nodeName := local-name($node)
-    let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='main']/text()
-    let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='perf']/text()
-    let $identifierCategory := $node/mei:identifier[@type='category']/text()
-    let $identifierGenre := $node/mei:identifier[@type='genre']/text()
-    let $identifierCounter := $node/mei:identifier[@type='counter']/text()
-    let $identifierNo := $node/mei:identifier[@type='no']/text()
-    let $titleNew := if($identifierCategory = 'opus' and $identifierNo)
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else () , ' op. ', $identifierCounter,' Nr. ', $identifierNo))
-                        else if($identifierCategory = 'opus')
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' op. ', $identifierCounter))
-                        else if($identifierCategory = 'woo' and $identifierNo)
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre ,'/', $identifierCounter,' Nr. ', $identifierNo))
-                        else if($identifierCategory = 'woo')
-                        then(concat($titleMain, if ($titlePerf) then (concat(' ', $titlePerf)) else (), ' WoO ', $identifierGenre, '/', $identifierCounter))
-                    else()
+    let $lang := request:get-parameter('lang', '')     
     return
-        normalize-space(string($titleNew))
-
+      if ($lang = $node/mei:title/@xml:lang)
+      then (normalize-space($node/mei:title[@xml:lang = $lang]/text()))
+      else (normalize-space($node/mei:title[1]/text()))
 };
 
 (:~
@@ -61,7 +48,7 @@ declare function local:getLocalizedTitle($node) {
 : @param $uri The URI of the Work's document to process
 : @return The JSON representation
 :)
-declare function work:toJSON($uri as xs:string) as xs:string {
+declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:string {
     
     let $work := doc($uri)/mei:mei
     return
@@ -69,8 +56,7 @@ declare function work:toJSON($uri as xs:string) as xs:string {
             {',
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-(:                'title: "', local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)/replace(., '"', '\\"'), '"',:)
-                'title: "', normalize-space(replace(string(local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt)), '"', '\\"')), '"',
+                'title: "', replace(local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt), '"', '\\"'), '"',             
             '}')
 };
 
@@ -91,7 +77,7 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 : @param $source The URIs of the Work's document to process
 : @return The label
 :)
-declare function work:getLabel($work as xs:string) as xs:string {
+declare function work:getLabel($work as xs:string, $edition as xs:string) as xs:string {
      
     local:getLocalizedTitle(doc($work)//mei:work/mei:titleStmt)
 };

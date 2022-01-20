@@ -24,6 +24,7 @@ xquery version "3.1";
     Returns the HTML for a specific annotation for an AnnotationView.
     
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+    @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
@@ -36,16 +37,24 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace conf="https://www.maxreger.info/conf";
+declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 declare variable $lang := request:get-parameter('lang', '');
-
 declare variable $imageWidth := 600;
-declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
+
+(:TODO-bwb
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $imageBasePath := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
+
+(\:declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
+:\):)
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     
@@ -122,7 +131,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $rect := local:getBoundingZone($zones)
             
             let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
+            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), ', origH:', $imgHeight, ', origW:', $imgWidth,'}')
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
@@ -244,8 +253,12 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
     
+    let $fields := if($imageserver = 'leaflet')then(substring-before($imagePath, '.') )else()
+   
+			
     return
-        concat($basePath, $imagePath, '?')
+    if($imageserver = 'leaflet')then(concat($imageBasePath,$fields))else(concat($basePath, $imagePath, '?'))
+        
 };
 
 (: TODO: in Modul auslagern :)
@@ -321,7 +334,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-(:declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
+declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
@@ -340,51 +353,6 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
         '","linkUri":"',$linkUri,
         '"}'
     )
-};:)
-
-(: Test: single url for images in annotation view :)
-
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
-    $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
-    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
-        
-        let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
-        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-registerURL/string()
-        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-resolveURL/string()
-        let $docuservURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURL/string()
-        let $docuservURLinternal := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURLinternal/string()
-        let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
-                            then 
-                                try {
-                                    (
-                                        let $random := util:uuid()
-                                        let $internalDigiLibURL := replace($digilibURL, $docuservURL, $docuservURLinternal)
-                                        let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($internalDigiLibURL))
-                                        let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
-                                        return
-                                            concat($singel-serv-resolveURL, '?token=', $random)
-                                    )
-                                } catch *{
-                                    
-                                    ''
-                                }
-                                
-                            else (replace($digilibURL, 'http:', 'http:'))
-        return
-            concat(
-                '{"type":"',$type,
-                '","label":"',$label,
-                '","mdiv":"',$mdiv,
-                '","part":"',$part,
-                '","page":"',$page,
-                '","source":"',$source,
-                '","siglum":"',$siglum,
-                '","digilibURL":"', $singleURL,
-                '","hiddenData":"',$hiddenData,
-                '","content":"',$content,
-                '","linkUri":"',$linkUri,
-                '"}'
-            )
 };
 
 let $uri := request:get-parameter('uri', '')

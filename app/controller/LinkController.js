@@ -92,10 +92,6 @@ Ext.define('EdiromOnline.controller.LinkController', {
 
                 }else
                     uriWindows.add(singleUri, 'newWindow');
-            
-            }else if (singleUri.match(/^rwaEncyclo:\/\//)) {
-                window.loadEncycloLink(singleUri)
-            
             }else if(singleUri.match(/^#/)) {
                 //TODO: internal link
     
@@ -103,7 +99,6 @@ Ext.define('EdiromOnline.controller.LinkController', {
                 window.open (singleUri,"_blank");
     
             }else if(singleUri.match(/^(ext|file):\/\//)) {
-	            //console.log(singleUri);
                 //TODO: external (not possible in browser)
     
             }else {
@@ -116,13 +111,20 @@ Ext.define('EdiromOnline.controller.LinkController', {
         var positions = null;
         var i = 0;
 
-        if(config['sort'] && config['sort'] == 'sortGrid') {
+        if(config['sort']) {
         
             if(config['sortIncludes'] && Array.isArray(config['sortIncludes']))
                 i = config['sortIncludes'].length;
             
-            positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
+            if(config['sort'] == 'sortGrid')
+                positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
             
+            if(config['sort'] == 'sortVertically')
+                positions = this.application.getController('desktop.Desktop').getVerticalPositioning(uriWindows.getCount() + i);
+
+            if(config['sort'] == 'sortHorizontally')
+                positions = this.application.getController('desktop.Desktop').getHorizontalPositioning(uriWindows.getCount() + i);
+
             if(i > 0) {
                 for(var j = 0; j < config['sortIncludes'].length; j++) {
                     var win = config['sortIncludes'][j];
@@ -139,12 +141,6 @@ Ext.define('EdiromOnline.controller.LinkController', {
             var win = uriWindows.get(singleUri);
             var posConfig = (positions == null?{}:positions['win_' + i]);
             var cfg = Ext.apply(config, posConfig);
-            
-            //console.log(singleUri);
-            //console.log(win);
-            //console.log(cfg);
-           
-
             if(win == 'newWindow') {
 	            if(cfg['y']) {
 	            	cfg['y'] = cfg['y'] - 41; // hack: height of TopBar
