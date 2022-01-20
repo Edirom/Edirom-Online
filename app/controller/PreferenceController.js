@@ -76,7 +76,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 	        }
         }
         
-        if(me.preference[key] == "" && key == "image_prefix") {
+        if(me.preferences[key] == "" && key == "image_prefix") {
             return "";
         }
 
