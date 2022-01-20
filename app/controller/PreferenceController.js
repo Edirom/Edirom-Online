@@ -75,6 +75,10 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 		        return "en";
 	        }
         }
+        
+        if(me.preference[key] == "" && key == "image_prefix") {
+            return "";
+        }
 
         if(!me.preferences[key]) {
             Ext.Error.raise({
