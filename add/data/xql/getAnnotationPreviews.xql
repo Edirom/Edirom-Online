@@ -46,15 +46,11 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 declare variable $lang := request:get-parameter('lang', '');
 declare variable $imageWidth := 600;
 
-(:TODO-bwb
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
 declare variable $imageBasePath := if($imageserver = 'leaflet')
 	then(eutil:getPreference('leaflet_prefix', $edition))
 	else(eutil:getPreference('image_prefix', $edition));
-
-(\:declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
-:\):)
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     
@@ -79,7 +75,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), (), teitext:getLabel($doc, $edition), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
