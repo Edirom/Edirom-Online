@@ -1,10 +1,10 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ bazga-dev ]
-#  pull_request:
-#    branches: [ bazga-dev ]
+#  push:
+#    branches: [ main ]
+  pull_request:
+    branches: [ develop, main ]
 
 env:
   DOCKER_IMAGE: bwbohl/sencha-cmd
