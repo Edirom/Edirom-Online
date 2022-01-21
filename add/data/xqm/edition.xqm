@@ -111,3 +111,13 @@ declare function edition:findEdition($uri as xs:string) as xs:string {
         return 'xmldb:exist://' || document-uri($edition/root())
     )
 };
+
+(:~
+: Returns the name of the edition specified by $uri
+:
+: @param $uri The URI of the Edition's document to process
+: @return the text contents of edirom:editio/edirom:editionName
+:)
+declare function edition:getName($uri as xs:string) as xs:string {
+  doc($uri)/edirom:edition/edirom:editionName/text()
+};
