@@ -31,6 +31,8 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
+declare variable $lang := request:get-parameter('lang', '');
+
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
         for $category in $annots/mei:ptr[@type="categories"]/replace(@target, '#', '')
@@ -65,7 +67,7 @@ return concat('{categories: [',
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection($edition_path)//id($priority))[1]/mei:name/text() (:TODO add multilang support :)
+            let $name := eutil:getLocalizedName((collection($edition_path)//id($priority))[1], $lang)
             order by $name
             return
                 concat('{id:"', $priority, '",name:"', $name,'"}')

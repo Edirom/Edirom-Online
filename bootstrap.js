@@ -12,9 +12,15 @@ Ext.Loader.addClassPathMappings({
   "EdiromOnline.view.window.source.HorizontalMeasureViewer": "app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.IntervalSpinner": "app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.MeasureSpinner": "app/view/window/source/MeasureBasedView.js",
-  "EdiromOnline.view.window.source.PageSpinner": "app/view/window/source/PageBasedView.js",
+  "EdiromOnline.view.window.source.VerovioPageSpinner": "app/view/window/source/VerovioView.js",
   "Ext": "ext/src",
+  "Ext.DomHelper": "ext/src/dom/Helper.js",
+  "Ext.DomQuery": "ext/src/dom/Query.js",
+  "Ext.EventObjectImpl": "ext/src/EventObject.js",
   "Ext.Msg": "ext/src/window/MessageBox.js",
+  "Ext.Supports": "ext/src/Support.js",
+  "Ext.core.DomHelper": "ext/src/dom/Helper.js",
+  "Ext.core.DomQuery": "ext/src/dom/Query.js",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
   "Ext.ux.desktop": "ext-ux/desktop",
   "Ext.ux.grid": "ext-ux/grid",
@@ -24,6 +30,7 @@ Ext.Loader.addClassPathMappings({
 Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.Application": [],
   "EdiromOnline.controller.AJAXController": [],
+  "EdiromOnline.controller.CookieController": [],
   "EdiromOnline.controller.LanguageController": [],
   "EdiromOnline.controller.LinkController": [],
   "EdiromOnline.controller.PreferenceController": [],
@@ -35,16 +42,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.controller.window.AnnotationView": [],
   "EdiromOnline.controller.window.HeaderView": [],
   "EdiromOnline.controller.window.HelpWindow": [],
-  "EdiromOnline.controller.window.RenderingView": [],
   "EdiromOnline.controller.window.SingleWindowController": [],
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.controller.window.iFrameView": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
+  "EdiromOnline.controller.window.source.VerovioView": [],
+  "EdiromOnline.controller.window.text.FacsimileView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -64,17 +74,25 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.BottomBar": [],
   "EdiromOnline.view.window.HeaderView": [],
   "EdiromOnline.view.window.HelpWindow": [],
-  "EdiromOnline.view.window.RenderingView": [],
   "EdiromOnline.view.window.SummaryView": [],
   "EdiromOnline.view.window.TopBar": [],
+  "EdiromOnline.view.window.View": [],
   "EdiromOnline.view.window.Window": [],
   "EdiromOnline.view.window.XmlView": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.annotationLayouts.AnnotationLayout4": [],
+  "EdiromOnline.view.window.audio.AudioView": [],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.view.window.iFrameView": [],
+  "EdiromOnline.view.window.image.ImageLeafletContainer": [],
+  "EdiromOnline.view.window.image.ImageLeafletDetails": [],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
+  "EdiromOnline.view.window.image.LeafletFacsimile": [],
+  "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
+  "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [],
   "EdiromOnline.view.window.source.GotoMsg": [],
   "EdiromOnline.view.window.source.HorizontalMeasureViewer": [],
@@ -82,8 +100,9 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.source.MeasureBasedView": [],
   "EdiromOnline.view.window.source.MeasureSpinner": [],
   "EdiromOnline.view.window.source.PageBasedView": [],
-  "EdiromOnline.view.window.source.PageSpinner": [],
   "EdiromOnline.view.window.source.SourceView": [],
+  "EdiromOnline.view.window.source.VerovioPageSpinner": [],
+  "EdiromOnline.view.window.source.VerovioView": [],
   "EdiromOnline.view.window.text.FacsimileView": [],
   "EdiromOnline.view.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.view.window.text.TextView": [],
@@ -489,6 +508,7 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "Ext.grid.RowEditor": [],
   "Ext.grid.RowEditorButtons": [],
+  "Ext.grid.Scroller": [],
   "Ext.grid.View": [],
   "Ext.grid.ViewDropZone": [],
   "Ext.grid.column.Action": [
@@ -925,6 +945,7 @@ Ext.ClassManager.addNameAlternateMappings({
 Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.Application": [],
   "EdiromOnline.controller.AJAXController": [],
+  "EdiromOnline.controller.CookieController": [],
   "EdiromOnline.controller.LanguageController": [],
   "EdiromOnline.controller.LinkController": [],
   "EdiromOnline.controller.PreferenceController": [],
@@ -936,16 +957,19 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.controller.window.AnnotationView": [],
   "EdiromOnline.controller.window.HeaderView": [],
   "EdiromOnline.controller.window.HelpWindow": [],
-  "EdiromOnline.controller.window.RenderingView": [],
   "EdiromOnline.controller.window.SingleWindowController": [],
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.controller.window.iFrameView": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
+  "EdiromOnline.controller.window.source.VerovioView": [],
+  "EdiromOnline.controller.window.text.FacsimileView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -983,15 +1007,14 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.HelpWindow": [
     "widget.helpWindow"
   ],
-  "EdiromOnline.view.window.RenderingView": [
-    "widget.renderingView"
-  ],
   "EdiromOnline.view.window.SummaryView": [
+    "widget.layout-border",
     "widget.summaryView"
   ],
   "EdiromOnline.view.window.TopBar": [
     "widget.window.topbar"
   ],
+  "EdiromOnline.view.window.View": [],
   "EdiromOnline.view.window.Window": [
     "widget.ediromWindow"
   ],
@@ -1001,11 +1024,29 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.annotationLayouts.AnnotationLayout4": [],
+  "EdiromOnline.view.window.audio.AudioView": [
+    "widget.audioView"
+  ],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [
     "widget.concordanceNavigator"
   ],
+  "EdiromOnline.view.window.iFrameView": [
+    "widget.iFrameView"
+  ],
+  "EdiromOnline.view.window.image.ImageLeafletContainer": [
+    "widget.layout-horizontal-box"
+  ],
+  "EdiromOnline.view.window.image.ImageLeafletDetails": [
+    "widget.layout-vertical-box"
+  ],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
+  "EdiromOnline.view.window.image.LeafletFacsimile": [
+    "widget.leafletmapview"
+  ],
+  "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
+  "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [
     "widget.searchWindow"
   ],
@@ -1023,11 +1064,14 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.source.PageBasedView": [
     "widget.pageBasedView"
   ],
-  "EdiromOnline.view.window.source.PageSpinner": [
-    "widget.pageSpinner"
-  ],
   "EdiromOnline.view.window.source.SourceView": [
     "widget.sourceView"
+  ],
+  "EdiromOnline.view.window.source.VerovioPageSpinner": [
+    "widget.verovioPageSpinner"
+  ],
+  "EdiromOnline.view.window.source.VerovioView": [
+    "widget.verovioView"
   ],
   "EdiromOnline.view.window.text.FacsimileView": [
     "widget.facsimileView"
@@ -1476,6 +1520,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.grid.RowEditorButtons": [
     "widget.roweditorbuttons"
   ],
+  "Ext.grid.Scroller": [],
   "Ext.grid.View": [
     "widget.gridview"
   ],
@@ -2045,14 +2090,14 @@ Ext.ClassManager.addNameAliasMappings({
   "ExtThemeNeptune.toolbar.Paging": [],
   "ExtThemeNeptune.toolbar.Toolbar": []
 });
-Ext.setVersion("eoTheme", "1.0.0");
 Ext.setVersion("ext-theme-base", "4.2.1");
-Ext.setVersion("ext-theme-neptune", "4.2.1");
 Ext.setVersion("ext-theme-neutral", "4.2.1");
+Ext.setVersion("ext-theme-neptune", "4.2.1");
+Ext.setVersion("eoTheme", "1.0.0");
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/Component.js");;
-Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/panel/Panel.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/toolbar/Toolbar.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/layout/component/Dock.js");;
+Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/panel/Panel.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/container/ButtonGroup.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/toolbar/Paging.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/picker/Month.js");;
@@ -2061,8 +2106,8 @@ Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/panel/Table.js")
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/grid/RowEditor.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/grid/column/RowNumberer.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/resizer/Splitter.js");;
-Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/menu/Menu.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/menu/Separator.js");;
+Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/menu/Menu.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/panel/Tool.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/tab/Tab.js");;
 /**

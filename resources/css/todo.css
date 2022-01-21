@@ -21,7 +21,7 @@
     margin-right: 2em;
 }
 
-#ediromToolbar .x-btn-default-toolbar-small {
+#ediromToolbar .x-btn.insetButton.x-btn-default-toolbar-small {
     background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #dddddd), color-stop(30%, #c3c3c3), color-stop(65%, #b8b8b8), color-stop(100%, #a0a0a0));
     background-image: -webkit-linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
     background-image: -moz-linear-gradient(top, #dddddd, #c3c3c3 30%, #b8b8b8 65%, #a0a0a0);
@@ -79,9 +79,13 @@ span.smufl {
 }
 
 .ediromWindow .annotation {
-    /* border: 1px solid red;
-    background-color: rgba(255, 0, 0, 0.3); */
+    border: 1px solid red;
+    background-color: rgba(255, 0, 0, 0.3);
     z-index: 10;
+}
+
+.annotationTip .x-tip-body {
+    overflow: auto;
 }
 
 /*text Metadata*/

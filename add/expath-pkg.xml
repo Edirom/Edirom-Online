@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://expath.org/ns/pkg" name="http://www.edirom.de/apps/EdiromOnline" abbrev="EdiromOnline" version="@project.version@" spec="1.0">
-    <title>Edirom Online</title>
+<package xmlns="http://expath.org/ns/pkg" 
+    name="http://www.edirom.de/apps/EdiromOnline"
+    abbrev="@project.app@"
+    version="@project.version@"
+    spec="1.0">
+    <title>@project.title@</title>
 </package>

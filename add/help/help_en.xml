@@ -82,7 +82,7 @@
               <p>
                         <term type="ediromGui" key="global_appName"/> is designed as web application and thus has to be set up on a server. For questions about setting up <term type="ediromGui" key="global_appName"/> on a server please contact the Edirom Project (<ref target="http://www.edirom.de">http://www.edirom.de</ref>).</p>
               <p>Nevertheless an <term type="ediromGui" key="global_appName"/> based edition can be distributed on a discrete data storage device, and require/permit installation on your personal computer. If your current version of <term type="ediromGui" key="global_appName"/> is such a distributed version, please contact the corresponding author or publisher for further details concerning installation on your personal computer.</p>
-               <note type="editorial">Project specific information on installation routines to be inserted below as in following xml comments.</note>
+               <!--<note type="editorial">Project specific information on installation routines to be inserted below as in following xml comments.</note>-->
                <!--<div type="div2">
                   <head>Windows </head>
                   <p>If <hi rend="italic">AutoRun</hi> is activated in Windows, the Edirom installation program will open automatically when the DVD is inserted. Otherwise, start the program by running the <hi rend="italic">setup.exe</hi> file on the DVD. Follow the instructions provided in the installation program. Once installation is complete, you'll see the application listed in the <hi rend="italic">Start menu</hi> under <hi rend="italic">All Programs</hi> as '<hi rend="italic">Edirom</hi>' or a different name, depending on the edition.</p>
@@ -97,7 +97,7 @@
               <p>
                         <term type="ediromGui" key="global_appName"/> is designed as a web application. The only system requirement is a javascript enabled web browser.</p>
               <p>If your current version of <term type="ediromGui" key="global_appName"/> has to be installed please contact the corresponding author or publisher for further details concerning installation on your personal computer.</p>
-               <note type="editorial">Project specific information on Application Startup to be inserted, either above, replacing the above paragraph, or below.</note>
+               <!--<note type="editorial">Project specific information on Application Startup to be inserted, either above, replacing the above paragraph, or below.</note>-->
             </div>
          </div>
          <!-- USER INTERFACE ========================================================= -->
@@ -965,7 +965,7 @@ If the current work has more than one movement, a drop-down menu lets you select
                 <head>Help (Edirom User Manual)</head>
                 <p>The <term>Help (Edirom User Manual)</term> window is (in contrast to content related windows) a stand-alone window and can only be opened once. Clicking the button several times
                     will toggle show/hide for the help window, respectively bringing it to the foreground if hidden behind other windows. </p>
-                <note type="editorial">--Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? --</note>
+                <!--<note type="editorial">-\-Hinweis ergänzen, wie innerhalb der Hilfe gesucht werden kann. Wird das Help file auch von der Funktion Search erfasst? -\-</note>-->
             </div>
       <!-- bwb @ daniel implementation status; -->
            <!--<div type="div1" xml:id="shortCuts">

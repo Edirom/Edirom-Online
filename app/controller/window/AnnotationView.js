@@ -52,11 +52,13 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
     onShowAnnotation: function(view, uri) {
 
         var editionId = this.application.activeEdition;
+        var lang = getPreference('application_language');
     
         window.doAJAXRequest('data/xql/getAnnotationText.xql',
             'GET', 
             {
                 uri: uri,
+                lang: lang,
                 edition: EdiromOnline.getApplication().activeEdition
             },
             Ext.bind(function(response){
@@ -68,8 +70,10 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             'GET', 
             {
                 uri: uri,
+                lang: lang,
                 edition: EdiromOnline.getApplication().activeEdition
             },
+
             Ext.bind(function(response){
                 view.setMeta(response.responseText);
             }, this)
@@ -79,7 +83,7 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             'GET', 
             {
                 uri: uri,
-                /*From Freidi: edition: editionId*/
+                lang: lang,
                 edition: EdiromOnline.getApplication().activeEdition
             },
             Ext.bind(function(response){
