@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -25,6 +25,7 @@ xquery version "1.0";
 : This module provides library functions for Annotations
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
@@ -99,7 +100,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs
-                    return local:getLocalizedName($doc/id($u)) 
+                    return annotation:category_getName($doc/id($u), eutil:getLanguage($edition))
                  , ', ')
     let $count := count($anno/preceding-sibling::mei:annot) + 1
     
@@ -222,4 +223,18 @@ declare function annotation:getParticipants($anno as element()) as xs:string* {
     let $uris := distinct-values(for $uri in $ps return substring-before($uri,'#'))
     
     return $uris
+};
+
+(:~
+: Returns an annotation category's name
+:
+: @param $category The category to process
+: @return one name
+:)
+declare function annotation:category_getName($category as element(), $language as xs:string) {
+    let $names := $category/mei:name
+    return
+        switch (count($names[@xml:lang = $language]))
+            case 1 return $names[@xml:lang = $language]
+            default return $names[1]
 };
