@@ -30,6 +30,7 @@ import module namespace annotation = "http://www.edirom.de/xquery/annotation" at
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
+
 declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
