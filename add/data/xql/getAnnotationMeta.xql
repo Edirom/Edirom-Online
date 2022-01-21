@@ -70,10 +70,8 @@ let $siglaLabel := switch(count($sigla))
                     case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
                     default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
 
-let $annotIDlabel := util:getLanguageString('view.window.AnnotationView_AnnotationID', ())
-if ($lang = 'de') (:TODO localize properly:)
-                        then ('Anm.-ID')
-                        else ('Annot.-ID')
+let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
+
 return
 
     <div class="annotView">
