@@ -26,6 +26,9 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
-
+let $uri := replace($uri, 'xmldb:exist:///db/', concat(request:get-scheme(), '://', request:get-server-name(), ':', request:get-server-port(), '/'))
 return
-    replace($uri, 'xmldb:exist:///db/', concat('http://', request:get-server-name(), ':', request:get-server-port(), '/exist/'))
+    if(contains(request:get-url(), '/exist/'))
+    then(replace($uri, '/apps', '/exist/apps'))
+    else($uri)
+    

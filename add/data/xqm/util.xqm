@@ -34,7 +34,41 @@ import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitex
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace edirom="http://www.edirom.de/ns/1.3";
+
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+
+(:~
+: Returns a localized string
+:
+: @param $node The node to be processed
+: @return The string
+:)
+
+declare function eutil:getLocalizedName($node, $lang) {
+  let $nodeName := local-name($node)
+  return
+    if ($node/mei:title)
+    then (
+        if ($lang = $node/mei:title/@xml:lang)
+        then $node/mei:title[@xml:lang = $lang]/text()
+        else $node/mei:title[1]/text()
+    )
+    else if ($node/mei:name)
+    then (
+        if ($lang = $node/mei:name/@xml:lang)
+        then $node/mei:name[@xml:lang = $lang]/text()
+        else $node/mei:name[1]/text()
+    )
+    else if ($node/edirom:names)
+        then (
+            if ($lang = $node/edirom:names/edirom:name/@xml:lang)
+            then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
+            else $node/edirom:names/edirom:name[1]/node()
+    )
+    else ($node)
+};
+
 
 (:~
 : Returns a document
@@ -118,7 +152,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
 
-    let $base := concat('file:', system:get-module-load-path())
+    let $base := system:get-module-load-path()
     let $file := doc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
     
     let $string := $file//entry[@key = $key]/string(@value)

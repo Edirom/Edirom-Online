@@ -139,12 +139,14 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
         if(nav == null) {
             nav = new EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator();
             
+            var bodyHeight = me.body.getHeight(true) - 70;
+            
             var x = me.body.getWidth(true) - nav.width - 5;
             var y = me.navigator.getHeight() + 10;
             
-            if(me.body.getHeight(true) - nav.height < y) {
+            if(bodyHeight - nav.height < y) {
                 x = me.body.getWidth(true) - me.navigator.getWidth() - nav.width - 10;
-                y = me.body.getHeight(true) - nav.height - 5;
+                y = bodyHeight - nav.height - 5;
             }
             
             Ext.apply(nav, {y: y, x: x});           

@@ -13,15 +13,15 @@
     </xd:doc>
 
     <xsl:output encoding="UTF-8"/>
-    <xsl:param name="lang">en</xsl:param>
+    <xsl:param name="lang"/>
     <xsl:param name="base" as="xs:string"/>
 
     <xsl:param name="projectLangPath" as="xs:string">none</xsl:param>
 
     <xsl:variable name="ediromLang">
         <xsl:choose>
-            <xsl:when test="doc-available(concat($base, '../locale/edirom-lang-{$lang}.xml'))">
-                <xsl:copy-of select="document(concat($base, '../locale/edirom-lang-{$lang}.xml'))"/>
+            <xsl:when test="doc-available(concat($base, '../locale/edirom-lang-', $lang, '.xml'))">
+                <xsl:copy-of select="document(concat($base, '../locale/edirom-lang-', $lang, '.xml'))"/>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:copy-of select="document(concat($base, '../locale/edirom-lang-en.xml'))"/>

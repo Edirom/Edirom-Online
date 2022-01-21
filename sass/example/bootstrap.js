@@ -12,7 +12,7 @@ Ext.Loader.addClassPathMappings({
   "EdiromOnline.view.window.source.HorizontalMeasureViewer": "../../app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.IntervalSpinner": "../../app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.MeasureSpinner": "../../app/view/window/source/MeasureBasedView.js",
-  "EdiromOnline.view.window.source.PageSpinner": "../../app/view/window/source/PageBasedView.js",
+  "EdiromOnline.view.window.source.VerovioPageSpinner": "../../app/view/window/source/VerovioView.js",
   "Ext": "../../ext/src",
   "Ext.Msg": "../../ext/src/window/MessageBox.js",
   "Ext.rtl.EventObjectImpl": "../../ext/src/rtl/EventObject.js",
@@ -35,17 +35,19 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.controller.window.AnnotationView": [],
   "EdiromOnline.controller.window.HeaderView": [],
   "EdiromOnline.controller.window.HelpWindow": [],
-  "EdiromOnline.controller.window.RenderingView": [],
   "EdiromOnline.controller.window.SingleWindowController": [],
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.controller.window.iFrameView": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
   "EdiromOnline.controller.window.source.VerovioView": [],
+  "EdiromOnline.controller.window.text.FacsimileView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -65,17 +67,20 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.BottomBar": [],
   "EdiromOnline.view.window.HeaderView": [],
   "EdiromOnline.view.window.HelpWindow": [],
-  "EdiromOnline.view.window.RenderingView": [],
   "EdiromOnline.view.window.SummaryView": [],
   "EdiromOnline.view.window.TopBar": [],
+  "EdiromOnline.view.window.View": [],
   "EdiromOnline.view.window.Window": [],
   "EdiromOnline.view.window.XmlView": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.audio.AudioView": [],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.view.window.iFrameView": [],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
+  "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [],
   "EdiromOnline.view.window.source.GotoMsg": [],
   "EdiromOnline.view.window.source.HorizontalMeasureViewer": [],
@@ -83,8 +88,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.source.MeasureBasedView": [],
   "EdiromOnline.view.window.source.MeasureSpinner": [],
   "EdiromOnline.view.window.source.PageBasedView": [],
-  "EdiromOnline.view.window.source.PageSpinner": [],
   "EdiromOnline.view.window.source.SourceView": [],
+  "EdiromOnline.view.window.source.VerovioPageSpinner": [],
   "EdiromOnline.view.window.source.VerovioView": [],
   "EdiromOnline.view.window.text.FacsimileView": [],
   "EdiromOnline.view.window.text.TextFacsimileSplitView": [],
@@ -938,17 +943,19 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.controller.window.AnnotationView": [],
   "EdiromOnline.controller.window.HeaderView": [],
   "EdiromOnline.controller.window.HelpWindow": [],
-  "EdiromOnline.controller.window.RenderingView": [],
   "EdiromOnline.controller.window.SingleWindowController": [],
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
+  "EdiromOnline.controller.window.iFrameView": [],
   "EdiromOnline.controller.window.search.SearchWindow": [],
   "EdiromOnline.controller.window.source.MeasureBasedView": [],
   "EdiromOnline.controller.window.source.PageBasedView": [],
   "EdiromOnline.controller.window.source.SourceView": [],
   "EdiromOnline.controller.window.source.VerovioView": [],
+  "EdiromOnline.controller.window.text.FacsimileView": [],
   "EdiromOnline.controller.window.text.TextFacsimileSplitView": [],
   "EdiromOnline.controller.window.text.TextView": [],
   "EdiromOnline.model.Annotation": [],
@@ -986,15 +993,13 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.HelpWindow": [
     "widget.helpWindow"
   ],
-  "EdiromOnline.view.window.RenderingView": [
-    "widget.renderingView"
-  ],
   "EdiromOnline.view.window.SummaryView": [
     "widget.summaryView"
   ],
   "EdiromOnline.view.window.TopBar": [
     "widget.window.topbar"
   ],
+  "EdiromOnline.view.window.View": [],
   "EdiromOnline.view.window.Window": [
     "widget.ediromWindow"
   ],
@@ -1004,11 +1009,18 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
+  "EdiromOnline.view.window.audio.AudioView": [
+    "widget.audioView"
+  ],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [
     "widget.concordanceNavigator"
   ],
+  "EdiromOnline.view.window.iFrameView": [
+    "widget.iFrameView"
+  ],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
+  "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [
     "widget.searchWindow"
   ],
@@ -1026,11 +1038,11 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.source.PageBasedView": [
     "widget.pageBasedView"
   ],
-  "EdiromOnline.view.window.source.PageSpinner": [
-    "widget.pageSpinner"
-  ],
   "EdiromOnline.view.window.source.SourceView": [
     "widget.sourceView"
+  ],
+  "EdiromOnline.view.window.source.VerovioPageSpinner": [
+    "widget.verovioPageSpinner"
   ],
   "EdiromOnline.view.window.source.VerovioView": [
     "widget.verovioView"

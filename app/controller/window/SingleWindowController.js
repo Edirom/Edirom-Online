@@ -49,6 +49,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
 
     onWindowRendered: function(win) {
         var me = this;
+        var lang = getPreference('application_language');
 
         if(win.initialized) return;
         win.initialized = true;
@@ -56,7 +57,8 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         window.doAJAXRequest('data/xql/getLinkTarget.xql',
             'POST', 
             {
-                uri: win.uri
+                uri: win.uri,
+                lang: lang
             },
             Ext.bind(function(response){
                 var data = response.responseText;
@@ -72,6 +74,15 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         var views = [];
         
         Ext.Array.each(config.views, function(view) {
+	        var uri = view.uri;
+	        
+	        if(view.type == "iFrameView" && config["term"] != "" && config["path"] != "") {
+		        uri = uri + "?term=" + config["term"] + "&path=" + config["path"] + "#searchTarget";
+	        }
+	        
+	        if(view.type == "iFrameView" && config["internalId"] != "") {
+		        uri = uri + "#" + config["internalId"];
+	        }
 
             views.push(this.createView(view.type, {
                 window:win,
@@ -79,7 +90,7 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
                 viewType: view.type,
                 viewLabel: view.label,
                 defaultView: view.defaultView,
-                uri:view.uri
+                uri:uri
             }));
 
         }, me);

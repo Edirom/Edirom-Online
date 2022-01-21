@@ -20,6 +20,8 @@ xquery version "1.0";
   ID: $Id: getNavigatorConfig.xql 1279 2012-03-19 13:16:43Z daniel $
 :)
 
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace xlink="http://www.w3.org/1999/xlink";
@@ -30,25 +32,15 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedName($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/edirom:names/edirom:name/@xml:lang)
-      then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
-      else $node/edirom:names/edirom:name[1]/node()
-};
-
 declare function local:getCategory($category, $depth) {
 
-    let $name := local:getLocalizedName($category)
-    return
     <div class="navigatorCategory{if($depth = 1)then()else($depth)}" id="{$category/@xml:id}">
         <div class="navigatorCategoryTitle{if($depth = 1)then()else($depth)}">
             {
                 if($depth = 1)
-                then($name)
+                then(eutil:getLocalizedName($category, $lang))
                 else(
-                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{$name}<i class="fa fa-caret-right fa-fw"></i></span>
+                    <span id="{$category/@xml:id}-title" onclick="if(Ext.get('{$category/@xml:id}-title').hasCls('folded')) {{Ext.get('{$category/@xml:id}-title').removeCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-right').addCls('fa-caret-down');Ext.get('{$category/@xml:id}-items').removeCls('hidden');}}else{{Ext.get('{$category/@xml:id}-title').addCls('folded');Ext.get(Ext.get('{$category/@xml:id}-title').query('.fa')[0]).removeCls('fa-caret-down').addCls('fa-caret-right');Ext.get('{$category/@xml:id}-items').addCls('hidden');}}" class="folded">{eutil:getLocalizedName($category, $lang)}<i class="fa fa-caret-right fa-fw"></i></span>
                 )
             }            
         </div>
@@ -84,7 +76,7 @@ declare function local:getItem($item, $depth) {
     return
 
     <div class="navigatorItem{if($depth lt 2)then()else($depth)}" id="{$item/@xml:id}" onclick="{$target}">
-        { local:getLocalizedName($item) }
+        {eutil:getLocalizedName($item, $lang)}
     </div>
 };
 
@@ -94,8 +86,7 @@ declare function local:getSeparator() {
 };
 
 declare function local:getDefinition($navConfig) {
-    
-    let $elems := $navConfig/*
+let $elems := $navConfig/*
     
     for $elem in $elems
     
