@@ -17,6 +17,7 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.controller.window.source.SourceView', {
+
     extend: 'Ext.app.Controller',
 
     views: [
@@ -207,6 +208,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             var lang = getPreference('application_language');
 
             window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
+
                 'GET', 
                 {
                     uri: view.uri,
