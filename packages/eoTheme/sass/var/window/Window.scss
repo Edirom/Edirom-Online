@@ -14,6 +14,7 @@ $button-default-color: #000000;
 
 .ediromDesktop .ux-wallpaper {
 	@include background-image(radial-gradient(center 70% , rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0)), linear-gradient(center top , #586E75, #839496) !important);
+	//background-color: black !important;
 }
 
 #navigator {
@@ -154,7 +155,7 @@ $button-default-color: #000000;
 	}
 
 	.x-window-body > span > div:first-child > div:first-child {
-		display: none;		
+// 		display: none;		
 	}
 	
 	.x-btn-default-small {
