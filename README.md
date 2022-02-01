@@ -9,21 +9,14 @@ Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sen
 
 
 
-Dependencies
-------------
-## Dependencies
 
-* Jetty Application Server (<http://www.eclipse.org/jetty/>), in the newest version
-* eXist-db (<http://www.exist-db.org>), in the newest version
-* Digilib (<http://digilib.sourceforge.net/>), in the newest version
-* Apache with mod_proxy (<http://httpd.apache.org/docs/current/mod/mod_proxy.html>)
 
-Install eXist-db and Digilib on different ports. We use Jetty as application server for Digilib, others should work, too.
 
 
 Setup
 -----
 ## Setup
+## Other deployment methods
 
 Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
 
