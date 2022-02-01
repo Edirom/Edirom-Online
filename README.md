@@ -1,5 +1,4 @@
-Edirom Online
-=============
+# Edirom Online
 
 Table of contents
 
@@ -20,6 +19,7 @@ The software is still under high development and has to be seen as beta software
 
 Dependencies
 ------------
+## Dependencies
 
 * Jetty Application Server (<http://www.eclipse.org/jetty/>), in the newest version
 * eXist-db (<http://www.exist-db.org>), in the newest version
@@ -31,11 +31,13 @@ Install eXist-db and Digilib on different ports. We use Jetty as application ser
 
 Setup
 -----
+## Setup
 
 Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
 
 License
 -------
+## License
 
 Edirom Online is released to the public under the terms of the [GNU GPL v.3](<http://www.gnu.org/copyleft/gpl.html>) open source license.
 
