@@ -1,15 +1,7 @@
 # Edirom Online
 
-Table of contents
 Edirom Online is a web application written in XQuery and Javascript, and designed for deployment in eXist-db[http://exist-db.org/exist/apps/homepage/index.html](http://exist-db.org/exist/apps/homepage/index.html). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.
 
-<ul>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#dependencies">Dependencies</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#setup">Setup</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#setupcontent">Setup Content</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#development">Development</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#license">License</a></li>
-</ul>
 The software is still under high development and has to be seen as beta software.
 
 
