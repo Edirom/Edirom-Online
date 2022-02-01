@@ -13,9 +13,6 @@ Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sen
 
 
 
-Setup
------
-## Setup
 ## Other deployment methods
 
 Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
