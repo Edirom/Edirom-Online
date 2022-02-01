@@ -10,11 +10,11 @@ Edirom Online is a web application written in XQuery and Javascript, and designe
 	<li style="margin-top:0;margin-bottom:0;"><a href="#development">Development</a></li>
 	<li style="margin-top:0;margin-bottom:0;"><a href="#license">License</a></li>
 </ul>
+The software is still under high development and has to be seen as beta software.
 
 
 Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
 
-The software is still under high development and has to be seen as beta software.
 
 
 Dependencies
