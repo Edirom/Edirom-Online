@@ -1,6 +1,7 @@
 # Edirom Online
 
 Table of contents
+Edirom Online is a web application written in XQuery and Javascript, and designed for deployment in eXist-db[http://exist-db.org/exist/apps/homepage/index.html](http://exist-db.org/exist/apps/homepage/index.html). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.
 
 <ul>
 	<li style="margin-top:0;margin-bottom:0;"><a href="#dependencies">Dependencies</a></li>
@@ -10,7 +11,6 @@ Table of contents
 	<li style="margin-top:0;margin-bottom:0;"><a href="#license">License</a></li>
 </ul>
 
-Edirom Online is a web application written in XQuery and Javascript, based on the work of the _Edirom_-Project (<http://www.edirom.de>) funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of musicians handwritings to the pc.
 
 Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
 
