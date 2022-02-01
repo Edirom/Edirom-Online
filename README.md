@@ -27,8 +27,6 @@ Setup
 
 Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
 
-License
--------
 ## License
 
 Edirom Online is released to the public under the terms of the [GNU GPL v.3](<http://www.gnu.org/copyleft/gpl.html>) open source license.
