@@ -8,8 +8,17 @@ The software is still under high development and has to be seen as beta software
 
 Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
 
+## Contributing
 
+### Building locally
 
+For building Edirom Online you need *Sencha Cmd* installed on your system. You might want to refer to the [Sencha Cmd System Setup](https://docs.sencha.com/cmd/7.5.0/guides/intro_to_cmd.html#intro_to_cmd_-_system_setup) section for more details.
+
+Alternatively we recommend to use a container image for building, e.g. [bwbohl/sencha-cmd](https://github.com/bwbohl/sencha-cmd/pkgs/container/sencha-cmd)
+
+```bash
+run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
+```
 
 ## Other deployment methods
 
