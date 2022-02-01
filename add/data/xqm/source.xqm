@@ -43,7 +43,7 @@ declare function source:isSource($uri as xs:string) as xs:boolean {
     let $doc := eutil:getDoc($uri)
     return
         exists($doc//mei:mei) and exists($doc//mei:source) (:mei2 and ?3 :)
-        or ($doc//mei:mei/@meiversion = "4.0.1" and exists($doc//mei:manifestation[@singleton='true'])) (:mei4 :)
+        or ($doc//mei:mei/@meiversion = ("4.0.0", "4.0.1") and exists($doc//mei:manifestation[@singleton='true'])) (:mei4 :)
 };
 
 (:~
@@ -67,7 +67,7 @@ declare function source:getLabels($sources as xs:string*, $edition as xs:string)
 declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
     let $sourceDoc := doc($source)
     let $language := eutil:getLanguage($edition)
-    let $label := if($sourceDoc/mei:mei/@meiversion = "4.0.1")(:TODO encoding of source labels may heavily differ in certain encoding contexts, thus introduction of class="http://www.edirom.de/edirom-online/source/label":)
+    let $label := if($sourceDoc/mei:mei/@meiversion = ("4.0.0", "4.0.1"))(:TODO encoding of source labels may heavily differ in certain encoding contexts, thus introduction of class="http://www.edirom.de/edirom-online/source/label":)
                     then $sourceDoc//mei:manifestation[@singleton='true']/mei:titleStmt/mei:title[@class = "http://www.edirom.de/edirom-online/source/label"][not(@xml:lang) or @xml:lang = $language]
                     else $sourceDoc//mei:source/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language]
     let $label := if($label)
