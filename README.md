@@ -22,7 +22,7 @@ run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name edi
 
 ## Other deployment methods
 
-Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki 
+Please see our documentation in the [wiki](https://github.com/Edirom/Edirom-Online/wiki). 
 
 ## License
 
