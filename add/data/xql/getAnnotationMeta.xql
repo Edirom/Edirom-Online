@@ -69,7 +69,6 @@ let $siglaLabel := switch(count($sigla))
                     case 0 return ()
                     case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
                     default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
-
 let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return

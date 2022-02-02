@@ -39,7 +39,7 @@
         <entry key="controller.window.Window_searchView" value="Search window"/>
         <entry key="controller.window.Window_sourceView" value="Facsimile"/>
         <entry key="controller.window.Window_audioView" value="Audio"/>
-	    <entry key="controller.window.Window_verovioView" value="Rendering"/>
+	<entry key="controller.window.Window_verovioView" value="Rendering"/>
         <entry key="controller.window.Window_summaryView" value="Summary"/>
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
@@ -74,6 +74,7 @@
         <entry key="view.window.AnnotationView_No" value="No."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
         <entry key="view.window.AnnotationView_Categories" value="Categories"/>
+        <entry key="view.window.AnnotationView_Category" value="Category"/>
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
