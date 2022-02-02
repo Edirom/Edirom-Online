@@ -47,8 +47,6 @@ declare namespace edirom="http://www.edirom.de/ns/1.3";
 :)
 
 declare function eutil:getLocalizedName($node, $lang) as xs:string {
-  let $nodeName := local-name($node)
-  return
     if ($node/mei:title)
     then (
         if ($lang = $node/mei:title/@xml:lang)
@@ -176,7 +174,6 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
      return    
         if($projectFile != 'null' and $projectFile//entry[@key = $key]) then ($projectFile//entry[@key = $key]/string(@value))
         else ($file//entry[@key = $key]/string(@value))
-     
 };
 
 (:~
