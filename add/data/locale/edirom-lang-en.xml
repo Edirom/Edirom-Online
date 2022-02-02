@@ -39,7 +39,7 @@
         <entry key="controller.window.Window_searchView" value="Search window"/>
         <entry key="controller.window.Window_sourceView" value="Facsimile"/>
         <entry key="controller.window.Window_audioView" value="Audio"/>
-	    <entry key="controller.window.Window_verovioView" value="Rendering"/>
+	      <entry key="controller.window.Window_verovioView" value="Rendering"/>
         <entry key="controller.window.Window_summaryView" value="Summary"/>
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
@@ -55,20 +55,20 @@
         <entry key="view.desktop.Desktop_Restore" value="Restore"/>
         <entry key="view.desktop.Desktop_Tile" value="Tile"/>
         
-        <entry key="view.desktop.TaskBar_concordanceNav" value="Open concordance navigator"/>
-        <entry key="view.desktop.TaskBar_measureNumbers" value="Show measure numbers"/>
-        <entry key="view.desktop.TaskBar_annotations" value="Show annotations"/>
+        <entry key="view.desktop.TaskBar_concordanceNav" value="Open concordance navigator"/>
+        <entry key="view.desktop.TaskBar_measureNumbers" value="Show measure numbers"/>
+        <entry key="view.desktop.TaskBar_annotations" value="Show annotations"/>
         <entry key="view.desktop.TaskBar_help" value="Help"/>
         <entry key="view.desktop.TaskBar_pref" value="Preferences"/>
-        <entry key="view.desktop.TaskBar_lang" value="Switch language"/>
+        <entry key="view.desktop.TaskBar_lang" value="Switch language"/>
         <entry key="view.desktop.TaskBar_home" value="Home"/>
-        <entry key="view.desktop.TaskBar_work" value="Select work"/>
+        <entry key="view.desktop.TaskBar_work" value="Select work"/>
         <entry key="view.desktop.TaskBar_search" value="Search"/>
-        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
+        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Open search window"/>
-        <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
-        <entry key="view.desktop.TaskBar_Sort_vertical" value="Sort windows vertically"/>
-        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
+        <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Sort windows vertically"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
         
         <entry key="view.window.AnnotationView_Title" value="Annotation"/>
         <entry key="view.window.AnnotationView_No" value="No."/>
@@ -79,6 +79,9 @@
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
         <entry key="view.window.AnnotationView_Sources" value="Sources"/>
+        <entry key="view.window.AnnotationView_Siglum" value="Source Siglum"/>
+        <entry key="view.window.AnnotationView_Sigla" value="Source Sigla"/>
+        <entry key="view.window.AnnotationView_AnnotationID" value="Annot.-ID"/>
         <entry key="view.window.AnnotationView_List" value="List"/>
         <entry key="view.window.AnnotationView_Display" value="Display"/>
         <entry key="view.window.AnnotationView_Grid" value="Grid view"/>
@@ -171,7 +174,7 @@
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>
-    <!-- XSL-FO specific -->
+        <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Table of contents"/>
     </entries>
 </langFile>

@@ -60,17 +60,16 @@ let $categoriesLabel := switch(count($categories))
                         default return eutil:getLanguageString('view.window.AnnotationView_Categories', ())
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
-let $sourcesLabel := if(count($sources) gt 1)then(eutil:getLanguageString('view.window.AnnotationView_Sources', ()))else(eutil:getLanguageString('view.window.AnnotationView_Source', ()))
+let $sourcesLabel := if (count($sources) gt 1)
+                        then (eutil:getLanguageString('view.window.AnnotationView_Sources', ()))
+                        else (eutil:getLanguageString('view.window.AnnotationView_Source', ()))
 
 let $sigla := source:getSiglaAsArray($participants)
 let $siglaLabel := switch(count($sigla))
                     case 0 return ()
-                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Source', ())
-                    default return eutil:getLanguageString('view.window.AnnotationView_Sources', ())
-                        
-let $annotIDlabel := if ($lang = 'de')
-                            then ('Anm.-ID')
-                            else ('Annot.-ID')
+                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
+                    default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
+let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return
 

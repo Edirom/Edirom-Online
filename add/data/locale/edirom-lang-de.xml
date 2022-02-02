@@ -55,20 +55,20 @@
         <entry key="view.desktop.Desktop_Restore" value="Wiederherstellen"/>
         <entry key="view.desktop.Desktop_Tile" value="Nebeneinander"/>
         
-        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
-        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
-        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
+        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
+        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
+        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
-        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
+        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
-        <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
+        <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
-        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
-        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
-        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
+        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
+        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
         
         <entry key="view.window.AnnotationView_Title" value="Anmerkungen"/>
         <entry key="view.window.AnnotationView_No" value="Nr."/>
@@ -79,7 +79,9 @@
         <entry key="view.window.AnnotationView_Participants" value="Subjekte"/>
         <entry key="view.window.AnnotationView_Source" value="Quelle"/>
         <entry key="view.window.AnnotationView_Sources" value="Quellen"/>
+        <entry key="view.window.AnnotationView_Siglum" value="Source Siglum"/>
         <entry key="view.window.AnnotationView_Sigla" value="Quelle"/>
+        <entry key="view.window.AnnotationView_AnnotationID" value="Annot.-ID"/>
         <entry key="view.window.AnnotationView_List" value="Liste"/>
         <entry key="view.window.AnnotationView_Display" value="Darstellung"/>
         <entry key="view.window.AnnotationView_Grid" value="Rasteransicht"/>
@@ -115,6 +117,7 @@
         <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Vorherige Seite"/>
         <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Seitenauswahl"/>
         <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Nächste Seite"/>
+        <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
         <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Taktauswahl" />
@@ -171,7 +174,7 @@
         <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>
-        
+        <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Inhaltsverzeichnis"/>
     </entries>
 </langFile>

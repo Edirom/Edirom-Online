@@ -91,11 +91,11 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 .taskSquareButton.lang {
 	background-image: url('pix/lang.png');
 	background-position: 0 0;
-	
+
 	&:hover {
 		background-position: 0 -24px;
 	}
-	
+
 	.x-btn-inner {
 	    font-size: 10px;
 	    color: #666;
@@ -244,9 +244,7 @@ $edirom-taskbarWindowButton-background-color: #cccccc;
 
 /*
 #workSwitch {
-	display: ;
-	margin-left: auto;
-	margin-right: auto;
+	
 }
 */
 
