@@ -38,6 +38,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+let $lang := request:get-parameter('lang', '')
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
@@ -66,6 +67,10 @@ let $siglaLabel := switch(count($sigla))
                     case 0 return ()
                     case 1 return eutil:getLanguageString('view.window.AnnotationView_Source', ())
                     default return eutil:getLanguageString('view.window.AnnotationView_Sources', ())
+                        
+let $annotIDlabel := if ($lang = 'de')
+                            then ('Anm.-ID')
+                            else ('Annot.-ID')
 
 return
 
@@ -79,13 +84,17 @@ return
                 <div class="key">{$categoriesLabel}</div>
                 <div class="value">{string-join($categories, ', ')}</div>
             </div>
-            <div class="property sourceLabel">
+            <!--<div class="property sourceLabel">
                 <div class="key">{$sourcesLabel}</div>
                 <div class="value">{string-join($sources, ', ')}</div>
-            </div>
+            </div>-->
             <div class="property sourceSiglums">
                 <div class="key">{$siglaLabel}</div>
                 <div class="value">{string-join($sigla, ', ')}</div>
+            </div>
+            <div class="property annotID">
+                <div class="key">{$annotIDlabel}</div>
+                <div class="value">{$internalId}</div>
             </div>
         </div>
     </div>

@@ -44,6 +44,7 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Facsimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-View"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-View"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Cascade"/>
         <entry key="view.desktop.Desktop_Close" value="Close"/>
@@ -61,6 +62,7 @@
         <entry key="view.desktop.TaskBar_pref" value="Preferences"/>
         <entry key="view.desktop.TaskBar_lang" value="Switch language"/>
         <entry key="view.desktop.TaskBar_home" value="Home"/>
+        <entry key="view.desktop.TaskBar_work" value="Select work"/>
         <entry key="view.desktop.TaskBar_search" value="Search"/>
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Open search window"/>
@@ -165,6 +167,7 @@
         <entry key="Number field with left and right arrows" value="Number field with left and right arrows"/>
 
         <!-- DATA -->
+        <entry key="Annotation" value="Annotation"/>
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>

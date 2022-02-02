@@ -30,6 +30,8 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
+declare variable $lang := request:get-parameter('lang', '');
+
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
         for $category in $annots/mei:ptr[@type="categories"]/replace(@target, '#', '')
@@ -53,7 +55,7 @@ let $annots := collection(eutil:getPreference('edition_path', request:get-parame
 return concat('{categories: [',
         string-join(
             for $category in local:getDistinctCategories($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1]/mei:name/text()
+            let $name := eutil:getLocalizedName((collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($category))[1], $lang)
             order by $name
             return
                 concat('{id:"', $category, '",name:"', $name,'"}')
@@ -61,7 +63,7 @@ return concat('{categories: [',
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1]/mei:name/text()
+            let $name := eutil:getLocalizedName((collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//id($priority))[1], $lang)
             order by $name
             return
                 concat('{id:"', $priority, '",name:"', $name,'"}')
