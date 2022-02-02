@@ -45,7 +45,7 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 : @return The string
 :)
 
-declare function eutil:getLocalizedName($node, $lang) {
+declare function eutil:getLocalizedName($node, $lang) as xs:string {
   let $nodeName := local-name($node)
   return
     if ($node/mei:title)
@@ -66,7 +66,7 @@ declare function eutil:getLocalizedName($node, $lang) {
             then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
             else $node/edirom:names/edirom:name[1]/node()
     )
-    else ($node)
+    else (normalize-space($node))
 };
 
 
