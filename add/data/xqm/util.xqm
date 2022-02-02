@@ -143,7 +143,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 };
 
 (:~
-: Returns a language specific string
+: Returns a language specific string from the locale/edirom-lang files
 :
 : @param $key The key to search for
 : @param $values The values to include into the string
