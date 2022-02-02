@@ -1,34 +1,32 @@
 # Edirom Online
 
-Table of contents
-
-<ul>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#dependencies">Dependencies</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#setup">Setup</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#setupcontent">Setup Content</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#development">Development</a></li>
-	<li style="margin-top:0;margin-bottom:0;"><a href="#license">License</a></li>
-</ul>
-
-Edirom Online is a web application written in XQuery and Javascript, based on the work of the _Edirom_-Project (<http://www.edirom.de>) funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of musicians handwritings to the pc.
-
-Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
+Edirom Online is a web application written in XQuery and Javascript, and designed for deployment in eXist-db[http://exist-db.org/exist/apps/homepage/index.html](http://exist-db.org/exist/apps/homepage/index.html). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.
 
 The software is still under high development and has to be seen as beta software.
 
 ## Dependencies
 
-* Jetty Application Server (<http://www.eclipse.org/jetty/>), in the newest version
-* eXist-db (<http://www.exist-db.org>), in the newest version
-* Digilib (<http://digilib.sourceforge.net/>), in the newest version
-* Apache with mod_proxy (<http://httpd.apache.org/docs/current/mod/mod_proxy.html>)
+Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
 
-Install eXist-db and Digilib on different ports. We use Jetty as application server for Digilib, others should work, too.
+## Contributing
 
+### Building locally
 
-## Setup
+For building Edirom Online you need *Sencha Cmd* installed on your system. You might want to refer to the [Sencha Cmd System Setup](https://docs.sencha.com/cmd/7.5.0/guides/intro_to_cmd.html#intro_to_cmd_-_system_setup) section for more details.
 
-Please see our documentation in the wiki section: https://github.com/Edirom/Edirom-Online/wiki
+Alternatively we recommend to use a container image for building, e.g. [bwbohl/sencha-cmd](https://github.com/bwbohl/sencha-cmd/pkgs/container/sencha-cmd)
+
+```bash
+run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
+```
+
+### Testing locally
+
+It is essential to Test your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container nad deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample).
+
+## Other deployment methods
+
+Please see our documentation in the [wiki](https://github.com/Edirom/Edirom-Online/wiki). 
 
 ## License
 
