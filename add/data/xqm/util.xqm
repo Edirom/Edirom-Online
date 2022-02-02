@@ -163,7 +163,6 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
         
 };
 
-
 (:~
 : Return a value of preference to key 
 :
