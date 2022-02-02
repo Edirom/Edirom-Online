@@ -81,7 +81,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
             			},
                     	me.workCombo,
                     	'->',
-// 						me.searchTextField,
+ 					   me.searchTextField,
                     	me.searchButton
                 ]
             })

@@ -5,10 +5,20 @@ declare variable $exist:resource external;
 
 declare option exist:serialize "method=xhtml media-type=application/xhtml+html";
 
-if ($exist:path eq "/") then
-    (: forward root path to index.xql :)
+if ($exist:path eq "") then
+    (: forward missing / to / :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <forward url="index.html"/>
+        <redirect url="{request:get-uri()}/"/>
+    </dispatch>
+else if ($exist:path eq "/") then
+    (: redirect root path to index.html :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <redirect url="index.html"/>
+    </dispatch>
+else if ($exist:path eq "/index.html") then
+    (: forward index.html to index.xql :)
+    <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+        <forward url="index.xql"/>
     </dispatch>
 (:else if (starts-with($exist:path, "/data")) then
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">

@@ -77,7 +77,10 @@
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
-        <entry key="view.window.AnnotationView_Sigla" value="Source"/>
+        <entry key="view.window.AnnotationView_Sources" value="Sources"/>
+        <entry key="view.window.AnnotationView_Siglum" value="Source Siglum"/>
+        <entry key="view.window.AnnotationView_Sigla" value="Source Sigla"/>
+        <entry key="view.window.AnnotationView_AnnotationID" value="Annot.-ID"/>
         <entry key="view.window.AnnotationView_List" value="List"/>
         <entry key="view.window.AnnotationView_Display" value="Display"/>
         <entry key="view.window.AnnotationView_Grid" value="Grid view"/>
@@ -170,7 +173,7 @@
         <entry key="Annotation_plus_Title" value="Annotation: {0}"/>
         <entry key="Bars_from_to" value="Bars {0} to {1}"/>
         <entry key="Bar_n" value="Bar {0}"/>
-    <!-- XSL-FO specific -->
+        <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Table of contents"/>
     </entries>
 </langFile>
