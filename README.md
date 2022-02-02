@@ -20,6 +20,10 @@ Alternatively we recommend to use a container image for building, e.g. [bwbohl/s
 run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
 ```
 
+### Testing locally
+
+It is essential to Test your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container nad deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample).
+
 ## Other deployment methods
 
 Please see our documentation in the [wiki](https://github.com/Edirom/Edirom-Online/wiki). 
