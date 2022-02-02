@@ -23,13 +23,13 @@ xquery version "1.0";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
-
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+
+declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+
 
 declare variable $lang := request:get-parameter('lang', '');
 

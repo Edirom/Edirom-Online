@@ -283,13 +283,13 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
                 });
 
-                /*var anno = me.el.getById(me.id + '_' + id);
+                var anno = me.el.getById(me.id + '_' + id);
 
                 anno.on('click', me.openShapeLink, me, {
                     single: true,
                     stopEvent : true,
                     fn: fn
-                });*/
+                });
 
                 var tip = Ext.create('Ext.tip.ToolTip', {
                     target: me.id + '_' + id,

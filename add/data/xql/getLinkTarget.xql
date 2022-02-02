@@ -146,7 +146,7 @@ let $type :=
              then(string('recording'))
              
              (: Source / Score :)
-             else if(exists($doc//mei:mei) and exists($doc//mei:source))
+             else if(source:isSource($docUri))
              then(string('source'))
              
              
@@ -168,11 +168,9 @@ let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
               then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
 
-              
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
               then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
-
 
               (: Source / Score without Shelfmark:)
               else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
@@ -185,7 +183,6 @@ let $title := (: Work :)
               (: Text :)
               else if(exists($doc/tei:TEI))
               then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
-
               
               (: HTML :)
               else if($type = 'html')

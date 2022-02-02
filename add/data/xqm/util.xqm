@@ -139,7 +139,7 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*) as xs:string {
 
-    eutil:getLanguageString($key, $values, 'en')
+    eutil:getLanguageString($key, $values, eutil:getLanguage(''))
 };
 
 (:~

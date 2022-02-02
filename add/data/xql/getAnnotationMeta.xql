@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -49,28 +49,28 @@ let $annot := $doc/id($internalId)
 let $participants := annotation:getParticipants($annot)
 
 let $priority := annotation:getPriority($annot)
-let $priorityLabel := if ($lang = 'de')
-                        then('Priorität')
-                        else('Priority')
+let $priorityLabel := switch($priority)
+                      case "" return ()
+                      default return eutil:getLanguageString('view.window.AnnotationView_Priority', ())
 
 let $categories := annotation:getCategoriesAsArray($annot)
-let $categoriesLabel := if ($lang = 'de')
-                        then (if(count($categories) gt 1)then('Kategorien')else('Kategorie'))
-                        else(if(count($categories) gt 1)then('Categories')else('Category'))
+let $categoriesLabel := switch(count($categories))
+                        case 0 return ()
+                        case 1 return eutil:getLanguageString('view.window.AnnotationView_Category', ())
+                        default return eutil:getLanguageString('view.window.AnnotationView_Categories', ())
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
-let $sourcesLabel := if ($lang = 'de')
-                        then (if(count($sources) gt 1)then('Quellen')else('Quelle'))
-                        else(if(count($sources) gt 1)then('Sources')else('Source'))
+let $sourcesLabel := if (count($sources) gt 1)
+                        then (eutil:getLanguageString('view.window.AnnotationView_Sources', ()))
+                        else (eutil:getLanguageString('view.window.AnnotationView_Source', ()))
 
 let $sigla := source:getSiglaAsArray($participants)
-let $siglaLabel := if ($lang = 'de')
-                        then (if(count($sigla) gt 1)then('Siglen')else('Siglum'))
-                        else(if(count($sigla) gt 1)then('Sources')else('Source'))
-                        
-let $annotIDlabel := if ($lang = 'de')
-                            then ('Anm.-ID')
-                            else ('Annot.-ID')
+let $siglaLabel := switch(count($sigla))
+                    case 0 return ()
+                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
+                    default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
+
+let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return
 

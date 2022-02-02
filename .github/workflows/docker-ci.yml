@@ -1,0 +1,38 @@
+name: Docker Image CI
+
+on:
+#  push:
+#    branches: [ main ]
+  pull_request:
+    types: [opened, edited, reopened]
+    branches: [ develop, main ]
+
+env:
+  DOCKER_IMAGE: bwbohl/sencha-cmd
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build Edirom Online from bazga-dev
+      run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
+    - uses: actions/upload-artifact@v2
+      with:
+        name: EdiromOnline.xar
+        path: build-xar/EdiromOnline.xar
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: jaapio/keelsh-deploy@master
+        with:
+          keelBaseUrl: http://keel.euryanthe.de
+          image: 'bazga/existdb'
+          tag: 'latest'
