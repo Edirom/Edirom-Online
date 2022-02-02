@@ -24,19 +24,20 @@ xquery version "3.0";
 : This module provides library utility functions
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:roewenstrunk@edirom.de">Nikolaos Beer</a>
+: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
+
 module namespace eutil = "http://www.edirom.de/xquery/util";
 
 import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "source.xqm";
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
-
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
-
-import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 (:~
 : Returns a localized string
@@ -68,7 +69,6 @@ declare function eutil:getLocalizedName($node, $lang) as xs:string {
     )
     else (normalize-space($node))
 };
-
 
 (:~
 : Returns a document
@@ -160,7 +160,6 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
                         
     return
         $string
-        
 };
 
 (:~
@@ -172,7 +171,6 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string {
 
      let $file := doc('../prefs/edirom-prefs.xml')
-        
      let $projectFile := doc(edition:getPreferencesURI($edition))
      
      return    
