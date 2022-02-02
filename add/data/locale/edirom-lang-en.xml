@@ -72,9 +72,11 @@
         <entry key="view.window.AnnotationView_No" value="No."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
         <entry key="view.window.AnnotationView_Categories" value="Categories"/>
+        <entry key="view.window.AnnotationView_Category" value="Category"/>
         <entry key="view.window.AnnotationView_Priority" value="Priority"/>
         <entry key="view.window.AnnotationView_Participants" value="Participants"/>
         <entry key="view.window.AnnotationView_Source" value="Source"/>
+        <entry key="view.window.AnnotationView_Sources" value="Sources"/>
         <entry key="view.window.AnnotationView_List" value="List"/>
         <entry key="view.window.AnnotationView_Display" value="Display"/>
         <entry key="view.window.AnnotationView_Grid" value="Grid view"/>
