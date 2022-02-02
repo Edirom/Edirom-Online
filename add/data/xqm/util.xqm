@@ -47,6 +47,7 @@ declare namespace edirom="http://www.edirom.de/ns/1.3";
 :)
 
 declare function eutil:getLocalizedName($node, $lang) as xs:string {
+
     if ($node/mei:title)
     then (
         if ($lang = $node/mei:title/@xml:lang)
@@ -75,6 +76,7 @@ declare function eutil:getLocalizedName($node, $lang) as xs:string {
 : @return The document
 :)
 declare function eutil:getDoc($uri) {
+
     if(starts-with($uri, 'textgrid:'))
     then(
         let $session := request:get-cookie-value('edirom_online_textgrid_sessionId')
@@ -93,6 +95,7 @@ declare function eutil:getDoc($uri) {
 : @return The labels
 :)
 declare function eutil:getDocumentsLabels($docs as xs:string*, $edition as xs:string) as xs:string {
+
     string-join(
         eutil:getDocumentsLabelsAsArray($docs, $edition)
     , ', ')
@@ -105,7 +108,10 @@ declare function eutil:getDocumentsLabels($docs as xs:string*, $edition as xs:st
 : @return The labels
 :)
 declare function eutil:getDocumentsLabelsAsArray($docs as xs:string*, $edition as xs:string) as xs:string* {
-    for $doc in $docs return eutil:getDocumentLabel($doc, $edition)
+
+    for $doc in $docs
+    return
+        eutil:getDocumentLabel($doc, $edition)
 };
 
 (:~
@@ -191,5 +197,4 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
      else(
          eutil:getPreference('application_language', $edition)
      )
-     
 };
