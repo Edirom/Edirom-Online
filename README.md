@@ -22,7 +22,7 @@ run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name edi
 
 ### Testing locally
 
-It is essential to Test your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container nad deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample).
+It is essential to Test your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container and deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample).
 
 ## Other deployment methods
 
