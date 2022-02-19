@@ -17,7 +17,7 @@ For building Edirom Online you need *Sencha Cmd* installed on your system. You m
 Alternatively we recommend to use a container image for building, e.g. [bwbohl/sencha-cmd](https://github.com/bwbohl/sencha-cmd/pkgs/container/sencha-cmd)
 
 ```bash
-run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
+docker run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
 ```
 
 ### Testing locally
