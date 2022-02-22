@@ -42,7 +42,17 @@ let $internal := if(exists($internal))then($internal)else(
                             let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
                             let $measureN := functx:substring-after-last($internalId, '_')
                             return
-                                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
+                                (
+                                    if (
+                                        $doc/id($mdivId)//mei:measure/@label
+                                    )
+                                    then (
+                                        $doc/id($mdivId)//mei:measure[@label eq $measureN][1]
+                                    )
+                                    else (
+                                        $doc/id($mdivId)//mei:measure[@n eq $measureN][1]
+                                    )
+                                )
                         )
                         else($internal)
                     )

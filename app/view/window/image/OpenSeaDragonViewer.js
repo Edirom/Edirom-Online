@@ -39,7 +39,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     annotTipWidth: 220,
     annotTipMaxWidth: 300,
     annotTipHeight: 140,
-    annotTipMaxHeight: 200,
+    annotTipMaxHeight: 300,
 
     initComponent: function () {
 
@@ -264,10 +264,11 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 var y = shape.uly;
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
+                var partType = shape.type;
                 
                 var anno = document.createElement("div");
                 anno.id = me.id + '_' + id;
-                anno.className = "annotation " + categories + ' ' + priority;
+                anno.className = "annotation " + categories + ' ' + priority + ' ' + partType;
                 
                 var annoIcon = document.createElement("div");
                 annoIcon.id = anno.id + '_inner';
@@ -298,6 +299,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     height: me.annotTipHeight,
                     maxHeight: me.annotTipMaxHeight,
                     dismissDelay: 0,
+                    hideDelay: 1000,
                     anchor: 'left',
                     html: getLangString('Annotation_plus_Title', name)
                 });
@@ -314,6 +316,21 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                             this.update(response.responseText);
                         }, this)
                     );
+                    this.el.on('mouseover', function() {
+                        this.addCls('mouseOverAnnot');
+                    }, this);
+                    this.el.on('mouseout', function() {
+                        this.removeCls('mouseOverAnnot');
+                    }, this);
+                }, tip);
+
+                tip.on('beforehide', function() {
+                    if(this.el.hasCls('mouseOverAnnot')) {
+                        Ext.Function.defer(function(){
+                            this.hide();
+                        }, 1000, this);
+                        return false;
+                    }
                 }, tip);
             });
         });

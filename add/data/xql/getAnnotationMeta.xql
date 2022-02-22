@@ -38,6 +38,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+let $lang := request:get-parameter('lang', '')
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
@@ -59,13 +60,16 @@ let $categoriesLabel := switch(count($categories))
                         default return eutil:getLanguageString('view.window.AnnotationView_Categories', ())
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
-let $sourcesLabel := if(count($sources) gt 1)then(eutil:getLanguageString('view.window.AnnotationView_Sources', ()))else(eutil:getLanguageString('view.window.AnnotationView_Source', ()))
+let $sourcesLabel := if (count($sources) gt 1)
+                        then (eutil:getLanguageString('view.window.AnnotationView_Sources', ()))
+                        else (eutil:getLanguageString('view.window.AnnotationView_Source', ()))
 
 let $sigla := source:getSiglaAsArray($participants)
 let $siglaLabel := switch(count($sigla))
                     case 0 return ()
-                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Source', ())
-                    default return eutil:getLanguageString('view.window.AnnotationView_Sources', ())
+                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
+                    default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
+let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return
 
@@ -79,13 +83,17 @@ return
                 <div class="key">{$categoriesLabel}</div>
                 <div class="value">{string-join($categories, ', ')}</div>
             </div>
-            <div class="property sourceLabel">
+            <!--<div class="property sourceLabel">
                 <div class="key">{$sourcesLabel}</div>
                 <div class="value">{string-join($sources, ', ')}</div>
-            </div>
+            </div>-->
             <div class="property sourceSiglums">
                 <div class="key">{$siglaLabel}</div>
                 <div class="value">{string-join($sigla, ', ')}</div>
+            </div>
+            <div class="property annotID">
+                <div class="key">{$annotIDlabel}</div>
+                <div class="value">{$internalId}</div>
             </div>
         </div>
     </div>

@@ -23,13 +23,15 @@ xquery version "1.0";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
-
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+
+declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+
+
+declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     distinct-values(
@@ -65,7 +67,7 @@ return concat('{categories: [',
         '], priorities: [',
         string-join(
             for $priority in local:getDistinctPriorities($annots)
-            let $name := (collection($edition_path)//id($priority))[1]/mei:name/text() (:TODO add multilang support :)
+            let $name := eutil:getLocalizedName((collection($edition_path)//id($priority))[1], $lang)
             order by $name
             return
                 concat('{id:"', $priority, '",name:"', $name,'"}')

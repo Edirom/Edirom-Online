@@ -92,7 +92,6 @@ Ext.define('EdiromOnline.controller.LinkController', {
 
                 }else
                     uriWindows.add(singleUri, 'newWindow');
-    
             }else if(singleUri.match(/^#/)) {
                 //TODO: internal link
     
@@ -142,10 +141,12 @@ Ext.define('EdiromOnline.controller.LinkController', {
             var win = uriWindows.get(singleUri);
             var posConfig = (positions == null?{}:positions['win_' + i]);
             var cfg = Ext.apply(config, posConfig);
-
-            if(win == 'newWindow')
+            if(win == 'newWindow') {
+	            if(cfg['y']) {
+	            	cfg['y'] = cfg['y'] - 41; // hack: height of TopBar
+	            }
                 windowsUsed.add(this.parseExistLink(singleUri, cfg));
-
+            }
             else {
 
                 if(cfg['width']) {
