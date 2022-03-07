@@ -20,6 +20,12 @@ Alternatively we recommend to use a container image for building, e.g. [bwbohl/s
 docker run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
 ```
 
+When you have your system preapared with all Sencha Cmd prerequisites or you have your docker container running you have to execute a sencha build command through calling the build script included in this repository with one of the sencha build-type options (please refer to [sencha app build reference](https://docs.sencha.com/cmd/guides/advanced_cmd/cmd_reference.html#advanced_cmd-_-cmd_reference_-_sencha_app_build) for details), either in your native shell or in the container shell, e.g.:
+
+```bash
+./build.sh testing
+```
+
 ### Testing locally
 
 It is essential to Test your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container and deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample).
