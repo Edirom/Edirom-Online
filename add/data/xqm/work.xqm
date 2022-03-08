@@ -38,8 +38,8 @@ declare function local:getLocalizedTitle($node) {
     let $lang := request:get-parameter('lang', '')     
     return
       if ($lang = $node/mei:title/@xml:lang)
-      then (normalize-space($node/mei:title[@xml:lang = $lang]/text()))
-      else (normalize-space($node/mei:title[1]/text()))
+      then (normalize-space(($node/mei:title)[@xml:lang = $lang][1]/text()))
+      else (normalize-space(($node//mei:title)[1]/text()))
 };
 
 (:~
@@ -56,7 +56,7 @@ declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:str
             {',
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-                'title: "', replace(local:getLocalizedTitle($work//mei:workDesc/mei:work/mei:titleStmt), '"', '\\"'), '"',             
+                'title: "', replace(local:getLocalizedTitle($work//mei:work), '"', '\\"'), '"',
             '}')
 };
 
@@ -79,7 +79,7 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 :)
 declare function work:getLabel($work as xs:string, $edition as xs:string) as xs:string {
      
-    local:getLocalizedTitle(doc($work)//mei:work/mei:titleStmt)
+    local:getLocalizedTitle(doc($work)//mei:work)
 };
 
 (:~

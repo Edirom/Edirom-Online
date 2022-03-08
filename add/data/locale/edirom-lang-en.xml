@@ -69,7 +69,7 @@
         <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
         <entry key="view.desktop.TaskBar_Sort_vertical" value="Sort windows vertically"/>
         <entry key="view.desktop.TaskBar_Sort_horizontal" value="Sort windows horizontally"/>
-        
+        <entry key="view.desktop.TopBar_homeBtnLabel" value="Edirom Online"/>
         <entry key="view.window.AnnotationView_Title" value="Annotation"/>
         <entry key="view.window.AnnotationView_No" value="No."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Title"/>
