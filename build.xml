@@ -4,7 +4,7 @@
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
     <property name="project.version" value="0.11.0"/>
-    <property name="project.app" value="EdiromOnline"/>
+    <property name="project.app" value="Edirom-Online"/>
     <property name="project.title" value="Edirom Online"/>
     <property name="build.dir" value="build"/>
     <property name="dist.dir" value="build-xar"/>
