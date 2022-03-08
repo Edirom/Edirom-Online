@@ -76,7 +76,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                             xtype: 'splitter',
                             html: '&#160;',
                             height: 14,
-                            width: 2, // TODO - there should be a CSS way here
+                            width: 2, //TODO - there should be a CSS way here
                             cls: 'x-toolbar-separator x-toolbar-separator-horizontal ediTopBarSep'
                         },
                     	me.workCombo,
