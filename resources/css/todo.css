@@ -1,3 +1,18 @@
+/* possible workaround for explosiv edirom windows in rwa online. Does not work in Safari!!! but everywhere else.*/
+body {
+    overflow: clip !important;
+}
+
+/* prevents scroll bars in sourceView windows on Windows */
+.ediromWindow .x-panel-body {
+    overflow: hidden !important;
+}
+
+/* reenables scroll bar in searchWindows on Windows */
+.searchWindow .x-panel-body {
+    overflow-y: scroll !important;
+}
+
 .textViewContent h1 {
     font-size: 1.3em !important;
 }
@@ -38,12 +53,20 @@ span.smufl {
     line-height: 14px;
 }
 
+span.musicalSymbol {
+    font-family: Bravura;
+}
+
 @font-face { 
     font-family: 'Bravura'; 
     src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'), 
         url('../fonts/bravura/woff/Bravura.woff') format('woff'),
         url('../fonts/bravura/otf/Bravura.otf') format('opentype'),
-        url('../fonts/bravura/svg/Bravura.svg#bravuraregular') format('svg');
+        url('../fonts/bravura/svg/Bravura.svg#bravuraregular') format('svg'),
+        url('../fonts/bravura/eot/BravuraText.eot#') format('eot'), 
+        url('../fonts/bravura/woff/BravuraText.woff') format('woff'),
+        url('../fonts/bravura/otf/BravuraText.otf') format('opentype'),
+        url('../fonts/bravura/svg/BravuraText.svg#bravuraregular') format('svg');
 }
 
 .ace_editor {
@@ -84,8 +107,23 @@ span.smufl {
     z-index: 10;
 }
 
+
 .annotationTip .x-tip-body {
     overflow: auto;
+}
+
+.annotView .contentBox {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* Fix for Chrome: splitter in Annotation View */
+.annotationView .x-splitter-horizontal {
+    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
+}
+
+.annotationView .x-splitter-vertical {
+    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
 }
 
 /*text Metadata*/
@@ -152,12 +190,21 @@ span.smufl {
     vertical-align: super;
 }
 
+.sub {
+    font-size: 60%;
+    vertical-align: sub;
+}
+
 .address.plain {
     margin: 0.5em 0 0 0;
 }
 
 span.underline {
     text-decoration:underline;
+}
+
+span.dblunderline {
+    border-bottom: 3px double;
 }
 
 span.latintype {
@@ -171,6 +218,11 @@ span.smcaps {
 span.italic {
     font-style: italic;
 }
+
+p {
+    line-height: 1.2;
+}
+
 #navigator .navigatorCategory2 {
     padding: 0 0 2px 10px;
 }
@@ -202,4 +254,157 @@ span.italic {
 
 .annotTip .contentBox {
     width: 100% !important;
+}
+
+.annotView .ref {
+    color: rgb(146, 64, 92);
+}
+
+.annotView .ref:hover {
+    color: rgb(146, 64, 92);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.ediromWindow .measureInner {
+    background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
+    border-radius: 15px;
+    padding: 3px 5px 0;
+    text-shadow: 0 1px 2px #000, 0 0 5px #fff;
+    font-size: 20px;
+    background-color: grey;
+    color: white;
+}
+
+/* SEARCH WINDOW */
+
+.searchWindow .searchResultDoc {
+    margin: 5px;
+}
+
+.searchWindow .searchResultDoc .doc {
+    margin-top: 10px;    
+}
+
+.searchWindow .searchResultDoc:first-child .doc {
+    margin-top: 0;
+}
+
+.searchWindow .searchResultDoc p {
+    margin-top: 7px;
+    margin-left: 15px;
+}
+
+.searchWindow .hit {
+    cursor: pointer;
+    color: rgb(146, 64, 92)!important;
+	font-weight: bold!important;
+	background-color: rgb(215, 185, 180)!important;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left:4px;
+	padding-right:4px;
+	border-radius: 4px;
+}
+
+span.searchResult {
+    background: -webkit-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+}
+
+div.annotation.combinedHighlight div.annotIcon {
+    border: 1px solid white;
+}
+
+.searchWindow .x-toolbar {
+    background: -webkit-linear-gradient(top, #e5e5e5, #cccccc);
+    border-bottom: 1px solid #999999;
+}
+
+.searchWindow .x-toolbar .x-form-text {
+    border-radius: 5px;
+    padding: 0 5px;
+    border: 1px solid #999999;
+    box-shadow: 0 0 1px #666666 inset;
+    font-size: 90%;
+}
+
+.searchWindow .taskSquareButton.search {
+    background-position: 0 -2px !important;
+}
+
+.searchWindow .taskSquareButton.search.over {
+    background-position: 0 -2px !important;
+    border-color: #999999;
+}
+
+.searchWindow .searchResultDoc > .doc {
+    padding: 1px 8px;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #f5f5f5, #e5e5e5);
+    box-shadow: 0 1px 2px #666666;
+    margin-top: 20px;
+}
+
+.searchWindow .searchResultDoc .resultTitle {
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.searchWindow .searchResultDoc .resultCount {
+    color: #666666;
+    font-size: 80%;
+}
+
+.searchWindow .searchResultOverview {
+    margin: 0 5px;
+    font-weight: bold;
+}
+
+.searchWindow .searchResultOverview .num {
+    display: inline-block;
+    padding: 0 3px;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #e5e5e5,#cccccc);
+}
+
+.searchWindow .searchResult {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.searchWindow .hitP {
+    border-left: 3px solid #e5e5e5;
+    padding-left: 0px;
+    margin-left: 5px;
+}
+
+.searchWindow .showMore {
+    color: #666666;
+    font-size: 85%;
+    margin: 5px 0 15px 5px;
+    cursor: pointer;
+}
+
+#workSwitch {
+	padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-top: 5px !important;
+    top: 9px !important;
+    font-size: 14px;
+    /*color: rgb(23, 94, 160);*/
+}
+
+#workSwitch:hover {
+	box-shadow: 1px 2px 4px #888888;
+	border-radius: 20px;
+	}
+
+span#workSwitch-btnInnerEl:before {
+	color: rgb(23, 94, 160);
+	font-family: FontAwesome;
+	content: '\f054 ';
+	padding-right: 5px;
+	font-size: 10px;
 }
