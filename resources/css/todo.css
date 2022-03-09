@@ -397,7 +397,7 @@ div.annotation.combinedHighlight div.annotIcon {
 }
 
 #workSwitch:hover {
-	box-shadow: 1px 2px 4px #888888;
+	box-shadow: 1px 2px 4px rgb(23, 94, 160);
 	border-radius: 20px;
 	}
 
@@ -407,4 +407,9 @@ span#workSwitch-btnInnerEl:before {
 	content: '\f054 ';
 	padding-right: 5px;
 	font-size: 10px;
+}
+
+.x-menu-item-active {
+    background-color: rgb(36, 145, 235) !important;
+    color: rgb(161, 209, 247) !important;
 }
