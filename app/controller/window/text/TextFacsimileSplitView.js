@@ -92,7 +92,7 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
         var uri = view.uri;
         
         window.doAJAXRequest('data/xql/getText.xql',
-            'GET', 
+            'GET',
             {
                 uri: uri,
                 idPrefix: view.id + '_',
@@ -110,14 +110,16 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
 
         view.setContent(content);
 
-        Ext.Ajax.request({
-            url: 'data/xql/getAnnotationInfos.xql',
-            method: 'GET',
-            params: {
-                uri: view.uri
+        window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
+            'GET',
+            {
+                uri: view.uri,
+                lang: getPreference('application_language')
             },
-            success: function(response){
+            Ext.bind(function(response){
+                var me = this;
                 var data = response.responseText;
+
                 data = Ext.JSON.decode(data);
 
                 var priorities = Ext.create('Ext.data.Store', {
@@ -130,8 +132,8 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
                 });
 
                 me.annotInfosLoaded(priorities, categories, view);
-            }
-        });
+            }, this)
+        );
     },
     
     chaptersLoaded: function(chapters, view) {
