@@ -7,7 +7,7 @@
     <license>GPL-3.0</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>/db/@project.app@</target>
+    <target>@repo.target@</target>
     <prepare>pre-install.xql</prepare>
     <finish/>
     <permissions user="edirom" password="edirom" group="dba" mode="0775"/>
