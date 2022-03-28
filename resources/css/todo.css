@@ -4,7 +4,7 @@ body {
 }
 
 /* prevents scroll bars in sourceView windows on Windows */
-.ediromWindow .x-panel-body {
+.ediromWindow .sourceView .x-panel-body {
     overflow: hidden !important;
 }
 
