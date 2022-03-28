@@ -15,7 +15,7 @@ if ($exist:path eq "") then
 else if ($exist:path eq "/") then
     (: redirect root path to index.html :)
     <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-        <redirect url="index.html?lang=de"/>
+        <redirect url="index.html?lang={eutil:getLanguage(request:get-parameter("edition", ""))}"/>
     </dispatch>
 else if ($exist:path eq "/index.html") then
     (: forward index.html to index.xql :)
