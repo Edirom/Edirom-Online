@@ -1,5 +1,7 @@
 xquery version "1.0";
 
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/util.xqm";
+
 declare variable $exist:path external;
 declare variable $exist:resource external;
 
