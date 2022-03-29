@@ -39,6 +39,7 @@ let $eoEditionFileSingle := <html>
                                     <title>{edition:getName($editionUri)} – Edirom-Online</title>
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
+                                    <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
                                     
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
@@ -88,6 +89,7 @@ let $eoEditionFileMulti :=  <html>
                                     <title>Edirom-Online</title>
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
+                                    <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
                                     
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
