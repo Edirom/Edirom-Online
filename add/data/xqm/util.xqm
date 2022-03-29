@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -48,6 +48,7 @@ declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 declare function eutil:getLocalizedName($node, $lang) as xs:string {
 
+let $name :=
     if ($node/mei:title)
     then (
         if ($lang = $node/mei:title/@xml:lang)
@@ -67,6 +68,8 @@ declare function eutil:getLocalizedName($node, $lang) as xs:string {
             else $node/edirom:names/edirom:name[1]/node()
     )
     else (normalize-space($node))
+return
+    $name => string-join(' ')
 };
 
 (:~
