@@ -116,12 +116,12 @@ let $eoEditionFileMulti :=  <html>
                                     <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
                                     
                                 </head>
-                                <body style="background-color: rgb(90,111,119, 0.5)">
+                                <body style="background-color: rgb(88,110,117, 0.5)">
                                     <div class="container" style="margin: 8.75%;">
-                                        <span role="img" id="homeBtn-btnIconEl" class="x-btn-icon-el  " unselectable="on" style=""></span>
-                                        <h1>Edirom Online</h1>
+                                        <img src="resources/pix/ViFE-logo-small-144x144-trans.png"/>
+                                        <h1 style="margin-top:5px;">Edirom Online</h1>
                                         <h3 class="navigatorCategoryTitle">Bitte Edition auswählen</h3>
-                                        <ul >
+                                        <ul>
                                             {
                                                 for $eoEditionFile in $eoEditionFiles
                                                     let $editionID := $eoEditionFile/string(@xml:id)
