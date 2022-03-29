@@ -1,63 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="EdiromOnline" default=".help">
-    <!--
-    The build-impl.xml file imported here contains the guts of the build process. It is
-    a great idea to read that file to understand how the process works, but it is best to
-    limit your changes to this file.
-    -->
-    <import file="${basedir}/.sencha/app/build-impl.xml"/>
-
-    <!--
-    The following targets can be provided to inject logic before and/or after key steps
-    of the build process:
-
-        The "init-local" target is used to initialize properties that may be personalized
-        for the local machine.
-
-            <target name="-before-init-local"/>
-            <target name="-after-init-local"/>
-
-        The "clean" target is used to clean build output from the build.dir.
-
-            <target name="-before-clean"/>
-            <target name="-after-clean"/>
-
-        The general "init" target is used to initialize all other properties, including
-        those provided by Sencha Cmd.
-
-            <target name="-before-init"/>
-            <target name="-after-init"/>
-        
-        The "page" target performs the call to Sencha Cmd to build the 'all-classes.js' file.
-
-            <target name="-before-page"/>
-            <target name="-after-page"/>
-
-        The "build" target performs the call to Sencha Cmd to build the application.
-
-            <target name="-before-build"/>
-            <target name="-after-build"/>
-    -->
+<project name="EdiromOnline" default="xar">
     
-    <property name="project.version" value="0.11.0"/>
-    <property name="project.app" value="EdiromOnline"/>
+    <import file="${basedir}/.sencha/app/build-impl.xml"/>
+    
+    <property name="project.version" value="1.0.0-alpha"/>
+    <property name="project.app" value="Edirom-Online"/>
+    <property name="project.title" value="Edirom Online"/>
+    <property name="repo.target" value="${project.app}"/>
     <property name="build.dir" value="build"/>
     <property name="dist.dir" value="build-xar"/>
     <property name="temp.dir.name" value="temp"/>
     <property name="temp.dir" value="${build.dir}/${temp.dir.name}"/>
+    
+    <tstamp/>
 
     <target name="build-plus">
         <copy todir="${build.dir}">
             <fileset dir="${basedir}/add"/>
             <filterset begintoken="@" endtoken="@">
                 <filter token="project.version" value="${project.version}"/>
+                <filter token="project.app" value="${project.app}"/>
+                <filter token="project.title" value="${project.title}"/>
+                <filter token="repo.target" value="${repo.target}"/>
             </filterset>
         </copy>
     </target>
     
     <target name="xar">
         <mkdir dir="${dist.dir}"/>
-        <zip basedir="${build.dir}" destfile="${dist.dir}/${project.app}.xar">
+        <zip basedir="${build.dir}" destfile="${dist.dir}/${project.app}-${project.version}-${DSTAMP}-${TSTAMP}.xar">
             <exclude name="${temp.dir.name}/**"/>
         </zip>
     </target>

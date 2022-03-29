@@ -29,16 +29,36 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace html="http://www.w3.org/1999/xhtml";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+declare variable $lang := request:get-parameter('lang', '');
+
+declare function local:getLocalizedMEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then ($node/mei:title[@xml:lang = $lang]/text())
+      else ($node/mei:title[1]/text())
+};
+declare function local:getLocalizedTEITitle($node) {
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/tei:title/@xml:lang)
+      then $node/tei:title[@xml:lang = $lang]/text()
+      else $node/tei:title[1]/text()
+
+};
+
+
 declare function local:getViews($type, $docUri, $doc) {
     
     string-join((
         (: SummaryView :)
-        (:concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
+(:        concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
         
         (: HeaderView :)
         if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
@@ -72,7 +92,9 @@ declare function local:getViews($type, $docUri, $doc) {
 :)
 
         (: iFrameView :)
-        if($type = 'html') then(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")) else(),
+        if($type = 'html' and not(exists($doc//head/title)))
+        then(concat("{type:'iFrameView', label: '", 'HTML' ,"' ,uri:'", $docUri, "'}"))
+        else(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")),
         
         (: XmlView :)
         concat("{type:'xmlView',uri:'", $docUri, "'}"),
@@ -116,7 +138,7 @@ let $internal := if(exists($internal))then($internal)else(
 
 let $type := 
              (: Work :)
-             if(exists($doc//mei:mei) and exists($doc//mei:work))
+             if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
              then(string('work'))
              
              (: Recording :)
@@ -124,7 +146,7 @@ let $type :=
              then(string('recording'))
              
              (: Source / Score :)
-             else if(exists($doc//mei:mei) and exists($doc//mei:source))
+             else if(source:isSource($docUri))
              then(string('source'))
              
              
@@ -133,26 +155,34 @@ let $type :=
              then(string('text'))
              
              (: HTML :)
-             else if(exists($doc/html))
+             else if(exists($doc/html) or exists($doc/html:html))
+             then(string('html'))
+             
+             else if(contains($docUri, '.html'))
              then(string('html'))
              
              else(string('unknown'))
              
 let $title := (: Work :)
-              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work))
-              then(work:getLabel($uri, $edition))
-              
+
+              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
+              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
+
               (: Recording :)
               else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then($doc//mei:fileDesc/mei:titleStmt[1]/data(mei:title[1]))
+              then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
 
-              (: Source / Score :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:sourceDesc/mei:source))
-              then(source:getLabel($uri, $edition))
+              (: Source / Score without Shelfmark:)
+              else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
+              then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
+              
+              (: Source / Score with Shelfmark:)
+              else if(exists($doc//mei:mei) and exists($doc//mei:source) and exists($doc//mei:identifier[@type='shelfmark']))
+              then(concat(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])),' | ',normalize-space($doc//mei:source//mei:identifier[@type='shelfmark'])))
               
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then(teitext:getLabel($uri, $edition))
+              then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
               
               (: HTML :)
               else if($type = 'html')

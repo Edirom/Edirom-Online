@@ -3,7 +3,9 @@
 Thumbs.db
 /.sencha_backup
 /build-xar
+/build-temp
 /build
 /data
 /tmp
 *.xpr
+local.properties

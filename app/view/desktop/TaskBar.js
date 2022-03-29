@@ -38,10 +38,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
         var me = this;
 
         me.addEvents('switchDesktop',
-                    'sortGrid', 
-                    'sortHorizontally', 
-                    'sortVertically', 
-                    'openConcordanceNavigator', 
+                    'sortGrid',
+                    'sortHorizontally',
+                    'sortVertically',
+                    'openConcordanceNavigator',
                     'openSearchWindow',
                     'switchLanguage');
 
@@ -66,15 +66,15 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             {
                 xtype: 'splitter', html: '&#160;',
                 height: 14, width: 2, // TODO - there should be a CSS way here
-                cls: 'x-toolbar-separator x-toolbar-separator-horizontal'
+                cls: 'x-toolbar-separator x-toolbar-separator-horizontal ediTaskBarSep'
             },
             me.windowBar1,
             me.windowBar2,
             me.windowBar3,
-            me.windowBar4/*,
+            me.windowBar4,
             '-',
-            me.helpPrefs,
-            me.tray*/
+            //me.helpPrefs,
+            me.tray
         ];
 
         me.setActiveWindowBar(1);

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
-    <description>Edirom Online</description>
-    <author>Daniel Röwenstrunk</author>
-    <website/>
+    <description>@project.title@</description>
+    <author>Daniel Röwenstrunk, Nikolaos Beer, Johannes Kepper, Benjamin W. Bohl, Dennis Ried, Anna M. Neubert, Elena Schilke</author>
+    <website>https://edirom.github.io/Edirom-Online/</website>
     <status>alpha</status>
-    <license>GNU-LGPL</license>
+    <license>GPL-3.0</license>
     <copyright>true</copyright>
     <type>application</type>
-    <target>/db/EdiromOnline</target>
+    <target>@repo.target@</target>
     <prepare>pre-install.xql</prepare>
     <finish/>
     <permissions user="edirom" password="edirom" group="dba" mode="0775"/>

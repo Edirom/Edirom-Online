@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -24,6 +24,7 @@ xquery version "1.0";
     Returns the HTML for a specific annotation for an AnnotationView.
     
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+    @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
@@ -42,6 +43,7 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+declare variable $lang := request:get-parameter('lang', '');
 declare variable $imageWidth := 600;
 
 declare variable $edition := request:get-parameter('edition', '');
@@ -49,10 +51,6 @@ declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
 declare variable $imageBasePath := if($imageserver = 'leaflet')
 	then(eutil:getPreference('leaflet_prefix', $edition))
 	else(eutil:getPreference('image_prefix', $edition));
-
-(:declare variable $imageBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));
-:)
-
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     
@@ -77,7 +75,7 @@ declare function local:getTextParticipants($participants as xs:string*, $doc as 
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
     return
-        local:toJSON('text', 'Textstelle', (), (), teitext:getLabel($doc), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+        local:toJSON('text', 'Textstelle', (), (), (), teitext:getLabel($doc, $edition), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
@@ -116,8 +114,9 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := $elems[1]/root()//mei:source/mei:titleStmt/mei:title[1]/text()
+            let $sourceLabel := source:getLabel($doc, $edition)
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
+            let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
             let $imgWidth := number($graphic/@width)
@@ -132,7 +131,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
             return
-                local:toJSON($type, $label, $mdiv, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
+                local:toJSON($type, $label, $mdiv, $part, $page, $sourceLabel, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
 };
 
 declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
@@ -287,7 +286,8 @@ declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:i
 };
 
 declare function local:getItemLabel($elems as element()*) as xs:string {
-    
+    let $language := eutil:getLanguage($edition)
+    return
     string-join(
     for $type in distinct-values(for $elem in $elems return local-name($elem))
     let $items := for $elem in $elems return if(local-name($elem) eq $type) then($elem) else()
@@ -295,8 +295,8 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
             if(local-name($items[1]) eq 'measure')
             then(
                 if(count($items) gt 1)
-                then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n)))
-                else(eutil:getLanguageString('Bar_n', ($items[1]/@n)))
+                then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
+                else(eutil:getLanguageString('Bar_n', ($items[1]/@n), $language))
             )
             else
             
@@ -307,7 +307,10 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                     
                     let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
                     
-                    let $label := if(count($measureNs) gt 1) then (concat('Takte ',$measureNs[1], ' bis ', $measureNs[last()])) else (concat('Takt ', $measureNs[1]))
+                    let $label := if ($lang = 'de') 
+                                    then (if(count($measureNs) gt 1) then (concat('Takte ',$measureNs[1], '-', $measureNs[last()])) else (concat('Takt ', $measureNs[1])))
+                                    else (if(count($measureNs) gt 1) then (concat('Bars ',$measureNs[1], '-', $measureNs[last()])) else (concat('Bar ', $measureNs[1])))
+                                    
                     return 
                 
                         concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr,', '),')')
@@ -328,7 +331,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, 
+declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
@@ -336,6 +339,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         '{"type":"',$type,
         '","label":"',$label,
         '","mdiv":"',$mdiv,
+        '","part":"',$part,
         '","page":"',$page,
         '","source":"',$source,
         '","siglum":"',$siglum,

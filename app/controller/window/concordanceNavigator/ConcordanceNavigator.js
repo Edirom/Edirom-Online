@@ -19,12 +19,17 @@
 Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator', {
 
     extend: 'Ext.app.Controller',
+    
+    navwin: null,
 
     views: [
         'window.concordanceNavigator.ConcordanceNavigator'
     ],
 
     init: function() {
+	    
+	    this.application.addListener('workSelected', this.onWorkSelected, this);
+	    
         this.control({
             'concordanceNavigator': {
                 render: this.onWindowRendered,
@@ -38,12 +43,27 @@ Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavig
             }
         });
     },
+    
+    onWorkSelected: function(workId) {
+	    //console.log('Werk gewechselt, von Conc registriert!');
+	    //console.log(workId);
+	    
+
+	    var me = this;
+	    if(me.navwin != null) {
+	    	var app = me.application;
+			app.callFunctionOfEdition(me.navwin, 'getConcordances', Ext.bind(me.concordancesLoaded, me, [me.navwin], true));
+		}
+	    
+    },
 
     onWindowRendered: function(win) {
         var me = this;
 
         if(win.initialized) return;
         win.initialized = true;
+        
+        this.navwin = win;
 
         //win.on('showConnection', me.onShowConnection, me);
 

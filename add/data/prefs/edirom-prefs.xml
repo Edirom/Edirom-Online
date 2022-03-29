@@ -21,13 +21,13 @@
  -->
 <prefs>
     <version>1.0</version>
-    <entries>       
+    <entries>
         <entry key="application_language" value="de"/>
         <entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>
         <entry key="image_prefix" value="../../../digilib/Scaler/"/>
-        <entry key="leaflet_prefix" value="/exist/rest/db/contents/leafletImages/"/>
-        <entry key="image_server" value="leaflet"/> 
-        <!--<entry key="image_server" value="digilib"/>-->
+        <!--<entry key="leaflet_prefix" value="/exist/rest/db/contents/leafletImages/"/>
+        <entry key="image_server" value="leaflet"/>-->
+        <entry key="image_server" value="digilib"/>
         <entry key="edition_path" value="/db/apps/contents"/>
     </entries>
 </prefs>

@@ -49,12 +49,14 @@ Ext.define('EdiromOnline.model.Edition', {
     fetchConcordances: function(workId, fn) {
 
         var me = this;
+        var lang = getPreference('application_language');
 
         window.doAJAXRequest('data/xql/getConcordances.xql',
             'GET', 
             {
                 id: me.get('doc'),
-                workId: workId
+                workId: workId,
+                lang: lang
             },
             function(response){
                 var data = response.responseText;

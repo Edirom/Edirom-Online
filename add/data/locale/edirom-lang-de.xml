@@ -44,47 +44,54 @@
         <entry key="controller.window.Window_textFacsimileSplitView" value="Text-Faksimile"/>
         <entry key="controller.window.Window_textView" value="Text"/>
         <entry key="controller.window.Window_xmlView" value="XML-Ansicht"/>
+        <entry key="controller.window.Window_iFrameView" value="HTML-Ansicht"/>
         
         <entry key="view.desktop.Desktop_Cascade" value="Überlappen"/>
         <entry key="view.desktop.Desktop_Close" value="Schließen"/>
-        <entry key="view.desktop.Desktop_CloseAll" value="Schließe alle"/>
-        <entry key="view.desktop.Desktop_CloseOther" value="Schließe andere"/>
+        <entry key="view.desktop.Desktop_CloseAll" value="Schließe alle"/>
+        <entry key="view.desktop.Desktop_CloseOther" value="Schließe andere"/>
         <entry key="view.desktop.Desktop_Maximize" value="Maximieren"/>
         <entry key="view.desktop.Desktop_Minimize" value="Minimieren"/>
         <entry key="view.desktop.Desktop_Restore" value="Wiederherstellen"/>
         <entry key="view.desktop.Desktop_Tile" value="Nebeneinander"/>
         
-        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
-        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
-        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
+        <entry key="view.desktop.TaskBar_concordanceNav" value="Öffne Konkordanznavigator"/>
+        <entry key="view.desktop.TaskBar_measureNumbers" value="Taktzahlen einblenden"/>
+        <entry key="view.desktop.TaskBar_annotations" value="Anmerkungen einblenden"/>
         <entry key="view.desktop.TaskBar_help" value="Hilfe"/>
         <entry key="view.desktop.TaskBar_pref" value="Einstellungen"/>
-        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
+        <entry key="view.desktop.TaskBar_lang" value="Sprache umschalten"/>
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
+        <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
-        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
-        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
-        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
-        
+        <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
+        <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
+        <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
+        <entry key="view.desktop.TopBar_homeBtnLabel" value="Edirom Online"/>
         <entry key="view.window.AnnotationView_Title" value="Anmerkungen"/>
         <entry key="view.window.AnnotationView_No" value="Nr."/>
         <entry key="view.window.AnnotationView_TitleLabel" value="Titel"/>
         <entry key="view.window.AnnotationView_Categories" value="Kategorien"/>
+        <entry key="view.window.AnnotationView_Category" value="Kategorie"/>
         <entry key="view.window.AnnotationView_Priority" value="Priorität"/>
         <entry key="view.window.AnnotationView_Participants" value="Subjekte"/>
         <entry key="view.window.AnnotationView_Source" value="Quelle"/>
+        <entry key="view.window.AnnotationView_Sources" value="Quellen"/>
+        <entry key="view.window.AnnotationView_Siglum" value="Source Siglum"/>
+        <entry key="view.window.AnnotationView_Sigla" value="Quelle"/>
+        <entry key="view.window.AnnotationView_AnnotationID" value="Annot.-ID"/>
         <entry key="view.window.AnnotationView_List" value="Liste"/>
         <entry key="view.window.AnnotationView_Display" value="Darstellung"/>
         <entry key="view.window.AnnotationView_Grid" value="Rasteransicht"/>
         <entry key="view.window.AnnotationView_Single" value="Einzelansicht"/>
         <entry key="view.window.AnnotationView_ListView" value="Listenansicht"/>
         
-        <entry key="view.window.AnnotationView_PreviousAnnotation" value="Vorherige Anmerkung"/>
-        <entry key="view.window.AnnotationView_NextAnnotation" value="Nächste Anmerkung"/>
-        <entry key="view.window.AnnotationView_OpenAll" value="Alle Quellen öffnen"/>
-        <entry key="view.window.AnnotationView_CloseAll" value="Alle Quellen schließen"/>
+        <entry key="view.window.AnnotationView_PreviousAnnotation" value="Vorherige Anmerkung"/>
+        <entry key="view.window.AnnotationView_NextAnnotation" value="Nächste Anmerkung"/>
+        <entry key="view.window.AnnotationView_OpenAll" value="Alle Quellen öffnen"/>
+        <entry key="view.window.AnnotationView_CloseAll" value="Alle Quellen schließen"/>
         <entry key="view.window.HelpWindow_Title" value="Hilfe"/>
         <entry key="view.window.TobBar_View" value="Ansicht"/>
         
@@ -94,31 +101,34 @@
         <entry key="view.window.search.SearchWindow_Title" value="Suche"/>
         <entry key="view.window.source.SourceView_categoriesMenu" value="Kategorien…"/>
         <entry key="view.window.source.SourceView_prioMenu" value="Prioritäten…"/>
-        <entry key="view.window.source.SourceView_gotoMovement" value="Gehe zu Satz/Nummer…"/>
+        <entry key="view.window.source.SourceView_gotoMovement" value="Gehe zu Satz/Nummer…"/>
         <entry key="view.window.source.SourceView_layersMenu" value="Ebenen…"/>
-        <entry key="view.window.source.SourceView_showMeasures" value="Taktzählung ein-/ausblenden"/>
-        <entry key="view.window.source.SourceView_fitView" value="Ansicht einpassen"/>
+        <entry key="view.window.source.SourceView_showMeasures" value="Taktzählung ein-/ausblenden"/>
+        <entry key="view.window.source.SourceView_fitView" value="Ansicht einpassen"/>
         <entry key="view.window.source.SourceView_annotationsMenu" value="Anmerkungen"/>
-        <entry key="view.window.source.SourceView_ShowAnnotations" value="Anmerkungen ein-/ausblenden"/>
-        <entry key="view.window.source.SourceView_gotoMenu" value="Gehe zu…"/>
-        <entry key="view.window.source.SourceView_gotoMeasure" value="Gehe zu Takt…"/>
-        <entry key="view.window.source.SourceView_GotoMsg_Title" value="Gehe zu Takt…"/>
+        <entry key="view.window.source.SourceView_ShowAnnotations" value="Anmerkungen ein-/ausblenden"/>
+        <entry key="view.window.source.SourceView_gotoMenu" value="Gehe zu…"/>
+        <entry key="view.window.source.SourceView_gotoMeasure" value="Gehe zu Takt…"/>
+        <entry key="view.window.source.SourceView_GotoMsg_Title" value="Gehe zu Takt…"/>
         <entry key="view.window.source.SourceView_GotoMsg_MovmentNumber" value="Satz/Nummer"/>
         <entry key="view.window.source.SourceView_GotoMsg_Measure" value="Takt"/>
         <entry key="view.window.source.SourceView_viewMenu" value="Darstellung"/>
-        <entry key="view.window.source.SourceView_PageBasedView" value="Seitenbasierte Ansicht"/>
-        <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Vorherige Seite"/>
-        <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Nächste Seite"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
-        <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
+        <entry key="view.window.source.SourceView_PageBasedView" value="Seitenbasierte Ansicht"/>
+        <entry key="view.window.source.SourceView_PageBasedView_previousPage" value="Vorherige Seite"/>
+        <entry key="view.window.source.SourceView_PageBasedView_pageSpinner" value="Seitenauswahl"/>
+        <entry key="view.window.source.SourceView_PageBasedView_nextPage" value="Nächste Seite"/>
+        <!--<entry key="view.window.source.SourceView_pageBasedView_pageInput" value="Page input"/>-->
+        <entry key="view.window.source.SourceView_MeasureBasedView" value="Taktbasierte Ansicht"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Taktauswahl" />
+        <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Stimmenauswahl"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
-        <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>
-        <entry key="view.window.text.TextView_gotoMenu" value="Gehe zu…"/>
+        <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>
+        <entry key="view.window.text.TextView_gotoMenu" value="Gehe zu…"/>
         <entry key="view.window.text.TextView_prioMenu" value="Prioritäten…"/>
         <entry key="view.window.text.TextView_categoriesMenu" value="Kategorien…"/>
-        <entry key="view.window.text.TextView_gotoChapter" value="Gehe zu Kapitel/Nummer…"/>
+        <entry key="view.window.text.TextView_gotoChapter" value="Gehe zu Kapitel/Nummer…"/>
         <entry key="view.window.text.TextView_viewMenu" value="Darstellung"/>
         
         
@@ -126,43 +136,45 @@
         <entry key="view.desktop.Desktop" value="Desktop"/>
         <entry key="view.desktop.TopBar" value="Symbolleiste"/>
         <entry key="view.desktop.TopBar_searchField" value="Suchfeld"/>
-            <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
+        <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
         <entry key="view.desktop.TaskBar" value="Task-Leiste"/>
-        <entry key="view.desktop.TaskBar_btnDesktop" value="Button der Task-Leiste"/>
-        <entry key="view.window.TopBar" value="Symbolleiste im Fenster"/>
-        <entry key="view.window.BottomBar" value="Task-Leiste im Fenster"/>
+        <entry key="view.desktop.TaskBar_btnDesktop" value="Button der Task-Leiste"/>
+        <entry key="view.window.TopBar" value="Symbolleiste im Fenster"/>
+        <entry key="view.window.BottomBar" value="Task-Leiste im Fenster"/>
         <entry key="view.navigator.Navigator" value="Navigator"/>
-        <entry key="global_appName" value="Edirom Online"/>
+        <entry key="global_appName" value="Edirom Online"/>
         <entry key="clickAndHoldDragging" value="dragging"/>
         <entry key="drag-and-drop" value="Drag-and-Drop"/>
         <entry key="comboBox" value="Kombobox"/>
         <entry key="views" value="Ansichten"/>
         <entry key="window.minimize" value="minimieren"/>
         <entry key="window.maximize" value="maximieren"/>
-        <entry key="view.window.source.SourceView_zoomSlider" value="Schieber für Zoom"/>
+        <entry key="view.window.source.SourceView_zoomSlider" value="Schieber für Zoom"/>
         <entry key="view.window.source.SourceView_pageNaviation" value="Seiten-Navigation"/>
-        <entry key="view.window.source.SourceView_measureBasedCombo" value="Nummern Kombobox"/>
-        <entry key="view.window.source.SourceView_measureBasedRange" value="Bereich der Takte"/>
+        <entry key="view.window.source.SourceView_measureBasedCombo" value="Nummern Kombobox"/>
+        <entry key="view.window.source.SourceView_measureBasedRange" value="Bereich der Takte"/>
         
         <entry key="view.window.xmlView_decreaseFontSize.label" value="A-"/>
-        <entry key="view.window.xmlView_decreaseFontSize.title" value="Schriftgröße verkleinern"/>
+        <entry key="view.window.xmlView_decreaseFontSize.title" value="Schriftgröße verkleinern"/>
         <entry key="view.window.xmlView_increaseFontSize.label" value="A+"/>
-        <entry key="view.window.xmlView_increaseFontSize.title" value="Schriftgröße vergrößern"/>
-        <entry key="view.window.xmlView_showLineNumbers.label" value="Zeile #"/>
-        <entry key="view.window.xmlView_showLineNumbers.title" value="Zeilennummern anzeigen"/>
+        <entry key="view.window.xmlView_increaseFontSize.title" value="Schriftgröße vergrößern"/>
+        <entry key="view.window.xmlView_showLineNumbers.label" value="Zeile #"/>
+        <entry key="view.window.xmlView_showLineNumbers.title" value="Zeilennummern anzeigen"/>
         
         <entry key="view.window.pref_generalSettings" value="Generell"/>
         <entry key="view.window.pref_programSettings" value="Programmeinstellungen"/>
-        <entry key="view.window.pref_concNavSettings" value="Einstellungen für Konkordanznavigator"/>
+        <entry key="view.window.pref_concNavSettings" value="Einstellungen für Konkordanznavigator"/>
         <entry key="view.window.pref_windowSettings" value="Fenster-Einstellungen"/>
         <entry key="view.window.pref_langSettings" value="Sprach-Einstellungen"/>
         <entry key="Number field with left and right arrows" value="Anzahl der Pfeile nach links und rechts"/>
         
         
         <!-- DATA -->
-        <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
-        <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
-        <entry key="Bar_n" value="Takt {0}"/>
-        
+        <entry key="Annotation" value="Anmerkung"/>
+        <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
+        <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
+        <entry key="Bar_n" value="Takt {0}"/>
+        <!-- XSL-FO specific -->
+        <entry key="contentsWord" value="Inhaltsverzeichnis"/>
     </entries>
 </langFile>

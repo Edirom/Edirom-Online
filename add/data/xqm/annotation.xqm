@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -25,6 +25,7 @@ xquery version "1.0";
 : This module provides library functions for Annotations
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
@@ -36,6 +37,25 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
+declare function local:getLocalizedTitle($node) {
+  let $lang := request:get-parameter('lang', '')
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:title/@xml:lang)
+      then $node/mei:title[@xml:lang = $lang]/text()
+      else $node/mei:title[1]/text()
+
+};
+
+declare function local:getLocalizedName($node) {
+  let $lang := request:get-parameter('lang', '')
+  let $nodeName := local-name($node)
+  return
+      if ($lang = $node/mei:name/@xml:lang)
+      then $node/mei:name[@xml:lang = $lang]/text()
+      else $node/mei:name[1]/text()
+
+};
 
 (:~
 : Returns a JSON representation of all Annotations of a document
@@ -62,13 +82,25 @@ declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:
 :)
 declare function annotation:toJSON($anno as element(), $edition as xs:string) as xs:string {
     let $id := $anno/@xml:id
-    let $title := annotation:getTitle($anno, '', $edition)
+    let $title := normalize-space(local:getLocalizedTitle($anno))
     let $doc := $anno/root()
-    let $prio := $doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2))/mei:name[1]/text()
+    let $prio := local:getLocalizedName($doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2)))
+    let $pList := distinct-values(tokenize($anno/@plist, ' '))
+    let $pList := for $p in $pList 
+                    return if ( contains($p, '#'))
+                                then (substring-before($p, '#'))
+                                else $p
+    let $sigla := string-join(
+                    for $p in distinct-values($pList)
+                    let $pDoc := doc($p)
+                    return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
+                            then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
+                            else ()
+    , ', ')
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs
-                    return $doc/id($u)/mei:name[1]/text() 
+                    return annotation:category_getName($doc/id($u), eutil:getLanguage($edition)) 
                  , ', ')
     let $count := count($anno/preceding-sibling::mei:annot) + 1
     
@@ -78,6 +110,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
             '", "categories": "', $cats,
             '", "priority": "', $prio,
             '", "pos": "', $count,
+            '", "sigla": "', $sigla,
             '" }', '')
 };
 
@@ -88,7 +121,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
 : @param $idPrefix A prefix for all ids (because of uniqueness in application)
 : @return The HTML representation
 :)
-declare function annotation:getContent($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
+declare function annotation:getContent($anno as element(), $idPrefix as xs:string) {
 
     
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
@@ -139,7 +172,7 @@ declare function annotation:getPriority($anno as element()) as xs:string* {
     
     return
         if(local-name($elem) eq 'term')
-        then($elem/mei:name[@xml:lang eq 'de']/text())
+        then(local:getLocalizedName($elem))
         else($locId)
 };
 
@@ -172,7 +205,7 @@ declare function annotation:getCategoriesAsArray($anno as element()) as xs:strin
                    let $elem := $doc/id($locID)
                    return
                        if(local-name($elem) eq 'term')
-                       then($elem/mei:name[@xml:lang eq 'de']/text())
+                       then(local:getLocalizedName($elem))
                        else($locID)
     
     return $string
@@ -190,4 +223,18 @@ declare function annotation:getParticipants($anno as element()) as xs:string* {
     let $uris := distinct-values(for $uri in $ps return substring-before($uri,'#'))
     
     return $uris
+};
+
+(:~
+: Returns an annotation category's name
+:
+: @param $category The category to process
+: @return one name
+:)
+declare function annotation:category_getName($category as element(), $language as xs:string) {
+    let $names := $category/mei:name
+    return
+        switch (count($names[@xml:lang = $language]))
+            case 1 return $names[@xml:lang = $language]
+            default return $names[1]
 };
