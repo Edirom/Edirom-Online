@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <meta xmlns="http://exist-db.org/xquery/repo">
     <description>@project.title@</description>
-    <author>Daniel Röwenstrunk</author>
-    <website/>
+    <author>Daniel Röwenstrunk, Nikolaos Beer, Johannes Kepper, Benjamin W. Bohl, Dennis Ried, Anna M. Neubert, Elena Schilke</author>
+    <website>https://edirom.github.io/Edirom-Online/</website>
     <status>alpha</status>
     <license>GPL-3.0</license>
     <copyright>true</copyright>

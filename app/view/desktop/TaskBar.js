@@ -38,10 +38,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
         var me = this;
 
         me.addEvents('switchDesktop',
-                    'sortGrid', 
-                    'sortHorizontally', 
-                    'sortVertically', 
-                    'openConcordanceNavigator', 
+                    'sortGrid',
+                    'sortHorizontally',
+                    'sortVertically',
+                    'openConcordanceNavigator',
                     'openSearchWindow',
                     'switchLanguage');
 
@@ -71,10 +71,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             me.windowBar1,
             me.windowBar2,
             me.windowBar3,
-            me.windowBar4/*,
+            me.windowBar4,
             '-',
-            me.helpPrefs,
-            me.tray*/
+            //me.helpPrefs,
+            me.tray
         ];
 
         me.setActiveWindowBar(1);
