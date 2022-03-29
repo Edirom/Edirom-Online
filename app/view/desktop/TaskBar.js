@@ -38,10 +38,10 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
         var me = this;
 
         me.addEvents('switchDesktop',
-                    'sortGrid', 
-                    'sortHorizontally', 
-                    'sortVertically', 
-                    'openConcordanceNavigator', 
+                    'sortGrid',
+                    'sortHorizontally',
+                    'sortVertically',
+                    'openConcordanceNavigator',
                     'openSearchWindow',
                     'switchLanguage');
 
