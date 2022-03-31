@@ -24,6 +24,7 @@
                 <filter token="repo.target" value="${repo.target}"/>
             </filterset>
         </copy>
+        <copy file="${build.dir}/resources/pix/ViFE-logo-small-144x144-trans.png" tofile="${build.dir}/icon.png" overwrite="true"/>
     </target>
     
     <target name="xar">
