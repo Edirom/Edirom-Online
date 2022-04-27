@@ -413,3 +413,9 @@ span#workSwitch-btnInnerEl:before {
     background-color: rgb(36, 145, 235) !important;
     color: rgb(161, 209, 247) !important;
 }
+
+/* Verovio view */
+
+.renderingViewContent {
+    height: 100%;
+}

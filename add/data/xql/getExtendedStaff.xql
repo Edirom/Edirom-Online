@@ -12,6 +12,8 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
+let $mei := doc($uri)/root()
+let $mdivId := $mei//mei:mdiv[1]/data(@xml:id)
 return
 <html>
     <head>
@@ -43,6 +45,7 @@ return
         <script>
             var uri = "{$uri}";
             var edition = "{$edition}";
+            var movementId = "{$mdivId}";
         </script>
         <script src="/resources/js/verovio-view.js"></script>
     </body>

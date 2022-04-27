@@ -20,11 +20,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	extend: 'EdiromOnline.view.window.View',
 	
 	requires:[
-	'EdiromOnline.view.window.image.VerovioImage',
-	'Ext.draw.Component',
-	'Ext.slider.Single',
-	'Ext.form.ComboBox',
-	'Ext.window.MessageBox'],
+	'EdiromOnline.view.window.image.VerovioImage'],
 	
 	alias: 'widget.verovioView',
 	
@@ -33,11 +29,7 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 	border: 0,
 	bottomBar: null,
 	
-	imageToShow: null,
-	
-	pageSpinner: null,
-	
-	pageBasedView: null,
+	verovioImageView: null,
 	
 	cls: 'verovioView',
 	
@@ -45,202 +37,90 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
 		
 		var me = this;
 		
-		me.pageBasedView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
+		me.addEvents(
+ 'gotoMeasure',
+            'gotoMeasureByName'
+		);
 		
+		me.verovioImageView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
 		me.viewerContainer = Ext.create('Ext.panel.Panel', {
 			region: 'center',
 			border: 0,
 			layout: 'card',
-			items:[
-			me.pageBasedView]
+			items: [me.verovioImageView]
 		});
 		
-		
-		me.bottomBar = new EdiromOnline.view.window.BottomBar({
-			owner: me, region: 'south', enableOverflow: false
-		});
-		
-		me.items =[
-		me.viewerContainer,
-		me.bottomBar];
+		me.items = [
+		me.viewerContainer		];
 		
 		me.callParent();
 		
-		me.on('afterrender', me.createToolbarEntries, me);
+		me.on('afterrender', me.createMenuEntries, me, {single: true});
 	},
 	
-	setIFrameURL: function (imageSet) {
+	setIFrameURL: function (url) {
 		var me = this;
-		me.imageSet = imageSet;
-		me.pageBasedView.setImageSet(me.imageSet);
+		me.verovioImageView.setIFrameURL(url);
 	},
 	
-	createToolbarEntries: function () {
-		var me = this;
-		var entries = me.createPageSpinner();
-		Ext.Array.each(entries, function (entry) {
-			me.bottomBar.add(entry);
-		});
-	},
-	
-	stretchHightClick: function (me) {
-		me.pageSpinner.setDisabled(true);
-		me.pageBasedView.showContinuousHight();
-	},
-	
-	stretchWidthClick: function (me) {
-		me.pageSpinner.setDisabled(true);
-		me.pageBasedView.showContinuousWidth();
-	},
-	
-	pageClick: function (me) {
-		me.pageSpinner.setDisabled(false);
-		me.pageBasedView.showPage(1, true);
-	},
-	
-	pageOriginalClick: function (me) {
-		me.pageSpinner.setDisabled(true);
-		me.pageBasedView.showAllPages();
-	},
-	
-	createPageSpinner: function () {
-		
-		var me = this;
-		
-		//var storeField = new Array('Original', 'Pages', 'Continuous Height', 'Continuous Width');
-		var storeField = new Array('All Pages', 'Pagebased', 'Continuous Staff');
-		
-		var combo = Ext.create('Ext.form.ComboBox', {
-			fieldLabel: 'Rendering View',
-			store: storeField,
-			queryMode: 'local',
-			width: 230,
-			displayField: 'name',
-			editable: false,
-			
-			listeners: {
-				select: function (combo, record, index) {
-					if (combo.getValue() === 'All Pages') {
-						me.pageOriginalClick(me);
-					} else if (combo.getValue() === 'Pagebased') {
-						me.pageClick(me);
-					/*} else if (combo.getValue() === 'Continuous Height') {
-						me.stretchHightClick(me);*/
-					} else if (combo.getValue() === 'Continuous Staff') {
-						me.stretchWidthClick(me);
-					}
-				}
-			}
-		});
-		combo.setValue(storeField[0]);
-		
-		me.pageSpinner = Ext.create('EdiromOnline.view.window.source.VerovioPageSpinner', {
-			width: 120,
-			cls: 'pageSpinner'
-		});
-		
-		me.pageBasedView.setPageSpinner(me.pageSpinner);
-		me.pageSpinner.setPageBasedView(me.pageBasedView);
-		
-		return[combo, me.pageSpinner];
-	}
-});
+	createMenuEntries: function() {
 
-Ext.define('EdiromOnline.view.window.source.VerovioPageSpinner', {
-	extend: 'Ext.container.Container',
-	
-	alias: 'widget.verovioPageSpinner',
-	
-	layout: 'hbox',
-	
-	pageBasedView: null,
-	
-	initComponent: function () {
-		
-		this.items =[];
-		this.callParent();
-	},
-	
-	next: function () {
-		var newValue = this.combo.getValue() + 1;
-		if (this.store.indexOf(newValue) != -1) {
-			this.setPage(newValue);
-			this.pageBasedView.showPage(newValue, false);
-		}
-	},
-	
-	prev: function () {
-		var newValue = this.combo.getValue() -1;
-		if (this.store.indexOf(newValue) != -1) {
-			this.setPage(newValue);
-			this.pageBasedView.showPage(newValue, false);
-		}
-	},
-	
-	setPageBasedView: function (pageBasedView) {
-		this.pageBasedView = pageBasedView;
-	},
-	
-	setPage: function (id) {
-		this.combo.setValue(id);
-	},
-	
-	setStore: function (test) {
-		
 		var me = this;
-		
-		this.removeAll();
-		
-		var storeField = new Array(test-1);
-		var value = 1;
-		for (var i = 0; i <= test-1; i++) {
-			storeField[i] = value++;
-		}
-		
-		this.store = storeField;
-		
-		this.combo = Ext.create('Ext.form.ComboBox', {
-			width: 35,
-			hideTrigger: true,
-			queryMode: 'local',
-			store: this.store,
-			displayField: 'name',
-			editable: true,
-			valueField: 'id',
-			cls: 'pageInputBox',
-			autoSelect: true,
-			enableKeyEvents: true,
-			listeners: {			
-				keydown:function (combo, e, eOpts) {
-            		if (e.getKey() == 13) {
-            			me.setPage(combo.getValue());
-						me.pageBasedView.showPage(combo.getValue(), false);
-            		}
-        		}
-			}
-		});
-		
-		this.add([ {
-			xtype: 'button',
-			cls: 'prev toolButton',
-			listeners: {
-				scope: this,
-				click: this.prev
-			}
-		},
-		this.combo, 
-		{
-        xtype: 'label',
-        text: 'von '+ test,
-        margins: '5 0 0 5'
-    },
-		{
-			xtype: 'button',
-			cls: 'next toolButton',
-			listeners: {
-				scope: this,
-				click: this.next
-			}
-		}]);
+
+		me.gotoMenu = Ext.create('Ext.button.Button', {
+			text: getLangString('view.window.source.SourceView_gotoMenu'),
+		indent:	false,
+	cls: 'menuButton',
+		menu		:	{
+	items: [
+ {
+		id:		me.id	+ '_gotoMeasure',
+	text: getLangString('view.window.source.SourceView_gotoMeasure'),
+		handler: Ext.bind(me.gotoMeasureDialog, me)
 	}
+	]
+	}
+ });
+		me.window.getTopbar().addViewSpecificItem(me.gotoMenu,		me.id);
+	},
+
+	setMovements: function(movements) {
+		var me = this;
+
+		me.movements		= movements;
+
+		var movementItems = [];
+        movements.each(function(movement) {
+					movementItems.push({
+						text: movement.get('name'),
+					handler: Ext.bind(me.showMovement, me,					movement.get('id'), true)
+						});
+					});
+
+		me.gotoMenu.menu.add({
+			id: me.id		+		'_gotoMovement',
+	text: getLangString('view.window.source.SourceView_gotoMovement'),
+	menu: {
+	items: movementItems
+	}
+	});
+		},
+
+	showMovement: function(menuItem, event,	movementId) {
+		var me = this;
+		me.verovioImageView.showMovement(movementId);
+			},
+
+	gotoMeasureDialog: function() {
+		var me = this;
+
+		Ext.create('EdiromOnline.view.window.source.GotoMsg', {
+			movements: me.movements,
+			callback: Ext.bind(function(measure, movementId) {
+            		this.fireEvent('gotoMeasureByName', this, measure, movementId);
+            		},        		
+			me)
+		}).show();
+			},
+
 });
