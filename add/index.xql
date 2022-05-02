@@ -118,7 +118,7 @@ let $eoEditionFileMulti :=  <html>
                                     <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
                                     
                                 </head>
-                                <body style="background-color: rgb(88,110,117, 0.5)">
+                                <body class="x-body">
                                     <div class="container" style="margin: 8.75%;">
                                         <img src="resources/pix/ViFE-logo-small-144x144-trans.png"/>
                                         <h1 style="margin-top:5px;">Edirom Online</h1>
