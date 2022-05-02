@@ -12,9 +12,9 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
-let $file2render := concat(substring-before(request:get-url(), 'EdiromOnline'), substring-after($uri,'xmldb:exist:///db/apps/'))
 let $resourceVerovio := concat(substring-before(request:get-url(), 'Edirom-Online'),'Edirom-Online/resources/verovio/verovio-app.js')
 let $appName := substring-before(substring-after(request:get-url(), 'apps/'), '/')
+let $resourceMEI := concat(substring-before(request:get-url(), $appName), substring-after($uri,'xmldb:exist:///db/apps/'))
 return
 <html>
     <head>
@@ -45,7 +45,7 @@ return
             const app = new Verovio.App(document.getElementById("app"), {{}});
         
             // Load a file (MEI or MusicXML)
-            fetch("{$file2render}")
+            fetch("{$resourceMEI}")
                 .then(function(response) {{
                     return response.text();
                 }})
