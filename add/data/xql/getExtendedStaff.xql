@@ -38,11 +38,12 @@ return
         <div class="panel-body">
             <div id="app" class="panel" style="padding: 5px;"></div>
         </div>
+        (<div id="verovioApp" class="panel" style="padding: 5px;"/>,
         <script type="module">
             import '{$resourceVerovio}';
         
             // Create the app - here with an empty option object
-            const app = new Verovio.App(document.getElementById("app"), {{}});
+            const app = new Verovio.App(document.getElementById("verovioApp"), {{}});
         
             // Options           
             const options = {{
