@@ -21,22 +21,9 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 	
 	layout: 'fit',
 	
-	currId: null,
-	renderer: null,
-	text: null,
-	imageSet: null,
-	bodyDoc: null,
-	pageSpinner: null,
-	pageHeight: null,
-	pageWidth: null,
-	numberPages: null,
-	
-	iframe: null,
-	
 	initComponent: function () {
 		
 		var me = this;
-		me.currId = me.id;
 		
 		me.html = '<div id="' + me.id + '_rendCont" class="renderingViewContent"><iframe id="' + me.id +
 		'_rendContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
@@ -44,54 +31,19 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		me.callParent();
 	},
 	
-	setBody: function (bodyDoc) {
+	setIFrameURL: function (url) {
 		var me = this;
-		me.bodyDoc = bodyDoc;
-	},
-	
-	setImageSet: function (imageSet) {
-		var me = this;
-		me.imageSet = imageSet;
-		
 		var contEl = me.el.getById(me.id + '_rendContIFrame');
 		contEl.set({
-			'src': imageSet
+			'src': url
 		});
 		
 	},
 	
-	showPage: function (pageNr, isSetCount) {
+	showMovement: function (movementId) {
 		var me = this;
 		
-		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
-		if (isSetCount) {
-			var pageCount = iframe.numberPages;
-			me.pageSpinner.setStore(pageCount);
-			me.pageSpinner.setPage(1);
-		}
-		iframe.loadPage(pageNr);
-	},
-	
-	showAllPages: function () {
-		var me = this;
-		
-		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
-		iframe.allPages();
-	},
-	
-	showContinuousWidth: function () {
-		var me = this;
-		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
-		iframe.loadContinuousWidth();
-	},
-	
-	showContinuousHight: function () {
-		var me = this;
-		var iframe = Ext.getDom(me.id + '_rendContIFrame').contentWindow;
-		iframe.loadContinuousHight();
-	},
-	
-	setPageSpinner: function (pageSpinner) {
-		this.pageSpinner = pageSpinner;
+		var iframe = Ext.fly(me.id + '_rendContIFrame').dom.contentWindow;
+		iframe.showMovement(movementId);
 	}
 });
