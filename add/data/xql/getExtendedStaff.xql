@@ -48,7 +48,7 @@ return
             // Options           
             const options = {{
                 // defaultView: 'document', // default is 'responsive'
-                defaultZoom: 2 // 0-7, default is 3
+                defaultZoom: 0 // 0-7, default is 3
                 }}
             // Load a file (MEI or MusicXML)
             fetch("{$resourceMEI}")
