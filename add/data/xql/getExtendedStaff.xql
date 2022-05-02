@@ -12,8 +12,8 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
-let $resourceVerovio := concat(substring-before(request:get-url(), 'Edirom-Online'),'Edirom-Online/resources/verovio/verovio-app.js')
 let $appName := substring-before(substring-after(request:get-url(), 'apps/'), '/')
+let $resourceVerovio := concat(substring-before(request:get-url(), $appName),'Edirom-Online/resources/verovio/verovio-app.js')
 let $resourceMEI := concat(substring-before(request:get-url(), $appName), substring-after($uri,'xmldb:exist:///db/apps/'))
 return
 <html>
