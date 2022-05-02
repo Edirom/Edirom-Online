@@ -44,6 +44,11 @@ return
             // Create the app - here with an empty option object
             const app = new Verovio.App(document.getElementById("app"), {{}});
         
+            // Options           
+            const options = {{
+                // defaultView: 'document', // default is 'responsive'
+                defaultZoom: 2 // 0-7, default is 3
+                }}
             // Load a file (MEI or MusicXML)
             fetch("{$resourceMEI}")
                 .then(function(response) {{
