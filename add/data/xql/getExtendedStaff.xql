@@ -14,6 +14,7 @@ let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
 let $file2render := concat(substring-before(request:get-url(), 'EdiromOnline'), substring-after($uri,'xmldb:exist:///db/apps/'))
 let $resourceVerovio := concat(substring-before(request:get-url(), 'Edirom-Online'),'Edirom-Online/resources/verovio/verovio-app.js')
+let $appName := substring-before(substring-after(request:get-url(), 'apps/'), '/')
 return
 <html>
     <head>
