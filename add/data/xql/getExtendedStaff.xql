@@ -13,6 +13,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
 let $file2render := concat(substring-before(request:get-url(), 'EdiromOnline'), substring-after($uri,'xmldb:exist:///db/apps/'))
+let $resourceVerovio := concat(substring-before(request:get-url(), 'Edirom-Online'),'Edirom-Online/resources/verovio/verovio-app.js')
 return
 <html>
     <head>
@@ -37,7 +38,7 @@ return
             <div id="app" class="panel" style="border: 1px solid lightgray;"></div>
         </div>
         <script type="module">
-            import 'https://www.verovio.org/javascript/app/verovio-app.js';
+            import '{$resourceVerovio}';
         
             // Create the app - here with an empty option object
             const app = new Verovio.App(document.getElementById("app"), {{}});
