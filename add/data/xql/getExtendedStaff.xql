@@ -25,7 +25,7 @@ return
                 height: 100%;
                 margin: 0;
             }}
-            #appVerovio {{
+            #verovioApp {{
                 height: 100%;
                 width: 100%;
                 position: absolute;
@@ -36,9 +36,8 @@ return
     </head>
 	<body>
         <div class="panel-body">
-            <div id="app" class="panel" style="padding: 5px;"></div>
+            <div id="verovioApp" class="panel"/>
         </div>
-        (<div id="verovioApp" class="panel" style="padding: 5px;"/>,
         <script type="module">
             import '{$resourceVerovio}';
         
