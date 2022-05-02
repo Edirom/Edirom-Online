@@ -36,7 +36,7 @@ return
     </head>
 	<body>
         <div class="panel-body">
-            <div id="app" class="panel" style="border: 1px solid lightgray;"></div>
+            <div id="app" class="panel" style="padding: 5px;"></div>
         </div>
         <script type="module">
             import '{$resourceVerovio}';
