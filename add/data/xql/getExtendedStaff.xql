@@ -51,6 +51,7 @@ return
             var uri = "{$uri}";
             var edition = "{$edition}";
             var movementId = "{$mdivId}";
+            var appBasePath = "{$basePath}";
         </script>
         <script src="{$basePath}/resources/js/verovio-view.js"></script>
     </body>
