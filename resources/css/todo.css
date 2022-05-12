@@ -57,13 +57,13 @@ span.musicalSymbol {
     font-family: Bravura;
 }
 
-@font-face { 
-    font-family: 'Bravura'; 
-    src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'), 
+@font-face {
+    font-family: 'Bravura';
+    src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'),
         url('../fonts/bravura/woff/Bravura.woff') format('woff'),
         url('../fonts/bravura/otf/Bravura.otf') format('opentype'),
         url('../fonts/bravura/svg/Bravura.svg#bravuraregular') format('svg'),
-        url('../fonts/bravura/eot/BravuraText.eot#') format('eot'), 
+        url('../fonts/bravura/eot/BravuraText.eot#') format('eot'),
         url('../fonts/bravura/woff/BravuraText.woff') format('woff'),
         url('../fonts/bravura/otf/BravuraText.otf') format('opentype'),
         url('../fonts/bravura/svg/BravuraText.svg#bravuraregular') format('svg');
@@ -175,16 +175,6 @@ span.musicalSymbol {
     line-height: 12px;
 }
 
-.sup {
-    font-size: 60%;
-    vertical-align: super;
-}
-
-.sub {
-    font-size: 60%;
-    vertical-align: sub;
-}
-
 .address.plain {
     margin: 0.5em 0 0 0;
 }
@@ -259,7 +249,7 @@ span.italic {
 }
 
 .searchWindow .searchResultDoc .doc {
-    margin-top: 10px;    
+    margin-top: 10px;
 }
 
 .searchWindow .searchResultDoc:first-child .doc {
