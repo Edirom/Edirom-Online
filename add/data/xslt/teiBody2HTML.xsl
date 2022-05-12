@@ -1034,4 +1034,12 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <xsl:template name="stdfooter">
+        <xsl:param name="title"/>
+    </xsl:template>
+    <xsl:template name="stdheader">
+        <xsl:param name="title"/>
+    </xsl:template>
+    
 </xsl:stylesheet>
