@@ -13,7 +13,7 @@
 		border-radius: 15px;
 		padding: 3px 5px 0;
     	text-shadow: 0 1px 2px #000000, 0 0 5px #ffffff;
-    	
+    	top: 50%;
     	@include background-image(radial-gradient(center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px));
 	}
 	
