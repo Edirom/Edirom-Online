@@ -201,3 +201,9 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
          eutil:getPreference('application_language', $edition)
      )
 };
+
+declare function eutil:get-app-base-url() as xs:string {
+    let $appName := substring-before(substring-after(request:get-url(), 'apps/'), '/')
+    let $basePath := concat(substring-before(request:get-uri(), $appName), $appName)        return
+        $basePath
+};

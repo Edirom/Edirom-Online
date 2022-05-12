@@ -18,7 +18,7 @@ function showMovement(movementId) {
     };
 
     /* Load the file using HTTP GET */
-    var url = "/data/xql/getMusicInMdiv.xql?uri=" + uri + "&edition=" + edition    + "&movementId=" + movementId;
+    var url = appBasePath + "/data/xql/getMusicInMdiv.xql?uri=" + uri + "&edition=" + edition    + "&movementId=" + movementId;
     $.get(url, function( data ) {
         var svg = vrvToolkit.renderData(data, options);
         $("#output").html(svg);
@@ -37,7 +37,7 @@ function updatePageData() {
     $("#page").html(page);
     $("#pageCount").html(pageCount);
     
-    var url = "/data/xql/getAnnotationsInRendering.xql?uri=" + uri + "&edition=" + edition;
+    var url = appBasePath + "/data/xql/getAnnotationsInRendering.xql?uri=" + uri + "&edition=" + edition;
     url += "&measureIds=" + getMeasureIds();
     
     if(page == 1)
