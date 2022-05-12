@@ -1020,6 +1020,246 @@
         </div>
     </xsl:template>
     
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>
+            <p>Process element note</p>
+            <p>copied from TEI Stylesheets xhtml2/core.xsl in order to fix link target in Edirom-Online</p>
+        </desc>
+    </doc>
+    <xsl:template match="tei:note">
+        <xsl:variable name="identifier">
+            <xsl:call-template name="noteID"/>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="@place='none'"/>
+            <xsl:when test="ancestor::tei:listBibl or ancestor::tei:biblFull         or ancestor::tei:biblStruct">
+                <xsl:text> [</xsl:text>
+                <xsl:apply-templates/>
+                <xsl:text>]</xsl:text>
+            </xsl:when>
+            <xsl:when test="@place='foot' or @place='bottom' or @place='end' or $autoEndNotes='true'">
+                <xsl:element name="{if (parent::tei:head or parent::tei:hi)  then 'span'           else if (parent::tei:l) then 'span'           else if (parent::tei:bibl/parent::tei:head) then 'span'           else if (parent::tei:stage/parent::tei:q) then 'span'           else if  (parent::tei:body or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="concat($identifier,'_return')"/>
+                    </xsl:call-template>
+                    <xsl:variable name="note-title">
+                        <xsl:variable name="note-text">
+                            <xsl:apply-templates mode="plain"/>
+                        </xsl:variable>
+                        <xsl:value-of select="substring($note-text,1,500)"/>
+                        <xsl:if test="string-length($note-text) &gt; 500">
+                            <xsl:text>…</xsl:text>
+                        </xsl:if>
+                    </xsl:variable>
+                    <xsl:choose>
+                        <xsl:when test="$footnoteFile='true'">
+                            <a class="notelink" title="{normalize-space($note-title)}" href="{$masterFile}-notes.html#{$identifier}">
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
+                                    <xsl:call-template name="noteN"/>
+                                </xsl:element>
+                            </a>
+                            <xsl:if test="following-sibling::node()[1][self::tei:note]">
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
+                                    <xsl:text>,</xsl:text>
+                                </xsl:element>
+                            </xsl:if>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:element name="a">
+                                <!-- here are the Edirom Online specific modifications -->
+                                <xsl:attribute name="class">notelink</xsl:attribute>
+                                <xsl:attribute name="href" select="$docUri || '#' || $identifier"/>
+                                <xsl:attribute name="title" select="normalize-space($note-title)"/>
+                                <xsl:attribute name="onclick">
+                                    <xsl:text>loadLink('</xsl:text>
+                                    <xsl:value-of select="$docUri || '#' || $identifier"/>
+                                    <xsl:text>', {useExisting:true}); return false;</xsl:text>
+                                </xsl:attribute>
+                                <!-- end of the Edirom Online specific modifications -->
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">				  
+                                    <xsl:call-template name="noteN"/>
+                                </xsl:element>
+                            </xsl:element>
+                            <xsl:if test="following-sibling::node()[1][self::tei:note]">
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
+                                    <xsl:text>,</xsl:text>
+                                </xsl:element>
+                            </xsl:if>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:element>
+            </xsl:when>
+            <xsl:when test="parent::tei:head and @place='margin'">
+                <span class="margnote">
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:when test="parent::tei:head">
+                <xsl:text> [</xsl:text>
+                <xsl:apply-templates/>
+                <xsl:text>]</xsl:text>
+            </xsl:when>
+            <xsl:when test="@type='footnote'">
+                <div class="note">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <span class="noteNumber">
+                        <xsl:number/>
+                    </span>
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:when>
+            <xsl:when test="(@place='display' or tei:q)          and (parent::tei:div or parent::tei:p or parent::tei:body)">
+                <div class="note">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <span class="noteLabel">
+                        <xsl:choose>
+                            <xsl:when test="@n">
+                                <xsl:value-of select="@n"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="i18n">
+                                    <xsl:with-param name="word">Note</xsl:with-param>
+                                </xsl:call-template>
+                                <xsl:text>: </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </span>
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:when>
+            <xsl:when test="@place='display'">
+                <blockquote>
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:call-template name="rendToClass"/>
+                    <xsl:choose>
+                        <xsl:when test="$outputTarget='html5'">
+                            <xsl:apply-templates/>
+                        </xsl:when>
+                        <xsl:when test="tei:q">
+                            <xsl:apply-templates/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <p>
+                                <xsl:apply-templates/>
+                            </p>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </blockquote>
+            </xsl:when>
+            <xsl:when test="@place='margin' and parent::tei:hi and not(*)">
+                <span class="margnote">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:when test="@place='margin' and *[not(tei:is-inline(.))]">
+                <div class="margnote">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:when>
+            <xsl:when test="@place='margin'">
+                <span class="margnote">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:apply-templates/>
+                </span>
+            </xsl:when>
+            <xsl:when test="@place='inline' or (parent::tei:p or parent::tei:hi or parent::tei:head)">
+                <span class="note">
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:text> [</xsl:text>
+                    <xsl:apply-templates/>
+                    <xsl:text>]</xsl:text>
+                </span>
+            </xsl:when>
+            <xsl:otherwise>
+                <div>
+                    <xsl:call-template name="makeAnchor">
+                        <xsl:with-param name="name" select="$identifier"/>
+                    </xsl:call-template>
+                    <xsl:attribute name="class">
+                        <xsl:text>note </xsl:text>
+                        <xsl:value-of select="@type"/>
+                    </xsl:attribute>
+                    <span class="noteLabel">
+                        <xsl:choose>
+                            <xsl:when test="@n">
+                                <xsl:value-of select="@n"/>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:call-template name="i18n">
+                                    <xsl:with-param name="word">Note</xsl:with-param>
+                                </xsl:call-template>
+                                <xsl:text>: </xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
+                    </span>
+                    <xsl:apply-templates/>
+                </div>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>
+            <p>Process element note</p>
+            <p>copied from TEI Stylesheets xhtml2/core.xsl in order to fix link target in Edirom-Online</p>
+        </desc>
+    </doc>
+    <xsl:template name="makeaNote">
+        <xsl:variable name="identifier">
+            <xsl:call-template name="noteID"/>
+        </xsl:variable>
+        <xsl:if test="$verbose='true'">
+            <xsl:message>Make note <xsl:value-of select="$identifier"/></xsl:message>
+        </xsl:if>
+        <div class="note">
+            <xsl:call-template name="makeAnchor">
+                <xsl:with-param name="name" select="$identifier"/>
+            </xsl:call-template>
+            <span class="noteLabel">
+                <xsl:call-template name="noteN"/>
+                <xsl:if test="matches(@n,'[0-9]')">
+                    <xsl:text>.</xsl:text>
+                </xsl:if>
+                <xsl:text> </xsl:text>
+            </span>
+            <div class="noteBody">
+                <xsl:apply-templates/>
+            </div>
+            <xsl:if test="$footnoteBackLink= 'true'">
+                <xsl:text> </xsl:text>
+                <xsl:element name="a">
+                    <!-- here are the Edirom Online specific modifications -->
+                    <xsl:attribute name="class">link_return</xsl:attribute>
+                    <xsl:attribute name="href" select="$docUri || '#' || $identifier || '_return'"/>
+                    <xsl:attribute name="title">"Go back to text</xsl:attribute>
+                    <xsl:attribute name="onclick">
+                        <xsl:text>loadLink('</xsl:text>
+                        <xsl:value-of select="$docUri || '#' || $identifier || '_return'"/>
+                        <xsl:text>', {useExisting:true}); return false;</xsl:text>
+                    </xsl:attribute>
+                    <!-- end of the Edirom Online specific modifications -->
+                    <xsl:text>↵</xsl:text>
+                </xsl:element>
+            </xsl:if>
+        </div>
+    </xsl:template>
+    
     <xsl:template match="tei:quote" priority="5">
         <xsl:choose>
             <xsl:when test="parent::tei:cit[@rend = 'inline']">
