@@ -386,27 +386,6 @@
 	text-decoration: none;
 }
 
-.textViewContent div.noteHeading
-{
-	margin-top: 9pt;
-	border: 0;
-	border-top: 1pt;
-	border-style: solid;
-	padding-top: 6pt;
-	font-size: larger;
-	font-weight: bold;
-}
-
-.textViewContent div.noteBody { display: inline; }
-
-.textViewContent div.note
-{
-	margin-left: 1em;
-	margin-bottom: 4pt;
-	text-indent: -1em;
-}
-
-.textViewContent span.noteLabel { font-style: italic; }
 .textViewContent span.noteNumber:before { content: "["; }
 .textViewContent span.noteNumber:after { content: "]. "; }
 .textViewContent span.note { font-size: smaller; }
