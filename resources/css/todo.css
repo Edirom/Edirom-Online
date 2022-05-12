@@ -91,16 +91,6 @@ span.musicalSymbol {
     z-index: 5;
 }
 
-.measureInner {
-    position: relative;
-    float: left;
-    left: 50%;
-    transform: translate(0, -50%);
-    
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
-}
-
 .ediromWindow .annotation {
     border: 1px solid red;
     background-color: rgba(255, 0, 0, 0.3);
@@ -264,16 +254,6 @@ p {
     color: rgb(146, 64, 92);
     cursor: pointer;
     text-decoration: underline;
-}
-
-.ediromWindow .measureInner {
-    background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
-    border-radius: 15px;
-    padding: 3px 5px 0;
-    text-shadow: 0 1px 2px #000, 0 0 5px #fff;
-    font-size: 20px;
-    background-color: grey;
-    color: white;
 }
 
 /* SEARCH WINDOW */
