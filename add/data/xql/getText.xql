@@ -67,6 +67,7 @@ let $imagePrefix := if($imageserver = 'leaflet')
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
 let $params := (
+                <param name="docUri" value="{$uri}"/>,
                 <param name="autoHead" value="'false'"/>,
                 <param name="autoToc" value="'false'"/>,
                 <param name="base" value="{concat($base, '/../xslt/')}"/>,
