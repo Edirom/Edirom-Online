@@ -45,7 +45,7 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 declare function local:getMeasures($mei as node(), $surface as node()) as xs:string* {
 
     for $zone in $surface/mei:zone[@type='measure']
-    let $measures := $mei//mei:measure[@facs = concat('#', $zone/@xml:id)]
+    let $measures := $mei//mei:measure[functx:contains-any-of(@facs, concat('#', $zone/@xml:id))]
     return
         for $measure in $measures
         let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
