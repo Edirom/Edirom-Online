@@ -108,9 +108,6 @@
         </xsl:element>
     </xsl:template>
     <xsl:template name="bodyMicroData"/>
-    <xsl:template match="/">
-        <xsl:apply-templates select="//tei:text[not(@xml:lang) or @xml:lang = $lang]"/>
-    </xsl:template>
     <xsl:template name="divContents">
         <xsl:param name="Depth"/>
         <xsl:param name="nav">false</xsl:param>
