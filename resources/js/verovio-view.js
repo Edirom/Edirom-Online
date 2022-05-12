@@ -37,7 +37,7 @@ function updatePageData() {
     $("#page").html(page);
     $("#pageCount").html(pageCount);
     
-    var url = "/data/xql/getAnnotationsInRendering.xql?uri=" + uri + "&edition=" + edition;
+    var url = appBasePath + "/data/xql/getAnnotationsInRendering.xql?uri=" + uri + "&edition=" + edition;
     url += "&measureIds=" + getMeasureIds();
     
     if(page == 1)
