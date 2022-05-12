@@ -66,9 +66,15 @@ let $imagePrefix := if($imageserver = 'leaflet')
 
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
-                <param name="graphicsPrefix" value="{$imagePrefix}"/>,
-                <param name="lang" value="{eutil:getLanguage($edition)}"/>
+let $params := (
+                <param name="autoHead" value="'false'"/>,
+                <param name="autoToc" value="'false'"/>,
+                <param name="base" value="{concat($base, '/../xslt/')}"/>,
+                <param name="footnoteBackLink" value="true"/>,
+                <param name="graphicsPrefix" value="{$imagePrefix}"/>,(:TODO frm XSLT <param name="graphicsPrefix"/>:)
+                <param name="lang" value="{eutil:getLanguage($edition)}"/>,
+                <param name="numberHeadings" value="'false'"/>,
+                <param name="pageLayout" value="'CSS'"/>
                 )
     
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
