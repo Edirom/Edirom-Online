@@ -89,6 +89,34 @@ return
 };
 
 (:~
+: Returns a localized string
+:
+: @param $node The node to be processed
+: @param $lang Optional parameter for lang selection
+: @return The string (normalized space)
+:)
+
+declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) as xs:string {
+
+  let $namespace := eutil:getNamespace($node)
+  
+  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang)
+                   then ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
+                   else (($node//mei:title)[1]//text() => string-join() => normalize-space())
+  
+  let $titleTEI := if ($lang != '' and $lang = $node/tei:title/@xml:lang)
+                   then $node/tei:title[@xml:lang = $lang]/text()
+                   else $node/tei:title[1]/text()
+  
+  return
+      if ($namespace = 'mei')
+      then($titleMEI)
+      else if ($namespace = 'tei')
+      then($titleTEI)
+      else('unknown')
+
+};
+(:~
 : Returns a document
 :
 : @param $uri The URIs of the documents to process
