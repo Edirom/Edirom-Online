@@ -37,16 +37,6 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
-declare function local:getLocalizedTitle($node) {
-  let $lang := request:get-parameter('lang', '')
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};
-
 declare function local:getLocalizedName($node) {
   let $lang := request:get-parameter('lang', '')
   let $nodeName := local-name($node)
@@ -82,7 +72,8 @@ declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:
 :)
 declare function annotation:toJSON($anno as element(), $edition as xs:string) as xs:string {
     let $id := $anno/@xml:id
-    let $title := normalize-space(local:getLocalizedTitle($anno))
+    let $lang := request:get-parameter('lang', '')
+    let $title := eutil:getLocalizedTitle($anno, $lang)
     let $doc := $anno/root()
     let $prio := local:getLocalizedName($doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2)))
     let $pList := distinct-values(tokenize($anno/@plist, ' '))

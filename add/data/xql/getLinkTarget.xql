@@ -37,22 +37,6 @@ import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-n
 
 declare variable $lang := request:get-parameter('lang', '');
 
-declare function local:getLocalizedMEITitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then ($node/mei:title[@xml:lang = $lang]/text())
-      else ($node/mei:title[1]/text())
-};
-declare function local:getLocalizedTEITitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/tei:title/@xml:lang)
-      then $node/tei:title[@xml:lang = $lang]/text()
-      else $node/tei:title[1]/text()
-
-};
-
 
 declare function local:getViews($type, $docUri, $doc) {
     
