@@ -88,6 +88,35 @@ declare function local:getViews($type, $docUri, $doc) {
     ), ',')
 };
 
+declare function local:getWindowTitle($doc, $type) as xs:string {
+  (: Work :)
+  if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
+  then(eutil:getLocalizedTitle(($doc//mei:work)[1]/mei:titleStmt[1], $lang))
+
+  (: Recording :)
+  else if(exists($doc//mei:mei) and exists($doc//mei:recording))
+  then(eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
+
+  (: Source / Score :)
+  else if($type = 'source' and exists($doc//mei:manifestation))
+  then(string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
+                    ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
+       => normalize-space())
+  else if($type = 'source' and exists($doc//mei:source))
+  then(string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
+                    ($doc//mei:source)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
+       => normalize-space())
+  
+  (: Text :)
+  else if(exists($doc/tei:TEI))
+  then(eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
+  
+  (: HTML :)
+  else if($type = 'html')
+  then($doc//head/data(title))
+ 
+  else(string('unknown'))
+};
 
 let $uri := request:get-parameter('uri', '')
 let $uriParams := if(contains($uri, '?')) then(substring-after($uri, '?')) else('')
@@ -120,8 +149,7 @@ let $internal := if(exists($internal))then($internal)else(
                         else($internal)
                     )
 
-let $type := 
-             (: Work :)
+let $type := (: Work :)
              if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
              then(string('work'))
              
@@ -132,7 +160,6 @@ let $type :=
              (: Source / Score :)
              else if(source:isSource($docUri))
              then(string('source'))
-             
              
              (: Text :)
              else if(exists($doc/tei:TEI))
@@ -147,33 +174,6 @@ let $type :=
              
              else(string('unknown'))
              
-let $title := (: Work :)
-
-              if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
-              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt)[1])
-
-              (: Recording :)
-              else if(exists($doc//mei:mei) and exists($doc//mei:recording))
-              then(local:getLocalizedMEITitle($doc//mei:fileDesc/mei:titleStmt[1]))
-
-              (: Source / Score without Shelfmark:)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
-              then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
-              
-              (: Source / Score with Shelfmark:)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source) and exists($doc//mei:identifier[@type='shelfmark']))
-              then(concat(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])),' | ',normalize-space($doc//mei:source//mei:identifier[@type='shelfmark'])))
-              
-              (: Text :)
-              else if(exists($doc/tei:TEI))
-              then(local:getLocalizedTEITitle($doc//tei:fileDesc/tei:titleStmt[1]))
-              
-              (: HTML :)
-              else if($type = 'html')
-              then($doc//head/data(title))
-             
-              else(string('unknown'))
-              
 let $internalIdType := if(exists($internal))
                        then(local-name($internal))
                        else('unknown')
@@ -181,7 +181,7 @@ let $internalIdType := if(exists($internal))
 return 
     concat("{",
           "type:'", $type, 
-          "',title:'", $title, 
+          "',title:'", local:getWindowTitle($doc, $type), 
           "',doc:'", $docUri,
           "',views:[", local:getViews($type, $docUri, $doc), "]",
           ",internalId:'", $internalId, $internalIdParam, 
