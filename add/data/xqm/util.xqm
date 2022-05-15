@@ -41,6 +41,21 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
 (:~
+: Returns the namespace (standardized prefix)
+:
+: @param $node The node to be processed
+: @return The namespace (prefix)
+:)
+
+declare function eutil:getNamespace($node as node()) as xs:string {
+  switch (namespace-uri($node))
+    case 'http://www.music-encoding.org/ns/mei' return 'mei'
+    case 'http://www.tei-c.org/ns/1.0' return 'tei'
+    case 'http://www.edirom.de/ns/1.3' return 'edirom'
+    default return 'unknown'
+};
+
+(:~
 : Returns a localized string
 :
 : @param $node The node to be processed
