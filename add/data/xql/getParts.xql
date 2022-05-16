@@ -29,7 +29,7 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
-let $ret := for $part in $mei//mei:instrumentation/mei:instrVoice
+let $ret := for $part in ($mei//mei:instrumentation/mei:instrVoice | $mei//mei:perfMedium//mei:perfRes)
             return concat('{label: "', $part/@label, '", id:"', $part/@xml:id, '", selectedByDefault:true, selected:true}')
 
 return concat('[', string-join($ret, ','), ']')
