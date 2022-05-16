@@ -3,7 +3,7 @@
     
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
-    <property name="project.version" value="1.0.0-alpha"/>
+    <property name="project.version" value="1.0.0-beta"/>
     <property name="project.app" value="Edirom-Online"/>
     <property name="project.title" value="Edirom Online"/>
     <property name="repo.target" value="${project.app}"/>
@@ -24,6 +24,7 @@
                 <filter token="repo.target" value="${repo.target}"/>
             </filterset>
         </copy>
+        <copy file="${build.dir}/resources/pix/ViFE-logo-small-144x144-trans.png" tofile="${build.dir}/icon.png" overwrite="true"/>
     </target>
     
     <target name="xar">

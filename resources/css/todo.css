@@ -57,13 +57,13 @@ span.musicalSymbol {
     font-family: Bravura;
 }
 
-@font-face { 
-    font-family: 'Bravura'; 
-    src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'), 
+@font-face {
+    font-family: 'Bravura';
+    src: url('../fonts/bravura/eot/Bravura.eot#') format('eot'),
         url('../fonts/bravura/woff/Bravura.woff') format('woff'),
         url('../fonts/bravura/otf/Bravura.otf') format('opentype'),
         url('../fonts/bravura/svg/Bravura.svg#bravuraregular') format('svg'),
-        url('../fonts/bravura/eot/BravuraText.eot#') format('eot'), 
+        url('../fonts/bravura/eot/BravuraText.eot#') format('eot'),
         url('../fonts/bravura/woff/BravuraText.woff') format('woff'),
         url('../fonts/bravura/otf/BravuraText.otf') format('opentype'),
         url('../fonts/bravura/svg/BravuraText.svg#bravuraregular') format('svg');
@@ -89,16 +89,6 @@ span.musicalSymbol {
 .measure {
     text-align: center;
     z-index: 5;
-}
-
-.measureInner {
-    position: relative;
-    float: left;
-    left: 50%;
-    transform: translate(0, -50%);
-    
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 4px;
 }
 
 .ediromWindow .annotation {
@@ -185,16 +175,6 @@ span.musicalSymbol {
     line-height: 12px;
 }
 
-.sup {
-    font-size: 60%;
-    vertical-align: super;
-}
-
-.sub {
-    font-size: 60%;
-    vertical-align: sub;
-}
-
 .address.plain {
     margin: 0.5em 0 0 0;
 }
@@ -217,10 +197,6 @@ span.smcaps {
 
 span.italic {
     font-style: italic;
-}
-
-p {
-    line-height: 1.2;
 }
 
 #navigator .navigatorCategory2 {
@@ -266,16 +242,6 @@ p {
     text-decoration: underline;
 }
 
-.ediromWindow .measureInner {
-    background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
-    border-radius: 15px;
-    padding: 3px 5px 0;
-    text-shadow: 0 1px 2px #000, 0 0 5px #fff;
-    font-size: 20px;
-    background-color: grey;
-    color: white;
-}
-
 /* SEARCH WINDOW */
 
 .searchWindow .searchResultDoc {
@@ -283,7 +249,7 @@ p {
 }
 
 .searchWindow .searchResultDoc .doc {
-    margin-top: 10px;    
+    margin-top: 10px;
 }
 
 .searchWindow .searchResultDoc:first-child .doc {
@@ -412,4 +378,10 @@ span#workSwitch-btnInnerEl:before {
 .x-menu-item-active {
     background-color: rgb(36, 145, 235) !important;
     color: rgb(161, 209, 247) !important;
+}
+
+/* Verovio view */
+
+.renderingViewContent {
+    height: 100%;
 }

@@ -19,6 +19,7 @@ xquery version "3.0";
 :)
 
 import module namespace kwic="http://exist-db.org/xquery/kwic";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -27,24 +28,6 @@ declare namespace request="http://exist-db.org/xquery/request";
 (:declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";:)
 
 declare variable $lang := request:get-parameter('lang', '');
-
-declare function local:getLocalizedMEITitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:title/@xml:lang)
-      then $node/mei:title[@xml:lang = $lang]/text()
-      else $node/mei:title[1]/text()
-
-};
-
-declare function local:getLocalizedTEITitle($node) {
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/tei:title/@xml:lang)
-      then $node/tei:title[@xml:lang = $lang]/text()
-      else $node/tei:title[1]/text()
-
-};
 
 declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
   if ($mode eq 'before') then 
@@ -116,16 +99,16 @@ let $return :=
     let $uri := document-uri($doc)
     let $title := (: Annotation :)
               if(local-name($hit) eq 'annot')
-              then(local:getLocalizedMEITitle($hit))
+              then(eutil:getLocalizedTitle($hit, $lang))
               (: Work :)
               else if(exists($doc//mei:mei) and exists($doc//mei:work))
-              then(local:getLocalizedMEITitle($doc//mei:work/mei:titleStmt))
+              then(eutil:getLocalizedTitle($doc//mei:work/mei:titleStmt, $lang))
               (: Source / Score :)
               else if(exists($doc//mei:mei) and exists($doc//mei:source))
-              then(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt))
+              then(eutil:getLocalizedTitle($doc//mei:source/mei:titleStmt, $lang))
               (: Text :)
               else if(exists($doc/tei:TEI))
-              then(local:getLocalizedTEITitle($doc//tei:titleStmt))
+              then(eutil:getLocalizedTitle($doc//tei:titleStmt, $lang))
               else(string('unknown'))
     order by ft:score($hit) descending
     return

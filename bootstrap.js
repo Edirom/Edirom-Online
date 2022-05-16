@@ -12,7 +12,6 @@ Ext.Loader.addClassPathMappings({
   "EdiromOnline.view.window.source.HorizontalMeasureViewer": "app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.IntervalSpinner": "app/view/window/source/MeasureBasedView.js",
   "EdiromOnline.view.window.source.MeasureSpinner": "app/view/window/source/MeasureBasedView.js",
-  "EdiromOnline.view.window.source.VerovioPageSpinner": "app/view/window/source/VerovioView.js",
   "Ext": "ext/src",
   "Ext.DomHelper": "ext/src/dom/Helper.js",
   "Ext.DomQuery": "ext/src/dom/Query.js",
@@ -101,7 +100,6 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.source.MeasureSpinner": [],
   "EdiromOnline.view.window.source.PageBasedView": [],
   "EdiromOnline.view.window.source.SourceView": [],
-  "EdiromOnline.view.window.source.VerovioPageSpinner": [],
   "EdiromOnline.view.window.source.VerovioView": [],
   "EdiromOnline.view.window.text.FacsimileView": [],
   "EdiromOnline.view.window.text.TextFacsimileSplitView": [],
@@ -1065,9 +1063,6 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "EdiromOnline.view.window.source.SourceView": [
     "widget.sourceView"
-  ],
-  "EdiromOnline.view.window.source.VerovioPageSpinner": [
-    "widget.verovioPageSpinner"
   ],
   "EdiromOnline.view.window.source.VerovioView": [
     "widget.verovioView"
