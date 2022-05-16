@@ -409,11 +409,11 @@ return
                     then(
                         for $a in $annot/mei:annot
                         return
-                            (<h1>{annotation:getLocalizedTitle($annot)}</h1>, (:TODO vs eutil:getLocalizedName($annot, $lang) :)
+                            (<h1>{eutil:getLocalizedTitle($annot, $lang)}</h1>,
                             annotation:getContent($a,'', $edition))
                     )
                     else(
-                        (<h1>{annotation:getLocalizedTitle($annot)}</h1>,
+                        (<h1>{eutil:getLocalizedTitle($annot, $lang)}</h1>,
                         annotation:getContent($annot,'', $edition))
                     )
                 }

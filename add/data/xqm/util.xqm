@@ -37,7 +37,23 @@ import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
+
+(:~
+: Returns the namespace (standardized prefix)
+:
+: @param $node The node to be processed
+: @return The namespace (prefix)
+:)
+
+declare function eutil:getNamespace($node as node()) as xs:string {
+  switch (namespace-uri($node))
+    case 'http://www.music-encoding.org/ns/mei' return 'mei'
+    case 'http://www.tei-c.org/ns/1.0' return 'tei'
+    case 'http://www.edirom.de/ns/1.3' return 'edirom'
+    default return 'unknown'
+};
 
 (:~
 : Returns a localized string
@@ -72,6 +88,34 @@ return
     $name => string-join(' ')
 };
 
+(:~
+: Returns a localized string
+:
+: @param $node The node to be processed
+: @param $lang Optional parameter for lang selection
+: @return The string (normalized space)
+:)
+
+declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) as xs:string {
+
+  let $namespace := eutil:getNamespace($node)
+  
+  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang)
+                   then ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
+                   else (($node//mei:title)[1]//text() => string-join() => normalize-space())
+  
+  let $titleTEI := if ($lang != '' and $lang = $node/tei:title/@xml:lang)
+                   then $node/tei:title[@xml:lang = $lang]/text()
+                   else $node/tei:title[1]/text()
+  
+  return
+      if ($namespace = 'mei')
+      then($titleMEI)
+      else if ($namespace = 'tei')
+      then($titleTEI)
+      else('unknown')
+
+};
 (:~
 : Returns a document
 :

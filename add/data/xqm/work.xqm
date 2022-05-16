@@ -33,15 +33,6 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 
-declare function local:getLocalizedTitle($node) {
-
-    let $lang := request:get-parameter('lang', '')     
-    return
-      if ($lang = $node/mei:title/@xml:lang)
-      then (normalize-space(($node/mei:title)[@xml:lang = $lang][1]/text()))
-      else (normalize-space(($node//mei:title)[1]/text()))
-};
-
 (:~
 : Returns a JSON representation of a Work
 :
@@ -51,12 +42,13 @@ declare function local:getLocalizedTitle($node) {
 declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:string {
     
     let $work := doc($uri)/mei:mei
+    let $lang := request:get-parameter('lang', '')
     return
         concat('
             {',
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-                'title: "', replace(local:getLocalizedTitle($work//mei:work), '"', '\\"'), '"',
+                'title: "', replace(eutil:getLocalizedTitle($work//mei:work, $lang), '"', '\\"'), '"',
             '}')
 };
 
@@ -74,12 +66,13 @@ declare function work:isWork($uri as xs:string) as xs:boolean {
 (:~
 : Returns a works's label
 :
-: @param $source The URIs of the Work's document to process
+: @param $work The URIs of the Work's document to process
+: @param $edition The ID of the Edition the Work is part of
 : @return The label
 :)
 declare function work:getLabel($work as xs:string, $edition as xs:string) as xs:string {
      
-    local:getLocalizedTitle(doc($work)//mei:work)
+    eutil:getLocalizedTitle(doc($work)//mei:work, request:get-parameter('lang', ''))
 };
 
 (:~
