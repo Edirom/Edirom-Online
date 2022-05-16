@@ -23,8 +23,8 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
-
 declare namespace tei="http://www.tei-c.org/ns/1.0";
+declare namespace xhtml="http://www.w3.org/1999/xhtml";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 (:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
@@ -66,14 +66,29 @@ let $imagePrefix := if($imageserver = 'leaflet')
 
 let $xsl := if($xslInstruction)then($xslInstruction)else('../xslt/teiBody2HTML.xsl')
 
-let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,
-                <param name="graphicsPrefix" value="{$imagePrefix}"/>,
-                <param name="lang" value="{eutil:getLanguage($edition)}"/>
+let $params := (
+                (: parameters for Edirom-Online :)
+                <param name="lang" value="{eutil:getLanguage($edition)}"/>,
+                <param name="docUri" value="{$uri}"/>,
+                (: parameters for the TEI Stypesheets :)
+                <param name="autoHead" value="'false'"/>,
+                <param name="autoToc" value="'false'"/>,
+                <param name="base" value="{concat($base, '/../xslt/')}"/>,
+                <param name="footnoteBackLink" value="true"/>,
+                <param name="graphicsPrefix" value="{$imagePrefix}"/>,(:TODO frm XSLT <param name="graphicsPrefix"/>:)
+                <param name="numberHeadings" value="'false'"/>,
+                <param name="pageLayout" value="'CSS'"/>
                 )
     
 let $doc := if($xslInstruction)then(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
     else(transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
 
+let $doc := transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+
+let $body := $doc//xhtml:body
+
 return
-    
-    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+    element div {
+        for $attribute in $body/@* return $attribute,
+        for $node in $body/node() return $node 
+    }

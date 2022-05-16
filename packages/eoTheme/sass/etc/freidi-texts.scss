@@ -103,7 +103,7 @@
 /* Libretto KAtx4 */
 .textViewContent .freidi_libretto.KAtx4 .titlePart.main span.underline {
     border-bottom: 1px solid #000000;
-} 
+}
 
 .textViewContent .freidi_libretto.KAtx4 div.l {
     margin-left: 7em;
@@ -370,11 +370,11 @@
 
 .textViewContent .freidi_libretto .p-in-sp .pagebreak {
     margin-left: -6em;
-} 
+}
 
 .textViewContent .freidi_libretto .p-in-sp .pagebreak.inner {
     margin-left: 6em;
-} 
+}
 
 .textViewContent .freidi_libretto .titlePart {
     line-height: 1.6em;
@@ -383,7 +383,7 @@
 
 .textViewContent .freidi_libretto .titlePart.main {
     font-size: 28px;
-} 
+}
 
 .textViewContent .freidi_libretto span.role {
     margin-left: 0.2em;
@@ -394,11 +394,11 @@
 }
 
 .textViewContent span.act {
-   font-size: 28px; 
+   font-size: 28px;
 }
 
 .textViewContent span.scene {
-    font-size: 23px; 
+    font-size: 23px;
 }
 
 .textViewContent div.stage, .textViewContent span.stage {
@@ -483,7 +483,7 @@
 
 
 .textViewContent div.note {
-    display: none;
+    display: block;
 }
 
 .textViewContent h2, .textViewContent h3 {
@@ -505,7 +505,7 @@
 .textViewContent .sp {
    margin-top: 1em;
    margin-bottom: 1em;
-   line-height: 1.4em;  
+   line-height: 1.4em;
 }
 
 
@@ -518,7 +518,7 @@
 }
 
 .lg[rend~="indent"] {
-   display: block;    
+   display: block;
    margin-left: 8em;
    margin-top: 0.5em;
    margin-bottom: 0.5em;
@@ -583,8 +583,8 @@
 
 .textViewContent span.place {
     font-size: 70%;
-    position: relative; 
-    top: -0.3em; 
+    position: relative;
+    top: -0.3em;
 }
 
 
@@ -622,4 +622,3 @@
 }
 
 /****************/
-
