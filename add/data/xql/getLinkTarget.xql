@@ -102,7 +102,7 @@ declare function local:getWindowTitle($doc, $type) as xs:string {
   then(string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
-  else if($type = 'source' and exists($doc//mei:source))
+  else if($type = 'source' and exists($doc//mei:source/mei:titleStmt))
   then(string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:source)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
