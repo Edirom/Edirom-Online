@@ -1,8 +1,9 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:exist="http://exist.sourceforge.net/NS/exist"
+    xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:functx="http://www.functx.com"
     exclude-result-prefixes="#default xs tei xhtml" version="2.0">
+    <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
     <xsl:import href="tei/common2/tei-param.xsl"/>
     <xsl:import href="tei/common2/tei.xsl"/>
     <xsl:import href="tei/xhtml2/tei-param.xsl"/>
@@ -193,6 +194,12 @@
                 </xsl:when>
                 <xsl:when test="starts-with(@url, '/exist/')">
                     <xsl:value-of select="@url"/>
+                </xsl:when>
+                <xsl:when test="starts-with(@url, '../')">
+                    <xsl:variable name="folder-ups" select="functx:number-of-matches(@url, '../')"/>
+                    <xsl:variable name="uri-tokens" select="tokenize($docUri, '/')" as="xs:string*"/> 
+                    <!--<xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
+                    <xsl:value-of select="substring-before($docUri, $uri-tokens[last()]) || functx:substring-after-last-match(@url, '../')"/>
                 </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="@url"/>
