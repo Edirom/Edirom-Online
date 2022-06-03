@@ -33,6 +33,7 @@
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
     <xsl:param name="docUri" as="xs:anyURI"/>
+    <xsl:param name="contextPath" as="xs:string"/>
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
@@ -197,9 +198,10 @@
                 </xsl:when>
                 <xsl:when test="starts-with(@url, '../')">
                     <xsl:variable name="folder-ups" select="functx:number-of-matches(@url, '../')"/>
-                    <xsl:variable name="uri-tokens" select="tokenize($docUri, '/')" as="xs:string*"/> 
-                    <!--<xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
-                    <xsl:value-of select="substring-before($docUri, $uri-tokens[last()]) || functx:substring-after-last-match(@url, '../')"/>
+                    <xsl:variable name="unprefixedDocUri" select="substring-after($docUri, 'xmldb:exist:///db/')"/>
+                    <xsl:variable name="uri-tokens" select="tokenize($unprefixedDocUri, '/')" as="xs:string*"/> 
+<!--                    <xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
+                    <xsl:value-of select="string-join(($contextPath, $uri-tokens[position() lt last() - $folder-ups + 1], functx:substring-after-last-match(@url, '\.\./')), '/')"/>
                 </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="@url"/>
