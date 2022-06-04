@@ -76,9 +76,9 @@ declare function local:getViews($type, $docUri, $doc) {
 :)
 
         (: iFrameView :)
-        if($type = 'html' and not(exists($doc//head/title)))
+        (:if($type = 'html' and not(exists($doc//head/title)))
         then(concat("{type:'iFrameView', label: '", 'HTML' ,"' ,uri:'", $docUri, "'}"))
-        else(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")),
+        else(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")),:)
         
         (: XmlView :)
         concat("{type:'xmlView',uri:'", $docUri, "'}"),
