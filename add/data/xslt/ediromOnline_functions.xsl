@@ -29,6 +29,7 @@
     </xsl:function>
     
     <xsl:function name="eof:getLabel" xpath-default-namespace="">
+        <xsl:param name="language"/>
         <xsl:param name="key"/>
         <xsl:choose>
             <xsl:when test="$language/id($key) and not($language/id($key)/text() eq '')">
@@ -41,6 +42,7 @@
     </xsl:function>
     
     <xsl:function name="eof:getFacsImgParas">
+        <xsl:param name="resolution"/>
         <xsl:param name="areaWidth"/>
         <xsl:value-of select="concat('&amp;dw=',floor($resolution*$areaWidth), '&amp;mo=file')"/>
     </xsl:function>
