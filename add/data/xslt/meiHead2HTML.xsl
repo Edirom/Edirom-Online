@@ -2036,11 +2036,18 @@
   <xsl:template match="mei:rend" mode="#all">
     <xsl:variable name="style">
       <xsl:if test="@color">
-                color: 
-                <xsl:choose><xsl:when test="starts-with(@color, 'x')">
-                        #<xsl:value-of select="substring(@color, 2)"/>
-                    </xsl:when><xsl:otherwise><xsl:value-of select="@color"/></xsl:otherwise></xsl:choose>;
-            </xsl:if>
+        <xsl:text>color: </xsl:text>
+        <xsl:choose>
+          <xsl:when test="starts-with(@color, 'x')">
+            <xsl:text>#</xsl:text>
+            <xsl:value-of select="substring(@color, 2)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="@color"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>;</xsl:text>
+      </xsl:if>
       <xsl:if test="@fontfam | @fontname">
                 font-family: '<xsl:value-of select="@fontfam | @fontname"/>';
             </xsl:if>
