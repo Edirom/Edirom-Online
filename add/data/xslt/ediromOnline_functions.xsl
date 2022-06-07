@@ -13,7 +13,7 @@
             <xd:p>XSL-Module to include all global XSL:FUNCTIONs derived of the Edirom Online Project.</xd:p>
         </xd:desc>
     </xd:doc>
-    
+    <xsl:import href="ediromOnline_params.xsl"/>
     <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
     
     <!-- TODO: an die Einstellungen anpassen -->
@@ -29,14 +29,13 @@
     </xsl:function>
     
     <xsl:function name="eof:getLabel" xpath-default-namespace="">
-        <xsl:param name="language"/>
         <xsl:param name="key"/>
         <xsl:choose>
             <xsl:when test="$language/id($key) and not($language/id($key)/text() eq '')">
                 <xsl:value-of select="$language/id($key)/text()"/>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:value-of select="$key"></xsl:value-of>
+                <xsl:value-of select="$key"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
