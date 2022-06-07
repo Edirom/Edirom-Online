@@ -112,7 +112,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
 : @param $idPrefix A prefix for all ids (because of uniqueness in application)
 : @return The HTML representation
 :)
-declare function annotation:getContent($anno as element(), $idPrefix as xs:string) {
+declare function annotation:getContent($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
 
     
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)

@@ -340,7 +340,7 @@ return
             </div>
             <div class="contentBox">
                 <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
-                {annotation:getContent($annot,'')} 
+                {annotation:getContent($annot,'', $edition)} 
             </div>
            
             	<!-- <div class="previewArea">
