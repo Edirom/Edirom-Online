@@ -20,7 +20,7 @@
   </xsl:param>
   <!-- DEFAULT TEMPLATEs ======================================================= -->
   <xsl:template match="/">
-    <xsl:apply-templates/>
+    <xsl:apply-templates select="/mei:mei/mei:meiHead"/>
   </xsl:template>
   <!--<xsl:template match="* | @*" mode="#all">
         <xsl:apply-templates mode="#current"/>
