@@ -31,6 +31,7 @@ module namespace edition = "http://www.edirom.de/xquery/edition";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
+import module namespace functx="http://www.functx.com";
 (:~
 : Returns a JSON representation of an Edition
 :
@@ -120,4 +121,20 @@ declare function edition:findEdition($uri as xs:string) as xs:string {
 :)
 declare function edition:getName($uri as xs:string) as xs:string {
   doc($uri)/edirom:edition/edirom:editionName/text()
+};
+
+(:~
+: Returns the frontend URI of the edition, e.g. if the edirom:edition file
+: submitted via $editionUri is xmldb:exist///db/apps/editionFolder/edition.xml
+: and the $contextPath is /exist the string returned woud be /exist/apps/editionFolder
+:
+: @param $editionUri The xmldb-collection-path of the edition
+: @param $contextPath the request:get-context-path() of the frontend
+:
+: @return xs:string
+:)
+declare function edition:getFrontendUri($editionUri as xs:string, $contextPath as xs:string) as xs:string {
+    let $editionContext := functx:substring-before-last(substring-after($editionUri, 'xmldb:exist:///db/'), '/')
+    return
+        string-join(($contextPath, $editionContext), '/')
 };

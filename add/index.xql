@@ -36,7 +36,7 @@ let $comment := comment{"
 let $eoEditionFileSingle := <html>
                                 <head>
                                     <meta charset="UTF-8"/>
-                                    <title>{edition:getName($editionUri)} – Edirom-Online</title>
+                                    <title>{edition:getFrontendUri($editionUri, request:get-context-path()), edition:getName($editionUri)} – Edirom-Online</title>
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
                                     <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
