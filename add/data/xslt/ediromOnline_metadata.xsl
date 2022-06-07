@@ -1,5 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eof="http://www.edirom.de/xslt/ediromOnlineFunctions" xmlns:mei="http://www.music-encoding.org/ns/mei" exclude-result-prefixes="xs" version="2.0" xml:space="default">
+  <xsl:template match="node()" mode="plainCommaSep">
+    <xsl:choose>
+      <!-- nur attribute keinerlei kindknoten -->
+      <xsl:when test="@* and not(node())">
+        <!-- evtl attributnamen? -->
+        <xsl:text>(</xsl:text>
+        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+        <xsl:text>)</xsl:text>
+      </xsl:when>
+      <!-- nur attribute und textknoten -->
+      <xsl:when test="@* and not(*)">
+        <xsl:apply-templates mode="plainCommaSep"/>
+        <xsl:text> (</xsl:text>
+        <xsl:choose>
+          <xsl:when test="count(@*) gt 1">
+            <!--<xsl:call-template name="attCommaSep"/>-->
+            <xsl:value-of select="@*" separator=", "/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text>)</xsl:text>
+      </xsl:when>
+      <!-- kindeskinder und attribute -->
+      <xsl:when test="*/* and @*">
+        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+        <xsl:apply-templates select="*" mode="plainCommaSep"/>
+      </xsl:when>
+      <!-- kindeskinder keine attribute -->
+      <xsl:when test="*/* and not(@*)">
+        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+        <xsl:apply-templates select="*" mode="plainCommaSep"/>
+      </xsl:when>
+      <!-- elemente und attribute -->
+      <xsl:when test="* and @*">
+        <xsl:apply-templates select="*" mode="plainCommaSep"/>
+        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+      </xsl:when>
+      <!-- only element children that might have attributes -->
+      <xsl:when test="*/@*">
+        <xsl:for-each select="*">
+          <xsl:apply-templates select="." mode="plainCommaSep"/>
+          <xsl:if test="following-sibling::*">
+            <xsl:text>, </xsl:text>
+          </xsl:if>
+        </xsl:for-each>
+      </xsl:when>
+      <!-- only element children without attributes -->
+      <xsl:when test="*">
+        <xsl:value-of select="*" separator=", "/>
+      </xsl:when>
+      <!-- if node is none of the above but has attribute -->
+      <xsl:when test="@*">
+        <xsl:text> (</xsl:text>
+        <xsl:apply-templates select="@*" mode="plainCommaSep"/>
+        <xsl:text>) </xsl:text>
+      </xsl:when>
+      <xsl:when test="(comment() and not(*)) or self::comment()"/>
+      <!-- has to be an attribute -->
+      <!--<xsl:when test="node()"></xsl:when>-->
+      <xsl:otherwise>
+        <xsl:value-of select="."/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  <xsl:template match="*" mode="plainDivs">
+    <xsl:element name="div">
+      <xsl:call-template name="rendToClass"/>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+  <xsl:template match="@*" mode="subProp"/>
   <xsl:template name="makeSection">
     <xsl:param name="element"/>
     <xsl:element name="div">
