@@ -226,8 +226,8 @@
   <xsl:template match="mei:meiHead">
     <xsl:element name="div">
       <xsl:attribute name="class">meiHead</xsl:attribute>
-      <xsl:apply-templates select="mei:fileDesc"/>
-      <xsl:apply-templates select="mei:workDesc"/>
+      <!--<xsl:apply-templates select="mei:fileDesc"/>
+            <xsl:apply-templates select="mei:workDesc"/>-->
       <!-- TODO check for workDesc with resp data -->
       <!--<xsl:choose>
                 <xsl:when test="count(./mei:workDesc/mei:work) gt 1">
@@ -255,8 +255,11 @@
             </xsl:choose>-->
       <!-- ende fileDesc -->
       <!-- encodingDesc -->
-      <xsl:apply-templates select="mei:encodingDesc"/>
-      <xsl:apply-templates select="mei:revisionDesc"/>
+      <!--<xsl:apply-templates select="mei:encodingDesc"/>
+            <xsl:apply-templates select="mei:revisionDesc"/>-->
+      <xsl:for-each select="*">
+        <xsl:call-template name="makeSection"/>
+      </xsl:for-each>
     </xsl:element>
   </xsl:template>
   <xsl:template match="mei:expressionList">
