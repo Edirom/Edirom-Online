@@ -62,7 +62,7 @@
     
 <!-- FUNCTIONs ============================================================ -->
 
-    <xsl:include href="edirom_functions.xsl"/>
+    <xsl:include href="ediromOnline_functions.xsl"/>
     
     <xsl:function name="eof:getBarRangeStatement">
         <xsl:param name="measures"/>
