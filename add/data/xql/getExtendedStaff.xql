@@ -14,7 +14,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 let $edition := request:get-parameter('edition', '')
-let $basePath := eutil:get-app-base-url()
+let $basePath := request:get-context-path()
 
 
 let $mei := doc($uri)/root()
