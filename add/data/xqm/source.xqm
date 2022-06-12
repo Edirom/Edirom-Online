@@ -110,6 +110,8 @@ declare function source:getSiglaAsArray($sources as xs:string*) as xs:string* {
 : @return The siglum
 :)
 declare function source:getSiglum($source as xs:string) as xs:string? {
-     
-    doc($source)//mei:source/mei:identifier[@type eq 'siglum'][1]//text()
+    let $doc := doc($source)
+    let $elems := $doc//mei:*[@type eq 'siglum']
+    let $siglum := if(exists($elems)) then($elems[1]//text()) else()
+    return $siglum
 };

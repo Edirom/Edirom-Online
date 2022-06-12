@@ -22,8 +22,10 @@ import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/s
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "text";
+declare option output:media-type "text/html";
 
 declare function local:getParticipants($annot as element()) as xs:string* {
     

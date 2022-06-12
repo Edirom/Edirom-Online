@@ -30,65 +30,114 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace html="http://www.w3.org/1999/xhtml";
-
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+declare namespace f="http://local.link";
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+declare option output:method "text";
+declare option output:media-type "text/plain";
+
 declare variable $lang := request:get-parameter('lang', '');
 
-
-declare function local:getViews($type, $docUri, $doc) {
+declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
+    let $baseMap := map {
+        'type': substring-after($type,'_'),
+        'uri': $docUri
+    }
     
-    string-join((
-        (: SummaryView :)
-(:        concat("{type:'summaryView',uri:'", $docUri, "'}"),:)
+    (: optionally set label for some views:)
+    let $labeled.map := 
+        if($type = 'mei_textView')
+        then(map:put($baseMap, 'label', 'Quellenbeschreibung'))
+        else if($type = 'desc_xmlView')
+        then(map:put($baseMap, 'label', 'XML Quellenbeschreibung'))
+        else($baseMap)
+    
+    (: whether to set the view as default view:)
+    let $defaultViewed.map := 
+        if($type = ('mei_sourceView', 
+                    'mei_audioView', 
+                    'tei_textView', 
+                    'tei_facsimileView', 
+                    'tei_textFacsimileSplitView', 
+                    'mei_annotationView') and 1 = 2)
+        then(map:put($labeled.map, 'defaultView', true()))
+        else($labeled.map)
         
-        (: HeaderView :)
-        if($doc//mei:meiHead or $doc//tei:teiHeader) then(concat("{type:'headerView',uri:'", $docUri, "'}")) else(),
-
-        (: SourceDescriptionView :)
-        if($doc//mei:annot[@type='descLink']) then(concat("{type:'textView', label: 'Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else(),
         
-        (: SourceView :)
-        if($doc//mei:facsimile//mei:graphic[@type='facsimile']) then(concat("{type:'sourceView', defaultView:true, uri:'", $docUri, "'}")) else(),
-
-        (: AudioView :)
-        if($doc//mei:recording) then(concat("{type:'audioView', defaultView:true, uri:'", $docUri, "'}")) else(),
-
-		(: VerovioView :)
-        if($doc//mei:body//mei:measure and $doc//mei:body//mei:note) then(concat("{type:'verovioView',uri:'", $docUri, "'}")) else(),
-
-        (: TextView :)
-        if($doc//tei:body[matches(.//text(), '[^\s]+')]) then(concat("{type:'textView', defaultView:true, uri:'", $docUri, "'}")) else(),
-
-        (: SourceView :)
-        if($doc//tei:facsimile//tei:graphic) then(concat("{type:'facsimileView', uri:'", $docUri, "'}")) else(),
-
-        (: TextFacsimileSplitView :)
-        if($doc//tei:facsimile//tei:graphic and $doc//tei:pb[@facs]) then(concat("{type:'textFacsimileSplitView', uri:'", $docUri, "'}")) else(),
-
-        (: AnnotationView :)
-        if($doc//mei:annot[@type='editorialComment']) then(concat("{type:'annotationView', defaultView:true, uri:'", $docUri, "'}")) else(),
+    (: xpath check whether any given view is supported :)        
+    let $hasView :=
+        if($type = 'desc_summaryView')
+        then(true())
         
-        (: SearchView :)
-(:        if($doc//mei:note) then(concat("{type:'searchView',uri:'", $docUri, "'}")) else(),
-:)
-
-        (: iFrameView :)
-        (:if($type = 'html' and not(exists($doc//head/title)))
-        then(concat("{type:'iFrameView', label: '", 'HTML' ,"' ,uri:'", $docUri, "'}"))
-        else(concat("{type:'iFrameView', label: '", $doc//head/data(title) ,"' ,uri:'", $docUri, "'}")),:)
+        else if($type = 'desc_headerView')
+        then(exists($doc//mei:meiHead or $doc//tei:teiHeader))
         
-        (: XmlView :)
-        concat("{type:'xmlView',uri:'", $docUri, "'}"),
-
-        (: SourceDescriptionView :)
-        if($doc//mei:annot[@type='descLink']) then(concat("{type:'xmlView', label: 'XML Quellenbeschreibung', uri:'", ($doc//mei:annot[@type='descLink'])[1]/@plist, "'}")) else()
-    ), ',')
+        else if($type = 'mei_textView')
+        then(exists($doc//mei:annot[@type='descLink']))
+        
+        else if($type = 'mei_sourceView')
+        then(exists($doc//mei:facsimile//mei:graphic[@type='facsimile']))
+        
+        else if($type = 'mei_audioView')
+        then(exists($doc//mei:recording))
+        
+        else if($type = 'mei_verovioView')
+        then(exists($doc//mei:body//mei:measure) and exists($doc//mei:body//mei:note))
+        
+        else if($type = 'tei_textView')
+        then(exists($doc//tei:body[matches(.//text(), '[^\s]+')]))
+        
+        else if($type = 'tei_facsimileView')
+        then(exists($doc//tei:facsimile//tei:graphic))
+        
+        else if($type = 'tei_textFacsimileSplitView')
+        then(exists($doc//tei:facsimile//tei:graphic) and exists($doc//tei:pb[@facs]))
+        
+        else if($type = 'mei_annotationView')
+        then(exists($doc//mei:annot[@type='editorialComment']))
+        
+        else if($type = 'xml_xmlView')
+        then(true())
+        
+        else if($type = 'desc_xmlView')
+        then(exists($doc//mei:annot[@type='descLink']))
+        
+        else(false())
+    
+    return 
+        if($hasView)
+        then($defaultViewed.map)
+        else()
 };
 
-declare function local:getWindowTitle($doc, $type) as xs:string {
+declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
+    
+    let $views := (
+        (:'desc_summaryView',:) 
+        'desc_headerView', 
+        'mei_textView',
+        'mei_sourceView',
+        'mei_audioView',
+        'mei_verovioView',
+        'tei_textView',
+        'tei_facsimileView',
+        'tei_textFacsimileSplitView',
+        'mei_annotationView',
+        'xml_xmlView',
+        'desc_xmlView'
+    )
+    
+    let $maps := 
+        for $view in $views
+        return local:getView($view, $docUri, $doc)
+        
+    return $maps
+};
+
+declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs:string {
   (: Work :)
   if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
   then(eutil:getLocalizedTitle(($doc//mei:work)[1]/mei:titleStmt[1], $lang))
@@ -138,16 +187,20 @@ let $internal := $doc/id($internalId)
 let $edition := request:get-parameter('edition', '')
 
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
-let $internal := if(exists($internal))then($internal)else(
-                        if(starts-with($internalId, 'measure_') and $doc//mei:parts)
-                        then(
-                            let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
-                            let $measureN := functx:substring-after-last($internalId, '_')
-                            return
-                                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
-                        )
-                        else($internal)
-                    )
+let $internal := 
+    if(exists($internal))
+    then($internal)
+    else(
+        if(starts-with($internalId, 'measure_') and $doc//mei:parts)
+        then(
+            
+            let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
+            let $measureN := functx:substring-after-last($internalId, '_')
+            return
+                ($doc/id($mdivId)//mei:measure[@n eq $measureN])[1]
+        )
+        else($internal)
+    )
 
 let $type := (: Work :)
              if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
@@ -178,13 +231,22 @@ let $internalIdType := if(exists($internal))
                        then(local-name($internal))
                        else('unknown')
 
-return 
-    concat("{",
-          "type:'", $type, 
-          "',title:'", local:getWindowTitle($doc, $type), 
-          "',doc:'", $docUri,
-          "',views:[", local:getViews($type, $docUri, $doc), "]",
-          ",internalId:'", $internalId, $internalIdParam, 
-          "',term:'", $term,
-          "',path:'", $path,
-          "',internalIdType:'", $internalIdType, "'}")
+let $map := 
+    map {
+        'type': $type,
+        'title': local:getWindowTitle($doc, $type),
+        'doc': $docUri,
+        'views': array {local:getViews($type, $docUri, $doc)},
+        'internalId': $internalId || $internalIdParam,
+        'term': $term,
+        'path': $path,
+        'internalIdType': $internalIdType
+    }
+
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+
+return serialize($map, $options)

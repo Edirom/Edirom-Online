@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -29,9 +29,10 @@ xquery version "1.0";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace svg="http://www.w3.org/2000/svg";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=svg media-type=application/svg+xml omit-xml-declaration=no indent=yes";
-
+declare option output:method "xml";
+declare option output:media-type "application/xml";
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
@@ -43,5 +44,5 @@ let $overlay := $mei/id($overlayId)
 let $plist := tokenize(replace($overlay/@plist, '#', ''), '\s+')
 
 let $surface := $mei/id($surfaceId)
-return $surface/svg:svg[@xml:id = $plist]
+return $surface/svg:svg[@id = $plist]
 

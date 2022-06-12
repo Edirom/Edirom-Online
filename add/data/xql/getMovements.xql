@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -25,17 +25,26 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $movement in $mei//mei:mdiv
             return
-                concat('{',
-                    'id: "', $movement/string(@xml:id), '", ',
-                    'name: "', $movement/string(@label), '"',
-                '}')
+                map {
+                    'id': $movement/string(@xml:id),
+                    'name': $movement/string(@label)
+                }
 
-return concat('[', string-join($ret, ','), ']')
+let $array := array { $ret }
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+    
+return serialize($array, $options)

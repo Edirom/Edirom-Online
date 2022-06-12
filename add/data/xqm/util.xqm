@@ -35,6 +35,7 @@ import module namespace source="http://www.edirom.de/xquery/source" at "source.x
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -83,6 +84,8 @@ let $name :=
             then $node/edirom:names/edirom:name[@xml:lang = $lang]/node()
             else $node/edirom:names/edirom:name[1]/node()
     )
+    else if (local-name($node) = 'annot' and $node/@type = 'editorialComment')
+        then(annotation:generateTitle($node))
     else (normalize-space($node))
 return
     $name => string-join(' ')
