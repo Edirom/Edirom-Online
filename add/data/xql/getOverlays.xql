@@ -25,17 +25,26 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $overlay in $mei//mei:annot[@type = 'overlay']
             return
-                concat('{',
-                    'id: "', $overlay/string(@xml:id), '", ',
-                    'name: "', $overlay/mei:title, '"',
-                '}')
+                map {
+                    'id': $overlay/string(@xml:id),
+                    'name': $overlay/mei:title
+                }
 
-return concat('[', string-join($ret, ','), ']')
+let $array := array { $ret }
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+    
+return serialize($array, $options)

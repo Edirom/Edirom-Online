@@ -33,8 +33,10 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:method "xhtml";
+declare option output:media-type "text/html";
 
 declare variable $lang := request:get-parameter('lang', '');
 
