@@ -1,8 +1,9 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0"
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:exist="http://exist.sourceforge.net/NS/exist"
+    xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:functx="http://www.functx.com"
     exclude-result-prefixes="#default xs tei xhtml" version="2.0">
+    <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
     <xsl:import href="tei/common2/tei-param.xsl"/>
     <xsl:import href="tei/common2/tei.xsl"/>
     <xsl:import href="tei/xhtml2/tei-param.xsl"/>
@@ -32,6 +33,7 @@
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
     <xsl:param name="docUri" as="xs:anyURI"/>
+    <xsl:param name="contextPath" as="xs:string"/>
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
     <!-- END OVERWRITE TEI-PARAMS -->
     <!-- FREIDI PARAMETER -->
@@ -193,6 +195,13 @@
                 </xsl:when>
                 <xsl:when test="starts-with(@url, '/exist/')">
                     <xsl:value-of select="@url"/>
+                </xsl:when>
+                <xsl:when test="starts-with(@url, '../')">
+                    <xsl:variable name="folder-ups" select="functx:number-of-matches(@url, '../')"/>
+                    <xsl:variable name="unprefixedDocUri" select="substring-after($docUri, 'xmldb:exist:///db/')"/>
+                    <xsl:variable name="uri-tokens" select="tokenize($unprefixedDocUri, '/')" as="xs:string*"/>
+<!--                    <xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
+                    <xsl:value-of select="string-join(($contextPath, $uri-tokens[position() lt last() - $folder-ups + 1], functx:substring-after-last-match(@url, '\.\./')), '/')"/>
                 </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="@url"/>
@@ -1076,7 +1085,7 @@
                                     <xsl:text>', {useExisting:true}); return false;</xsl:text>
                                 </xsl:attribute>
                                 <!-- end of the Edirom Online specific modifications -->
-                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">				  
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
                                     <xsl:call-template name="noteN"/>
                                 </xsl:element>
                             </xsl:element>

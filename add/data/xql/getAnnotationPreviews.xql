@@ -40,8 +40,10 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 declare variable $lang := request:get-parameter('lang', '');
 declare variable $imageWidth := 600;
@@ -52,14 +54,14 @@ declare variable $imageBasePath := if($imageserver = 'leaflet')
 	then(eutil:getPreference('leaflet_prefix', $edition))
 	else(eutil:getPreference('image_prefix', $edition));
 
-declare function local:getParticipants($annot as element()) as xs:string* {
+declare function local:getParticipants($annot as element()) as map(*)* {
     
     let $participants := tokenize($annot/string(@plist), ' ')
     let $docs := distinct-values(for $p in $participants return substring-before($p, '#'))
     return
         for $doc in $docs
+        order by $doc
         return
-            
             if(source:isSource($doc))
             then(local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
             
@@ -69,13 +71,25 @@ declare function local:getParticipants($annot as element()) as xs:string* {
             else()
 };
 
-declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
+declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
 
     for $participant in $participants
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
-    return
-        local:toJSON('text', 'Textstelle', (), (), (), teitext:getLabel($doc, $edition), (), (), (), $hiddenData, normalize-space(local:getTextNoteContent($doc, $id)), $participant) (: TODO: "Textstelle" durch sinnvolleres ersetzen :)
+    return map {
+        'type': 'text',
+        'label': 'Textstelle',
+        'mdiv': '',
+        'part': '',
+        'page': '',
+        'source': teitext:getLabel($doc, $edition),
+        'siglum': '',
+        'digilibBaseParams': '',
+        'digilibSizeParams': '',
+        'hiddenData': $hiddenData,
+        'content': normalize-space(local:getTextNoteContent($doc, $id)),
+        'linkUri': $participant
+    }
 };
 
 declare function local:getTextNoteContent($doc as xs:string, $id as xs:string) as xs:string {
@@ -96,42 +110,73 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
         else(local:getTextNotePrecedingContent($preceding))
 };
 
-declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
+declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
        
-        let $combs := local:groupParticipants($participants, $doc)
-        
-        return
-            
-            for $comb in distinct-values($combs)
-            let $partIndices := tokenize($comb,'-')
-            let $elems := for $p in distinct-values($partIndices)
-                            let $elem := local:getElement($participants[starts-with(., $doc)][number($p)])
-                            order by count($elem/preceding::*)
-                            return $elem
-            let $zones := for $elem in $elems return local:getZone($elem)
-            
-            let $type := local:getType($zones)
-            let $label := local:getItemLabel($elems)
-            let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
-            let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $sourceLabel := source:getLabel($doc, $edition)
-            let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
-            let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
-            
-            let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
-            let $imgWidth := number($graphic/@width)
-            let $imgHeight := number($graphic/@height)
+    let $combs := local:groupParticipants($participants, $doc)
     
-            let $digilibBaseParams := local:getImageAreaPath($imageBasePath, $graphic)
+    return 
+        
+        for $comb in distinct-values($combs)
+        let $partIndices := tokenize($comb,'-')
+        
+        let $elems := 
+            for $p in distinct-values($partIndices)
+            let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
+            let $element.id := substring-after($relevant.participant,'#')
+            let $elem := local:getElement($relevant.participant)
+            (:return if(exists($elem)) then(local-name($elem)) else($relevant.participant):)
+            where exists($elem)
+            order by count($elem/preceding::*)
+            return $elem
+        
+        where count($elems) gt 0
+        
+        let $zones := for $elem in $elems return local:getZone($elem)
+        
+        let $type := local:getType($zones)
+        let $label := local:getItemLabel($elems)
+        
+        let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
+        let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/string(@label)) else($zones[1]/parent::mei:surface/string(@n))
+        let $sourceLabel := source:getLabel($doc, $edition)
+        let $siglum := ($elems[1]/root()//mei:*[@type eq 'siglum'])[1]/text()
+        
+        let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/string(@label)),'-')
+        
+        let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
+        let $imgWidth := number($graphic/@width)
+        let $imgHeight := number($graphic/@height)
+        
+        let $digilibBaseParams := local:getImageAreaPath($imageBasePath, $graphic)
+        let $rect := local:getBoundingZone($zones)
+        
+        let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
+        
+        let $hiddenData := map {
+            'width': number($rect/@lrx) - number($rect/@ulx),
+            'height': number($rect/@lry) - number($rect/@uly),
+            'x': number($rect/@ulx),
+            'y': number($rect/@uly),
+            'origH': $imgHeight,
+            'origW': $imgWidth
+        }
             
-            let $rect := local:getBoundingZone($zones)
-            
-            let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-            let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), ', origH:', $imgHeight, ', origW:', $imgWidth,'}')
-            let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
-            
-            return
-                local:toJSON($type, $label, $mdiv, $part, $page, $sourceLabel, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
+        let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
+        
+        return map {
+            'type': $type,
+            'label': $label,
+            'mdiv': $mdiv,
+            'part': $part,
+            'page': $page,
+            'source': $sourceLabel,
+            'siglum': $siglum,
+            'digilibBaseParams': $digilibBaseParams,
+            'digilibSizeParams': $digilibSizeParams,
+            'hiddenData': $hiddenData,
+            'content': '',
+            'linkUri': $linkUri
+        }
 };
 
 declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
@@ -205,7 +250,7 @@ declare function local:compareZones($zone1 as element(), $zone2 as element()) as
         $samePage and $overlapping
 };
 
-declare function local:getElement($uri as xs:string) as element() {
+declare function local:getElement($uri as xs:string) as element()? {
     let $doc := substring-before($uri, '#')
     let $id := substring-after($uri, '#')
     
@@ -331,26 +376,25 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
+(:declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
     
-    concat(
-        '{"type":"',$type,
-        '","label":"',$label,
-        '","mdiv":"',$mdiv,
-        '","part":"',$part,
-        '","page":"',$page,
-        '","source":"',$source,
-        '","siglum":"',$siglum,
-        '","digilibBaseParams":"',$digilibBaseParams,
-        '","digilibSizeParams":"',$digilibSizeParams,
-        '","hiddenData":"',$hiddenData,
-        '","content":"',$content,
-        '","linkUri":"',$linkUri,
-        '"}'
-    )
-};
+    map {
+        'type': $type,
+        'label': $label,
+        'mdiv': $mdiv,
+        'part': $part,
+        'page': $page,
+        'source': $source,
+        'siglum': $siglum,
+        'digilibBaseParams': $digilibBaseParams,
+        'digilibSizeParams': $digilibSizeParams,
+        'hiddenData': $hiddenData,
+        'content': $content,
+        'linkUri': $linkUri
+    }
+};:)
 
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
@@ -358,5 +402,15 @@ let $internalId := substring-after($uri, '#')
 let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
-return
-    concat('{"success": "true", "participants": [', string-join(local:getParticipants($annot),','), ']}')
+let $map := map {
+    'success': true(),
+    'participants': array { local:getParticipants($annot)}
+}
+
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+
+return serialize($map, $options)

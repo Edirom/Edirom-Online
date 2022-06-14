@@ -25,9 +25,10 @@ xquery version "1.0";
 :)
 
 declare namespace request="http://exist-db.org/xquery/request";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
-
+declare option output:method "text";
+declare option output:media-type "text/html";
 
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
@@ -36,6 +37,15 @@ let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 let $participants := $annot/string(@plist)
 
-return
-    
-    concat('{"success": "true", "participants": "', $participants, '"}')
+let $map := map {
+    'success': true(),
+    'participants': $participants
+}
+
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+
+return serialize($map, $options)

@@ -35,6 +35,7 @@ let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
 let $doc := eutil:getDoc($uri)/root()
+let $contextPath := request:get-context-path()
 
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
 let $xslInstruction := for $i in fn:serialize($xslInstruction, ())
@@ -70,6 +71,7 @@ let $params := (
                 (: parameters for Edirom-Online :)
                 <param name="lang" value="{eutil:getLanguage($edition)}"/>,
                 <param name="docUri" value="{$uri}"/>,
+                <param name="contextPath" value="{$contextPath}"/>,
                 (: parameters for the TEI Stypesheets :)
                 <param name="autoHead" value="'false'"/>,
                 <param name="autoToc" value="'false'"/>,
@@ -90,5 +92,5 @@ let $body := $doc//xhtml:body
 return
     element div {
         for $attribute in $body/@* return $attribute,
-        for $node in $body/node() return $node 
+        for $node in $body/node() return $node
     }

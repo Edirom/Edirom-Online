@@ -4,6 +4,8 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
+declare variable $exist:prefix external;
+declare variable $exist:controller external;
 
 declare option exist:serialize "method=xhtml media-type=application/xhtml+html";
 
@@ -35,5 +37,9 @@ return
     else
         (: everything else is passed through :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
+            <set-attribute name="exist:path" value="{$exist:path}"/>
+            <set-attribute name="exist:resource" value="{$exist:resource}"/>
+            <set-attribute name="exist:controller" value="{$exist:controller}"/>
+            <set-attribute name="exist:prefix" value="{$exist:prefix}"/>
             <cache-control cache="yes"/>
         </dispatch>

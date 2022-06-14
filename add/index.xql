@@ -70,7 +70,7 @@ let $eoEditionFileSingle := <html>
                                     {
                                         if ($preferences//entry[@key = "additional_css_path" and @value != ''])
                                         then
-                                            <link rel="stylesheet" href="{string-join((request:get-context-path(), 'rest', substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///')), '/')}"/>
+                                            <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
                                         else ()
                                     }
                                     <script type="text/javascript" src="app.js"/>
@@ -142,4 +142,3 @@ return
     if($eoEditionFilesCount > 1 and not($edition))
     then($comment, $eoEditionFileMulti)
     else($comment, $eoEditionFileSingle)
-

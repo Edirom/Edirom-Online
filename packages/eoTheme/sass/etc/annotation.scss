@@ -115,7 +115,7 @@ $content_baseFont_size: 14px;
 				
 				img {
 					@include box-shadow();
-				}					
+				}
 				
 			}
 			
@@ -131,7 +131,7 @@ $content_baseFont_size: 14px;
 				font-family: $ui_baseFont;
 				font-size: $ui_baseFont_size * 0.7;
 				color: #ffffff;
-			}		
+			}
 		}
 		
 		.previewItem.widthLimited img {
@@ -147,7 +147,6 @@ $content_baseFont_size: 14px;
 
 
 .annotTip {
-	margin: 10px;
 	height: 100%;
 	
 	.metaBox {
@@ -243,7 +242,7 @@ $content_baseFont_size: 14px;
 				
 				img {
 					@include box-shadow();
-				}					
+				}
 				
 			}
 			
@@ -259,7 +258,7 @@ $content_baseFont_size: 14px;
 				font-family: $ui_baseFont;
 				font-size: $ui_baseFont_size * 0.7;
 				color: #ffffff;
-			}		
+			}
 		}
 		
 	}
@@ -339,4 +338,3 @@ $content_baseFont_size: 14px;
 
 
 /*The rendering of annotation symbols on facsimile pages is described with SCSS rules defined in _facsimile.scss.*/
-

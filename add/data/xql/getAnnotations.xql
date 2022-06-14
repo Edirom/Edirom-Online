@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -31,18 +31,25 @@ import module namespace annotation="http://www.edirom.de/xquery/annotation" at "
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $uri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
 
-return 
-    concat('
-        {
-            "success": true,
-            "total": ', count(doc($uri)//mei:annot[@type = 'editorialComment']), ',
-            "annotations": [', annotation:annotationsToJSON($uri, $edition), ']
-        }
-    ')
+let $map := 
+    map {
+        'success': true(),
+        'total': count(doc($uri)//mei:annot[@type = 'editorialComment']),
+        'annotations': array { annotation:annotationsToJSON($uri, $edition)}
+    }
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+    
+return serialize($map, $options)

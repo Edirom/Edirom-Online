@@ -35,8 +35,10 @@ declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:method "xhtml";
+declare option output:media-type "text/html";
 
 let $lang := request:get-parameter('lang', '')
 let $edition := request:get-parameter('edition', '')
@@ -48,7 +50,7 @@ let $annot := $doc/id($internalId)
 
 let $participants := annotation:getParticipants($annot)
 
-let $priority := annotation:getPriority($annot)
+let $priority := annotation:getPriorityLabel($annot)
 let $priorityLabel := switch($priority)
                       case "" return ()
                       default return eutil:getLanguageString('view.window.AnnotationView_Priority', ())
@@ -67,8 +69,8 @@ let $sourcesLabel := if (count($sources) gt 1)
 let $sigla := source:getSiglaAsArray($participants)
 let $siglaLabel := switch(count($sigla))
                     case 0 return ()
-                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Siglum', ())(:TODO check for lang key:)
-                    default return eutil:getLanguageString('view.window.AnnotationView_Siglums', ())
+                    case 1 return eutil:getLanguageString('view.window.AnnotationView_Source', ())(:TODO check for lang key:)
+                    default return eutil:getLanguageString('view.window.AnnotationView_Sources', ())
 let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return
