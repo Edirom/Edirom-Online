@@ -102,9 +102,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 "width": 1024
             }]
         });
-        me.viewer.addOnceHandler('tile-drawn', function() { 
+        me.viewer.addOnceHandler('tile-drawn', function() {
             if(me.rect && me.rect != null) me.showRect(me.rect.x, me.rect.y, me.rect.width, me.rect.height, me.rect.highlight);
-        });        
+        });
         me.fireEvent('imageChanged', me, path, pageId);
     },
         
@@ -253,7 +253,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var uri = annotation.get('uri');
             var categories = annotation.get('categories');
             var priority = annotation.get('priority');
-            var fn = annotation.get('fn');          
+            var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
             Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
@@ -307,7 +307,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
                 tip.on('afterrender', function() {
                     window.doAJAXRequest('data/xql/getAnnotation.xql',
-                        'GET', 
+                        'GET',
                         {
                             uri: uri,
                             target: 'tip',
