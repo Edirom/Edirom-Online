@@ -44,7 +44,7 @@ declare variable $lang := request:get-parameter('lang', '');
 declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type,'_'),
-        'uri': $docUri
+        'uri': if($type = ('mei_textView', 'desc_xmlView')) then string(($doc//mei:annot[@type='descLink'])[1]/@plist) else $docUri
     }
     
     (: optionally set label for some views:)
