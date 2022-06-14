@@ -36,6 +36,9 @@ import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitex
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+declare namespace request="http://exist-db.org/xquery/request";
+declare namespace system="http://exist-db.org/xquery/system";
+declare namespace util="http://exist-db.org/xquery/util";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
@@ -246,8 +249,19 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
      )
 };
 
-declare function eutil:get-app-base-url() as xs:string {
-    let $appName := substring-before(substring-after(request:get-url(), 'apps/'), '/')
-    let $basePath := concat(substring-before(request:get-uri(), $appName), $appName)        return
-        $basePath
+(:~
+ : Returns the application base URL as seen from the client
+ :
+ : NB, this is a relative path on the server, missing the scheme,
+ : as well as the server address and port.
+ : This function simply concats the current context path with the 
+ : eXist variables `$exist:prefix` and `$exist:controller` 
+ : (see https://exist-db.org/exist/apps/doc/urlrewrite)
+ : 
+ : @return a relative path on the server
+ :)
+declare function eutil:get-app-base-url() as xs:string? {
+    if(request:exists())
+    then request:get-context-path() || request:get-attribute("exist:prefix") || request:get-attribute('exist:controller')
+    else util:log-system-out('request object does not exist; failing to compute base url')
 };
