@@ -260,7 +260,13 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 					
 					if (data.trim() == '') return;
 					
-					me.overlayLoaded(view, pageId, overlayId, data);
+					var overlay = Ext.create('Ext.data.Store', {
+                        fields: ['id', 'svg'],
+                        data: Ext.JSON.decode(data)
+                    });
+
+					
+					me.overlayLoaded(view, pageId, overlayId, overlay);
 				}
 			});
 		} else {
