@@ -195,23 +195,27 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         });
     },
     
-    addSVGOverlay: function(overlayId, overlay, name, uri, fn, shapes) {
-        
-        var me = this;
+    addSVGOverlay: function(overlayId, overlay, name, uri, fn) {
     
-        var parser = new DOMParser();
-        var overlayXML = parser.parseFromString(overlay, "text/xml");
-        var svg = overlayXML.documentElement;
-        var x = 0;
-        var y = 0;
-        var width = svg.width.baseVal.value;
-        var height = svg.height.baseVal.value;
-        var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
-        var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+        var me = this;
         
-        me.viewer.addOverlay({
-            element: overlayXML.documentElement,
-            location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+        overlay.each(function(overlay){
+            if (overlay.get('svg') !== null) {
+                parser = new DOMParser;
+                var overlayXML = parser.parseFromString(overlay.get('svg'), 'text/xml');
+                var svg = overlayXML.documentElement;
+                svg.id = me.id + '_' + overlayId;
+                var x = 0;
+                var y = 0;
+                var width = svg.width.baseVal.value;
+                var height = svg.height.baseVal.value;
+                var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                me.viewer.addOverlay({
+                    element:overlayXML.documentElement,
+                    location:new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+                });
+            }
         });
     },
     
