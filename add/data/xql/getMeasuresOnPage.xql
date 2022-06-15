@@ -48,6 +48,9 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
     return
         for $measure in $measures
         let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
+        let $measureLabel := if($measure//mei:multiRest)
+                             then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
+                             else ($measureLabel)
         return
         concat('{',
             'zoneId: "', $zone/string(@xml:id), '", ',
