@@ -295,7 +295,7 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgHeight := number($graphic/@height)
     
     let $fields := if($imageserver = 'leaflet')then(substring-before($imagePath, '.') )else()
-   
+    let $imagePath := if($imageserver = 'openseadragon')then(translate($imagePath, '/', '!'))else($imagePath)
 			
     return
     if($imageserver = 'leaflet')then(concat($imageBasePath,$fields))else(concat($basePath, $imagePath, '?'))
