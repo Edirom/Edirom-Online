@@ -566,7 +566,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 
                     var imgBase = window.getPreference("image_prefix");
                     var imgPath = digilibBaseParams.substring(imgBase.length, digilibBaseParams.lastIndexOf('?'));
-                    var imgData = Ext.JSON.decode(hiddenData);
+                    var imgData = hiddenData;
                     var imgSrc = imgBase + imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
                     
                     var shape = tplImg.append(div, [id, imgSrc, hiddenData, label], true);
