@@ -37,7 +37,7 @@ let $ret := for $overlay in $mei//mei:annot[@type = 'overlay']
             return
                 map {
                     'id': $overlay/string(@xml:id),
-                    'name': $overlay/mei:title
+                    'name': string($overlay/mei:title)
                 }
 
 let $array := array { $ret }
