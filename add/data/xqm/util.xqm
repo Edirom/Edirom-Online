@@ -268,3 +268,21 @@ declare function eutil:get-app-base-url() as xs:string? {
     then request:get-context-path() || request:get-attribute("exist:prefix") || request:get-attribute('exist:controller')
     else util:log-system-out('request object does not exist; failing to compute base url')
 };
+
+(:~
+ : Sorts a sequence of numeric-alpha values or nodes (e.g. 1, 1a, 1b, 2) 
+ : This is an adaption of functx:sort-as-numeric()
+ :
+ : @author  Dennis Ried
+ : @see     http://www.xqueryfunctions.com/xq/functx_sort-as-numeric.html 
+ : @param   $seq the sequence to sort 
+ :)
+declare function eutil:sort-as-numeric-alpha($seq as item()* )  as item()* {
+   for $item in $seq
+   let $itemPart1 := functx:get-matches($item, '\d+')
+   let $itemPart2 := substring-after($item, $itemPart1)
+   order by number($itemPart1)
+   order by string($itemPart2)
+   return $item
+    
+} ;
