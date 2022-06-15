@@ -62,7 +62,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
                     'tei_textView', 
                     'tei_facsimileView', 
                     'tei_textFacsimileSplitView', 
-                    'mei_annotationView') and 1 = 2)
+                    'mei_annotationView'))
         then(map:put($labeled.map, 'defaultView', true()))
         else($labeled.map)
         
