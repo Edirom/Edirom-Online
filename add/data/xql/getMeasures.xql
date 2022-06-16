@@ -26,6 +26,7 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 import module namespace functx="http://www.functx.com";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -52,7 +53,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                     $labelsAnalyzed
                             )
                             else ($mdiv//mei:measure/@n)
-        let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
+        let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
         return
             for $measureN in $measureNsDistinct
             let $measureNNumber := number($measureN)
