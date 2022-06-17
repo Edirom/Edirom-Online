@@ -236,6 +236,8 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setOverlays: function(overlays) {
         var me = this;
 
+        if(overlays.count() == 0) return;
+
         me.overlays = overlays;
 
         var overlayItems = [];
