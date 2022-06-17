@@ -137,6 +137,11 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         if(me.owner.annotationsVisible)
             me.owner.fireEvent('annotationsVisibilityChange', me.owner, true);
 
+        var layers = Object.keys(me.owner.overlaysVisible);
+        Ext.Array.each(layers, function(layer) {
+			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);     
+        });
+
     },
 
     showPage: function(pageId) {
