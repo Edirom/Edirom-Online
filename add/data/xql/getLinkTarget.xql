@@ -117,7 +117,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
     
     let $views := (
         (:'desc_summaryView',:)
-        'desc_headerView',
+        (:'desc_headerView',:)
         'mei_textView',
         'mei_sourceView',
         'mei_audioView',
