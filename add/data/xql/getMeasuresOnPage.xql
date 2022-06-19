@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -48,6 +48,9 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
     return
         for $measure in $measures
         let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
+        let $measureLabel := if($measure//mei:multiRest)
+                             then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
+                             else ($measureLabel)
         return
         concat('{',
             'zoneId: "', $zone/string(@xml:id), '", ',

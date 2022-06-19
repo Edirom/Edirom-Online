@@ -44,11 +44,11 @@ declare variable $lang := request:get-parameter('lang', '');
 declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type,'_'),
-        'uri': $docUri
+        'uri': if($type = ('mei_textView', 'desc_xmlView')) then string(($doc//mei:annot[@type='descLink'])[1]/@plist) else $docUri
     }
     
     (: optionally set label for some views:)
-    let $labeled.map := 
+    let $labeled.map :=
         if($type = 'mei_textView')
         then(map:put($baseMap, 'label', 'Quellenbeschreibung'))
         else if($type = 'desc_xmlView')
@@ -62,12 +62,12 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
                     'tei_textView', 
                     'tei_facsimileView', 
                     'tei_textFacsimileSplitView', 
-                    'mei_annotationView') and 1 = 2)
+                    'mei_annotationView'))
         then(map:put($labeled.map, 'defaultView', true()))
         else($labeled.map)
         
         
-    (: xpath check whether any given view is supported :)        
+    (: xpath check whether any given view is supported :)
     let $hasView :=
         if($type = 'desc_summaryView')
         then(true())
@@ -107,7 +107,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
         
         else(false())
     
-    return 
+    return
         if($hasView)
         then($defaultViewed.map)
         else()
@@ -116,8 +116,8 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
 declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
     
     let $views := (
-        (:'desc_summaryView',:) 
-        'desc_headerView', 
+        (:'desc_summaryView',:)
+        'desc_headerView',
         'mei_textView',
         'mei_sourceView',
         'mei_audioView',
@@ -130,7 +130,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
         'desc_xmlView'
     )
     
-    let $maps := 
+    let $maps :=
         for $view in $views
         return local:getView($view, $docUri, $doc)
         
@@ -187,7 +187,7 @@ let $internal := $doc/id($internalId)
 let $edition := request:get-parameter('edition', '')
 
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
-let $internal := 
+let $internal :=
     if(exists($internal))
     then($internal)
     else(
@@ -231,7 +231,7 @@ let $internalIdType := if(exists($internal))
                        then(local-name($internal))
                        else('unknown')
 
-let $map := 
+let $map :=
     map {
         'type': $type,
         'title': local:getWindowTitle($doc, $type),
