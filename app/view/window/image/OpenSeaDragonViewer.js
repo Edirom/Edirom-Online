@@ -199,6 +199,12 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     
         var me = this;
         
+        var svgId = me.id + '_' + overlayId;
+        var overlayOSD = me.viewer.getOverlayById(svgId);
+        if (overlayOSD !== null ) {
+            return;
+        }
+        
         overlay.each(function(overlay){
             if (overlay.get('svg') !== null) {
                 parser = new DOMParser;

@@ -267,16 +267,6 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         me.fireEvent('overlayVisiblityChange', me, item.overlayId, item.checked);
     },
 
-    hideOverlay: function(overlayId) {
-        var me = this;
-        me.pageBasedView.hideOverlay(overlayId);
-    },
-
-    showOverlay: function(overlayId, overlay) {
-        var me = this;
-        me.pageBasedView.showOverlay(overlayId, overlay);
-    },
-
     getImageSet: function() {
         var me = this;
         return me.pageBasedView.imageSet;
