@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -37,7 +37,7 @@ let $ret := for $overlay in $mei//mei:annot[@type = 'overlay']
             return
                 map {
                     'id': $overlay/string(@xml:id),
-                    'name': $overlay/mei:title
+                    'name': string($overlay/mei:title)
                 }
 
 let $array := array { $ret }

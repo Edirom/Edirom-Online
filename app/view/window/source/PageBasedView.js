@@ -39,25 +39,29 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     
     initComponent: function () {
     
+        var me = this;
+    
+        me.addEvents('overlayVisibilityChange');
+        me.owner.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
+    
     	var image_server = getPreference('image_server');
     	
     	if(image_server === 'leaflet'){
-    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
+    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
     	}else if(image_server === 'openseadragon') {
-    	    this.imageViewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer');
+    	    me.imageViewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer');
     	}else{
-    		this.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
+    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
     	}
     
         this.items = [
-            this.imageViewer
+            me.imageViewer
         ];
 
-        this.callParent();
+        me.callParent();
         
- 		this.imageViewer.on('zoomChanged', this.updateZoom, this);
-        
+ 	   me.imageViewer.on('zoomChanged', me.updateZoom, me);
     },
 
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
@@ -136,6 +140,11 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         if(me.owner.annotationsVisible)
             me.owner.fireEvent('annotationsVisibilityChange', me.owner, true);
+
+        var layers = Object.keys(me.owner.overlaysVisible);
+        Ext.Array.each(layers, function(layer) {
+			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);     
+        });
 
     },
 
@@ -265,29 +274,14 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         me.imageViewer.addAnnotations(annotations);
     },
     
-     showOverlay: function(overlayId, overlay) {
+    onOverlayVisibilityChange: function(view, state) {
         var me = this;
-        me.imageViewer.showOverlay(overlayId, overlay);
+        me.fireEvent('overlayVisiblityChange', me, me.owner.overlaysVisible, me.getActivePage().get('id'), me.owner.uri, me.owner);
     },
     
-     hideOverlay: function(overlayId) {
-        var me = this;
-        me.imageViewer.hideOverlay(overlayId);
-    },
-
     hideAnnotations: function() {
         var me = this;
         me.imageViewer.removeShapes('annotations');
-    },
-
-    hideOverlay: function(overlayId) {
-        var me = this;
-        me.imageViewer.removeSVGOverlay(overlayId);
-    },
-
-    showOverlay: function(overlayId, overlay) {
-        var me = this;
-        me.imageViewer.addSVGOverlay(overlayId, overlay);
     },
 
     updateZoom: function(zoom) {

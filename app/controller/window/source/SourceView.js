@@ -42,7 +42,6 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 
         view.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         view.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
-        view.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
         view.on('gotoMovement', me.onGotoMovement, me);
         view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
         view.on('gotoMeasure', me.onGotoMeasure, me);
@@ -238,41 +237,6 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 		if (pageId != view.getActivePage().get('id')) return;
 		
 		view.showAnnotations(annotations);
-	},
-	
-	onOverlayVisibilityChange: function (view, overlayId, visible) {
-		var me = this;
-		
-		if (visible) {
-			
-			var pageId = view.getActivePage().get('id');
-			
-			Ext.Ajax.request({
-				url: 'data/xql/getOverlayOnPage.xql',
-				method: 'GET',
-				params: {
-					uri: view.uri,
-					pageId: pageId,
-					overlayId: overlayId
-				},
-				success: function (response) {
-					var data = response.responseText;
-					
-					if (data.trim() == '') return;
-					
-					me.overlayLoaded(view, pageId, overlayId, data);
-				}
-			});
-		} else {
-			view.hideOverlay(overlayId);
-		}
-	},
-	
-	overlayLoaded: function (view, pageId, overlayId, overlay) {
-		
-		if (pageId != view.getActivePage().get('id')) return;
-		
-		view.showOverlay(overlayId, overlay);
 	},
 	
 	onGotoMeasureByName: function (view, measure, movementId) {
