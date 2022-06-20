@@ -40,7 +40,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "text";
 declare option output:media-type "text/plain";
