@@ -529,7 +529,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part);//  + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part) + ": " + label;
 
             if(type == 'text') {
 
@@ -668,6 +668,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var label = participant['label'];
             var mdiv = participant['mdiv'];
             var page = participant['page'];
+            var part = participant['part'];
             var source = participant['source'];
             var siglum = participant['siglum'];
             var digilibBaseParams = participant['digilibBaseParams'];
@@ -675,7 +676,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part) + ": " + label;
 
             var shape = null;
 
