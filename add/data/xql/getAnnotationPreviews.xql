@@ -290,20 +290,21 @@ declare function local:getBoundingZone($zones as element()*) as element() {
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $graphic as element()?) as xs:string {
     
-    let $imagePath := $graphic/@target
+    let $imagePath := string($graphic/@target)
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
+    let $isAbsolute := starts-with($imagePath, 'http')
     
     let $fields := if($imageserver = 'leaflet')then(substring-before($imagePath, '.') )else()
-    let $imagePath := if($imageserver = 'openseadragon')then(translate($imagePath, '/', '!'))else($imagePath)
 			
     return
-        if(starts-with($imagePath, 'http'))
-        then ($imagePath)
+        if ($isAbsolute)
+        then $imagePath
         else
-            if($imageserver = 'leaflet')
-            then(concat($imageBasePath,$fields))
-            else(concat($basePath, $imagePath, '?'))
+            switch ($imageserver)
+                case 'leaflet' return concat($basePath,$fields)
+                case 'openseadragon' return concat($basePath,translate($imagePath, '/', '!'))
+                default return concat($basePath, $imagePath, '?')
         
 };
 
