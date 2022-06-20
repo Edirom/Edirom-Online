@@ -381,26 +381,6 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         
 };
 
-(:declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
-    $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
-    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
-    
-    map {
-        'type': $type,
-        'label': $label,
-        'mdiv': $mdiv,
-        'part': $part,
-        'page': $page,
-        'source': $source,
-        'siglum': $siglum,
-        'digilibBaseParams': $digilibBaseParams,
-        'digilibSizeParams': $digilibSizeParams,
-        'hiddenData': $hiddenData,
-        'content': $content,
-        'linkUri': $linkUri
-    }
-};:)
-
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')
