@@ -62,14 +62,18 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                 else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
             let $measures := if ($mdiv//mei:measure/@label)
                                 then (
-                                    for $measure in $mdiv//mei:measure[@label = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                    for $part in $mdiv//mei:part
+                                        for $measure in $part//mei:measure[@label = $measureN][1] | $measures
+                                            let $measureCount := count($part//mei:measure[@label = $measureN])
+                                            return
+                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '", measureCount: ', $measureCount, '}')
                                 )
                                 else (
-                                    for $measure in $mdiv//mei:measure[@n = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                    for $part in $mdiv//mei:part
+                                        for $measure in $part//mei:measure[@n = $measureN][1] | $measures 
+                                            let $measureCount := count($part//mei:measure[@n = $measureN])
+                                            return
+                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '", measureCount: ', $measureCount, '}')
                                 )
             return
                 concat('{',
