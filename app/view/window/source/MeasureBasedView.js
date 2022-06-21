@@ -246,14 +246,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
-            console.log(m);
-            var measureZonesCount = m['measureCount'];
-            
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
-                console.log('measureCount: ' + measureCount);
-                console.log('measureZonesCount: ' + measureZonesCount);
-                viewer.setMeasure(m, measureCount + measureZonesCount - 1);
+                viewer.setMeasure(m, measureCount);
             }
         });
     },
@@ -484,7 +479,10 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
-        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
+        var measureZonesCount = me.measure['measureCount'];
+        var interval = parseInt(me.owner.intervalSpinner.getValue()) + parseInt(measureZonesCount) - 1;
+  
+        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], interval);
     },
     
     showMeasure: function(data) {
