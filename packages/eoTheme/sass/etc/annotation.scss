@@ -316,6 +316,7 @@ $content_baseFont_size: 14px;
 }
 
 .annotationViewContent .stepLeft {
+	display: none;
 	position: absolute;
 	top: 50%;
 	margin-top: -40px;
@@ -327,6 +328,7 @@ $content_baseFont_size: 14px;
 }
 
 .annotationViewContent .stepRight {
+	display: none;
 	position: absolute;
 	top: 50%;
 	margin-top: -40px;
