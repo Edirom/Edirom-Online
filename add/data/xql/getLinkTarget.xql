@@ -156,6 +156,10 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
                     ($doc//mei:source)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
   
+  (: MEI fallback if no title is found :)
+  else if(exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1]))
+  then(eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
+  
   (: Text :)
   else if(exists($doc/tei:TEI))
   then(eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
