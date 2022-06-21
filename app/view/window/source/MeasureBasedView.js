@@ -246,8 +246,10 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
+            
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
+                
                 viewer.setMeasure(m, measureCount);
             }
         });
@@ -479,10 +481,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
-        var measureZonesCount = me.measure['measureCount'];
-        var interval = parseInt(me.owner.intervalSpinner.getValue()) + parseInt(measureZonesCount) - 1;
-  
-        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], interval);
+        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
     },
     
     showMeasure: function(data) {
