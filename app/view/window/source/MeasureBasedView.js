@@ -246,11 +246,14 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
+            console.log(m);
+            var measureZonesCount = m['measureCount'];
             
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
-                
-                viewer.setMeasure(m, measureCount);
+                console.log('measureCount: ' + measureCount);
+                console.log('measureZonesCount: ' + measureZonesCount);
+                viewer.setMeasure(m, measureCount + measureZonesCount - 1);
             }
         });
     },
