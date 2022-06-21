@@ -500,7 +500,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actSystem = 0;
         var lastULX = 0;
         
-         var image_server = getPreference('image_server');
+        var image_server = getPreference('image_server');
         
         Ext.Array.each(data, function(d) {
             
