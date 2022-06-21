@@ -77,10 +77,14 @@ let $extraMeasures := for $i in (2 to xs:integer($measureCount))
                         if($m)then($m)else() 
 
 (: Extra measure parts :)                         
-let $extraMeasures := for $exm in $measure | $extraMeasures
+let $extraMeasuresParts := for $exm in $measure | $extraMeasures
                         return $exm/following-sibling::mei:measure[(exists(@label) and @label = $exm/@label) or (not(exists(@label)) and @n = $exm/@n)]
 
 return
     concat('[',
-        string-join((local:getMeasure($mei, $measure, $movementId), for $m in $extraMeasures return local:getMeasure($mei, $m, $movementId)), ','),
+        string-join((
+            local:getMeasure($mei, $measure, $movementId), 
+            for $m in $extraMeasures return local:getMeasure($mei, $m, $movementId),
+            for $m in $extraMeasuresParts return local:getMeasure($mei, $m, $movementId)
+        ), ','),
     ']')
