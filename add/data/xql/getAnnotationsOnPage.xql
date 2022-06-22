@@ -40,8 +40,8 @@ declare namespace ft="http://exist-db.org/xquery/lucene";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: Returns a JSON array of annotations
  : 
@@ -64,7 +64,7 @@ declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId a
         return 
             if(starts-with($p, $sourceUriSharp)) 
             then(substring-after($p, $sourceUriSharp)) 
-            else if($p.noSharp = $elems/(@xml:id,@id))
+            else if($elems/@xml:id[. = $p.noSharp] or $elems/@id[. = $p.noSharp])
             then($p.noSharp)
             else()
     let $svgList := local:getAnnotSVGs($id, $plist.raw, $elems)
@@ -98,7 +98,14 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
 		for $id in $elemIds
 		let $uriPlusId := concat($uri, '#', $id)
 		let $hashId := '#' || $id
-		return collection(eutil:getPreference('edition_path', $edition))//mei:annot/@plist[$uriPlusId = tokenize(normalize-space(.),' ') or $hashId = tokenize(normalize-space(.),' ')]/..
+		let $annots := collection(eutil:getPreference('edition_path', $edition))//mei:annot
+		return 
+		    (: 
+                The first predicate with `contains` is just a rough estimate to narrow down the result set.
+                It uses the index and is fast while the second (exact) predicate is generally too slow
+            :)
+		    $annots[contains(@plist, $uriPlusId)][$uriPlusId = tokenize(@plist, '\s')] |  
+		    $annots[contains(@plist, $hashId)][$hashId = tokenize(@plist, '\s')]
 	)
 };
 
@@ -172,7 +179,7 @@ let $zones := $surface//mei:zone
 let $measureLike := 
     for $id in $zones[@type = 'measure' or @type = 'staff']/string(@xml:id)
 	let $ref := concat('#', $id)
-	return $mei//*[contains(@facs, $ref)]
+	return $mei//*[$ref = tokenize(@facs,'\s')]
 	
 let $svgLike := $surface//svg:svg
 
@@ -182,11 +189,5 @@ let $targetLikeIds := $zones/@xml:id | $measureLike/@xml:id | $svgLike/@id
 let $annotations := local:findAnnotations($edition, $sourceUri, $targetLikeIds)
 let $annots := local:getAnnotations($sourceUriSharp, $surfaceId, $annotations, $targetLike)
 
-let $array := array { $annots }
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
-    
-return serialize($array, $options)
+return
+    array { $annots }
