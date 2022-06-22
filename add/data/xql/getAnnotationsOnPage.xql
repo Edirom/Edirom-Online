@@ -179,7 +179,7 @@ let $zones := $surface//mei:zone
 let $measureLike := 
     for $id in $zones[@type = 'measure' or @type = 'staff']/string(@xml:id)
 	let $ref := concat('#', $id)
-	return $mei//*[contains(@facs, $ref)]
+	return $mei//*[$ref = tokenize(@facs,'\s')]
 	
 let $svgLike := $surface//svg:svg
 
