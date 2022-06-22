@@ -74,9 +74,17 @@ let $measure := local:findMeasure($mei, $movementId, $measureIdName)
 let $extraMeasures := for $i in (2 to xs:integer($measureCount))
                       let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
                       return
-                        if($m)then(local:getMeasure($mei, $m, $movementId))else() 
+                        if($m)then($m)else() 
+
+(: Extra measure parts :)                         
+let $extraMeasuresParts := for $exm in $measure | $extraMeasures
+                        return $exm/following-sibling::mei:measure[(exists(@label) and @label = $exm/@label) or (not(exists(@label)) and @n = $exm/@n)]
 
 return
     concat('[',
-        string-join((local:getMeasure($mei, $measure, $movementId), $extraMeasures), ','),
+        string-join((
+            local:getMeasure($mei, $measure, $movementId), 
+            for $m in $extraMeasures return local:getMeasure($mei, $m, $movementId),
+            for $m in $extraMeasuresParts return local:getMeasure($mei, $m, $movementId)
+        ), ','),
     ']')

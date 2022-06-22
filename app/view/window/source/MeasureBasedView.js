@@ -500,7 +500,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actSystem = 0;
         var lastULX = 0;
         
-         var image_server = getPreference('image_server');
+        var image_server = getPreference('image_server');
         
         Ext.Array.each(data, function(d) {
             
@@ -535,14 +535,14 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             if(typeof me.imageViewers[viewerCount - 1] == 'undefined') {
             
             
-        	var viewer = null;   	
-    		if(image_server === 'leaflet'){
-    			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
-    		} else if(image_server === 'openseadragon'){
-    			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
-    		} else{
-    			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
-    		}
+           	var viewer = null;   	
+       		if(image_server === 'leaflet'){
+       			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
+       		} else if(image_server === 'openseadragon'){
+       			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
+       		} else{
+       			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+       		}
             
                 viewer.on('imageChanged', me.onViewerImageChange, me);
             
@@ -634,7 +634,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
        		}
 			else{
 
-            var fn = Ext.bind(function(annotation) {
+                var fn = Ext.bind(function(annotation) {
                 var annotDiv = viewer.getShapeElem(annotation.id);
 
                 var className = annotDiv.dom.className.replace('annotation', '').trim();
