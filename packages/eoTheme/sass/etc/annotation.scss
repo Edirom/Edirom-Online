@@ -135,11 +135,13 @@ $content_baseFont_size: 14px;
 		}
 		
 		.previewItem.widthLimited img {
-			width: 100%;
+			max-height: 100%;
+			max-width: 100%;
 		}
 						
 		.previewItem.heightLimited img {
-			height: 100%;
+			max-height: 100%;
+			max-width: 100%;
 		}
 	}
 
@@ -314,24 +316,26 @@ $content_baseFont_size: 14px;
 }
 
 .annotationViewContent .stepLeft {
+	display: none;
 	position: absolute;
 	top: 50%;
 	margin-top: -40px;
 	left: -10px;
 	width: 50px;
 	height: 80px;
-	background-image: url('../pix/annotPreviewBackward.png');
+	background-image: url('pix/annotPreviewBackward.png');
 	z-index: 20000;
 }
 
 .annotationViewContent .stepRight {
+	display: none;
 	position: absolute;
 	top: 50%;
 	margin-top: -40px;
 	right: -10px;
 	width: 50px;
 	height: 80px;
-	background-image: url('../pix/annotPreviewForward.png');
+	background-image: url('pix/annotPreviewForward.png');
 	z-index: 20000;
 }
 

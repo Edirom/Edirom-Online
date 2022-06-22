@@ -147,7 +147,7 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   then(eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
 
   (: Source / Score :)
-  else if($type = 'source' and exists($doc//mei:manifestation))
+  else if($type = 'source' and exists($doc//mei:manifestation/mei:titleStmt))
   then(string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
@@ -155,6 +155,10 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   then(string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:source)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
+  
+  (: MEI fallback if no title is found :)
+  else if(exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1]))
+  then(eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
   
   (: Text :)
   else if(exists($doc/tei:TEI))
