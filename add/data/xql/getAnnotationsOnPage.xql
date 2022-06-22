@@ -64,7 +64,7 @@ declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId a
         return 
             if(starts-with($p, $sourceUriSharp)) 
             then(substring-after($p, $sourceUriSharp)) 
-            else if($p.noSharp = $elems/(@xml:id,@id))
+            else if($elems/@xml:id[. = $p.noSharp] or $elems/@id[. = $p.noSharp])
             then($p.noSharp)
             else()
     let $svgList := local:getAnnotSVGs($id, $plist.raw, $elems)
