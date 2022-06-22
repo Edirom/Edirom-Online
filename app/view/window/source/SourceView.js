@@ -41,6 +41,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     measuresVisibilitySetLocaly: false,
     annotationsVisible: false,
     annotationsVisibilitySetLocaly: false,
+    overlaysVisible: {},
     
     cls: 'sourceView',
     
@@ -236,6 +237,8 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setOverlays: function(overlays) {
         var me = this;
 
+        if(overlays.count() == 0) return;
+
         me.overlays = overlays;
 
         var overlayItems = [];
@@ -259,17 +262,9 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     overlayVisibilityChanged: function(item, event) {
         var me = this;
+        
+        me.overlaysVisible[item.overlayId] = item.checked;        
         me.fireEvent('overlayVisiblityChange', me, item.overlayId, item.checked);
-    },
-
-    hideOverlay: function(overlayId) {
-        var me = this;
-        me.pageBasedView.hideOverlay(overlayId);
-    },
-
-    showOverlay: function(overlayId, overlay) {
-        var me = this;
-        me.pageBasedView.showOverlay(overlayId, overlay);
     },
 
     getImageSet: function() {

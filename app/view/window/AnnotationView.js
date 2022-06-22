@@ -529,7 +529,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part);//  + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part) + ": " + label;
 
             if(type == 'text') {
 
@@ -564,10 +564,10 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 }else if(me.image_server === 'openseadragon') {
                 
                 
-                    var imgBase = window.getPreference("image_prefix");
-                    var imgPath = digilibBaseParams.substring(imgBase.length, digilibBaseParams.lastIndexOf('?'));
-                    var imgData = Ext.JSON.decode(hiddenData);
-                    var imgSrc = imgBase + imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
+                    //var imgBase = window.getPreference("image_prefix");
+                    var imgPath = digilibBaseParams;
+                    var imgData = hiddenData;
+                    var imgSrc = imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
                     
                     var shape = tplImg.append(div, [id, imgSrc, hiddenData, label], true);
                     shape.on('dblclick', me.participantClickedGrid, me, {participant: id});
@@ -668,6 +668,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var label = participant['label'];
             var mdiv = participant['mdiv'];
             var page = participant['page'];
+            var part = participant['part'];
             var source = participant['source'];
             var siglum = participant['siglum'];
             var digilibBaseParams = participant['digilibBaseParams'];
@@ -675,7 +676,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
-            label = (siglum == ''?source:siglum) + ": " + label;
+            label = (siglum == ''?source:siglum) + (part == ''?'':', '+part) + ": " + label;
 
             var shape = null;
 
@@ -693,10 +694,9 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 				
 				}else if(me.image_server === 'openseadragon') {
                 
-                    var imgBase = window.getPreference("image_prefix");
-                    var imgPath = digilibBaseParams.substring(imgBase.length, digilibBaseParams.lastIndexOf('?'));
-                    var imgData = Ext.JSON.decode(hiddenData);
-                    var imgSrc = imgBase + imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
+                    var imgPath = digilibBaseParams;
+                    var imgData = hiddenData;
+                    var imgSrc = imgPath + '/' + imgData.x + ',' + imgData.y + ',' + imgData.width + ',' + imgData.height + '/' + 600 + ',/0/default.jpg';
                     
                     shape = tplImg.append(div, [imgSrc, hiddenData, label], true);
     
@@ -862,7 +862,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
 
         }else {
             var imgBox = new Ext.Element(imgBoxes[0]);
-            var imgData = Ext.JSON.decode(new Ext.Element(elem.query('.previewImgData')[0]).getValue());
+            var imgData = new Ext.Element(elem.query('.previewImgData')[0]).getValue();
 
             var heightQuotient = imgBox.getHeight() / imgData.height;
             var widthQuotient = imgBox.getWidth() / imgData.width;

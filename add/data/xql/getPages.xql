@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -28,8 +28,10 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace img="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 let $uri := request:get-parameter('uri', '')
 let $mei := eutil:getDoc($uri)/root()
@@ -38,27 +40,33 @@ let $ret := for $surface in $mei//mei:surface
             (:let $image := doc($surface/mei:graphic[@type='facsimile']/string(@target))/img:image:)
             let $graphic := $surface/mei:graphic[@type='facsimile']
             return
-                concat('{',
-                    'id: "', $surface/string(@xml:id), '", ',
-                    'path: "', $graphic/string(@target), '", ',
-                    'name: "', $surface/string(@n), '", ',
-                    'width: "', $graphic/string(@width), '", ',
-                    'height: "', $graphic/string(@height), '"',
-                '}')
+                map {
+                    'id': $surface/string(@xml:id),
+                    'path': $graphic/string(@target),
+                    'name': $surface/string(@n),
+                    'width': $graphic/string(@width),
+                    'height': $graphic/string(@height)
+                }
                 
 let $ret := if(count($ret) = 0)
             then(
                 for $surface in $mei//tei:surface
                 let $graphic := $surface/tei:graphic[1]
                 return
-                    concat('{',
-                        'id: "', $surface/string(@xml:id), '", ',
-                        'path: "', $graphic/string(@url), '", ',
-                        'name: "', $surface/string(@n), '", ',
-                        'width: "', replace($graphic/string(@width), 'px', ''), '", ',
-                        'height: "', replace($graphic/string(@height), 'px', ''), '"',
-                    '}')
+                    map {
+                        'id': $surface/string(@xml:id),
+                        'path': $graphic/string(@url),
+                        'name': $surface/string(@n),
+                        'width': replace($graphic/string(@width), 'px', ''),
+                        'height': replace($graphic/string(@height), 'px', '')
+                    }
             )
             else($ret)
 
-return concat('[', string-join($ret, ','), ']')
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+
+return serialize($ret, $options)

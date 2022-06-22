@@ -31,8 +31,8 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace svg="http://www.w3.org/2000/svg";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option output:method "xml";
-declare option output:media-type "application/xml";
+declare option output:method "text";
+declare option output:media-type "text/plain";
 
 let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
@@ -42,7 +42,22 @@ let $overlayId := request:get-parameter('overlayId', '')
 let $overlay := $mei/id($overlayId)
 
 let $plist := tokenize(replace($overlay/@plist, '#', ''), '\s+')
-
 let $surface := $mei/id($surfaceId)
-return $surface/svg:svg[@id = $plist]
+let $svg := $surface/svg:svg[@id = $plist]
+
+let $overlay :=
+    map {
+        'id': string($svg/@id),
+        'svg': $svg
+    }
+
+let $options :=
+    map {
+        'method': 'json',
+        'media-type': 'text/plain'
+    }
+
+return serialize($overlay, $options)
+
+
 

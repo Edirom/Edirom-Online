@@ -102,9 +102,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 "width": 1024
             }]
         });
-        me.viewer.addOnceHandler('tile-drawn', function() { 
+        me.viewer.addOnceHandler('tile-drawn', function() {
             if(me.rect && me.rect != null) me.showRect(me.rect.x, me.rect.y, me.rect.width, me.rect.height, me.rect.highlight);
-        });        
+        });
         me.fireEvent('imageChanged', me, path, pageId);
     },
         
@@ -195,6 +195,45 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         });
     },
     
+    addSVGOverlay: function(overlayId, overlay, name, uri, fn) {
+    
+        var me = this;
+        
+        var svgId = me.id + '_' + overlayId;
+        var overlayOSD = me.viewer.getOverlayById(svgId);
+        if (overlayOSD !== null ) {
+            return;
+        }
+        
+        overlay.each(function(overlay){
+            if (overlay.get('svg') !== null) {
+                parser = new DOMParser;
+                var overlayXML = parser.parseFromString(overlay.get('svg'), 'text/xml');
+                var svg = overlayXML.documentElement;
+                svg.id = me.id + '_' + overlayId;
+                var x = 0;
+                var y = 0;
+                var width = svg.width.baseVal.value;
+                var height = svg.height.baseVal.value;
+                var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                me.viewer.addOverlay({
+                    element:overlayXML.documentElement,
+                    location:new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+                });
+            }
+        });
+    },
+    
+    removeSVGOverlay: function(overlayId) {
+        var me = this;
+        var svgId = me.id + '_' + overlayId;
+        var overlayOSD = me.viewer.getOverlayById(svgId);
+        if (overlayOSD !== null ) {
+            overlayOSD.destroy();
+        }
+    },
+    
     removeShapes: function(groupName) {
    
         var me = this;
@@ -253,7 +292,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var uri = annotation.get('uri');
             var categories = annotation.get('categories');
             var priority = annotation.get('priority');
-            var fn = annotation.get('fn');          
+            var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
             Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
@@ -307,7 +346,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
                 tip.on('afterrender', function() {
                     window.doAJAXRequest('data/xql/getAnnotation.xql',
-                        'GET', 
+                        'GET',
                         {
                             uri: uri,
                             target: 'tip',

@@ -44,7 +44,7 @@ declare variable $lang := request:get-parameter('lang', '');
 declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type,'_'),
-        'uri': $docUri
+        'uri': if($type = ('mei_textView', 'desc_xmlView')) then string(($doc//mei:annot[@type='descLink'])[1]/@plist) else $docUri
     }
     
     (: optionally set label for some views:)
@@ -62,7 +62,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
                     'tei_textView',
                     'tei_facsimileView',
                     'tei_textFacsimileSplitView',
-                    'mei_annotationView') and 1 = 2)
+                    'mei_annotationView'))
         then(map:put($labeled.map, 'defaultView', true()))
         else($labeled.map)
         
@@ -117,7 +117,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
     
     let $views := (
         (:'desc_summaryView',:)
-        'desc_headerView',
+        (:'desc_headerView',:)
         'mei_textView',
         'mei_sourceView',
         'mei_audioView',
@@ -147,7 +147,7 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   then(eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
 
   (: Source / Score :)
-  else if($type = 'source' and exists($doc//mei:manifestation))
+  else if($type = 'source' and exists($doc//mei:manifestation/mei:titleStmt))
   then(string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
@@ -155,6 +155,10 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   then(string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
                     ($doc//mei:source)[1]//mei:identifier[lower-case(@type)='shelfmark'][1]), ' | ')
        => normalize-space())
+  
+  (: MEI fallback if no title is found :)
+  else if(exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1]))
+  then(eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
   
   (: Text :)
   else if(exists($doc/tei:TEI))

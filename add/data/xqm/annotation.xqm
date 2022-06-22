@@ -37,16 +37,6 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
-declare function local:getLocalizedName($node) {
-  let $lang := request:get-parameter('lang', '')
-  let $nodeName := local-name($node)
-  return
-      if ($lang = $node/mei:name/@xml:lang)
-      then $node/mei:name[@xml:lang = $lang]/text()
-      else $node/mei:name[1]/text()
-
-};
-
 declare function annotation:getLocalizedLabel($node) {
   let $lang := request:get-parameter('lang', '')
   let $nodeName := local-name($node)
@@ -59,7 +49,7 @@ declare function annotation:getLocalizedLabel($node) {
         else $node/mei:label[1]/text()
     )
     else if($nodeName = 'term') (: old style, i.e. //term/name :)
-    then(local:getLocalizedName($node))
+    then(eutil:getLocalizedName($node, $lang))
     else($nodeName)
   
   return $label
@@ -191,7 +181,8 @@ declare function annotation:getTitle($anno as element(), $idPrefix as xs:string,
 declare function annotation:getPriority($anno as element()) as xs:string* {
     
     let $uri := $anno/mei:ptr[@type eq 'priority']/string(@target)
-    
+    let $lang := request:get-parameter('lang', '')
+
     let $doc := if(starts-with($uri,'#'))
                 then($anno/root())
                 else(doc(substring-before($uri,'#')))
@@ -203,7 +194,7 @@ declare function annotation:getPriority($anno as element()) as xs:string* {
     return
        
         if(local-name($elem) eq 'term')
-        then(local:getLocalizedName($elem))
+        then(eutil:getLocalizedName($elem, $lang))
         else($locId)
    
 };
@@ -277,7 +268,7 @@ declare function annotation:getCategoriesAsArray($anno as element()) as xs:strin
                    let $elem := $doc/id($locID)
                    return
                        if(local-name($elem) eq 'term')
-                       then(local:getLocalizedName($elem))
+                       then(eutil:getLocalizedName($elem))
                        else($locID)
     :)
     return $cats

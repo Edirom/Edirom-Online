@@ -26,6 +26,7 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 import module namespace functx="http://www.functx.com";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -52,7 +53,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                     $labelsAnalyzed
                             )
                             else ($mdiv//mei:measure/@n)
-        let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
+        let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
         return
             for $measureN in $measureNsDistinct
             let $measureNNumber := number($measureN)
@@ -61,14 +62,16 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                 else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
             let $measures := if ($mdiv//mei:measure/@label)
                                 then (
-                                    for $measure in $mdiv//mei:measure[@label = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                    for $part in $mdiv//mei:part
+                                        for $measure in $part//mei:measure[@label = $measureN][1] | $measures[ancestor::mei:part = $part]
+                                            return
+                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
                                 )
                                 else (
-                                    for $measure in $mdiv//mei:measure[@n = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                                    for $part in $mdiv//mei:part
+                                        for $measure in $part//mei:measure[@n = $measureN][1] | $measures[ancestor::mei:part = $part]
+                                            return
+                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
                                 )
             return
                 concat('{',
@@ -80,15 +83,35 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
     )
     
     else(
-        for $measure in $mei/id($mdivID)//mei:measure
-        let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n)
-        return
-            concat('{',
-                'id: "', $measure/@xml:id, '", ',
-                'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
-                'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
-                'name: "', $measureLabel, '"', (: Hier Unterscheiden wg. Auftakt. :)
-            '}')
+    
+        if($mei/id($mdivID)//mei:measure[@label])
+        then(
+             for $measureN in $mei/id($mdivID)//mei:measure/@label
+                let $measures := $mei/id($mdivID)//mei:measure[@label = $measureN]
+                let $measure := $measures[1]
+                (:let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n):)
+                return
+                    concat('{',
+                        'id: "', $measure/@xml:id, '", ',
+                        'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
+                        'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
+                        'name: "', $measureN, '"', (: Hier Unterscheiden wg. Auftakt. :)
+                    '}')
+        )
+        else(
+    
+            for $measureN in $mei/id($mdivID)//mei:measure/data(@n)
+                let $measures := $mei/id($mdivID)//mei:measure[@n = $measureN]
+                let $measure := $measures[1]
+                (:let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n):)
+                return
+                    concat('{',
+                        'id: "', $measure/@xml:id, '", ',
+                        'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
+                        'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
+                        'name: "', $measureN, '"', (: Hier Unterscheiden wg. Auftakt. :)
+                    '}')
+        )
     )
 };
 

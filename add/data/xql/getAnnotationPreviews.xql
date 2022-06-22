@@ -40,7 +40,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace edirom_image="http://www.edirom.de/ns/image";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "text";
 declare option output:media-type "text/plain";
@@ -290,15 +290,21 @@ declare function local:getBoundingZone($zones as element()*) as element() {
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $graphic as element()?) as xs:string {
     
-    let $imagePath := $graphic/@target
+    let $imagePath := string($graphic/@target)
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
+    let $isAbsolute := starts-with($imagePath, 'http')
     
     let $fields := if($imageserver = 'leaflet')then(substring-before($imagePath, '.') )else()
-   
 			
     return
-    if($imageserver = 'leaflet')then(concat($imageBasePath,$fields))else(concat($basePath, $imagePath, '?'))
+        if ($isAbsolute)
+        then $imagePath
+        else
+            switch ($imageserver)
+                case 'leaflet' return concat($basePath,$fields)
+                case 'openseadragon' return concat($basePath,translate($imagePath, '/', '!'))
+                default return concat($basePath, $imagePath, '?')
         
 };
 
@@ -375,26 +381,6 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
     ,' ')        
                         
 };
-
-(:declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as xs:string?, $part as xs:string?, 
-    $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
-    $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
-    
-    map {
-        'type': $type,
-        'label': $label,
-        'mdiv': $mdiv,
-        'part': $part,
-        'page': $page,
-        'source': $source,
-        'siglum': $siglum,
-        'digilibBaseParams': $digilibBaseParams,
-        'digilibSizeParams': $digilibSizeParams,
-        'hiddenData': $hiddenData,
-        'content': $content,
-        'linkUri': $linkUri
-    }
-};:)
 
 let $uri := request:get-parameter('uri', '')
 let $docUri := substring-before($uri, '#')

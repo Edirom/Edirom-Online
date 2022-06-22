@@ -126,6 +126,8 @@ Ext.define('EdiromOnline.Application', {
                 urlParams.uri = urlParams.uri + window.location.hash; 
         
             app.on('ready', Ext.bind(window.loadLink, me, [urlParams.uri, {sort:'sortGrid'}], false), me, {single: true});
+        }else {
+            app.on('ready', Ext.bind(me.openStartDocuments, me), me, {single: true});
         }
     },
     
@@ -176,5 +178,11 @@ Ext.define('EdiromOnline.Application', {
 	
 	getURLParameter: function(parameter) {
         return decodeURIComponent((new RegExp('[?|&]' + parameter + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    },
+    
+    openStartDocuments: function() {
+        var me = this;
+        var uris = me.getController('PreferenceController').getPreference('start_documents_uri');
+        window.loadLink(uris);
     }
 });
