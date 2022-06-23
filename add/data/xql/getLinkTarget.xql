@@ -56,13 +56,14 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
         else($baseMap)
     
     (: whether to set the view as default view:)
-    let $defaultViewed.map :=
-        if($type = ('mei_sourceView',
-                    'mei_audioView',
-                    'tei_textView',
-                    'tei_facsimileView',
-                    'tei_textFacsimileSplitView',
-                    'mei_annotationView'))
+    let $defaultViewed.map := 
+        if($type = ('mei_sourceView', 
+                    'mei_audioView', 
+                    'tei_textView', 
+                    'tei_facsimileView', 
+                    'tei_textFacsimileSplitView', 
+                    'mei_annotationView',
+                    'mei_verovioView'))
         then(map:put($labeled.map, 'defaultView', true()))
         else($labeled.map)
         

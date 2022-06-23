@@ -29,10 +29,11 @@ xquery version "3.1";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xlink="http://www.w3.org/1999/xlink";
-
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (:~
     Finds all measures on a page.
@@ -41,10 +42,15 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
     @param $surface The surface to look at
     @returns A list of json objects with measure information
 :)
-declare function local:getMeasures($mei as node(), $surface as node()) as xs:string* {
+declare function local:getMeasures($mei as node(), $surface as node()) as map(*)* {
 
     for $zone in $surface/mei:zone[@type='measure']
-    let $measures := $mei//mei:measure[concat('#', $zone/@xml:id) = tokenize(@facs, ' ')]
+    let $zoneRef := concat('#', $zone/@xml:id)
+    (: 
+        The first predicate with `contains` is just a rough estimate to narrow down the result set.
+        It uses the index and is fast while the second (exact) predicate is generally too slow
+    :)
+    let $measures := $mei//mei:measure[contains(@facs, $zoneRef)][$zoneRef = tokenize(@facs, '\s+')]
     return
         for $measure in $measures
         let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
@@ -52,17 +58,17 @@ declare function local:getMeasures($mei as node(), $surface as node()) as xs:str
                              then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
                              else ($measureLabel)
         return
-        concat('{',
-            'zoneId: "', $zone/string(@xml:id), '", ',
-            'ulx: "', $zone/string(@ulx), '", ',
-            'uly: "', $zone/string(@uly), '", ',
-            'lrx: "', $zone/string(@lrx), '", ',
-            'lry: "', $zone/string(@lry), '", ',
-            'id: "', $measure/string(@xml:id), '", ',
-            'name: "', $measureLabel, '", ',
-            'type: "', $measure/string(@type), '", ',
-            'rest: "', local:getMRest($measure), '"',
-        '}')
+            map {
+                'zoneId': $zone/string(@xml:id),
+                'ulx': $zone/string(@ulx),
+                'uly': $zone/string(@uly),
+                'lrx': $zone/string(@lrx),
+                'lry': $zone/string(@lry),
+                'id': $measure/string(@xml:id),
+                'name': $measureLabel,
+                'type': $measure/string(@type),
+                'rest': local:getMRest($measure)
+            }
 };
 
 declare function local:getMRest($measure) {
@@ -80,8 +86,8 @@ let $mei := doc($uri)/root()
 let $surface := $mei/id($surfaceId)
 
 return (
-    string('['),
-    		(: TODO: berlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
-        string-join(local:getMeasures($mei, $surface), ','),
-    string(']')
+    array {
+        (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
+        local:getMeasures($mei, $surface)
+    }
 )

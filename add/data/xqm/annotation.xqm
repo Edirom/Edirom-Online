@@ -44,7 +44,7 @@ declare function annotation:getLocalizedLabel($node) {
   let $label :=
     if($nodeName = 'category') (: new style, i.e. //category/label :)
     then(
-        if ($lang = $node/mei:label/@xml:lang)
+        if ($node/mei:label[@xml:lang = $lang])
         then $node/mei:label[@xml:lang = $lang]/text()
         else $node/mei:label[1]/text()
     )
