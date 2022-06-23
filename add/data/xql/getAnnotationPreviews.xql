@@ -341,7 +341,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
     return
     string-join(
     for $type in distinct-values(for $elem in $elems return local-name($elem))
-    let $items := for $elem in $elems return if(local-name($elem) eq $type) then($elem) else()
+        let $items := for $elem in $elems return if(local-name($elem) eq $type) then($elem) else()
         return 
             if(local-name($items[1]) eq 'measure')
             then(
@@ -349,9 +349,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                 then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
                 else(eutil:getLanguageString('Bar_n', ($items[1]/@n), $language))
             )
-            else
-            
-            if(local-name($items[1]) eq 'staff')
+            else if(local-name($items[1]) eq 'staff')
             then(
                 if(count($items) gt 1)
                 then(
@@ -369,9 +367,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                 )
                 else(concat('Takt ',$items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr,')'))
             )
-            else
-            
-            if(local-name($items[1]) eq 'zone')
+            else if(local-name($items[1]) eq 'zone')
             then(
                 if(count($items) gt 1)
                 then((:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:))
