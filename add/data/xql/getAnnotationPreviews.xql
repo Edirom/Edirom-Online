@@ -342,14 +342,18 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
     string-join(
     for $type in distinct-values(for $elem in $elems return local-name($elem))
         let $items := for $elem in $elems return if(local-name($elem) eq $type) then($elem) else()
+        let $itemLabelMultiRestSensitive := if($items[1]//mei:multiRest)
+                                            then ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
+                                            else ($items[1]/@n)
         return 
             if(local-name($items[1]) eq 'measure')
             then(
                 if(count($items) gt 1)
                 then(eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
-                else(eutil:getLanguageString('Bar_n', ($items[1]/@n), $language))
+                else(eutil:getLanguageString('Bar_n', $itemLabelMultiRestSensitive, $language))
             )
             else if(local-name($items[1]) eq 'staff')
+            (: TODO: $itemLabelMultiRestSensitive also for staffs? :)
             then(
                 if(count($items) gt 1)
                 then(
