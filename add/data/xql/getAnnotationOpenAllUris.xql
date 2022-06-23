@@ -50,7 +50,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
                     let $elem := doc($doc)/id($id)
                     order by count($elem/preceding::*)
                     return $elem
-                    
+
     return
         string-join(
             (for $elem in $elems[local-name() != 'measure']
@@ -65,12 +65,16 @@ declare function local:groupSourceParticipants($elems as node()*, $doc as xs:str
     let $startIds := ($elems[1]/string(@xml:id), local:getStartIdsOfRange($elems, 2, $elems[1]/string(@xml:id)))
     return
         for $startId in distinct-values($startIds)
+        let $elem := $elems/id($startId)
         let $measureCount := count(index-of($startIds, $startId)) - 1
         let $tstamp2 := if($measureCount gt 0)
                         then(concat('?tstamp2=', $measureCount, 'm+0'))
                         else('')
+        let $isInPart := exists(doc($doc)/id($startId)/ancestor::mei:part)
         return
-            concat($doc, '#', $startId, $tstamp2)
+            if ($isInPart)
+            then concat($doc, '#measure_', $elem/ancestor::mei:mdiv/@xml:id, '_', $elem/@n, $tstamp2)
+            else concat($doc, '#', $startId, $tstamp2)
 };
 
 declare function local:getStartIdsOfRange($elems as node()*, $pos as xs:integer, $id as xs:string) as xs:string* {
