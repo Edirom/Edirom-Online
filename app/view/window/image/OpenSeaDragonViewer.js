@@ -296,8 +296,6 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
-            Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
-
             Ext.Array.each(plist, function(shape) {
 
                 var id = shape.id;
@@ -306,7 +304,6 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
                 var partType = shape.type;
-                
                 
                 var anno = me.viewer.getOverlayById(me.id + '_' + id);
                 if(anno === null) {
@@ -334,6 +331,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     anno.dom.append(annoIcon);
                 }
 
+                Ext.Array.push(me.shapes.get('annotations'), annoId + '_' + anno.id + '_inner');
                 var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
                 
                 annoIcon.on('click', me.openShapeLink, me, {
@@ -397,7 +395,11 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     getShapeElem: function(shapeId) {
    
         var me = this;
-        return me.el.getById(me.id + '_' + shapeId);
+        var elem = me.el.getById(me.id + '_' + shapeId);
+        if(elem === null)
+            elem = me.el.getById(shapeId);
+            
+        return elem;
     },
     
     listenForShapeLink: function(e, dom, args) {
