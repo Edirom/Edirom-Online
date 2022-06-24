@@ -281,11 +281,23 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     },
     
     addAnnotations: function(annotations) {
-    	
+    	console.log('OSD add Annotations');
         var me = this;
 
         me.shapes.add('annotations', []);
-
+        
+        /* display options
+         * 
+         * perMeasureSingle
+         *  there may only be one single annotation targeting each measure
+         * 
+         * perMeasureMulti
+         *  there can be multipleAnnotations per measure
+         *  */
+        
+        var annotationMode = 'perMeasureMulti';
+        var targetZoneIds = {};
+        var targetZones = [];
         annotations.each(function(annotation) {
 
             var name = annotation.get('title');
@@ -295,85 +307,227 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
-            Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
-
-            Ext.Array.each(plist, function(shape) {
-
-                var id = shape.id;
-                var x = shape.ulx;
-                var y = shape.uly;
-                var width = shape.lrx - shape.ulx;
-                var height = shape.lry - shape.uly;
-                var partType = shape.type;
+            for (var participant, i = 0; participant = plist[i++];) {
                 
-                var anno = document.createElement("div");
-                anno.id = me.id + '_' + id;
-                anno.className = "annotation " + categories + ' ' + priority + ' ' + partType;
-                
-                var annoIcon = document.createElement("div");
-                annoIcon.id = anno.id + '_inner';
-                annoIcon.className = "annotIcon";
-                anno.append(annoIcon);
-                
-                var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
-                var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
-                
-                me.viewer.addOverlay({
-                    element: anno,
-                    location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
-                });
-
-                var anno = me.el.getById(me.id + '_' + id);
-
-                anno.on('click', me.openShapeLink, me, {
-                    single: true,
-                    stopEvent : true,
-                    fn: fn
-                });
-
-                var tip = Ext.create('Ext.tip.ToolTip', {
-                    target: me.id + '_' + id,
-                    cls: 'annotationTip',
-                    width: me.annotTipWidth,
-                    maxWidth: me.annotTipMaxWidth,
-                    height: me.annotTipHeight,
-                    maxHeight: me.annotTipMaxHeight,
-                    dismissDelay: 0,
-                    hideDelay: 1000,
-                    anchor: 'left',
-                    html: getLangString('Annotation_plus_Title', name)
-                });
-
-                tip.on('afterrender', function() {
-                    window.doAJAXRequest('data/xql/getAnnotation.xql',
-                        'GET',
-                        {
-                            uri: uri,
-                            target: 'tip',
-                            edition: EdiromOnline.getApplication().activeEdition
-                        },
-                        Ext.bind(function(response){
-                            this.update(response.responseText);
-                        }, this)
-                    );
-                    this.el.on('mouseover', function() {
-                        this.addCls('mouseOverAnnot');
-                    }, this);
-                    this.el.on('mouseout', function() {
-                        this.removeCls('mouseOverAnnot');
-                    }, this);
-                }, tip);
-
-                tip.on('beforehide', function() {
-                    if(this.el.hasCls('mouseOverAnnot')) {
-                        Ext.Function.defer(function(){
-                            this.hide();
-                        }, 1000, this);
-                        return false;
-                    }
-                }, tip);
-            });
+                var targetId = participant.targetId;
+                console.log(targetId);
+                console.log(!(targetId in targetZoneIds));
+                if (!(targetId in targetZoneIds)) {
+                    targetZoneIds[targetId] = 1;
+                    var zone = {};
+                    zone.targetId = targetId;
+                    zone.ulx = participant.ulx;
+                    zone.uly = participant.uly;
+                    zone.lrx = participant.lrx;
+                    zone.lry = participant.lry;
+                    zone.type = participant.type;
+                    targetZones.push(zone);
+                    console.log(targetZoneIds);
+                }
+            }
         });
+            
+        if (annotationMode === 'perMeasureSingle') {
+                //as before with or without annoIcon
+            annotations.each(function(annotation) {
+
+            var name = annotation.get('title');
+            var uri = annotation.get('uri');
+            var categories = annotation.get('categories');
+            var priority = annotation.get('priority');
+            var fn = annotation.get('fn');
+            var plist = Ext.Array.toArray(annotation.get('plist'));
+            
+            Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
+            
+                Ext.Array.each(plist, function(shape) {
+    
+                    var id = shape.id;
+                    var x = shape.ulx;
+                    var y = shape.uly;
+                    var width = shape.lrx - shape.ulx;
+                    var height = shape.lry - shape.uly;
+                    var partType = shape.type;
+    
+                    var anno = document.createElement("div");
+                    anno.id = me.id + '_' + id;
+                    anno.className = "annotation " + categories + ' ' + priority + ' ' + partType + ' ' + id;
+                    
+                    var annoIcon = document.createElement("div");
+                    annoIcon.id = anno.id + '_inner';
+                    annoIcon.className = "annotIcon";
+                    anno.append(annoIcon);
+                    
+                    var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                    var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                    
+                    me.viewer.addOverlay({
+                        element: anno,
+                        location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+                    });
+    
+                    var anno = me.el.getById(me.id + '_' + id);
+    
+                    anno.on('click', me.openShapeLink, me, {
+                        single: true,
+                        stopEvent : true,
+                        fn: fn
+                    });
+    
+                    var tip = Ext.create('Ext.tip.ToolTip', {
+                        target: me.id + '_' + id,
+                        cls: 'annotationTip',
+                        width: me.annotTipWidth,
+                        maxWidth: me.annotTipMaxWidth,
+                        height: me.annotTipHeight,
+                        maxHeight: me.annotTipMaxHeight,
+                        dismissDelay: 0,
+                        hideDelay: 1000,
+                        anchor: 'left',
+                        html: getLangString('Annotation_plus_Title', name)
+                    });
+    
+                    tip.on('afterrender', function() {
+                        window.doAJAXRequest('data/xql/getAnnotation.xql',
+                            'GET',
+                            {
+                                uri: uri,
+                                target: 'tip',
+                                edition: EdiromOnline.getApplication().activeEdition
+                            },
+                            Ext.bind(function(response){
+                                this.update(response.responseText);
+                            }, this)
+                        );
+                        this.el.on('mouseover', function() {
+                            this.addCls('mouseOverAnnot');
+                        }, this);
+                        this.el.on('mouseout', function() {
+                            this.removeCls('mouseOverAnnot');
+                        }, this);
+                    }, tip);
+    
+                    tip.on('beforehide', function() {
+                        if(this.el.hasCls('mouseOverAnnot')) {
+                            Ext.Function.defer(function(){
+                                this.hide();
+                            }, 1000, this);
+                            return false;
+                        }
+                    }, tip);
+                });
+            
+            });
+        }
+        if (annotationMode === 'perMeasureMulti') {
+                //create shape per targetZone and insert annoIcon with tip etc.
+                console.log(targetZoneIds);
+                console.log(targetZones);
+                Ext.Array.each(targetZones, function(targetZone) {
+    
+                    var id = me.id + '_' + targetZone.targetId;
+                    var x = targetZone.ulx;
+                    var y = targetZone.uly;
+                    var width = targetZone.lrx - targetZone.ulx;
+                    var height = targetZone.lry - targetZone.uly;
+                    var partType = targetZone.type;
+                    
+                    var targetZoneEl = document.createElement("div");
+                    targetZoneEl.id = id;
+                    targetZoneEl.className = "annotIconContainer";
+                    
+                    //for each annotation
+                    /*var annotIcon = document.createElement("div");
+                    annotIcon.id = anno.id + '_inner';
+                    annotIcon.className = "annotIcon";
+                    targetZoneEl.append(annotIcon);*/
+                    
+                
+                    annotations.each(function(annotation) {
+                        
+                        var name = annotation.get('title');
+                        var uri = annotation.get('uri');
+                        var categories = annotation.get('categories');
+                        var priority = annotation.get('priority');
+                        var fn = annotation.get('fn');
+                        var plist = Ext.Array.toArray(annotation.get('plist'));
+                        
+                        //var targetZoneId = me.id + '_' + targetZone.targetId;
+                        
+                        var annoIcon = document.createElement("div");
+                        annoIcon.id = me.id + '_' + id;
+                        annoIcon.className = "annotIcon" + ' ' + "annotation " + categories + ' ' + priority + ' ' + partType + ' ' + id;
+                        targetZoneEl.append(annoIcon);
+                        
+                        //var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                        //var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                        
+                        //me.viewer.addOverlay({
+                        //    element: anno,
+                        //    location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+                        //});
+                        
+                        //for each annotation after overlay has been added to DOM
+                        var annoIconEl = me.el.getById(me.id + '_' + id);
+        
+                        annoIconEl.on('click', me.openShapeLink, me, {
+                            single: true,
+                            stopEvent : true,
+                            fn: fn
+                        });
+        
+                        var tip = Ext.create('Ext.tip.ToolTip', {
+                            target: me.id + '_' + id,
+                            cls: 'annotationTip',
+                            width: me.annotTipWidth,
+                            maxWidth: me.annotTipMaxWidth,
+                            height: me.annotTipHeight,
+                            maxHeight: me.annotTipMaxHeight,
+                            dismissDelay: 0,
+                            hideDelay: 1000,
+                            anchor: 'left',
+                            html: getLangString('Annotation_plus_Title', name)
+                        });
+        
+                        tip.on('afterrender', function() {
+                            window.doAJAXRequest('data/xql/getAnnotation.xql',
+                                'GET',
+                                {
+                                    uri: uri,
+                                    target: 'tip',
+                                    edition: EdiromOnline.getApplication().activeEdition
+                                },
+                                Ext.bind(function(response){
+                                    this.update(response.responseText);
+                                }, this)
+                            );
+                            this.el.on('mouseover', function() {
+                                this.addCls('mouseOverAnnot');
+                            }, this);
+                            this.el.on('mouseout', function() {
+                                this.removeCls('mouseOverAnnot');
+                            }, this);
+                        }, tip);
+        
+                        tip.on('beforehide', function() {
+                            if(this.el.hasCls('mouseOverAnnot')) {
+                                Ext.Function.defer(function(){
+                                    this.hide();
+                                }, 1000, this);
+                                return false;
+                            }
+                        }, tip);
+                    });
+                    
+                    var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                    var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                    
+                    me.viewer.addOverlay({
+                        element: targetZoneEl,
+                        location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
+                    });
+                });
+            }
     },
     
     getShapes: function(groupName) {
