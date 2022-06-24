@@ -635,9 +635,9 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
 			else{
 
                 var fn = Ext.bind(function(annotation) {
-                var annotDiv = viewer.getShapeElem(annotation.id);
+                var annotDiv = viewer.getShapeElem(annotation);
 
-                var className = annotDiv.dom.className.replace('annotation', '').trim();
+                var className = annotDiv.dom.className.replace('annotIcon', '').trim();
                 var classes = className.split(' ');
     
                 var hasCategory = false;
@@ -648,10 +648,13 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                     hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
                 }
     
-                annotDiv.setVisible(hasCategory & hasPriority);
+                if(hasCategory & hasPriority)
+                    annotDiv.removeCls('hidden');
+                else
+                    annotDiv.addCls('hidden');
             }, me);
             
-            if (typeof annotation !== 'undefined') {
+            if (typeof annotations !== 'undefined') {
                 if(annotations.each)
                     annotations.each(fn);
                 else
