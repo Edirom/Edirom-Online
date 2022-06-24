@@ -288,6 +288,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         annotations.each(function(annotation) {
 
+            var annoId = annotation.get('id');
             var name = annotation.get('title');
             var uri = annotation.get('uri');
             var categories = annotation.get('categories');
@@ -306,33 +307,43 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 var height = shape.lry - shape.uly;
                 var partType = shape.type;
                 
-                var anno = document.createElement("div");
-                anno.id = me.id + '_' + id;
-                anno.className = "annotation " + categories + ' ' + priority + ' ' + partType;
                 
-                var annoIcon = document.createElement("div");
-                annoIcon.id = anno.id + '_inner';
-                annoIcon.className = "annotIcon";
-                anno.append(annoIcon);
-                
-                var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
-                var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
-                
-                me.viewer.addOverlay({
-                    element: anno,
-                    location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
-                });
+                var anno = me.viewer.getOverlayById(me.id + '_' + id);
+                if(anno === null) {
+                    
+                    var anno = document.createElement('div');
+                    anno.id = me.id + '_' + id;
+                    anno.className = 'annotation';
 
-                var anno = me.el.getById(me.id + '_' + id);
+                    var annoIcon = document.createElement('div');
+                    annoIcon.id = annoId + '_' + anno.id + '_inner';
+                    annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
+                    anno.append(annoIcon);
+                    
+                    var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
+                    var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
+                    
+                    me.viewer.addOverlay({element:anno, location:new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)});
+                
+                }else {
+                    
+                    var anno = me.el.getById(me.id + '_' + id);
+                    var annoIcon = document.createElement('div');
+                    annoIcon.id = annoId + '_' + anno.id + '_inner';
+                    annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
+                    anno.dom.append(annoIcon);
+                }
 
-                anno.on('click', me.openShapeLink, me, {
+                var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
+                
+                annoIcon.on('click', me.openShapeLink, me, {
                     single: true,
                     stopEvent : true,
                     fn: fn
                 });
 
                 var tip = Ext.create('Ext.tip.ToolTip', {
-                    target: me.id + '_' + id,
+                    target: annoId + '_' + anno.id + '_inner',
                     cls: 'annotationTip',
                     width: me.annotTipWidth,
                     maxWidth: me.annotTipMaxWidth,
