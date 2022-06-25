@@ -48,7 +48,7 @@
                 <xsl:variable name="measureRef" select="." as="element()"/>
                 <xsl:variable name="annotRef" select="$measureRef/parent::annotRef" as="element()"/>
                 <annot xmlns="http://www.music-encoding.org/ns/mei">
-                    <xsl:attribute name="type" select="'annotRef ' || $annotRef/@class"/>
+                    <xsl:attribute name="type" select="'annotRef ' || replace($annotRef/@class,'#','')"/>
                     <xsl:attribute name="staff" select="$annotRef/@staff"/>
                     <xsl:attribute name="xml:id" select="'annotRef_' || $measureRef/@pos || '_' || $annotRef/@annot"/>
                 </annot>
@@ -59,7 +59,7 @@
     <xsl:template match="mei:annot[contains(@type, 'editorialComment')]">
         <xsl:copy>
             <xsl:apply-templates select="@* except @type"/>
-            <xsl:attribute name="type" select="xs:string(@type) || ' ' || xs:string(@class)"/>
+            <xsl:attribute name="type" select="xs:string(@type) || ' ' || replace(@class,'#','')"/>
             <xsl:apply-templates select="node()"/>
         </xsl:copy>
     </xsl:template>
