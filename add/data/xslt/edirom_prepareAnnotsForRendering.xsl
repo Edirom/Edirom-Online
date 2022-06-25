@@ -56,6 +56,14 @@
         </xsl:copy>
     </xsl:template>
     
+    <xsl:template match="mei:annot[contains(@type, 'editorialComment')]">
+        <xsl:copy>
+            <xsl:apply-templates select="@* except @type"/>
+            <xsl:attribute name="type" select="xs:string(@type) || ' ' || xs:string(@class)"/>
+            <xsl:apply-templates select="node()"/>
+        </xsl:copy>
+    </xsl:template>
+    
     <xsl:template match="node() | @*" mode="#all">
         <xsl:copy>
             <xsl:apply-templates select="node() | @*" mode="#current"/>
