@@ -50,7 +50,7 @@
                 <annot xmlns="http://www.music-encoding.org/ns/mei">
                     <xsl:attribute name="type" select="'annotRef ' || replace($annotRef/@class,'#','')"/>
                     <xsl:attribute name="staff" select="$annotRef/@staff"/>
-                    <xsl:attribute name="xml:id" select="'annotRef_' || $measureRef/@pos || '_' || $annotRef/@annot"/>
+                    <xsl:attribute name="xml:id" select="$annotRef/@annot"/>
                 </annot>
             </xsl:for-each>
         </xsl:copy>
