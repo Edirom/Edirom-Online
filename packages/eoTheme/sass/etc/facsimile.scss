@@ -46,15 +46,15 @@
 			@include box-shadow(0 0 20px rgba(0,0,0,0.5));
 		}
 		
-		&.ediromAnnotPrio1 .annotIcon {
+		.annotIcon.ediromAnnotPrio1 {
 			@include background(linear-gradient(top,rgba(255,48,25,0.85) 0%, rgba(207,4,4,0.85) 100%));
 		}
 		
-		&.ediromAnnotPrio2 .annotIcon {
+		.annotIcon.ediromAnnotPrio2 {
 			@include background(linear-gradient(top,rgba(255,233,91,0.85) 0%, rgba(255,107,15,0.85) 100%));
 		}
 		
-		&.ediromAnnotPrio3 .annotIcon {
+		.annotIcon.ediromAnnotPrio3 {
 			@include background(linear-gradient(top,rgba(254,252,234,0.85) 0%, rgba(241,218,54,0.85) 100%));
 		}
 		
