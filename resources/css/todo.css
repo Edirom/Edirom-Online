@@ -92,9 +92,12 @@ span.musicalSymbol {
 }
 
 .ediromWindow .annotation {
-    border: 1px solid red;
-    background-color: rgba(255, 0, 0, 0.3);
     z-index: 10;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    align-content: center;
 }
 
 

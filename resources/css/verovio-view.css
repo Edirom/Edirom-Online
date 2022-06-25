@@ -45,6 +45,31 @@ body {
     font-size: 1.3em;
 }
 
+.annotIcon {
+    fill: #ff000066;
+}
+
+.annotIcon.ediromAnnotPrio1 {
+    fill: rgba(207, 4, 4, 0.7);
+}
+
+.annotIcon.ediromAnnotPrio2{
+    fill: rgba(255, 107, 15, 0.7);
+}
+
+.annotIcon.ediromAnnotPrio3 {
+    fill: rgba(241, 218, 54, 0.7);
+}
+
+.lem, .lem *, .supplied, .supplied * {
+    fill: grey;
+    stroke: grey;
+}
+
+.bounding-box, .bounding-box * {
+    fill: transparent;
+}
+
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

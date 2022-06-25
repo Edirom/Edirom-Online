@@ -124,7 +124,7 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
         for $p in $participants
         let $coord := local:getCoordinates($p)
 		return map {
-            'id': $annoId || '__' || string($p/@xml:id),
+            'id': 'annotation__' || string($p/@xml:id),
             'type': string($p/@type),
             'ulx': $coord[1],
             'uly': $coord[2],
