@@ -14,7 +14,11 @@ function showMovement(movementId) {
         'scale': 33,
 	    'pageHeight': initHeight,
 	    'pageWidth': initWidth,
-	    'adjustPageHeight': 1
+	    'adjustPageHeight': 1,
+	    'header': 'none',
+	    'svgBoundingBoxes': true,
+	    'svgHtml5': true,
+	    'svgAdditionalAttribute': 'annot@tstamp2 annot@class annot@staff'
     };
 
     /* Load the file using HTTP GET */
