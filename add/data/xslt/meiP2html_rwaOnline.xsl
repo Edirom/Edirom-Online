@@ -48,24 +48,20 @@
     <xsl:template match="mei:ref">
         <xsl:variable name="objectID" select="replace(replace(./@target/string(), '.html', ''), '#', '')"/>
         <xsl:variable name="objectType" select="local:getObjectType($objectID)"/>
-        <!--        <xsl:apply-templates/>-->
         <xsl:choose>
             <xsl:when test="$objectType = $activeObjectTypes">
                 <span>
                     <xsl:attribute name="class">ref</xsl:attribute>
                     <xsl:choose>
-                        <!--<xsl:when test="$objectType = 'rwaAnnot'">
-                            <xsl:variable name="rwaWorksCollectionPath">xmldb:exist:///db/apps/rwaEncycloData/contents/works</xsl:variable>
-                            <xsl:variable name="rwaWorksCollection" select="collection($rwaWorksCollectionPath)"/>
-                            <xsl:variable name="rwaWorkOfAnnot" select="$rwaWorksCollection/id($objectID)/root()"/>
-                            <xsl:variable name="rwaWorkDocURI" select="document-uri($rwaWorkOfAnnot)"/>
-                            <xsl:variable name="rwaAnnotURI" select="concat($rwaWorkDocURI, '#', $objectID)"/>
+                        <xsl:when test="$objectType = 'rwaAnnot'">
+                            <xsl:variable name="rwaWorkDocURI" select="doc(concat($rwaOnlineURL, 'rest/getDocURI.xql?id=', $objectID))//uri/string()"/>
+                            <xsl:variable name="rwaAnnotURI" select="concat('xmldb:exist://', $rwaWorkDocURI, '#', $objectID)"/>
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink('</xsl:text>
                                 <xsl:value-of select="$rwaAnnotURI"/>
                                 <xsl:text>', {})</xsl:text>
                             </xsl:attribute>
-                        </xsl:when>-->
+                        </xsl:when>
                         <xsl:when test="$objectType = ('rwaEssay', 'mriPersonalia', 'mriWork', 'mriPostalObject', 'mriTemplate')">
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink('</xsl:text>
