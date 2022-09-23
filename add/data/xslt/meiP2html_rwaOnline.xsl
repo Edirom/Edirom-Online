@@ -70,7 +70,7 @@
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink('</xsl:text>
                                 <xsl:value-of select="$rwaOnlineURL"/>
-                                <xsl:value-of select="@target"/>
+                                <xsl:value-of select="$objectID"/>
                                 <xsl:text>.html', {})</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
