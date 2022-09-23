@@ -256,6 +256,15 @@ p {
     font-size: 9px;
 }
 
+.annotation.RWA-Erratum .annotIcon:before {
+    line-height: 1;
+    content: "!";
+    position: relative;
+    top: 3px;
+    left: 0.5em;
+    font-size: 14px;
+}
+
 .ediromWindow .measureInner {
     background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
     border-radius: 15px;
