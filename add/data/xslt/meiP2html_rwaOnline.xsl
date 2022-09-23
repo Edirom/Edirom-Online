@@ -46,7 +46,7 @@
         </p>
     </xsl:template>
     <xsl:template match="mei:ref">
-        <xsl:variable name="objectID" select="replace(./@target/string(), '.html', '')"/>
+        <xsl:variable name="objectID" select="replace(replace(./@target/string(), '.html', ''), '#', '')"/>
         <xsl:variable name="objectType" select="local:getObjectType($objectID)"/>
         <!--        <xsl:apply-templates/>-->
         <xsl:choose>
