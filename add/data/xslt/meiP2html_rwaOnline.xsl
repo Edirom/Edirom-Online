@@ -18,6 +18,12 @@
     <xsl:variable name="activeObjectTypes" select="$config//conf:objectType/text()"/>
     <xsl:variable name="activeMRIWorks" select="'mri_work_00036', 'mri_work_00038', 'mri_work_00044', 'mri_work_00049', 'mri_work_00052', 'mri_work_00055', 'mri_work_00788', 'mri_work_00789', 'mri_work_00250', 'mri_work_00253', 'mri_work_00248', 'mri_work_00249', 'mri_work_00254', 'mri_work_00256', 'mri_work_00255', 'mri_work_00230', 'mri_work_00130', 'mri_work_00131', 'mri_work_00132', 'mri_work_00942', 'mri_work_01000', 'mri_work_00221', 'mri_work_01039', 'mri_work_01040', 'mri_work_00222', 'mri_work_00168'"/>
     
+    <xsl:variable name="footnotes">
+        <xsl:for-each select=".//mei:p/mei:annot[@type = 'note' and @place = 'foot']">
+            <div><span><xsl:value-of select="./text()"/></span></div>
+        </xsl:for-each>
+    </xsl:variable>
+    
     <xsl:function name="local:getObjectType">
         <xsl:param name="objectID"/>
         <xsl:choose>
@@ -36,7 +42,12 @@
     
     <xsl:template match="/">
         <xsl:apply-templates/>
+        <xsl:if test="$footnotes != ''">
+            <hr/>
+            <xsl:value-of select="$footnotes"/>
+        </xsl:if>
     </xsl:template>
+    
     <xsl:template match="mei:p">
         <p>
             <xsl:if test="@xml:id">
@@ -45,6 +56,11 @@
             <xsl:apply-templates select="* | text()"/>
         </p>
     </xsl:template>
+    
+    <xsl:template match="mei:annot[@type = 'note' and @place = 'foot']">
+        <span class="sup"><a href="#" class="ref"><xsl:value-of select="count($footnotes)"/></a></span>
+    </xsl:template>
+    
     <xsl:template match="mei:ref">
         <xsl:variable name="objectID" select="replace(replace(./@target/string(), '.html', ''), '#', '')"/>
         <xsl:variable name="objectType" select="local:getObjectType($objectID)"/>
