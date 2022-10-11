@@ -1,4 +1,4 @@
-<xsl:stylesheet xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:conf="https://www.maxreger.info/conf" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:local="https://www.maxreger.info/local" exclude-result-prefixes="xs xd" version="2.0">
+<xsl:stylesheet xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:conf="https://www.maxreger.info/conf" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:local="https://www.maxreger.info/local" xmlns:functx="http://www.functx.com" exclude-result-prefixes="xs xd" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -19,10 +19,36 @@
     <xsl:variable name="activeMRIWorks" select="'mri_work_00036', 'mri_work_00038', 'mri_work_00044', 'mri_work_00049', 'mri_work_00052', 'mri_work_00055', 'mri_work_00788', 'mri_work_00789', 'mri_work_00250', 'mri_work_00253', 'mri_work_00248', 'mri_work_00249', 'mri_work_00254', 'mri_work_00256', 'mri_work_00255', 'mri_work_00230', 'mri_work_00130', 'mri_work_00131', 'mri_work_00132', 'mri_work_00942', 'mri_work_01000', 'mri_work_00221', 'mri_work_01039', 'mri_work_01040', 'mri_work_00222', 'mri_work_00168'"/>
     
     <xsl:variable name="footnotes">
-        <xsl:for-each select=".//mei:p/mei:annot[@type = 'note' and @place = 'foot']">
-            <div><span><xsl:value-of select="./text()"/></span></div>
+        <xsl:copy-of select=".//mei:annot[@type = 'note' and @place = 'foot']"/>
+    </xsl:variable>
+    
+    <xsl:variable name="footnotesBlock">
+        <xsl:for-each select="$footnotes/mei:annot">
+            <xsl:variable name="counter">
+                <xsl:value-of select="position()"></xsl:value-of>
+            </xsl:variable>
+            <xsl:variable name="content">
+                <xsl:apply-templates/>
+            </xsl:variable>
+            <div style="display:flex; color: grey; font-size: smaller; margin-bottom:0.5rem;">
+                <div style="display: inline; vertical-align: super; font-size: smaller;">
+                    <xsl:value-of select="$counter"></xsl:value-of>
+                </div>
+                <div style="display: inline; margin-left: .25rem;">
+                    <xsl:copy-of select="$content"></xsl:copy-of>
+                </div>
+            </div>
         </xsl:for-each>
     </xsl:variable>
+    
+    <xsl:function name="functx:index-of-deep-equal-node" as="xs:integer*">
+        <xsl:param name="nodes" as="node()*"/>
+        <xsl:param name="nodeToFind" as="node()"/>
+        <xsl:sequence select="
+            for $seq in (1 to count($nodes))
+            return $seq[deep-equal($nodes[$seq],$nodeToFind)]
+            "/>
+    </xsl:function>
     
     <xsl:function name="local:getObjectType">
         <xsl:param name="objectID"/>
@@ -44,7 +70,7 @@
         <xsl:apply-templates/>
         <xsl:if test="$footnotes != ''">
             <hr/>
-            <xsl:value-of select="$footnotes"/>
+            <xsl:copy-of select="$footnotesBlock"/>
         </xsl:if>
     </xsl:template>
     
@@ -58,7 +84,10 @@
     </xsl:template>
     
     <xsl:template match="mei:annot[@type = 'note' and @place = 'foot']">
-        <span class="sup"><a href="#" class="ref"><xsl:value-of select="count($footnotes)"/></a></span>
+        <xsl:variable name="footnoteCount">
+            <xsl:value-of select="functx:index-of-deep-equal-node($footnotes/mei:annot, .)"></xsl:value-of>
+        </xsl:variable>
+        <span class="sup"><xsl:value-of select="$footnoteCount"/></span>
     </xsl:template>
     
     <xsl:template match="mei:ref">
