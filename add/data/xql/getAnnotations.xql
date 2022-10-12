@@ -43,8 +43,6 @@ let $optionAnnotType := annotation:validateAnnotationOptions($options, 'annotTyp
 let $optionAnnotCategory := annotation:validateAnnotationOptions($options, 'annotCategory')
 let $optionAnnotPriority := annotation:validateAnnotationOptions($options, 'annotPriority')
 
-let $log := console:log($optionAnnotCategory)
-
 return 
     concat('
         {

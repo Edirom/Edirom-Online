@@ -97,7 +97,6 @@ declare function annotation:annotationsGetOptions($uri as xs:string) {
 :)
 declare function annotation:validateAnnotationOptions($options, $option) {
     for $opt in $options
-    let $log := console:log($options)
     where array:get($opt, 1) = $option
     return
         array:get($opt, 2)
