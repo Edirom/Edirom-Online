@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -24,10 +24,12 @@ xquery version "1.0";
 : Returns a JSON representation of all Annotations of a document.
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
 :)
 
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -36,16 +38,18 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 let $uri := request:get-parameter('uri', '')
 
-(: start RWA specific modification. Apply another type of annotations :)
-let $annotType := if(contains($uri, '?')) then(substring-after($uri, 'annotType=')) else('editorialComment')
-let $uri := if(contains($uri, '?')) then(substring-before($uri, '?')) else($uri)
-(: end RWA specific modification. :)
+let $options := annotation:annotationsGetOptions($uri)
+let $optionAnnotType := annotation:validateAnnotationOptions($options, 'annotType')
+let $optionAnnotCategory := annotation:validateAnnotationOptions($options, 'annotCategory')
+let $optionAnnotPriority := annotation:validateAnnotationOptions($options, 'annotPriority')
+
+let $log := console:log($optionAnnotCategory)
 
 return 
     concat('
         {
             "success": true,
-            "total": ', count(doc($uri)//mei:annot[@type = $annotType]), ',
+            "total": ', count(annotation:filterAnnotations($uri, $optionAnnotType, $optionAnnotCategory, $optionAnnotPriority)), ',
             "annotations": [', annotation:annotationsToJSON($uri), ']
         }
     ')
