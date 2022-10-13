@@ -15,6 +15,9 @@
     <xsl:variable name="configResource" select="doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')"/>
     <xsl:variable name="config" select="$configResource//conf:elements[@type = 'rwaOnline']"/>
     <xsl:variable name="rwaOnlineURL" select="$configResource//conf:rwaOnlineURL/string()"/>
+    <xsl:variable name="docuservURL" select="$configResource//conf:docuservURL/string()"/>
+    <xsl:variable name="imagePath" select="concat($docuservURL, 'edition-rwa/images/')"/>
+    <xsl:variable name="docuservOptions" select="string('?mo=file')"/>
     <xsl:variable name="activeObjectTypes" select="$config//conf:objectType/text()"/>
     <xsl:variable name="activeMRIWorks" select="'mri_work_00036', 'mri_work_00038', 'mri_work_00044', 'mri_work_00049', 'mri_work_00052', 'mri_work_00055', 'mri_work_00788', 'mri_work_00789', 'mri_work_00250', 'mri_work_00253', 'mri_work_00248', 'mri_work_00249', 'mri_work_00254', 'mri_work_00256', 'mri_work_00255', 'mri_work_00230', 'mri_work_00130', 'mri_work_00131', 'mri_work_00132', 'mri_work_00942', 'mri_work_01000', 'mri_work_00221', 'mri_work_01039', 'mri_work_01040', 'mri_work_00222', 'mri_work_00168'"/>
     
@@ -201,19 +204,26 @@
     </xsl:template>
     <xsl:template match="mei:fig[./mei:graphic]">
         <!-- TODO: abfangen, wenn sowohl fig als auch graphic eine ID haben… -->
-        <img class="fig">
-            <xsl:if test="@xml:id">
-                <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
+        <figure class="figure">
+            <img class="graphic">
+                <xsl:if test="@xml:id">
+                    <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
+                </xsl:if>
+                <xsl:if test="not(@xml:id) and ./mei:graphic/@xml:id">
+                    <xsl:attribute name="xml:id" select="concat($idPrefix,./mei:graphic/@xml:id)"/>
+                </xsl:if>
+                <xsl:if test="./mei:caption">
+                    <xsl:attribute name="title" select="./mei:caption//text()"/>
+                    <xsl:attribute name="alt" select="./mei:caption//text()"/>
+                </xsl:if>
+                <xsl:attribute name="src" select="concat($imagePath, ./mei:graphic/@target/string(), $docuservOptions)"/>
+            </img>
+            <xsl:if test="./mei:figDesc">
+                <figcaption>
+                    <xsl:apply-templates/>
+                </figcaption>
             </xsl:if>
-            <xsl:if test="not(@xml:id) and ./mei:graphic/@xml:id">
-                <xsl:attribute name="xml:id" select="concat($idPrefix,./mei:graphic/@xml:id)"/>
-            </xsl:if>
-            <xsl:if test="./mei:caption">
-                <xsl:attribute name="title" select="./mei:caption//text()"/>
-                <xsl:attribute name="alt" select="./mei:caption//text()"/>
-            </xsl:if>
-            <xsl:attribute name="src" select="concat($imagePrefix,'?fn=',./mei:graphic/@target,'&amp;dw=150&amp;mo=fit')"/>
-        </img>
+        </figure>
     </xsl:template>
     <xsl:template match="text()">
         <xsl:copy/>
