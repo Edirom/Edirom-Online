@@ -602,3 +602,9 @@ figcaption {
     padding-left: 5px;
     padding-right: 5px;
 }
+
+#navigator .navigatorItem {
+    padding: 3px 0 2px 10px;
+    line-height: 1.2;
+}
+
