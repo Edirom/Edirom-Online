@@ -71,12 +71,15 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                     return
                                         concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
                                 )
-            return
-                concat('{',
-                    'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',
+            let $measureNRWA := functx:substring-before-if-contains(functx:substring-after-if-contains($measureN, '('), ')')
+            let $measureNOccurrence := index-of(filter($measureNs, function($v) {functx:substring-before-if-contains(functx:substring-after-if-contains($v, '('), ')') = $measureNRWA}), $measureN)
+            let $resultId := if ($measureNOccurrence > 1 and $measureNOccurrence[1] > 1) then concat('measure_', $mdiv/@xml:id, '_', $measureNRWA, '_', $measureNOccurrence[1])
+            else concat('measure_', $mdiv/@xml:id, '_', $measureNRWA)
+            return concat('{',
+                    'id: "', $resultId, '", ',
                     'measures: [', string-join($measures, ','), '], ',
                     'mdivs: ["', $mdiv/@xml:id, '"], ', (: TODO :)
-                    'name: "', $measureN, '"',
+                    'name: "', $measureNRWA, '"',
                 '}')
     )
     
@@ -88,7 +91,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                 'id: "', $measure/@xml:id, '", ',
                 'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
                 'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
-                'name: "', $measureLabel, '"', (: Hier Unterscheiden wg. Auftakt. :)
+                'name: "', functx:substring-before-if-contains(functx:substring-after-if-contains($measureLabel, '('), ')'), '"', (: Hier Unterscheiden wg. Auftakt. :)
             '}')
     )
 };
