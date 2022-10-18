@@ -34,9 +34,10 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
     if($mei//mei:parts)
     then(
         let $mdiv := $mei/id($mdivID)
-        let $measureNs := if ($mdiv//mei:measure/@label)
+        let $measuresNotDel := $mdiv//mei:measure[not(parent::mei:del)]
+        let $measureNs := if ($measuresNotDel/@label)
                             then (
-                                let $labels := $mdiv//mei:measure/@label/string()
+                                let $labels := $measuresNotDel/@label/string()
                                 for $label in $labels
                                 let $labelsAnalyzed := if (contains($label, '–'))
                                                         then ((:substring-before($label, '–'):)
@@ -51,22 +52,22 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                 return
                                     $labelsAnalyzed
                             )
-                            else ($mdiv//mei:measure/@n)
+                            else ($measuresNotDel/@n)
         let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
         return
             for $measureN in $measureNsDistinct
             let $measureNNumber := number($measureN)
-            let $measures := if ($mdiv//mei:measure/@label)
-                                then ($mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
-                                else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
-            let $measures := if ($mdiv//mei:measure/@label)
+            let $measures := if ($measuresNotDel/@label)
+                                then ($measuresNotDel[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
+                                else ($measuresNotDel[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
+            let $measures := if ($measuresNotDel/@label)
                                 then (
-                                    for $measure in $mdiv//mei:measure[@label = $measureN] | $measures 
+                                    for $measure in $measuresNotDel[@label = $measureN] | $measures 
                                     return
                                         concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
                                 )
                                 else (
-                                    for $measure in $mdiv//mei:measure[@n = $measureN] | $measures 
+                                    for $measure in $measuresNotDel[@n = $measureN] | $measures 
                                     return
                                         concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
                                 )
