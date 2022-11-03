@@ -51,9 +51,12 @@ declare function local:getCategory($category, $depth) {
             {
                 for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
                 return
+                    (: RWA-specific: do not show (source) enties/@type = "private" when on public server :)
                     if(local-name($elem) eq 'navigatorItem')
                     then(
-                        local:getItem($elem, $depth)
+                        if ($elem/@type = 'private' and contains(request:get-server-name(), 'reger-werkausgabe.de'))
+                        then ()
+                        else (local:getItem($elem, $depth))
                     )
                     else if(local-name($elem) eq 'navigatorSeparator')
                     then(

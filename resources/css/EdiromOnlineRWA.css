@@ -54,6 +54,16 @@ p {
     line-height: 1.5;
 }
 
+/* Fix for Chrome: splitter in Annotation View */
+.annotationView .x-splitter-horizontal {
+    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
+}
+
+.annotationView .x-splitter-vertical {
+    background-image: -webkit-radial-gradient(50% 50%,ellipse cover,#999,white 50%);
+}
+
+
 .annotView .contentBox {
     padding-left: 20px;
     padding-right: 20px;
@@ -235,6 +245,17 @@ p {
     font-size: 9px;
 }
 
+.annotation.Choraltext .annotIcon:before {
+    line-height: 1;
+    /*font-family: bravura;
+    content: "\E595";*/
+    content: "text";
+    position: relative;
+    top: 4px;
+    left: 0.15em;
+    font-size: 9px;
+}
+
 .ediromWindow .measureInner {
     background-image: radial-gradient(at center center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px);
     border-radius: 15px;
@@ -246,7 +267,7 @@ p {
 }
 
 .annotationList .x-grid-row-selected .x-grid-cell, .annotationList .x-grid-row-selected .x-grid-rowwrap-div {
-    background: -moz-linear-gradient(top, rgb(215, 185, 180), rgb(146, 64, 92));
+    background: -webkit-linear-gradient(top, rgb(215, 185, 180), rgb(146, 64, 92));
     color: rgb(248, 238, 218);
 }
 
@@ -264,13 +285,13 @@ span.dblu {
 .x-toolbar-default {
     background-color: DimGray;
     /*background-image: -moz-linear-gradient(center top , #f2f2f2, #e0e0e0 30%, #ccc 65%, #bdbdbd);*/
-    background-image: -moz-linear-gradient(center top, #5b5b5b 0%, #424242 39.62%, #222222 65%, #383838 100%);
+    background-image: -webkit-linear-gradient(center top, #5b5b5b 0%, #424242 39.62%, #222222 65%, #383838 100%);
     border-color: silver;
     border-width: 1px;
 }
 
 div#ediromToolbar {
-    background-image: -moz-linear-gradient(center top , #f2f2f2, #e0e0e0 30%, #ccc 65%, #bdbdbd);
+    background-image: -webkit-linear-gradient(center top , #f2f2f2, #e0e0e0 30%, #ccc 65%, #bdbdbd);
     background-color:rgb(248, 238, 218) !important;
 }
 
@@ -462,7 +483,7 @@ span#workSwitch-btnInnerEl:before {
 }
 
 span.searchResult {
-    background: -moz-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
+    background: -webkit-linear-gradient(center top , #FFE06B, #F39552) repeat scroll 0 0 transparent;
 }
 
 div.annotation.combinedHighlight div.annotIcon {
@@ -470,7 +491,7 @@ div.annotation.combinedHighlight div.annotIcon {
 }
 
 .searchWindow .x-toolbar {
-    background: -moz-linear-gradient(top, #e5e5e5, #cccccc);
+    background: -webkit-linear-gradient(top, #e5e5e5, #cccccc);
     border-bottom: 1px solid #999999;
 }
 
@@ -494,7 +515,7 @@ div.annotation.combinedHighlight div.annotIcon {
 .searchWindow .searchResultDoc > .doc {
     padding: 1px 8px;
     border-radius: 3px;
-    background: -moz-linear-gradient(top, #f5f5f5, #e5e5e5);
+    background: -webkit-linear-gradient(top, #f5f5f5, #e5e5e5);
     box-shadow: 0 1px 2px #666666;
     margin-top: 20px;
 }
@@ -520,7 +541,7 @@ div.annotation.combinedHighlight div.annotIcon {
     display: inline-block;
     padding: 0 3px;
     border-radius: 3px;
-    background: -moz-linear-gradient(top, #e5e5e5,#cccccc);
+    background: -webkit-linear-gradient(top, #e5e5e5,#cccccc);
 }
 
 .searchWindow .searchResult {

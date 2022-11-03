@@ -155,7 +155,7 @@ let $return :=
                }</div>
             ,
             if($hitCount gt 3)
-            then(<div class="showMore" onclick="Ext.Element(this).parent().select('div').show(); Ext.Element(this).hide();">{if ($lang = 'de') then ('Alle Treffer zeigen') else ('show all hits')}</div>)
+            then(<div class="showMore" onclick="$(this).parent().find('div').show(); $(this).hide();">{if ($lang = 'de') then ('Alle Treffer zeigen') else ('show all hits')}</div>)
             else()
         )}</div>
         )
