@@ -127,6 +127,8 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
             
+            where not($elems[1]/root()//mei:availability[@type = 'rwaOnline'] = 'hidden')
+            
             return
                 local:toJSON($type, $label, $mdiv, $part, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
 };
@@ -352,7 +354,6 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         
         let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
         let $sourcesRestricted := doc($configResource//conf:sourcesRestricted/text())//mei:source/@corresp/string()
-        let $sourcesHidden := doc($configResource//conf:sourcesHidden/text())//mei:source/@corresp/string()
         let $docuservLockedSourcePath := $configResource//conf:docuservLockedSourcePath/text()
         let $docuservURL := $configResource//conf:docuservURL/string()
         let $env := $configResource//conf:env/text()
@@ -365,6 +366,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         let $single-serv-registerURL := $configResource//conf:single-serv-registerURL/string()
         let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
         let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
+        let $log := console:log($digilibSizeParams)
         let $singleURL := 
             if (matches($digilibBaseParams, 'music/editions'))
                             then 

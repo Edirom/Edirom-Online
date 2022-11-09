@@ -161,6 +161,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     let $sigla := string-join(
                     for $p in distinct-values($pList)
                     let $pDoc := doc($p)
+                    where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
                     return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
                             then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
                             else ()

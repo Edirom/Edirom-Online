@@ -319,6 +319,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
     for $zone in $zones
     let $e := $elems[substring(@facs,2) = $zone/@xml:id][1]
     let $e := if($e)then($e)else($zone)
+    where not($zone/root()//mei:availability[@type = 'rwaOnline'] = 'hidden')
     return
         <div class="previewItem" style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
             <div class="imgBox">
