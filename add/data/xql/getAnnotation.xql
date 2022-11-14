@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -31,10 +31,16 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+
+import module namespace console="http://exist-db.org/xquery/console";
+
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+
+declare namespace conf="https://www.maxreger.info/conf";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
@@ -131,7 +137,7 @@ declare function local:getCategories($annot as node()) {
     @return A URL pointing to an image based as xs:string
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $zone as element()?, $width as xs:integer) as xs:string {
-    let $graphic := $zone/../mei:graphic[@type = 'facsimile']
+    let $graphic := $zone/preceding-sibling::mei:graphic[@type = 'facsimile']
     
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
@@ -139,6 +145,8 @@ declare function local:getImageAreaPath($basePath as xs:string, $zone as element
     let $h := number($zone/@lry) - number($zone/@uly)
     
     let $imagePath := $graphic/@target
+    let $digilibBaseParams := concat($basePath, $imagePath, '?')
+    
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
     
@@ -147,20 +155,54 @@ declare function local:getImageAreaPath($basePath as xs:string, $zone as element
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
     
+    let $digilibSizeParams := concat('&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
+    
+    let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+    let $sourcesRestricted := doc($configResource//conf:sourcesRestricted/text())//mei:source/@corresp/string()
+    let $docuservLockedSourcePath := $configResource//conf:docuservLockedSourcePath/text()
+    let $docuservURL := $configResource//conf:docuservURL/string()
+    let $env := $configResource//conf:env/text()
+    let $digilibURL :=
+            if ($env = ('dev', 'stage'))
+            then (concat($digilibBaseParams, 'dw=', $width, '&amp;amp;dh=', $width, $digilibSizeParams))
+            else if (exists($sourcesRestricted) and not(functx:contains-any-of($digilibBaseParams, ($sourcesRestricted))))
+            then (concat($digilibBaseParams, 'dw=', $width, '&amp;amp;dh=', $width, $digilibSizeParams))
+            else (concat($docuservURL, $docuservLockedSourcePath, '?', 'dw=', $width, '&amp;amp;dh=', $width, '&amp;mo=fit'))
+    let $single-serv-registerURL := $configResource//conf:single-serv-registerURL/string()
+    let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
+    let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
+    let $singleURL := 
+        if (matches($digilibBaseParams, 'music/editions'))
+                        then 
+                            try {
+                                (
+                                    let $random := util:uuid()
+                                    let $internalDigiLibURL := replace($digilibURL, $docuservURL, $docuservURLinternal)
+                                    let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($internalDigiLibURL))
+                                    let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
+                                    return
+                                        concat($singel-serv-resolveURL, '?token=', $random)
+                                )
+                            } catch *{
+                                ''
+                            }
+                        else (replace($digilibURL, 'http:', 'http:'))
     return
-        concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $width, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
+        $singleURL
 };
 
 (: for tips :)
 declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as element()?, $width as xs:integer, $height as xs:integer) as xs:string {
-    let $graphic := $zone/../mei:graphic[@type = 'facsimile']
+    let $graphic := $zone/preceding-sibling::mei:graphic[@type = 'facsimile']
     
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
     
-    let $imagePath := $graphic/@target
+    let $imagePath := $graphic/@target/string()
+    let $digilibBaseParams := concat($basePath, $imagePath, '?')
+    
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
     
@@ -169,8 +211,40 @@ declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as 
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
     
+    let $digilibSizeParams := concat('&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
+    
+    let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+    let $sourcesRestricted := doc($configResource//conf:sourcesRestricted/text())//mei:source/@corresp/string()
+    let $docuservLockedSourcePath := $configResource//conf:docuservLockedSourcePath/text()
+    let $docuservURL := $configResource//conf:docuservURL/string()
+    let $env := $configResource//conf:env/text()
+    let $digilibURL :=
+            if ($env = ('dev', 'stage'))
+            then (concat($digilibBaseParams, 'dw=', $width, '&amp;amp;dh=', $height, $digilibSizeParams))
+            else if (exists($sourcesRestricted) and not(functx:contains-any-of($digilibBaseParams, ($sourcesRestricted))))
+            then (concat($digilibBaseParams, 'dw=', $width, '&amp;amp;dh=', $height, $digilibSizeParams))
+            else (concat($docuservURL, $docuservLockedSourcePath, '?', 'dw=', $width, '&amp;amp;dh=', $height, '&amp;mo=fit'))
+    let $single-serv-registerURL := $configResource//conf:single-serv-registerURL/string()
+    let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
+    let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
+    let $singleURL := 
+        if (matches($digilibBaseParams, 'music/editions'))
+                        then 
+                            try {
+                                (
+                                    let $random := util:uuid()
+                                    let $internalDigiLibURL := replace($digilibURL, $docuservURL, $docuservURLinternal)
+                                    let $registerURL := concat($single-serv-registerURL, '?token=', $random, '&amp;url=', encode-for-uri($internalDigiLibURL))
+                                    let $dummy := hc:send-request(<hc:request href="{$registerURL}" method="get"/>)
+                                    return
+                                        concat($singel-serv-resolveURL, '?token=', $random)
+                                )
+                            } catch *{
+                                ''
+                            }
+                        else (replace($digilibURL, 'http:', 'http:'))
     return
-        concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $height, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
+        $singleURL
 };
 
 (:
@@ -245,6 +319,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
     for $zone in $zones
     let $e := $elems[substring(@facs,2) = $zone/@xml:id][1]
     let $e := if($e)then($e)else($zone)
+    where not($zone/root()//mei:availability[@type = 'rwaOnline'] = 'hidden')
     return
         <div class="previewItem" style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
             <div class="imgBox">

@@ -26,7 +26,10 @@ xquery version "1.0";
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
+
 module namespace source = "http://www.edirom.de/xquery/source";
+
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
@@ -83,9 +86,12 @@ declare function source:getSigla($sources as xs:string*) as xs:string {
 : @return The sigla
 :)
 declare function source:getSiglaAsArray($sources as xs:string*) as xs:string* {
-    for $source in $sources return source:getSiglum($source)
+    for $source in $sources
+    where not(doc($source)//mei:availability[@type = 'rwaOnline'] = 'hidden')
+    return
+        source:getSiglum($source)
 };
-
+(::)
 (:~
 : Returns a source's siglum
 :

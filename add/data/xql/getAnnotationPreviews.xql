@@ -33,6 +33,8 @@ import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
+import module namespace console="http://exist-db.org/xquery/console";
+
 declare namespace exist="http://exist.sourceforge.net/NS/exist";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -124,6 +126,8 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
             let $hiddenData := concat('{width:', number($rect/@lrx) - number($rect/@ulx), ', height:', number($rect/@lry) - number($rect/@uly), ', x:', number($rect/@ulx), ', y:', number($rect/@uly), '}')
             let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
+            
+            where not($elems[1]/root()//mei:availability[@type = 'rwaOnline'] = 'hidden')
             
             return
                 local:toJSON($type, $label, $mdiv, $part, $page, $source, $siglum, $digilibBaseParams, $digilibSizeParams, $hiddenData, (), $linkUri)
@@ -348,12 +352,23 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
     $page as xs:string?, $source as xs:string, $siglum as xs:string?, $digilibBaseParams as xs:string?, 
     $digilibSizeParams as xs:string?, $hiddenData as xs:string?, $content as xs:string?, $linkUri as xs:string?) as xs:string {
         
-        let $digilibURL := concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams)
-        let $single-serv-registerURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-registerURL/string()
-        let $singel-serv-resolveURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:single-serv-resolveURL/string()
-        let $docuservURL := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURL/string()
-        let $docuservURLinternal := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')//conf:docuservURLinternal/string()
-        let $singleURL := if (matches($digilibBaseParams, 'music/editions'))
+        let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+        let $sourcesRestricted := doc($configResource//conf:sourcesRestricted/text())//mei:source/@corresp/string()
+        let $docuservLockedSourcePath := $configResource//conf:docuservLockedSourcePath/text()
+        let $docuservURL := $configResource//conf:docuservURL/string()
+        let $env := $configResource//conf:env/text()
+        let $digilibURL :=
+            if ($env = ('dev', 'stage'))
+            then (concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams))
+            else if (exists($sourcesRestricted) and not(functx:contains-any-of($digilibBaseParams, ($sourcesRestricted))))
+            then (concat($digilibBaseParams, 'dw=600&amp;amp;dh=600', $digilibSizeParams))
+            else (concat($docuservURL, $docuservLockedSourcePath, '?dw=600&amp;dh=600&amp;mo=fit'))
+        let $single-serv-registerURL := $configResource//conf:single-serv-registerURL/string()
+        let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
+        let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
+        let $log := console:log($digilibSizeParams)
+        let $singleURL := 
+            if (matches($digilibBaseParams, 'music/editions'))
                             then 
                                 try {
                                     (

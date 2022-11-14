@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -25,11 +25,14 @@ xquery version "1.0";
 : This module provides library functions for Annotations
 :
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+: @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
 :)
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -57,21 +60,80 @@ declare function local:getLocalizedName($node) {
 };
 
 (:~
+: Returns an array containing filter options
+:
+: @param $uri The document to process
+: @return The array
+:
+: @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
+:)
+declare function annotation:annotationsGetOptions($uri as xs:string) {
+    let $options :=
+        if (contains($uri, '?'))
+        then (tokenize(substring-after($uri, '?'), '&amp;'))
+        else ()
+    let $options :=
+        if ($options)
+        then (
+            for $option in $options
+            let $optionName := substring-before($option, '=')
+            let $optionValue := substring-after($option, '=')
+            return
+                [$optionName, $optionValue]
+        )
+        else ()
+    return
+        $options
+};
+
+(:~
+: Returns an string naming the filter option value
+:
+: @param $options The options array
+: @param $option The string naming the option to filter (type, category, priority of annot)
+: @return The string
+:
+: @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
+:)
+declare function annotation:validateAnnotationOptions($options, $option) {
+    for $opt in $options
+    where array:get($opt, 1) = $option
+    return
+        array:get($opt, 2)
+};
+
+(:~
+: Returns collection of filterd annotations
+:
+: @param $uri The document to process
+: @param $optionAnnotType The annot type
+: @param $optionAnnotCategory The annot category
+: @param $optionAnnotPriority The annot priority
+: @return The string
+:
+: @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
+:)
+declare function annotation:filterAnnotations($uri, $optionAnnotType, $optionAnnotCategory, $optionAnnotPriority) {
+    doc($uri)//mei:annot[
+                if ($optionAnnotType) then (@type = $optionAnnotType) else (@type = 'editorialComment')][
+                if ($optionAnnotCategory) then (contains(./mei:ptr[@type = 'categories']/@target, $optionAnnotCategory)) else (.)][
+                if ($optionAnnotPriority) then (contains(./mei:ptr[@type = 'priority']/@target, $optionAnnotPriority)) else (.)]
+};
+
+(:~
 : Returns a JSON representation of all Annotations of a document
 :
 : @param $uri The document to process
 : @return The JSON representation
 :)
 declare function annotation:annotationsToJSON($uri as xs:string) as xs:string {
-    let $doc := doc($uri)
     
-    (: start RWA specific modification. Apply another type of annotations :)
-    let $annotType := if(contains(request:get-parameter('uri', ''), '?'))
-                      then(substring-after(request:get-parameter('uri', ''), 'annotType='))
-                      else('editorialComment')
-    (: end RWA specific modification. :)
+    let $options := annotation:annotationsGetOptions($uri)
+    let $optionAnnotType := annotation:validateAnnotationOptions($options, 'annotType')
+    let $optionAnnotCategory := annotation:validateAnnotationOptions($options, 'annotCategory')
+    let $optionAnnotPriority := annotation:validateAnnotationOptions($options, 'annotPriority')
     
-    let $annos := $doc//mei:annot[@type = $annotType]
+    let $annos := annotation:filterAnnotations($uri, $optionAnnotType, $optionAnnotCategory, $optionAnnotPriority)
     return
         string-join(
             for $anno in $annos
@@ -99,6 +161,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     let $sigla := string-join(
                     for $p in distinct-values($pList)
                     let $pDoc := doc($p)
+                    where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
                     return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
                             then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
                             else ()
