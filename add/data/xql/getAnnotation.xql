@@ -172,7 +172,7 @@ declare function local:getImageAreaPath($basePath as xs:string, $zone as element
     let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
     let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
     let $singleURL := 
-        if (matches($digilibBaseParams, 'music/editions'))
+        if (matches($digilibBaseParams, 'music/editions/'))
                         then 
                             try {
                                 (
@@ -228,7 +228,7 @@ declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as 
     let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
     let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
     let $singleURL := 
-        if (matches($digilibBaseParams, 'music/editions'))
+        if (matches($digilibBaseParams, 'music/editions/'))
                         then 
                             try {
                                 (
