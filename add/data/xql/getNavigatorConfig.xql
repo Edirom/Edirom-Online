@@ -51,28 +51,28 @@ declare function local:getCategory($category, $depth) {
                 )
             }            
         </div>
-            <div id="{$category/@xml:id}-items" class="{if($depth = 1)then()else('hidden')}">
-            {
-                for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
-                return
-                    (: RWA-specific: do not show (source) enties/@type = "private" when on public server :)
-                    if(local-name($elem) eq 'navigatorItem')
-                    then(
-                        if ($elem/@type = 'private' and contains(request:get-server-name(), 'reger-werkausgabe.de'))
-                        then ()
-                        else (local:getItem($elem, $depth))
-                    )
-                    else if(local-name($elem) eq 'navigatorSeparator')
-                    then(
-                        local:getSeparator()
-                    )
-                    else if(local-name($elem) eq 'navigatorCategory')
-                    then(
-                        local:getCategory($elem, $depth + 1)
-                    )
-                    else()
-            }
-            </div>
+        <div id="{$category/@xml:id}-items" class="{if($depth = 1)then()else('hidden')}">
+        {
+            for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
+            return
+                (: RWA-specific: do not show (source) entries/@type = "private" or "editions" when on public server :)
+                if(local-name($elem) eq 'navigatorItem')
+                then(
+                    if ($env = ('beta', 'public') and ($elem/@type = 'private' or contains($elem/@targets/string(), '/music/editions/')))
+                    then ()
+                    else (local:getItem($elem, $depth))
+                )
+                else if(local-name($elem) eq 'navigatorSeparator')
+                then(
+                    local:getSeparator()
+                )
+                else if(local-name($elem) eq 'navigatorCategory')
+                then(
+                    local:getCategory($elem, $depth + 1)
+                )
+                else()
+        }
+        </div>
     </div>
 };
 
