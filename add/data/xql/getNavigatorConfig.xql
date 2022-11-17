@@ -21,6 +21,7 @@ xquery version "1.0";
 :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
@@ -33,6 +34,9 @@ declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
 declare variable $lang := request:get-parameter('lang', '');
+
+declare variable $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml');
+declare variable $env := $configResource//conf:env/text();
 
 declare function local:getCategory($category, $depth) {
 
@@ -47,28 +51,28 @@ declare function local:getCategory($category, $depth) {
                 )
             }            
         </div>
-            <div id="{$category/@xml:id}-items" class="{if($depth = 1)then()else('hidden')}">
-            {
-                for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
-                return
-                    (: RWA-specific: do not show (source) enties/@type = "private" when on public server :)
-                    if(local-name($elem) eq 'navigatorItem')
-                    then(
-                        if ($elem/@type = 'private' and contains(request:get-server-name(), 'reger-werkausgabe.de'))
-                        then ()
-                        else (local:getItem($elem, $depth))
-                    )
-                    else if(local-name($elem) eq 'navigatorSeparator')
-                    then(
-                        local:getSeparator()
-                    )
-                    else if(local-name($elem) eq 'navigatorCategory')
-                    then(
-                        local:getCategory($elem, $depth + 1)
-                    )
-                    else()
-            }
-            </div>
+        <div id="{$category/@xml:id}-items" class="{if($depth = 1)then()else('hidden')}">
+        {
+            for $elem in $category/edirom:navigatorItem | $category/edirom:navigatorCategory
+            return
+                (: RWA-specific: do not show (source) entries/@type = "private" or "editions" when on public server :)
+                if(local-name($elem) eq 'navigatorItem')
+                then(
+                    if ($env = ('beta', 'public') and ($elem/@type = 'private' or contains($elem/@targets/string(), '/music/editions/')))
+                    then ()
+                    else (local:getItem($elem, $depth))
+                )
+                else if(local-name($elem) eq 'navigatorSeparator')
+                then(
+                    local:getSeparator()
+                )
+                else if(local-name($elem) eq 'navigatorCategory')
+                then(
+                    local:getCategory($elem, $depth + 1)
+                )
+                else()
+        }
+        </div>
     </div>
 };
 
@@ -103,15 +107,9 @@ declare function local:getSeparator() {
 };
 
 declare function local:getDefinition($navConfig) {
-(:  Small temp. fix to hide RWA Object links in Navigator on public machines…  :)
-    let $elems := if (contains(request:get-server-name(), 'reger-werkausgabe.de'))
-                    then ($navConfig/*[not(./edirom:names/edirom:name[@xml:lang = 'de'] = 'Edition')])
-                    else ($navConfig/*)
-    
+    let $elems := $navConfig/*
     for $elem in $elems
-    
     return
-        
         if(local-name($elem) eq 'navigatorItem')
         then(
             local:getItem($elem, 1)
@@ -122,7 +120,12 @@ declare function local:getDefinition($navConfig) {
         )
         else if(local-name($elem) eq 'navigatorCategory')
         then(
-            local:getCategory($elem, 1)
+            (: check if there are any items in category to show, dependig on (RWA) rules defined in local:getDefinition :)
+            let $category := local:getCategory($elem, 1)
+            return
+                if ($category//div[@class="navigatorItem"])
+                then ($category)
+                else ()
         )
         else()
 };
