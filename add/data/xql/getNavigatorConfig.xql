@@ -21,6 +21,7 @@ xquery version "1.0";
 :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace edirom="http://www.edirom.de/ns/1.3";
