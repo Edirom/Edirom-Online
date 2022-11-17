@@ -109,9 +109,7 @@ declare function local:getSeparator() {
 declare function local:getDefinition($navConfig) {
     let $elems := $navConfig/*
     for $elem in $elems
-    
     return
-        
         if(local-name($elem) eq 'navigatorItem')
         then(
             local:getItem($elem, 1)
@@ -122,7 +120,12 @@ declare function local:getDefinition($navConfig) {
         )
         else if(local-name($elem) eq 'navigatorCategory')
         then(
-            local:getCategory($elem, 1)
+            (: check if there are any items in category to show, dependig on (RWA) rules defined in local:getDefinition :)
+            let $category := local:getCategory($elem, 1)
+            return
+                if ($category//div[@class="navigatorItem"])
+                then ($category)
+                else ()
         )
         else()
 };
