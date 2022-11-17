@@ -35,6 +35,9 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 
 declare variable $lang := request:get-parameter('lang', '');
 
+declare variable $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml');
+declare variable $env := $configResource//conf:env/text();
+
 declare function local:getCategory($category, $depth) {
 
 
