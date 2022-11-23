@@ -17,110 +17,108 @@
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
 Ext.define('EdiromOnline.view.window.source.VerovioView', {
-	extend: 'EdiromOnline.view.window.View',
-	
-	requires:[
-	'EdiromOnline.view.window.image.VerovioImage'],
-	
-	alias: 'widget.verovioView',
-	
-	layout: 'border',
-	
-	border: 0,
-	bottomBar: null,
-	
-	verovioImageView: null,
-	
-	cls: 'verovioView',
-	
-	initComponent: function () {
-		
-		var me = this;
-		
-		me.addEvents(
- 'gotoMeasure',
-            'gotoMeasureByName'
-		);
-		
-		me.verovioImageView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
-		me.viewerContainer = Ext.create('Ext.panel.Panel', {
-			region: 'center',
-			border: 0,
-			layout: 'card',
-			items: [me.verovioImageView]
-		});
-		
-		me.items = [
-		me.viewerContainer		];
-		
-		me.callParent();
-		
-		me.on('afterrender', me.createMenuEntries, me, {single: true});
-	},
-	
-	setIFrameURL: function (url) {
-		var me = this;
-		me.verovioImageView.setIFrameURL(url);
-	},
-	
-	createMenuEntries: function() {
-
-		var me = this;
-
-		me.gotoMenu = Ext.create('Ext.button.Button', {
-			text: getLangString('view.window.source.SourceView_gotoMenu'),
-		indent:	false,
-	cls: 'menuButton',
-		menu		:	{
-	items: [
- {
-		id:		me.id	+ '_gotoMeasure',
-	text: getLangString('view.window.source.SourceView_gotoMeasure'),
-		handler: Ext.bind(me.gotoMeasureDialog, me)
-	}
-	]
-	}
- });
-		me.window.getTopbar().addViewSpecificItem(me.gotoMenu,		me.id);
-	},
-
-	setMovements: function(movements) {
-		var me = this;
-
-		me.movements		= movements;
-
-		var movementItems = [];
-        movements.each(function(movement) {
-					movementItems.push({
-						text: movement.get('name'),
-					handler: Ext.bind(me.showMovement, me,					movement.get('id'), true)
-						});
-					});
-
-		me.gotoMenu.menu.add({
-			id: me.id		+		'_gotoMovement',
-	text: getLangString('view.window.source.SourceView_gotoMovement'),
-	menu: {
-	items: movementItems
-	}
-	});
-		},
-
-	showMovement: function(menuItem, event,	movementId) {
-		var me = this;
-		me.verovioImageView.showMovement(movementId);
-			},
-
-	gotoMeasureDialog: function() {
-		var me = this;
-
-		Ext.create('EdiromOnline.view.window.source.GotoMsg', {
-			movements: me.movements,
-			callback: Ext.bind(function(measure, movementId) {
-            		this.fireEvent('gotoMeasureByName', this, measure, movementId);
-            		},        		
-			me)
-		}).show();
-			},
-
+    extend: 'EdiromOnline.view.window.View',
+    
+    requires:[
+    'EdiromOnline.view.window.image.VerovioImage'],
+    
+    alias: 'widget.verovioView',
+    
+    layout: 'border',
+    
+    border: 0,
+    bottomBar: null,
+    
+    verovioImageView: null,
+    
+    cls: 'verovioView',
+    
+    initComponent: function () {
+        
+        var me = this;
+        
+        me.addEvents(
+        'gotoMeasure',
+        'gotoMeasureByName');
+        
+        me.verovioImageView = Ext.create('EdiromOnline.view.window.image.VerovioImage');
+        me.viewerContainer = Ext.create('Ext.panel.Panel', {
+            region: 'center',
+            border: 0,
+            layout: 'card',
+            items:[me.verovioImageView]
+        });
+        
+        me.items =[
+        me.viewerContainer];
+        
+        me.callParent();
+        
+        me.on('afterrender', me.createMenuEntries, me, {
+            single: true
+        });
+    },
+    
+    setIFrameURL: function (url) {
+        var me = this;
+        me.verovioImageView.setIFrameURL(url);
+    },
+    
+    createMenuEntries: function () {
+        
+        var me = this;
+        
+        me.gotoMenu = Ext.create('Ext.button.Button', {
+            text: getLangString('view.window.source.SourceView_gotoMenu'),
+            indent: false,
+            cls: 'menuButton',
+            menu: {
+                items:[ {
+                    id: me.id + '_gotoMeasure',
+                    text: getLangString('view.window.source.SourceView_gotoMeasure'),
+                    handler: Ext.bind(me.gotoMeasureDialog, me)
+                }]
+            }
+        });
+        me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
+    },
+    
+    setMovements: function (movements) {
+        var me = this;
+        
+        me.movements = movements;
+        
+        var movementItems =[];
+        movements.each(function (movement) {
+            movementItems.push({
+                text: movement. get ('name'),
+                handler: Ext.bind(me.showMovement, me, movement. get ('id'), true)
+            });
+        });
+        
+        me.gotoMenu.menu.add({
+            id: me.id + '_gotoMovement',
+            text: getLangString('view.window.source.SourceView_gotoMovement'),
+            menu: {
+                items: movementItems
+            }
+        });
+    },
+    
+    showMovement: function (menuItem, event, movementId) {
+        var me = this;
+        me.verovioImageView.showMovement(movementId);
+    },
+    
+    gotoMeasureDialog: function () {
+        var me = this;
+        
+        Ext.create('EdiromOnline.view.window.source.GotoMsg', {
+            movements: me.movements,
+            callback: Ext.bind(function (measure, movementId) {
+                this.fireEvent('gotoMeasureByName', this, measure, movementId);
+            },
+            me)
+        }).show();
+    },
 });
