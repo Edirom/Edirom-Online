@@ -4,6 +4,20 @@ Edirom Online is a web application written in XQuery and Javascript, and designe
 
 The software is still under high development and has to be seen as beta software.
 
+## Cloning this repository
+
+Since this repository uses submodules for e.g. fonts, it is necessary to clone the repository with the recursive addition.
+
+```bash
+git clone --recursive <project url>
+```
+
+If the submodules are not yet present after cloning, you can update them with:
+
+```bash
+git submodule update --init --recursive
+```
+
 ## Dependencies
 
 Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
