@@ -121,4 +121,15 @@ Ext.define('EdiromOnline.view.window.source.VerovioView', {
             me)
         }).show();
     },
+
+    /* 
+     * Call showMeasure of corresponding VerovioImageView.
+     * @param {string} movementId - The XML-ID of the selected movement.
+     * @param {string} measureId - The XML-ID of the selected measure.
+     * @param {number} measureCount - The number of measures to be displayed [currently ignored in VerovioView].
+     */
+    showMeasure: function(movementId, measureId, measureCount){
+        var me = this;
+        me.verovioImageView.showMeasure(movementId, measureId);
+    }
 });
