@@ -64,7 +64,7 @@
         <xsl:variable name="footnoteCount">
             <xsl:value-of select="functx:index-of-deep-equal-node($footnotes/mei:annot, .)"></xsl:value-of>
         </xsl:variable>
-        <span class="sup"><xsl:value-of select="$footnoteCount"/></span>
+        <span class="superscript"><xsl:value-of select="$footnoteCount"/></span>
     </xsl:template>
     <xsl:template match="mei:ref">
         <span class="ref">
