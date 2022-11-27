@@ -106,8 +106,10 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
 
   let $namespace := eutil:getNamespace($node)
   
-  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang)
+  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang and not($node/mei:title/mei:titlePart))
                    then ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
+                   else if ($lang != '' and $lang = $node/mei:title/@xml:lang and $node/mei:title/mei:titlePart)
+                   then ($node/mei:title[@xml:lang = $lang]/mei:titlePart[1]//text() => string-join() => normalize-space())
                    else (($node//mei:title)[1]//text() => string-join() => normalize-space())
   
   let $titleTEI := if ($lang != '' and $lang = $node/tei:title/@xml:lang)
