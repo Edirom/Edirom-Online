@@ -18,11 +18,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build Edirom Online from ${{ GITHUB_REF }}
+    - name: Build Edirom Online from ${{ github.ref }}
       run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
     - uses: actions/upload-artifact@v2
       with:
-        name: EdiromOnline_${{ GITHUB_REF }}.zip
+        name: EdiromOnline_${{ github.ref }}.zip
         path: build-xar/EdiromOnline*.xar
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
