@@ -66,7 +66,7 @@ declare function eutil:getNamespace($node as node()) as xs:string {
 : @return The string
 :)
 
-declare function eutil:getLocalizedName($node, $lang) as xs:string {
+declare function eutil:getLocalizedName($node, $lang) {
 
 let $name :=
     if ($node/mei:title)
@@ -91,7 +91,9 @@ let $name :=
         then(annotation:generateTitle($node))
     else (normalize-space($node))
 return
-    $name => string-join(' ')
+    if($node/edirom:names)
+    then($name)
+    else($name => string-join(' ') => normalize-space())
 };
 
 (:~
