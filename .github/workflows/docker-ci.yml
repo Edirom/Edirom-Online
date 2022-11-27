@@ -23,7 +23,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         name: EdiromOnline_${{ github.ref }}.zip
-        path: build-xar/EdiromOnline*.xar
+        path: /app/build-xar/EdiromOnline*.xar
         if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
 
 #  deploy:
