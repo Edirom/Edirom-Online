@@ -62,20 +62,16 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
         for $mentionedMeasureLabel in $allEverMentionedMeasureLabels
             let $resultMeasures := 
                 for $part in $parts
-                let $partMeasures := $part//mei:measure
-                let $partMeasures := 
-                    for $partMeasure in $partMeasures
-                        return $partMeasure[
-                            if (contains($partMeasure/@label, '-'))
-                            then (
-                                substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-') <= $mentionedMeasureLabel and 
-                                substring-after(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-')  >= $mentionedMeasureLabel
-                            )
-                            else (
-                                functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')') = $mentionedMeasureLabel
-                            )
-                        ]
-                
+                let $partMeasures := $part//mei:measure[
+                    if (contains(@label, '-'))
+                    then (
+                        substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-') <= $mentionedMeasureLabel and 
+                        substring-after(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-')  >= $mentionedMeasureLabel
+                    )
+                    else (
+                        functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')') = $mentionedMeasureLabel
+                    )
+                ]
                 return
                     if (count($partMeasures) > 1)
                     then (
