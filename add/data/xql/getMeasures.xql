@@ -34,56 +34,67 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
     if($mei//mei:parts)
     then(
         let $mdiv := $mei/id($mdivID)
-        let $measuresNotDel := $mdiv//mei:measure[not(parent::mei:del)]
-        let $measureNs := if ($measuresNotDel/@label)
+        let $measuresNotDel := $mdiv//mei:measure[not(parent::mei:del)] (: all measures except those which are surrounded by <del> :)
+        let $allEverMentionedMeasureLabels := 
+            if ($measuresNotDel/@label)
+            then (
+                let $labels := $measuresNotDel/@label/string()
+                for $label in $labels
+                    let $label := functx:substring-before-if-contains(functx:substring-after-if-contains($label, '('), ')')
+                    let $labelsAnalyzed := 
+                        if (contains($label, '–'))
+                        then ((:substring-before($label, '–'):)
+                            let $first := substring-before($label, '–')
+                            let $last := substring-after($label, '–')
+                            let $steps := xs:integer(number($last) - number($first) + number(1))
+                            for $i in 1 to $steps
+                            return
+                                string(number($first) + $i - 1)
+                        )
+                        else ($label)
+                    return
+                        $labelsAnalyzed
+            )
+            else ($measuresNotDel/@n)
+        let $allEverMentionedMeasureLabelsDistinct := distinct-values(functx:sort-as-numeric($allEverMentionedMeasureLabels))
+        
+        let $parts := $mdiv//mei:part
+        for $mentionedMeasureLabel in $allEverMentionedMeasureLabels
+            let $resultMeasures := 
+                for $part in $parts
+                let $partMeasures := $part//mei:measure
+                let $partMeasures := 
+                    for $partMeasure in $partMeasures
+                        return $partMeasure[
+                            if (contains($partMeasure/@label, '-'))
                             then (
-                                let $labels := $measuresNotDel/@label/string()
-                                for $label in $labels
-                                let $labelsAnalyzed := if (contains($label, '–'))
-                                                        then ((:substring-before($label, '–'):)
-                                                            let $first := substring-before($label, '–')
-                                                            let $last := substring-after($label, '–')
-                                                            let $steps := xs:integer(number($last) - number($first) + number(1))
-                                                            for $i in 1 to $steps
-                                                            return
-                                                                string(number($first) + $i - 1)
-                                                        )
-                                                        else ($label)
-                                return
-                                    $labelsAnalyzed
+                                substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-') <= $mentionedMeasureLabel and 
+                                substring-after(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-')  >= $mentionedMeasureLabel
                             )
-                            else ($measuresNotDel/@n)
-        let $measureNsDistinct := distinct-values(functx:sort-as-numeric($measureNs))
-        return
-            for $measureN in $measureNsDistinct
-            let $measureNNumber := number($measureN)
-            let $measures := if ($measuresNotDel/@label)
-                                then ($measuresNotDel[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
-                                else ($measuresNotDel[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
-            let $measures := if ($measuresNotDel/@label)
-                                then (
-                                    for $measure in $measuresNotDel[@label = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
-                                )
-                                else (
-                                    for $measure in $measuresNotDel[@n = $measureN] | $measures 
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '", voice: "', $measure/ancestor::mei:part//mei:staffDef/@decls, '"}')
-                                )
-            let $measureNRWA := functx:substring-before-if-contains(functx:substring-after-if-contains($measureN, '('), ')')
-            let $measureNOccurrence := index-of(filter($measureNs, function($v) {functx:substring-before-if-contains(functx:substring-after-if-contains($v, '('), ')') = $measureNRWA}), $measureN)
-            let $resultId := if ($measureNOccurrence > 1 and $measureNOccurrence[1] > 1) then concat('measure_', $mdiv/@xml:id, '_', $measureNRWA, '_', $measureNOccurrence[1])
-            else concat('measure_', $mdiv/@xml:id, '_', $measureNRWA)
+                            else (
+                                functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')') = $mentionedMeasureLabel
+                            )
+                        ]
+                
+                return
+                    if (count($partMeasures) > 1)
+                    then (
+                        concat('{id: "', $partMeasures[1]/@xml:id, '?tstamp2=', count($partMeasures) - 1, 'm+0', '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                    )
+                    else if (count($partMeasures) = 1)
+                    then (
+                        concat('{id: "', $partMeasures[1]/@xml:id, '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                    )
+                    else ()
             return concat('{',
-                    'id: "', $resultId, '", ',
-                    'measures: [', string-join($measures, ','), '], ',
-                    'mdivs: ["', $mdiv/@xml:id, '"], ', (: TODO :)
-                    'name: "', $measureNRWA, '"',
-                '}')
+                'id: "measure_', $mdiv/@xml:id, '_', $mentionedMeasureLabel, '", ',
+                'measures: [', string-join($resultMeasures, ','), '], ',
+                'mdivs: ["', $mdiv/@xml:id, '"], ', (: TODO :)
+                'name: "', $mentionedMeasureLabel, '"',
+            '}')
     )
-    
-    else(
+    (: no <part>s :)
+    else (
         for $measure in $mei/id($mdivID)//mei:measure
         let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n)
         return
