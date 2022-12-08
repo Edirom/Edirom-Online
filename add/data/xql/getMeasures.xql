@@ -64,10 +64,10 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
             let $resultMeasures := 
                 for $part in $parts
                 let $partMeasures := $part//mei:measure[not(parent::mei:del)][
-                    if (contains(@label, '-'))
+                    if (contains(@label, '–'))
                     then (
-                        substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-') <= $mentionedMeasureLabel and 
-                        substring-after(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-')  >= $mentionedMeasureLabel
+                        substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '–') <= $mentionedMeasureLabel and 
+                        substring-after(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '–')  >= $mentionedMeasureLabel
                     )
                     else (
                         functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')') = $mentionedMeasureLabel
