@@ -26,6 +26,7 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
 import module namespace functx="http://www.functx.com";
+import module namespace console="http://exist-db.org/xquery/console";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -59,10 +60,10 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
         let $allEverMentionedMeasureLabelsDistinct := distinct-values(functx:sort-as-numeric($allEverMentionedMeasureLabels))
         
         let $parts := $mdiv//mei:part
-        for $mentionedMeasureLabel in $allEverMentionedMeasureLabels
+        for $mentionedMeasureLabel in $allEverMentionedMeasureLabelsDistinct
             let $resultMeasures := 
                 for $part in $parts
-                let $partMeasures := $part//mei:measure[
+                let $partMeasures := $part//mei:measure[not(parent::mei:del)][
                     if (contains(@label, '-'))
                     then (
                         substring-before(functx:substring-before-if-contains(functx:substring-after-if-contains(@label, '('), ')'), '-') <= $mentionedMeasureLabel and 
