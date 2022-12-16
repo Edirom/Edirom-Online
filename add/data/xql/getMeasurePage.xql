@@ -26,6 +26,8 @@ declare namespace xlink="http://www.w3.org/1999/xlink";
 
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
+import module namespace functx="http://www.functx.com";
+
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:findMeasure($mei, $movementId, $measureIdName) {
@@ -63,9 +65,13 @@ declare function local:getMeasure($mei, $measure) as xs:string {
 };
 
 let $id := request:get-parameter('id', '')
-let $measureIdName := request:get-parameter('measure', '')
+let $measureIdName := functx:substring-before-if-contains(request:get-parameter('measure', ''), '?tstamp2=')
+let $extraMeasureCount := if (contains(request:get-parameter('measure', ''), '?tstamp2='))
+    then substring-before(substring-after(request:get-parameter('measure', ''), '?tstamp2='), 'm+')
+    else (0)
 let $movementId := request:get-parameter('movementId', '')
-let $measureCount := request:get-parameter('measureCount', '1')
+let $measureCountParam := request:get-parameter('measureCount', '1')
+let $measureCount := xs:integer($measureCountParam) + xs:integer($extraMeasureCount)
 
 let $mei := doc($id)/root()
 
