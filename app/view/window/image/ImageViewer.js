@@ -46,6 +46,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     
     shapes: null,
     shapesHidden: false,
+    partLabel: null,
 
     svgOverlays: null,
     annotSVGOverlays: null,
