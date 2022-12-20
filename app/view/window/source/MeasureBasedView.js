@@ -219,7 +219,8 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
                 
                 if(typeof viewer == 'undefined') {
                     viewer = Ext.create('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
-                        owner: me
+                        owner: me,
+                        partLabel: partLabel
                     });
                     
                     me.viewers.add(voice, viewer);
@@ -377,6 +378,8 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     
     border: false,
     
+    partLabel: '',
+    
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
@@ -398,7 +401,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
         
-        var viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+        var viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1, partLabel: me.partLabel});
         viewer.on('imageChanged', me.onViewerImageChange, me);
         
         me.imageViewers = [viewer];
