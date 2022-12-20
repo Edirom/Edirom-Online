@@ -76,11 +76,11 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                 return
                     if (count($partMeasures) > 1)
                     then (
-                        concat('{id: "', $partMeasures[1]/@xml:id, '?tstamp2=', count($partMeasures) - 1, 'm+0', '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                        concat('{id: "', $partMeasures[1]/@xml:id, '?tstamp2=', count($partMeasures) - 1, 'm+0', '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '", partLabel: "', $mei/id(substring-after($partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls,'#'))/@label, '"}')
                     )
                     else if (count($partMeasures) = 1)
                     then (
-                        concat('{id: "', $partMeasures[1]/@xml:id, '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '"}')
+                        concat('{id: "', $partMeasures[1]/@xml:id, '", voice: "', $partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls, '", partLabel: "', $mei/id(substring-after($partMeasures[1]/ancestor::mei:part//mei:staffDef/@decls,'#'))/@label, '"}')
                     )
                     else ()
             return concat('{',
