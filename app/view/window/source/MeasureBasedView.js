@@ -225,6 +225,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
+            var partLabel = m['partLabel'];
             
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
             
