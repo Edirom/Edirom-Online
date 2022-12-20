@@ -65,10 +65,30 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         
         me.addEvents('zoomChanged',
                     'imageChanged');
+       
+/*       from OPERA*/
+       var facsContEvents;
 
-        me.html = '<div id="' + me.id + '_facsCont" style="overflow: hidden; background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +
-                  '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';
+        if (me.partLabel != null) {
+         facsContEvents = '<div id="' + me.id + '_facsContEvents" class="facsContEvents">' +
+            '<div  id="' + me.id + '_' + me.partLabel + '" class="part">' +
+              '<span class="partInner" id="' + me.id + '_' + me.partLabel + '_inner">' +
+              me.partLabel + '</span>' +
+            '</div>' +
+         '</div>';
+        }
+        else {
+          facsContEvents = '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';
+         };
+         
+        me.html = '<div id="' + me.id + '_facsCont" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' + facsContEvents;
 
+/*       from OPERA END*/
+                    
+/*                    */
+/*        me.html = '<div id="' + me.id + '_facsCont" style="overflow: hidden; background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' +*/
+/*                  '<div id="' + me.id + '_facsContEvents" class="facsContEvents"></div>';*/
+/*                    */
         me.imageLoader = new EdiromOnline.view.window.image.ImageLoader({
             viewer: me
         });
