@@ -64,14 +64,26 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                                 then (
                                     for $part in $mdiv//mei:part
                                         for $measure in $part//mei:measure[@label = $measureN][1] | $measures[ancestor::mei:part = $part]
+                                            let $voiceRef := $part//mei:staffDef/@decls
+                                            let $voiceID := substring-after($voiceRef, '#')
                                             return
-                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
+                                                concat('{id:"', $measure/@xml:id, '",
+                                                voice: "', $voiceRef,
+                                                '", partLabel: "', $mei/id($voiceID)/@label,
+                                                '"}')
                                 )
                                 else (
                                     for $part in $mdiv//mei:part
+(:                                    let $partMeasures := $part//mei:measure:)
                                         for $measure in $part//mei:measure[@n = $measureN][1] | $measures[ancestor::mei:part = $part]
+                                            let $voiceRef := $part//mei:staffDef/@decls
+                                            let $voiceID := substring-after($voiceRef, '#')
                                             return
-                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
+                                                concat('{id:"',
+                                                $measure/@xml:id,
+                                                '", voice: "', $voiceRef,
+                                                '", partLabel: "', $mei/id($voiceID)/@label,
+                                                '"}')
                                 )
             return
                 concat('{',
