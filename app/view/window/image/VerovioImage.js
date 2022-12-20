@@ -45,5 +45,16 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		
 		var iframe = Ext.fly(me.id + '_rendContIFrame').dom.contentWindow;
 		iframe.showMovement(movementId);
+	},
+	
+    /* 
+     * Call showMeasure of corresponding iframe.
+     * @param {string} movementId - The XML-ID of the selected movement.
+     * @param {string} measureId - The XML-ID of the selected measure.
+     */
+	showMeasure: function (movementId, measureId) {
+	    var me = this;
+	    var iframe = Ext.fly(me.id + '_rendContIFrame').dom.contentWindow;
+	    iframe.showMeasure(movementId, measureId);
 	}
 });
