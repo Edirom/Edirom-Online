@@ -35,6 +35,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     imagePrefix: null,
     
     shapes: null,
+    partLabel: null,
     
     annotTipWidth: 220,
     annotTipMaxWidth: 300,
@@ -49,11 +50,25 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         
         me.addEvents('zoomChanged',
                     'imageChanged');
+        
+       var openseadragonEvents;
 
-        me.html = '<div id="' + me.id + '_openseadragon" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>';
+        if (me.partLabel != null) {
+         openseadragonEvents = '<div id="' + me.id + '_openseadragonEvents" class="openseadragonEvents">' +
+            '<div  id="' + me.id + '_' + me.partLabel + '" class="part">' +
+              '<span class="partInner" id="' + me.id + '_' + me.partLabel + '_inner">' +
+              me.partLabel + '</span>' +
+            '</div>' +
+         '</div>';
+        }
+        else {
+          openseadragonEvents = '<div id="' + me.id + '_openseadragonEvents" class="openseadragonEvents"></div>';
+         };
+         
+        me.html = '<div id="' + me.id + '_openseadragon" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' + openseadragonEvents;
 
         me.shapes = new Ext.util.MixedCollection();
-
+        
         me.callParent();
         
         me.on('afterrender', me.initSurface, me, {single: true});
@@ -61,6 +76,11 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
     initSurface: function() {
         var me = this;
+        
+        var eventEl = me.el.getById(me.id + '_openseadragonEvents');
+        eventEl.unselectable();
+        eventEl.on('mousedown', me.onMouseDown, me);
+        eventEl.on('mousewheel', me.onScroll, me);
         
         me.viewer = OpenSeadragon({
             id: me.id + '_openseadragon',
