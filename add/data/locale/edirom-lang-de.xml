@@ -176,5 +176,40 @@
         <entry key="Bar_n" value="Takt {0}"/>
         <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Inhaltsverzeichnis"/>
+        
+        <!-- PERFORMANCE MEDIUM -->
+        <entry key="perfMedium.perfRes.voice" value="Singstimme"/>
+        <entry key="perfMedium.perfRes.voiceSpeaking" value="Sprechstimme"/>
+        <entry key="perfMedium.perfRes.voiceHigh" value="Hohe Stimme"/>
+        <entry key="perfMedium.perfRes.voiceMiddle" value="Mittlere Stimme"/>
+        <entry key="perfMedium.perfRes.voiceLow" value="Tiefe Stimme"/>
+        <entry key="perfMedium.perfRes.soprano" value="Sopran"/>
+        <entry key="perfMedium.perfRes.alto" value="Alt"/>
+        <entry key="perfMedium.perfRes.tenor" value="Tenor"/>
+        <entry key="perfMedium.perfRes.bass" value="Bass"/>
+        
+        <entry key="perfMedium.perfRes.violin" value="Violine"/>
+        <entry key="perfMedium.perfRes.viola" value="Viola"/>
+        <entry key="perfMedium.perfRes.violoncello" value="Violoncello"/>
+        <entry key="perfMedium.perfRes.doubleBass" value="Kontrabass"/>
+        <entry key="perfMedium.perfRes.bassInstrumental" value="Bass (instrumental)"/>
+        
+        <entry key="perfMedium.perfRes.flute" value="Flöte"/>
+        <entry key="perfMedium.perfRes.oboe" value="Oboe"/>
+        <entry key="perfMedium.perfRes.clarinet" value="Klarinette"/>
+        <entry key="perfMedium.perfRes.hornEnglish" value="Englischhorn"/>
+        <entry key="perfMedium.perfRes.bassoon" value="Fagott"/>
+        
+        <entry key="perfMedium.perfRes.hornFrench" value="Horn"/>
+        <entry key="perfMedium.perfRes.trumpet" value="Trompete"/>
+        <entry key="perfMedium.perfRes.trombone" value="Posaune"/>
+        <entry key="perfMedium.perfRes.tuba" value="Tuba"/>
+        
+        <entry key="perfMedium.perfRes.timpani" value="Pauken"/>
+        <entry key="perfMedium.perfRes.bells" value="Glocken"/>
+        
+        <entry key="perfMedium.perfRes.harp" value="Harfe"/>
+        <entry key="perfMedium.perfRes.piano" value="Klavier"/>
+        <entry key="perfMedium.perfRes.organ" value="Orgel"/>
     </entries>
 </langFile>
