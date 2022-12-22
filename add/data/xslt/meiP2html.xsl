@@ -28,7 +28,7 @@
             <div style="display:flex; color: grey; font-size: smaller; margin-bottom:0.5rem;">
                 <span class="superscript">
                     <xsl:value-of select="$counter"></xsl:value-of>
-                </div>
+                </span>
                 <div style="display: inline; margin-left: .25rem;">
                     <xsl:copy-of select="$content"></xsl:copy-of>
                 </div>
