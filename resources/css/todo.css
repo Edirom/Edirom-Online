@@ -223,6 +223,25 @@ span.italic {
     display: none;
 }
 
+/* part label in horizontalMeasureViewer */
+
+.part {
+z-index: 1;
+}
+
+.partInner {
+font-size: 13px;
+font-weight: bold;
+background-image: -moz-linear-gradient(top, rgba(255, 255, 255,0.9),rgba(255, 255, 255,0.8)) !important;
+background-image: -webkit-linear-gradient(top, rgba(255, 255, 255,0.9),rgba(255, 255, 255,0.8)) !important;
+box-shadow: 3px 3px 5px rgba(0,0,0,0.7);
+padding: 2px 5px;
+border-radius: 5px;
+color: rgba(0,0,0,0.75);
+position: absolute;
+top: 5px;
+left: 10px;
+
 .annotTip {
     width: 100% !important;
 }
