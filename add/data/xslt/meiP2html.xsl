@@ -26,7 +26,7 @@
                 <xsl:apply-templates/>
             </xsl:variable>
             <div style="display:flex; color: grey; font-size: smaller; margin-bottom:0.5rem;">
-                <div style="display: inline; vertical-align: super; font-size: smaller;">
+                <span class="superscript">
                     <xsl:value-of select="$counter"></xsl:value-of>
                 </div>
                 <div style="display: inline; margin-left: .25rem;">
