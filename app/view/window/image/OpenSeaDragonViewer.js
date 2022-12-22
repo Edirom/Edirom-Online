@@ -77,11 +77,6 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     initSurface: function() {
         var me = this;
         
-        var eventEl = me.el.getById(me.id + '_openseadragonEvents');
-        eventEl.unselectable();
-        eventEl.on('mousedown', me.onMouseDown, me);
-        eventEl.on('mousewheel', me.onScroll, me);
-        
         me.viewer = OpenSeadragon({
             id: me.id + '_openseadragon',
             showNavigator:  false,
