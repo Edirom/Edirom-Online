@@ -96,10 +96,10 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 };
 
 (:~
-: Returns the URI of the first found Edition
+: Returns the URI of the called Edition. Fallback: first found Edition
 :
-: @param $uri The URI of the Edition's document to process
-: @return The URI
+: @param $editionID The ID of the Edition's document to process
+: @return The URI of the Edition file
 :)
 declare function edition:findEdition($editionID as xs:string) as xs:string {
     if($editionID eq '')
