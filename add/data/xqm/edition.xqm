@@ -100,7 +100,7 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 : Only succeeds if the supplied id is the @xml:id of a edirom:edition element in '/db/apps'.
 : If $editionID is the empty string, returns the URI of the first edition found in '/db/apps'.
 :
-: @param $editionID The ID of the Edition's document to process
+: @param $editionID The '@xml:id' of the edirom:edition document to process
 : @return The URI of the Edition file
 :)
 declare function edition:findEdition($editionID as xs:string) as xs:string {
