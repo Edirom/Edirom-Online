@@ -31,6 +31,13 @@ let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $part in ($mei//mei:instrumentation/mei:instrVoice | $mei//mei:perfMedium//mei:perfRes)
-            return concat('{label: "', eutil:getPartLabel($part, 'perfRes'), '", id:"', $part/@xml:id, '", selectedByDefault:true, selected:true}')
+                let $hasNoAttrSameas := not(exists($part/@sameas))
+                return
+                    concat(
+                            '{label: "', eutil:getPartLabel($part, 'perfRes'),
+                            '", id:"', $part/@xml:id,
+                            '", selectedByDefault:', $hasNoAttrSameas,
+                            ', selected:', $hasNoAttrSameas, '}'
+                          )
 
 return concat('[', string-join($ret, ','), ']')
