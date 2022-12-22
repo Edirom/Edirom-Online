@@ -96,7 +96,9 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 };
 
 (:~
-: Returns the URI of the called Edition. Fallback: first found Edition
+: Returns the URI of the edition specified by the submitted $editionID parameter.
+: Only succeeds if the supplied id is the @xml:id of a edirom:edition element in '/db/apps'.
+: If $editionID is the empty string, returns the URI of the first edition found in '/db/apps'.
 :
 : @param $editionID The ID of the Edition's document to process
 : @return The URI of the Edition file
