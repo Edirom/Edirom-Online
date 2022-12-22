@@ -142,7 +142,9 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   (: Work :)
   if(exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
   then(eutil:getLocalizedTitle(($doc//mei:work)[1]/mei:titleStmt[1], $lang))
-
+  else if(exists($doc/root()/mei:work))
+  then(eutil:getLocalizedTitle($doc/root()/mei:work, $lang))
+  
   (: Recording :)
   else if(exists($doc//mei:mei) and exists($doc//mei:recording))
   then(eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
