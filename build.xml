@@ -3,7 +3,7 @@
     
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
-    <property name="project.version" value="1.0.0-beta.4"/>
+    <property name="project.version" value="1.0.0-beta.5"/>
     <property name="project.app" value="Edirom-Online"/>
     <property name="project.title" value="Edirom Online"/>
     <property name="repo.target" value="${project.app}"/>
