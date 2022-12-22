@@ -96,19 +96,21 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 };
 
 (:~
-: Returns the URI of the first found Edition
+: Returns the URI of the edition specified by the submitted $editionID parameter.
+: Only succeeds if the supplied id is the @xml:id of a edirom:edition element in '/db/apps'.
+: If $editionID is the empty string, returns the URI of the first edition found in '/db/apps'.
 :
-: @param $uri The URI of the Edition's document to process
-: @return The URI
+: @param $editionID The '@xml:id' of the edirom:edition document to process
+: @return The URI of the Edition file
 :)
-declare function edition:findEdition($uri as xs:string) as xs:string {
-    if($uri eq '')
+declare function edition:findEdition($editionID as xs:string) as xs:string {
+    if($editionID eq '')
     then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]
         return 'xmldb:exist://' || document-uri($edition/root())
     )
     else (
-        let $edition := collection('/db/apps')//edirom:edition[@xml:id eq $uri]
+        let $edition := collection('/db/apps')//edirom:edition/id($editionID)
         return 'xmldb:exist://' || document-uri($edition/root())
     )
 };
