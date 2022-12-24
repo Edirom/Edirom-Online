@@ -59,9 +59,17 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
                              else ($measureLabel)
         let $measureID := $measure/@xml:id
         let $measureFacs := $measure/@facs
-        let $measureZoneRefCount := count($mei//mei:measure[@facs = $measureFacs])
-        let $measureLabel := if($measureZoneRefCount gt 1)
-                             then(string-join($mei//mei:measure[@facs = $measureFacs]/@label, '/'))
+        let $measuresZoneRef := $measure/ancestor::mei:mdiv//mei:measure[@facs = $measureFacs]
+        let $measureZoneRefCount := count($measuresZoneRef)
+        let $measureLabel := if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
+                             then(for $measure in $measuresZoneRef
+                                    let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
+                                    let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
+                                    return
+                                        $measureLabel
+                                 )
+                             else if($measureZoneRefCount gt 1)
+                             then($measuresZoneRef/@label)
                              else($measureLabel)
         return
             map {
@@ -71,7 +79,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
                 'lrx': $zone/string(@lrx),
                 'lry': $zone/string(@lry),
                 'id': $measure/string(@xml:id),
-                'name': $measureLabel,
+                'name': string-join($measureLabel, '/'),
                 'type': $measure/string(@type),
                 'rest': local:getMRest($measure)
             }
