@@ -57,6 +57,12 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
         let $measureLabel := if($measure//mei:multiRest)
                              then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
                              else ($measureLabel)
+        let $measureID := $measure/@xml:id
+        let $measureFacs := $measure/@facs
+        let $measureZoneRefCount := count($mei//mei:measure[@facs = $measureFacs])
+        let $measureLabel := if($measureZoneRefCount gt 1)
+                             then(string-join($mei//mei:measure[@facs = $measureFacs]/@label, '/'))
+                             else($measureLabel)
         return
             map {
                 'zoneId': $zone/string(@xml:id),
