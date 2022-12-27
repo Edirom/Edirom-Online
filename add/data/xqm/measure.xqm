@@ -57,7 +57,7 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
         then(<span class="supplied">{'[' || $measureLabel || ']'}</span>)
         else if($measureParentElem = 'del')
         then(<span class="del">{$measureLabel}</span>)
-        else(<span>{$measureLabel}</span>)
+        else(<span>{string($measureLabel)}</span>)
 };
 
 (:~
