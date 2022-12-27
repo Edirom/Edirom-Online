@@ -35,6 +35,16 @@ declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method "json";
 declare option output:media-type "application/json";
 
+declare function local:makeMeasureLabelCritical($measure as node(), $measureLabel) {
+    let $measureParentElem := local-name($measure/parent::node())
+    return
+        if($measureParentElem = 'supplied')
+        then(<span class="supplied">{'[' || $measureLabel || ']'}</span>)
+        else if($measureParentElem = 'del')
+        then(<span class="del">{$measureLabel}</span>)
+        else(<span>{$measureLabel}</span>)
+};
+
 (:~
     Finds all measures on a page.
     
@@ -63,14 +73,23 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
         let $measureZoneRefCount := count($measuresZoneRef)
         let $measureLabel := if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
                              then(for $measure in $measuresZoneRef
-                                    let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
+                                    
+                                    let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))                                    let $measureLabel := local:makeMeasureLabelCritical($measure, $measureLabel)
                                     let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
                                     return
                                         $measureLabel
                                  )
                              else if($measureZoneRefCount gt 1)
-                             then($measuresZoneRef/@label)
-                             else($measureLabel)
+                             then(for $label in $measuresZoneRef
+                                    return
+                                        local:makeMeasureLabelCritical($label, $label/string(@label)))
+                             else(local:makeMeasureLabelCritical($measure, $measureLabel))
+        let $measureLabel := <span>{for $each at $i in $measureLabel
+                                        return
+                                            if(index-of($measureLabel, $each) != 1)
+                                            then('/',$each)
+                                            else($each)
+                                   }</span>
         return
             map {
                 'zoneId': $zone/string(@xml:id),
@@ -79,7 +98,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
                 'lrx': $zone/string(@lrx),
                 'lry': $zone/string(@lry),
                 'id': $measure/string(@xml:id),
-                'name': string-join($measureLabel, '/'),
+                'name': $measureLabel,
                 'type': $measure/string(@type),
                 'rest': local:getMRest($measure)
             }
