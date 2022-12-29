@@ -99,7 +99,9 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
             else(collection(eutil:getPreference('edition_path', $edition))//id($p)/root())
         return 
             if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
-            then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
+            then ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text())
+            else if ($pDoc//mei:manifestationList/mei:manifestation/mei:identifier[@type = 'siglum'])
+            then ($pDoc//mei:manifestationList/mei:manifestation/mei:identifier[@type = 'siglum']/text())
             else ($pDoc//mei:title[@type = 'siglum']/text())
     
     let $classes := tokenize(replace(normalize-space($anno/@class),'#',''),' ')
