@@ -88,7 +88,7 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
 : Returns the URI for the preferences file
 :
 : @param $uri The URI of the Edition's document to process
-: @return The URI
+: @return The URI of the preference file
 :)
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
     
