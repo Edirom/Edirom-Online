@@ -10,7 +10,12 @@ declare variable $exist:controller external;
 
 declare option exist:serialize "method=xhtml media-type=application/xhtml+html";
 
-let $langVal := eutil:getLanguage(request:get-parameter("edition", ""))
+let $langVal := if (request:get-parameter("lang", "") != "") then
+                    request:get-parameter("lang", "") 
+                else if (request:get-parameter("edition", "") != "") then
+                    eutil:getLanguage(edition:findEdition(request:get-parameter("edition", "")))
+                else
+                    eutil:request-lang-preferred-iso639()
 
 return
     if ($exist:path eq "") then
