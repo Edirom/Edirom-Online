@@ -299,3 +299,33 @@ declare function eutil:iso3166-1-to-iso639($iso3166-1 as xs:string) as xs:string
     tokenize($iso3166-1, "-")[1]
 };
 
+(:~
+ : Returns the ISO 639 language code with the highest 'quality' (none cosidered as 1) from
+ : the HTTP-request Accept-Language header
+ :
+ : @author Benjamin W. Bohl
+ : @return xs:string ISO 639 language code
+ :)
+declare function eutil:request-lang-preferred-iso639() as xs:string {
+let $request.accept-language := request:get-header("Accept-Language")
+return
+if($request.accept-language)
+then 
+    let $tokens := tokenize($request.accept-language, ";")
+    let $tokens.qless.ordered := (
+        for $token in $tokens
+            let $q := substring-after(string-join((analyze-string($token, "(q=\d(\.\d)?)")//fn:match)[1], ""), "q=")
+            let $q.decimal := if($q = "") then xs:decimal(1) else xs:decimal($q)
+            let $token.qless := replace($token,",?q=\d(\.\d)?,?", "")
+            order by $q.decimal descending
+            return
+                $token.qless
+    )
+    let $tokens.qmax := $tokens.qless.ordered[1]
+    let $tokens.qmax.first := tokenize($tokens.qmax, ",")[1]
+    return 
+        eutil:iso3166-1-to-iso639($tokens.qmax.first)
+    
+else
+    "en"
+};
