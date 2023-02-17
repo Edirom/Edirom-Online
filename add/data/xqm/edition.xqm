@@ -81,7 +81,6 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
 :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
     
-    doc($uri)//edirom:language[@xml:lang eq $lang]/string(@xlink:href)
     let $doc := (
         if(doc-available($uri))
         then
