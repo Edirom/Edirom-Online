@@ -287,3 +287,15 @@ declare function eutil:sort-as-numeric-alpha($seq as item()* )  as item()* {
    return $item
     
 } ;
+
+(:~
+ : Extracts an ISO 639 language code from a given ISO 3166-1 language code
+ :
+ : @author Benjamin W. Bohl
+ : @param  $iso3166-1 xs:string the given ISO 3166-1 language code, e.g., en-US
+ : @return xs:string ISO 639 language code, e.g., en
+ :)
+declare function eutil:iso3166-1-to-iso639($iso3166-1 as xs:string) as xs:string {
+    tokenize($iso3166-1, "-")[1]
+};
+
