@@ -250,7 +250,11 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
         request:get-cookie-value('edirom-language')
      )
      else(
-         eutil:getPreference('application_language', $edition)
+        let $prefsAppLang := eutil:getPreference('application_language', edition:findEdition($edition))
+        return
+            if($prefsAppLang)
+            then $prefsAppLang
+            else eutil:request-lang-preferred-iso639()
      )
 };
 
