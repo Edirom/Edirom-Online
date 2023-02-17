@@ -97,6 +97,36 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
 };
 
 (:~
+: Returns the URI for a specific language file
+:
+: @param $uri The URI of the Edition's document to process
+: @return the edition's languages as defined in the edition file sorted as
+: complete languages in document-order followed by incomplete langauges in document-order
+:)
+declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string {
+    
+    let $editionDoc := doc($uri)
+    let $languagesComplete := (
+        for $lang in $editionDoc//edirom:language
+        let $langCode := $lang/@xml:lang
+        let $langComplete := xs:boolean($lang/@complete)
+        where $langComplete = true()
+        return
+            $langCode
+    )
+    let $languagesIncomplete := (
+        for $lang in $editionDoc//edirom:language
+        let $langCode := $lang/@xml:lang
+        let $langComplete := xs:boolean($lang/@complete)
+        where $langComplete = false()
+        return
+            $langCode
+    )
+    return
+        ($languagesComplete, $languagesIncomplete)
+};
+
+(:~
 : Returns the URI for the preferences file
 :
 : @param $uri The URI of the Edition's document to process
