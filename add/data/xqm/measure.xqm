@@ -51,14 +51,14 @@ declare function measure:getMeasureLabelAttr($measure as node()){
 : @param $measureLabel The label of the measure
 : @return A span containing the label
 :)
-declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel) {
+declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel as xs:string)  as node() {
     let $measureParentElem := local-name($measure/parent::node())
     return
         if($measureParentElem = 'supplied')
         then(<span class="supplied">{'[' || $measureLabel || ']'}</span>)
         else if($measureParentElem = 'del')
         then(<span class="del">{$measureLabel}</span>)
-        else(<span>{string($measureLabel)}</span>)
+        else(<span>{$measureLabel}</span>)
 };
 
 (:~
@@ -67,36 +67,67 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
 : @param $measure The measure to be processed
 : @return A span containing the label
 :)
-declare function measure:getMeasureLabel($measure as node()) {
+declare function measure:getMeasureLabel($measure as node()) as node() {
     let $measureLabel := measure:getMeasureLabelAttr($measure)
-    let $measureLabel := if($measure//mei:multiRest)
-                         then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
-                         else ($measureLabel)
     let $measureID := $measure/@xml:id
     let $measureFacs := $measure/@facs
     let $measuresZoneRef := $measure/ancestor::mei:mdiv//mei:measure[@facs = $measureFacs]
     let $measureZoneRefCount := count($measuresZoneRef)
-    let $measureLabel := if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
-                         then(for $measure in $measuresZoneRef
-                                let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
-                                let $measureLabel := measure:makeMeasureLabelCritical($measure, $measureLabel)
-                                let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
-                                return
-                                    $measureLabel
-                             )
-                         else if($measureZoneRefCount gt 1)
-                         then(for $label in $measuresZoneRef
-                                return
-                                    measure:makeMeasureLabelCritical($label, $label/string(@label)))
-                         else(measure:makeMeasureLabelCritical($measure, $measureLabel))
-    let $measureLabel := <span>{for $each at $i in $measureLabel
-                                    return
-                                        if(index-of($measureLabel, $each) != 1)
-                                        then('/',$each)
-                                        else($each)
-                               }</span>
+    let $measureLabels := 
+        if(not($measure/parent::mei:reg))
+        then(
+             if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
+             then(for $measure in $measuresZoneRef
+                    let $measureLabel := measure:getMeasureLabelAttr($measure)
+                    let $measureLabel := measure:makeMeasureLabelCritical($measure, $measureLabel)
+                    let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
+                    return
+                        <span>{$measureLabel}</span>
+                 )
+             else if ($measureZoneRefCount gt 1)
+             then(for $label in $measuresZoneRef
+                    return
+                        measure:makeMeasureLabelCritical($label, $label/string(@label)))
+             else(measure:makeMeasureLabelCritical($measure, $measureLabel))
+        )
+        else if($measure/parent::mei:reg)
+        then(for $measure in $measuresZoneRef
+                return
+                    measure:getRegMeasureLabel($measure/parent::mei:reg))
+        else(<span>noLabel</span>)
     return
-        $measureLabel
+        measure:joinMeasureLabels($measureLabels)
+};
+
+(:~
+: Returns a label for a measure (range) 
+:
+: @param $labels The measure to be processed
+: @return A span containing the joined label
+:)
+declare function measure:joinMeasureLabels($labels as node()*) as node() {
+    <span>{for $label at $pos in functx:distinct-deep($labels)
+            return
+                if($pos = 1)
+                then($label)
+                else('/',$label)
+           }</span>
+};
+
+(:~
+: Returns a label for a regularized measure (range) 
+:
+: @param $reg The reg element (containing measure) to be processed
+: @return The label as string
+:)
+declare function measure:getRegMeasureLabel($reg as node()) as node() {
+    let $measures := $reg/mei:measure
+    let $measuresCount := count($measures)
+    let $measureStart := $measures[1]
+    let $measureStop := $measures[$measuresCount]
+    let $measureLabel := measure:getMeasureLabelAttr($measureStart) || '–' || measure:getMeasureLabelAttr($measureStop)
+    return
+        <span>{$measureLabel}</span>
 };
 
 (:~
