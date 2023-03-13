@@ -30,6 +30,7 @@ module namespace measure = "http://www.edirom.de/xquery/measure";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace functx="http://www.functx.com";
 
 (:~
 : Returns an attribute from a measure for labeling 
