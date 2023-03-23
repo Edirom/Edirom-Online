@@ -130,14 +130,14 @@ menuItemCfgs : {
         fields = me.fields = me.fields || {};
         fieldCfg = me.fieldCfg = me.fieldCfg || {};
         
-        me.addEvents(
+        //me.addEvents(
             /**
              * @event update
              * Fires when a filter configuration has changed
              * @param {Ext.ux.grid.filter.Filter} this The filter object.
              */
-            'update'
-        );
+        //    'update'
+        //);
       
         me.updateTask = Ext.create('Ext.util.DelayedTask', me.fireUpdate, me);
     

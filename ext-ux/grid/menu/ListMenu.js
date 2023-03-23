@@ -46,15 +46,15 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
 
     constructor : function (cfg) {
         this.selected = [];
-        this.addEvents(
+        //this.addEvents(
             /**
              * @event checkchange
              * Fires when there is a change in checked items from this list
              * @param {Object} item Ext.menu.CheckItem
              * @param {Object} checked The checked value that was set
              */
-            'checkchange'
-        );
+        //    'checkchange'
+        //);
 
         this.callParent([cfg = cfg || {}]);
 

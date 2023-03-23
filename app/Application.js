@@ -69,7 +69,7 @@ Ext.define('EdiromOnline.Application', {
         
         window.getActiveEdition = Ext.bind(this.getActiveEdition, this);
 
-        me.addEvents('workSelected');
+        //me.addEvents('workSelected');
         
         var editionParam = me.getURLParameter('edition');
         if(editionParam !== null)

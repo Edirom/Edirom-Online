@@ -59,7 +59,7 @@ Ext.define('EdiromOnline.view.window.search.SearchWindow', {
     initComponent: function() {
         var me = this;
 
-        me.addEvents('doSearch');
+        //me.addEvents('doSearch');
         
         me.title = getLangString('view.window.search.SearchWindow_Title');
 
