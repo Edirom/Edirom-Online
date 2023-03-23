@@ -81,7 +81,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
         }
 
         if(!me.preferences[key]) {
-            Ext.Error.raise({
+            Ext.raise({
                 msg: 'No preference found with this key',
                 key: key,
                 level: 'warn' //warn, error, fatal
