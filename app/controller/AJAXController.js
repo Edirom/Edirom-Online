@@ -30,7 +30,7 @@ Ext.define('EdiromOnline.controller.AJAXController', {
     doAJAXRequest: function(url, method, params, successFn, retryNo) {
         var me = this;
         
-        var editionId = this.application.activeEdition;
+        var editionId = this.getApplication.activeEdition;
         params = Ext.applyIf(params, {edition: editionId});
         
         var override = window.getPreference(url, true);
