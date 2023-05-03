@@ -26,7 +26,7 @@ Ext.define('EdiromOnline.view.navigator.Navigator', {
     width: 250,
     id: 'navigator',
 
-    preventHeader: true,
+    header: false,
     shadow: false,
 
     closable: false,
