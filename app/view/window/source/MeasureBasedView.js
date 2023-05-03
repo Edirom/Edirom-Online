@@ -590,7 +590,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             viewer.flex = group.width / overallWidth;
         }
         
-        me.forceComponentLayout();
+        me.updateLayout();
         
         for(var i = 0; i < viewerCount; i++) {
             
