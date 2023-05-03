@@ -758,7 +758,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             success: function(response){
                 var contEl = this.el.getById(me.id + '_annotationParticipantsSingle');
                 var txtBox = new Ext.Element(contEl.query('div.txtBox')[0]);
-                txtBox.update(response.responseText);
+                txtBox.setHtml(response.responseText);
 
                 contEl.query('#' + this.id + '_' + id)[0].scrollIntoView(txtBox);
             },
