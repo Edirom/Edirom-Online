@@ -776,7 +776,7 @@ Ext.define('EdiromOnline.view.window.source.IntervalSpinner', {
     extend: 'Ext.form.Spinner',
     
     step: 1,
-    size: 4,
+    width: 4,
     
     onSpinUp: function() {
         var me = this;
