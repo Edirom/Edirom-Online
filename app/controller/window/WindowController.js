@@ -29,7 +29,7 @@ Ext.define('EdiromOnline.controller.window.WindowController', {
     },
 
     createWindow: function(uri, cfg) {
-        var activeDesktop = this.application.getController('desktop.Desktop').getActiveDesktop();
+        var activeDesktop = this.getApplication.getController('desktop.Desktop').getActiveDesktop();
         var sizePos = activeDesktop.getSizeAndPosition();
         
         if(typeof cfg.width != 'undefined') {
@@ -40,12 +40,12 @@ Ext.define('EdiromOnline.controller.window.WindowController', {
         
         var config = Ext.applyIf(cfg, sizePos);
         Ext.apply(config, {
-            application: this.application,
+            application: this.getApplication,
             uri: uri
         });
 
         var win = new EdiromOnline.view.window.Window(config);
-        this.application.getController('desktop.Desktop').addWindowToActiveDesktop(win);
+        this.getApplication.getController('desktop.Desktop').addWindowToActiveDesktop(win);
         win.show();
         
         return win;
