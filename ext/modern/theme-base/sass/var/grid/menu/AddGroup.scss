@@ -1,0 +1,5 @@
+/**
+ * @var {string/list}
+ * Glyph for the "add to grouping" menu icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$headermenu-add-group-icon: dynamic($ext-var-add ExtJS);

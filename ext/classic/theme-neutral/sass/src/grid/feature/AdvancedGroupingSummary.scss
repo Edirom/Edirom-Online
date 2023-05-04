@@ -1,0 +1,20 @@
+.#{$prefix}docked-grid-summary {
+  border-width: $grid-advanced-grouped-docked-summary-border-width;
+  border-color: $grid-advanced-grouped-docked-summary-border-color;
+  border-style: $grid-advanced-grouped-docked-summary-border-style;
+
+  .#{$prefix}grid-item {
+    border: 0 none;
+  }
+  // When in a border layout, the background-color shows through the summary content
+  background-color: $grid-advanced-grouped-docked-summary-background-color;
+}
+
+.#{$prefix}grid-summary {
+  .#{$prefix}grid-cell {
+    border-color: $grid-row-border-color;
+    background-color: $grid-body-background-color !important;
+    border-top: 1px solid $grid-row-border-color;
+    font: $grid-row-cell-font;
+  }
+}

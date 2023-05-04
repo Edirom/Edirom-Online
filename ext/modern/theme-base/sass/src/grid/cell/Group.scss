@@ -1,0 +1,51 @@
+.#{$prefix}gridcell-nogroup {
+  .#{$prefix}grid-group-icon {
+    display: none;
+  }
+}
+.#{$prefix}grid-group-header {
+  .#{$prefix}body-el,
+  .#{$prefix}text-el {
+    display: flex;
+  }
+}
+.#{$prefix}grid-group-icon {
+  height: $expandercell-icon-size;
+  width: $expandercell-icon-size;
+
+  @if $enable-big {
+    .#{$prefix}big & {
+      height: $expandercell-icon-size-big;
+      width: $expandercell-icon-size-big;
+    }
+  }
+}
+
+.#{$prefix}grid-group-header-collapsible {
+
+  .#{$prefix}grid-group-icon {
+    display: flex;
+    margin: $grid-group-icon-margin;
+    color: $expandercell-icon-color;
+
+    @include icon(
+            $icon: $expandercell-collapse-icon,
+            $font-size: $expandercell-icon-font-size,
+            $font-size-big: $expandercell-icon-font-size-big
+    );
+  }
+
+  cursor: $grid-group-header-cursor;
+}
+
+.#{$prefix}grid-group-title {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.#{$prefix}grid-group-header-collapsed {
+  .#{$prefix}grid-group-icon {
+    @include icon($expandercell-expand-icon);
+  }
+}

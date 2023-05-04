@@ -1,0 +1,55 @@
+/**
+ * @class Ext.util.PaintMonitor
+ */
+
+@-webkit-keyframes #{$prefix}paint-monitor-helper {
+    from {
+        zoom: 1
+    }
+    to {
+        zoom: 1
+    }
+}
+
+@keyframes #{$prefix}paint-monitor-helper {
+    from {
+        zoom: 1
+    }
+    to {
+        zoom: 1
+    }
+}
+
+.#{$prefix}paint-monitored {
+    position: relative;
+}
+
+// animation not working in safari13.1 and painted listeners not triggered
+.#{$prefix}safari .#{$prefix}paint-monitor.cssanimation {
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+.#{$prefix}paint-monitor {
+    width: 0 !important;
+    height: 0 !important;
+    visibility: hidden;
+
+    &.cssanimation {
+        -webkit-animation-duration: 0.0001ms;
+        -webkit-animation-name: #{$prefix}paint-monitor-helper;
+        animation-duration: 0.0001ms;
+        animation-name: #{$prefix}paint-monitor-helper;
+    }
+
+    &.overflowchange {
+        overflow: hidden;
+
+        &::after {
+            content: '';
+            display: block;
+            width: 1px !important;
+            height: 1px !important;
+        }
+    }
+}

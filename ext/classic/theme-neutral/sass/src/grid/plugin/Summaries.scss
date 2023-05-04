@@ -1,0 +1,10 @@
+.#{$prefix}summaries-icon {
+  @if $enable-font-icons and ($grid-grouped-menu-summary-glyph != null) {
+    @include font-icon($grid-grouped-menu-summary-glyph, $line-height: $menu-item-icon-size);
+    @if $grid-header-menu-glyph-color != $menu-glyph-color {
+      color: $grid-header-menu-glyph-color;
+    }
+  } @else {
+    background-image: theme-background-image('grid/summary', 'png');
+  }
+}

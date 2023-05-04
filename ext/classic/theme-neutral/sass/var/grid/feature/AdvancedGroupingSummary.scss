@@ -1,0 +1,20 @@
+/**
+ * @var {color}
+ * The text color of summary cells
+ */
+$grid-advanced-grouped-docked-summary-border-color: dynamic($grid-advanced-grouped-summary-border-color);
+/**
+ * @var {string}
+ * The border-style of summary cells
+ */
+$grid-advanced-grouped-docked-summary-border-style: dynamic($grid-advanced-grouped-summary-border-style);
+/**
+ * @var {number/list}
+ * The border-width of summary cells
+ */
+$grid-advanced-grouped-docked-summary-border-width: dynamic(1px);
+/**
+ * @var {color}
+ * The background color of summary cells
+ */
+$grid-advanced-grouped-docked-summary-background-color: dynamic($grid-advanced-grouped-summary-background-color);

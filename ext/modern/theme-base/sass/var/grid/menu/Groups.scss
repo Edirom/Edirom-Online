@@ -1,0 +1,7 @@
+/**
+ * @var {string/list}
+ * Glyph for the "groups" menu icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$headermenu-groups-icon: dynamic($ext-var-groups ExtJS);
+$headermenu-groups-expand-icon: dynamic($fa-var-plus-square);
+$headermenu-groups-collapse-icon: dynamic($fa-var-minus-square);

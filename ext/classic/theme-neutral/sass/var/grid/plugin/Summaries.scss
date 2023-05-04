@@ -1,0 +1,5 @@
+/**
+ * @var {string/list}
+ * Glyph for the "summaries" menu icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-grouped-menu-summary-glyph: dynamic($ext-var-summary $grid-header-menu-glyph-font-size ExtJS);

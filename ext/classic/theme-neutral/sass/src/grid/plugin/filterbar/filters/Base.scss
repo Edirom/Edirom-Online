@@ -1,0 +1,5 @@
+.#{$prefix}grid-filter-base {
+  .#{$prefix}form-trigger-wrap-default {
+    @include border($grid-filter-border-width, $grid-filter-border-style, $grid-filter-border-color);
+  }
+}

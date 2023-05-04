@@ -1,0 +1,24 @@
+.#{$prefix}thumb {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .#{$prefix}slider:not(.#{$prefix}slider-vertical) & {
+      top: 50% !important; // overrides inline style applied by translatable during dragging
+      left: 0;
+    }
+
+    .#{$prefix}slider-vertical & {
+      top: 0;
+      left: 50% !important; // overrides inline style applied by translatable during dragging
+    }
+
+    + .#{$prefix}sizer-el {
+        width: 0;
+    }
+
+    &.#{$prefix}dragging {
+        cursor: default;
+    }
+}

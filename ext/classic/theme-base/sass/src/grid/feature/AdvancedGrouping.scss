@@ -1,0 +1,18 @@
+@if $include-rtl and $enable-font-icons {
+    .#{$prefix}rtl.#{$prefix}grid-view .#{$prefix}grid-advanced-group-title{
+        &:before {
+            right: 0;
+        }
+    }
+}
+
+@if $include-rtl {
+    .#{$prefix}rtl.#{$prefix}grid-view {
+        .#{$prefix}grid-advanced-group-hd {
+            border-width: $grid-advanced-grouped-header-border-width-rtl;
+        }
+        .#{$prefix}grid-advanced-group-record {
+            border-width: $grid-advanced-grouped-header-border-width-rtl;
+        }
+    }
+}

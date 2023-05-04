@@ -1,0 +1,112 @@
+.#{$prefix}grid-group-column {
+  @if $grid-group-column-background-gradient == null {
+    background-color: $grid-group-column-background-color;
+  } @else{
+    @include background-gradient($grid-group-column-background-color, $grid-group-column-background-gradient);
+  }
+  cursor: $grid-group-column-cursor;
+  margin: $grid-group-column-outside-margin;
+
+  .#{$prefix}grid-group-column-btn {
+    width: 16px;
+    height: 16px;
+    float: left;
+  }
+
+  .#{$prefix}column-header-sort-ASC,
+  .#{$prefix}column-header-sort-DESC {
+    background-color: transparent !important;
+  }
+}
+.#{$prefix}grid-group-column.#{$prefix}focus {
+  .#{$prefix}grid-group-column-inner {
+    border: $grid-column-header-focus-border-width $grid-column-header-focus-border-style $grid-column-header-focus-border-color;
+  }
+}
+
+.#{$prefix}grid-group-column-over {
+  @include background-gradient($grid-header-over-background-color, $grid-header-over-background-gradient);
+}
+
+.#{$prefix}grid-group-column-inner {
+  padding: $grid-group-column-padding;
+  border: $grid-group-column-border;
+  margin: $grid-group-column-margin;
+  font: $grid-group-column-font;
+}
+
+.#{$prefix}grid-group-column-text {
+}
+
+.#{$prefix}grid-group-column-btn-image {
+  padding: $grid-group-column-btn-image-padding;
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+.#{$prefix}grid-group-column-btn-customize {
+  @if $enable-font-icons and ($grid-group-column-btn-customize-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-column-btn-customize-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/gear-small') no-repeat left center;
+  }
+}
+
+.#{$prefix}grid-group-column-btn-sort-asc {
+  @if $enable-font-icons and ($grid-group-column-btn-sort-asc-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-column-btn-sort-asc-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/sort_asc') no-repeat left center;
+  }
+}
+
+.#{$prefix}grid-group-column-sort-icon-asc {
+  @if $enable-font-icons and ($grid-group-column-sort-icon-asc-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-column-sort-icon-asc-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/hmenu-asc') no-repeat left center;
+  }
+}
+
+.#{$prefix}grid-group-column-btn-sort-desc {
+  @if $enable-font-icons and ($grid-group-column-btn-sort-desc-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-column-btn-sort-desc-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/sort_desc') no-repeat left center;
+  }
+}
+
+.#{$prefix}grid-group-column-sort-icon-desc {
+  @if $enable-font-icons and ($grid-group-column-sort-icon-desc-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-column-sort-icon-desc-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/hmenu-desc') no-repeat left center;
+  }
+}
+
+

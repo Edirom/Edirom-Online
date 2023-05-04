@@ -1,0 +1,24 @@
+.#{$prefix}sliderfield {
+    overflow: visible;
+
+    .#{$prefix}disabled > .#{$prefix}body-wrap-el {
+        // reset the field body opacity because slider component has it's own disabled opacity
+        opacity: 1;
+    }
+
+    .#{$prefix}box-el,
+    .#{$prefix}box-wrap-el {
+        align-items: stretch;
+    }
+
+    .#{$prefix}body-el,
+    .#{$prefix}body-wrap-el {
+        overflow: visible;
+    }
+
+    .#{$prefix}box-wrap-el,
+    .#{$prefix}box-el,
+    .#{$prefix}slider {
+        flex: 1 1 auto;
+    }
+}

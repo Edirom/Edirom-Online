@@ -1,0 +1,74 @@
+@include operatortrigger(
+  $name: 'like',
+  $glyph: $operator-like-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'nlike',
+  $glyph: $operator-nlike-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'eq',
+  $glyph: $operator-eq-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'neq',
+  $glyph: $operator-neq-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'gt',
+  $glyph: $operator-gt-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'gte',
+  $glyph: $operator-gte-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'lt',
+  $glyph: $operator-lt-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'lte',
+  $glyph: $operator-lte-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'in',
+  $glyph: $operator-in-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'nin',
+  $glyph: $operator-nin-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'identical',
+  $glyph: $operator-identical-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'nidentical',
+  $glyph: $operator-nidentical-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'empty',
+  $glyph: $operator-empty-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'exists',
+  $glyph: $operator-exists-icon-glyph
+)
+
+@include operatortrigger(
+  $name: 'fn',
+  $glyph: $operator-fn-icon-glyph
+)

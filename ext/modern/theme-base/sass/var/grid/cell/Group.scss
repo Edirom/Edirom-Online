@@ -1,0 +1,10 @@
+/**
+ * @var {number/list}
+ * Margin to add to the group title's icon
+ */
+$grid-group-icon-margin: dynamic(0 6px 0);
+/**
+ * @var {string}
+ * The cursor of group headers
+ */
+$grid-group-header-cursor: dynamic(pointer);

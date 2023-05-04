@@ -1,0 +1,9 @@
+.#{$prefix}headermenu-groups {
+  @include icon($headermenu-groups-icon);
+}
+.#{$prefix}headermenu-expand-groups {
+  @include icon($headermenu-groups-expand-icon);
+}
+.#{$prefix}headermenu-collapse-groups {
+  @include icon($headermenu-groups-collapse-icon);
+}

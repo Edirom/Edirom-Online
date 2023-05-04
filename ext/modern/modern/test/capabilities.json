@@ -1,0 +1,58 @@
+[
+    {
+        "platform": "Windows 10",
+        "browserName": "chrome",
+        "version": "latest",
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 500
+        }
+    },
+    {
+        "platform": "Windows 10",
+        "browserName": "firefox",
+        "version": "latest",
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 500
+        }
+    },
+    {
+        "platform": "Windows 7",
+        "browserName": "internet explorer",
+        "version": "11",
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 300
+        }
+    },
+    {
+        "browserName": "MicrosoftEdge",
+        "platform": "Windows 10",
+        "version": "latest",
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 500
+        }
+    },
+    {
+        "platform": "macOS 10.12",
+        "browserName": "safari",
+        "version": "10",
+        "pingTimeout": 60000,
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 500
+        }
+    },
+    {
+        "platform": "macOS 10.15",
+        "browserName": "safari",
+        "version": "latest",
+        "pingTimeout": 60000,
+        "chunks": 10,
+        "remoteOptions": {
+            "queueSizeThreshold": 500
+        }
+    }
+]

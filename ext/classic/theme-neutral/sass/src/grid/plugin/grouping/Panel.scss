@@ -1,0 +1,46 @@
+.#{$prefix}grid-group-panel-header {
+  padding: $grid-group-panel-header-padding;
+
+  .#{$prefix}panel-header-title {
+    font: $grid-group-panel-header-font;
+  }
+}
+.#{$prefix}grid-group-panel-header.#{$prefix}header-noborder {
+  padding: $grid-group-panel-header-padding;
+}
+
+.#{$prefix}grid-group-panel-body {
+  background-color: $grid-group-panel-body-background-color;
+  border: $grid-group-panel-body-border-width $grid-group-panel-body-border-style $grid-group-panel-body-border-color;
+}
+
+.#{$prefix}grid-group-panel-hint {
+  color: $grid-group-panel-hint-color;
+  padding: $grid-group-panel-hint-padding;
+}
+
+.#{$prefix}grid-group-panel-icon {
+  @if $enable-font-icons and ($grid-group-panel-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-panel-icon-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/group-by', 'png') no-repeat left center;
+  }
+}
+
+.#{$prefix}grid-group-panel-clear-icon {
+  @if $enable-font-icons and ($grid-group-panel-clear-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-group-panel-clear-icon-glyph,
+            $color: $grid-group-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/group-clear', 'png') no-repeat left center;
+  }
+}

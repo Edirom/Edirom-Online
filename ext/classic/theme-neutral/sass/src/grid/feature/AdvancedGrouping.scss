@@ -1,0 +1,123 @@
+.#{$prefix}grid-advanced-group-hd {
+  border-width: $grid-advanced-grouped-header-border-width;
+  border-style: $grid-advanced-grouped-header-border-style;
+  border-color: $grid-advanced-grouped-header-border-color;
+  padding: $grid-advanced-grouped-header-padding;
+  cursor: $grid-advanced-grouped-header-cursor;
+  white-space: nowrap;
+  outline: none;
+}
+
+.#{$prefix}grid-advanced-group-record {
+  border-width: $grid-advanced-grouped-header-border-width;
+  border-style: $grid-advanced-grouped-header-border-style;
+  border-color: $grid-advanced-grouped-header-border-color;
+  padding: $grid-advanced-grouped-header-padding;
+}
+
+.#{$prefix}grid-advanced-group-hd-not-collapsible {
+  cursor: default;
+}
+
+.#{$prefix}grid-advanced-group-hd-collapsible .#{$prefix}grid-advanced-group-title {
+  padding: $grid-advanced-grouped-icon-padding;
+
+  @if $enable-font-icons and ($grid-advanced-grouped-title-collapse-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-advanced-grouped-title-collapse-glyph,
+            $color: $grid-advanced-grouped-title-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background: theme-background-image('grid/group-collapse') no-repeat left center;
+  }
+}
+
+@if $include-rtl {
+  .#{$prefix}rtl.#{$prefix}grid-view .#{$prefix}grid-advanced-group-hd-collapsible .#{$prefix}grid-advanced-group-title {
+    background-position: right center;
+    padding: rtl($grid-advanced-grouped-icon-padding);
+  }
+}
+
+.#{$prefix}grid-advanced-group-title {
+  position: relative;
+  font: $grid-advanced-grouped-title-font;
+}
+.#{$prefix}grid-advanced-group-title:before {
+  position: absolute;
+  left: 0;
+}
+
+.#{$prefix}grid-advanced-group-hd-collapsed .#{$prefix}grid-advanced-group-title {
+  @if $enable-font-icons and ($grid-advanced-grouped-title-expand-glyph != null) {
+    @include font-icon(
+            $glyph: $grid-advanced-grouped-title-expand-glyph,
+            $color: $grid-advanced-grouped-title-glyph-color,
+            $line-height: null,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/group-expand');
+  }
+}
+
+.#{$prefix}groups-icon {
+  @if $enable-font-icons and ($grid-advanced-grouped-menu-groups-glyph != null) {
+    @include font-icon($grid-advanced-grouped-menu-groups-glyph, $line-height: $menu-item-icon-size);
+    @if $grid-header-menu-glyph-color != $menu-glyph-color {
+      color: $grid-header-menu-glyph-color;
+    }
+  } @else {
+    background-image: theme-background-image('grid/groups', 'png');
+  }
+}
+
+.#{$prefix}group-by-icon {
+  @if $enable-font-icons and ($grid-advanced-grouped-menu-group-by-glyph != null) {
+    @include font-icon($grid-advanced-grouped-menu-group-by-glyph, $line-height: $menu-item-icon-size);
+    @if $grid-header-menu-glyph-color != $menu-glyph-color {
+      color: $grid-header-menu-glyph-color;
+    }
+  } @else {
+    background-image: theme-background-image('grid/group-by', 'png');
+  }
+}
+
+.#{$prefix}add-group-icon {
+  @if $enable-font-icons and ($grid-advanced-grouped-menu-add-group-glyph != null) {
+    @include font-icon($grid-advanced-grouped-menu-add-group-glyph, $line-height: $menu-item-icon-size);
+    @if $grid-header-menu-glyph-color != $menu-glyph-color {
+      color: $grid-header-menu-glyph-color;
+    }
+  } @else {
+    background-image: theme-background-image('grid/add', 'png');
+  }
+}
+
+.#{$prefix}remove-group-icon {
+  @if $enable-font-icons and ($grid-advanced-grouped-menu-remove-group-glyph != null) {
+    @include font-icon($grid-advanced-grouped-menu-remove-group-glyph, $line-height: $menu-item-icon-size);
+    @if $grid-header-menu-glyph-color != $menu-glyph-color {
+      color: $grid-header-menu-glyph-color;
+    }
+  } @else {
+    background-image: theme-background-image('grid/remove', 'png');
+  }
+}
+
+
+.#{$prefix}grid-advanced-group-summary,
+.#{$prefix}grid-summary {
+  .#{$prefix}grid-cell {
+    @if($grid-advanced-grouped-summary-border-width != null) {
+      border-width: $grid-advanced-grouped-summary-border-width;
+    }
+    border-style: $grid-advanced-grouped-summary-border-style;
+    border-color: $grid-advanced-grouped-summary-border-color;
+    background-color: $grid-advanced-grouped-summary-background-color;
+    color: $grid-advanced-grouped-summary-color;
+    font: $grid-advanced-grouped-summary-font;
+  }
+}

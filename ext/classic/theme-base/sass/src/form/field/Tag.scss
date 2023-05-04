@@ -1,0 +1,74 @@
+.#{$prefix}tagfield-body {
+    vertical-align: top;
+}
+
+.#{$prefix}tagfield {
+    height: auto!important; /* The wrap has to accommodate the list, so override the .x-form-text height rule */
+    cursor: text;
+    overflow-y: auto;
+}
+
+.#{$prefix}tagfield .#{$prefix}tagfield-list {
+    padding: 0;
+    margin: 0;
+}
+
+.#{$prefix}tagfield-list.#{$prefix}tagfield-singleselect {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.#{$prefix}tagfield-input, .#{$prefix}tagfield-item {
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+}
+
+.#{$prefix}tagfield-input-field {
+    font: inherit;
+    border: 0;
+    margin: 0;
+    background: none;
+    width: 100%;
+}
+
+.#{$prefix}tagfield-input-field-nogrow {
+    // This element grows and shrinks with the input text, but it needs a
+    // minimum width to ensure that the blinking cursor is visible when the 
+    // element is focused
+    min-width: 3px;
+    // width changes as you type, this is just the default so it doesn't start big
+    width: 3px;
+    max-width: 130px;
+    padding: 0;
+    .#{$prefix}field.#{$prefix}not-editable &,
+    .#{$prefix}tagfield-list.#{$prefix}tagfield-singleselect & {
+        // when you can't type into the input let's keep it out of the way so
+        // that it doesn't cause unintentional scrolling of the list
+        // see EXTJS-26044 and EXTJS-26817
+        position: absolute;
+    }
+}
+
+.#{$prefix}tagfield-stacked .#{$prefix}tagfield-item {
+    display: block;
+}
+
+.#{$prefix}tagfield-item {
+    cursor: default;
+}
+
+.#{$prefix}tagfield-item-close {
+    cursor: pointer;
+    position: absolute;
+}
+
+.#{$prefix}tagfield-arialist {
+    list-style-type: none;
+    position: absolute;
+    clip: rect(0, 0, 0, 0);
+}
+
+.#{$prefix}tagfield-arialist-item {
+    list-style-type: none;
+}

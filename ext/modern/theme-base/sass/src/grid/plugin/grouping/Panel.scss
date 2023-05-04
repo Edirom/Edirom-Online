@@ -1,0 +1,16 @@
+.#{$prefix}grid-group-panel-body{
+  background-color: $grid-group-panel-body-background-color;
+  border: $grid-group-panel-body-border-style $grid-group-panel-body-border-color;
+  border-width: $grid-group-panel-body-border-width;
+
+  .#{$prefix}panelheader {
+    .#{$prefix}panelheader-body-el {
+      padding: 0;
+    }
+  }
+}
+
+.#{$prefix}grid-group-panel-hint {
+  color: $grid-group-panel-hint-color;
+  padding: $grid-group-panel-hint-padding;
+}

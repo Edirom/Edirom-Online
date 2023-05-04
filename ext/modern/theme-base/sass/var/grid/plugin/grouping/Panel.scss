@@ -1,0 +1,32 @@
+/** @class Ext.grid.plugin.grouping.Panel */
+
+/**
+ * @var {number}
+ * The border-width of the grouping panel's body.
+ */
+$grid-group-panel-body-border-width: dynamic($headercontainer-border-width);
+/**
+ * @var {string}
+ * The border-style of the grouping panel's body.
+ */
+$grid-group-panel-body-border-style: dynamic($headercontainer-border-style);
+/**
+ * @var {color}
+ * The border color of the grouping panel's body.
+ */
+$grid-group-panel-body-border-color: dynamic($headercontainer-border-color);
+/**
+ * @var {color}
+ * The background color of the grouping panel's body.
+ */
+$grid-group-panel-body-background-color: dynamic($headercontainer-background-color);
+/**
+ * @var {color}
+ * The text color of the hint text displayed inside the panel. (ie "Drop column fields here")
+ */
+$grid-group-panel-hint-color: dynamic(darkgray);
+/**
+ * @var {number}
+ * The default padding for the hint text displayed inside the panel. (ie "Drop column fields here")
+ */
+$grid-group-panel-hint-padding: dynamic(5px);

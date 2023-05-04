@@ -1,0 +1,9 @@
+.#{$prefix}gridcolumn {
+    &.#{$prefix}grid-filters-filtered-column {
+        > .#{$prefix}header-el {
+            font-style: $grid-filters-column-filtered-font-style;
+            font-weight: $grid-filters-column-filtered-font-weight;
+            text-decoration: $grid-filters-column-filtered-text-decoration;
+        }
+    }
+}

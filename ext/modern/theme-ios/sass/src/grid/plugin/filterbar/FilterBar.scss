@@ -1,0 +1,13 @@
+.#{$prefix}grid-filterbar {
+  .#{$prefix}textfield {
+    .#{$prefix}input-wrap-el {
+      border: 0 none;
+    }
+  }
+}
+
+//.#{$prefix}grid-filterbar-filtered-column {
+//  font-style: $grid-filterbar-column-filtered-font-style;
+//  font-weight: $grid-filterbar-column-filtered-font-weight;
+//  text-decoration: $grid-filterbar-column-filtered-text-decoration;
+//}

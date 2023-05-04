@@ -1,0 +1,217 @@
+.#{$prefix}operator-button {
+  width: $operator-width !important;
+  vertical-align: middle;
+  cursor: pointer;
+  background-color: $form-text-field-background-color;
+  line-height: $operator-line-height,
+}
+
+.#{$prefix}operator-like {
+  @if $enable-font-icons and ($operator-like-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-like-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-like', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-nlike {
+  @if $enable-font-icons and ($operator-nlike-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-nlike-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-nlike', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-eq {
+  @if $enable-font-icons and ($operator-eq-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-eq-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-eq', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-neq {
+  @if $enable-font-icons and ($operator-neq-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-neq-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-neq', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-gt {
+  @if $enable-font-icons and ($operator-gt-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-gt-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-gt', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-gte {
+  @if $enable-font-icons and ($operator-gte-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-gte-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-gte', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-lt {
+  @if $enable-font-icons and ($operator-lt-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-lt-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-lt', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-lte {
+  @if $enable-font-icons and ($operator-lte-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-lte-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-lte', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-in {
+  @if $enable-font-icons and ($operator-in-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-in-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-in', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-nin {
+  @if $enable-font-icons and ($operator-nin-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-nin-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-nin', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-identical {
+  @if $enable-font-icons and ($operator-identical-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-identical-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-identical', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-nidentical {
+  @if $enable-font-icons and ($operator-nidentical-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-nidentical-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-nidentical', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-empty {
+  @if $enable-font-icons and ($operator-empty-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-empty-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-empty', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-exists {
+  @if $enable-font-icons and ($operator-exists-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-exists-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-exists', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}
+
+.#{$prefix}operator-fn {
+  @if $enable-font-icons and ($operator-fn-icon-glyph != null) {
+    @include font-icon(
+            $glyph: $operator-fn-icon-glyph,
+            $color: $operator-glyph-color,
+            $style-pseudo: true
+    );
+  } @else {
+    background-image: theme-background-image('grid/op-fn', 'png');
+    background-repeat: no-repeat;
+    background-position: left center;
+  }
+}

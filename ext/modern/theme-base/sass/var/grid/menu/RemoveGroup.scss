@@ -1,0 +1,5 @@
+/**
+ * @var {string/list}
+ * Glyph for the "remove from grouping" menu icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$headermenu-remove-group-icon: dynamic($ext-var-remove ExtJS);

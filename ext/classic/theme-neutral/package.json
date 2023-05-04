@@ -1,0 +1,41 @@
+{
+    "name": "@sencha/ext-react-classic-theme-neutral",
+    "ext-react-name": "@sencha/ext-react-classic-theme-neutral",
+    "ext-name": "@sencha/ext-classic-theme-neutral",
+    "SenchaExtName": "@sencha/ext-classic-theme-neutral",
+    "SenchaExtReactName": "@sencha/ext-react-classic-theme-neutral",
+    "version": "7.6.0.41",
+    "sencha": {
+        "name": "theme-neutral",
+        "namespace": "Ext",
+        "type": "theme",
+        "extend": "theme-base",
+        "alternateName": [
+            "ext-theme-neutral"
+        ],
+        "framework": "ext",
+        "toolkit": "classic",
+        "creator": "Sencha",
+        "summary": "Ext JS Neutral Theme",
+        "detailedDescription": "The neutral theme is a highly configurable, abstract base theme for the Ext JS classic toolkit",
+        "version": "7.6.0",
+        "compatVersion": "7.6.0",
+        "format": "1",
+        "output": "${workspace.subpkg.prefix}/${package.name}",
+        "local": true,
+        "sass": {
+            "namespace": "Ext",
+            "etc": "${package.dir}/sass/etc/all.scss",
+            "var": "${package.dir}/sass/var",
+            "src": "${package.dir}/sass/src"
+        },
+        "classpath": "${package.dir}/src",
+        "overrides": "${package.dir}/overrides",
+        "slicer": {
+            "js": []
+        },
+        "properties": {
+            "skip.pkg": 1
+        }
+    }
+}

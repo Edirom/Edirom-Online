@@ -1,0 +1,50 @@
+.#{$prefix}grid-group-column {
+  cursor: $grid-group-column-cursor;
+  padding: $grid-group-column-padding;
+  color: $color;
+  background-color: $grid-group-column-background-color;
+  @include font($grid-group-column-font-weight, $grid-group-column-font-size, $grid-group-column-line-height, $grid-group-column-font-family);
+  @include border($grid-group-column-border-width, $grid-group-column-border-style, $grid-group-column-border-color);
+
+
+  .#{$prefix}body-el {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+  }
+
+
+  .#{$prefix}title-el {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+.#{$prefix}grid-group-column-over {
+  background-color: $gridcolumn-hovered-background-color;
+}
+
+.#{$prefix}grid-group-column-inner {
+  padding: $grid-group-column-padding;
+  border: $grid-group-column-border;
+  margin: $grid-group-column-margin;
+  font: $grid-group-column-font;
+}
+
+.#{$prefix}grid-group-column-text {
+}
+
+.#{$prefix}grid-group-column-btn-image.#{$prefix}icon-el:before {
+    font-size: $gridcolumn-sort-icon-font-size;
+}
+
+.#{$prefix}grid-group-column-btn-sort-asc {
+  @include icon($grid-group-column-sort-asc-icon);
+}
+.#{$prefix}grid-group-column-btn-sort-desc {
+  @include icon($grid-group-column-sort-desc-icon);
+}
+

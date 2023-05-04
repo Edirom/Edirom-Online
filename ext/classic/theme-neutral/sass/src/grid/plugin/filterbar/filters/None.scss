@@ -1,0 +1,5 @@
+.#{$prefix}grid-filter-none {
+  background-color: $grid-filter-background-color;
+  min-height: $grid-filter-height;
+  @include border($grid-filter-border-width, $grid-filter-border-style, $grid-filter-border-color);
+}

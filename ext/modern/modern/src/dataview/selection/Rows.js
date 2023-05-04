@@ -1,0 +1,705 @@
+/**
+ * A class which encapsulates a range of rows defining a selection in a grid.
+ */
+Ext.define('Ext.dataview.selection.Rows', {
+    extend: 'Ext.dataview.selection.Selection',
+    alias: 'selection.rows',
+
+    requires: [
+        'Ext.util.Spans'
+    ],
+
+    /**
+     * @property {Boolean} isRows
+     * This property indicates the this selection represents selected rows.
+     * @readonly
+     */
+    isRows: true,
+
+    config: {
+        /**
+         * @cfg {Ext.util.Spans} selected
+         * A cache of start/end row ranges which encpsulates the selected rows.
+         * @readonly
+         */
+        selected: true
+    },
+
+    //-------------------------------------------------------------------------
+    // Base Selection API
+
+    clone: function() {
+        return new this.self({
+            selectionModel: this.getSelectionModel(),
+            selected: new Ext.util.Spans().unstash(this.getSelected().stash())
+        });
+    },
+
+    //-------------------------------------------------------------------------
+    // Methods unique to this type of Selection
+
+    add: function(range, keepExisting, suppressEvent) {
+        var me = this,
+            view = me.view,
+            selected = view.getSelected(),
+            selectable = view.getSelectable(),
+            records = [],
+            rowIdx, tmp, record, span, selGroupIdx, mappedRange;
+
+        // Single element array - extract it.
+        // We cannot accept an array of records in this Selection class
+        // because we deal in row ranges.
+        if (range.length === 1) {
+            range = range[0];
+        }
+
+        // Adding a record selects that index
+        if (range.isEntity) {
+            record = range;
+            mappedRange = view.mapToRecordIndex(range);
+            range = (mappedRange === -1)
+                ? view.mapToItem(range).getRecordIndex()
+                : mappedRange;
+        }
+
+        // Adding a single index - create an *EXCLUSIVE* range
+        if (typeof range === 'number') {
+            range = [range, range + 1];
+        }
+
+        //<debug>
+        if (range.length !== 2 || typeof range[0] !== 'number' || typeof range[1] !== 'number') {
+            Ext.raise('add must be called with a [start, end] row index *EXCLUSIVE* range');
+        }
+        //</debug>
+
+        // Assigning lastSelectedRecIndx to the first item of range before swapping them. 
+        // Otherwise we will not have true last selected index.
+        me.lastSelectedRecIndx = range[1] - 1;
+
+        // if range is also getting swapped, move offset 1 which was added while invoking
+        if (range[0] > range[1]) {
+            tmp = range[1] - 1;
+            range[1] = range[0] + 1;
+            range[0] = tmp;
+        }
+
+        me.lastSelected = range[1];
+
+        if (!keepExisting) {
+            me.clear();
+        }
+
+        me.getSelected().add(range);
+        span = me.getSelected().spans;
+
+        if (me.getSelectionModel().getMode() !== 'single') {
+        // Collecting all records and moved the onItemSelect call outside loop to avoid
+            for (selGroupIdx = 0; selGroupIdx < span.length; selGroupIdx++) {
+                range = span[selGroupIdx];
+
+                for (rowIdx = range[0]; rowIdx < range[1]; rowIdx++) {
+                    records.push(view.store.getAt(rowIdx));
+                }
+            }
+
+            // Suppressing this event on selected collection as we are already firing 
+            // `onItemSelect` Which will invoke select.
+            selected.suppressEvent = true;
+
+            if (!selectable.pruneRemoved) {
+                selected.add(records);
+                records = selected.items;
+            }
+
+            view.onItemSelect(records);
+            selected.suppressEvent = false;
+        }
+
+        me.manageSelection(record);
+
+        if (!suppressEvent) {
+            me.getSelectionModel().fireSelectionChange();
+        }
+    },
+
+    remove: function(range, suppressEvent) {
+        var me = this,
+            selModel = me.getSelectionModel(),
+            view = me.view,
+            store = view.store,
+            selected = view.getSelected(),
+            records = [],
+            rowIdx, mappedRange, record;
+
+        // If the selection model is deselectable: false, which means there must
+        // always be a selection, reject deselection of the last record
+        if (!selModel.getDeselectable() && me.getCount() === 1) {
+            return;
+        }
+
+        // Single element array - extract it.
+        // We cannot accept an array of records in this Selection class
+        // because we deal in row ranges.
+        if (range.length === 1) {
+            range = range[0];
+        }
+
+        // Removing a record selects that index
+        if (range.isEntity) {
+            mappedRange = view.mapToRecordIndex(range);
+            range = (mappedRange === -1)
+                ? view.mapToItem(range).getRecordIndex()
+                : mappedRange;
+        }
+
+        // Removing a single index - create an *EXCLUSIVE* range
+        if (typeof range === 'number') {
+            range = [range, range + 1];
+        }
+
+        //<debug>
+        if (!range.length === 2 && typeof range[0] === 'number' && typeof range[1] === 'number') {
+            Ext.raise('remove must be called with a [start, end] record *EXCLUSIVE* range');
+        }
+
+        if (range[0] > range[1]) {
+            Ext.raise('Range must be [startIndex, endIndex] (exclusive end)');
+        }
+        //</debug>
+
+        me.getSelected().remove(range);
+
+        for (rowIdx = range[0]; rowIdx < range[1]; rowIdx++) {
+            record = store.getAt(rowIdx);
+
+            if (record) {
+                records.push(record);
+            }
+        }
+
+        if (!suppressEvent) {
+            view.onItemDeselect(records);
+            selected.suppressEvent = true;
+            selected.remove(records);
+            selected.suppressEvent = false;
+            selModel.fireSelectionChange();
+        }
+    },
+
+    refresh: function() {
+        var me = this,
+            view = me.view,
+            store = view.store,
+            selectable = view.getSelectable(),
+            selected = view.getSelected(),
+            selectedItems = selected.items,
+            toSelect = [],
+            i, record, spans;
+
+        spans = view.el.query('.' + view.selectedCls);
+
+        for (i = 0; i < spans.length; i++) {
+            Ext.get(spans[i]).removeCls(view.selectedCls);
+        }
+
+        if (!selectable.pruneRemoved) {
+            me.setSelected([]);
+            me.getSelectionModel().selectionStart = null;
+            me.dragRange = me.lastSelectedRecIndx = null;
+
+            for (i = 0; i < selectedItems.length; i++) {
+                record = store.getById(selectedItems[i].getId());
+
+                if (record) {
+                    toSelect.push(record);
+                }
+            }
+
+            selected.suppressEvent = true;
+            view.onItemSelect(toSelect, true);
+            selected.suppressEvent = false;
+        }
+        else {
+            selectable.resetSelection(true);
+        }
+    },
+
+    /**
+     * Returns `true` if the passed {@link Ext.data.Model record} is selected.
+     * @param {Ext.data.Model} record The record to test.
+     * @return {Boolean} `true` if the passed {@link Ext.data.Model record} is selected.
+     */
+    isSelected: function(record) {
+        var me = this,
+            view = me.view,
+            ranges = me.getSelected().spans,
+            selectable = view.getSelectable(),
+            len = ranges.length,
+            recIndex, range, i;
+
+        if (record && !selectable.pruneRemoved) {
+            return !!view.getSelected().find(record.getIdProperty(), record.getId());
+        }
+
+        recIndex = record.isEntity ? me.view.getStore().indexOf(record) : record;
+
+        for (i = 0; i < len; i++) {
+            range = ranges[i];
+
+            if (recIndex >= range[0] && recIndex < range[1]) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    /**
+     * Returns the number of records selected
+     * @return {Number} The number of records selected.
+     */
+    getCount: function() {
+        return this.getSelected().getCount();
+    },
+
+    selectAll: function() {
+        var me = this,
+            view = me.view,
+            store = view.store,
+            selected = view.getSelected(),
+            items = view.dataItems,
+            len = items.length,
+            records = [],
+            record, i;
+
+        // Apply selected rendition to all view items.
+        // Buffer rendered items will appear selected
+        // because the rendering pathway consults the selection.
+        for (i = 0; i < len; i++) {
+            record = store.getAt(i);
+
+            if (record) {
+                records.push(record);
+            }
+
+        }
+
+        selected.suppressEvent = true;
+        view.onItemSelect(records);
+        selected.suppressEvent = false;
+        // We have just one range encompassing all rows.
+        // Note that the Spans API is exclusive of range end index.
+        me.getSelected().add(0, store.getTotalCount() || store.getCount());
+
+        me.getSelectionModel().fireSelectionChange();
+    },
+
+    /**
+     * @return {Number} The row index of the first row in the range or zero if no range.
+     */
+    getFirstRowIndex: function() {
+        var ranges = this.getSelected().spans;
+
+        return ranges.length ? this.getSelected().spans[0][0] : 0;
+    },
+
+    /**
+     * @return {Number} The row index of the last row in the range or -1 if no range.
+     */
+    getLastRowIndex: function() {
+        var ranges = this.getSelected().spans;
+
+        return ranges.length ? ranges[ranges.length - 1][1] - 1 : 0;
+    },
+
+    eachRow: function(fn, scope) {
+        var me = this,
+            ranges = me.getSelected().spans,
+            len = ranges && ranges.length,
+            result, range, i, j;
+
+        for (i = 0; i < len; i++) {
+            range = ranges[i];
+
+            for (j = range[0]; result !== false && j < range[1]; j++) {
+                result = fn.call(this || scope, j);
+            }
+        }
+    },
+
+    eachColumn: function(fn, scope) {
+        var columns = this.view.getHeaderContainer().getVisibleColumns(),
+            len = columns.length,
+            i;
+
+        // If we have any records selected, then all visible columns are selected.
+        if (this.getCount()) {
+            for (i = 0; i < len; i++) {
+                if (fn.call(this || scope, columns[i], i) === false) {
+                    return;
+                }
+            }
+        }
+    },
+
+    eachCell: function(fn, scope) {
+        var me = this,
+            selection = me.getSelected(),
+            view = me.view,
+            columns = view.ownerGrid.getVisibleColumnManager().getColumns(),
+            range = me.dragRange,
+            colCount,
+            i,
+            j,
+            location,
+            recCount,
+            abort = false;
+
+        if (columns) {
+            colCount = columns.length;
+            location = new Ext.grid.Location(view);
+
+            // Use Collection#each instead of copying the entire dataset into an array and
+            // iterating that.
+            if (selection) {
+                me.eachRow(function(recordIndex) {
+                    location.setItem(recordIndex);
+
+                    for (i = 0; i < colCount; i++) {
+                        location.setColumn(columns[i]);
+
+                        if (fn.call(scope || me, location, location.columnIndex,
+                                    location.recordIndex) === false) {
+                            abort = true;
+
+                            return false;
+                        }
+                    }
+                });
+            }
+
+            // If called during a drag select, or SHIFT+arrow select, include the drag range
+            if (!abort && range != null) {
+                me.view.getStore().getRange(range[0], range[1], {
+                    forRender: false,
+                    callback: function(records) {
+                        recCount = records.length;
+
+                        for (i = 0; !abort && i < recCount; i++) {
+                            location.setItem(records[i]);
+
+                            for (j = 0; !abort && j < colCount; j++) {
+                                location.setColumn(columns[j]);
+
+                                if (fn.call(scope || me, location, location.columnIndex,
+                                            location.recordIndex) === false) {
+                                    abort = true;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    },
+
+    /**
+     * Returns the records selected.
+     * @return {Ext.data.Model[]} The records selected.
+     */
+    getRecords: function() {
+        return this.getSelectionModel().getSelected().getRange();
+    },
+
+    //-------------------------------------------------------------------------
+
+    privates: {
+        applySelected: function(spans) {
+            if (!spans.isSpans) {
+                spans = new Ext.util.Spans();
+            }
+
+            return spans;
+        },
+
+        compareRanges: function(lhs, rhs) {
+            return lhs[0] - rhs[0];
+        },
+
+        /**
+         * @private
+         */
+        clear: function(suppressEvent) {
+            var me = this,
+                view = me.view,
+                partners = view.allPartners || view.selfPartner || [],
+                selModel, i, partnerLen, selectable, selection, partner;
+
+            for (i = 0, partnerLen = partners.length; i < partnerLen; ++i) {
+                partner = partners[i];
+                selectable = partner.getSelectable();
+                selection = selectable.getSelection();
+                selModel = selection.getSelectionModel();
+
+                selModel.getSelected().removeAll();
+                selection.getSelected().clear();
+
+                // Enforce our selection model's deselectable: false by re-adding the last
+                // selected index.
+                // Suppress event because we might be firing it.
+                if (!selModel.getDeselectable() && selection.lastSelected) {
+                    selection.add(selection.lastSelected, true, true);
+                }
+
+                selection.manageSelection(null);
+
+                if (!suppressEvent) {
+                    selModel.fireSelectionChange();
+                }
+            }
+        },
+
+        addRecordRange: function(start, end) {
+            return this.add([start, end + 1], true);
+        },
+
+        removeRecordRange: function(start, end) {
+            return this.remove([start, end + 1]);
+        },
+
+        /**
+         * @return {Boolean}
+         * @private
+         */
+        isAllSelected: function() {
+            var store = this.view.store;
+
+            return (this.getCount() === store.getTotalCount()) ||
+                (this.getCount() === store.getCount());
+        },
+
+        /**
+         * Used during drag/shift+downarrow range selection on start.
+         * @param {Number} start The start row index of the row drag selection.
+         * @private
+         */
+        setRangeStart: function(start) {
+            if (start == null) {
+                this.dragRange = null;
+            }
+            else {
+                this.dragRange = [start, start];
+
+                // This is just theoretical for now - we are simply defining a range, not
+                // adding to the collection.
+                // So we have to programmatically sync the view state.
+                this.view.onItemSelect(start, true);
+            }
+        },
+
+        /**
+         * Used during drag/shift+downarrow range selection on change of row.
+         * @param {Number} end The end row index of the row drag selection.
+         * @private
+         */
+        setRangeEnd: function(end) {
+            var me = this,
+                dragRange = me.dragRange || (me.dragRange = [0, end]),
+                oldEnd = dragRange[1],
+                start = dragRange[0],
+                view = me.view,
+                renderInfo = view.renderInfo,
+                tmp = dragRange[1] = end,
+                removeRange = [],
+                addRange = false,
+                rowIdx, limit;
+
+            // Ranges retain whatever start end end point, regardless of order
+            // We just need the real start and end index to test candidates for inclusion.
+            if (start > end) {
+                end = start;
+                start = tmp;
+            }
+
+            rowIdx = Math.max(Math.min(dragRange[0], start, oldEnd, end),
+                              renderInfo.indexTop);
+
+            limit = Math.min(Math.max(dragRange[1], start, oldEnd, end),
+                             renderInfo.indexBottom - 1);
+
+            // Loop through the union of previous range and newly set range
+            for (; rowIdx <= limit; rowIdx++) {
+                // If we are outside the current dragRange, deselect
+                if (rowIdx < start || rowIdx > end) {
+                    view.onItemDeselect(rowIdx);
+                    removeRange[removeRange.length ? 1 : 0] = rowIdx;
+                }
+                else {
+                    view.onItemSelect(rowIdx, true);
+                    addRange = true;
+                }
+            }
+
+            if (addRange) {
+                me.addRange(true);
+            }
+
+            if (removeRange.length) {
+                me.removeRecordRange(removeRange[0], removeRange[1]);
+            }
+
+            me.lastSelectedIndex = end;
+        },
+
+        /**
+         * Called at the end of a drag, or shift+downArrow row range select.
+         * The record range delineated by the start and end row indices is added to the
+         * selected Collection.
+         * @private
+         */
+        addRange: function(keep) {
+            var range = this.dragRange;
+
+            if (range) {
+                // Must use addRecordRange.
+                // Subclass's add API uses records, not indices.
+                // the recordRange API always uses indices/
+                this.addRecordRange(range[0], range[1]);
+
+                if (!keep) {
+                    this.dragRange = null;
+                }
+            }
+        },
+
+        extendRange: function(extensionVector) {
+            // Must use addRecordRange.
+            // Subclass's add API uses records, not indices.
+            // the recordRange API always uses indices/
+            this.addRecordRange(extensionVector.start, extensionVector.end);
+        },
+
+        reduceRange: function(extensionVector) {
+            // Must use addRecordRange.
+            // Subclass's add API uses records, not indices.
+            // the recordRange API always uses indices/
+            this.removeRecordRange(extensionVector.start, extensionVector.end);
+        },
+
+        /**
+         * @return {Number[]}
+         * @private
+         */
+        getRange: function() {
+            var range = this.dragRange;
+
+            if (range == null) {
+                return [0, -1];
+            }
+
+            if (range[0] <= range[1]) {
+                return range;
+            }
+
+            return [range[1], range[0]];
+        },
+
+        /**
+         * Returns the size of the mousedown+drag, or SHIFT+arrow selection range.
+         * @return {Number}
+         * @private
+         */
+        getRangeSize: function() {
+            var range = this.getRange();
+
+            return range[1] - range[0] + 1;
+        },
+
+        onSelectionFinish: function() {
+            var me = this,
+                range = me.getContiguousSelection();
+
+            if (range) {
+                me.getSelectionModel().onSelectionFinish(
+                    me,
+                    new Ext.grid.Location(me.view, { record: range[0], column: 0 }),
+                    new Ext.grid.Location(me.view, {
+                        record: range[1],
+                        column: me.view.getHeaderContainer().getVisibleColumns().length - 1
+                    }));
+            }
+            else {
+                me.getSelectionModel().onSelectionFinish(me);
+            }
+        },
+
+        getContiguousSelection: function() {
+            var selected = this.getSelected(),
+                store = this.view.store,
+                spans = selected.spans;
+
+            // If there's only one span, and the store contains the start and end, we can
+            // allow the range extender.
+            if (spans === 1 && store.getAt(spans[0][0]) && store.getAt(spans[0][1])) {
+                return selected.spans[0];
+            }
+        },
+
+        /**
+         * Update view selection on `single` selectable mode.
+         * @param {Ext.data.Model/null} record Selected row record, 
+         * if `null` remove selected record 
+         * @private
+         */
+        manageSelection: function(record) {
+            var me = this,
+                view = me.view,
+                store = view.getStore(),
+                selModel = me.getSelectionModel(),
+                selected;
+
+            if (!store.isVirtualStore || selModel.getMode() !== 'single') {
+                return;
+            }
+
+            // update selection if selection mode is single and store type is virtual
+            selected = selModel.getSelected();
+
+            // unlock record page if view has selection
+            if (selected.length) {
+                me.adjustPageLock(store, selected.getAt(0), -1);
+            }
+
+            if (record) {
+                selected.splice.apply(selected, [0, 0, record]);
+                me.adjustPageLock(store, record, 1);
+            }
+            else {
+                selected.remove(selected.getAt(0));
+            }
+        },
+
+        /**
+         * Acquires or releases the lock to the page.
+         * Utility method only called from manageSelection.
+         * @param {Ext.data.virtual.Store} store View store.
+         * @param {Ext.data.Model} record Selected record
+         * @param {Number} delta A value of `1` to lock or `-1` to release.
+         * @private
+         */
+        adjustPageLock: function(store, record, delta) {
+            var page;
+
+            if (!store.isVirtualStore || !record) {
+                return;
+            }
+
+            page = store.pageMap.getPageOf(store.indexOf(record));
+
+            if (page) {
+                page.adjustLock('active', delta);
+            }
+        }
+    }
+});

@@ -1,0 +1,47 @@
+
+$operator-glyph-color: dynamic($trigger-icon-color);
+$operator-glyph-font-size: dynamic(12px);
+
+$operator-like-icon-glyph: dynamic($ext-var-op-like $operator-glyph-font-size ExtJS);
+$operator-nlike-icon-glyph: dynamic($ext-var-op-nlike $operator-glyph-font-size ExtJS);
+$operator-eq-icon-glyph: dynamic($ext-var-op-eq $operator-glyph-font-size ExtJS);
+$operator-neq-icon-glyph: dynamic($ext-var-op-neq $operator-glyph-font-size ExtJS);
+$operator-gt-icon-glyph: dynamic($ext-var-op-gt $operator-glyph-font-size ExtJS);
+$operator-gte-icon-glyph: dynamic($ext-var-op-gte $operator-glyph-font-size ExtJS);
+$operator-lt-icon-glyph: dynamic($ext-var-op-lt $operator-glyph-font-size ExtJS);
+$operator-lte-icon-glyph: dynamic($ext-var-op-lte $operator-glyph-font-size ExtJS);
+$operator-in-icon-glyph: dynamic($ext-var-op-in $operator-glyph-font-size ExtJS);
+$operator-nin-icon-glyph: dynamic($ext-var-op-nin $operator-glyph-font-size ExtJS);
+$operator-identical-icon-glyph: dynamic($ext-var-op-identical $operator-glyph-font-size ExtJS);
+$operator-nidentical-icon-glyph: dynamic($ext-var-op-nidentical $operator-glyph-font-size ExtJS);
+$operator-empty-icon-glyph: dynamic($ext-var-op-empty $operator-glyph-font-size ExtJS);
+$operator-exists-icon-glyph: dynamic($ext-var-op-exists $operator-glyph-font-size ExtJS);
+$operator-fn-icon-glyph: dynamic($ext-var-op-fn $operator-glyph-font-size ExtJS);
+
+@mixin operatortrigger(
+  $name: null,
+  $glyph: null
+) {
+
+  .#{$prefix}operatortrigger.#{$prefix}operator-#{$name} {
+    .#{$prefix}icon-el {
+      @include font-icon(
+              $glyph: $glyph,
+              $color: $operator-glyph-color,
+              $line-height: null,
+              $style-pseudo: true
+      );
+    }
+  }
+
+  .#{$prefix}menuitem {
+    .#{$prefix}operator-#{$name} {
+      @include font-icon(
+              $glyph: $glyph,
+              $color: $operator-glyph-color,
+              $line-height: null,
+              $style-pseudo: true
+      );
+    }
+  }
+}

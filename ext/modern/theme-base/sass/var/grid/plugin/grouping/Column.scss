@@ -1,0 +1,84 @@
+/**
+ * @var {string}
+ * The cursor over a configurator field.
+ */
+$grid-group-column-cursor: dynamic(pointer);
+/**
+ * @var {number}
+ * The default padding of configurator fields
+ */
+$grid-group-column-padding: dynamic($gridcolumn-padding);
+/**
+ * @var {number}
+ * The border-width of configurator fields
+ */
+$grid-group-column-border-width: dynamic($gridcolumn-border-width);
+/**
+ * @var {string}
+ * The border-style of configurator fields
+ */
+$grid-group-column-border-style: dynamic($gridcolumn-border-style);
+/**
+ * @var {color}
+ * The border-color of configurator fields
+ */
+$grid-group-column-border-color: dynamic($gridcolumn-border-color);
+
+//private
+$grid-group-column-border: dynamic($grid-group-column-border-width $grid-group-column-border-style $grid-group-column-border-color);
+
+/**
+ * @var {number}
+ * The default margin of configurator fields
+ */
+$grid-group-column-margin: dynamic(1px);
+
+/**
+ * @var {string}
+ * The font-family of configurator fields
+ */
+$grid-group-column-font-family: dynamic($gridcolumn-font-family);
+
+/**
+ * @var {number}
+ * The font-size of configurator fields
+ */
+$grid-group-column-font-size: dynamic($gridcolumn-font-size);
+
+/**
+ * @var {string}
+ * The font-weight of configurator fields
+ */
+$grid-group-column-font-weight: dynamic($gridcolumn-font-weight);
+
+/**
+ * @var {number}
+ * The line-height of configurator fields
+ */
+$grid-group-column-line-height: dynamic($gridcolumn-line-height);
+
+// private
+$grid-group-column-font: dynamic($grid-group-column-font-weight #{$grid-group-column-font-size}/#{$grid-group-column-line-height} $grid-group-column-font-family);
+
+/**
+ * @var {color}
+ * The background-color of configurator fields
+ */
+$grid-group-column-background-color: dynamic($gridcolumn-background-color);
+
+/**
+ * @var {number}
+ * The default padding of configurator field indicators
+ */
+$grid-group-column-btn-image-padding: dynamic(0 5px 0 0);
+
+/**
+ * @var {string}
+ * The icon of sort asc indicator
+ */
+$grid-group-column-sort-asc-icon: $fa-var-long-arrow-up $font-icon-font-family;
+/**
+ * @var {string}
+ * The icon of sort asc indicator
+ */
+$grid-group-column-sort-desc-icon: $fa-var-long-arrow-down $font-icon-font-family;

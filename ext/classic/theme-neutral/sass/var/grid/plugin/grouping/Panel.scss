@@ -1,0 +1,91 @@
+/** @class Ext.grid.plugin.grouping.Panel */
+
+/**
+ * @var {number}
+ * The default padding for the panel's header that holds dimension fields.
+ */
+$grid-group-panel-header-padding: dynamic(2px);
+/**
+ * @var {string}
+ * The font-family of panel's header that holds dimension fields.
+ */
+$grid-group-panel-header-font-family: dynamic($grid-column-header-font-family);
+
+/**
+ * @var {number}
+ * The font-size of panel's header that holds dimension fields.
+ */
+$grid-group-panel-header-font-size: dynamic($grid-column-header-font-size);
+
+/**
+ * @var {string}
+ * The font-weight of panel's header that holds dimension fields.
+ */
+$grid-group-panel-header-font-weight: dynamic($grid-column-header-font-weight);
+
+/**
+ * @var {number}
+ * The line-height of panel's header that holds dimension fields.
+ */
+$grid-group-panel-header-line-height: dynamic($grid-column-header-line-height);
+
+// private
+$grid-group-panel-header-font: dynamic($grid-group-panel-header-font-weight #{$grid-group-panel-header-font-size}/#{$grid-group-panel-header-line-height} $grid-group-panel-header-font-family);
+
+/**
+ * @var {color}
+ * The background color of the panel's body that holds dimension fields.
+ */
+$grid-group-panel-body-background-color: dynamic(white);
+
+/**
+ * @var {number}
+ * The border-width of the panel's body that holds dimension fields.
+ */
+$grid-group-panel-body-border-width: dynamic(0);
+/**
+ * @var {string}
+ * The border-style of the panel's body that holds dimension fields.
+ */
+$grid-group-panel-body-border-style: dynamic(solid);
+/**
+ * @var {color}
+ * The border color of the panel's body that holds dimension fields.
+ */
+$grid-group-panel-body-border-color: dynamic(top($grid-row-cell-border-color));
+
+/**
+ * @var {color}
+ * The text color of the hint text displayed inside the panel. (ie "Drop column fields here")
+ */
+$grid-group-panel-hint-color: dynamic(darkgray);
+/**
+ * @var {number}
+ * The default padding for the hint text displayed inside the panel. (ie "Drop column fields here")
+ */
+$grid-group-panel-hint-padding: dynamic(5px);
+
+
+/**
+ * @var {color}
+ * The color to use for the grouping panel column icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-glyph-color: dynamic($neutral-dark-color);
+
+/**
+ * @var {number}
+ * The font size for the grouping panel column icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-glyph-font-size: dynamic(14px);
+
+/**
+ * @var {string/list}
+ * Glyph for the group by icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-panel-icon-glyph: dynamic($ext-var-group-by $grid-group-glyph-font-size ExtJS);
+
+/**
+ * @var {string/list}
+ * Glyph for the group by icon when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-panel-clear-icon-glyph: dynamic($fa-var-times $grid-group-glyph-font-size $font-icon-font-family);

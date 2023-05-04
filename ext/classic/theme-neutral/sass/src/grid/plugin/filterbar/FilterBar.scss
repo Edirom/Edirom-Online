@@ -1,0 +1,12 @@
+.#{$prefix}grid-filterbar {
+  .#{$prefix}form-text {
+    padding: 3px;
+    font-size: 11px;
+  }
+}
+
+.#{$prefix}grid-filterbar-filtered-column {
+  font-style: $grid-filterbar-column-filtered-font-style;
+  font-weight: $grid-filterbar-column-filtered-font-weight;
+  text-decoration: $grid-filterbar-column-filtered-text-decoration;
+}

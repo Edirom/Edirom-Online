@@ -1,0 +1,115 @@
+/**
+ * @var {string}
+ * The cursor over a configurator field.
+ */
+$grid-group-column-cursor: dynamic(pointer);
+/**
+ * @var {number}
+ * The default padding of configurator fields
+ */
+$grid-group-column-padding: dynamic(3px);
+/**
+ * @var {number}
+ * The border-width of configurator fields
+ */
+$grid-group-column-border-width: dynamic($grid-header-border-width);
+/**
+ * @var {string}
+ * The border-style of configurator fields
+ */
+$grid-group-column-border-style: dynamic($grid-header-border-style);
+/**
+ * @var {color}
+ * The border-color of configurator fields
+ */
+$grid-group-column-border-color: dynamic($grid-header-border-color);
+
+//private
+$grid-group-column-border: dynamic($grid-group-column-border-width $grid-group-column-border-style $grid-group-column-border-color);
+
+/**
+ * @var {number}
+ * The default margin of inner configurator fields
+ */
+$grid-group-column-margin: dynamic(1px);
+
+/**
+ * @var {number}
+ * The default margin of outside configurator fields
+ */
+$grid-group-column-outside-margin: dynamic(2px);
+
+/**
+ * @var {string}
+ * The font-family of configurator fields
+ */
+$grid-group-column-font-family: dynamic($grid-column-header-font-family);
+
+/**
+ * @var {number}
+ * The font-size of configurator fields
+ */
+$grid-group-column-font-size: dynamic($grid-column-header-font-size);
+
+/**
+ * @var {string}
+ * The font-weight of configurator fields
+ */
+$grid-group-column-font-weight: dynamic($grid-column-header-font-weight);
+
+/**
+ * @var {number}
+ * The line-height of configurator fields
+ */
+$grid-group-column-line-height: dynamic($grid-column-header-line-height);
+
+// private
+$grid-group-column-font: dynamic($grid-group-column-font-weight #{$grid-group-column-font-size}/#{$grid-group-column-line-height} $grid-group-column-font-family);
+
+/**
+ * @var {color}
+ * The background-color of configurator fields
+ */
+$grid-group-column-background-color: dynamic($grid-header-background-color);
+
+/**
+ * @var {color}
+ * The background-gradient of configurator fields
+ */
+$grid-group-column-background-gradient: dynamic($grid-header-background-gradient);
+
+/**
+ * @var {number}
+ * The default padding of configurator field indicators
+ */
+$grid-group-column-btn-image-padding: dynamic(0 5px 0 0);
+
+/**
+ * @var {string/list}
+ * Glyph for the grouping panel column icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-column-btn-customize-glyph: dynamic($fa-var-gear $grid-group-glyph-font-size $font-icon-font-family);
+
+/**
+ * @var {string/list}
+ * Glyph for the grouping panel column asc icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-column-btn-sort-asc-glyph: dynamic($fa-var-long-arrow-up $grid-group-glyph-font-size $font-icon-font-family);
+
+/**
+ * @var {string/list}
+ * Glyph for the grouping panel column asc icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-column-sort-icon-asc-glyph: dynamic($fa-var-sort-alpha-asc $grid-group-glyph-font-size $font-icon-font-family);
+
+/**
+ * @var {string/list}
+ * Glyph for the grouping panel column asc icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-column-btn-sort-desc-glyph: dynamic($fa-var-long-arrow-down $grid-group-glyph-font-size $font-icon-font-family);
+
+/**
+ * @var {string/list}
+ * Glyph for the grouping panel column asc icons when {@link Global_CSS#$enable-font-icons} is `true`.
+ */
+$grid-group-column-sort-icon-desc-glyph: dynamic($fa-var-sort-alpha-desc $grid-group-glyph-font-size $font-icon-font-family);

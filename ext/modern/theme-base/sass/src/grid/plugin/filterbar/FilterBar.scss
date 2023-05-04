@@ -1,0 +1,34 @@
+.#{$prefix}grid-filterbar {
+  .#{$prefix}grid-filter-base {
+    border-width: 0 1px 0 0;
+    border-color: $gridcolumn-border-color;
+    border-style: solid;
+  }
+
+  @if $enable-big {
+    .#{$prefix}big & {
+      .#{$prefix}trigger {
+        width: $trigger-width;
+
+        .#{$prefix}icon-el {
+          width: $grid-filterbar-trigger-icon-size;
+          height: $grid-filterbar-trigger-icon-size;
+
+          &:before {
+            font-size: $grid-filterbar-trigger-icon-size;
+          }
+        }
+      }
+    }
+  }
+}
+
+.#{$prefix}gridcolumn {
+  &.#{$prefix}grid-filterbar-filtered-column {
+    > .#{$prefix}header-el {
+      font-style: $grid-filterbar-column-filtered-font-style;
+      font-weight: $grid-filterbar-column-filtered-font-weight;
+      text-decoration: $grid-filterbar-column-filtered-text-decoration;
+    }
+  }
+}
