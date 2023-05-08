@@ -1,15 +1,30 @@
 {
-    /**
-     * The toolkit to use. Select either "classic" or "modern".
-     */
-    "toolkit": "classic",
-
-    /**
-     * The Sencha Framework for this application: "ext" or "touch".     */
-    "framework": "ext",
-
     "name": "EdiromOnline",
 
+    "version": "2.0.0-alpha",
+
+    "toolkit": "classic",
+
+    "framework": "ext",
+
+    "classpath": ".",
+    
+    "theme": "eoTheme",
+
+    "css": [
+        {
+            "path": "bootstrap.css",
+            "bootstrap": true
+        }
+    ],
+
+    "js": [
+        {
+            "path": "app.js",
+            "bundle": true
+        }
+    ],
+    
     "requires": [
     ],
 
