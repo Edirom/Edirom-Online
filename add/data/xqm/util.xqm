@@ -50,8 +50,10 @@ declare function eutil:getLocalizedName($node, $lang) {
   return
     if ($node/mei:title)
     then (
-        if ($lang = $node/mei:title/@xml:lang)
-        then $node/mei:title[@xml:lang = $lang]/text()
+        if ($lang = $node/mei:title/@xml:lang and $node/mei:title[@xml:lang = $lang]/text() != '')
+        then ($node/mei:title[@xml:lang = $lang]/text())
+        else if ($lang = $node/mei:title/@xml:lang and $node/mei:title[@xml:lang = $lang]/text() = '')
+        then ($node/mei:title[@xml:lang = 'de']/text())
         else $node/mei:title[1]/text()
     )
     else if ($node/mei:name)
