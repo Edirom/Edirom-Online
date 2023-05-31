@@ -69,7 +69,7 @@ declare function edition:getUris() as xs:string* {
 :)
 declare function edition:getWorkUris($uri as xs:string) as xs:string* {
     
-    doc($uri)//edirom:work/string(@xlink:href)
+    doc($uri)//edirom:work/@xlink:href ! string(.)
 };
 
 (:~
@@ -80,7 +80,7 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
 : @return The URI
 :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
-    
+
     let $doc := (
         if(doc-available($uri))
         then
@@ -89,9 +89,9 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
             doc(edition:findEdition($uri))
     )
     return
-        if ($doc//edirom:language[@xml:lang eq $lang]/string(@xlink:href))
+        if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "")
         then
-            $doc//edirom:language[@xml:lang eq $lang]/string(@xlink:href)
+            $doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
         else
             ""
 };
@@ -134,7 +134,7 @@ declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string 
 :)
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
     
-    doc($uri)//edirom:preferences/string(@xlink:href)
+    doc($uri)//edirom:preferences/@xlink:href => string()
 };
 
 (:~
@@ -167,7 +167,7 @@ declare function edition:findEdition($editionID as xs:string) as xs:string {
 : @return the text contents of edirom:edition/edirom:editionName
 :)
 declare function edition:getName($uri as xs:string) as xs:string {
-  doc($uri)/edirom:edition/edirom:editionName/text()
+  doc($uri)/edirom:edition/edirom:editionName => fn:normalize-space()
 };
 
 (:~
