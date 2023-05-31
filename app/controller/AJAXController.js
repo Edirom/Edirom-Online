@@ -27,7 +27,17 @@ Ext.define('EdiromOnline.controller.AJAXController', {
         window.doAJAXRequest = Ext.bind(this.doAJAXRequest, this);
     },
 
-    doAJAXRequest: function(url, method, params, successFn, retryNo) {
+    /**
+     * Performs an AJAX request.
+     *
+     * @param {String}   url       The URL of the requestet site or end point.
+     * @param {String}   method    The HTTP method like 'PUT', 'GET', 'POST'.
+     * @param {Object}   params    An object containing key-value-pairs of parameters for the request.
+     * @param {Function} successFn A callback function which is called when the AJAX request was successfull.
+     * @param {Number}   retryNo   The number of retries, if the requests fails. Standard is 2 retries.
+     * @param {Boolean}  async     Defines the async parameter for AJAX calls. Default is 'true'.
+     */
+    doAJAXRequest: function(url, method, params, successFn, retryNo, async) {
         var me = this;
         
         var editionId = this.application.activeEdition;
@@ -38,8 +48,11 @@ Ext.define('EdiromOnline.controller.AJAXController', {
         if(override != null)
             url = override;
             
-        if(typeof(retryNo) === 'undefined')
+        if(typeof retryNo === 'undefined')
             retryNo = 2;
+            
+        if(typeof async === 'undefined')
+            async = true;
 
         var fn = Ext.bind(function(response, options, retryNoInt) {
         
@@ -58,7 +71,8 @@ Ext.define('EdiromOnline.controller.AJAXController', {
             url: url,
             method: method,
             params: params,
-            success: fn
+            success: fn,
+            async: async
         });
     }
 });
