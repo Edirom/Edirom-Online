@@ -20,11 +20,16 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build Edirom Online from ${{ github.ref }}
       run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
-    - uses: actions/upload-artifact@v2
+    - name: Upload Artifacts
+      if: github.repository == 'Edirom/Edirom-Online'
+      uses: actions/actions/upload-artifact@v3.1.2
       with:
+        # The name that the artifact will be made available under
         name: EdiromOnline_${{ github.ref }}.zip
-        path: /app/build-xar/EdiromOnline*.xar
-        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn`
+        # The path to retrieve the artifact
+        path: build-xar/EdiromOnline*.xar
+        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn` 
+        #optional retention-days: 1 to 90
 
 #  deploy:
 #    needs: build
