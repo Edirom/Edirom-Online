@@ -43,6 +43,9 @@ Ext.define('EdiromOnline.controller.AJAXController', {
         var editionId = this.application.activeEdition;
         params = Ext.applyIf(params, {edition: editionId});
         
+        var lang = window.getLanguage();
+        params = Ext.applyIf(params, {lang: lang});
+        
         var override = window.getPreference(url, true);
 
         if(override != null)
