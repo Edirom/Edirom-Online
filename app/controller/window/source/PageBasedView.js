@@ -40,14 +40,13 @@ Ext.define('EdiromOnline.controller.window.source.PageBasedView', {
 		if (view.initialized) return;
 		view.initialized = true;
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getPages.xql',
-			method: 'GET',
-			params: {
-				uri: view.owner.uri
-			},
-			success: function (response) {
-				var data = response.responseText;
+		window.doAJAXRequest('data/xql/getPages.xql',
+            'GET', 
+            {
+                uri: view.owner.uri
+            },
+            Ext.bind(function(response){
+                var data = response.responseText;
 				
 				var pages = Ext.create('Ext.data.Store', {
 					fields:[ 'id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
@@ -55,8 +54,8 @@ Ext.define('EdiromOnline.controller.window.source.PageBasedView', {
 				});
 				
 				me.pagesLoaded(pages, view);
-			}
-		});
+            }, this)
+        );
 	},
 	
 	pagesLoaded: function (pages, view) {
@@ -70,16 +69,15 @@ Ext.define('EdiromOnline.controller.window.source.PageBasedView', {
            
            if(overlays[overlayId]) {  // if visible
            
- 			Ext.Ajax.request({
- 				url: 'data/xql/getOverlayOnPage.xql',
- 				method: 'GET',
- 				params: {
- 					uri: uri,
- 					pageId: pageId,
- 					overlayId: overlayId
- 				},
- 				success: function (response) {
- 					var data = response.responseText;
+            window.doAJAXRequest('data/xql/getOverlayOnPage.xql',
+                'GET', 
+                {
+                    uri: uri,
+ 				   pageId: pageId,
+ 				   overlayId: overlayId
+                },
+                Ext.bind(function(response){
+                    var data = response.responseText;
  					
  					if (data.trim() == '') return;
  					
@@ -89,8 +87,8 @@ Ext.define('EdiromOnline.controller.window.source.PageBasedView', {
                      });
  
  					me.overlayLoaded(viewer, pageId, overlayId, overlay, sourceView);
- 				}
- 			});
+                }, this)
+            );
            }else {
                viewer.imageViewer.removeSVGOverlay(overlayId);
            }
