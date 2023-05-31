@@ -28,8 +28,8 @@ jobs:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ github.ref }}.zip
         # The path to retrieve the artifact
-        path: ${{ github.workspace }}/build-xar/EdiromOnline*.xar
-        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn` 
+        path: ${{ github.workspace }}/build-xar/*.xar
+        if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
         #optional retention-days: 1 to 90
 
 #  deploy:
