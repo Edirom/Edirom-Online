@@ -41,9 +41,13 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
     let $doc := eutil:getDoc($uri)
+    let $meiVersionRegex := '(([4-9])|(\d+[0-9]))\.\d+\.\d+(-dev)?'
     return
-        exists($doc//mei:mei) and exists($doc//mei:source) (:mei2 and ?3 :)
-        or ($doc//mei:mei/@meiversion = ("4.0.0", "4.0.1") and exists($doc//mei:manifestation[@singleton='true'])) (:mei4 :)
+        (exists($doc//mei:mei) and exists($doc//mei:source)) (:mei2 and ?3 :)
+        or
+        (matches($doc//mei:mei/@meiversion, $meiVersionRegex) and exists($doc//mei:manifestation[@singleton='true'])) (:mei4+ for manuscripts:)
+        or
+        (matches($doc//mei:mei/@meiversion, $meiVersionRegex) and exists($doc//mei:manifestation//mei:item)) (: mei4+ for prints :)
 };
 
 (:~
