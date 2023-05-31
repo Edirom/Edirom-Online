@@ -22,6 +22,7 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 declare variable $lang := request:get-parameter('lang', '');
+declare variable $uri := request:get-parameter('uri', '');
 
 (:~
  : Returns a view for an edirom object
@@ -218,7 +219,6 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
                                     (string('unknown'))
 };
 
-let $uri := request:get-parameter('uri', '')
 let $uriParams := if (contains($uri, '?')) then
     (substring-after($uri, '?'))
 else
