@@ -23,7 +23,7 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
