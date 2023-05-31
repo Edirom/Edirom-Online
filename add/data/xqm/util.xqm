@@ -245,17 +245,11 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
 :)
 declare function eutil:getLanguage($edition as xs:string?) as xs:string {
 
-     if(request:get-cookie-names() = 'edirom-language')
-     then(
-        request:get-cookie-value('edirom-language')
-     )
-     else(
-        let $prefsAppLang := eutil:getPreference('application_language', edition:findEdition($edition))
-        return
-            if($prefsAppLang)
-            then $prefsAppLang
-            else eutil:request-lang-preferred-iso639()
-     )
+    if (request:get-parameter("lang", "") != "")
+    then request:get-parameter("lang", "")
+    else if(request:get-cookie-names() = 'edirom-language')
+    then request:get-cookie-value('edirom-language')
+    else eutil:getPreference('application_language', edition:findEdition($edition))
 };
 
 (:~

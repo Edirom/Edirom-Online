@@ -145,8 +145,8 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 : @param $editionID The '@xml:id' of the edirom:edition document to process
 : @return The URI of the Edition file
 :)
-declare function edition:findEdition($editionID as xs:string) as xs:string {
-    if($editionID eq '')
+declare function edition:findEdition($editionID as xs:string?) as xs:string {
+    if(not($editionID) or $editionID eq '')
     then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]
         return 'xmldb:exist://' || document-uri($edition/root())
