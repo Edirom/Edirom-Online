@@ -1,4 +1,4 @@
-xquery version "3.1";
+xquery version "1.0";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -31,7 +31,7 @@ module namespace source = "http://www.edirom.de/xquery/source";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (:~
 : Returns whether a document is a source or not
