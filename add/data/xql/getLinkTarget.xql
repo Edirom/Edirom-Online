@@ -1,43 +1,25 @@
 xquery version "3.1";
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
-
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
-
-  ID: $Id: getLinkTarget.xql 1334 2012-06-14 12:40:33Z daniel $
+For LICENSE-Details please refer to the LICENSE file in the root directory of this repository. 
 :)
 
-import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
-import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
-import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
-
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace tei="http://www.tei-c.org/ns/1.0";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
 declare namespace html="http://www.w3.org/1999/xhtml";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace map="http://www.w3.org/2005/xpath-functions/map";
-declare namespace f="http://local.link";
+declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+import module namespace functx = "http://www.functx.com";
+import module namespace request="http://exist-db.org/xquery/request";
+import module namespace xmldb="http://exist-db.org/xquery/xmldb";
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
+import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
+
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 declare variable $lang := request:get-parameter('lang', '');
 
@@ -250,10 +232,4 @@ let $map :=
         'internalIdType': $internalIdType
     }
 
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
-
-return serialize($map, $options)
+return $map
