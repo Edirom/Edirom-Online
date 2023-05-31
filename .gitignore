@@ -9,3 +9,4 @@ Thumbs.db
 /tmp
 *.xpr
 local.properties
+.idea/
