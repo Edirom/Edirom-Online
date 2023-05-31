@@ -23,6 +23,9 @@ declare option output:media-type "application/json";
 
 declare variable $lang := request:get-parameter('lang', '');
 
+(:~
+ : Returns a view for an edirom object
+ :)
 declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type, '_'),
@@ -131,6 +134,9 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
             ()
 };
 
+(:~
+ : Returns the views for an edirom object
+ :)
 declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
     
     let $views := (
@@ -157,6 +163,9 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
         $maps
 };
 
+(:~
+ : Returns the window title for an edirom-object
+ :)
 declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs:string {
     (: Work :)
     if (exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium)))
