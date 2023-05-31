@@ -14,7 +14,7 @@
         </xd:desc>
     </xd:doc>
     <xsl:import href="ediromOnline_params.xsl"/>
-    <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
+    <xsl:include href="http://www.functx.com/functx.xsl"/>
     
     <!-- TODO: an die Einstellungen anpassen -->
     <xsl:variable name="languageFile" select="document('../locale/edirom-lang-en.xml')"/>
