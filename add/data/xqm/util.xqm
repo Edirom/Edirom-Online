@@ -192,6 +192,37 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 };
 
 (:~
+: Returns a part's label (translated if available)
+:
+: @author Dennis Ried
+: @param $partID The xml:id of the Part's node() to process
+: @return The label (translated if available)
+:)
+declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:string) as xs:string {
+            (: request:get-parameter('lang', '') doesn't work?? [DeRi]:)
+let $lang := if(request:get-parameter('lang', '') = '')
+             then('de')
+             else(request:get-parameter('lang', '')) 
+let $part := $measureOrPerfRes/ancestor::mei:part
+let $voiceRef := $part//mei:staffDef/@decls
+let $voiceID := substring-after($voiceRef, '#')
+
+let $perfResLabel := if($type eq 'measure')
+                     then($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/@label)
+                     else($measureOrPerfRes/@label)
+let $dictKey := 'perfMedium.perfRes.' || functx:substring-before-if-contains($perfResLabel,'.')
+let $label := if(eutil:getLanguageString($dictKey, (), $lang))
+              then(eutil:getLanguageString($dictKey, (), $lang))
+              else($perfResLabel)
+let $numbering := for $i in subsequence(tokenize($perfResLabel,'\.'),2)
+                    where matches($i, '([0-9])|([ivxIVX])')
+                    return
+                        upper-case($i)
+return
+    normalize-space(string-join(($label, $numbering),' '))
+};
+
+(:~
 : Returns a language specific string
 :
 : @param $key The key to search for
