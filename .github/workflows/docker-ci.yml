@@ -22,7 +22,7 @@ jobs:
       run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
     - name: Upload Artifacts
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v3.1.2
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ github.ref }}.zip
