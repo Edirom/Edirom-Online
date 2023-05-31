@@ -21,9 +21,7 @@ return
     else if ($exist:path eq "/") then
         (: redirect root path to index.html :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <redirect url="index.html">
-                <set-header name="Set-Cookie" value="edirom-language={$langVal}" />
-            </redirect>
+            <redirect url="index.html"/>
         </dispatch>
     else if ($exist:path eq "/index.html") then
         (: forward index.html to index.xql :)
