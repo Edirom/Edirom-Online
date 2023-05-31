@@ -17,9 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Chekout repository
+      uses: actions/checkout@v3
     - name: Build Edirom Online from ${{ github.ref }}
-      run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
+      run: docker run --rm -v $(pwd):/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
     - name: Upload Artifacts
       if: github.repository == 'Edirom/Edirom-Online'
       uses: actions/upload-artifact@v3.1.2
