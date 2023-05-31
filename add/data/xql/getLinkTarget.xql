@@ -100,6 +100,9 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
         else if($type = 'mei_annotationView')
         then(exists($doc//mei:annot[@type='editorialComment']))
         
+        else if($type = 'html_iFrameView')
+        then(true())
+        
         else if($type = 'xml_xmlView')
         then(true())
         
@@ -127,6 +130,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
         'tei_facsimileView',
         'tei_textFacsimileSplitView',
         'mei_annotationView',
+        'html_iFrameView',
         'xml_xmlView',
         'desc_xmlView'
     )
@@ -168,9 +172,9 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
   then(eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
   
   (: HTML :)
-  else if($type = 'html')
-  then($doc//head/data(title))
- 
+  else if($type = 'html' and $doc//html:head/html:title)
+  then($doc//html:head/data(html:title))
+  
   else(string('unknown'))
 };
 
