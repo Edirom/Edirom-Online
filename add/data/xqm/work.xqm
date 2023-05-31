@@ -48,7 +48,7 @@ declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:str
             {',
                 'id: "', $work/string(@xml:id), '", ',
                 'doc: "', $uri, '", ',
-                'title: "', replace(eutil:getLocalizedTitle((($work//mei:work)[1] | $work), $lang), '"', '\\"'), '"',
+                'title: "', replace(eutil:getLocalizedTitle((($work/descendant-or-self::mei:work)[1]), $lang), '"', '\\"'), '"',
             '}')
 };
 
