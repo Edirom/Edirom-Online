@@ -281,7 +281,7 @@ declare function eutil:get-app-base-url() as xs:string? {
  :)
 declare function eutil:sort-as-numeric-alpha($seq as item()* )  as item()* {
    for $item in $seq
-   let $itemPart1 := functx:get-matches($item, '\d+')
+   let $itemPart1 := (functx:get-matches($item, '\d+'))[1]
    let $itemPart2 := substring-after($item, $itemPart1)
    order by number($itemPart1), $itemPart2
    return $item
