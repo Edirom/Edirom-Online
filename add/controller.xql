@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 
 import module namespace edition="http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/util.xqm";
