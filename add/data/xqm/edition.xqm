@@ -39,7 +39,7 @@ import module namespace functx = "http://www.functx.com";
 : @return The JSON representation
 :)
 declare function edition:toJSON($uri as xs:string) as xs:string {
-
+    
     let $edition := doc($uri)/edirom:edition
     return
         concat('
@@ -56,7 +56,7 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
 : @return The list of URIs
 :)
 declare function edition:getUris() as xs:string* {
-
+    
     for $edition in collection('/db/apps')//edirom:edition
     return
         'xmldb:exist://' || document-uri($edition/root())
@@ -69,7 +69,7 @@ declare function edition:getUris() as xs:string* {
 : @return The list of URIs
 :)
 declare function edition:getWorkUris($uri as xs:string) as xs:string* {
-
+    
     doc($uri)//edirom:work/@xlink:href ! string(.)
 };
 
@@ -81,7 +81,7 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
 : @return The URI
 :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
-
+    
     doc($uri)//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
 };
 
@@ -92,7 +92,7 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
 : @return The URI
 :)
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
-
+    
     doc($uri)//edirom:preferences/@xlink:href => string()
 };
 
