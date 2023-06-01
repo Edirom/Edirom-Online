@@ -22,7 +22,6 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 declare variable $lang := request:get-parameter('lang', '');
-declare variable $imageWidth := 600;
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $uri := request:get-parameter('uri', '');
