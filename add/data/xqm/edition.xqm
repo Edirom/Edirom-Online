@@ -28,10 +28,10 @@ xquery version "3.1";
 :)
 module namespace edition = "http://www.edirom.de/xquery/edition";
 
-declare namespace edirom="http://www.edirom.de/ns/1.3";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-import module namespace functx="http://www.functx.com";
+import module namespace functx = "http://www.functx.com";
 (:~
 : Returns a JSON representation of an Edition
 :
@@ -44,10 +44,10 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
     return
         concat('
             {',
-                'id: "', $edition/string(@xml:id), '", ',
-                'doc: "', $uri, '", ',
-                'name: "', $edition/edirom:editionName, '"',
-            '}')
+        'id: "', $edition/string(@xml:id), '", ',
+        'doc: "', $uri, '", ',
+        'name: "', $edition/edirom:editionName, '"',
+        '}')
 };
 
 (:~
@@ -58,7 +58,8 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
 declare function edition:getUris() as xs:string* {
     
     for $edition in collection('/db/apps')//edirom:edition
-    return 'xmldb:exist://' || document-uri($edition/root())
+    return
+        'xmldb:exist://' || document-uri($edition/root())
 };
 
 (:~
@@ -104,15 +105,19 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 : @return The URI of the Edition file
 :)
 declare function edition:findEdition($editionID as xs:string) as xs:string {
-    if($editionID eq '')
-    then(
+    if ($editionID eq '')
+    then
+        (
         let $edition := (collection('/db/apps')//edirom:edition)[1]
-        return 'xmldb:exist://' || document-uri($edition/root())
-    )
-    else (
+        return
+            'xmldb:exist://' || document-uri($edition/root())
+        )
+    else
+        (
         let $edition := collection('/db/apps')//edirom:edition/id($editionID)
-        return 'xmldb:exist://' || document-uri($edition/root())
-    )
+        return
+            'xmldb:exist://' || document-uri($edition/root())
+        )
 };
 
 (:~
@@ -122,7 +127,7 @@ declare function edition:findEdition($editionID as xs:string) as xs:string {
 : @return the text contents of edirom:edition/edirom:editionName
 :)
 declare function edition:getName($uri as xs:string) as xs:string {
-  doc($uri)/edirom:edition/edirom:editionName => fn:normalize-space()
+    doc($uri)/edirom:edition/edirom:editionName => fn:normalize-space()
 };
 
 (:~
