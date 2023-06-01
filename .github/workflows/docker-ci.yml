@@ -19,6 +19,12 @@ jobs:
     steps:
     - name: Chekout repository
       uses: actions/checkout@v3
+      
+    - name: Get short sha
+      uses: benjlevesque/short-sha@2.2
+      id: short-sha
+      with:
+        length: 7       
 
     - name: Build Edirom Online from ${{ github.ref }} at ${{ github.sha }}
       run: docker run --rm -v $(pwd):/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
@@ -28,7 +34,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.2
       with:
         # The name that the artifact will be made available under
-        name: EdiromOnline_${{ github.sha }}.zip
+        name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
         # The path to retrieve the artifact
         path: ${{ github.workspace }}/build-xar/Edirom-Online-*.xar
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
