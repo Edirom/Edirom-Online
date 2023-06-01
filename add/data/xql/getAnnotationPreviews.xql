@@ -1,11 +1,11 @@
 xquery version "3.1";
 (:
-For LICENSE-Details please refer to the LICENSE file in the root directory of this repository. 
+For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
 (:~
     Returns the HTML for a specific annotation for an AnnotationView.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
     @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
@@ -32,7 +32,7 @@ else
   (eutil:getPreference('image_prefix', $edition));
 
 declare function local:getParticipants($annot as element()) as map(*)* {
-  
+
   let $participants := tokenize($annot/string(@plist), ' ')
   let $docs := distinct-values(for $p in $participants
   return
@@ -44,18 +44,18 @@ declare function local:getParticipants($annot as element()) as map(*)* {
       if (source:isSource($doc))
       then
         (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
-      
+
       else
         if (teitext:isText($doc))
         then
           (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
-        
+
         else
           ()
 };
 
 declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
-  
+
   for $participant in $participants
   let $id := substring-after($participant, '#')
   let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
@@ -99,14 +99,14 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
 };
 
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
-  
+
   let $combs := local:groupParticipants($participants, $doc)
-  
+
   return
-    
+
     for $comb in distinct-values($combs)
     let $partIndices := tokenize($comb, '-')
-    
+
     let $elems :=
     for $p in distinct-values($partIndices)
     let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
@@ -117,16 +117,16 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
       order by count($elem/preceding::*)
     return
       $elem
-      
+
       where count($elems) gt 0
-    
+
     let $zones := for $elem in $elems
     return
       local:getZone($elem)
-    
+
     let $type := local:getType($zones)
     let $label := local:getItemLabel($elems)
-    
+
     let $mdiv := '' (: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
     let $page := if ($zones[1]/parent::mei:surface/@label != '') then
       ($zones[1]/parent::mei:surface/string(@label))
@@ -134,20 +134,20 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
       ($zones[1]/parent::mei:surface/string(@n))
     let $sourceLabel := source:getLabel($doc, $edition)
     let $siglum := ($elems[1]/root()//mei:*[@type eq 'siglum'])[1]/text()
-    
+
     let $part := string-join(distinct-values(for $e in $elems
     return
       $e/ancestor::mei:part/string(@label)), '-')
-    
+
     let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
-    
+
     let $digilibBaseParams := local:getImageAreaPath($imageBasePath, $graphic)
     let $rect := local:getBoundingZone($zones)
-    
+
     let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-    
+
     let $hiddenData := map {
       'width': number($rect/@lrx) - number($rect/@ulx),
       'height': number($rect/@lry) - number($rect/@uly),
@@ -156,9 +156,9 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
       'origH': $imgHeight,
       'origW': $imgWidth
     }
-    
+
     let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
-    
+
     return
       map {
         'type': $type,
@@ -197,20 +197,20 @@ declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*)
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
-  
+
   let $elems := for $p in $participants
   let $id := substring-after($p, '#')
   return
     doc($doc)/id($id)
-  
+
   let $zones := for $elem in $elems
   return
     local:getZone($elem)
-  
+
   let $combs := for $p at $i in $participants
   return
     local:getCombinations($elems, $zones, $i, count($zones))
-  
+
   return
     reverse(
     for $comb at $i in reverse($combs)
@@ -231,7 +231,7 @@ declare function local:groupParticipants($participants as xs:string*, $doc as xs
 };
 
 declare function local:getCombinations($elems as element()*, $zones as element()*, $i as xs:int, $total as xs:int) as xs:string {
-  
+
   let $currentZone := $zones[$i]
   let $currentElem := $elems[$i]
   return
@@ -256,7 +256,7 @@ declare function local:getCombinations($elems as element()*, $zones as element()
 };
 
 declare function local:compareZones($zone1 as element(), $zone2 as element()) as xs:boolean {
-  
+
   let $samePage := deep-equal($zone1/.., $zone2/..)
   let $overlapping := not(number($zone1/@ulx) gt number($zone2/@lrx) or number($zone1/@lrx) lt number($zone2/@ulx) or number($zone1/@uly) gt number($zone2/@lry) or number($zone1/@lry) lt number($zone2/@uly))
   return
@@ -266,7 +266,7 @@ declare function local:compareZones($zone1 as element(), $zone2 as element()) as
 declare function local:getElement($uri as xs:string) as element()? {
   let $doc := substring-before($uri, '#')
   let $id := substring-after($uri, '#')
-  
+
   return
     doc($doc)/id($id)
 };
@@ -274,9 +274,9 @@ declare function local:getElement($uri as xs:string) as element()? {
 (: TODO: in Modul auslagern :)
 (:~
     Gets the zone holding the graphical representation of an element
-    
+
     @param $elem The element for which the graphical representation shall be found
-    
+
     @return The zone element
 :)
 declare function local:getZone($elem as element()) as element()? {
@@ -310,20 +310,20 @@ declare function local:getBoundingZone($zones as element()*) as element() {
 
 (: TODO: in Modul auslagern :)
 (:~
-    
+
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $graphic as element()?) as xs:string {
-  
+
   let $imagePath := string($graphic/@target)
   let $imgWidth := number($graphic/@width)
   let $imgHeight := number($graphic/@height)
   let $isAbsolute := starts-with($imagePath, 'http')
-  
+
   let $fields := if ($imageserver = 'leaflet') then
     (substring-before($imagePath, '.'))
   else
     ()
-  
+
   return
     if ($isAbsolute)
     then
@@ -345,26 +345,26 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
 (:~
     This function generates an image path for a specific zone on an image.
     Based on a path prefix and a width.
-    
+
     @param $basePath The base path prefix for the image databse
     @param $zone The zone with coordiantes on the image
     @param $width The width the image should be loaded with
-    
+
     @return A URL pointing to an image based as xs:string
 :)
 declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:int, $imgHeight as xs:int) as xs:string {
   let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-  
+
   let $imgX := number($zone/@ulx)
   let $imgY := number($zone/@uly)
   let $w := number($zone/@lrx) - number($zone/@ulx)
   let $h := number($zone/@lry) - number($zone/@uly)
-  
+
   let $wx := $imgX div $imgWidth
   let $wy := $imgY div $imgHeight
   let $ww := $w div $imgWidth
   let $wh := $h div $imgHeight
-  
+
   return
     concat('&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
 };
@@ -405,9 +405,9 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
           if (count($items) gt 1)
           then
             (
-            
+
             let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
-            
+
             let $label := if ($lang = 'de')
             then
               (if (count($measureNs) gt 1) then
@@ -419,11 +419,11 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                 (concat('Bars ', $measureNs[1], '-', $measureNs[last()]))
               else
                 (concat('Bar ', $measureNs[1])))
-            
+
             return
-              
+
               concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
-            
+
             )
           else
             (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
