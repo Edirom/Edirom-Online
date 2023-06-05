@@ -278,13 +278,11 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
 :)
 declare function eutil:getLanguage($edition as xs:string?) as xs:string {
 
-     if(request:get-cookie-names() = 'edirom-language')
-     then(
-        request:get-cookie-value('edirom-language')
-     )
-     else(
-         eutil:getPreference('application_language', $edition)
-     )
+    if (request:get-parameter("lang", "") != "")
+    then request:get-parameter("lang", "")
+    else if(request:get-cookie-names() = 'edirom-language')
+    then request:get-cookie-value('edirom-language')
+    else eutil:getPreference('application_language', edition:findEdition($edition))
 };
 
 (:~
@@ -320,3 +318,45 @@ declare function eutil:sort-as-numeric-alpha($seq as item()* )  as item()* {
    return $item
     
 } ;
+
+(:~
+ : Extracts an ISO 639 language code from a given ISO 3166-1 language code
+ :
+ : @author Benjamin W. Bohl
+ : @param  $iso3166-1 xs:string the given ISO 3166-1 language code, e.g., en-US
+ : @return xs:string ISO 639 language code, e.g., en
+ :)
+declare function eutil:iso3166-1-to-iso639($iso3166-1 as xs:string) as xs:string {
+    tokenize($iso3166-1, "-")[1]
+};
+
+(:~
+ : Returns the ISO 639 language code with the highest 'quality' (none cosidered as 1) from
+ : the HTTP-request Accept-Language header
+ :
+ : @author Benjamin W. Bohl
+ : @return xs:string ISO 639 language code
+ :)
+declare function eutil:request-lang-preferred-iso639() as xs:string {
+let $request.accept-language := request:get-header("Accept-Language")
+return
+if($request.accept-language)
+then 
+    let $tokens := tokenize($request.accept-language, ";")
+    let $tokens.qless.ordered := (
+        for $token in $tokens
+            let $q := substring-after(string-join((analyze-string($token, "(q=\d(\.\d)?)")//fn:match)[1], ""), "q=")
+            let $q.decimal := if($q = "") then xs:decimal(1) else xs:decimal($q)
+            let $token.qless := replace($token,",?q=\d(\.\d)?,?", "")
+            order by $q.decimal descending
+            return
+                $token.qless
+    )
+    let $tokens.qmax := $tokens.qless.ordered[1]
+    let $tokens.qmax.first := tokenize($tokens.qmax, ",")[1]
+    return 
+        eutil:iso3166-1-to-iso639($tokens.qmax.first)
+    
+else
+    "en"
+};
