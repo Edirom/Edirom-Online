@@ -239,7 +239,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 :
 : @param $key The key to search for
 : @param $values The values to include into the string
-: @param $lang The language 
+: @param $lang The language
 : @return The string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
@@ -255,7 +255,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 };
 
 (:~
-: Return a value of preference to key 
+: Return a value of preference to key
 :
 : @param $key The key to search for
 : @return The string
@@ -265,13 +265,13 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
      let $file := doc('../prefs/edirom-prefs.xml')
      let $projectFile := doc(edition:getPreferencesURI($edition))
      
-     return    
+     return
         if($projectFile != 'null' and $projectFile//entry[@key = $key]) then ($projectFile//entry[@key = $key]/string(@value))
         else ($file//entry[@key = $key]/string(@value))
 };
 
 (:~
-: Return the application and content language 
+: Return the application and content language
 :
 : @param $edition The edition's path
 : @return The language key
@@ -292,10 +292,10 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
  :
  : NB, this is a relative path on the server, missing the scheme,
  : as well as the server address and port.
- : This function simply concats the current context path with the 
- : eXist variables `$exist:prefix` and `$exist:controller` 
+ : This function simply concats the current context path with the
+ : eXist variables `$exist:prefix` and `$exist:controller`
  : (see https://exist-db.org/exist/apps/doc/urlrewrite)
- : 
+ :
  : @return a relative path on the server
  :)
 declare function eutil:get-app-base-url() as xs:string? {
