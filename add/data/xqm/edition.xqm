@@ -1,4 +1,4 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -69,7 +69,7 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
 :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
     
-    doc($uri)//edirom:language[@xml:lang eq $lang]/string(@xlink:href)
+    doc($uri)//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
 };
 
 (:~

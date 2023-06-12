@@ -35,7 +35,7 @@ Ext.define('EdiromOnline.view.window.iFrameView', {
 		
 		var me = this;
 		
-		me.html = '<div id="' + me.id + '_iFrameViewCont" class="iFrameViewContent"><iframe id="' + me.id +
+		me.html = '<div id="' + me.id + '_iFrameViewCont" class="iFrameViewContent" style="height: 100%;"><iframe id="' + me.id +
 		'_iFrameViewContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
 		
 		me.callParent();

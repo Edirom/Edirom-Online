@@ -59,6 +59,7 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             method: 'GET',
             params: {
                 uri: uri,
+                edition: editionId,
                 lang: lang
             },
             success: function(response){
@@ -72,6 +73,7 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             method: 'GET',
             params: {
                 uri: uri,
+                edition: editionId,
                 lang: lang
             },
             success: function(response){
