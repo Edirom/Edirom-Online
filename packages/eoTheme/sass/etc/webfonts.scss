@@ -165,3 +165,24 @@
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'euryanthe';
+    src: url('fonts/euryanthe/EuryantheRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'euryanthe';
+    src: url('fonts/euryanthe/EuryantheBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'euryanthe';
+    src: url('fonts/euryanthe/EuryantheItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}

@@ -199,7 +199,7 @@
                 <xsl:when test="starts-with(@url, '../')">
                     <xsl:variable name="folder-ups" select="functx:number-of-matches(@url, '../')"/>
                     <xsl:variable name="unprefixedDocUri" select="substring-after($docUri, 'xmldb:exist:///db/')"/>
-                    <xsl:variable name="uri-tokens" select="tokenize($unprefixedDocUri, '/')" as="xs:string*"/> 
+                    <xsl:variable name="uri-tokens" select="tokenize($unprefixedDocUri, '/')" as="xs:string*"/>
 <!--                    <xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
                     <xsl:value-of select="string-join(($contextPath, $uri-tokens[position() lt last() - $folder-ups + 1], functx:substring-after-last-match(@url, '\.\./')), '/')"/>
                 </xsl:when>
@@ -1085,7 +1085,7 @@
                                     <xsl:text>', {useExisting:true}); return false;</xsl:text>
                                 </xsl:attribute>
                                 <!-- end of the Edirom Online specific modifications -->
-                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">				  
+                                <xsl:element name="{if (@rend='nosup') then 'span' else 'sup'}">
                                     <xsl:call-template name="noteN"/>
                                 </xsl:element>
                             </xsl:element>

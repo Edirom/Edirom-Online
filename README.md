@@ -1,12 +1,28 @@
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml)
+
 # Edirom Online
 
-Edirom Online is a web application written in XQuery and Javascript, and designed for deployment in eXist-db[http://exist-db.org/exist/apps/homepage/index.html](http://exist-db.org/exist/apps/homepage/index.html). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.
+Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db](https://exist-db.org/). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.
 
 The software is still under high development and has to be seen as beta software.
 
+## Cloning this repository
+
+Since this repository uses submodules for e.g. fonts, it is necessary to clone the repository with the recursive addition.
+
+```bash
+git clone --recursive <project url>
+```
+
+If the submodules are not yet present after cloning, you can update them with:
+
+```bash
+git submodule update --init --recursive
+```
+
 ## Dependencies
 
-Edirom Online depends heavily on the javascript framework ExtJS (<http://www.sencha.com/products/extjs/>) which is included in parts in our code base. We use ExtJS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
+Edirom Online depends heavily on the JavaScript framework [Ext JS](https://www.sencha.com/products/extjs) which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the Raphaël javscript library (<http://raphaeljs.com>, MIT License) and the ACE editor (<http://ace.ajax.org>, BSD license).
 
 ## Contributing
 

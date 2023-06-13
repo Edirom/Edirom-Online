@@ -80,26 +80,28 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
     let $id := $anno/string(@xml:id)
     let $lang := request:get-parameter('lang', '')
     let $genericTitle := eutil:getLocalizedTitle($anno, $lang)
-    let $title := 
+    let $title :=
         if(exists($genericTitle) and string-length($genericTitle) gt 0)
         then($genericTitle)
         else(annotation:generateTitle($anno))
     let $doc := $anno/root()
     let $prio := annotation:getPriorityLabel($anno)
     let $pList.raw := distinct-values(tokenize(normalize-space($anno/@plist), ' '))
-    let $pList := for $p in $pList.raw 
+    let $pList := for $p in $pList.raw
                     return if ( contains($p, '#'))
                                 then (substring-before($p, '#'))
                                 else $p
-    let $sigla := 
+    let $sigla :=
         for $p in distinct-values($pList)
-        let $pDoc := 
+        let $pDoc :=
             if(doc-available($p))
             then(doc($p))
             else(collection(eutil:getPreference('edition_path', $edition))//id($p)/root())
-        return 
+        return
             if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
-            then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
+            then ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text())
+            else if ($pDoc//mei:manifestationList/mei:manifestation/mei:identifier[@type = 'siglum'])
+            then ($pDoc//mei:manifestationList/mei:manifestation/mei:identifier[@type = 'siglum']/text())
             else ($pDoc//mei:title[@type = 'siglum']/text())
     
     let $classes := tokenize(replace(normalize-space($anno/@class),'#',''),' ')
@@ -107,7 +109,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
     
     let $cats := string-join(
                     for $u in $catURIs
-                    return annotation:category_getName($doc/id($u), eutil:getLanguage($edition)) 
+                    return annotation:category_getName($doc/id($u), eutil:getLanguage($edition))
                  , ', ')
     let $count := count($anno/preceding::mei:annot[@type = 'editorialComment']) + 1
     
@@ -156,7 +158,7 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
     
     let $p := $anno/mei:p[not(@xml:lang) or @xml:lang = $language]
     let $html := transform:transform($p,concat($xsltBase,'meiP2html.xsl'),<parameters><param name="idPrefix" value="{$idPrefix}"/><param name="imagePrefix" value="{$imageBasePath}"/></parameters>)
-    return   
+    return
         $html
 };
 
@@ -216,7 +218,7 @@ declare function annotation:getPriorityLabel($anno) as xs:string* {
             
             let $labels :=
                 for $uri in $classBasedUri
-                let $doc := 
+                let $doc :=
                     if(starts-with($uri,'#'))
                     then($anno/root())
                     else(doc(substring-before($uri,'#')))
@@ -253,14 +255,14 @@ declare function annotation:getCategoriesAsArray($anno as element()) as xs:strin
     let $classes := tokenize(replace(normalize-space($anno/@class),'#',''),' ')
     let $catURIs := distinct-values((tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' '), $classes[contains(.,'annotation.category.')]))
     
-    let $cats := 
+    let $cats :=
         for $u in $catURIs
-        return annotation:category_getName($doc/id($u),'') 
+        return annotation:category_getName($doc/id($u),'')
                  
     
     (:let $uris := tokenize($anno/mei:ptr[@type eq 'categories']/string(@target),' ')
     
-    let $string := for $uri in $uris 
+    let $string := for $uri in $uris
                    let $doc := if(starts-with($uri,'#'))
                                then($anno/root())
                                else(doc(substring-before($uri,'#')))
