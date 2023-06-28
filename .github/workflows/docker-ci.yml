@@ -1,10 +1,10 @@
-name: Docker build PR
+name: Build
 
 on:
-#  push:
-#    branches: [ main ]
+  push:
+    branches: [ develop ]
   pull_request:
-    types: [opened, edited, reopened]
+    types: [ opened, synchronize, reopened ]
     branches: [ develop, main ]
 
 env:
@@ -13,31 +13,29 @@ env:
 jobs:
 
   build:
-
+    name: Build Edirom Online
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Build Edirom Online from ${{ github.ref }}
-      run: docker run --rm -v `pwd`:/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
-    - name: Upload Artifacts
+    - name: Chekout repository
+      uses: actions/checkout@v3
+      
+    - name: Get short sha
+      uses: benjlevesque/short-sha@v2.2
+      id: short-sha
+      with:
+        length: 7       
+
+    - name: Build Edirom Online from ${{ github.ref }} at ${{ github.sha }}
+      run: docker run --rm -v $(pwd):/app -w /app --entrypoint ./build.sh bwbohl/sencha-cmd
+
+    - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/actions/upload-artifact@v3.1.2
+      uses: actions/upload-artifact@v3.1.2
       with:
         # The name that the artifact will be made available under
-        name: EdiromOnline_${{ github.ref }}.zip
+        name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
         # The path to retrieve the artifact
-        path: build-xar/EdiromOnline*.xar
-        if-no-files-found: error # 'warn' or 'ignore' are also available, defaults to `warn` 
+        path: ${{ github.workspace }}/build-xar/Edirom-Online-*.xar
+        if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
         #optional retention-days: 1 to 90
-
-#  deploy:
-#    needs: build
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: deploy
-#        uses: jaapio/keelsh-deploy@master
-#        with:
-#          keelBaseUrl: http://keel.euryanthe.de
-#          image: 'bazga/existdb'
-#          tag: 'latest'
