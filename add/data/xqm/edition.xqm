@@ -81,15 +81,57 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
 : @return The URI
 :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
+
+    let $doc := (
+        if(doc-available($uri))
+        then
+            doc($uri)
+        else
+            doc(edition:findEdition($uri))
+    )
+    return
+        if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "")
+        then
+            $doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
+        else
+            ""
+};
+
+(:~
+: Returns the URI for a specific language file
+:
+: @param $uri The URI of the Edition's document to process
+: @return the edition's languages as defined in the edition file sorted as
+: complete languages in document-order followed by incomplete langauges in document-order
+:)
+declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string {
     
-    doc($uri)//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
+    let $editionDoc := doc($uri)
+    let $languagesComplete := (
+        for $lang in $editionDoc//edirom:language
+        let $langCode := $lang/@xml:lang
+        let $langComplete := xs:boolean($lang/@complete)
+        where $langComplete = true()
+        return
+            $langCode
+    )
+    let $languagesIncomplete := (
+        for $lang in $editionDoc//edirom:language
+        let $langCode := $lang/@xml:lang
+        let $langComplete := xs:boolean($lang/@complete)
+        where $langComplete = false()
+        return
+            $langCode
+    )
+    return
+        ($languagesComplete, $languagesIncomplete)
 };
 
 (:~
 : Returns the URI for the preferences file
 :
 : @param $uri The URI of the Edition's document to process
-: @return The URI
+: @return The URI of the preference file
 :)
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
     
@@ -98,22 +140,22 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
 
 (:~
 : Returns the URI of the edition specified by the submitted $editionID parameter.
-: Only succeeds if the supplied id is the @xml:id of a edirom:edition element in '/db/apps'.
 : If $editionID is the empty string, returns the URI of the first edition found in '/db/apps'.
+: If the submitted $editionID already qualifies to read a document, return $editionID unaltered.
 :
 : @param $editionID The '@xml:id' of the edirom:edition document to process
 : @return The URI of the Edition file
 :)
-declare function edition:findEdition($editionID as xs:string) as xs:string {
-    if ($editionID eq '')
-    then
-        (
+declare function edition:findEdition($editionID as xs:string?) as xs:string {
+    if(not($editionID) or $editionID eq '')
+    then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]
-        return
-            'xmldb:exist://' || document-uri($edition/root())
-        )
-    else
-        (
+        return 'xmldb:exist://' || document-uri($edition/root())
+    )
+    else if(doc-available($editionID)) (:already a qualified URI :)
+        then
+            $editionID
+    else (
         let $edition := collection('/db/apps')//edirom:edition/id($editionID)
         return
             'xmldb:exist://' || document-uri($edition/root())
