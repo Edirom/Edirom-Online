@@ -13,7 +13,6 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/ut
 declare option output:method "json";
 declare option output:media-type "application/json";
 
-declare variable $lang := request:get-parameter('lang', '');
 declare variable $uri := request:get-parameter('uri', '');
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $edition_path := eutil:getPreference('edition_path', $edition);
