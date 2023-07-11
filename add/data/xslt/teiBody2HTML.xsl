@@ -3,7 +3,7 @@
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:functx="http://www.functx.com"
     exclude-result-prefixes="#default xs tei xhtml" version="2.0">
-    <xsl:include href="functx-1.0-nodoc-2007-01.xsl"/>
+    <xsl:import href="http://www.functx.com/functx.xsl"/>
     <xsl:import href="tei/common2/tei-param.xsl"/>
     <xsl:import href="tei/common2/tei.xsl"/>
     <xsl:import href="tei/xhtml2/tei-param.xsl"/>
