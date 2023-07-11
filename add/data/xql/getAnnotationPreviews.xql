@@ -11,7 +11,6 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 :)
 
 
-import module namespace functx = "http://www.functx.com";
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace request = "http://exist-db.org/xquery/request";
