@@ -2022,10 +2022,6 @@
     </xsl:element>
     <xsl:text>]</xsl:text>
   </xsl:template>
-  <xsl:template name="rendToClass">
-    <xsl:param name="default"/>
-    <xsl:attribute name="class" select="default"/>
-  </xsl:template>
   <xsl:template match="music" mode="#all"/>
   <xsl:template match="mei:physDesc">
     <xsl:call-template name="makeProperty">

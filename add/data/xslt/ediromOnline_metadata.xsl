@@ -174,4 +174,8 @@
       </xsl:element>
     </xsl:element>
   </xsl:template>
+  <xsl:template name="rendToClass">
+    <xsl:param name="default"/>
+    <xsl:attribute name="class" select="default"/>
+  </xsl:template>
 </xsl:stylesheet>
