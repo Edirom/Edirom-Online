@@ -10,6 +10,7 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
     @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 
+
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
