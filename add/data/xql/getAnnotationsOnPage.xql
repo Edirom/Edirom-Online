@@ -74,10 +74,11 @@ declare function local:findAnnotations($uri as xs:string, $elemIds as xs:string*
 
     (: TODO: search in other documents and in other collections :)
     (: TODO: check if annotations hold URIs or IDRefs :)
-	functx:distinct-deep(
+    let $annots := collection(concat(eutil:getPreference('edition_path', request:get-parameter('edition', '')), ''))//mei:annot
+	return functx:distinct-deep(
 		for $id in $elemIds
-		let $query := <query><term>{concat($uri, '#', $id)}</term></query>
-		return collection(eutil:getPreference('edition_path', request:get-parameter('edition', '')))//mei:annot/@plist[tokenize(string(.), '\s+') = concat($uri, '#', $id)]/..
+		let $query := concat($uri, '#', $id)
+		return $annots[contains(@plist, $query)]
 	)
 };
 
