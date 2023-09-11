@@ -77,8 +77,8 @@ declare function local:findAnnotations($uri as xs:string, $elemIds as xs:string*
     let $annots := collection(concat(eutil:getPreference('edition_path', request:get-parameter('edition', '')), ''))//mei:annot
 	return functx:distinct-deep(
 		for $id in $elemIds
-		let $query := concat($uri, '#', $id)
-		return $annots[contains(@plist, $query)]
+		let $query := $id
+		return $annots/@plist[ngram:contains(., $query)]/..
 	)
 };
 
