@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Chekout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       
     - name: Get short sha
       uses: benjlevesque/short-sha@v2.2
