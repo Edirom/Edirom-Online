@@ -68,10 +68,12 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             annotDiv.setVisible(hasCategory & hasPriority);
         }, me);
 
-        if(annotations.each)
-            annotations.each(fn);
-        else
-            Ext.Array.each(annotations, fn);
+        if(typeof annotations !== 'undefined') {
+            if(annotations.each)
+                annotations.each(fn);
+            else
+                Ext.Array.each(annotations, fn);
+        }
     },
 
     setImageSet: function(imageSet) {
