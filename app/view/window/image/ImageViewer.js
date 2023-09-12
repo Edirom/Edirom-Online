@@ -203,6 +203,9 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
 
+                var documentCandidate = document.getElementById(me.id + '_' + id + '_inner');
+                if (documentCandidate !== null) return;
+
                 //TODO: Korrektes Bild anhängen
                 var shape = tpl.append(shapeDiv, [me.id + '_' + id, name, categories, priority, annotation.get('id')], true);
 
