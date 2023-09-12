@@ -592,7 +592,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                 annotDiv.setVisible(hasCategory & hasPriority);
             }, me);
             
-            if(annotation != undefined) {
+            if(typeof annotations !== 'undefined') {
                 if(annotations.each)
                     annotations.each(fn);
                 else
