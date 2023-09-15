@@ -118,6 +118,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     
     fitFacsimile: function() {
         var me = this;
+
+        if (typeof me.measureSpinner.combo === "undefined") return;
+
         me.setMeasure(me.measureSpinner.combo, me.measureSpinner.combo.getStore());
     },
     

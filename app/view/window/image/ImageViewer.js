@@ -203,7 +203,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
 
-                var documentCandidate = document.getElementById(me.id + '_' + id + '_inner');
+                var documentCandidate = document.getElementById(me.id + '_' + id);
                 if (documentCandidate !== null) return;
 
                 //TODO: Korrektes Bild anhängen
@@ -291,6 +291,9 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             var y = shape.get('uly');
             var width = shape.get('lrx') - shape.get('ulx');
             var height = shape.get('lry') - shape.get('uly');
+
+            var documentCandidate = document.getElementById(me.id + '_' + id);
+            if (documentCandidate !== null) return;
 
             var measure = tpl.append(shapeDiv, [me.id + '_' + id, name, (name === ''?'measureInnerEmpty':'measureInner')], true);
 
