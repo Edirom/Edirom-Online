@@ -419,6 +419,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             me.viewerContainer.getLayout().setActiveItem(me.measureBasedView);
             //me.gotoMenu.menu.child('#' + me.id + '_gotoMovement').hide();
             me.gotoMenu.hide();
+            me.measureBasedView.fitFacsimile();
         }
         
         me.activeView = viewId;

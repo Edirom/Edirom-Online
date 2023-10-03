@@ -123,7 +123,7 @@ declare function local:getDefinition($navConfig) {
             (: check if there are any items in category to show, dependig on (RWA) rules defined in local:getDefinition :)
             let $category := local:getCategory($elem, 1)
             return
-                if ($category//div[@class="navigatorItem"])
+                if ($category//div[starts-with(./@class, 'navigatorItem')])
                 then ($category)
                 else ()
         )

@@ -118,6 +118,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     
     fitFacsimile: function() {
         var me = this;
+
+        if (typeof me.measureSpinner.combo === "undefined") return;
+
         me.setMeasure(me.measureSpinner.combo, me.measureSpinner.combo.getStore());
     },
     
@@ -592,7 +595,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                 annotDiv.setVisible(hasCategory & hasPriority);
             }, me);
             
-            if(annotation != undefined) {
+            if(typeof annotations !== 'undefined') {
                 if(annotations.each)
                     annotations.each(fn);
                 else
