@@ -581,8 +581,9 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             var page = participant['page'];
             var source = participant['source'];
             var siglum = participant['siglum'];
-            var digilibBaseParams = participant['digilibBaseParams'];
-            var digilibSizeParams = participant['digilibSizeParams'];
+            // var digilibBaseParams = participant['digilibBaseParams'];
+            // var digilibSizeParams = participant['digilibSizeParams'];
+            var digilibURL = participant['digilibURL'];
             var hiddenData = participant['hiddenData'];
             var content = participant['content'];
 
@@ -594,7 +595,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 shape = tplText.append(div, [content, hiddenData, label], true);
 
             } else {
-                shape = tplImg.append(div, [digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams, hiddenData, label], true);
+                shape = tplImg.append(div, [/* digilibBaseParams + "dw=600&amp;amp;dh=600" + digilibSizeParams*/ digilibURL, hiddenData, label], true);
             }
             
             shape.setWidth('100%');
