@@ -27,6 +27,10 @@ body {
     font-size: 0.8em;
 }
 
+.renderingViewContent {
+    height: 100%;
+}
+
 .annotTip {
     margin: 10px;
 }
