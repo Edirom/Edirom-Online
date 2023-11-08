@@ -22,7 +22,7 @@ xquery version "1.0";
 
 (:~
     Returns a JSON sequence with all anotations in a specific text.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
@@ -37,12 +37,12 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 (:~
     Finds all annotations in all works.
-    
+
     @param $elems The elements to check (most likely measures and zones)
     @returns A sequence of annotation elements
 :)
 declare function local:findAnnotations($uri as xs:string) as element()* {
-    
+
     (: TODO: check if annotations hold URIs or IDRefs :)
     collection('/db/contents')//mei:annot[matches(@plist, $uri)]
 };

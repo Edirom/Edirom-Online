@@ -22,7 +22,7 @@ xquery version "3.1";
 
 (:~
     Returns a JSON sequence with all measures on a specific page.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
@@ -37,16 +37,16 @@ declare option output:media-type "application/json";
 
 (:~
     Finds all measures on a page.
-    
+
     @param $mei The sourcefile
     @param $surface The surface to look at
     @returns A list of json objects with measure information
 :)
 declare function local:getMeasures($mei as node(), $surface as node()) as map(*)* {
-    
+
     for $zone in $surface/mei:zone[@type = 'measure']
     let $zoneRef := concat('#', $zone/@xml:id)
-    (: 
+    (:
         The first predicate with `contains` is just a rough estimate to narrow down the result set.
         It uses the index and is fast while the second (exact) predicate is generally too slow
     :)

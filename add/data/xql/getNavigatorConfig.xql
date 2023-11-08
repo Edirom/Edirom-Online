@@ -33,7 +33,7 @@ declare option exist:serialize "method=xhtml media-type=text/html omit-xml-decla
 declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getCategory($category, $depth) {
-    
+
     <div
         class="navigatorCategory{
                 if ($depth = 1) then
@@ -99,7 +99,7 @@ declare function local:getCategory($category, $depth) {
 };
 
 declare function local:getItem($item, $depth) {
-    
+
     let $target := $item/replace(@targets, '\[.*\]', '')
     let $cfg := concat('{', replace(substring-before($item/substring-after(@targets, '['), ']'), '=', ':'), '}')
     let $target := if (starts-with($target, 'javascript:'))
@@ -108,7 +108,7 @@ declare function local:getItem($item, $depth) {
     else
         (concat("loadLink('", $target, "', ", $cfg, ")"))
     return
-        
+
         <div
             class="navigatorItem{
                     if ($depth lt 2) then
@@ -123,18 +123,18 @@ declare function local:getItem($item, $depth) {
 };
 
 declare function local:getSeparator() {
-    
+
     <div
         class="navigatorSeparator"></div>
 };
 
 declare function local:getDefinition($navConfig) {
     let $elems := $navConfig/*
-    
+
     for $elem in $elems
-    
+
     return
-        
+
         if (local-name($elem) eq 'navigatorItem')
         then
             (

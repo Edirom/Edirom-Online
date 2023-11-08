@@ -20,7 +20,7 @@ xquery version "1.0";
 
 (:~
     Returns a list of participants of a specific annotation.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 

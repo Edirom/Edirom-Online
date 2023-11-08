@@ -33,19 +33,19 @@ return
                 src="//code.iconify.design/1/1.0.6/iconify.min.js"></script>
             <script
                 src="{$basePath}/resources/js/he.js"></script>
-            
+
             <script
                 src="{$basePath}/resources/js/tipped/tipped.js"></script>
             <link
                 rel="stylesheet"
                 type="text/css"
                 href="{$basePath}/resources/css/tipped/tipped.css"/>
-            
+
             <link
                 rel="stylesheet"
                 type="text/css"
                 href="{$basePath}/resources/css/verovio-view.css"/>
-        
+
         </head>
         <body>
             <div
@@ -75,7 +75,7 @@ return
             </div>
             <div
                 class='lds-roller'><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-            
+
             <script>
                 var uri = "{$uri}";
                 var edition = "{$edition}";

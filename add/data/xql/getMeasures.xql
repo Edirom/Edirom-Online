@@ -31,7 +31,7 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "/db/apps/
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
-    
+
     if ($mei//mei:parts)
     then
         (
@@ -88,10 +88,10 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                 'name: "', $measureN, '"',
                 '}')
         )
-    
+
     else
         (
-        
+
         if ($mei/id($mdivID)//mei:measure[@label])
         then
             (
@@ -109,7 +109,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
             )
         else
             (
-            
+
             for $measureN in $mei/id($mdivID)//mei:measure/data(@n)
             let $measures := $mei/id($mdivID)//mei:measure[@n = $measureN]
             let $measure := $measures[1]

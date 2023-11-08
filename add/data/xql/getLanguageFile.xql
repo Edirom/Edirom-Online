@@ -22,7 +22,7 @@ xquery version "1.0";
 
 (:~
     Returns a language file as JSON or XML.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
@@ -54,7 +54,7 @@ return
         for $entry in $file//entry
         return
             concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
-        
+
         ,
         for $entry in $projectFile//entry
         return

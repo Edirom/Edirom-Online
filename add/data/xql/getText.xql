@@ -79,7 +79,7 @@ then
     (eutil:getPreference('leaflet_prefix', $edition))
 else
     (eutil:getPreference('image_prefix', $edition))
-    
+
     (:let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
 
 let $xsl := if ($xslInstruction) then

@@ -22,7 +22,7 @@ xquery version "1.0";
 
 (:~
     Returns the HTML for the textual content of a specific annotation for an AnnotationView.
-    
+
     @author <a href="mailto:kepper@edirom.de">Johannes Kepper</a>
 :)
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
@@ -49,7 +49,7 @@ let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
 return
-    
+
     <div
         class="annotView">
         <div

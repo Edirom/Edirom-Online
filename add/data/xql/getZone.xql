@@ -20,7 +20,7 @@ xquery version "1.0";
 
 (:~
     Returns a JSON representation of a zone.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 

@@ -61,7 +61,7 @@ return
             <meta
                 charset="UTF-8"/>
             <title></title>
-            
+
             <!-- **Amplitude.js** -->
             <script
                 type="text/javascript"
@@ -69,7 +69,7 @@ return
             <script
                 type="text/javascript"
                 src="../../resources/js/jquery-2.1.4.min.js"></script>
-            
+
             <link
                 rel="stylesheet"
                 href="../../resources/css/audio-player.css"/>
@@ -82,7 +82,7 @@ return
                 <div
                     id="top-header-toggle"
                     class="small-player-toggle-contract"></div>
-                
+
                 <div
                     class="now-playing-title"
                     amplitude-song-info="name"></div>
@@ -92,7 +92,7 @@ return
                         amplitude-song-info="album"></span></div>
             </div>
             <!-- End Top Header -->
-            
+
             <!-- Start Large Album Art -->
             <div
                 id="top-large-album"
@@ -102,7 +102,7 @@ return
                     amplitude-song-info="cover"/>
             </div>
             <!-- End Large Album Art -->
-            
+
             <!-- Begin Small Player -->
             <div
                 id="small-player">
@@ -110,17 +110,17 @@ return
                 <div
                     id="small-player-left"
                     class="hidden-on-expanded">
-                
+
                 </div>
                 <!-- End Small Player Left -->
-                
+
                 <!-- Begin Small Player Album Art -->
                 <img
                     id="small-player-album-art"
                     class="hidden-on-expanded"
                     amplitude-song-info="cover"/>
                 <!-- End Small Player Album Art -->
-                
+
                 <!-- Begin Small Player Middle -->
                 <div
                     id="small-player-middle"
@@ -142,7 +142,7 @@ return
                                 id="middle-top-next"></div>
                         </div>
                         <!-- End Controls Container -->
-                        
+
                         <!-- Begin Meta Container -->
                         <div
                             id="small-player-middle-meta">
@@ -156,7 +156,7 @@ return
                         </div>
                         <!-- End Meta Container -->
                     </div>
-                    
+
                     <div
                         id="small-player-middle-bottom">
                         <div
@@ -166,7 +166,7 @@ return
                     </div>
                 </div>
                 <!-- End Small Player Middle -->
-                
+
                 <!-- Begin Small Player Right -->
                 <div
                     id="small-player-right"
@@ -184,7 +184,7 @@ return
                     </span>
                 </div>
                 <!-- End Small Player Right -->
-                
+
                 <!-- Begin Small Player Full Bottom -->
                 <div
                     id="small-player-full-bottom"
@@ -215,12 +215,12 @@ return
                                 class="amplitude-current-seconds"
                                 amplitude-single-current-seconds="true">00</span>
                         </span>
-                        
+
                         <div
                             class="amplitude-song-time-visualization"
                             amplitude-single-song-time-visualization="true"
                             id="song-time-visualization-large"></div>
-                        
+
                         <span
                             class="time-duration">
                             <span
@@ -234,7 +234,7 @@ return
                 <!-- End Small Player Full Bottom -->
             </div>
             <!-- End Small Player -->
-            
+
             <!-- Begin Playlist -->
             <div
                 id="small-player-playlist"
@@ -250,7 +250,7 @@ return
                     let $recTitle := $recSource/mei:titleStmt/mei:title/text()
                     let $avFile := '../../../exist/apps/contents/audioData/' || $rec/mei:avFile[2]/string(@target)
                     return
-                        
+
                         <div
                             class="amplitude-song-container amplitude-play-pause playlist-item"
                             amplitude-song-index="{$i - 1}">
@@ -271,7 +271,7 @@ return
         <script
             type="text/javascript">
             Amplitude.init({$audioConfig});
-            
+
             var expanded = false;
             var playlistEpxanded = true;
             /*
@@ -283,9 +283,9 @@ return
             }}, function(){{
             $('#small-player-middle-controls').hide();
             $('#small-player-middle-meta').show();
-            
+
             }});
-            
+
             $('#top-large-album').hover(function(){{
             $('#top-header').show();
             $('#small-player').show();
@@ -297,14 +297,14 @@ return
             }}
             }}
             }});
-            
+
             $('#top-header').hover(function(){{
             $('#top-header').show();
             $('#small-player').show();
             }}, function(){{
-            
+
             }});
-            
+
             /*
             Toggles Album Art
             */
@@ -315,11 +315,11 @@ return
             Is expanded
             */
             expanded = true;
-            
+
             $('#small-player').css('border-top-left-radius', '0px');
             $('#small-player').css('border-top-right-radius', '0px');
             }});
-            
+
             $('#top-header-toggle').click(function(){{
             $('.hidden-on-collapse').hide();
             $('.hidden-on-expanded').show();
@@ -327,31 +327,31 @@ return
             Is collapsed
             */
             expanded = false;
-            
+
             $('#small-player').css('border-top-left-radius', '5px');
             $('#small-player').css('border-top-right-radius', '5px');
             }});
-            
+
             $('.playlist-toggle').click(function(){{
             if( playlistEpxanded ){{
             $('#small-player-playlist').hide();
-            
+
             $('#small-player').css('border-bottom-left-radius', '5px');
             $('#small-player').css('border-bottom-right-radius', '5px');
-            
+
             $('#large-album-art').css('border-bottom-left-radius', '5px');
             $('#large-album-art').css('border-bottom-right-radius', '5px');
-            
+
             playlistEpxanded = false;
             }}else{{
             $('#small-player-playlist').show();
-            
+
             $('#small-player').css('border-bottom-left-radius', '0px');
             $('#small-player').css('border-bottom-right-radius', '0px');
-            
+
             $('#large-album-art').css('border-bottom-left-radius', '0px');
             $('#large-album-art').css('border-bottom-right-radius', '0px');
-            
+
             playlistEpxanded = true;
             }}
             }});

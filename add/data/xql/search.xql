@@ -79,7 +79,7 @@ let $trans := <xsl:stylesheet
 let $return :=
 <div
     class="searchResult">{
-        
+
         let $search :=
         if (string-length($term) gt 0)
         then
@@ -93,10 +93,10 @@ let $return :=
             )
         else
             ()
-        
+
         return
             (
-            
+
             if (count($search) gt 0)
             then
                 (if ($lang = 'de')
@@ -119,9 +119,9 @@ let $return :=
                         class="searchResultOverview">No match found.</div>)
                 )
             ,
-            
+
             for $hit in $search
-            
+
             let $expanded := kwic:expand($hit)
             let $hitCount := count($expanded//*[./exist:match])
             let $doc := $hit/root()

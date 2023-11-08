@@ -60,7 +60,7 @@ return
         (substring-before(substring-after($i, 'href="'), '"'))
     else
         ()
-        
+
         (:let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
 let $xsl := if ($xslInstruction) then
     (doc($xslInstruction))

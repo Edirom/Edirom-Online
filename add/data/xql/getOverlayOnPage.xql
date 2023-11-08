@@ -22,7 +22,7 @@ xquery version "3.1";
 
 (:~
     Returns an SVG element.
-    
+
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
@@ -59,6 +59,3 @@ map {
 
 return
     serialize($overlay, $options)
-
-
-

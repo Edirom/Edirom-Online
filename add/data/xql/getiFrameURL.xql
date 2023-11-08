@@ -33,3 +33,4 @@ return
         (replace($uri, '/apps', '/exist/apps'))
     else
         ($uri)
+

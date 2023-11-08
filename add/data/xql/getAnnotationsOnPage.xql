@@ -22,7 +22,7 @@ xquery version "3.1";
 
 (:~
  :  Returns a JSON sequence with all anotations on a specific page.
- :  
+ :
  :  @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
  :  @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
  :)
@@ -44,7 +44,7 @@ declare option output:method "json";
 declare option output:media-type "application/json";
 
 (: Returns a JSON array of annotations
- : 
+ :
  : @param sourceUriSharp the xmldb-uri of a mei-source with a trailing #
  : @param surfaceId the xml:id of a mei:surface element
  : @param annotations the mei:annotation elements to consider
@@ -88,14 +88,14 @@ declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId a
 
 (:~
  : Returns all annotations in all works of a edirom-edition containing references to a list of IDs from one source
- :  
+ :
  : @param $edition The xmldb-uri to the edirom-edition file
  : @param $uri The xmldb-uri to the source-file
  : @param $elemIds The element-IDs to check (most likely measures and zones)
  : @returns A sequence of mei:annot elements
  :)
 declare function local:findAnnotations($edition as xs:string, $uri as xs:string, $elemIds as xs:string*) as element()* {
-    
+
     (: TODO: search in other documents and in other collections :)
     (: TODO: check if annotations hold URIs or IDRefs :)
     functx:distinct-deep(
@@ -104,7 +104,7 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
     let $hashId := '#' || $id
     let $annots := collection(eutil:getPreference('edition_path', $edition))//mei:annot
     return
-        (: 
+        (:
                 The first predicate with `contains` is just a rough estimate to narrow down the result set.
                 It uses the index and is fast while the second (exact) predicate is generally too slow
             :)
@@ -115,14 +115,14 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
 
 (:~
     Returns a JSON representation of all participants of an annotation
-    
+
     @param $annotId The id of the annotation to process
     @param $plist The list of participants referenced by the annotation
     @param $elem A sequence of elements which could be relevant
     @returns A JSON representation of the perticipants
 :)
 declare function local:getParticipants($annoId as xs:string, $plist as xs:string*, $elems as element()*) as map(*)* {
-    
+
     let $participants := $elems[@xml:id = $plist]
     return
         for $p in $participants
@@ -140,17 +140,17 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
 
 (:~
     Returns a JSON representation of all participants of an annotation
-    
+
     @param $annotId The id of the annotation to process
     @param $plist The list of participants referenced by the annotation
     @param $elem A sequence of elements which could be relevant
     @returns A JSON representation of the perticipants
 :)
 declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, $elems as element()*) as map(*)* {
-    
+
     let $participants := $elems[@id = $plist]
     return
-        
+
         for $svg in $participants
         let $id := $svg/@id
         return
@@ -162,7 +162,7 @@ declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, 
 
 (:~
  : Reads the coordinates of an element
- : 
+ :
  : @param $participant The element to process
  : @returns A sequence with coordinates (ulx, uly, lrx, lry)
 :)

@@ -86,7 +86,7 @@ let $concordances := $work//edirom:concordance
 return
     (
     concat('[',
-    
+
     string-join(
     for $concordance in $concordances
     return
@@ -97,6 +97,6 @@ return
         'connections: ', local:getConnections($concordance),
         '}')
     , ','),
-    
+
     ']')
     )

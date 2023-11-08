@@ -28,7 +28,7 @@ declare option output:method "text";
 declare option output:media-type "text/html";
 
 declare function local:getParticipants($annot as element()) as xs:string* {
-    
+
     let $participants := tokenize($annot/string(@plist), ' ')
     let $docs := distinct-values(for $p in $participants
     return
@@ -36,16 +36,16 @@ declare function local:getParticipants($annot as element()) as xs:string* {
     return
         for $doc in $docs
         return
-            
+
             if (source:isSource($doc))
             then
                 (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
-            
+
             else
                 if (teitext:isText($doc))
                 then
                     (string-join($participants[starts-with(., $doc)], $doc), ' ')
-                
+
                 else
                     ()
 };
@@ -57,7 +57,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         order by count($elem/preceding::*)
     return
         $elem
-    
+
     return
         string-join(
         (for $elem in $elems[local-name() != 'measure']
