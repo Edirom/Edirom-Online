@@ -35,7 +35,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
         else
             $docUri
     }
-
+    
     (: optionally set label for some views:)
     let $labeled.map :=
     if ($type = 'mei_textView')
@@ -47,7 +47,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
             (map:put($baseMap, 'label', 'XML Quellenbeschreibung'))
         else
             ($baseMap)
-
+            
             (: whether to set the view as default view:)
     let $defaultViewed.map :=
     if ($type = ('mei_sourceView',
@@ -61,72 +61,72 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
         (map:put($labeled.map, 'defaultView', true()))
     else
         ($labeled.map)
-
-
+        
+        
         (: xpath check whether any given view is supported :)
     let $hasView :=
     if ($type = 'desc_summaryView')
     then
         (true())
-
+    
     else
         if ($type = 'desc_headerView')
         then
             (exists($doc//mei:meiHead or $doc//tei:teiHeader))
-
+        
         else
             if ($type = 'mei_textView')
             then
                 (exists($doc//mei:annot[@type = 'descLink']))
-
+            
             else
                 if ($type = 'mei_sourceView')
                 then
                     (exists($doc//mei:facsimile//mei:graphic[@type = 'facsimile']))
-
+                
                 else
                     if ($type = 'mei_audioView')
                     then
                         (exists($doc//mei:recording))
-
+                    
                     else
                         if ($type = 'mei_verovioView')
                         then
                             (exists($doc//mei:body//mei:measure) and exists($doc//mei:body//mei:note))
-
+                        
                         else
                             if ($type = 'tei_textView')
                             then
                                 (exists($doc//tei:body[matches(.//text(), '[^\s]+')]))
-
+                            
                             else
                                 if ($type = 'tei_facsimileView')
                                 then
                                     (exists($doc//tei:facsimile//tei:graphic))
-
+                                
                                 else
                                     if ($type = 'tei_textFacsimileSplitView')
                                     then
                                         (exists($doc//tei:facsimile//tei:graphic) and exists($doc//tei:pb[@facs]))
-
+                                    
                                     else
                                         if ($type = 'mei_annotationView')
                                         then
                                             (exists($doc//mei:annot[@type = 'editorialComment']))
-
+                                        
                                         else
                                             if ($type = 'xml_xmlView')
                                             then
                                                 (true())
-
+                                            
                                             else
                                                 if ($type = 'desc_xmlView')
                                                 then
                                                     (exists($doc//mei:annot[@type = 'descLink']))
-
+                                                
                                                 else
                                                     (false())
-
+    
     return
         if ($hasView)
         then
@@ -139,7 +139,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
  : Returns the views for an edirom object
  :)
 declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
-
+    
     let $views := (
     (:'desc_summaryView',:)
     (:'desc_headerView',:)
@@ -154,12 +154,12 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
     'xml_xmlView',
     'desc_xmlView'
     )
-
+    
     let $maps :=
     for $view in $views
     return
         local:getView($view, $docUri, $doc)
-
+    
     return
         $maps
 };
@@ -176,13 +176,13 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
         if (exists($doc/root()/mei:work))
         then
             (eutil:getLocalizedTitle($doc/root()/mei:work, $lang))
-
+            
             (: Recording :)
         else
             if (exists($doc//mei:mei) and exists($doc//mei:recording))
             then
                 (eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
-
+                
                 (: Source / Score :)
             else
                 if ($type = 'source' and exists($doc//mei:manifestation/mei:titleStmt))
@@ -196,25 +196,25 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
                         (string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
                         ($doc//mei:source)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
                         => normalize-space())
-
+                        
                         (: MEI fallback if no title is found :)
                     else
                         if (exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1]))
                         then
                             (eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
-
+                            
                             (: Text :)
                         else
                             if (exists($doc/tei:TEI))
                             then
                                 (eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
-
+                                
                                 (: HTML :)
                             else
                                 if ($type = 'html')
                                 then
                                     ($doc//head/data(title))
-
+                                
                                 else
                                     (string('unknown'))
 };
@@ -277,7 +277,7 @@ else
     if (starts-with($internalId, 'measure_') and $doc//mei:parts)
     then
         (
-
+        
         let $mdivId := functx:substring-before-last(substring-after($internalId, 'measure_'), '_')
         let $measureN := functx:substring-after-last($internalId, '_')
         return
@@ -291,36 +291,36 @@ let $type := (: Work :)
 if (exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
 then
     (string('work'))
-
+    
     (: Recording :)
 else
     if (exists($doc//mei:mei) and exists($doc//mei:recording))
     then
         (string('recording'))
-
+        
         (: Source / Score :)
     else
         if (source:isSource($docUri))
         then
             (string('source'))
-
+            
             (: Text :)
         else
             if (exists($doc/tei:TEI))
             then
                 (string('text'))
-
+                
                 (: HTML :)
             else
                 if (exists($doc/html) or exists($doc/html:html))
                 then
                     (string('html'))
-
+                
                 else
                     if (contains($docUri, '.html'))
                     then
                         (string('html'))
-
+                    
                     else
                         (string('unknown'))
 

@@ -50,7 +50,7 @@ return
         for $entry in $file//entry
         return
             concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
-
+        
         ,
         for $entry in $projectFile//entry
         return

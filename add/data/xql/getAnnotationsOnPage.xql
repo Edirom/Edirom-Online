@@ -95,7 +95,7 @@ declare function local:getAnnotations($sourceUriSharp as xs:string, $surfaceId a
  : @returns A sequence of mei:annot elements
  :)
 declare function local:findAnnotations($edition as xs:string, $uri as xs:string, $elemIds as xs:string*) as element()* {
-
+    
     (: TODO: search in other documents and in other collections :)
     (: TODO: check if annotations hold URIs or IDRefs :)
     functx:distinct-deep(
@@ -122,7 +122,7 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
     @returns A JSON representation of the perticipants
 :)
 declare function local:getParticipants($annoId as xs:string, $plist as xs:string*, $elems as element()*) as map(*)* {
-
+    
     let $participants := $elems[@xml:id = $plist]
     return
         for $p in $participants
@@ -147,10 +147,10 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
     @returns A JSON representation of the perticipants
 :)
 declare function local:getAnnotSVGs($annoId as xs:string, $plist as xs:string*, $elems as element()*) as map(*)* {
-
+    
     let $participants := $elems[@id = $plist]
     return
-
+        
         for $svg in $participants
         let $id := $svg/@id
         return

@@ -38,7 +38,7 @@ declare namespace request = "http://exist-db.org/xquery/request";
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:getAnnotations($edition as xs:string, $edition_path as xs:string, $uri as xs:string, $elemIds as xs:string*) as xs:string* {
-
+    
     for $measureId in $elemIds
     let $uriPlusId := concat($uri, '#', $measureId)
     let $annots := collection($edition_path)//mei:annot/@plist[tokenize(string(.), '\s+') = $uriPlusId]/..

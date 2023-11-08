@@ -89,7 +89,7 @@ let $siglaLabel := switch (count($sigla))
 let $annotIDlabel := eutil:getLanguageString('view.window.AnnotationView_AnnotationID', ())
 
 return
-
+    
     <div
         class="annotView">
         <div

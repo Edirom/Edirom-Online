@@ -51,7 +51,7 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
     let $resp := local:generateRespSentence($work//mei:work/mei:titleStmt/mei:respStmt/*[local-name() != 'resp']/text())
     let $expression := $work/id($doc//mei:relation[@rel = 'isEmbodimentOf'][1]/substring-after(@target, '#'))/string(@label)
     return
-
+        
         <div
             class="summaryViewSource">
             <h1>
@@ -70,15 +70,15 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                         ()
                 }
             </h1>
-
+            
             <div
                 class="metaData">
-
+                
                 <div
                     class="work metaRow">
                     Zur Fassung "{$expression}" von {$resp} "{$title}".
                 </div>
-
+                
                 {
                     for $name in $doc//mei:source/mei:titleStmt/mei:respStmt/mei:*[local-name() eq 'persName' or local-name() eq 'name']
                     return
@@ -97,9 +97,9 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                             <div
                                 class="value">{$name/text()}</div>
                         </div>
-
+                
                 }
-
+                
                 {
                     for $date in $doc//mei:source/mei:pubStmt/mei:date | $doc//mei:source/mei:history/mei:creation/mei:date[1]
                     return
@@ -110,9 +110,9 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                             <div
                                 class="value">{local:getDateValue($date)}</div>
                         </div>
-
+                
                 }
-
+                
                 {
                     (: probably a Manuscript… :)
                     if (count($doc//mei:source/mei:itemList/mei:item) eq 1)
@@ -148,7 +148,7 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                     else
                         ()
                 }
-
+                
                 {
                     if ($doc//mei:source/mei:pubStmt//mei:*[@role eq 'publisher'])
                     then
@@ -164,7 +164,7 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                     else
                         ()
                 }
-
+                
                 {
                     if ($doc//mei:source/mei:physDesc/mei:plateNum)
                     then
@@ -180,9 +180,9 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
                     else
                         ()
                 }
-
+            
             </div>
-
+            
             {
                 if ($doc//mei:source//mei:titlePage/@facs)
                 then
@@ -244,111 +244,111 @@ declare function local:getImagePath($basePath, $uri, $width) {
 };
 
 declare function local:getDateValue($date) {
-
+    
     if ($date/@reg)
     then
         ($date/string(@reg)) (: TODO: prettify date :)
-
+    
     else
         if ($date/@startdate and $date/@enddate)
         then
             (concat('From ', $date/@startdate, ' until ', $date/@enddate))
-
+        
         else
             if ($date/@notbefore and $date/@notafter)
             then
                 (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
-
+            
             else
                 if ($date/@startdate and $date/@notafter)
                 then
                     (concat('From ', $date/@startdate, ', not after ', $date/@notafter))
-
+                
                 else
                     if ($date/@notbefore and $date/@enddate)
                     then
                         (concat('Not before ', $date/@notbefore, ', until ', $date/@enddate))
-
+                    
                     else
                         if ($date/@startdate)
                         then
                             (concat('From ', $date/@startdate))
-
+                        
                         else
                             if ($date/@enddate)
                             then
                                 (concat('Until ', $date/@enddate))
-
+                            
                             else
                                 if ($date/@notbefore)
                                 then
                                     (concat('Not before ', $date/@notbefore))
-
+                                
                                 else
                                     if ($date/@notafter)
                                     then
                                         (concat('Not after ', $date/@notafter))
-
+                                    
                                     else
                                         if (local-name($date) eq 'date')
                                         then
                                             ($date/text())
-
+                                        
                                         else
                                             (string(""))
 };
 
 declare function local:getTeiDateValue($date) {
-
+    
     if ($date/@when)
     then
         ($date/string(@when)) (: TODO: prettify date :)
-
+    
     else
         if ($date/@from and $date/@to)
         then
             (concat('From ', $date/@from, ' to ', $date/@to))
-
+        
         else
             if ($date/@notBefore and $date/@notAfter)
             then
                 (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
-
+            
             else
                 if ($date/@from and $date/@notAfter)
                 then
                     (concat('From ', $date/@from, ', not after ', $date/@notAfter))
-
+                
                 else
                     if ($date/@notBefore and $date/@to)
                     then
                         (concat('Not before ', $date/@notBefore, ', to ', $date/@to))
-
+                    
                     else
                         if ($date/@from)
                         then
                             (concat('From ', $date/@from))
-
+                        
                         else
                             if ($date/@to)
                             then
                                 (concat('Until ', $date/@to))
-
+                            
                             else
                                 if ($date/@notBefore)
                                 then
                                     (concat('Not before ', $date/@notBefore))
-
+                                
                                 else
                                     if ($date/@notAfter)
                                     then
                                         (concat('Not after ', $date/@notAfter))
-
+                                    
                                     else
                                         if (local-name($date) eq 'date')
                                         then
                                             ($date/text())
-
+                                        
                                         else
                                             (string(""))
 };
@@ -358,7 +358,7 @@ declare function local:getWorkSummary($doc, $docUri) {
         class="summaryViewWork">
         <div
             class="titleBox">
-
+            
             <div
                 class="resps">
                 {
@@ -372,7 +372,7 @@ declare function local:getWorkSummary($doc, $docUri) {
                         )
                 }
             </div>
-
+            
             <h1>
                 {
                     if ($doc//mei:work/mei:titleStmt/mei:title[@type eq 'main'])
@@ -382,7 +382,7 @@ declare function local:getWorkSummary($doc, $docUri) {
                         ($doc//mei:work/mei:titleStmt/mei:title[1]//text())
                 }
             </h1>
-
+            
             <div
                 class="identifiers">
                 {
@@ -397,9 +397,9 @@ declare function local:getWorkSummary($doc, $docUri) {
                         </div>
                 }
             </div>
-
+        
         </div>
-
+        
         <div
             class="expressions">
             {
@@ -434,7 +434,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                         ($title)
                 }
             </h1>
-
+            
             <div
                 class="metaData">
                 {
@@ -454,7 +454,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                     else
                         ()
                 }
-
+                
                 {
                     if ($doc//tei:titleStmt/tei:editor)
                     then
@@ -477,7 +477,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                     else
                         ()
                 }
-
+                
                 {
                     for $respStmt in $doc//tei:editionStmt/tei:respStmt
                     return
@@ -507,9 +507,9 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                                 }
                             </div>
                         </div>
-
+                
                 }
-
+                
                 {
                     for $date in $doc//tei:publicationStmt/tei:date
                     return
@@ -520,9 +520,9 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                             <div
                                 class="value">{local:getTeiDateValue($date)}</div>
                         </div>
-
+                
                 }
-
+                
                 {
                     if ($doc//tei:sourceDesc/tei:msDesc//tei:repository)
                     then
@@ -559,7 +559,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                     else
                         ()
                 }
-
+                
                 {
                     if ($doc//tei:publicationStmt/tei:publisher)
                     then
@@ -576,7 +576,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                         ()
                 }
             </div>
-
+            
             { (:TODO: facsimile auswerten:)
                 if ($doc//tei:titlePage)
                 then
@@ -589,19 +589,19 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                 else
                     ()
             }
-
+        
         </div>
 };
 
 declare function local:getImagePath($server, $edition) {
     (:let $server :=  eutil:getPreference('image_server', request:get-parameter('edition', '')) :)
-
+    
     let $i_path := if ($server = 'leaflet')
     then
         (eutil:getPreference('leaflet_prefix', $edition))
     else
         (eutil:getPreference('image_prefix', $edition))
-
+    
     return
         $i_path
 
@@ -624,7 +624,7 @@ declare function local:getImagePathLeaflet($doc) {
             let $height := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@height
             return
                 concat($tile_path, '§', $width, '§', $height)
-
+            
             )
         else
             ()
@@ -668,7 +668,7 @@ return
             (local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri))
         else
             (local:getWorkSummary($doc, $docUri))
-
+        
         )
     else
         if ($type = 'source')

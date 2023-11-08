@@ -49,7 +49,7 @@ let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
 
 return
-
+    
     <div
         class="annotView">
         <div

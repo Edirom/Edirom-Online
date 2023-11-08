@@ -41,15 +41,15 @@ declare function local:findMeasure($mei, $movementId, $measureIdName) {
 };
 
 declare function local:getMeasure($mei, $measure, $movementId) as xs:string {
-
+    
     let $measureId := $measure/string(@xml:id)
     let $zoneId := substring-after($measure/string(@facs), '#')
     let $zone := $mei/id($zoneId)
     let $surface := $zone/parent::mei:surface
     let $graphic := $surface/mei:graphic[@type = 'facsimile']
-
+    
     return
-
+        
         concat('{',
         'measureId:"', $measureId, '",',
         'zoneId:"', $zoneId, '",',
@@ -80,7 +80,7 @@ return
         ($m)
     else
         ()
-
+        
         (: Extra measure parts :)
 let $extraMeasuresParts := for $exm in $measure | $extraMeasures
 return

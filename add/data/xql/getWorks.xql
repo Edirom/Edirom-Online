@@ -39,10 +39,10 @@ let $workUris := edition:getWorkUris($uri)
 return
     concat('[',
     string-join(
-
+    
     for $workUri in $workUris
     return
         work:toJSON($workUri, $uri)
-
+    
     , ','),
     ']')

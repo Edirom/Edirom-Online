@@ -21,12 +21,12 @@ declare variable $edition_path := eutil:getPreference('edition_path', $edition);
  : Returns distinct list of catagories
  :)
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
-
+    
     let $oldCats := distinct-values($annots/mei:ptr[@type = "categories"]/replace(@target, '#', ''))
     let $newCats := distinct-values(for $annot in $annots
     return
         tokenize(replace(normalize-space($annot/@class), '#', ''), ' '))[contains(., 'annotation.category')]
-
+    
     return
         distinct-values(($oldCats, $newCats)[string-length() gt 0])
 };
@@ -35,7 +35,7 @@ declare function local:getDistinctCategories($annots as element()*) as xs:string
  : Returns distinct list of annotation priorities
  :)
 declare function local:getDistinctPriorities($annots as element()*) as xs:string* {
-
+    
     distinct-values(
     for $annot in $annots
     let $oldLink := $annot/mei:ptr[@type = "priority"]/replace(@target, '#', '')
@@ -78,7 +78,7 @@ map {
 
 return
     $map
-
+    
     (:
 
 return concat('{categories: [',

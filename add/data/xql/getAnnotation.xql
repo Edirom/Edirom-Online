@@ -82,7 +82,7 @@ declare function local:getZone($elem as element()) as element()? {
     @return the label for the Priority, or, if this fails, $uri
 :)
 declare function local:getPriority($annot as node()) {
-
+    
     let $uri := $annot/mei:ptr[@type eq 'priority']/string(@target)
     let $doc := if (starts-with($uri, '#'))
     then
@@ -94,9 +94,9 @@ declare function local:getPriority($annot as node()) {
         doc(substring-before($uri, '#'))
         )
     let $locID := substring-after($uri, '#')
-
+    
     let $elem := $doc/id($locID)
-
+    
     return
         if ($elem/mei:name)
         then
@@ -113,9 +113,9 @@ declare function local:getPriority($annot as node()) {
     @return the string of annotation labels, or, if one of them fails, the respecitve $uri
 :)
 declare function local:getCategories($annot as node()) {
-
+    
     let $uris := tokenize($annot/mei:ptr[@type eq 'categories']/string(@target), ' ')
-
+    
     let $string := for $uri in $uris
     let $doc := if (starts-with($uri, '#'))
     then
@@ -152,21 +152,21 @@ declare function local:getCategories($annot as node()) {
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $zone as element()?, $width as xs:integer) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-
+    
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
-
+    
     let $imagePath := $graphic/@target
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
-
+    
     let $wx := $imgX div $imgWidth
     let $wy := $imgY div $imgHeight
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
-
+    
     return
         concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $width, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
 };
@@ -174,23 +174,23 @@ declare function local:getImageAreaPath($basePath as xs:string, $zone as element
 (: for tips :)
 declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as element()?, $width as xs:integer, $height as xs:integer) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-
+    
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
-
+    
     let $imagePath := $graphic/@target
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
-
+    
     let $wx := $imgX div $imgWidth
     let $wy := $imgY div $imgHeight
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
-
+    
     let $cut_path := substring-before($imagePath, '.')
-
+    
     let $im_path := if ($imageserver = 'digilib')
     then
         (concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $height, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit'))
@@ -231,7 +231,7 @@ declare function local:getItemLabel($elem as element()) {
                 (concat('Bar ', $elem/@n)))
         else
             (),
-
+        
         if ($name = 'staff')
         then
             (if ($lang = 'de') then
@@ -240,7 +240,7 @@ declare function local:getItemLabel($elem as element()) {
                 (concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr, ', Bar ', $elem/ancestor::mei:measure/@n)))
         else
             (),
-
+        
         if ($name = 'zone')
         then
             (if ($lang = 'de') then
@@ -258,22 +258,22 @@ declare function local:getItemLabel($elem as element()) {
 
 :)
 declare function local:calculatePreviewsForTip($participants as xs:string*) {
-
+    
     let $areaWidth := 204
     let $areaHeight := 254
-
+    
     let $elems := for $pUri in $participants
     return
         doc(substring-before($pUri, '#'))/id(substring-after($pUri, '#'))
     let $zones := for $elem in $elems
     return
         local:getZone($elem)
-
+    
     let $tall := some $zone in $zones
         satisfies (number($zone/@lry) - number($zone/@uly) gt 2 * (number($zone/@lrx) - number($zone/@ulx)))
     let $wide := some $zone in $zones
         satisfies (2 * (number($zone/@lry) - number($zone/@uly)) lt number($zone/@lrx) - number($zone/@ulx))
-
+    
     let $w := if ($tall and not($wide))
     then
         (round(10000 div count($zones)) div 100)
@@ -285,7 +285,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
         else
             (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
         )
-
+    
     let $h := if ($tall and not($wide))
     then
         (100)
@@ -297,17 +297,17 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
         else
             (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
         )
-
+    
     let $width := floor($areaWidth * $w div 100)
     let $height := floor($areaHeight * $h div 100)
-
+    
     for $zone in $zones
     let $e := $elems[substring(@facs, 2) = $zone/@xml:id][1]
     let $e := if ($e) then
         ($e)
     else
         ($zone)
-
+    
     let $test := if ($imageserver = 'digilib')
     then
         (
@@ -339,7 +339,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
                 class="label">{local:getItemLabel($e)}</div>
         </div>
         )
-
+    
     return
         $test
 };
@@ -409,7 +409,7 @@ return
     if ($target eq 'view')
     then
         (
-
+        
         <div
             class="annotView">
             <div
@@ -452,7 +452,7 @@ return
                 <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
                 {annotation:getContent($annot, '', $edition)}
             </div>
-
+            
             <!-- <div class="previewArea">
                 {
 
@@ -486,7 +486,7 @@ return
 
                 }
             </div>-->
-
+        
         </div>
         )
     else
@@ -553,5 +553,5 @@ return
                 }
             </div>-->
         </div>
-
+        
         )

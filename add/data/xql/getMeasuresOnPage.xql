@@ -43,7 +43,7 @@ declare option output:media-type "application/json";
     @returns A list of json objects with measure information
 :)
 declare function local:getMeasures($mei as node(), $surface as node()) as map(*)* {
-
+    
     for $zone in $surface/mei:zone[@type = 'measure']
     let $zoneRef := concat('#', $zone/@xml:id)
     (:
