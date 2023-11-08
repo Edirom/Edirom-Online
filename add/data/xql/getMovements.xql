@@ -20,11 +20,11 @@ xquery version "3.1";
   ID: $Id: getMovements.xql 1219 2012-01-20 08:33:28Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "text";
@@ -34,17 +34,18 @@ let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $movement in $mei//mei:mdiv
-            return
-                map {
-                    'id': $movement/string(@xml:id),
-                    'name': $movement/string(@label)
-                }
-
-let $array := array { $ret }
-let $options :=
+return
     map {
-        'method': 'json',
-        'media-type': 'text/plain'
+        'id': $movement/string(@xml:id),
+        'name': $movement/string(@label)
     }
-    
-return serialize($array, $options)
+
+let $array := array {$ret}
+let $options :=
+map {
+    'method': 'json',
+    'media-type': 'text/plain'
+}
+
+return
+    serialize($array, $options)

@@ -24,7 +24,7 @@ xquery version "1.0";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
+declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "text";
@@ -43,9 +43,10 @@ let $map := map {
 }
 
 let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
+map {
+    'method': 'json',
+    'media-type': 'text/plain'
+}
 
-return serialize($map, $options)
+return
+    serialize($map, $options)

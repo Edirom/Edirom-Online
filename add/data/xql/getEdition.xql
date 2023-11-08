@@ -26,9 +26,10 @@ xquery version "1.0";
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('id', '')
-return edition:toJSON($uri)
+return
+    edition:toJSON($uri)

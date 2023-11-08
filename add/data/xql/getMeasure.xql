@@ -20,11 +20,11 @@ xquery version "1.0";
   ID: $Id: getMeasurePage.xql 1254 2012-02-01 14:07:25Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 import module namespace functx = "http://www.functx.com";
 
@@ -32,22 +32,30 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
 
 let $id := request:get-parameter('id', '')
 let $measureId := request:get-parameter('measureId', '')
-let $measureCount := if(contains($measureId, 'tstamp2='))then(number(substring-before(substring-after($measureId, 'tstamp2='), 'm')) + 1)else(1)
-let $measureId := if(contains($measureId, '?'))then(substring-before($measureId, '?'))else($measureId)
+let $measureCount := if (contains($measureId, 'tstamp2=')) then
+    (number(substring-before(substring-after($measureId, 'tstamp2='), 'm')) + 1)
+else
+    (1)
+let $measureId := if (contains($measureId, '?')) then
+    (substring-before($measureId, '?'))
+else
+    ($measureId)
 
 let $mei := doc($id)/root()
 let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/@xml:id
 
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
-let $movementId := if(starts-with($measureId, 'measure_') and $mei//mei:parts)
-                   then(
-                        functx:substring-before-last(substring-after($measureId, 'measure_'), '_')
-                    )
-                    else($movementId)
+let $movementId := if (starts-with($measureId, 'measure_') and $mei//mei:parts)
+then
+    (
+    functx:substring-before-last(substring-after($measureId, 'measure_'), '_')
+    )
+else
+    ($movementId)
 
 return
     concat('{',
-        'measureId:"', $measureId, '",',
-        'movementId:"', $movementId, '",',
-        'measureCount:"', $measureCount, '"',
+    'measureId:"', $measureId, '",',
+    'movementId:"', $movementId, '",',
+    'measureCount:"', $measureCount, '"',
     '}')

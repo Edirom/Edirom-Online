@@ -26,11 +26,11 @@ xquery version "3.1";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-declare namespace output="http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "json";
 declare option output:media-type "application/json";
@@ -43,8 +43,8 @@ declare option output:media-type "application/json";
     @returns A list of json objects with measure information
 :)
 declare function local:getMeasures($mei as node(), $surface as node()) as map(*)* {
-
-    for $zone in $surface/mei:zone[@type='measure']
+    
+    for $zone in $surface/mei:zone[@type = 'measure']
     let $zoneRef := concat('#', $zone/@xml:id)
     (: 
         The first predicate with `contains` is just a rough estimate to narrow down the result set.
@@ -53,10 +53,15 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
     let $measures := $mei//mei:measure[contains(@facs, $zoneRef)][$zoneRef = tokenize(@facs, '\s+')]
     return
         for $measure in $measures
-        let $measureLabel := if ($measure/@label) then ($measure/string(@label)) else ($measure/string(@n))
-        let $measureLabel := if($measure//mei:multiRest)
-                             then ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
-                             else ($measureLabel)
+        let $measureLabel := if ($measure/@label) then
+            ($measure/string(@label))
+        else
+            ($measure/string(@n))
+        let $measureLabel := if ($measure//mei:multiRest)
+        then
+            ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
+        else
+            ($measureLabel)
         return
             map {
                 'zoneId': $zone/string(@xml:id),
@@ -72,11 +77,15 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
 };
 
 declare function local:getMRest($measure) {
-    if($measure//mei:mRest)
-    then(string('1'))
-    else if($measure//mei:multiRest)
-    then($measure//mei:multiRest/string(@num))
-    else(string('0'))
+    if ($measure//mei:mRest)
+    then
+        (string('1'))
+    else
+        if ($measure//mei:multiRest)
+        then
+            ($measure//mei:multiRest/string(@num))
+        else
+            (string('0'))
 };
 
 let $uri := request:get-parameter('uri', '')
@@ -85,9 +94,10 @@ let $surfaceId := request:get-parameter('pageId', '')
 let $mei := doc($uri)/root()
 let $surface := $mei/id($surfaceId)
 
-return (
+return
+    (
     array {
         (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
         local:getMeasures($mei, $surface)
     }
-)
+    )

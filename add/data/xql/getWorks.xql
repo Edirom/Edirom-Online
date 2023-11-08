@@ -26,10 +26,10 @@ xquery version "1.0";
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace work="http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
 
-declare namespace request="http://exist-db.org/xquery/request";
+declare namespace request = "http://exist-db.org/xquery/request";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -38,10 +38,11 @@ let $workUris := edition:getWorkUris($uri)
 
 return
     concat('[',
-	    string-join(
-	       
-	       for $workUri in $workUris
-	       return work:toJSON($workUri, $uri)
-	       
-	    , ','),
+    string-join(
+    
+    for $workUri in $workUris
+    return
+        work:toJSON($workUri, $uri)
+    
+    , ','),
     ']')

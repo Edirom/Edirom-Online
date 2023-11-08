@@ -20,11 +20,11 @@ xquery version "1.0";
   ID: $Id: getMovementsFirstPage.xql 1261 2012-02-28 15:50:45Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -34,8 +34,11 @@ let $movementId := request:get-parameter('movementId', '')
 let $mei := doc($uri)/root()
 
 let $zoneId := ($mei/id($movementId)//mei:measure)[1]/string(@facs)
-let $zoneId := if(starts-with($zoneId, '#'))
-                then(substring($zoneId, 2))
-                else($zoneId)
+let $zoneId := if (starts-with($zoneId, '#'))
+then
+    (substring($zoneId, 2))
+else
+    ($zoneId)
 
-return $mei/id($zoneId)/parent::mei:surface/string(@xml:id)
+return
+    $mei/id($zoneId)/parent::mei:surface/string(@xml:id)

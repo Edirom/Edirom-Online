@@ -29,10 +29,24 @@ let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '')
 let $doc := doc(concat('../../help/help_', $lang, '.xml'))
 
 let $xsl := doc('../xslt/edirom_langReplacement.xsl')
-let $doc := transform:transform($doc, $xsl, <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="lang" value="{$lang}"/></parameters>)
+let $doc := transform:transform($doc, $xsl, <parameters><param
+        name="base"
+        value="{concat($base, '/../xslt/')}"/><param
+        name="lang"
+        value="{$lang}"/></parameters>)
 
 let $xsl := doc('../xslt/teiBody2HTML.xsl')
-let $doc := transform:transform($doc, $xsl, <parameters><param name="base" value="{concat($base, '/../xslt/')}"/><param name="lang" value="{$lang}"/><param name="tocDepth" value="1"/><param name="graphicsPrefix" value="help/"/></parameters>)
+let $doc := transform:transform($doc, $xsl, <parameters><param
+        name="base"
+        value="{concat($base, '/../xslt/')}"/><param
+        name="lang"
+        value="{$lang}"/><param
+        name="tocDepth"
+        value="1"/><param
+        name="graphicsPrefix"
+        value="help/"/></parameters>)
 
 return
-    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param name="idPrefix" value="{$idPrefix}"/></parameters>)
+    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'), <parameters><param
+            name="idPrefix"
+            value="{$idPrefix}"/></parameters>)

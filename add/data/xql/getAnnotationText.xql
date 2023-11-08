@@ -25,14 +25,14 @@ xquery version "1.0";
     
     @author <a href="mailto:kepper@edirom.de">Johannes Kepper</a>
 :)
-import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace edirom_image="http://www.edirom.de/ns/image";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace edirom_image = "http://www.edirom.de/ns/image";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "xhtml";
@@ -50,9 +50,11 @@ let $annot := $doc/id($internalId)
 
 return
     
-    <div class="annotView">
-        <div class="contentBox">
+    <div
+        class="annotView">
+        <div
+            class="contentBox">
             <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
-            {annotation:getContent($annot, '', $edition)} 
+            {annotation:getContent($annot, '', $edition)}
         </div>
     </div>

@@ -24,12 +24,14 @@ xquery version "3.0";
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
 return
-    if(doc-available($uri))
-    then($uri)
-    else(edition:findEdition($uri))
+    if (doc-available($uri))
+    then
+        ($uri)
+    else
+        (edition:findEdition($uri))

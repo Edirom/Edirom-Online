@@ -26,12 +26,12 @@ xquery version "1.0";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace ft="http://exist-db.org/xquery/lucene";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace ft = "http://exist-db.org/xquery/lucene";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -42,35 +42,37 @@ declare option exist:serialize "method=text media-type=text/plain omit-xml-decla
     @returns A sequence of annotation elements
 :)
 declare function local:findAnnotations($uri as xs:string) as element()* {
-
+    
     (: TODO: check if annotations hold URIs or IDRefs :)
-	collection('/db/contents')//mei:annot[matches(@plist, $uri)]
+    collection('/db/contents')//mei:annot[matches(@plist, $uri)]
 };
 
 
 declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as xs:string* {
     for $annotation in $annotations
-	let $id := $annotation/string(@xml:id)
-	let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
-	let $prio := $annotation/mei:ptr[@type="priority"]/replace(@target, '#', '')
-	let $cat := $annotation/mei:ptr[@type="categories"]/replace(@target, '#', '')
-	let $plist := for $p in tokenize($annotation/@plist, '\s+')
-					return 
-					   if(starts-with($p, $uriSharp))
-					   then(concat('{id:"', $id, '__', substring-after($p, $uriSharp),'"}'))
-					   else()
-	let $plist := string-join($plist, ',')				   
-	return
-		concat('
+    let $id := $annotation/string(@xml:id)
+    let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
+    let $prio := $annotation/mei:ptr[@type = "priority"]/replace(@target, '#', '')
+    let $cat := $annotation/mei:ptr[@type = "categories"]/replace(@target, '#', '')
+    let $plist := for $p in tokenize($annotation/@plist, '\s+')
+    return
+        if (starts-with($p, $uriSharp))
+        then
+            (concat('{id:"', $id, '__', substring-after($p, $uriSharp), '"}'))
+        else
+            ()
+    let $plist := string-join($plist, ',')
+    return
+        concat('
        	{',
-           	'id: "', $id, '", ',
-           	'plist: [', $plist, '], ',
-           	'svgList: [], ',
-           	'fn: "loadLink(\"', $uri, '\")", ',
-           	'uri: "', $uri, '", ',
-           	'priority: "', $prio, '", ',
-           	'categories: "', $cat, '"',
-       	'}')
+        'id: "', $id, '", ',
+        'plist: [', $plist, '], ',
+        'svgList: [], ',
+        'fn: "loadLink(\"', $uri, '\")", ',
+        'uri: "', $uri, '", ',
+        'priority: "', $prio, '", ',
+        'categories: "', $cat, '"',
+        '}')
 };
 
 let $uri := request:get-parameter('uri', '')
@@ -79,5 +81,5 @@ let $annotations := local:findAnnotations($uri)
 
 return
     concat('[',
-	    string-join(local:getAnnotations($uriSharp, $annotations), ','),
+    string-join(local:getAnnotations($uriSharp, $annotations), ','),
     ']')

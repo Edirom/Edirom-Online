@@ -19,11 +19,11 @@ xquery version "3.1";
 
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -31,13 +31,14 @@ let $uri := request:get-parameter('uri', '')
 let $mei := doc($uri)/root()
 
 let $ret := for $part in ($mei//mei:instrumentation/mei:instrVoice | $mei//mei:perfMedium//mei:perfRes)
-                let $hasNoAttrSameas := not(exists($part/@sameas))
-                return
-                    concat(
-                            '{label: "', eutil:getPartLabel($part, 'perfRes'),
-                            '", id:"', $part/@xml:id,
-                            '", selectedByDefault:', $hasNoAttrSameas,
-                            ', selected:', $hasNoAttrSameas, '}'
-                          )
+let $hasNoAttrSameas := not(exists($part/@sameas))
+return
+    concat(
+    '{label: "', eutil:getPartLabel($part, 'perfRes'),
+    '", id:"', $part/@xml:id,
+    '", selectedByDefault:', $hasNoAttrSameas,
+    ', selected:', $hasNoAttrSameas, '}'
+    )
 
-return concat('[', string-join($ret, ','), ']')
+return
+    concat('[', string-join($ret, ','), ']')

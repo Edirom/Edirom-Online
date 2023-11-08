@@ -20,12 +20,12 @@ xquery version "1.0";
   ID: $Id: getRendering.xql 1334 2012-06-14 12:40:33Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
-declare namespace system="http://exist-db.org/xquery/system";
-declare namespace transform="http://exist-db.org/xquery/transform";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+declare namespace system = "http://exist-db.org/xquery/system";
+declare namespace transform = "http://exist-db.org/xquery/transform";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
@@ -39,7 +39,10 @@ let $firstMeasure := request:get-parameter('firstMeasure', '')
 let $lastMeasure := request:get-parameter('lastMeasure', '')
 
 
-let $docUri := if(contains($uri, '#')) then(substring-before($uri, '#')) else($uri)
+let $docUri := if (contains($uri, '#')) then
+    (substring-before($uri, '#'))
+else
+    ($uri)
 let $doc := doc($docUri)
 
 return
@@ -50,17 +53,31 @@ return
     let $mdiv2show := $movementId
     let $outputStep := 'svg'
     
-   
+    
     
     let $svg := transform:transform($doc, concat($base, 'mei2svg.xsl'), <parameters>
-            <param name="outputStep" value="{$outputStep}"/>
-            <param name="basePath" value="{$base}"/>
-            <param name="mdiv2show" value="{$mdiv2show}"/>
-            <param name="stripStaves" value="{$stripStaves}"/>
-            <param name="showStaff" value="{$showStaff}"/>
-            <param name="firstMeasure" value="{$firstMeasure}"/>
-            <param name="lastMeasure" value="{$lastMeasure}"/>
-        </parameters>)
+        <param
+            name="outputStep"
+            value="{$outputStep}"/>
+        <param
+            name="basePath"
+            value="{$base}"/>
+        <param
+            name="mdiv2show"
+            value="{$mdiv2show}"/>
+        <param
+            name="stripStaves"
+            value="{$stripStaves}"/>
+        <param
+            name="showStaff"
+            value="{$showStaff}"/>
+        <param
+            name="firstMeasure"
+            value="{$firstMeasure}"/>
+        <param
+            name="lastMeasure"
+            value="{$lastMeasure}"/>
+    </parameters>)
     (:let $svg := transform:transform($svg, concat($base, 'svgCleaner.xsl'),<parameters/>):)
     
     (:let $mdiv := transform:transform($doc, concat($base, 'reduceToMdiv.xsl'), <parameters><param name="mdiv2show" value="{$mdiv2show}"/></parameters>)
@@ -74,6 +91,5 @@ return
     
     
     return
-            
-        $svg            
-       
+        
+        $svg

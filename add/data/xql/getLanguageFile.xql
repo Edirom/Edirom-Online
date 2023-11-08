@@ -26,9 +26,9 @@ xquery version "1.0";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
+declare namespace request = "http://exist-db.org/xquery/request";
 
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
@@ -43,24 +43,25 @@ let $file := doc(concat('../locale/edirom-lang-', $lang, '.xml'))
 let $projectFile := doc(edition:getLanguageFileURI($edition, $lang))
 
 return
-    if($mode = 'json')
-    then(
+    if ($mode = 'json')
+    then
+        (
         concat('{',
         'lang: "', $file/langFile/lang/text(), '",',
         'version: "', $file/langFile/version/text(), '",',
-        'keys: {', 
-            string-join((
-                for $entry in $file//entry
-                return
-                    concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
-
-                ,
-                for $entry in $projectFile//entry
-                return
-                    concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
-            ), ','),
+        'keys: {',
+        string-join((
+        for $entry in $file//entry
+        return
+            concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
+        
+        ,
+        for $entry in $projectFile//entry
+        return
+            concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
+        ), ','),
         '}',
         '}')
-    )
-    else($file)
-    
+        )
+    else
+        ($file)

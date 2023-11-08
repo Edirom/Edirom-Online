@@ -26,9 +26,9 @@ xquery version "3.1";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace svg="http://www.w3.org/2000/svg";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace svg = "http://www.w3.org/2000/svg";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 declare option output:method "text";
@@ -46,18 +46,19 @@ let $surface := $mei/id($surfaceId)
 let $svg := $surface/svg:svg[@id = $plist]
 
 let $overlay :=
-    map {
-        'id': string($svg/@id),
-        'svg': $svg
-    }
+map {
+    'id': string($svg/@id),
+    'svg': $svg
+}
 
 let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
+map {
+    'method': 'json',
+    'media-type': 'text/plain'
+}
 
-return serialize($overlay, $options)
+return
+    serialize($overlay, $options)
 
 
 

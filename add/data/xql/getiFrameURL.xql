@@ -20,15 +20,16 @@ xquery version "3.0";
   ID: $Id: getiFrameURL.xql 1455 2012-10-11 10:42:55Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
 let $uri := replace($uri, 'xmldb:exist:///db/', concat(request:get-scheme(), '://', request:get-server-name(), ':', request:get-server-port(), '/'))
 return
-    if(contains(request:get-url(), '/exist/'))
-    then(replace($uri, '/apps', '/exist/apps'))
-    else($uri)
-    
+    if (contains(request:get-url(), '/exist/'))
+    then
+        (replace($uri, '/apps', '/exist/apps'))
+    else
+        ($uri)

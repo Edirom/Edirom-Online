@@ -20,22 +20,24 @@ xquery version "1.0";
   ID: $Id: getMeasurePage.xql 1254 2012-02-01 14:07:25Z daniel $
 :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
-declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 declare function local:findMeasure($mei, $movementId, $measureIdName) {
     let $m := $mei/id($measureIdName)
     return
-        if($m)
-        then($m)
-        else(
+        if ($m)
+        then
+            ($m)
+        else
+            (
             ($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1]
-        )
+            )
 };
 
 declare function local:getMeasure($mei, $measure, $movementId) as xs:string {
@@ -44,22 +46,22 @@ declare function local:getMeasure($mei, $measure, $movementId) as xs:string {
     let $zoneId := substring-after($measure/string(@facs), '#')
     let $zone := $mei/id($zoneId)
     let $surface := $zone/parent::mei:surface
-    let $graphic := $surface/mei:graphic[@type='facsimile']
+    let $graphic := $surface/mei:graphic[@type = 'facsimile']
     
     return
-    
+        
         concat('{',
-            'measureId:"', $measureId, '",',
-            'zoneId:"', $zoneId, '",',
-            'pageId:"', $surface/string(@xml:id), '", ',
-            'movementId:"', $movementId, '",',
-            'path: "', $graphic/string(@target), '", ',
-            'width: "', $graphic/string(@width), '", ',
-            'height: "', $graphic/string(@height), '", ',
-            'ulx: "', $zone/string(@ulx), '", ',
-            'uly: "', $zone/string(@uly), '", ',
-            'lrx: "', $zone/string(@lrx), '", ',
-            'lry: "', $zone/string(@lry), '"',
+        'measureId:"', $measureId, '",',
+        'zoneId:"', $zoneId, '",',
+        'pageId:"', $surface/string(@xml:id), '", ',
+        'movementId:"', $movementId, '",',
+        'path: "', $graphic/string(@target), '", ',
+        'width: "', $graphic/string(@width), '", ',
+        'height: "', $graphic/string(@height), '", ',
+        'ulx: "', $zone/string(@ulx), '", ',
+        'uly: "', $zone/string(@uly), '", ',
+        'lrx: "', $zone/string(@lrx), '", ',
+        'lry: "', $zone/string(@lry), '"',
         '}')
 };
 
@@ -72,19 +74,27 @@ let $mei := doc($id)/root()
 
 let $measure := local:findMeasure($mei, $movementId, $measureIdName)
 let $extraMeasures := for $i in (2 to xs:integer($measureCount))
-                      let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
-                      return
-                        if($m)then($m)else() 
-
-(: Extra measure parts :)                         
+let $m := $measure/following-sibling::mei:measure[$i - 1] (: TODO: following-sibling könnte problematisch sein, da so section-Grenzen nicht überwunden werden :)
+return
+    if ($m) then
+        ($m)
+    else
+        ()
+        
+        (: Extra measure parts :)
 let $extraMeasuresParts := for $exm in $measure | $extraMeasures
-                        return $exm/following-sibling::mei:measure[(exists(@label) and @label = $exm/@label) or (not(exists(@label)) and @n = $exm/@n)]
+return
+    $exm/following-sibling::mei:measure[(exists(@label) and @label = $exm/@label) or (not(exists(@label)) and @n = $exm/@n)]
 
 return
     concat('[',
-        string-join((
-            local:getMeasure($mei, $measure, $movementId), 
-            for $m in $extraMeasures return local:getMeasure($mei, $m, $movementId),
-            for $m in $extraMeasuresParts return local:getMeasure($mei, $m, $movementId)
-        ), ','),
+    string-join((
+    local:getMeasure($mei, $measure, $movementId),
+    for $m in $extraMeasures
+    return
+        local:getMeasure($mei, $m, $movementId),
+    for $m in $extraMeasuresParts
+    return
+        local:getMeasure($mei, $m, $movementId)
+    ), ','),
     ']')
