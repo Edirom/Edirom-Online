@@ -59,5 +59,5 @@ let $xsl := if($xslInstruction)then(doc($xslInstruction))else('../xslt/teiBody2H
 let $params := (<param name="base" value="{concat($base, '/../xslt/')}"/>,<param name="idPrefix" value="{$idPrefix}"/>) 
 
 return
-    if($xslInstruction)then(transform:transform($doc/root(), $xsl, <parameters>{$params}</parameters>)
+    if($xslInstruction)then(transform:transform($doc/root(), $xsl, <parameters>{$params}</parameters>))
     else(transform:transform($doc/root(), $xsl, <parameters>{$params}<param name="graphicsPrefix" value="{$imagePrefix}"/></parameters>))
