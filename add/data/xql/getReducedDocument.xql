@@ -28,6 +28,12 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 (:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
 
+declare variable $edition := request:get-parameter('edition', '');
+declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
+declare variable $imagePrefix := if($imageserver = 'leaflet')
+	then(eutil:getPreference('leaflet_prefix', $edition))
+	else(eutil:getPreference('image_prefix', $edition));
+
 let $uri := request:get-parameter('uri', '')
 let $selectionId := request:get-parameter('selectionId', '')
 let $subtreeRoot := request:get-parameter('subtreeRoot', '')
@@ -46,12 +52,6 @@ let $xslInstruction := for $i in serialize($xslInstruction, ())
                         if(matches($i, 'type="text/xsl"'))
                         then(substring-before(substring-after($i, 'href="'), '"'))
                         else()
-                        
-declare variable $edition := request:get-parameter('edition', '');
-declare variable $imageserver :=  eutil:getPreference('image_server', $edition);
-declare variable $imagePrefix := if($imageserver = 'leaflet')
-	then(eutil:getPreference('leaflet_prefix', $edition))
-	else(eutil:getPreference('image_prefix', $edition));
                         
 (:let $imagePrefix := eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
 let $xsl := if($xslInstruction)then(doc($xslInstruction))else('../xslt/teiBody2HTML.xsl')
