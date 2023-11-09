@@ -1,45 +1,23 @@
 xquery version "3.1";
+
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
+ : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
-
-  ID: $Id: getAnnotation.xql 1455 2012-10-11 10:42:55Z daniel $
-:)
-
-(:~
-    Returns the HTML for a specific annotation for an AnnotationView.
-
-    @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
-:)
-
-import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 
-declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace mei = "http://www.music-encoding.org/ns/mei";
-declare namespace exist = "http://exist.sourceforge.net/NS/exist";
 declare namespace edirom_image = "http://www.edirom.de/ns/image";
-declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+declare namespace exist = "http://exist.sourceforge.net/NS/exist";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-declare option output:method "xhtml";
 declare option output:media-type "text/html";
+declare option output:method "xhtml";
 
 declare variable $imageWidth := 600;
 declare variable $edition := request:get-parameter('edition', '');
