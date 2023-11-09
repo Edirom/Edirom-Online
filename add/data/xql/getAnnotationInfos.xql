@@ -1,14 +1,15 @@
 xquery version "3.1";
+
 (:
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
+import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
-
-import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 declare option output:method "json";
 declare option output:media-type "application/json";
@@ -78,26 +79,3 @@ map {
 
 return
     $map
-    
-    (:
-
-return concat('{categories: [',
-        string-join(
-            for $category in local:getDistinctCategories($annots)
-            let $categoryElement := (collection($edition_path)/id($category))[1]
-            let $name := annotation:category_getName($categoryElement, eutil:getLanguage($edition))
-            order by $name
-            return
-                concat('{id:"', $category, '",name:"', $name,'"}')
-        , ','),
-        '], priorities: [',
-        string-join(
-            for $priority in local:getDistinctPriorities($annots)
-            let $name := eutil:getLocalizedName((collection($edition_path)//id($priority))[1], $lang)
-            order by $name
-            return
-                concat('{id:"', $priority, '",name:"', $name,'"}')
-        , ','),
-        ']}')
-
-        :)
