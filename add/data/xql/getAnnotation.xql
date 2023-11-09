@@ -20,8 +20,11 @@ declare option output:media-type "text/html";
 declare option output:method "xhtml";
 
 declare variable $imageWidth := 600;
+
 declare variable $edition := request:get-parameter('edition', '');
+
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
+
 declare variable $imageBasePath := if ($imageserver = 'leaflet')
 then
     (eutil:getPreference('leaflet_prefix', $edition))
@@ -32,12 +35,11 @@ declare variable $lang := request:get-parameter('lang', '');
 
 (: TODO: in Modul auslagern :)
 (:~
-    Gets the zone holding the graphical representation of an element
-
-    @param $elem The element for which the graphical representation shall be found
-
-    @return The zone element
-:)
+ :  Gets the zone holding the graphical representation of an element
+ :
+ :  @param $elem The element for which the graphical representation shall be found
+ :  @return The zone element
+ :)
 declare function local:getZone($elem as element()) as element()? {
     if ($elem/@facs)
     then
@@ -53,12 +55,11 @@ declare function local:getZone($elem as element()) as element()? {
 };
 
 (:~
-    This function gets the label of a given Annotation Priority
-
-    @param $annot the annot with a priority to look for
-
-    @return the label for the Priority, or, if this fails, $uri
-:)
+ :  This function gets the label of a given Annotation Priority
+ :
+ :  @param $annot the annot with a priority to look for
+ :  @return the label for the Priority, or, if this fails, $uri
+ :)
 declare function local:getPriority($annot as node()) {
     
     let $uri := $annot/mei:ptr[@type eq 'priority']/string(@target)
@@ -84,12 +85,11 @@ declare function local:getPriority($annot as node()) {
 };
 
 (:~
-    This function gets a string representing all Annotation categories
-
-    @param $annot the annot with categories to look for
-
-    @return the string of annotation labels, or, if one of them fails, the respecitve $uri
-:)
+ :  This function gets a string representing all Annotation categories
+ :
+ :  @param $annot the annot with categories to look for
+ :  @return the string of annotation labels, or, if one of them fails, the respecitve $uri
+ :)
 declare function local:getCategories($annot as node()) {
     
     let $uris := tokenize($annot/mei:ptr[@type eq 'categories']/string(@target), ' ')
@@ -116,18 +116,16 @@ declare function local:getCategories($annot as node()) {
         $string
 };
 
-
 (: TODO: in Modul auslagern :)
 (:~
-    This function generates an image path for a specific zone on an image.
-    Based on a path prefix and a width.
-
-    @param $basePath The base path prefix for the image databse
-    @param $zone The zone with coordiantes on the image
-    @param $width The width the image should be loaded with
-
-    @return A URL pointing to an image based as xs:string
-:)
+ :  This function generates an image path for a specific zone on an image.
+ :  Based on a path prefix and a width.
+ :
+ :  @param $basePath The base path prefix for the image databse
+ :  @param $zone The zone with coordiantes on the image
+ :  @param $width The width the image should be loaded with
+ :  @return A URL pointing to an image based as xs:string
+ :)
 declare function local:getImageAreaPath($basePath as xs:string, $zone as element()?, $width as xs:integer) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
     
@@ -180,15 +178,14 @@ declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as 
 
 };
 
-(:
-    This function recursively determines the lowest number which's square is higher than
-    a given number.
-
-    @param $i The integer that's increased with every recursive call.
-    @param $num The integer that's tested.
-
-    @return Returns $i if it's square is higher or equals $num.
-:)
+(:~
+ :  This function recursively determines the lowest number which's square is higher than
+ :  a given number.
+ :
+ :  @param $i The integer that's increased with every recursive call.
+ :  @param $num The integer that's tested.
+ :  @return Returns $i if it's square is higher or equals $num.
+ :)
 declare function local:getLowestSquareBase($i as xs:integer, $num as xs:integer) {
     if ($i * $i lt $num)
     then
@@ -230,11 +227,10 @@ declare function local:getItemLabel($elem as element()) {
         )
 };
 
-
-(:
-    This function…
-
-:)
+(:~
+ :   This function…
+ :
+ :)
 declare function local:calculatePreviewsForTip($participants as xs:string*) {
     
     let $areaWidth := 204
