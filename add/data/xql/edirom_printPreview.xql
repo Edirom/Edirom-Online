@@ -1,24 +1,24 @@
-xquery version "1.0";
+xquery version "3.1";
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+(:
+ : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
+
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
-
+declare namespace eof = "http://www.edirom.de/xquery/ediromOnlineFunctions";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
-declare namespace eof = "http://www.edirom.de/xquery/ediromOnlineFunctions";
 declare namespace xhtml = "http://www.w3.org/1999/xhtml";
+declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 
 declare option exist:serialize "method=html media-type=text/html omit-xml-declaration=yes indent=yes";
 
-(: VARIABLES ========================================================= :)
-
 declare variable $lang := 'en';
 declare variable $base := concat('file:', replace(system:get-module-load-path(), '\\', '/'), '/../xslt/');
-
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $facsBasePath := if ($imageserver = 'leaflet')
@@ -27,11 +27,9 @@ then
 else
     (eutil:getPreference('image_prefix', $edition));
 
-(:declare variable $facsBasePath := eutil:getPreference('image_prefix', request:get-parameter('edition', ''));:)
 declare variable $printResolution := 150;
 declare variable $facsAreaWidth := 6.5; (: in inch :)
 declare variable $facsMetaHeight := 30;
-
 declare variable $uri := request:get-parameter('uri', '');
 declare variable $type := request:get-parameter('type', '');
 declare variable $doc := doc($uri)/root();
@@ -46,7 +44,8 @@ declare variable $pageFormat := if ($doc//mei:facsimile or $doc//tei:facsimile)
 then
     if ((sum(for $h in $facsItems/@height
     return
-        $h) div count($facsItems)) gt (sum(for $h in $facsItems/@width
+        $h) div count($facsItems))
+    gt (sum(for $h in $facsItems/@width
     return
         $h) div count($facsItems)))
     then
@@ -58,8 +57,6 @@ else
 
 declare variable $pageMaster := doc(concat($base, 'edirom_fo_layoutMasterSet.xml'))//fo:*[@master-name = $pageFormat];
 declare variable $ediromOnlineRoot := request:get-context-path();
-
-(: FUNCTIONS ========================================================= :)
 
 declare function eof:getLabel($key as xs:string) {
     if ($langFile/id($key) and not($langFile/id($key)/text() eq ''))
@@ -102,8 +99,6 @@ declare function eof:insertAttributeSet_h1() {
     attribute font-weight {'bold'}
 };
 
-(: OUTPUT ========================================================= :)
-
 let $xsl_source := concat($base, 'edirom_source2Print.xsl')
 let $xsl_text := concat($base, 'edirom_text2Print.xsl')
 let $paras := <parameters>
@@ -144,16 +139,13 @@ else
 let $doc := doc($docUri)
 
 return
-    if ($type = 'work')
-    then
+    if ($type = 'work') then
         ('work')
     else
-        if ($type = 'source')
-        then
+        if ($type = 'source') then
             transform:transform($doc, $xsl_source, $paras)
         else
-            if ($type = 'text')
-            then
+            if ($type = 'text') then
                 transform:transform($doc, $xsl_text, $paras)
             else
                 ('last else')
