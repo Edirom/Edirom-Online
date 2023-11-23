@@ -60,7 +60,8 @@ declare function local:getMeasure($mei, $measure) as xs:string {
             'ulx: "', $zone/string(@ulx), '", ',
             'uly: "', $zone/string(@uly), '", ',
             'lrx: "', $zone/string(@lrx), '", ',
-            'lry: "', $zone/string(@lry), '"',
+            'lry: "', $zone/string(@lry), '", ',
+            'rotate: "', functx:if-empty($zone/string(@rotate), 0), '"',
         '}')
 };
 

@@ -111,22 +111,25 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         eventEl.on('mousewheel', me.onScroll, me);
     },
 
-    showImage: function(path, width, height, pageId) {
+    showImage: function(path, width, height, pageId, rotate) {
         var me = this;
 
         me.imgWidth = width;
         me.imgHeight = height;
         me.imgPath = path;
         me.imgId = pageId;
+        me.imgRotate = rotate;
 
         me.svg = Raphael(me.id + '_facsCont', me.imgWidth, me.imgHeight);
         me.svg.setViewBox(0, 0, me.imgWidth, me.imgHeight, false);
         me.svgEl = me.svg.canvas;
 
         me.baseImg = me.svg.image(me.imgPrefix + me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
+        if (me.imgRotate == 180) me.baseImg.rotate(me.imgRotate);
         me.baseImgZoom = me.getWidth() / me.imgWidth;
 
         me.hiResImg = me.svg.image('', 0, 0, 0, 0);
+        if (me.imgRotate == 180) me.hiResImg.rotate(me.imgRotate);
         me.hiResImg.attr({'stroke-width': 0});
         me.hiResImg.hide();
 
@@ -333,6 +336,8 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         if(me.shapesHidden) return;
 
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
+        var shapeDivWidth = shapeDiv.getWidth();
+        var shapeDivHeight = shapeDiv.getHeight();
 
         var shapeRects = new Ext.util.MixedCollection();
 
@@ -357,12 +362,27 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                 }
 
                 var shapeEl = shapeDiv.getById(me.id + '_' + id);
-                shapeEl.setStyle({
-                    top: Math.round((y * me.zoom) + me.offY) + "px",
-                    left: Math.round((x * me.zoom) + me.offX) + "px",
-                    width: Math.round(width * me.zoom) + "px",
-                    height: Math.round(height * me.zoom) + "px"
-                });
+                if (me.imgRotate == 180) {
+                    x = me.imgWidth - x - width;
+                    y = me.imgHeight - y - height;
+
+                    shapeEl.setStyle({
+                        top: Math.round((y * me.zoom) + me.offY) + "px",
+                        left: Math.round((x * me.zoom) + me.offX) + "px",
+                        width: Math.round(width * me.zoom) + "px",
+                        height: Math.round(height * me.zoom) + "px"
+                    });
+                } else {
+                    shapeEl.setStyle({
+                        top: Math.round((y * me.zoom) + me.offY) + "px",
+                        left: Math.round((x * me.zoom) + me.offX) + "px",
+                        width: Math.round(width * me.zoom) + "px",
+                        height: Math.round(height * me.zoom) + "px"
+                    });
+                }
+
+
+
 
                 var rectKey = x + "_" + y + "_" + width + "_" + height + "_" + Math.round(width * me.zoom) + "_" + Math.round(height * me.zoom);
 
@@ -758,10 +778,15 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         if(me.zoom < me.baseImgZoom || typeof me.hiResImg == 'undefined') return;
 
-        var imgX = (-me.offX / me.zoom);
-        var imgY = (-me.offY / me.zoom);
         var imgWidth = (me.getWidth() / me.zoom);
         var imgHeight = (me.getHeight() / me.zoom);
+        if (me.imgRotate == 180) {
+            var imgX = me.imgWidth - (-me.offX / me.zoom) - imgWidth;
+            var imgY = me.imgHeight - (-me.offY / me.zoom) - imgHeight;
+        } else {
+            var imgX = (-me.offX / me.zoom);
+            var imgY = (-me.offY / me.zoom);
+        }
 
         if(imgWidth > me.imgWidth - imgX) imgWidth = me.imgWidth - imgX;
         if(imgHeight > me.imgHeight - imgY) imgHeight = me.imgHeight - imgY;
@@ -789,13 +814,21 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         //Ext.log("dw: " + dw + ", dh: " + dh + ", wx: " + wx + ", wy: " + wy + ", ww: " + ww + ", wh: " + wh);
 
+        if (me.imgRotate == 180) {
+            imgX = (me.offX / me.zoom) - imgWidth;
+            imgY = (me.offY / me.zoom) - imgHeight;
+            if ((me.offX / me.zoom) > 0) imgX -= (me.offX / me.zoom)
+            if ((me.offY / me.zoom) > 0) imgY -= (me.offY / me.zoom)
+        }
+
         me.imageLoader.addJob({
             img: me.hiResImg,
             path: me.imgPrefix + me.imgPath + '?dw=' + dw + '&amp;dh=' + dh + '&amp;wx=' + wx + '&amp;wy=' + wy + '&amp;ww=' + ww + '&amp;wh=' + wh + '&amp;mo=fit',
             width: dw / me.zoom,
             height: dh / me.zoom,
             x: imgX,
-            y: imgY
+            y: imgY,
+            rotate: me.imgRotate
         });
     }
 });

@@ -450,10 +450,10 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
-        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
+        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue()); // see onShowMeasure in MeasureBasedView controller
     },
     
-    showMeasure: function(data) {
+    showMeasure: function(data) { // called by MeasureBasedView controller
         var me = this;
         
         Ext.Array.each(me.imageViewers, function(viewer) {
@@ -552,7 +552,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             if(group.measures[0]['path'] != viewer.imgPath) {
                 viewer.clear();
-                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
+                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId'], group.measures[0]['rotate']);
             }
             
             var ulx = Number.MAX_VALUE;
@@ -569,6 +569,11 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             var width = lrx - ulx;
             var height = lry - uly;
+
+            if (viewer.imgRotate == 180) {
+                ulx = viewer.imgWidth - ulx - width;
+                uly = viewer.imgHeight - uly - height;
+            }
     
             viewer.showRect(ulx, uly, width, height, true);
         }
