@@ -118,20 +118,21 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         me.imgHeight = height;
         me.imgPath = path;
         me.imgId = pageId;
-        me.imgRotate = rotate;
 
         me.svg = Raphael(me.id + '_facsCont', me.imgWidth, me.imgHeight);
         me.svg.setViewBox(0, 0, me.imgWidth, me.imgHeight, false);
         me.svgEl = me.svg.canvas;
 
         me.baseImg = me.svg.image(me.imgPrefix + me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
-        if (me.imgRotate == 180) me.baseImg.rotate(me.imgRotate);
+        if ((me.imgRotate == 180 && rotate == 0) || (rotate == 180 && me.imgRotate == 0)) me.baseImg.rotate(rotate);
         me.baseImgZoom = me.getWidth() / me.imgWidth;
 
         me.hiResImg = me.svg.image('', 0, 0, 0, 0);
-        if (me.imgRotate == 180) me.hiResImg.rotate(me.imgRotate);
+        if ((me.imgRotate == 180 && rotate == 0) || (rotate == 180 && me.imgRotate == 0)) me.hiResImg.rotate(rotate);
         me.hiResImg.attr({'stroke-width': 0});
         me.hiResImg.hide();
+
+        me.imgRotate = rotate;
 
         me.fitInImage();
         
@@ -330,7 +331,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
-    repositionShapes: function() {
+    repositionShapes: function(rotate) {
         var me = this;
 
         if(me.shapesHidden) return;
@@ -362,27 +363,16 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                 }
 
                 var shapeEl = shapeDiv.getById(me.id + '_' + id);
-                if (me.imgRotate == 180) {
+                if (me.imgRotate == 180 || rotate > 0) {
                     x = me.imgWidth - x - width;
                     y = me.imgHeight - y - height;
-
-                    shapeEl.setStyle({
-                        top: Math.round((y * me.zoom) + me.offY) + "px",
-                        left: Math.round((x * me.zoom) + me.offX) + "px",
-                        width: Math.round(width * me.zoom) + "px",
-                        height: Math.round(height * me.zoom) + "px"
-                    });
-                } else {
-                    shapeEl.setStyle({
-                        top: Math.round((y * me.zoom) + me.offY) + "px",
-                        left: Math.round((x * me.zoom) + me.offX) + "px",
-                        width: Math.round(width * me.zoom) + "px",
-                        height: Math.round(height * me.zoom) + "px"
-                    });
                 }
-
-
-
+                shapeEl.setStyle({
+                    top: Math.round((y * me.zoom) + me.offY) + "px",
+                    left: Math.round((x * me.zoom) + me.offX) + "px",
+                    width: Math.round(width * me.zoom) + "px",
+                    height: Math.round(height * me.zoom) + "px"
+                });
 
                 var rectKey = x + "_" + y + "_" + width + "_" + height + "_" + Math.round(width * me.zoom) + "_" + Math.round(height * me.zoom);
 
@@ -828,7 +818,6 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             height: dh / me.zoom,
             x: imgX,
             y: imgY,
-            rotate: me.imgRotate
         });
     }
 });

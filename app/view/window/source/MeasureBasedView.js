@@ -569,6 +569,12 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             var width = lrx - ulx;
             var height = lry - uly;
+            if ((viewer.imgRotate == 180 && group.measures[0]['rotate'] == 0) || (viewer.imgRotate == 0 && group.measures[0]['rotate'] == 180)) {
+                viewer.baseImg.rotate(180);
+                viewer.hiResImg.rotate(180);
+                viewer.imgRotate = group.measures[0]['rotate'];
+                viewer.repositionShapes(180);
+            }
 
             if (viewer.imgRotate == 180) {
                 ulx = viewer.imgWidth - ulx - width;
