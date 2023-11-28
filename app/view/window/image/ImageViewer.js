@@ -331,7 +331,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
-    repositionShapes: function(rotate) {
+    repositionShapes: function() {
         var me = this;
 
         if(me.shapesHidden) return;
@@ -363,7 +363,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
                 }
 
                 var shapeEl = shapeDiv.getById(me.id + '_' + id);
-                if (me.imgRotate == 180 || rotate > 0) {
+                if (me.imgRotate == 180) {
                     x = me.imgWidth - x - width;
                     y = me.imgHeight - y - height;
                 }
