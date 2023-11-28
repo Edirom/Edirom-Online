@@ -467,19 +467,26 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actPage = '';
         var actSystem = 0;
         var lastULX = 0;
+        var lastRotate = 0;
         
         Ext.Array.each(data, function(d) {
-            
             var pageId = d['pageId'];
             if(actPage != pageId) {
                 viewerCount++;
                 actPage = pageId;
                 actSystem = 0;
-                lastULX = 0;
+                lastRotate = d['rotate'];
+                lastULX = lastRotate == 180 ? d['width'] : 0;
             }
-            
+
+            if(lastRotate != d['rotate']) {
+                viewerCount++;
+                actSystem++;
+                lastRotate = d['rotate'];
+            }
+
             var ulx = d['ulx'];
-            if(lastULX > Number(ulx)) {
+            if((lastRotate == 0 && lastULX > Number(ulx)) || (lastRotate == 180 && lastULX < Number(ulx))) {
                 viewerCount++;
                 actSystem++;
             }

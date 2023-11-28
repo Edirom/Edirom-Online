@@ -124,11 +124,17 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         me.svgEl = me.svg.canvas;
 
         me.baseImg = me.svg.image(me.imgPrefix + me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
-        if ((me.imgRotate == 180 && rotate == 0) || (rotate == 180 && me.imgRotate == 0)) me.baseImg.rotate(rotate);
+        if (typeof rotate != 'undefined') {
+            me.baseImg.transform("");
+            me.baseImg.rotate(rotate);
+        }
         me.baseImgZoom = me.getWidth() / me.imgWidth;
 
         me.hiResImg = me.svg.image('', 0, 0, 0, 0);
-        if ((me.imgRotate == 180 && rotate == 0) || (rotate == 180 && me.imgRotate == 0)) me.hiResImg.rotate(rotate);
+        if (typeof rotate != 'undefined') {
+            me.hiResImg.transform("");
+            me.hiResImg.rotate(rotate, 0, 0);
+        }
         me.hiResImg.attr({'stroke-width': 0});
         me.hiResImg.hide();
 
@@ -638,6 +644,11 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         offX = x * me.zoom;
 
         me.setSVGOffset(((offX * - 1) + diffWidth), ((offY * - 1) + diffHeight));
+
+        if (me.imgRotate == 180) {
+            x = me.imgWidth - x - width;
+            y = me.imgHeight - y - height;
+        }
 
         if(highlight)
             Ext.defer(me.createTempRect, 1000, me, [x, y, width, height], false);
