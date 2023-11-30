@@ -89,7 +89,7 @@ Ext.define('EdiromOnline.view.window.text.FacsimileView', {
         me.activePage = me.imageSet.getAt(imgIndex);
 
         me.imageViewer.showImage(me.activePage.get('path'),
-            me.activePage.get('width'), me.activePage.get('height'), undefined, 0 /* do not rotate */);
+            me.activePage.get('width'), me.activePage.get('height'));
     },
 
     showPage: function(pageId) {

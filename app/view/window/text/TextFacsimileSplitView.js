@@ -393,7 +393,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         me.activePage = me.imageSet.getAt(imgIndex);
 
         me.imageViewer.showImage(me.activePage.get('path'),
-            me.activePage.get('width'), me.activePage.get('height'), undefined, 0 /* do not rotate */);
+            me.activePage.get('width'), me.activePage.get('height'));
             
         me.fireEvent('afterImageChanged', me, null);
     }, 

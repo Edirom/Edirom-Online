@@ -124,22 +124,13 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         me.svgEl = me.svg.canvas;
 
         me.baseImg = me.svg.image(me.imgPrefix + me.imgPath + '?dw=' + me.getWidth() + '&amp;mo=fit', 0, 0, me.imgWidth, me.imgHeight);
-        if (typeof rotate != 'undefined') {
-            me.baseImg.transform("");
-            me.baseImg.rotate(rotate);
-        }
         me.baseImgZoom = me.getWidth() / me.imgWidth;
 
         me.hiResImg = me.svg.image('', 0, 0, 0, 0);
-        if (typeof rotate != 'undefined') {
-            me.hiResImg.transform("");
-            me.hiResImg.rotate(rotate, 0, 0);
-        }
         me.hiResImg.attr({'stroke-width': 0});
         me.hiResImg.hide();
 
-        me.imgRotate = rotate;
-
+        me.rotateView(rotate);
         me.fitInImage();
         
         me.fireEvent('imageChanged', me, path, pageId);
@@ -337,14 +328,26 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
 
+    rotateView: function(absoluteRotationAngle) {
+        var me = this;
+
+        if (typeof absoluteRotationAngle == 'undefined' || me.imgRotate == absoluteRotationAngle) return;
+
+        me.baseImg.transform("");
+        me.baseImg.rotate(absoluteRotationAngle);
+        me.hiResImg.transform("");
+        me.hiResImg.rotate(absoluteRotationAngle, 0, 0);
+        me.imgRotate = absoluteRotationAngle;
+
+        me.repositionShapes();
+    },
+
     repositionShapes: function() {
         var me = this;
 
         if(me.shapesHidden) return;
 
         var shapeDiv = me.el.getById(me.id + '_facsContEvents');
-        var shapeDivWidth = shapeDiv.getWidth();
-        var shapeDivHeight = shapeDiv.getHeight();
 
         var shapeRects = new Ext.util.MixedCollection();
 
@@ -645,11 +648,6 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         me.setSVGOffset(((offX * - 1) + diffWidth), ((offY * - 1) + diffHeight));
 
-        if (me.imgRotate == 180) {
-            x = me.imgWidth - x - width;
-            y = me.imgHeight - y - height;
-        }
-
         if(highlight)
             Ext.defer(me.createTempRect, 1000, me, [x, y, width, height], false);
 
@@ -687,6 +685,11 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         zone.setStyle({
             position: 'absolute'
         });
+
+        if (me.imgRotate == 180) {
+            x = me.imgWidth - x - width;
+            y = me.imgHeight - y - height;
+        }
 
         var shape = {
             id: id,
@@ -781,12 +784,12 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         var imgWidth = (me.getWidth() / me.zoom);
         var imgHeight = (me.getHeight() / me.zoom);
+
+        var imgX = (-me.offX / me.zoom);
+        var imgY = (-me.offY / me.zoom);
         if (me.imgRotate == 180) {
-            var imgX = me.imgWidth - (-me.offX / me.zoom) - imgWidth;
-            var imgY = me.imgHeight - (-me.offY / me.zoom) - imgHeight;
-        } else {
-            var imgX = (-me.offX / me.zoom);
-            var imgY = (-me.offY / me.zoom);
+            imgX = me.imgWidth - imgX - imgWidth;
+            imgY = me.imgHeight - imgY - imgHeight;
         }
 
         if(imgWidth > me.imgWidth - imgX) imgWidth = me.imgWidth - imgX;
@@ -828,7 +831,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
             width: dw / me.zoom,
             height: dh / me.zoom,
             x: imgX,
-            y: imgY,
+            y: imgY
         });
     }
 });
