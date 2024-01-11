@@ -4,10 +4,14 @@ xquery version "3.1";
  : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
  :)
 
+(: IMPORTS ========================================================= :)
+
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+
+(: NAMESPACE DECLARATIONS ========================================== :)
 
 declare namespace edirom_image = "http://www.edirom.de/ns/image";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -16,8 +20,12 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
+(: OPTION DECLARATIONS ============================================= :)
+
 declare option output:media-type "text/html";
 declare option output:method "xhtml";
+
+(: VARIABLE DECLARATIONS =========================================== :)
 
 declare variable $imageWidth := 600;
 

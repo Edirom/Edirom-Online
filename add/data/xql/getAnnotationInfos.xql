@@ -4,15 +4,23 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
+(: IMPORTS ========================================================= :)
+
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
+(: NAMESPACE DECLARATIONS ========================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
+(: OPTION DECLARATIONS ============================================= :)
+
 declare option output:method "json";
 declare option output:media-type "application/json";
+
+(: VARIABLE DECLARATIONS =========================================== :)
 
 declare variable $uri := request:get-parameter('uri', '');
 declare variable $edition := request:get-parameter('edition', '');

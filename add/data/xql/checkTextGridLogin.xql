@@ -4,7 +4,11 @@ xquery version "3.1";
  : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
  :)
 
+(: IMPORTS ========================================================= :)
+
 import module namespace httpclient = "http://exist-db.org/xquery/httpclient";
+
+(: NAMESPACE DECLARATIONS ========================================== :)
 
 declare namespace html = "http://www.w3.org/1999/xhtml";
 
