@@ -74,6 +74,8 @@ declare function eof:getLabel($key as xs:string) {
         ($key)
 };
 
+(: FUNCTION DECLARATIONS =========================================== :)
+
 declare function eof:getFacsImgParas($areaWidth) {
     concat('&amp;dw=', floor($printResolution * $areaWidth), '&amp;mo=scale')
 };

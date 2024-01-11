@@ -41,6 +41,8 @@ else
 
 declare variable $lang := request:get-parameter('lang', '');
 
+(: FUNCTION DECLARATIONS =========================================== :)
+
 (: TODO: in Modul auslagern :)
 (:~
  :  Gets the zone holding the graphical representation of an element
