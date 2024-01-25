@@ -164,7 +164,9 @@ declare function annotation:toJSON($anno as element()) as xs:string {
                     where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
                     return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
                             then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
-                            else ()
+                            else if (exists($pDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']))
+                            then string-join($pDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']/@label, ',')
+                            else ('ERROR')
     , ', ')
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(

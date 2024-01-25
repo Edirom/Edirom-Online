@@ -111,7 +111,11 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := eutil:getLocalizedName($elems[1]/root()//mei:source/mei:titleStmt, $lang)
+            let $source := if ($elems[1]/root()//mei:source/mei:titleStmt)
+                then eutil:getLocalizedName($elems[1]/root()//mei:source/mei:titleStmt, $lang)
+                else if ($elems[1]/root()//mei:manifestation/mei:titleStmt)
+                then $elems[1]/root()//mei:manifestation/mei:titleStmt//mei:titlePart[@type = 'main']
+                else ()
             let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
             let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
             
