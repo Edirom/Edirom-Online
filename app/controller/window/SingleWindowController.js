@@ -55,9 +55,10 @@ Ext.define('EdiromOnline.controller.window.SingleWindowController', {
         win.initialized = true;
 
         window.doAJAXRequest('data/xql/getLinkTarget.xql',
-            'POST', 
+            'POST',
             {
                 uri: win.uri,
+                workId: this.application.activeWork,
                 lang: lang
             },
             Ext.bind(function(response){
