@@ -33,8 +33,7 @@ declare variable $lang := request:get-parameter('lang', '');
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $uri := request:get-parameter('uri', '');
-declare variable $imageBasePath := if ($imageserver = 'leaflet')
-then
+declare variable $imageBasePath := if ($imageserver = 'leaflet') then
     (eutil:getPreference('leaflet_prefix', $edition))
 else
     (eutil:getPreference('image_prefix', $edition));
@@ -42,24 +41,22 @@ else
 declare function local:getParticipants($annot as element()) as map(*)* {
     
     let $participants := tokenize($annot/string(@plist), ' ')
-    let $docs := distinct-values(for $p in $participants
-    return
-        substring-before($p, '#'))
+    
+    (: get distinct document uris referenced in @plist :)
+    let $docs := distinct-values(
+        for $p in $participants
+        return substring-before($p, '#')
+    )
+    
     return
         for $doc in $docs
-            order by $doc
+        order by $doc
         return
-            if (source:isSource($doc))
-            then
+            if (source:isSource($doc)) then
                 (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
-            
-            else
-                if (teitext:isText($doc))
-                then
-                    (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
-                
-                else
-                    ()
+            else if (teitext:isText($doc)) then
+                (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
+            else ()
 };
 
 declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
