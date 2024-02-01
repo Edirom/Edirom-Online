@@ -35,7 +35,7 @@ declare variable $lang := request:get-parameter('lang', '');
 
 declare function local:getLocalizedMEITitle($node) {
   let $nodeName := local-name($node)
-  let $titleMain := $node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text()
+  let $titleMain := ($node/mei:title[@xml:lang = $lang]/mei:title[@type='main']/text() |  $node/mei:title[@xml:lang = $lang]/mei:titlePart[@type='main']/text())
   let $titlePerf := $node/mei:title[@xml:lang = $lang]/mei:title[@type='perf']/text()
   let $identifierOpus := $node/../mei:identifier[@type='opus']/text()
   let $identifierWoo := $node/../mei:identifier[@type='woo']/text()
