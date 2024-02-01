@@ -10,17 +10,24 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
     @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 
-
-declare namespace mei = "http://www.music-encoding.org/ns/mei";
-declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+(: IMPORTS ========================================================= :)
 
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
+(: NAMESPACE DECLARATIONS ========================================== :)
+
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+
+(: OPTION DECLARATIONS ============================================= :)
+
 declare option output:method "json";
 declare option output:media-type "application/json";
+
+(: VARIABLE DECLARATIONS =========================================== :)
 
 declare variable $lang := request:get-parameter('lang', '');
 declare variable $edition := request:get-parameter('edition', '');
