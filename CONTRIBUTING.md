@@ -136,3 +136,9 @@ Note: this is derived from the current usage in Edirom-Online code
 
 TODO: how should literal result be indented, especially when they are long, e.g., as in the case of [getAudioPlayer.xql](add/data/xql/getAudioPlayer.xql).
 
+### let statements
+
+Short variable definitions should be in a single line
+
+```xquery
+let $lang := 'de'
