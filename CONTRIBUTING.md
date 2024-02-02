@@ -74,7 +74,11 @@ All `declare option` statements.
 (: VARIABLE DECLARATIONS =========================================== :)
 
 ```
+or
+```xquery
+(: VARIABLE DECLARATIONS =================================================== :)
 
+```
 1. Use `declare variable` statements for all required external parameters
 2. All global variable declarations, i.e. `declare variable` statements.
 3. Separate these two groups with a blank line.
@@ -113,9 +117,22 @@ as xs:string
 }
 ```
 
+### Query body
 
-### XQuery body
+The Query body start after a structuring comment as follows:
 
-* Strings: escape with U+00027 APOSTROPHE: `'`
+```xquery
+(: QUERY BODY ============================================================== :)
 
+```
+
+#### Strings
+
+Note: this is derived from the current usage in Edirom-Online code
+
+* escape with U+00027 APOSTROPHE: `'`
+
+### Literal results
+
+TODO: how should literal result be indented, especially when they are long, e.g., as in the case of [getAudioPlayer.xql](add/data/xql/getAudioPlayer.xql).
 
