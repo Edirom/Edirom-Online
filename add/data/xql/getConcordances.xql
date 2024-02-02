@@ -71,6 +71,8 @@ declare function local:getSingleConnections($parent) {
     , ',')
 };
 
+(: QUERY BODY ============================================================== :)
+
 let $id := request:get-parameter('id', '')
 let $mei := doc($id)/root()
 let $workId := request:get-parameter('workId', '')
