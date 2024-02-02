@@ -14,7 +14,7 @@
 
 ## xqDoc
 
-We use [xqDoc](https://xqdoc.org) for documenting the XQueries in this repository. Please refer to the section [xqDoc Comments](https://xqdoc.org/xqdoc_comments_doc.html) of the xyDoc-website for details on formatting the documentation comment blocks.
+We use [xqDoc](https://xqdoc.org) for documenting the XQueries in this repository. Please refer to the section [xqDoc Comments](https://xqdoc.org/xqdoc_comments_doc.html) of the xqDoc-website for details on formatting the documentation comment blocks.
 
 * XQuery modules must have a library module xqDoc comment preceding the module declaration.
 * Function declarations must have a library module xqDoc function comment preceding the function.
@@ -56,6 +56,7 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 ### XQuery body
 
 * Strings: escape with U+00027 APOSTROPHE: `'`
+
 
 # Javascript
 
