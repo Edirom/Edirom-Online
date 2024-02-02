@@ -53,6 +53,7 @@ declare function local:getParticipants($annot as element()) as map(*)* {
         order by $doc
         return
             if (source:isSource($doc)) then
+                (: filter participants starting with matching doc uri and call getSourceParticipants :)
                 (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
             else if (teitext:isText($doc)) then
                 (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
@@ -102,9 +103,15 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
         else
             (local:getTextNotePrecedingContent($preceding))
 };
-
+(:~
+ : This function returns a map with details of annotation participants from a specific music source
+ :
+ : @param $participants a prefiltered sequence of annotation URIs pointing to $doc
+ : @param $doc a URI pointing to the MEI document
+ :)
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
     
+    (: group participants :)
     let $combs := local:groupParticipants($participants, $doc)
     
     return
