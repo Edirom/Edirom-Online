@@ -1,59 +1,55 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
-  Edirom Online
-  Copyright (C) 2015 The Edirom Project
-  http://www.edirom.de
-
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
+
+(: IMPORTS ========================================================= :)
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-declare namespace request = "http://exist-db.org/xquery/request";
+(: NAMESPACE DECLARATIONS ========================================== :)
+
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
+
+(: OPTION DECLARATIONS ============================================= :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+(: QUERY BODY ============================================================== :)
+
 let $uri := request:get-parameter('uri', '')
-let $docUri := if (contains($uri, '#')) then
-    (substring-before($uri, '#'))
-else
-    ($uri)
+let $docUri :=
+    if (contains($uri, '#')) then
+        (substring-before($uri, '#'))
+    else
+        ($uri)
 let $doc := eutil:getDoc($docUri)
 let $artist := $doc//mei:titleStmt/mei:respStmt/mei:persName[@role = 'artist']
 let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source[1]/mei:titleStmt/mei:title[1]/text()
 let $albumCover := $doc//mei:graphic[@type = 'cover']/string(@target)
-let $records := for $rec in $doc//mei:recording
-let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
-let $recTitle := $recSource/mei:titleStmt/mei:title
-let $avFile := $rec/mei:avFile[1]/string(@target)
-return
+let $records :=
+    for $rec in $doc//mei:recording
+    let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
+    let $recTitle := $recSource/mei:titleStmt/mei:title
+    let $avFile := $rec/mei:avFile[1]/string(@target)
+    return
+    (:TODO map instead of concatenation :)
     '{
-    					"name": "' || replace($recTitle, '"', '\\"') || '"
-    					,"artist": "' || replace($artist, '"', '\\"') || '"
-    					,"album": "' || replace($album, '"', '\\"') || '"
-    					,"url": "' || $avFile || '"
-    					,"live": false' ||
-    ',"cover_art_url": "' || $albumCover || '"' || '
-				    }'
+        "name": "' || replace($recTitle, '"', '\\"') || '"
+        ,"artist": "' || replace($artist, '"', '\\"') || '"
+        ,"album": "' || replace($album, '"', '\\"') || '"
+        ,"url": "' || $avFile || '"
+        ,"live": false' ||
+        ',"cover_art_url": "' || $albumCover || '"' || '
+    }'
 
 let $audioConfig := '{
-			"songs": [' ||
-string-join($records, ', ')
-|| '],
-			"default_album_art": "../../resources/img/no-cover.png"
-		}'
+    "songs": [' ||
+        string-join($records, ', ')
+    || '],
+    "default_album_art": "../../resources/img/no-cover.png"
+}'
 
 return
     <html>
