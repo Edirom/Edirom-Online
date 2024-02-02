@@ -203,35 +203,33 @@ declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*)
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
     
-    let $elems := for $p in $participants
-    let $id := substring-after($p, '#')
-    return
-        doc($doc)/id($id)
+    let $elems :=
+        for $p in $participants
+        let $id := substring-after($p, '#')
+        return doc($doc)/id($id)
     
-    let $zones := for $elem in $elems
-    return
-        local:getZone($elem)
+    let $zones :=
+        for $elem in $elems
+        return local:getZone($elem)
     
-    let $combs := for $p at $i in $participants
-    return
-        local:getCombinations($elems, $zones, $i, count($zones))
+    let $combs :=
+        for $p at $i in $participants
+        return local:getCombinations($elems, $zones, $i, count($zones))
     
     return
         reverse(
-        for $comb at $i in reverse($combs)
-        let $contained := for $n in (1 to count($combs) - $i)
-        return
-            if (contains($combs[$n], $comb))
-            then
-                (1)
-            else
-                (0)
-        return
-            if (exists(index-of($contained, 1)))
-            then
-                ()
-            else
-                ($comb)
+            for $comb at $i in reverse($combs)
+            let $contained := for $n in (1 to count($combs) - $i)
+                return
+                    if (contains($combs[$n], $comb)) then
+                        (1)
+                    else
+                        (0)
+            return
+                if (exists(index-of($contained, 1))) then
+                    ()
+                else
+                    ($comb)
         )
 };
 
@@ -239,31 +237,33 @@ declare function local:getCombinations($elems as element()*, $zones as element()
     
     let $currentZone := $zones[$i]
     let $currentElem := $elems[$i]
+    
     return
-        if (local-name($currentElem) eq 'measure' or local-name($currentElem) eq 'staff')
-        then
-            (
+        if (local-name($currentElem) eq 'measure' or local-name($currentElem) eq 'staff') then (
             string-join((
-            string($i),
-            for $n in ($i + 1 to $total)
-            return
-                if ((local-name($elems[$n]) eq 'measure' or local-name($elems[$n]) eq 'staff') and local:compareZones($currentZone, $zones[$n]))
-                then
-                    (local:getCombinations($elems, $zones, $n, $total))
-                else
-                    ()
-            ), '-')
-            )
-        else
-            (
+                string($i),
+                for $n in ($i + 1 to $total)
+                return
+                    if ((local-name($elems[$n]) eq 'measure' or local-name($elems[$n]) eq 'staff') and local:compareZones($currentZone, $zones[$n])) then
+                        (local:getCombinations($elems, $zones, $n, $total))
+                    else
+                        ()
+                ), '-')
+        ) else (
             string($i)
-            )
+        )
 };
 
 declare function local:compareZones($zone1 as element(), $zone2 as element()) as xs:boolean {
     
     let $samePage := deep-equal($zone1/.., $zone2/..)
-    let $overlapping := not(number($zone1/@ulx) gt number($zone2/@lrx) or number($zone1/@lrx) lt number($zone2/@ulx) or number($zone1/@uly) gt number($zone2/@lry) or number($zone1/@lry) lt number($zone2/@uly))
+    let $overlapping := not(
+        number($zone1/@ulx) gt number($zone2/@lrx) or
+        number($zone1/@lrx) lt number($zone2/@ulx) or
+        number($zone1/@uly) gt number($zone2/@lry) or
+        number($zone1/@lry) lt number($zone2/@uly)
+    )
+    
     return
         $samePage and $overlapping
 };
@@ -285,17 +285,13 @@ declare function local:getElement($uri as xs:string) as element()? {
     @return The zone element
 :)
 declare function local:getZone($elem as element()) as element()? {
-    if ($elem/@facs)
-    then
-        (
+    if ($elem/@facs) then (
         let $zoneId := replace($elem/@facs, '^#', '')
         return
             $elem/root()/id($zoneId)
-        )
+    )
     else
-        (
         $elem
-        )
 };
 
 (:~
@@ -324,25 +320,23 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgHeight := number($graphic/@height)
     let $isAbsolute := starts-with($imagePath, 'http')
     
-    let $fields := if ($imageserver = 'leaflet') then
-        (substring-before($imagePath, '.'))
-    else
-        ()
+    let $fields :=
+        if ($imageserver = 'leaflet') then
+            (substring-before($imagePath, '.'))
+        else
+            ()
     
     return
-        if ($isAbsolute)
-        then
+        if ($isAbsolute) then
             $imagePath
         else
             switch ($imageserver)
                 case 'leaflet'
-                    return
-                        concat($basePath, $fields)
+                    return concat($basePath, $fields)
                 case 'openseadragon'
-                    return
-                        concat($basePath, translate($imagePath, '/', '!'))
-                default return
-                    concat($basePath, $imagePath, '?')
+                    return concat($basePath, translate($imagePath, '/', '!'))
+                default
+                    return concat($basePath, $imagePath, '?')
 
 };
 
@@ -376,76 +370,65 @@ declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:i
 
 declare function local:getItemLabel($elems as element()*) as xs:string {
     let $language := eutil:getLanguage($edition)
+    
     return
-        string-join(
-        for $type in distinct-values(for $elem in $elems
-        return
-            local-name($elem))
-        let $items := for $elem in $elems
-        return
-            if (local-name($elem) eq $type) then
-                ($elem)
-            else
-                ()
-        let $itemLabelMultiRestSensitive := if ($items[1]//mei:multiRest)
-        then
-            ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
-        else
-            ($items[1]/@n)
-        return
-            if (local-name($items[1]) eq 'measure')
-            then
-                (
-                if (count($items) gt 1)
-                then
-                    (eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
-                else
-                    (eutil:getLanguageString('Bar_n', $itemLabelMultiRestSensitive, $language))
-                )
-            else
-                if (local-name($items[1]) eq 'staff')
-                (: TODO: $itemLabelMultiRestSensitive also for staffs? :)
-                then
-                    (
-                    if (count($items) gt 1)
-                    then
-                        (
-                        
-                        let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
-                        
-                        let $label := if ($lang = 'de')
-                        then
-                            (if (count($measureNs) gt 1) then
-                                (concat('Takte ', $measureNs[1], '-', $measureNs[last()]))
-                            else
-                                (concat('Takt ', $measureNs[1])))
-                        else
-                            (if (count($measureNs) gt 1) then
-                                (concat('Bars ', $measureNs[1], '-', $measureNs[last()]))
-                            else
-                                (concat('Bar ', $measureNs[1])))
-                        
-                        return
-                            
-                            concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
-                        
-                        )
-                    else
-                        (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
-                    )
-                else
-                    if (local-name($items[1]) eq 'zone')
-                    then
-                        (
-                        if (count($items) gt 1)
-                        then
-                            ((:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:) )
-                        else
-                            (concat('Ausschnitt (S. ', $items[1]/parent::mei:surface/@n, ')'))
-                        )
+        string-join((
+            for $type in distinct-values(
+                for $elem in $elems
+                return local-name($elem))
+            
+            let $items :=
+                for $elem in $elems
+                return
+                    if (local-name($elem) eq $type) then
+                        $elem
                     else
                         ()
-        , ' ')
+            
+            let $itemLabelMultiRestSensitive :=
+                if ($items[1]//mei:multiRest) then
+                    ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
+                else
+                    $items[1]/@n
+            
+            return
+                if (local-name($items[1]) eq 'measure') then (
+                    if (count($items) gt 1) then
+                        (eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
+                    else
+                        (eutil:getLanguageString('Bar_n', $itemLabelMultiRestSensitive, $language))
+                ) else if (local-name($items[1]) eq 'staff') then (: TODO: $itemLabelMultiRestSensitive also for staffs? :) (
+                    if (count($items) gt 1) then (
+                        let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
+                        
+                        let $label :=
+                            if ($lang = 'de') then(
+                                if (count($measureNs) gt 1) then
+                                    (concat('Takte ', $measureNs[1], '-', $measureNs[last()]))
+                                else (
+                                    concat('Takt ', $measureNs[1])
+                                )
+                            ) else (
+                                if (count($measureNs) gt 1) then (
+                                    concat('Bars ', $measureNs[1], '-', $measureNs[last()])
+                                ) else (
+                                    concat('Bar ', $measureNs[1])
+                                )
+                            )
+                        
+                        return
+                            concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
+                    ) else
+                        (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
+                
+                ) else if (local-name($items[1]) eq 'zone') then (
+                    if (count($items) gt 1) then (
+                        (:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:)
+                    ) else (
+                        concat('Ausschnitt (S. ', $items[1]/parent::mei:surface/@n, ')')
+                    )
+                ) else ()
+        ), ' ')
 
 };
 
