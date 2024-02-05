@@ -47,7 +47,7 @@ The beginning comments and the structuring comments (see below) of the prolog ar
 3. Each part of the prolog ends with a blank line.
 
 ```xquery
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 ```
 
@@ -58,23 +58,19 @@ Sort imports by type:
 4. In the groups sort alphabetically by prefix.
 
 ```xquery
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 ```
 
 All `declare namespace` statements, sorted alphabetically by prefix.
 
 ```xquery
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
+
 
 ```
 All `declare option` statements.
 
-```xquery
-(: VARIABLE DECLARATIONS =========================================== :)
-
-```
-or
 ```xquery
 (: VARIABLE DECLARATIONS =================================================== :)
 
@@ -86,6 +82,8 @@ or
 
 ```xquery
 (: FUNCTION DECLARATIONS =========================================== :)
+
+(: FUNCTION DECLARATIONS =================================================== :)
 
 ```
 
@@ -134,12 +132,47 @@ Note: this is derived from the current usage in Edirom-Online code
 
 ### Literal results
 
-TODO: how should literal result be indented, especially when they are long, e.g., as in the case of [getAudioPlayer.xql](add/data/xql/getAudioPlayer.xql).
+TODO: how should literal results be indented, especially when they are long, e.g., as in the case of [getAudioPlayer.xql](add/data/xql/getAudioPlayer.xql).
 
 ### let statements
 
-Short variable definitions should be in a single line
+Short variable definitions should be in a single line:
 
 ```xquery
 let $lang := 'de'
 ```
+
+Longer assignments, especially when the contain if-else-statements or FLWOR-expressions, should break after `:=` and then indent a further level, before following the rules applicable to the respective statements, e.g.:
+
+```xquery
+let $elems :=
+   for $p in $participants
+   let $id := substring-after($p, '#')
+   return doc($doc)/id($id)
+```
+
+### Function declarations
+
+```xquery
+(:~
+ : XQdoc comment
+ :
+ …
+ :
+ :)
+declare function prefix:function-name( $paramOne as datatype, §paramTwo as datatype )
+as datatype
+{
+   …
+};
+
+```
+
+- [ ] at the moment return datatypes and opening curly braces of function declarations are still in the same line as the `declare function` statement
+- [ ] break long function argument
+
+### HowTo ToDo:s
+
+- [ ] literal results formatting
+- [ ] nested return statements
+- [ ] parenthesis placement
