@@ -10,16 +10,16 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  :)
 module namespace edition = "http://www.edirom.de/xquery/edition";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace functx="http://www.functx.com";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace xlink="http://www.w3.org/1999/xlink";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns a JSON representation of an Edition

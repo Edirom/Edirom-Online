@@ -9,17 +9,17 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "text";
 declare option output:media-type "text/plain";

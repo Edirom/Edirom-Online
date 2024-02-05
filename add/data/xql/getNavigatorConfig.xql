@@ -3,26 +3,26 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
-(: VARIABLE DECLARATIONS =========================================== :)
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $lang := request:get-parameter('lang', '');
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 declare function local:getCategory($category, $depth) {
     

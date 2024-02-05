@@ -11,15 +11,15 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  :)
 module namespace source = "http://www.edirom.de/xquery/source";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns whether a document is a source or not

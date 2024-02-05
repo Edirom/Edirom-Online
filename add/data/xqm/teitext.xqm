@@ -10,15 +10,15 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  :)
 module namespace teitext="http://www.edirom.de/xquery/teitext";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns whether a document is a work or not

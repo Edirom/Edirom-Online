@@ -9,14 +9,14 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace svg = "http://www.w3.org/2000/svg";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "text";
 declare option output:media-type "text/plain";

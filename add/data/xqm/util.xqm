@@ -13,7 +13,7 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 
 module namespace eutil = "http://www.edirom.de/xquery/util";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace functx = "http://www.functx.com";
 
@@ -23,7 +23,7 @@ import module namespace source="http://www.edirom.de/xquery/source" at "source.x
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -32,7 +32,7 @@ declare namespace system="http://exist-db.org/xquery/system";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace util="http://exist-db.org/xquery/util";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns the namespace (standardized prefix)

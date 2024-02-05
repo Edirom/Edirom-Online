@@ -3,21 +3,21 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 (:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
 
-(: VARIABLE DECLARATIONS =========================================== :)
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);

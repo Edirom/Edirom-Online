@@ -12,19 +12,19 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 declare function annotation:getLocalizedLabel($node) {
 

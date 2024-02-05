@@ -3,12 +3,12 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 

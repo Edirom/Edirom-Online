@@ -4,12 +4,12 @@ xquery version "3.1";
  : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
  :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace eof = "http://www.edirom.de/xquery/ediromOnlineFunctions";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
@@ -19,11 +19,11 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace xhtml = "http://www.w3.org/1999/xhtml";
 declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=html media-type=text/html omit-xml-declaration=yes indent=yes";
 
-(: VARIABLE DECLARATIONS =========================================== :)
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $lang := 'en';
 declare variable $base := concat('file:', replace(system:get-module-load-path(), '\\', '/'), '/../xslt/');
@@ -74,7 +74,7 @@ declare function eof:getLabel($key as xs:string) {
         ($key)
 };
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 declare function eof:getFacsImgParas($areaWidth) {
     concat('&amp;dw=', floor($printResolution * $areaWidth), '&amp;mo=scale')

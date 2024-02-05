@@ -9,7 +9,7 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -17,12 +17,12 @@ declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "json";
 declare option output:media-type "application/json";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
     Finds all measures on a page.

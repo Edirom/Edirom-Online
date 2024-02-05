@@ -10,12 +10,12 @@ xquery version "3.1";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "text";
 declare option output:media-type "text/html";

@@ -3,11 +3,11 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace img = "http://www.edirom.de/ns/image";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
@@ -16,7 +16,7 @@ declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "text";
 declare option output:media-type "text/plain";

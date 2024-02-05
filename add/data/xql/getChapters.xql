@@ -3,22 +3,22 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 declare function local:changeFormat($n) as xs:string {
 (:TODO replace with fn:format-integer:)

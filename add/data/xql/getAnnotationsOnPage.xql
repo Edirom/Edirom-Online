@@ -10,13 +10,13 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  :  @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
  :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace functx = "http://www.functx.com";
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace ft = "http://exist-db.org/xquery/lucene";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
@@ -26,7 +26,7 @@ declare namespace svg = "http://www.w3.org/2000/svg";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "json";
 declare option output:media-type "application/json";

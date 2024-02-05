@@ -9,15 +9,15 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 

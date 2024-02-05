@@ -10,16 +10,16 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  :)
 module namespace work = "http://www.edirom.de/xquery/work";
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns a JSON representation of a Work

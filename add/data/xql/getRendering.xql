@@ -3,7 +3,7 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace request = "http://exist-db.org/xquery/request";
@@ -11,7 +11,7 @@ declare namespace system = "http://exist-db.org/xquery/system";
 declare namespace transform = "http://exist-db.org/xquery/transform";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 

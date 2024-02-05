@@ -10,13 +10,13 @@ xquery version "3.1";
     @author <a href="mailto:kepper@edirom.de">Johannes Kepper</a>
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom_image = "http://www.edirom.de/ns/image";
 declare namespace exist = "http://exist.sourceforge.net/NS/exist";
@@ -26,7 +26,7 @@ declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "xhtml";
 declare option output:media-type "text/html";

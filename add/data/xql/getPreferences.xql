@@ -9,15 +9,15 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
  : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
  :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace request = "http://exist-db.org/xquery/request";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 

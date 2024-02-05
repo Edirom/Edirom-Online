@@ -3,7 +3,7 @@ xquery version "3.1";
 For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-(: IMPORTS ========================================================= :)
+(: IMPORTS ================================================================= :)
 
 import module namespace functx = "http://www.functx.com";
 import module namespace request = "http://exist-db.org/xquery/request";
@@ -14,7 +14,7 @@ import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm
 import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
 
-(: NAMESPACE DECLARATIONS ========================================== :)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace html = "http://www.w3.org/1999/xhtml";
 declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
@@ -22,17 +22,17 @@ declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
-(: OPTION DECLARATIONS ============================================= :)
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "json";
 declare option output:media-type "application/json";
 
-(: VARIABLE DECLARATIONS =========================================== :)
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $lang := request:get-parameter('lang', '');
 declare variable $uri := request:get-parameter('uri', '');
 
-(: FUNCTION DECLARATIONS =========================================== :)
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
  : Returns a view for an edirom object
