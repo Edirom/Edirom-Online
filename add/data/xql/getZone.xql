@@ -12,13 +12,15 @@ xquery version "3.1";
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization"; 
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
@@ -29,14 +31,12 @@ let $mei := doc($uri)/root()
 let $zone := $mei/id($zoneId)
 
 return (
-    concat(
-        '{',
-        'zoneId: "', $zone/string(@xml:id), '", ',
-        'pageId: "', $zone/../string(@xml:id), '", ',
-        'ulx: "', $zone/string(@ulx), '", ',
-        'uly: "', $zone/string(@uly), '", ',
-        'lrx: "', $zone/string(@lrx), '", ',
-        'lry: "', $zone/string(@lry), '"',
-        '}'
-    )
+    map {
+        'zoneId': $zone/string(@xml:id),
+        'pageId': $zone/../string(@xml:id),
+        'ulx': $zone/string(@ulx),
+        'uly': $zone/string(@uly),
+        'lrx': $zone/string(@lrx),
+        'lry': $zone/string(@lry)
+        }
 )
