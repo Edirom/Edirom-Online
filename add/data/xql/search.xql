@@ -6,18 +6,21 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace kwic = "http://exist-db.org/xquery/kwic";
+import module namespace transform="http://exist-db.org/xquery/transform";
 
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-(:declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";:)
+declare option output:method "xhtml";
+declare option output:media-type "text/html";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
