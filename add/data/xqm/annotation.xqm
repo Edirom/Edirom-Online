@@ -4,11 +4,11 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
 :)
 
 (:~
-: This module provides library functions for Annotations
-:
-: @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
-: @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
-:)
+ : This module provides library functions for Annotations
+ :
+ : @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+ : @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
+ :)
 
 module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
@@ -50,11 +50,11 @@ declare function annotation:getLocalizedLabel($node) {
 };
 
 (:~
-: Returns a JSON representation of all Annotations of a document
-:
-: @param $uri The document to process
-: @return The JSON representation
-:)
+ : Returns a JSON representation of all Annotations of a document
+ :
+ : @param $uri The document to process
+ : @return The JSON representation
+ :)
 declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:string) as map(*)* {
     
     let $doc := doc($uri)
@@ -65,11 +65,11 @@ declare function annotation:annotationsToJSON($uri as xs:string, $edition as xs:
 };
 
 (:~
-: Returns a JSON representation of an Annotation
-:
-: @param $anno The Annotation to process
-: @return The JSON representation
-:)
+ : Returns a JSON representation of an Annotation
+ :
+ : @param $anno The Annotation to process
+ : @return The JSON representation
+ :)
 declare function annotation:toJSON($anno as element(), $edition as xs:string) as map(*) {
     
     let $id := $anno/string(@xml:id)
@@ -132,11 +132,11 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
 };
 
 (:~
-: Generates a title for annotation which have none
-:
-: @param $anno The Annotation to process
-: @return The string result
-:)
+ : Generates a title for annotation which have none
+ :
+ : @param $anno The Annotation to process
+ : @return The string result
+ :)
 declare function annotation:generateTitle($anno as element()) {
     let $mdiv.n := 'Satz ' || string(count($anno/ancestor::mei:mdiv/preceding-sibling::mei:mdiv) + 1)
     let $measure := 'Takt ' || $anno/ancestor::mei:measure/string(@n)
@@ -144,12 +144,12 @@ declare function annotation:generateTitle($anno as element()) {
 };
 
 (:~
-: Returns a HTML representation of an Annotation's content
-:
-: @param $anno The Annotation to process
-: @param $idPrefix A prefix for all ids (because of uniqueness in application)
-: @return The HTML representation
-:)
+ : Returns a HTML representation of an Annotation's content
+ :
+ : @param $anno The Annotation to process
+ : @param $idPrefix A prefix for all ids (because of uniqueness in application)
+ : @return The HTML representation
+ :)
 declare function annotation:getContent($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
 
     (:let $xsltBase := concat('file:', system:get-module-load-path(), '/../xslt/'):)
@@ -180,23 +180,23 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
 };
 
 (:~
-: Returns a HTML representation of an Annotation's title
-:
-: @param $anno The Annotation to process
-: @param $idPrefix A prefix for all ids (because of uniqueness in application)
-: @return The HTML representation
-:)
+ : Returns a HTML representation of an Annotation's title
+ :
+ : @param $anno The Annotation to process
+ : @param $idPrefix A prefix for all ids (because of uniqueness in application)
+ : @return The HTML representation
+ :)
 declare function annotation:getTitle($anno as element(), $idPrefix as xs:string, $edition as xs:string?) {
 
     $anno/mei:title[not(@xml:lang) or @xml:lang = eutil:getLanguage($edition)]/text()
 };
 
 (:~
-: Returns an Annotation's priority
-:
-: @param $anno The Annotation to process
-: @return The priority
-:)
+ : Returns an Annotation's priority
+ :
+ : @param $anno The Annotation to process
+ : @return The priority
+ :)
 declare function annotation:getPriority($anno as element()) as xs:string* {
     
     let $uri := $anno/mei:ptr[@type eq 'priority']/string(@target)
@@ -263,11 +263,11 @@ declare function annotation:getCategories($anno as element()) as xs:string {
 };
 
 (:~
-: Returns an array of Annotation's categories
-:
-: @param $anno The Annotation to process
-: @return The categories (as comma separated string)
-:)
+ : Returns an array of Annotation's categories
+ :
+ : @param $anno The Annotation to process
+ : @return The categories (as comma separated string)
+ :)
 declare function annotation:getCategoriesAsArray($anno as element()) as xs:string* {
     
     let $doc := $anno/root()
@@ -297,11 +297,11 @@ declare function annotation:getCategoriesAsArray($anno as element()) as xs:strin
 };
 
 (:~
-: Returns a list of URIs addressed by an Annotation
-:
-: @param $anno The Annotation to process
-: @return The list
-:)
+ : Returns a list of URIs addressed by an Annotation
+ :
+ : @param $anno The Annotation to process
+ : @return The list
+ :)
 declare function annotation:getParticipants($anno as element()) as xs:string* {
     
     let $ps := tokenize($anno/@plist, ' ')
@@ -311,11 +311,11 @@ declare function annotation:getParticipants($anno as element()) as xs:string* {
 };
 
 (:~
-: Returns an annotation category's name
-:
-: @param $category The category to process
-: @return one name
-:)
+ : Returns an annotation category's name
+ :
+ : @param $category The category to process
+ : @return one name
+ :)
 declare function annotation:category_getName($category as element(), $language as xs:string) {
     annotation:getLocalizedLabel($category)
     (:let $names := $category/mei:name
