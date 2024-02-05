@@ -1,7 +1,7 @@
 xquery version "3.1";
 (:
-For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
-:)
+ : For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
 (:~
     Returns a JSON sequence with all measures on a specific page.

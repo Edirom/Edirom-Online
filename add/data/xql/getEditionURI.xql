@@ -1,7 +1,7 @@
 xquery version "3.0";
 (:
-For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
-:)
+ : For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
 (:~
 : Returns the URI of the first found Edition.
