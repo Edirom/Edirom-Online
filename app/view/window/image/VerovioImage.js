@@ -25,7 +25,7 @@ Ext.define('EdiromOnline.view.window.image.VerovioImage', {
 		
 		var me = this;
 		
-		me.html = '<div id="' + me.id + '_rendCont" class="renderingViewContent"><iframe id="' + me.id +
+		me.html = '<div id="' + me.id + '_rendCont" style="height:100%;"><iframe id="' + me.id +
 		'_rendContIFrame" style="width:100%; height:100%; border:none; background-color:white;"></iframe></div>';
 		
 		me.callParent();
