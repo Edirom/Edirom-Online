@@ -45,8 +45,18 @@ Ext.define('EdiromOnline.controller.AJAXController', {
         
         var lang = window.getLanguage();
         params = Ext.applyIf(params, {lang: lang});
-        
-        var override = window.getPreference(url, true);
+
+        // define some requests that will make Edirom Online fail if it looks for an override
+        var doNotOverride  = [
+            'data/xql/getEditionURI.xql',
+            'data/xql/getPreferences.xql',
+            'data/xql/getWorkID.xql',
+        ];
+
+        var override = null;
+
+        if(doNotOverride.indexOf(url) == -1)
+            override = window.getPreference(url, true);
 
         if(override != null)
             url = override;
