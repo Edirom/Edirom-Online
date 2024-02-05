@@ -28,6 +28,7 @@ let $uri := request:get-parameter('editionId', '')
 let $workUris := edition:getWorkUris($uri)
 
 return
+(: JSON serialization of map instad of text serialization with concat :)
     concat(
         '[',
         string-join(
