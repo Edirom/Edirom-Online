@@ -5,4 +5,5 @@
     version="@project.version@"
     spec="1.0">
     <title>@project.title@</title>
+    <dependency package="http://www.functx.com" semver-min="1.0"/>
 </package>
