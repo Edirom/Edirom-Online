@@ -31,7 +31,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@v3.1.3
+      uses: actions/upload-artifact@v4.3.0
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip

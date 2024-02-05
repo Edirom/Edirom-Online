@@ -142,3 +142,4 @@ Short variable definitions should be in a single line
 
 ```xquery
 let $lang := 'de'
+```
