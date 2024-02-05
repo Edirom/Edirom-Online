@@ -1,48 +1,42 @@
-xquery version "3.0";
+xquery version "3.1";
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
-
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
-
-  ID: $Id: getSummary.xql 1455 2012-10-11 10:42:55Z daniel $
+For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
 :)
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
-import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+(: IMPORTS ========================================================= :)
 
-declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace mei = "http://www.music-encoding.org/ns/mei";
-declare namespace tei = "http://www.tei-c.org/ns/1.0";
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+
+(: NAMESPACE DECLARATIONS ========================================== :)
+
 declare namespace edirom_image = "http://www.edirom.de/ns/image";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+
+(: OPTION DECLARATIONS ============================================= :)
 
 declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
 
+(: VARIABLE DECLARATIONS =========================================== :)
+
 declare variable $imageWidth := 400;
+
+(: FUNCTION DECLARATIONS =========================================== :)
 
 declare function local:generateRespSentence($names) {
     string-join(
-    for $name in $names
-    return
-        if (matches($name, '(s|z)$'))
-        then
-            (concat($name, "'"))
-        else
-            (concat($name, 's'))
-    , ' und ')
+        for $name in $names
+        return
+            if (matches($name, '(s|z)$'))
+            then
+                (concat($name, "'"))
+            else
+                (concat($name, 's'))
+        , ' und '
+    )
 };
 
 declare function local:getSourceSummary($doc, $facsBasePath, $server) {
@@ -50,310 +44,212 @@ declare function local:getSourceSummary($doc, $facsBasePath, $server) {
     let $title := $work//mei:work/mei:titleStmt/mei:title[1]/text()
     let $resp := local:generateRespSentence($work//mei:work/mei:titleStmt/mei:respStmt/*[local-name() != 'resp']/text())
     let $expression := $work/id($doc//mei:relation[@rel = 'isEmbodimentOf'][1]/substring-after(@target, '#'))/string(@label)
+    
     return
         
-        <div
-            class="summaryViewSource">
+        <div class="summaryViewSource">
             <h1>
                 {
-                    if ($doc//mei:source/mei:titleStmt/mei:title[@type eq 'main'])
-                    then
+                    if ($doc//mei:source/mei:titleStmt/mei:title[@type eq 'main']) then
                         ($doc//mei:source/mei:titleStmt/mei:title[@type eq 'main'][1]//text())
                     else
                         ($doc//mei:source/mei:titleStmt/mei:title[1]//text())
                 }
                 {
-                    if ($doc//mei:source//mei:identifier[@type eq 'siglum'])
-                    then
+                    if ($doc//mei:source//mei:identifier[@type eq 'siglum']) then
                         (concat(' ', $doc//mei:source//mei:identifier[@type eq 'siglum'][1]//text()))
                     else
                         ()
                 }
             </h1>
             
-            <div
-                class="metaData">
-                
-                <div
-                    class="work metaRow">
+            <div class="metaData">
+                <div class="work metaRow">
                     Zur Fassung "{$expression}" von {$resp} "{$title}".
                 </div>
-                
                 {
                     for $name in $doc//mei:source/mei:titleStmt/mei:respStmt/mei:*[local-name() eq 'persName' or local-name() eq 'name']
                     return
-                        <div
-                            class="resp metaRow">
-                            <div
-                                class="key">
+                        <div class="resp metaRow">
+                            <div class="key">
                                 {
-                                    if ($name/@role)
-                                    then
+                                    if ($name/@role) then
                                         ($name/string(@role))
                                     else
                                         (string('Responsible'))
                                 }
                             </div>
-                            <div
-                                class="value">{$name/text()}</div>
+                            <div class="value">{$name/text()}</div>
                         </div>
-                
                 }
                 
                 {
                     for $date in $doc//mei:source/mei:pubStmt/mei:date | $doc//mei:source/mei:history/mei:creation/mei:date[1]
                     return
-                        <div
-                            class="dating metaRow">
-                            <div
-                                class="key">Dating</div>
-                            <div
-                                class="value">{local:getDateValue($date)}</div>
+                        <div class="dating metaRow">
+                            <div class="key">Dating</div>
+                            <div class="value">{local:getDateValue($date)}</div>
                         </div>
                 
                 }
                 
                 {
                     (: probably a Manuscript… :)
-                    if (count($doc//mei:source/mei:itemList/mei:item) eq 1)
-                    then
-                        (
+                    if (count($doc//mei:source/mei:itemList/mei:item) eq 1) then (
                         for $item in $doc//mei:source/mei:itemList/mei:item
                         return
-                            if ($item/mei:physDesc/mei:repository)
-                            then
-                                (
-                                <div
-                                    class="library metaRow">
-                                    <div
-                                        class="key">Repository</div>
-                                    <div
-                                        class="value">
+                            if ($item/mei:physDesc/mei:repository) then (
+                                <div class="library metaRow">
+                                    <div class="key">Repository</div>
+                                    <div class="value">
                                         {
                                             $item/mei:physDesc/mei:repository[1]/text(),
-                                            if ($item/mei:physDesc/mei:physLoc)
-                                            then
-                                                (
+                                            if ($item/mei:physDesc/mei:physLoc) then (
                                                 <br/>, $item/mei:physDesc/mei:physLoc[1]/text()
-                                                )
-                                            else
+                                            ) else
                                                 ()
                                         }
                                     </div>
                                 </div>
-                                )
-                            else
+                            ) else
                                 ()
-                        )
-                    else
+                    ) else
                         ()
                 }
                 
                 {
-                    if ($doc//mei:source/mei:pubStmt//mei:*[@role eq 'publisher'])
-                    then
-                        (
-                        <div
-                            class="publisher metaRow">
-                            <div
-                                class="key">Publisher</div>
-                            <div
-                                class="value">{$doc//mei:source/mei:pubStmt//mei:*[@role eq 'publisher'][1]/text()}</div>
+                    if ($doc//mei:source/mei:pubStmt//mei:*[@role eq 'publisher']) then (
+                        <div class="publisher metaRow">
+                            <div class="key">Publisher</div>
+                            <div class="value">{$doc//mei:source/mei:pubStmt//mei:*[@role eq 'publisher'][1]/text()}</div>
                         </div>
-                        )
-                    else
+                    ) else
                         ()
                 }
                 
                 {
-                    if ($doc//mei:source/mei:physDesc/mei:plateNum)
-                    then
-                        (
-                        <div
-                            class="plateNum metaRow">
-                            <div
-                                class="key">Plate number</div>
-                            <div
-                                class="value">{$doc//mei:source/mei:physDesc/mei:plateNum[1]/text()}</div>
+                    if ($doc//mei:source/mei:physDesc/mei:plateNum) then (
+                        <div class="plateNum metaRow">
+                            <div class="key">Plate number</div>
+                            <div class="value">{$doc//mei:source/mei:physDesc/mei:plateNum[1]/text()}</div>
                         </div>
-                        )
-                    else
+                    ) else
                         ()
                 }
-            
             </div>
             
             {
-                if ($doc//mei:source//mei:titlePage/@facs)
-                then
-                    (
-                    if ($server = 'digilib') then
-                        (
-                        <div
-                            class="titlePage">
-                            <img
-                                src="{local:getImagePath($facsBasePath, $doc//mei:source//mei:titlePage[1]/@facs, $imageWidth)}"/>
+                if ($doc//mei:source//mei:titlePage/@facs) then (
+                    if ($server = 'digilib') then (
+                        <div class="titlePage">
+                            <img src="{local:getImagePath($facsBasePath, $doc//mei:source//mei:titlePage[1]/@facs, $imageWidth)}"/>
                         </div>
-                        )
-                    else
+                    ) else
                         ()
                     )
                 else
-                    if ($doc//mei:facsimile/mei:surface/mei:graphic)
-                    then
-                        (
-                        if ($server = 'digilib') then
-                            (
-                            <div
-                                class="titlePage">
-                                <img
-                                    src="{local:getImagePath($facsBasePath, $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target, $imageWidth)}"/>
+                    if ($doc//mei:facsimile/mei:surface/mei:graphic) then (
+                        if ($server = 'digilib') then (
+                            <div class="titlePage">
+                                <img src="{local:getImagePath($facsBasePath, $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target, $imageWidth)}"/>
                             </div>
-                            )
-                        else
+                        ) else
                             ()
-                        )
-                    else
-                        if ($doc//mei:source//mei:titlePage)
-                        then
-                            (
-                            <div
-                                class="titlePage">
+                    ) else if ($doc//mei:source//mei:titlePage) then (
+                            <div class="titlePage">
                                 (: TODO: transformieren :)
                                 {$doc//mei:source//mei:titlePage[1]/text()}
                             </div>
-                            )
-                        else
-                            ()
+                    ) else
+                        ()
             }
         </div>
 };
 
 declare function local:getImagePath($basePath, $uri, $width) {
-    if (starts-with($uri, 'xmldb:exist'))
-    then
-        (
+    if (starts-with($uri, 'xmldb:exist')) then (
         let $imagePath := doc($uri)/edirom_image:image/@file
         return
             concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;mo=fit')
-        )
-    else
-        (
+    ) else (
         concat($basePath, $uri, '?dw=', $width, '&amp;amp;mo=fit')
-        )
+    )
 };
 
 declare function local:getDateValue($date) {
     
-    if ($date/@reg)
-    then
+    if ($date/@reg) then
         ($date/string(@reg)) (: TODO: prettify date :)
     
+    else if ($date/@startdate and $date/@enddate) then
+        (concat('From ', $date/@startdate, ' until ', $date/@enddate))
+    
+    else if ($date/@notbefore and $date/@notafter) then
+        (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
+    
+    else if ($date/@startdate and $date/@notafter) then
+        (concat('From ', $date/@startdate, ', not after ', $date/@notafter))
+    
+    else if ($date/@notbefore and $date/@enddate) then
+        (concat('Not before ', $date/@notbefore, ', until ', $date/@enddate))
+    
+    else if ($date/@startdate) then
+        (concat('From ', $date/@startdate))
+    
+    else if ($date/@enddate) then
+        (concat('Until ', $date/@enddate))
+    
+    else if ($date/@notbefore) then
+        (concat('Not before ', $date/@notbefore))
+    
+    else if ($date/@notafter) then
+        (concat('Not after ', $date/@notafter))
+    
+    else if (local-name($date) eq 'date') then
+        ($date/text())
+    
     else
-        if ($date/@startdate and $date/@enddate)
-        then
-            (concat('From ', $date/@startdate, ' until ', $date/@enddate))
-        
-        else
-            if ($date/@notbefore and $date/@notafter)
-            then
-                (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
-            
-            else
-                if ($date/@startdate and $date/@notafter)
-                then
-                    (concat('From ', $date/@startdate, ', not after ', $date/@notafter))
-                
-                else
-                    if ($date/@notbefore and $date/@enddate)
-                    then
-                        (concat('Not before ', $date/@notbefore, ', until ', $date/@enddate))
-                    
-                    else
-                        if ($date/@startdate)
-                        then
-                            (concat('From ', $date/@startdate))
-                        
-                        else
-                            if ($date/@enddate)
-                            then
-                                (concat('Until ', $date/@enddate))
-                            
-                            else
-                                if ($date/@notbefore)
-                                then
-                                    (concat('Not before ', $date/@notbefore))
-                                
-                                else
-                                    if ($date/@notafter)
-                                    then
-                                        (concat('Not after ', $date/@notafter))
-                                    
-                                    else
-                                        if (local-name($date) eq 'date')
-                                        then
-                                            ($date/text())
-                                        
-                                        else
-                                            (string(""))
+        (string(""))
 };
 
 declare function local:getTeiDateValue($date) {
     
-    if ($date/@when)
-    then
+    if ($date/@when) then
         ($date/string(@when)) (: TODO: prettify date :)
     
+    else if ($date/@from and $date/@to) then
+        (concat('From ', $date/@from, ' to ', $date/@to))
+    
+    else if ($date/@notBefore and $date/@notAfter) then
+        (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
+    
+    else if ($date/@from and $date/@notAfter) then
+        (concat('From ', $date/@from, ', not after ', $date/@notAfter))
+    
+    else if ($date/@notBefore and $date/@to) then
+        (concat('Not before ', $date/@notBefore, ', to ', $date/@to))
+    
+    else if ($date/@from) then
+        (concat('From ', $date/@from))
+    
+    else if ($date/@to) then
+        (concat('Until ', $date/@to))
+    
+    else if ($date/@notBefore) then
+        (concat('Not before ', $date/@notBefore))
+    
+    else if ($date/@notAfter) then
+        (concat('Not after ', $date/@notAfter))
+    
+    else if (local-name($date) eq 'date') then
+        ($date/text())
+    
     else
-        if ($date/@from and $date/@to)
-        then
-            (concat('From ', $date/@from, ' to ', $date/@to))
-        
-        else
-            if ($date/@notBefore and $date/@notAfter)
-            then
-                (concat('Not before ', $date/@notbefore, ', not after ', $date/@notafter))
-            
-            else
-                if ($date/@from and $date/@notAfter)
-                then
-                    (concat('From ', $date/@from, ', not after ', $date/@notAfter))
-                
-                else
-                    if ($date/@notBefore and $date/@to)
-                    then
-                        (concat('Not before ', $date/@notBefore, ', to ', $date/@to))
-                    
-                    else
-                        if ($date/@from)
-                        then
-                            (concat('From ', $date/@from))
-                        
-                        else
-                            if ($date/@to)
-                            then
-                                (concat('Until ', $date/@to))
-                            
-                            else
-                                if ($date/@notBefore)
-                                then
-                                    (concat('Not before ', $date/@notBefore))
-                                
-                                else
-                                    if ($date/@notAfter)
-                                    then
-                                        (concat('Not after ', $date/@notAfter))
-                                    
-                                    else
-                                        if (local-name($date) eq 'date')
-                                        then
-                                            ($date/text())
-                                        
-                                        else
-                                            (string(""))
+        (string(""))
 };
 
 declare function local:getWorkSummary($doc, $docUri) {
+
     <div
         class="summaryViewWork">
         <div
@@ -660,29 +556,18 @@ let $imagePath := local:getImagePathLeaflet($doc)
 (:local:getImagePathLeaflet($imagePrefix, $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target):)
 
 return
-    if ($type = 'work')
-    then
-        (
-        if ($server = 'leaflet')
-        then
+    if ($type = 'work') then (
+        if ($server = 'leaflet') then
             (local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri))
         else
             (local:getWorkSummary($doc, $docUri))
         
-        )
-    else
-        if ($type = 'source')
-        then
-            (
-            if ($server = 'leaflet')
-            then
+    ) else if ($type = 'source') then (
+            if ($server = 'leaflet') then
                 (local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri))
             else
                 (local:getSourceSummary($doc, $imagePrefix, $server))
-            )
-        else
-            if ($type = 'text')
-            then
-                (local:getTextSummary($doc, $imagePrefix))
-            else
-                ()
+    ) else if ($type = 'text') then
+        (local:getTextSummary($doc, $imagePrefix))
+    else
+        ()
