@@ -32,7 +32,7 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
             }
         });
     },
-    
+
     onAfterLayout: function(view) {
 
         var me = this;
@@ -45,7 +45,7 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
         var uri = view.uri;
 
         window.doAJAXRequest('data/xql/getPages.xql',
-            'GET', 
+            'GET',
             {
                 uri: uri
             },
@@ -57,12 +57,12 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
                     data: Ext.JSON.decode(data)
                 });
 
-                view.setImageSet(pages);
+                me.pagesLoaded(pages, view);
             }, this)
         );
-        
+
         window.doAJAXRequest('data/xql/getChapters.xql',
-            'GET', 
+            'GET',
             {
                 uri: view.uri,
                 mode: 'pageMode'
@@ -79,11 +79,15 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
             }, this)
         );
     },
-    
+
+    pagesLoaded: function (pages, view) {
+		view.setImageSet(pages);
+	},
+
     chaptersLoaded: function(chapters, view) {
         view.setChapters(chapters);
     },
-    
+
     onGotoChapter: function(view, pageId) {
         view.gotoPage(pageId);
     }
