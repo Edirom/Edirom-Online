@@ -1,11 +1,11 @@
-@import 'webfonts.scss';	
+@import 'webfonts.scss';
 @import 'mixins.scss';
 
 /*Edirom*/
 @import 'facsimile.scss';
 @import 'xml.scss';
 @import 'toolbar.scss';
- 
+
 //@import 'textViewContent.scss';
 @import 'textView.scss';
 @import 'headerView.scss';
@@ -17,3 +17,6 @@
 
 /*Annotations*/
 @import 'annotation.scss';
+
+/*renderingView (Verovio)*/
+@import 'renderingViewContent.scss'
