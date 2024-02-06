@@ -26,6 +26,7 @@ declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
 declare namespace xmldb="http://exist-db.org/xquery/xmldb";
+declare namespace conf="https://www.maxreger.info/conf";
 
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
@@ -122,6 +123,7 @@ declare function local:getViews($type, $docUri, $doc) {
     ), ',')
 };
 
+let $workID := request:get-parameter('workId', '')
 
 let $uri := request:get-parameter('uri', '')
 let $uriParams := if(contains($uri, '?')) then(substring-after($uri, '?')) else('')
@@ -182,6 +184,11 @@ let $type :=
              
              else(string('unknown'))
              
+let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+let $mrpUrl := $configResource//conf:mrpURL
+let $getEdiromObjectWindowTitleUrl := concat($mrpUrl, '/cat/rest/getEdiromObjectWindowTitle.xql?workID=', $workID, '&amp;sourceID=', substring-before(functx:substring-after-last($uri, '/'), '.xml'), '&amp;lang=', $lang)
+
+
 let $title := (: Work :)
               if(exists($doc//mei:mei) and exists($doc//mei:work) and not(exists($doc//mei:perfMedium)))
               (: RWA specific implementation, starts here: :)
@@ -196,14 +203,11 @@ let $title := (: Work :)
               (: Edition :)
               else if (exists($doc//mei:mei) and starts-with($doc//mei:mei/@xml:id, 'rwa_edition'))
               then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
-
-              (: Source / Score without Shelfmark:)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source) and not(exists($doc//mei:identifier[@type='shelfmark'])))
-              then(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])))
               
-              (: Source / Score with Shelfmark:)
-              else if(exists($doc//mei:mei) and exists($doc//mei:source) and exists($doc//mei:identifier[@type='shelfmark']))
-              then(concat(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])),' | ',normalize-space($doc//mei:source//mei:identifier[@type='shelfmark'])))
+              (: Source :)
+              else if(exists($doc//mei:mei) and (exists($doc//mei:source) or exists($doc//mei:manifestation)))
+              (: then(concat(normalize-space(local:getLocalizedMEITitle($doc//mei:source/mei:titleStmt[1])),' | ',normalize-space($doc//mei:source//mei:identifier[@type='shelfmark']))) :)
+              then(hc:send-request(<hc:request href="{$getEdiromObjectWindowTitleUrl}" method="get"/>)[2])
               
               (: Text :)
               else if(exists($doc/tei:TEI))
