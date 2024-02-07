@@ -35,20 +35,19 @@ Ext.define('EdiromOnline.controller.LanguageController', {
 
     initLangFile: function(editionURI, lang) {
 
-        Ext.Ajax.request({
-            url: 'data/xql/getLanguageFile.xql',
-            async: false,
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getLanguageFile.xql',
+            'GET', 
+            {
                 lang: lang,
                 mode: 'json',
                 edition: editionURI
-            },success: function(response){
-
-                this.langFiles.add(lang, Ext.JSON.decode(response.responseText));
             },
-            scope: this
-        });
+            Ext.bind(function(response){
+                this.langFiles.add(lang, Ext.JSON.decode(response.responseText));
+            }, this),
+            2, // retries
+            false // async
+        );
     },
 
     getLanguageString: function(key) {

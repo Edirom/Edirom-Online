@@ -34,7 +34,7 @@ import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "source.xqm";
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+import module namespace functx = "http://www.functx.com";
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 
 declare namespace request="http://exist-db.org/xquery/request";
@@ -108,8 +108,10 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
 
   let $namespace := eutil:getNamespace($node)
   
-  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang)
+  let $titleMEI := if ($lang != '' and $lang = $node/mei:title/@xml:lang and not($node/mei:title/mei:titlePart))
                    then ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
+                   else if ($lang != '' and $lang = $node/mei:title/@xml:lang and $node/mei:title/mei:titlePart)
+                   then ($node/mei:title[@xml:lang = $lang]/mei:titlePart[1]//text() => string-join() => normalize-space())
                    else (($node//mei:title)[1]//text() => string-join() => normalize-space())
   
   let $titleTEI := if ($lang != '' and $lang = $node/tei:title/@xml:lang)
@@ -190,6 +192,37 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 };
 
 (:~
+: Returns a part's label (translated if available)
+:
+: @author Dennis Ried
+: @param $partID The xml:id of the Part's node() to process
+: @return The label (translated if available)
+:)
+declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:string) as xs:string {
+            (: request:get-parameter('lang', '') doesn't work?? [DeRi]:)
+let $lang := if(request:get-parameter('lang', '') = '')
+             then('de')
+             else(request:get-parameter('lang', '')) 
+let $part := $measureOrPerfRes/ancestor::mei:part
+let $voiceRef := $part//mei:staffDef/@decls
+let $voiceID := substring-after($voiceRef, '#')
+
+let $perfResLabel := if($type eq 'measure')
+                     then($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/@label)
+                     else($measureOrPerfRes/@label)
+let $dictKey := 'perfMedium.perfRes.' || functx:substring-before-if-contains($perfResLabel,'.')
+let $label := if(eutil:getLanguageString($dictKey, (), $lang))
+              then(eutil:getLanguageString($dictKey, (), $lang))
+              else($perfResLabel)
+let $numbering := for $i in subsequence(tokenize($perfResLabel,'\.'),2)
+                    where matches($i, '([0-9])|([ivxIVX])')
+                    return
+                        upper-case($i)
+return
+    normalize-space(string-join(($label, $numbering),' '))
+};
+
+(:~
 : Returns a language specific string
 :
 : @param $key The key to search for
@@ -206,7 +239,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 :
 : @param $key The key to search for
 : @param $values The values to include into the string
-: @param $lang The language 
+: @param $lang The language
 : @return The string
 :)
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
@@ -222,7 +255,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 };
 
 (:~
-: Return a value of preference to key 
+: Return a value of preference to key
 :
 : @param $key The key to search for
 : @return The string
@@ -232,26 +265,24 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
      let $file := doc('../prefs/edirom-prefs.xml')
      let $projectFile := doc(edition:getPreferencesURI($edition))
      
-     return    
+     return
         if($projectFile != 'null' and $projectFile//entry[@key = $key]) then ($projectFile//entry[@key = $key]/string(@value))
         else ($file//entry[@key = $key]/string(@value))
 };
 
 (:~
-: Return the application and content language 
+: Return the application and content language
 :
 : @param $edition The edition's path
 : @return The language key
 :)
 declare function eutil:getLanguage($edition as xs:string?) as xs:string {
 
-     if(request:get-cookie-names() = 'edirom-language')
-     then(
-        request:get-cookie-value('edirom-language')
-     )
-     else(
-         eutil:getPreference('application_language', $edition)
-     )
+    if (request:get-parameter("lang", "") != "")
+    then request:get-parameter("lang", "")
+    else if(request:get-cookie-names() = 'edirom-language')
+    then request:get-cookie-value('edirom-language')
+    else eutil:getPreference('application_language', edition:findEdition($edition))
 };
 
 (:~
@@ -259,10 +290,10 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
  :
  : NB, this is a relative path on the server, missing the scheme,
  : as well as the server address and port.
- : This function simply concats the current context path with the 
- : eXist variables `$exist:prefix` and `$exist:controller` 
+ : This function simply concats the current context path with the
+ : eXist variables `$exist:prefix` and `$exist:controller`
  : (see https://exist-db.org/exist/apps/doc/urlrewrite)
- : 
+ :
  : @return a relative path on the server
  :)
 declare function eutil:get-app-base-url() as xs:string? {
@@ -281,9 +312,51 @@ declare function eutil:get-app-base-url() as xs:string? {
  :)
 declare function eutil:sort-as-numeric-alpha($seq as item()* )  as item()* {
    for $item in $seq
-   let $itemPart1 := functx:get-matches($item, '\d+')
+   let $itemPart1 := (functx:get-matches($item, '\d+'))[1]
    let $itemPart2 := substring-after($item, $itemPart1)
    order by number($itemPart1), $itemPart2
    return $item
     
 } ;
+
+(:~
+ : Extracts an ISO 639 language code from a given ISO 3166-1 language code
+ :
+ : @author Benjamin W. Bohl
+ : @param  $iso3166-1 xs:string the given ISO 3166-1 language code, e.g., en-US
+ : @return xs:string ISO 639 language code, e.g., en
+ :)
+declare function eutil:iso3166-1-to-iso639($iso3166-1 as xs:string) as xs:string {
+    tokenize($iso3166-1, "-")[1]
+};
+
+(:~
+ : Returns the ISO 639 language code with the highest 'quality' (none cosidered as 1) from
+ : the HTTP-request Accept-Language header
+ :
+ : @author Benjamin W. Bohl
+ : @return xs:string ISO 639 language code
+ :)
+declare function eutil:request-lang-preferred-iso639() as xs:string {
+let $request.accept-language := request:get-header("Accept-Language")
+return
+if($request.accept-language)
+then 
+    let $tokens := tokenize($request.accept-language, ";")
+    let $tokens.qless.ordered := (
+        for $token in $tokens
+            let $q := substring-after(string-join((analyze-string($token, "(q=\d(\.\d)?)")//fn:match)[1], ""), "q=")
+            let $q.decimal := if($q = "") then xs:decimal(1) else xs:decimal($q)
+            let $token.qless := replace($token,",?q=\d(\.\d)?,?", "")
+            order by $q.decimal descending
+            return
+                $token.qless
+    )
+    let $tokens.qmax := $tokens.qless.ordered[1]
+    let $tokens.qmax.first := tokenize($tokens.qmax, ",")[1]
+    return 
+        eutil:iso3166-1-to-iso639($tokens.qmax.first)
+    
+else
+    "en"
+};
