@@ -69,13 +69,12 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
 
         view.setContent(content);
 
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getChapters.xql',
+            'GET', 
+            {
                 uri: view.uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var chapters = Ext.create('Ext.data.Store', {
@@ -84,8 +83,8 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                 });
 
                 me.chaptersLoaded(chapters, view);
-            }
-        });
+            }, this)
+        );
 
         window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
             'GET',
@@ -121,13 +120,12 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
         var me = this;
 
         if(visible)
-            Ext.Ajax.request({
-                url: 'data/xql/getAnnotationsInText.xql',
-                method: 'GET',
-                params: {
+            window.doAJAXRequest('data/xql/getAnnotationsInText.xql',
+                'GET', 
+                {
                     uri: view.uri
                 },
-                success: function(response){
+                Ext.bind(function(response){
                     var data = response.responseText;
 
                     var annotations = Ext.create('Ext.data.Store', {
@@ -136,9 +134,8 @@ Ext.define('EdiromOnline.controller.window.text.TextView', {
                     });
 
                     me.annotationsLoaded(annotations, view);
-                }
-            });
-
+                }, this)
+            );
         else
             view.hideAnnotations();
     },

@@ -43,20 +43,18 @@ Ext.define('EdiromOnline.controller.window.SummaryView', {
 		var app = EdiromOnline.getApplication();
 		var activeEdition = app.activeEdition
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getSummary.xql',
-			method: 'GET',
-			params: {
-				uri: uri,
+		window.doAJAXRequest('data/xql/getSummary.xql',
+            'GET', 
+            {
+                uri: uri,
 				type: type,
 				edition: activeEdition
-			},
-			success: function (response) {				
-				var data = response.responseText;
+            },
+            Ext.bind(function(response){
+                var data = response.responseText;
 
                 view.setContent(data);
-			},
-			scope: this
-		});
+            }, this)
+        );
 	}
 });

@@ -17,7 +17,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #cccccc;
+    background-color: rgba(0, 0, 0, 10%);
     text-align: center;
     line-height: 2em;
 }

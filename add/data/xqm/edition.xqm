@@ -16,8 +16,8 @@ import module namespace functx="http://www.functx.com";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
-declare namespace edirom="http://www.edirom.de/ns/1.3";
-declare namespace xlink="http://www.w3.org/1999/xlink";
+declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
@@ -33,10 +33,10 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
     return
         concat('
             {',
-                'id: "', $edition/string(@xml:id), '", ',
-                'doc: "', $uri, '", ',
-                'name: "', $edition/edirom:editionName, '"',
-            '}')
+        'id: "', $edition/string(@xml:id), '", ',
+        'doc: "', $uri, '", ',
+        'name: "', $edition/edirom:editionName, '"',
+        '}')
 };
 
 (:~
@@ -47,7 +47,8 @@ declare function edition:toJSON($uri as xs:string) as xs:string {
 declare function edition:getUris() as xs:string* {
     
     for $edition in collection('/db/apps')//edirom:edition
-    return 'xmldb:exist://' || document-uri($edition/root())
+    return
+        'xmldb:exist://' || document-uri($edition/root())
 };
 
 (:~
@@ -146,8 +147,9 @@ declare function edition:findEdition($editionID as xs:string?) as xs:string {
     
     else (
         let $edition := collection('/db/apps')//edirom:edition/id($editionID)
-        return 'xmldb:exist://' || document-uri($edition/root())
-    )
+        return
+            'xmldb:exist://' || document-uri($edition/root())
+        )
 };
 
 (:~

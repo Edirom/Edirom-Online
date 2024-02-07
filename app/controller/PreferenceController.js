@@ -30,18 +30,18 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 
     initPreferences: function(editionURI) {
 
-        Ext.Ajax.request({
-            url: 'data/xql/getPreferences.xql',
-            async: false,
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getPreferences.xql',
+            'GET', 
+            {
                 mode: 'json',
                 edition: editionURI
-            },success: function(response){
-                this.setPreferences(Ext.JSON.decode(response.responseText));
             },
-            scope: this
-        });
+            Ext.bind(function(response){
+                this.setPreferences(Ext.JSON.decode(response.responseText));
+            }, this),
+            2, // retries
+            false // async
+        );
     },
 
     setPreferences: function(preferences) {
@@ -50,14 +50,14 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 
         for(var key in me.preferences) {
             if(key.indexOf('plugin_') == 0)
-                Ext.Ajax.request({
-                    url: me.preferences[key],
-                    method: 'GET',
-                    success: function(response){
+                
+                window.doAJAXRequest(me.preferences[key],
+                    'GET', 
+                    {},
+                    Ext.bind(function(response){
                         eval(response.responseText);
-                    },
-                    scope: this
-                });
+                    }, this)
+                );
         }
     },
 
