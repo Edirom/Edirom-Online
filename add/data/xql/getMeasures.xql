@@ -60,19 +60,17 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
             let $measures := if ($mdiv//mei:measure/@label)
                                 then ($mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
                                 else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
-            let $measures := if ($mdiv//mei:measure/@label)
-                                then (
-                                    for $part in $mdiv//mei:part
-                                        for $measure in $part//mei:measure[@label = $measureN][1] | $measures[ancestor::mei:part = $part]
-                                            return
-                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
-                                )
-                                else (
-                                    for $part in $mdiv//mei:part
-                                        for $measure in $part//mei:measure[@n = $measureN][1] | $measures[ancestor::mei:part = $part]
-                                            return
-                                                concat('{id:"', $measure/@xml:id, '", voice: "', $part//mei:staffDef/@decls, '"}')
-                                )
+            let $measures := for $part in $mdiv//mei:part
+                                let $partMeasures := if($part//mei:measure/@label)
+                                                     then($part//mei:measure[@label = $measureN][1])
+                                                     else($part//mei:measure[@n = $measureN][1])
+                                for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
+                                    let $voiceRef := $part//mei:staffDef/@decls
+                                    return
+                                        concat('{id:"', $measure/@xml:id, '",
+                                        voice: "', $voiceRef,
+                                        '", partLabel: "', eutil:getPartLabel($measure, 'measure'),
+                                        '"}')
             return
                 concat('{',
                     'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',

@@ -303,32 +303,28 @@ Ext.define('EdiromOnline.view.window.image.LeafletFacsimile', {
 		var me = this;
 		
 		rectangleCenter.on('mouseover', function (e) {
-               Ext.Ajax.request({
-                        url: 'data/xql/getAnnotation.xql',
-                        method: 'GET',
-                        params: {
-                            uri: annotURI,
-                            target: 'tip',
-                            edition: EdiromOnline.getApplication().activeEdition
-                        },
-                        success: function(response){
-                            //this.update(response.responseText);
-                            me.facsimileTile.disableRectangle();
-							me.facsimileTile.enableRectangle(ulx, uly, lrx, lry, true);
-                          	//rect_tmp = me.facsimileTile.createPupup(ulx, uly, lrx, lry, rectangleCenter , response.responseText);
-                             var overview = response.responseText;       
-                            var test = $(overview).html();
-                            tooltip.setHtml(test);
+		    window.doAJAXRequest('data/xql/getAnnotation.xql',
+                'GET', 
+                {
+                    uri: annotURI,
+                    target: 'tip',
+                    edition: EdiromOnline.getApplication().activeEdition
+                },
+                Ext.bind(function(response){
+                    //this.update(response.responseText);
+                    me.facsimileTile.disableRectangle();
+					me.facsimileTile.enableRectangle(ulx, uly, lrx, lry, true);
+                    //rect_tmp = me.facsimileTile.createPupup(ulx, uly, lrx, lry, rectangleCenter , response.responseText);
+                    var overview = response.responseText;       
+                    var test = $(overview).html();
+                    tooltip.setHtml(test);
 					/*var tooltip = L.tooltip({
           						target: rectangleCenter,
 	     					 	map: me.getMap(),
 	      						html: response.responseText
       						});*/
-                            
-                           
-                        }
-                       // scope: this
-                    });
+                }, this)
+            );
         
                 });
 

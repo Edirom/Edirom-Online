@@ -225,6 +225,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         Ext.Array.each(me.measures.get('measures'), function(m) {
             
             var voice = m['voice'];
+            var partLabel = m['partLabel'];
             
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
             
@@ -232,7 +233,8 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
                 
                 if(typeof viewer == 'undefined') {
                     viewer = Ext.create('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
-                        owner: me
+                        owner: me,
+                        partLabel: partLabel
                     });
                     
                     me.viewers.add(voice, viewer);
@@ -391,6 +393,8 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     
     border: false,
     
+    partLabel: '',
+    
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
@@ -417,12 +421,12 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var image_server = getPreference('image_server');
         var viewer = null;   	
     	if(image_server === 'leaflet'){
-    		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
+    		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%', partLabel: me.partLabel});
     	}
     	else if(image_server === 'openseadragon'){
-    		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%'});
+    		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%', partLabel: me.partLabel});
     	}else {
-    		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
+    		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1, partLabel: me.partLabel});
     	}
        
         viewer.on('imageChanged', me.onViewerImageChange, me);

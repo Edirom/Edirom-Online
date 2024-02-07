@@ -44,14 +44,13 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
 		view.on('gotoMeasure', me.onGotoMeasure, me);
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getMovements.xql',
-			method: 'GET',
-			params: {
-				uri: view.uri
-			},
-			success: function (response) {
-				var data = response.responseText;
+		window.doAJAXRequest('data/xql/getMovements.xql',
+            'GET', 
+            {
+                uri: view.uri
+            },
+            Ext.bind(function(response){
+                var data = response.responseText;
 				
 				var movements = Ext.create('Ext.data.Store', {
 					fields:[ 'id', 'name'],
@@ -59,8 +58,8 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 				});
 				
 				me.movementsLoaded(movements, view);
-			}
-		});
+            }, this)
+        );
 	},
 
 	movementsLoaded: function (movements, view) {
@@ -70,39 +69,35 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 	onGotoMeasureByName: function (view, measure, movementId) {
 		var me = this;
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getMeasurePage.xql',
-			method: 'GET',
-			params: {
-				id: view.uri,
+		window.doAJAXRequest('data/xql/getMeasurePage.xql',
+            'GET', 
+            {
+                id: view.uri,
 				measure: measure,
 				movementId: movementId
-			},
-			success: Ext.bind(function (response) {
-				var data = response.responseText;
+            },
+            Ext.bind(function(response){
+                var data = response.responseText;
 				this.gotoMeasure(Ext.JSON.decode(data)[0], view);
-			},
-			me)
-		});
+            }, me)
+        );
 	},
 
 	onGotoMeasure: function (view, measureId) {
 		
 		var me = this;
 		
-		Ext.Ajax.request({
-			url: 'data/xql/getMeasure.xql',
-			method: 'GET',
-			params: {
-				id: view.uri,
+		window.doAJAXRequest('data/xql/getMeasure.xql',
+            'GET', 
+            {
+                id: view.uri,
 				measureId: measureId
-			},
-			success: Ext.bind(function (response) {
-				var data = response.responseText;
+            },
+            Ext.bind(function(response){
+                var data = response.responseText;
 				this.gotoMeasure(Ext.JSON.decode(data), view);
-			},
-			me)
-		});
+            }, me)
+        );
 	},
 	
 	gotoMeasure: function (result, view) {

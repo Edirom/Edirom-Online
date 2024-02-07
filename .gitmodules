@@ -1,0 +1,3 @@
+[submodule "packages/eoTheme/resources/fonts/euryanthe"]
+	path = packages/eoTheme/resources/fonts/euryanthe
+	url = https://github.com/Edirom/EuryantheFont

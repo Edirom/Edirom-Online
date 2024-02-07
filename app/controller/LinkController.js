@@ -156,18 +156,16 @@ Ext.define('EdiromOnline.controller.LinkController', {
 
                 if(singleUri.indexOf('#') != -1) {
 
-                    Ext.Ajax.request({
-                        url: 'data/xql/getInternalIdType.xql',
-                        method: 'GET',
-                        params: {
+                    window.doAJAXRequest('data/xql/getInternalIdType.xql',
+                        'GET', 
+                        {
                             uri: singleUri
                         },
-                        success: function(response){
+                        Ext.bind(function(response){
                             win.loadInternalId(singleUri.split('#')[1], response.responseText.trim());
                             win.show();
-                        },
-                        scope: this
-                    });
+                        }, this)
+                    );
                 }else
                     win.showView('summaryView');
                     

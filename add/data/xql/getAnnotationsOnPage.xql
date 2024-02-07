@@ -27,7 +27,7 @@ xquery version "3.1";
  :  @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
  :)
 
-import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
+import module namespace functx = "http://www.functx.com";
 
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 

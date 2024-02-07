@@ -75,34 +75,34 @@ Ext.define('EdiromOnline.Application', {
         if(editionParam !== null)
             me.activeEdition = editionParam;
         
-        Ext.Ajax.request({
-            url: 'data/xql/getEditionURI.xql',
-            async: false,
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getEditionURI.xql',
+            'GET', 
+            {
                 uri: me.activeEdition
-            },success: function(response){
-                this.activeEdition = response.responseText;
             },
-            scope: this
-        });
-        
+            Ext.bind(function(response){
+                this.activeEdition = response.responseText;
+            }, this),
+            2, // retries
+            false // async
+        );
+
         var workParam = me.getURLParameter('work');
         if(workParam !== null)
             me.activeWork = workParam;
         
-        Ext.Ajax.request({
-            url: 'data/xql/getWorkID.xql',
-            async: false,
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getWorkID.xql',
+            'GET', 
+            {
                 uri: me.activeEdition,
                 workId: me.activeWork
-            },success: function(response){
-                this.activeWork = response.responseText;
             },
-            scope: this
-        });
+            Ext.bind(function(response){
+                this.activeWork = response.responseText;
+            }, this),
+            2, // retries
+            false // async
+        );
         
         me.getController('PreferenceController').initPreferences(me.activeEdition);
         me.getController('LanguageController').initLangFile(me.activeEdition, 'de');

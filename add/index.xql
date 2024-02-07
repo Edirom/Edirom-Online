@@ -126,12 +126,19 @@ let $eoEditionFileMulti :=  <html>
                                         <ul>
                                             {
                                                 for $eoEditionFile in $eoEditionFiles
+                                                    let $editionUri := document-uri($eoEditionFile/root())
                                                     let $editionID := $eoEditionFile/string(@xml:id)
                                                     let $editionName := $eoEditionFile/edirom:editionName/text() => normalize-space()
-                                                    return
+                                                    let $editionLanguages := edition:getLanguageCodesSorted($editionUri)
+                                                    return (
                                                         <li class="navigatorItem" style="padding-bottom: 0.75em;">
-                                                            <a class="x-btn" href="index.html?lang=de&amp;edition={$editionID}"><i>{$editionName}</i></a>
+                                                            <i>{$editionName}</i>
+                                                            <ul>{
+                                                                for $lang in $editionLanguages return
+                                                                <li><a class="x-btn" href="index.html?edition={$editionID}&amp;lang={$lang}">{$lang}</a></li>
+                                                            }</ul>
                                                         </li>
+                                                    )
                                             }
                                         </ul>
                                     </div>

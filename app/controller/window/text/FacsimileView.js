@@ -44,13 +44,12 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
 
         var uri = view.uri;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getPages.xql',
+            'GET', 
+            {
                 uri: uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var pages = Ext.create('Ext.data.Store', {
@@ -59,17 +58,16 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
                 });
 
                 view.setImageSet(pages);
-            }
-        });
+            }, this)
+        );
         
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getChapters.xql',
+            'GET', 
+            {
                 uri: view.uri,
                 mode: 'pageMode'
             },
-            success: function(response){
+            Ext.bind(function(response){
                 var data = response.responseText;
 
                 var chapters = Ext.create('Ext.data.Store', {
@@ -78,8 +76,8 @@ Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
                 });
 
                 me.chaptersLoaded(chapters, view);
-            }
-        });
+            }, this)
+        );
     },
     
     chaptersLoaded: function(chapters, view) {

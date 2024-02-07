@@ -47,18 +47,16 @@ Ext.define('EdiromOnline.controller.window.XmlView', {
         var uri = xmlview.uri;
         var internalId = xmlview.internalId;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getXml.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getXml.xql',
+            'GET', 
+            {
                 uri: uri,
                 internalId: internalId
             },
-            success: function(response){
+            Ext.bind(function(response){
                 xmlview.setXmlContent(response.responseText);
-            },
-            scope: this
-        });
+            }, this)
+        );
     },
 
     resize: function(xmlview, width, height){

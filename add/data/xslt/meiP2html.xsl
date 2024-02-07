@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	xmlns:mei="http://www.music-encoding.org/ns/mei" 
-	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs xd mei" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mei="http://www.music-encoding.org/ns/mei" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" xmlns:functx="http://www.functx.com" exclude-result-prefixes="xs xd" version="2.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p>
@@ -15,8 +12,45 @@
     <xsl:output method="xhtml" media-type="text/html" indent="yes" omit-xml-declaration="yes"/>
     <xsl:param name="idPrefix" select="string('')"/>
     <xsl:param name="imagePrefix" select="string('')"/>
+    
+    <xsl:variable name="footnotes">
+        <xsl:copy-of select=".//mei:annot[@type = 'note' and @place = 'foot']"/>
+    </xsl:variable>
+    
+    <xsl:variable name="footnotesBlock">
+        <xsl:for-each select="$footnotes/mei:annot">
+            <xsl:variable name="counter">
+                <xsl:value-of select="position()"></xsl:value-of>
+            </xsl:variable>
+            <xsl:variable name="content">
+                <xsl:apply-templates/>
+            </xsl:variable>
+            <div style="display:flex; color: grey; font-size: smaller; margin-bottom:0.5rem;">
+                <span class="superscript">
+                    <xsl:value-of select="$counter"></xsl:value-of>
+                </span>
+                <div style="display: inline; margin-left: .25rem;">
+                    <xsl:copy-of select="$content"></xsl:copy-of>
+                </div>
+            </div>
+        </xsl:for-each>
+    </xsl:variable>
+    
+    <xsl:function name="functx:index-of-deep-equal-node" as="xs:integer*">
+        <xsl:param name="nodes" as="node()*"/>
+        <xsl:param name="nodeToFind" as="node()"/>
+        <xsl:sequence select="
+            for $seq in (1 to count($nodes))
+            return $seq[deep-equal($nodes[$seq],$nodeToFind)]
+            "/>
+    </xsl:function>
+    
     <xsl:template match="/">
         <xsl:apply-templates/>
+        <xsl:if test="$footnotes != ''">
+            <hr/>
+            <xsl:copy-of select="$footnotesBlock"/>
+        </xsl:if>
     </xsl:template>
     <xsl:template match="mei:p">
         <p>
@@ -25,6 +59,12 @@
             </xsl:if>
             <xsl:apply-templates select="* | text()"/>
         </p>
+    </xsl:template>
+    <xsl:template match="mei:annot[@type = 'note' and @place = 'foot']">
+        <xsl:variable name="footnoteCount">
+            <xsl:value-of select="functx:index-of-deep-equal-node($footnotes/mei:annot, .)"></xsl:value-of>
+        </xsl:variable>
+        <span class="superscript"><xsl:value-of select="$footnoteCount"/></span>
     </xsl:template>
     <xsl:template match="mei:ref">
         <span class="ref">

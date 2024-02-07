@@ -1,6 +1,12 @@
 window.vrvToolkit = new verovio.toolkit();
 showMovement(movementId);
 
+/* add event as constant */
+const vrvToolkitDataInitialized = new Event("vrvToolkitDataInitialized");
+
+/* add event listener to window */
+window.addEventListener('vrvToolkitDataInitialized', (e) => {on_vrvToolkitDataInitialized()}, false);
+
 function showMovement(movementId) {        
     
     showLoader();
@@ -34,6 +40,8 @@ function initData() {
     pageCount = vrvToolkit.getPageCount();
     
     updatePageData();
+    //dispatch vrvToolkitDataInitialized event
+    window.dispatchEvent(vrvToolkitDataInitialized);
 }
 
 function updatePageData() {
@@ -105,7 +113,46 @@ function nextPage() {
     updatePageData();
 }
 
+/**
+ * Switch to page as defined by global page variable.
+ */
+function showPage() {
+    if(page == 0) return;
+    var svg = vrvToolkit.renderToSVG(page);
+    $("#output").html(svg);
+    updatePageData();
+}
+
 function showLoader() {
     $("#output").empty();
     $(".lds-roller").clone().appendTo("#output");
+}
+
+/**
+ * Show a measure in verovio if the goto measure function is called from the GUI.
+ * Calls showMovement() if call to measure doesn't match current movement.
+ * @param {string} movementId - The XML-ID of the selected movement.
+ * @param {string} measureId - The XML-ID of the selected measure.
+ */
+function showMeasure(movementId, measureId) {
+    
+    if (measureId == undefined) return;
+    window.measureId = measureId;
+    
+    if(vrvToolkit.getPageWithElement(measureId) == 0) {
+        showMovement(movementId);
+    } else if(window.movementId == movementId) {
+        if (page == vrvToolkit.getPageWithElement(measureId)) return;
+        page = vrvToolkit.getPageWithElement(measureId);
+        showPage();
+    }
+}
+
+/**
+ * Callback function on dispatch of vrvToolkitDataInitialized event
+ */
+function on_vrvToolkitDataInitialized(){
+    console.log("event fired and catched");
+    if (window.measureId == undefined ) return; 
+    showMeasure(window.movementId, window.measureId); //? set window.measureId to undefined ?
 }

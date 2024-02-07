@@ -753,17 +753,17 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
         var uri = txtData.match(/uri:(.*)__\$\$__/)[1];
         var id = txtData.match(/__\$\$__participantId:(.*)/)[1];
 
-        Ext.Ajax.request({
-            url: 'data/xql/getReducedDocument.xql?uri=' + uri + '&selectionId=' + id + '&subtreeRoot=div&idPrefix=' + me.id + '_',
-            success: function(response){
+        window.doAJAXRequest('data/xql/getReducedDocument.xql?uri=' + uri + '&selectionId=' + id + '&subtreeRoot=div&idPrefix=' + me.id + '_',
+            'GET', 
+            {},
+            Ext.bind(function(response){
                 var contEl = this.el.getById(me.id + '_annotationParticipantsSingle');
                 var txtBox = new Ext.Element(contEl.query('div.txtBox')[0]);
                 txtBox.update(response.responseText);
 
                 contEl.query('#' + this.id + '_' + id)[0].scrollIntoView(txtBox);
-            },
-            scope: me
-        });
+            }, me)
+        );
     },
 
     previousParticipantSingle: function() {
