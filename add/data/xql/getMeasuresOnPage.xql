@@ -38,39 +38,6 @@ declare option output:media-type "application/json";
 import module namespace measure = "http://www.edirom.de/xquery/measure" at "/db/apps/Edirom-Online/data/xqm/measure.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
 
-(:~
-    Finds all measures on a page.
-    
-    @param $mei The sourcefile
-    @param $surface The surface to look at
-    @returns A list of json objects with measure information
-:)
-declare function local:getMeasures($mei as node(), $surface as node()) as map(*)* {
-
-    for $zone in $surface/mei:zone[@type='measure']
-    let $zoneRef := concat('#', $zone/@xml:id)
-    (: 
-        The first predicate with `contains` is just a rough estimate to narrow down the result set.
-        It uses the index and is fast while the second (exact) predicate is generally too slow
-    :)
-    let $measures := $mei//mei:measure[contains(@facs, $zoneRef)][$zoneRef = tokenize(@facs, '\s+')]
-    return
-        for $measure in $measures
-        let $measureLabel := measure:getMeasureLabel($measure)
-        
-        return
-            map {
-                'zoneId': $zone/string(@xml:id),
-                'ulx': $zone/string(@ulx),
-                'uly': $zone/string(@uly),
-                'lrx': $zone/string(@lrx),
-                'lry': $zone/string(@lry),
-                'id': $measure/string(@xml:id),
-                'name': $measureLabel,
-                'type': $measure/string(@type),
-                'rest': measure:getMRest($measure)
-            }
-};
 
 let $uri := request:get-parameter('uri', '')
 let $surfaceId := request:get-parameter('pageId', '')
@@ -81,6 +48,6 @@ let $surface := $mei/id($surfaceId)
 return (
     array {
         (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
-        local:getMeasures($mei, $surface)
+        measure:getMeasuresOnPage($mei, $surface)
     }
 )
