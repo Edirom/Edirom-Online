@@ -44,7 +44,7 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
     let $doc := eutil:getDoc($uri)
-    let $meiVersion4To5Regex := '^[4-5](\.\d)+(-dev)?(\+(anyStart|basic|CMN|Mensural|Neumes))?$'
+    let $meiVersion4To5Regex := '^[4-5](\.\d){1,2}(-dev)?(\+(anyStart|basic|CMN|Mensural|Neumes))?$'
     (: 2010-05 pre camelCase :)
     (: 2011-05 2012 :)
     (: 2013 +meiversion.num 2.1.1:)
