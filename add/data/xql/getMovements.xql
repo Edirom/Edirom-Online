@@ -37,7 +37,14 @@ let $ret := for $movement in $mei//mei:mdiv
             return
                 map {
                     'id': $movement/string(@xml:id),
-                    'name': $movement/string(@label)
+                    'name': $movement/string(@label),
+                    'parts': for $part in $movement//mei:part
+                             return
+                                map {
+                                    'id': $part/string(@xml:id),
+                                    'name': $part/string(@label)
+                                }
+
                 }
 
 let $array := array { $ret }
