@@ -41,7 +41,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
     
-    exists(doc($uri)//mei:mei) and exists(doc($uri)//mei:source)
+    exists(doc($uri)//mei:mei) and (exists(doc($uri)//mei:source) or exists(doc($uri)//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']))
 };
 
 (:~
@@ -64,7 +64,12 @@ declare function source:getLabels($sources as xs:string*) as xs:string {
 :)
 declare function source:getLabel($source as xs:string) as xs:string {
      
-    doc($source)//mei:source/mei:titleStmt/data(mei:title[1])
+    let $sourceDoc := doc($source)
+    return if ($sourceDoc//mei:source/mei:titleStmt/mei:title)
+        then $sourceDoc//mei:source/mei:titleStmt/data(mei:title[1])
+        else if ($sourceDoc//mei:manifestation//mei:title//mei:titlePart[@type = 'main'])
+        then data($sourceDoc//mei:manifestation//mei:title//mei:titlePart[@type = 'main'])
+        else ('ERROR')
 };
 
 (:~
@@ -100,5 +105,10 @@ declare function source:getSiglaAsArray($sources as xs:string*) as xs:string* {
 :)
 declare function source:getSiglum($source as xs:string) as xs:string? {
      
-    doc($source)//mei:source/mei:identifier[@type eq 'siglum'][1]//text()
+    let $sourceDoc := doc($source)
+    return if ($sourceDoc//mei:source/mei:identifier[@type eq 'siglum'])
+        then ($sourceDoc//mei:source/mei:identifier[@type eq 'siglum'][1]//text())
+        else if (exists($sourceDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']))
+        then string-join($sourceDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']/@label, ',')
+        else ('ERROR')
 };
