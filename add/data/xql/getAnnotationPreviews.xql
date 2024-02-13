@@ -139,8 +139,6 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         return
             $elem
             
-            where count($elems) gt 0
-        
         let $zones := for $elem in $elems
         return
             local:getZone($elem)
@@ -180,6 +178,9 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         
         let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
         
+
+        where count($elems) gt 0
+
         return
             map {
                 'type': $type,
