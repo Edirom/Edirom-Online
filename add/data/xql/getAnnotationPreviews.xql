@@ -48,15 +48,16 @@ else
  : @return a map{} with the attributes of all participants
  :)
 declare function local:getParticipants($annot as element()) as map(*)* {
-    
+
     let $participants := tokenize($annot/string(@plist), ' ')
-    
+
     (: get distinct document uris referenced in @plist :)
-    let $docs := distinct-values(
-        for $p in $participants
-        return substring-before($p, '#')
-    )
-    
+    let $docs :=
+        distinct-values(
+            for $p in $participants
+            return substring-before($p, '#')
+        )
+
     return
         for $doc in $docs
         order by $doc
@@ -70,7 +71,7 @@ declare function local:getParticipants($annot as element()) as map(*)* {
 };
 
 declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
-    
+
     for $participant in $participants
     let $id := substring-after($participant, '#')
     let $hiddenData := concat('uri:', $doc, '__$$__participantId:', $id)
@@ -119,54 +120,61 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
  : @param $doc a URI pointing to the MEI document
  :)
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
-    
+
     (: group participants :)
     let $combs := local:groupParticipants($participants, $doc)
-    
+
     return
-        
+
         for $comb in distinct-values($combs)
         let $partIndices := tokenize($comb, '-')
-        
+
         let $elems :=
-        for $p in distinct-values($partIndices)
-        let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
-        let $element.id := substring-after($relevant.participant, '#')
-        let $elem := local:getElement($relevant.participant)
-        (:return if(exists($elem)) then(local-name($elem)) else($relevant.participant):)
+            for $p in distinct-values($partIndices)
+            let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
+            let $element.id := substring-after($relevant.participant, '#')
+            let $elem := local:getElement($relevant.participant)
+            (:return if(exists($elem)) then(local-name($elem)) else($relevant.participant):)
             where exists($elem)
             order by count($elem/preceding::*)
-        return
-            $elem
-            
-        let $zones := for $elem in $elems
-        return
-            local:getZone($elem)
-        
+            return
+                $elem
+
+        let $zones :=
+            for $elem in $elems
+            return
+                local:getZone($elem)
+
         let $type := local:getType($zones)
         let $label := local:getItemLabel($elems)
-        
+
         let $mdiv := '' (: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
-        let $page := if ($zones[1]/parent::mei:surface/@label != '') then
-            ($zones[1]/parent::mei:surface/string(@label))
-        else
-            ($zones[1]/parent::mei:surface/string(@n))
+        let $page :=
+            if ($zones[1]/parent::mei:surface/@label != '') then
+                ($zones[1]/parent::mei:surface/string(@label))
+            else
+                ($zones[1]/parent::mei:surface/string(@n))
+
         let $sourceLabel := source:getLabel($doc, $edition)
         let $siglum := ($elems[1]/root()//mei:*[@type eq 'siglum'])[1]/text()
-        
-        let $part := string-join(distinct-values(for $e in $elems
-        return
-            $e/ancestor::mei:part/string(@label)), '-')
-        
+
+        let $part :=
+            string-join(
+                distinct-values(
+                    for $e in $elems
+                    return
+                        $e/ancestor::mei:part/string(@label)),
+            '-')
+
         let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
         let $imgWidth := number($graphic/@width)
         let $imgHeight := number($graphic/@height)
-        
+
         let $digilibBaseParams := local:getImageAreaPath($imageBasePath, $graphic)
         let $rect := local:getBoundingZone($zones)
-        
+
         let $digilibSizeParams := local:getImageAreaParams($rect, $imgWidth, $imgHeight)
-        
+
         let $hiddenData := map {
             'width': number($rect/@lrx) - number($rect/@ulx),
             'height': number($rect/@lry) - number($rect/@uly),
@@ -175,9 +183,8 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             'origH': $imgHeight,
             'origW': $imgWidth
         }
-        
+
         let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
-        
 
         where count($elems) gt 0
 
@@ -219,20 +226,20 @@ declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*)
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
-    
+
     let $elems :=
         for $p in $participants
         let $id := substring-after($p, '#')
         return doc($doc)/id($id)
-    
+
     let $zones :=
         for $elem in $elems
         return local:getZone($elem)
-    
+
     let $combs :=
         for $p at $i in $participants
         return local:getCombinations($elems, $zones, $i, count($zones))
-    
+
     return
         reverse(
             for $comb at $i in reverse($combs)
@@ -251,10 +258,10 @@ declare function local:groupParticipants($participants as xs:string*, $doc as xs
 };
 
 declare function local:getCombinations($elems as element()*, $zones as element()*, $i as xs:int, $total as xs:int) as xs:string {
-    
+
     let $currentZone := $zones[$i]
     let $currentElem := $elems[$i]
-    
+
     return
         if (local-name($currentElem) eq 'measure' or local-name($currentElem) eq 'staff') then (
             string-join((
@@ -272,7 +279,7 @@ declare function local:getCombinations($elems as element()*, $zones as element()
 };
 
 declare function local:compareZones($zone1 as element(), $zone2 as element()) as xs:boolean {
-    
+
     let $samePage := deep-equal($zone1/.., $zone2/..)
     let $overlapping := not(
         number($zone1/@ulx) gt number($zone2/@lrx) or
@@ -280,7 +287,7 @@ declare function local:compareZones($zone1 as element(), $zone2 as element()) as
         number($zone1/@uly) gt number($zone2/@lry) or
         number($zone1/@lry) lt number($zone2/@uly)
     )
-    
+
     return
         $samePage and $overlapping
 };
@@ -288,7 +295,7 @@ declare function local:compareZones($zone1 as element(), $zone2 as element()) as
 declare function local:getElement($uri as xs:string) as element()? {
     let $doc := substring-before($uri, '#')
     let $id := substring-after($uri, '#')
-    
+
     return
         doc($doc)/id($id)
 };
@@ -331,18 +338,18 @@ declare function local:getBoundingZone($zones as element()*) as element() {
 
 :)
 declare function local:getImageAreaPath($basePath as xs:string, $graphic as element()?) as xs:string {
-    
+
     let $imagePath := string($graphic/@target)
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
     let $isAbsolute := starts-with($imagePath, 'http')
-    
+
     let $fields :=
         if ($imageserver = 'leaflet') then
             (substring-before($imagePath, '.'))
         else
             ()
-    
+
     return
         if ($isAbsolute) then
             $imagePath
@@ -370,30 +377,30 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
 :)
 declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:int, $imgHeight as xs:int) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-    
+
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
-    
+
     let $wx := $imgX div $imgWidth
     let $wy := $imgY div $imgHeight
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
-    
+
     return
         concat('&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
 };
 
 declare function local:getItemLabel($elems as element()*) as xs:string {
     let $language := eutil:getLanguage($edition)
-    
+
     return
         string-join((
             for $type in distinct-values(
                 for $elem in $elems
                 return local-name($elem))
-            
+
             let $items :=
                 for $elem in $elems
                 return
@@ -401,13 +408,13 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                         $elem
                     else
                         ()
-            
+
             let $itemLabelMultiRestSensitive :=
                 if ($items[1]//mei:multiRest) then
                     ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
                 else
                     $items[1]/@n
-            
+
             return
                 if (local-name($items[1]) eq 'measure') then (
                     if (count($items) gt 1) then
@@ -417,7 +424,7 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                 ) else if (local-name($items[1]) eq 'staff') then (: TODO: $itemLabelMultiRestSensitive also for staffs? :) (
                     if (count($items) gt 1) then (
                         let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
-                        
+
                         let $label :=
                             if ($lang = 'de') then(
                                 if (count($measureNs) gt 1) then
@@ -432,12 +439,12 @@ declare function local:getItemLabel($elems as element()*) as xs:string {
                                     concat('Bar ', $measureNs[1])
                                 )
                             )
-                        
+
                         return
                             concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
                     ) else
                         (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
-                
+
                 ) else if (local-name($items[1]) eq 'zone') then (
                     if (count($items) gt 1) then (
                         (:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:)
