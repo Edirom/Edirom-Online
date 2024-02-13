@@ -40,6 +40,13 @@ else
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
+(:~
+ : Tokenizes the value of an annotation and gets attributes of each participant
+ :
+ : @param $annot an mei:annot element
+ :
+ : @return a map{} with the attributes of all participants
+ :)
 declare function local:getParticipants($annot as element()) as map(*)* {
     
     let $participants := tokenize($annot/string(@plist), ' ')
