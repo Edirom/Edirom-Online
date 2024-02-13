@@ -81,8 +81,6 @@ All `declare option` statements.
 4. In the groups, sort alphabetically.
 
 ```xquery
-(: FUNCTION DECLARATIONS =========================================== :)
-
 (: FUNCTION DECLARATIONS =================================================== :)
 
 ```
@@ -197,7 +195,7 @@ An example of using the function would be:
 
 ```javascript
 window.doAJAXRequest('data/xql/getAnnotationMeta.xql',
-    'GET', 
+    'GET',
     {
         uri: uri,
         lang: lang
