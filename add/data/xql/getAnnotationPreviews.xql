@@ -38,6 +38,8 @@ declare variable $imageBasePath := if ($imageserver = 'leaflet') then
 else
     (eutil:getPreference('image_prefix', $edition));
 
+(: FUNCTION DECLARATIONS =================================================== :)
+
 declare function local:getParticipants($annot as element()) as map(*)* {
     
     let $participants := tokenize($annot/string(@plist), ' ')
