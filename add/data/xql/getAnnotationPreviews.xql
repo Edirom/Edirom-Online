@@ -30,6 +30,8 @@ import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/s
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace mriSource="https://maxreger.info/mriSource" at "/db/apps/mriCat/modules/mriSource.xqm";
+
 
 import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
@@ -94,6 +96,9 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
 };
 
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
+        let $uri := request:get-parameter('uri', '') (: TODO remove temporary workaround :)
+        let $docUri := substring-before($uri, '.xml#')
+        let $workID := functx:substring-after-last($docUri, '/')
        
         let $combs := local:groupParticipants($participants, $doc)
         
@@ -111,12 +116,14 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $label := local:getItemLabel($elems)
             let $mdiv := ''(: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
             let $page := if($zones[1]/parent::mei:surface/@label != '') then($zones[1]/parent::mei:surface/@label) else($zones[1]/parent::mei:surface/@n)
-            let $source := if ($elems[1]/root()//mei:source/mei:titleStmt)
-                then eutil:getLocalizedName($elems[1]/root()//mei:source/mei:titleStmt, $lang)
-                else if ($elems[1]/root()//mei:manifestation/mei:titleStmt)
-                then $elems[1]/root()//mei:manifestation/mei:titleStmt//mei:titlePart[@type = 'main']
-                else ()
-            let $siglum := $elems[1]/root()//mei:source/mei:identifier[@type eq 'siglum']/text()
+            
+            let $sourceID := functx:substring-after-last(substring-before($doc, '.xml'), '/')
+            let $sourceIdent := mriSource:getTitleData($sourceID, $workID, $lang)
+            let $sourceType      := $sourceIdent?type
+            let $sourceSiglum    := $sourceIdent?siglum
+            
+            let $source := $sourceType
+            let $siglum := $sourceSiglum
             let $part := string-join(distinct-values(for $e in $elems return $e/ancestor::mei:part/@label),'-')
             
             let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
