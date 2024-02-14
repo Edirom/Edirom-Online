@@ -22,24 +22,30 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns whether a document is a source or not
- :
- : @param $uri The URI of the document
- : @return Is work or not
- :)
+: Returns whether a document is a source or not. Generally this should work for MEI versions
+: 2011-05 through 5.0
+:
+: @param $uri The URI of the document
+:
+: @return xs:boolean indicating whether the document referenced by @param $uri
+: is considered a music source or not.
+:)
 declare function source:isSource($uri as xs:string) as xs:boolean {
     
     let $doc := eutil:getDoc($uri)
-    let $meiVersionRegex := '(([4-9])|(\d+[0-9]))\.\d+\.\d+(-dev)?'
+    let $meiVersion4To5Regex := '^[4-5](\.\d){1,2}(-dev)?(\+(anyStart|basic|CMN|Mensural|Neumes))?$'
+
     return
-        (:mei2 and ?3 :)
+        (: 2010-05 pre camelCase :)
+        (: 2011-05 2012 :)
+        (: 2013 +meiversion.num 2.1.1:)
+        (: 3.0.0 :) 
         (exists($doc//mei:mei) and exists($doc//mei:source))
         or
-        (:mei4+ for manuscripts:)
-        (matches($doc//mei:mei/@meiversion, $meiVersionRegex) and exists($doc//mei:manifestation[@singleton='true']))
+        (: MEI 4.0.1 and 5.0 with all dev and cutomization variants :)
+        (matches($doc//mei:mei/@meiversion, $meiVersion4To5Regex) and exists($doc//mei:manifestation[@singleton='true'])) (:mei4+ for manuscripts:)
         or
-        (: mei4+ for prints :)
-        (matches($doc//mei:mei/@meiversion, $meiVersionRegex) and exists($doc//mei:manifestation//mei:item)) 
+        (matches($doc//mei:mei/@meiversion, $meiVersion4ToRegex) and exists($doc//mei:manifestation//mei:item)) (: mei4+ for prints :)
 };
 
 (:~
