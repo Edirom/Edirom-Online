@@ -45,7 +45,7 @@ declare function source:isSource($uri as xs:string) as xs:boolean {
         (: MEI 4.0.1 and 5.0 with all dev and cutomization variants :)
         (matches($doc//mei:mei/@meiversion, $meiVersion4To5Regex) and exists($doc//mei:manifestation[@singleton='true'])) (:mei4+ for manuscripts:)
         or
-        (matches($doc//mei:mei/@meiversion, $meiVersion4ToRegex) and exists($doc//mei:manifestation//mei:item)) (: mei4+ for prints :)
+        (matches($doc//mei:mei/@meiversion, $meiVersion4To5Regex) and exists($doc//mei:manifestation//mei:item)) (: mei4+ for prints :)
 };
 
 (:~
