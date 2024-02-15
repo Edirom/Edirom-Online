@@ -28,6 +28,7 @@ xquery version "1.0";
 import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace functx = "http://www.functx.com" at "../xqm/functx-1.0-nodoc-2007-01.xq";
 
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
@@ -43,6 +44,7 @@ let $docUri := substring-before($uri, '#')
 let $internalId := substring-after($uri, '#')
 let $doc := doc($docUri)
 let $annot := $doc/id($internalId)
+let $workID := substring-before(functx:substring-after-last($docUri, '/'), '.xml')
 
 let $participants := annotation:getParticipants($annot)
 
@@ -61,7 +63,7 @@ let $sourcesLabel := if ($lang = 'de')
                         then (if(count($sources) gt 1)then('Quellen')else('Quelle'))
                         else(if(count($sources) gt 1)then('Sources')else('Source'))
 
-let $sigla := source:getSiglaAsArray($participants)
+let $sigla := source:getSiglaAsArray($participants, $workID)
 let $siglaLabel := if ($lang = 'de')
                         then (if(count($sigla) gt 1)then('Siglen')else('Siglum'))
                         else(if(count($sigla) gt 1)then('Sources')else('Source'))

@@ -152,6 +152,7 @@ declare function annotation:toJSON($anno as element()) as xs:string {
     let $id := $anno/@xml:id
     let $title := normalize-space(local:getLocalizedTitle($anno))
     let $doc := $anno/root()
+    let $workID := $doc/mei:mei/@xml:id/string()
     let $prio := local:getLocalizedName($doc/id(substring($anno/mei:ptr[@type = 'priority']/@target,2)))
     let $pList := distinct-values(tokenize($anno/@plist, ' '))
     let $pList := for $p in $pList 
@@ -162,11 +163,13 @@ declare function annotation:toJSON($anno as element()) as xs:string {
                     for $p in distinct-values($pList)
                     let $pDoc := doc($p)
                     where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
-                    return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum'])
-                            then $pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text()
-                            else if (exists($pDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']))
-                            then string-join($pDoc//mei:manifestation//mei:relation[@rel = 'isEmbodimentOf']/@label, ',')
-                            else ('ERROR')
+                    return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type eq 'siglum'])
+                            then ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type eq 'siglum'][1]//text())
+                            else if (exists($pDoc//mei:manifestation//mei:relation[@target = $workID]))
+                                    then if ($pDoc//mei:manifestation//mei:relation[@target = $workID]/@label = 'null')
+                                        then ()
+                                        else $pDoc//mei:manifestation//mei:relation[@target = $workID]/@label/string()
+                                    else ($workID)
     , ', ')
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
