@@ -31,7 +31,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 : is considered a music source or not.
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
-    
+
     let $doc := eutil:getDoc($uri)
     let $meiVersion4To5Regex := '^[4-5](\.\d){1,2}(-dev)?(\+(anyStart|basic|CMN|Mensural|Neumes))?$'
 
@@ -39,7 +39,7 @@ declare function source:isSource($uri as xs:string) as xs:boolean {
         (: 2010-05 pre camelCase :)
         (: 2011-05 2012 :)
         (: 2013 +meiversion.num 2.1.1:)
-        (: 3.0.0 :) 
+        (: 3.0.0 :)
         (exists($doc//mei:mei) and exists($doc//mei:source))
         or
         (: MEI 4.0.1 and 5.0 with all dev and cutomization variants :)
@@ -55,11 +55,11 @@ declare function source:isSource($uri as xs:string) as xs:boolean {
  : @return The labels
  :)
 declare function source:getLabels($sources as xs:string*, $edition as xs:string) as xs:string {
-    
+
     string-join(
         for $source in $sources return source:getLabel($source, $edition)
     , ', ')
-    
+
 };
 
 (:~
@@ -69,24 +69,24 @@ declare function source:getLabels($sources as xs:string*, $edition as xs:string)
  : @return The label
  :)
 declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
-    
+
     let $sourceDoc := doc($source)
     let $language := eutil:getLanguage($edition)
-    
+
     let $label :=
         (:TODO encoding of source labels may heavily differ in certain encoding contexts, thus introduction of class="http://www.edirom.de/edirom-online/source/label" OR some configuration method, e.g., a user definable function :)
         if($sourceDoc/mei:mei/@meiversion = ("4.0.0", "4.0.1")) then
             $sourceDoc//mei:manifestation[@singleton='true']/mei:titleStmt/mei:title[@class = "http://www.edirom.de/edirom-online/source/label"][not(@xml:lang) or @xml:lang = $language]
-        
+
         else
             $sourceDoc//mei:source/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language]
-    
+
     let $label :=
         if($label) then
             ($label)
         else
             (doc($source)//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language])
-    
+
     let $label :=
         if($label) then
             ($label)
@@ -104,11 +104,11 @@ declare function source:getLabel($source as xs:string, $edition as xs:string) as
  : @return The sigla
  :)
 declare function source:getSigla($sources as xs:string*) as xs:string {
-    
+
     string-join(
         source:getSiglaAsArray($sources)
     , ', ')
-    
+
 };
 
 (:~
@@ -140,6 +140,6 @@ declare function source:getSiglum($source as xs:string) as xs:string? {
             ($elems[1]//text())
         else
             ()
-    
+
     return $siglum
 };
