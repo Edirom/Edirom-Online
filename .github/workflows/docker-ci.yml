@@ -21,7 +21,7 @@ jobs:
       uses: actions/checkout@v4
       
     - name: Get short sha
-      uses: benjlevesque/short-sha@v2.2
+      uses: benjlevesque/short-sha@v3.0
       id: short-sha
       with:
         length: 7       
@@ -31,7 +31,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@v4.3.0
+      uses: actions/upload-artifact@v4.3.1
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
