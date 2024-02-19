@@ -157,14 +157,14 @@ $content_baseFont_size: 14px;
 	height: 100%;
 	
 	.metaBox {
-		display: none;
+/*		display: none;*/
 		border: 1px solid #999999;
 		
 		@include background(linear-gradient(top, $metaBox_bg, darken($metaBox_bg, 20%)));
 		@include border-radius(5px, 5px);
 		
 		padding: 10px;
-		position: absolute;
+		position: relative;
 		bottom: 10px;
 		left: 10px;
 		width: 240px;
