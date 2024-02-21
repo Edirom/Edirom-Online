@@ -3,7 +3,7 @@
     
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
     
-    <property name="project.version" value="1.0.0-beta.5"/>
+    <property name="project.version" value="1.0.0-beta.6"/>
     <property name="project.app" value="Edirom-Online"/>
     <property name="project.title" value="Edirom Online"/>
     <property name="repo.target" value="${project.app}"/>
@@ -17,6 +17,7 @@
     <target name="build-plus">
         <copy todir="${build.dir}">
             <fileset dir="${basedir}/add">
+                <include name="*"/>
                 <include name="data/locale/"/>
                 <include name="data/prefs/"/>
                 <include name="data/xql/"/>
