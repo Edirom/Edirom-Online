@@ -465,8 +465,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
             </div>
             
             { (:TODO: facsimile auswerten:)
-                if ($doc//tei:titlePage)
-                then
+                if ($doc//tei:titlePage) then
                     (
                     <div
                         class="titlePage">
