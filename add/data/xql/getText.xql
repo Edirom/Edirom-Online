@@ -93,7 +93,7 @@ let $params := (
     <param name="autoToc" value="'false'"/>,
     <param name="base" value="{concat($base, '/../xslt/')}"/>,
     <param name="footnoteBackLink" value="true"/>,
-    <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO frm XSLT <param name="graphicsPrefix"/>:)
+    <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO from XSLT <param name="graphicsPrefix"/>:)
     <param name="numberHeadings" value="'false'"/>,
     <param name="pageLayout" value="'CSS'"/>
 )
