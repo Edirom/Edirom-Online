@@ -30,8 +30,7 @@ declare function local:generateRespSentence($names) {
     string-join(
         for $name in $names
         return
-            if (matches($name, '(s|z)$'))
-            then
+            if (matches($name, '(s|z)$')) then
                 (concat($name, "'"))
             else
                 (concat($name, 's'))
