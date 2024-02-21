@@ -382,8 +382,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                             <div
                                 class="key">
                                 {
-                                    if ($respStmt/tei:resp != '')
-                                    then
+                                    if ($respStmt/tei:resp != '') then
                                         ($respStmt/data(tei:resp))
                                     else
                                         (string('Responsible'))
