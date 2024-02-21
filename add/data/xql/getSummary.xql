@@ -483,8 +483,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
 declare function local:getImagePath($server, $edition) {
     (:let $server :=  eutil:getPreference('image_server', request:get-parameter('edition', '')) :)
     
-    let $i_path := if ($server = 'leaflet')
-    then
+    let $i_path := if ($server = 'leaflet') then
         (eutil:getPreference('leaflet_prefix', $edition))
     else
         (eutil:getPreference('image_prefix', $edition))
