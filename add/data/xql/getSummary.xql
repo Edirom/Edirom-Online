@@ -495,8 +495,7 @@ declare function local:getImagePath($server, $edition) {
 };
 
 declare function local:getImagePathLeaflet($doc) {
-    if ($doc//mei:source//mei:titlePage/@facs)
-    then
+    if ($doc//mei:source//mei:titlePage/@facs) then
         (
         let $tile_path := $doc//mei:source//mei:titlePage[1]/@facs
         return
