@@ -33,11 +33,11 @@ declare variable $edition := request:get-parameter('edition', '');
 
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 
-declare variable $imageBasePath := if ($imageserver = 'leaflet')
-then
-    (eutil:getPreference('leaflet_prefix', $edition))
-else
-    (eutil:getPreference('image_prefix', $edition));
+declare variable $imageBasePath :=
+    if ($imageserver = 'leaflet') then
+        (eutil:getPreference('leaflet_prefix', $edition))
+    else
+        (eutil:getPreference('image_prefix', $edition));
 
 declare variable $lang := request:get-parameter('lang', '');
 
@@ -51,17 +51,13 @@ declare variable $lang := request:get-parameter('lang', '');
  :  @return The zone element
  :)
 declare function local:getZone($elem as element()) as element()? {
-    if ($elem/@facs)
-    then
-        (
+
+    if ($elem/@facs) then (
         let $zoneId := replace($elem/@facs, '^#', '')
         return
             $elem/root()/id($zoneId)
-        )
-    else
-        (
-        $elem
-        )
+    ) else
+        ($elem)
 };
 
 (:~
@@ -71,24 +67,21 @@ declare function local:getZone($elem as element()) as element()? {
  :  @return the label for the Priority, or, if this fails, $uri
  :)
 declare function local:getPriority($annot as node()) {
-    
+
     let $uri := $annot/mei:ptr[@type eq 'priority']/string(@target)
-    let $doc := if (starts-with($uri, '#'))
-    then
-        (
+
+    let $doc := if (starts-with($uri, '#')) then (
         $annot/root()
-        )
-    else
-        (
+    ) else (
         doc(substring-before($uri, '#'))
-        )
+    )
+
     let $locID := substring-after($uri, '#')
-    
+
     let $elem := $doc/id($locID)
-    
+
     return
-        if ($elem/mei:name)
-        then
+        if ($elem/mei:name) then
             (normalize-space(eutil:getLocalizedName($elem, $lang)))
         else
             ($locID)
@@ -101,24 +94,24 @@ declare function local:getPriority($annot as node()) {
  :  @return the string of annotation labels, or, if one of them fails, the respecitve $uri
  :)
 declare function local:getCategories($annot as node()) {
-    
+
     let $uris := tokenize($annot/mei:ptr[@type eq 'categories']/string(@target), ' ')
-    
-    let $string := for $uri in $uris
-    let $doc := if (starts-with($uri, '#'))
-    then
-        (
-        $annot/root()
-        )
-    else
-        (
-        doc(substring-before($uri, '#'))
-        )
+
+    let $string :=
+        for $uri in $uris
+        let $doc :=
+            if (starts-with($uri, '#')) then (
+                $annot/root()
+            ) else (
+                doc(substring-before($uri, '#'))
+            )
+
     let $locID := substring-after($uri, '#')
+
     let $elem := $doc/id($locID)
+
     return
-        if ($elem/mei:name)
-        then
+        if ($elem/mei:name) then
             (eutil:getLocalizedName($elem, $lang))
         else
             ($locID)
@@ -137,22 +130,23 @@ declare function local:getCategories($annot as node()) {
  :  @return A URL pointing to an image based as xs:string
  :)
 declare function local:getImageAreaPath($basePath as xs:string, $zone as element()?, $width as xs:integer) as xs:string {
+
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-    
+
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
-    
+
     let $imagePath := $graphic/@target
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
-    
+
     let $wx := $imgX div $imgWidth
     let $wy := $imgY div $imgHeight
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
-    
+
     return
         concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $width, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit')
 };
@@ -160,23 +154,23 @@ declare function local:getImageAreaPath($basePath as xs:string, $zone as element
 (: for tips :)
 declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as element()?, $width as xs:integer, $height as xs:integer) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
-    
+
     let $imgX := number($zone/@ulx)
     let $imgY := number($zone/@uly)
     let $w := number($zone/@lrx) - number($zone/@ulx)
     let $h := number($zone/@lry) - number($zone/@uly)
-    
+
     let $imagePath := $graphic/@target
     let $imgWidth := number($graphic/@width)
     let $imgHeight := number($graphic/@height)
-    
+
     let $wx := $imgX div $imgWidth
     let $wy := $imgY div $imgHeight
     let $ww := $w div $imgWidth
     let $wh := $h div $imgHeight
-    
+
     let $cut_path := substring-before($imagePath, '.')
-    
+
     let $im_path := if ($imageserver = 'digilib')
     then
         (concat($basePath, $imagePath, '?dw=', $width, '&amp;amp;dh=', $height, '&amp;amp;wx=', $wx, '&amp;amp;wy=', $wy, '&amp;amp;ww=', $ww, '&amp;amp;wh=', $wh, '&amp;amp;mo=fit'))
@@ -197,44 +191,41 @@ declare function local:getImageAreaPathForTips($basePath as xs:string, $zone as 
  :  @return Returns $i if it's square is higher or equals $num.
  :)
 declare function local:getLowestSquareBase($i as xs:integer, $num as xs:integer) {
-    if ($i * $i lt $num)
-    then
+
+    if ($i * $i lt $num) then
         (local:getLowestSquareBase($i + 1, $num))
     else
         ($i)
 };
 
 declare function local:getItemLabel($elem as element()) {
+
     let $name := local-name($elem)
-    return
-        (
-        if ($name = 'measure')
-        then
-            (if ($lang = 'de') then
+    return (
+        if ($name = 'measure') then (
+            if ($lang = 'de') then
                 (concat('Takt ', $elem/@n))
             else
-                (concat('Bar ', $elem/@n)))
-        else
+                (concat('Bar ', $elem/@n))
+        ) else
             (),
-        
-        if ($name = 'staff')
-        then
-            (if ($lang = 'de') then
+
+        if ($name = 'staff') then (
+            if ($lang = 'de') then
                 (concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr, ', Takt ', $elem/ancestor::mei:measure/@n))
             else
-                (concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr, ', Bar ', $elem/ancestor::mei:measure/@n)))
-        else
+                (concat($elem/preceding::mei:staffDef[@n = $elem/@n][1]/@label.abbr, ', Bar ', $elem/ancestor::mei:measure/@n))
+        ) else
             (),
-        
-        if ($name = 'zone')
-        then
-            (if ($lang = 'de') then
+
+        if ($name = 'zone') then (
+            if ($lang = 'de') then
                 (concat('Ausschnitt (S. ', $elem/parent::mei:surface/@n, ')'))
             else
-                (concat('Detail (p. ', $elem/parent::mei:surface/@n, ')')))
-        else
+                (concat('Detail (p. ', $elem/parent::mei:surface/@n, ')'))
+        ) else
             ()
-        )
+    )
 };
 
 (:~
@@ -242,201 +233,194 @@ declare function local:getItemLabel($elem as element()) {
  :
  :)
 declare function local:calculatePreviewsForTip($participants as xs:string*) {
-    
+
     let $areaWidth := 204
     let $areaHeight := 254
-    
-    let $elems := for $pUri in $participants
-    return
-        doc(substring-before($pUri, '#'))/id(substring-after($pUri, '#'))
-    let $zones := for $elem in $elems
-    return
-        local:getZone($elem)
-    
+
+    let $elems :=
+        for $pUri in $participants
+        return
+            doc(substring-before($pUri, '#'))/id(substring-after($pUri, '#'))
+
+    let $zones :=
+        for $elem in $elems
+        return
+            local:getZone($elem)
+
     let $tall := some $zone in $zones
         satisfies (number($zone/@lry) - number($zone/@uly) gt 2 * (number($zone/@lrx) - number($zone/@ulx)))
+
     let $wide := some $zone in $zones
         satisfies (2 * (number($zone/@lry) - number($zone/@uly)) lt number($zone/@lrx) - number($zone/@ulx))
-    
-    let $w := if ($tall and not($wide))
-    then
-        (round(10000 div count($zones)) div 100)
-    else
-        (
-        if ($wide and not($tall))
-        then
-            (100)
-        else
-            (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
-        )
-    
-    let $h := if ($tall and not($wide))
-    then
-        (100)
-    else
-        (
-        if ($wide and not($tall))
-        then
+
+    let $w :=
+        if ($tall and not($wide)) then
             (round(10000 div count($zones)) div 100)
-        else
-            (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
+        else (
+            if ($wide and not($tall)) then
+                (100)
+            else
+                (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
         )
-    
+
+    let $h :=
+        if ($tall and not($wide)) then
+            (100)
+        else (
+            if ($wide and not($tall)) then
+                (round(10000 div count($zones)) div 100)
+            else
+                (round(10000 div local:getLowestSquareBase(1, count($zones))) div 100)
+        )
+
     let $width := floor($areaWidth * $w div 100)
+
     let $height := floor($areaHeight * $h div 100)
-    
+
     for $zone in $zones
     let $e := $elems[substring(@facs, 2) = $zone/@xml:id][1]
-    let $e := if ($e) then
-        ($e)
-    else
-        ($zone)
-    
-    let $test := if ($imageserver = 'digilib')
-    then
-        (
-        <div
-            class="previewItem"
-            style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
+
+    let $e := +
+        if ($e) then
+            ($e)
+        else
+            ($zone)
+
+    let $test :=
+        if ($imageserver = 'digilib') then (
             <div
-                class="imgBox">
-                <img
-                    src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}"
-                    class="previewImg"/>
+                class="previewItem"
+                style="width: {$width - (round(100 div $w))}px; height: {$height - round(100 div $h)}px;">
+                <div
+                    class="imgBox">
+                    <img
+                        src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}"
+                        class="previewImg"/>
+                </div>
+                <div
+                    class="label">{local:getItemLabel($e)}</div>
             </div>
+        ) else (
             <div
-                class="label">{local:getItemLabel($e)}</div>
-        </div>
-        )
-    else
-        (
-        <div
-            class="previewItem"
-            style="width: {256}px; height: {256}px;">
-            <div
-                class="imgBox">
-                <img
-                    src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}"
-                    class="previewImg"/>
+                class="previewItem"
+                style="width: {256}px; height: {256}px;">
+                <div
+                    class="imgBox">
+                    <img
+                        src="{local:getImageAreaPathForTips($imageBasePath, $zone, $width - 4, $height - 4)}"
+                        class="previewImg"/>
+                </div>
+                <div
+                    class="label">{local:getItemLabel($e)}</div>
             </div>
-            <div
-                class="label">{local:getItemLabel($e)}</div>
-        </div>
         )
-    
+
     return
         $test
 };
 
 let $uri := request:get-parameter('uri', '')
+
 let $target := request:get-parameter('target', '')
+
 let $docUri := substring-before($uri, '#')
+
 let $internalId := substring-after($uri, '#')
+
 let $doc := doc($docUri)
+
 let $annot := $doc/id($internalId)
 
 let $participants := annotation:getParticipants($annot)
 
 let $priority := local:getPriority($annot)
-let $priorityLabel := if ($lang = 'de')
-then
-    ('Priorität')
-else
-    ('Priority')
+
+let $priorityLabel :=
+    if ($lang = 'de') then
+        ('Priorität')
+    else
+        ('Priority')
 
 let $categories := local:getCategories($annot)
-let $categoriesLabel := if ($lang = 'de')
-then
-    (if (count($categories) gt 1) then
-        ('Kategorien')
-    else
-        ('Kategorie'))
-else
-    (if (count($categories) gt 1) then
-        ('Categories')
-    else
-        ('Category'))
+
+let $categoriesLabel :=
+    if ($lang = 'de') then (
+        if (count($categories) gt 1) then
+            ('Kategorien')
+        else
+            ('Kategorie')
+    ) else (
+        if (count($categories) gt 1) then
+            ('Categories')
+        else
+            ('Category'))
 
 let $sources := eutil:getDocumentsLabelsAsArray($participants, $edition)
-let $sourcesLabel := if ($lang = 'de')
-then
-    (if (count($sources) gt 1) then
-        ('Quellen')
-    else
-        ('Quelle'))
-else
-    (if (count($sources) gt 1) then
-        ('Sources')
-    else
-        ('Source'))
+
+let $sourcesLabel :=
+    if ($lang = 'de') then (
+        if (count($sources) gt 1) then
+            ('Quellen')
+        else
+            ('Quelle')
+    ) else (
+        if (count($sources) gt 1) then
+            ('Sources')
+        else
+            ('Source')
+    )
 
 let $sigla := source:getSiglaAsArray($participants)
-let $siglaLabel := if ($lang = 'de')
-then
-    (if (count($sigla) gt 1) then
-        ('Siglen')
-    else
-        ('Siglum'))
-else
-    (if (count($sigla) gt 1) then
-        ('Sources')
-    else
-        ('Source'))
 
-let $annotIDlabel := if ($lang = 'de')
-then
-    ('Anm.-ID')
-else
-    ('Annot.-ID')
+let $siglaLabel :=
+    if ($lang = 'de') then (
+        if (count($sigla) gt 1) then
+            ('Siglen')
+        else
+            ('Siglum')
+    ) else (
+        if (count($sigla) gt 1) then
+            ('Sources')
+        else
+            ('Source')
+    )
+
+let $annotIDlabel :=
+    if ($lang = 'de') then
+        ('Anm.-ID')
+    else
+        ('Annot.-ID')
 
 return
-    if ($target eq 'view')
-    then
-        (
-        
-        <div
-            class="annotView">
-            <div
-                class="metaBox">
-                <div
-                    class="property priority">
-                    <div
-                        class="key">{$priorityLabel}</div>
-                    <div
-                        class="value">{$priority}</div>
+    if ($target eq 'view') then (
+        <div class="annotView">
+            <div class="metaBox">
+                <div class="property priority">
+                    <div class="key">{$priorityLabel}</div>
+                    <div class="value">{$priority}</div>
                 </div>
-                <div
-                    class="property categories">
-                    <div
-                        class="key">{$categoriesLabel}</div>
-                    <div
-                        class="value">{string-join($categories, ', ')}</div>
+                <div class="property categories">
+                    <div class="key">{$categoriesLabel}</div>
+                    <div class="value">{string-join($categories, ', ')}</div>
                 </div>
                 <!--<div class="property sourceLabel">
                     <div class="key">{$sourcesLabel}</div>
                     <div class="value">{string-join($sources, ', ')}</div>
                 </div>-->
-                <div
-                    class="property sourceSiglums">
-                    <div
-                        class="key">{$siglaLabel}</div>
-                    <div
-                        class="value">{string-join($sigla, ', ')}</div>
+                <div class="property sourceSiglums">
+                    <div class="key">{$siglaLabel}</div>
+                    <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
-                <div
-                    class="property annotID">
-                    <div
-                        class="key">{$annotIDlabel}</div>
-                    <div
-                        class="value">{$internalId}</div>
+                <div class="property annotID">
+                    <div class="key">{$annotIDlabel}</div>
+                    <div class="value">{$internalId}</div>
                 </div>
             </div>
-            <div
-                class="contentBox">
+            <div class="contentBox">
                 <h1>{eutil:getLocalizedName($annot, $lang)}</h1>
                 {annotation:getContent($annot, '', $edition)}
             </div>
-            
+
             <!-- <div class="previewArea">
                 {
 
@@ -470,61 +454,41 @@ return
 
                 }
             </div>-->
-        
+
         </div>
-        )
-    else
-        (
-        <div
-            class="annotTip">
-            <div
-                class="metaBox">
-                <div
-                    class="property priority">
-                    <div
-                        class="key">{$priorityLabel}</div>
-                    <div
-                        class="value">{$priority}</div>
+    ) else (
+        <div class="annotTip">
+            <div class="metaBox">
+                <div class="property priority">
+                    <div class="key">{$priorityLabel}</div>
+                    <div class="value">{$priority}</div>
                 </div>
-                <div
-                    class="property categories">
-                    <div
-                        class="key">{$categoriesLabel}</div>
-                    <div
-                        class="value">{string-join($categories, ', ')}</div>
+                <div class="property categories">
+                    <div class="key">{$categoriesLabel}</div>
+                    <div class="value">{string-join($categories, ', ')}</div>
                 </div>
                 <!--<div class="property sourceLabel">
                     <div class="key">{$sourcesLabel}</div>
                     <div class="value">{string-join($sources, ', ')}</div>
                 </div>-->
-                <div
-                    class="property sourceSiglums">
-                    <div
-                        class="key">{$siglaLabel}</div>
-                    <div
-                        class="value">{string-join($sigla, ', ')}</div>
+                <div class="property sourceSiglums">
+                    <div class="key">{$siglaLabel}</div>
+                    <div class="value">{string-join($sigla, ', ')}</div>
                 </div>
-                <div
-                    class="property annotID">
-                    <div
-                        class="key">{$annotIDlabel}</div>
-                    <div
-                        class="value">{$internalId}</div>
+                <div class="property annotID">
+                    <div class="key">{$annotIDlabel}</div>
+                    <div class="value">{$internalId}</div>
                 </div>
             </div>
-            <div
-                class="contentBox">
+            <div class="contentBox">
                 {
-                    if ($annot/mei:annot)
-                    then
-                        (
+                    if ($annot/mei:annot) then (
                         for $a in $annot/mei:annot
-                        return
-                            (<h1>{eutil:getLocalizedTitle($annot, $lang)}</h1>,
-                            annotation:getContent($a, '', $edition))
+                        return (
+                            <h1>{eutil:getLocalizedTitle($annot, $lang)}</h1>,
+                            annotation:getContent($a, '', $edition)
                         )
-                    else
-                        (
+                    ) else (
                         (<h1>{eutil:getLocalizedTitle($annot, $lang)}</h1>,
                         annotation:getContent($annot, '', $edition))
                         )
@@ -537,5 +501,5 @@ return
                 }
             </div>-->
         </div>
-        
+
         )
