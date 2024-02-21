@@ -334,8 +334,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
             <div
                 class="metaData">
                 {
-                    if ($doc//tei:titleStmt/tei:title[@level eq 's'])
-                    then
+                    if ($doc//tei:titleStmt/tei:title[@level eq 's']) then
                         (
                         <div
                             class="series metaRow">
