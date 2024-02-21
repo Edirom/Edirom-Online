@@ -28,6 +28,7 @@ declare function local:getAnnotations($edition as xs:string, $edition_path as xs
     
     for $measureId in $elemIds
     let $uriPlusId := concat($uri, '#', $measureId)
+    (: TODO update XPath e.g., parent::node()  at the end or similar :)
     let $annots := collection($edition_path)//mei:annot/@plist[tokenize(string(.), '\s+') = $uriPlusId]/..
     
     return
