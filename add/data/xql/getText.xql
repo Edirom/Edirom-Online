@@ -6,20 +6,27 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+
 declare namespace request = "http://exist-db.org/xquery/request";
+
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
+
 declare namespace xhtml = "http://www.w3.org/1999/xhtml";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "xhtml";
+
 declare option output:media-type "text/html";
+
 declare option output:omit-xml-declaration "yes";
+
 declare option output:indent "yes";
 
 (: QUERY BODY ============================================================== :)
@@ -31,8 +38,8 @@ let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
 let $doc := eutil:getDoc($uri)/root()
 let $contextPath := request:get-context-path()
-
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
+
 let $xslInstruction :=
     for $i in fn:serialize($xslInstruction, ())
     return
@@ -59,6 +66,7 @@ let $doc :=
     else (
         let $pb1 := $doc//tei:pb[@facs eq '#' || $page]/@n
         let $pb2 := ($doc//tei:pb[@facs eq '#' || $page]/following::tei:pb)[1]/@n
+        
         return
             transform:transform($doc, doc('../xslt/reduceToPage.xsl'),
                 <parameters>
@@ -69,7 +77,6 @@ let $doc :=
     )
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
-
 let $edition := request:get-parameter('edition', '')
 let $imageserver := eutil:getPreference('image_server', $edition)
 
