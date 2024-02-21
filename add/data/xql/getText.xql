@@ -89,12 +89,12 @@ let $params := (
     <param name="docUri" value="{$uri}"/>,
     <param name="contextPath" value="{$contextPath}"/>,
     (: parameters for the TEI Stypesheets :)
-    <param name="autoHead" value="'false'"/>,
-    <param name="autoToc" value="'false'"/>,
+    <param name="autoHead" value="false"/>,
+    <param name="autoToc" value="false"/>,
     <param name="base" value="{concat($base, '/../xslt/')}"/>,
     <param name="footnoteBackLink" value="true"/>,
     <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO from XSLT <param name="graphicsPrefix"/>:)
-    <param name="numberHeadings" value="'false'"/>,
+    <param name="numberHeadings" value="false"/>,
     <param name="pageLayout" value="'CSS'"/>
 )
 
