@@ -15,7 +15,7 @@
     <tstamp/>
 
     <target name="build-plus">
-        <copy todir="${build.dir}">
+        <copy todir="${build.dir}" preservelastmodified="true">
             <fileset dir="${basedir}/add">
                 <include name="*"/>
                 <include name="data/locale/"/>
@@ -29,6 +29,8 @@
                 <include name="data/xslt/tei/Stylesheets/html/"/>
                 <include name="data/xslt/tei/Stylesheets/common/"/>
                 <include name="data/xslt/tei/Stylesheets/VERSION"/>
+                <include name="help/**"/>
+                <include name="index/**"/>
             </fileset>
             <filterset begintoken="@" endtoken="@">
                 <filter token="project.version" value="${project.version}"/>
