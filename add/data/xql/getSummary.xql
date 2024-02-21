@@ -394,8 +394,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                                     for $name at $i in $respStmt/tei:*[local-name() eq 'persName' or local-name() eq 'name' or local-name() eq 'orgName']
                                     let $numNames := count($respStmt/tei:*[local-name() eq 'persName' or local-name() eq 'name' or local-name() eq 'orgName'])
                                     return
-                                        if ($i < $numNames)
-                                        then
+                                        if ($i < $numNames) then
                                             ($name, ', ')
                                         else
                                             ($name)
