@@ -58,7 +58,7 @@ declare function local:getCategory($category, $depth) {
                 (: RWA-specific: do not show (source) entries/@type = "private" or "editions" when on public server :)
                 if(local-name($elem) eq 'navigatorItem')
                 then(
-                    if ($env = ('beta', 'public') and ($elem/@type = 'private' or contains($elem/@targets/string(), '/music/editions/')))
+                    if ($env = ('beta', 'public') and ($elem/@type = 'private' or matches($elem/@targets/string(), '(/music/editions/|/music/mused/)')))
                     then ()
                     else (local:getItem($elem, $depth))
                 )
