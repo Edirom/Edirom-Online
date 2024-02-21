@@ -271,8 +271,7 @@ declare function local:getWorkSummary($doc, $docUri) {
             
             <h1>
                 {
-                    if ($doc//mei:work/mei:titleStmt/mei:title[@type eq 'main'])
-                    then
+                    if ($doc//mei:work/mei:titleStmt/mei:title[@type eq 'main']) then
                         ($doc//mei:work/mei:titleStmt/mei:title[@type eq 'main'][1]//text())
                     else
                         ($doc//mei:work/mei:titleStmt/mei:title[1]//text())
