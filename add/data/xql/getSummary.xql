@@ -453,8 +453,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                 }
                 
                 {
-                    if ($doc//tei:publicationStmt/tei:publisher)
-                    then
+                    if ($doc//tei:publicationStmt/tei:publisher) then
                         (
                         <div
                             class="publisher metaRow">
