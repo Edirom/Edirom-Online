@@ -507,8 +507,7 @@ declare function local:getImagePathLeaflet($doc) {
             $tile_path
         )
     else
-        if ($doc//mei:facsimile/mei:surface/mei:graphic)
-        then
+        if ($doc//mei:facsimile/mei:surface/mei:graphic) then
             (
             let $tile_path := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target
             let $width := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@width
