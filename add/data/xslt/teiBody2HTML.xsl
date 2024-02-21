@@ -3,32 +3,9 @@
     xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:functx="http://www.functx.com"
     exclude-result-prefixes="#default xs tei xhtml" version="2.0">
-    <xsl:import href="http://www.functx.com/functx.xsl"/>
-    <xsl:import href="tei/common2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/tei.xsl"/>
-    <xsl:import href="tei/xhtml2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/core.xsl"/>
-    <xsl:import href="tei/common2/textstructure.xsl"/>
-    <xsl:import href="tei/common2/header.xsl"/>
-    <xsl:import href="tei/common2/linking.xsl"/>
-    <xsl:import href="tei/common2/figures.xsl"/>
-    <xsl:import href="tei/common2/textcrit.xsl"/>
-    <xsl:import href="tei/common2/i18n.xsl"/>
-    <xsl:import href="tei/common2/functions.xsl"/>
-    <xsl:import href="tei/xhtml2/core.xsl"/>
-    <xsl:import href="tei/xhtml2/corpus.xsl"/>
-    <xsl:import href="tei/xhtml2/dictionaries.xsl"/>
-    <xsl:import href="tei/xhtml2/drama.xsl"/>
-    <xsl:import href="tei/xhtml2/figures.xsl"/>
-    <xsl:import href="tei/xhtml2/header.xsl"/>
-    <xsl:import href="tei/xhtml2/linking.xsl"/>
-    <xsl:import href="tei/xhtml2/namesdates.xsl"/>
-    <xsl:import href="tei/xhtml2/tagdocs.xsl"/>
-    <xsl:import href="tei/xhtml2/textstructure.xsl"/>
-    <xsl:import href="tei/xhtml2/textcrit.xsl"/>
-    <xsl:import href="tei/xhtml2/transcr.xsl"/>
-    <xsl:import href="tei/xhtml2/verse.xsl"/>
-    <xsl:import href="tei/common2/verbatim.xsl"/>
+    <xsl:import href="https://raw.githubusercontent.com/transpect/xslt-util/master/functx/xsl/functx.xsl"/>
+    <xsl:import href="tei/html/html.xsl"/>
+    <xsl:import href="tei/common/functions.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes" xml:space="preserve"/>
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
@@ -474,7 +451,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:variable>
-                <xsl:element name="{if (tei:is-inline(..)) then 'span' else 'div'}">
+                <xsl:element name="{if (tei:isInline(..)) then 'span' else 'div'}">
                     <xsl:call-template name="rendToClass"/>
                     <img src="{$IMG}" alt="page image"/>
                 </xsl:element>
@@ -1047,7 +1024,7 @@
                 <xsl:text>]</xsl:text>
             </xsl:when>
             <xsl:when test="@place='foot' or @place='bottom' or @place='end' or $autoEndNotes='true'">
-                <xsl:element name="{if (parent::tei:head or parent::tei:hi)  then 'span'           else if (parent::tei:l) then 'span'           else if (parent::tei:bibl/parent::tei:head) then 'span'           else if (parent::tei:stage/parent::tei:q) then 'span'           else if  (parent::tei:body or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+                <xsl:element name="{if (parent::tei:head or parent::tei:hi)  then 'span'           else if (parent::tei:l) then 'span'           else if (parent::tei:bibl/parent::tei:head) then 'span'           else if (parent::tei:stage/parent::tei:q) then 'span'           else if  (parent::tei:body or *[not(tei:isInline(.))]) then 'div' else 'span' }">
                     <xsl:call-template name="makeAnchor">
                         <xsl:with-param name="name" select="concat($identifier,'_return')"/>
                     </xsl:call-template>
@@ -1145,7 +1122,8 @@
                     <xsl:call-template name="makeAnchor">
                         <xsl:with-param name="name" select="$identifier"/>
                     </xsl:call-template>
-                    <xsl:call-template name="rendToClass"/>
+<!--                    <xsl:call-template name="rendToClass"/>-->
+                    <xsl:value-of select="tei:processClass(@place, true())"/>
                     <xsl:choose>
                         <xsl:when test="$outputTarget='html5'">
                             <xsl:apply-templates/>
@@ -1169,7 +1147,7 @@
                     <xsl:apply-templates/>
                 </span>
             </xsl:when>
-            <xsl:when test="@place='margin' and *[not(tei:is-inline(.))]">
+            <xsl:when test="@place='margin' and *[not(tei:isInline(.))]">
                 <div class="margnote">
                     <xsl:call-template name="makeAnchor">
                         <xsl:with-param name="name" select="$identifier"/>
