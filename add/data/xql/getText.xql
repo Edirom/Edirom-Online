@@ -95,6 +95,7 @@ let $params := (
     <param name="autoHead" value="false"/>,
     <param name="autoToc" value="false"/>,
     <param name="base" value="{concat($base, '/../xslt/')}"/>,
+    <param name="documentationLanguage" value="{eutil:getLanguage($edition)}"/>,
     <param name="footnoteBackLink" value="true"/>,
     <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO from XSLT <param name="graphicsPrefix"/>:)
     <param name="numberHeadings" value="false"/>,
