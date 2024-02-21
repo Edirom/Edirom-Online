@@ -352,8 +352,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                 }
                 
                 {
-                    if ($doc//tei:titleStmt/tei:editor)
-                    then
+                    if ($doc//tei:titleStmt/tei:editor) then
                         (
                         <div
                             class="editor metaRow">
