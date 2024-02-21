@@ -418,8 +418,7 @@ declare function local:getTextSummary($doc, $facsBasePath) {
                 }
                 
                 {
-                    if ($doc//tei:sourceDesc/tei:msDesc//tei:repository)
-                    then
+                    if ($doc//tei:sourceDesc/tei:msDesc//tei:repository) then
                         (
                         <div
                             class="library metaRow">
