@@ -377,7 +377,11 @@
             <xsl:apply-templates select="text()"/>
         </xsl:element>
     </xsl:template>
-<xsl:template match="exist:match">
+    
+    <xd:doc>
+        <xd:desc>Mark exist:match KWIC result with span</xd:desc>
+    </xd:doc>
+    <xsl:template match="exist:match">
         <span class="searchResult">
             <xsl:apply-templates/>
         </span>
