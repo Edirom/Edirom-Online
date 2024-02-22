@@ -4,8 +4,8 @@
     xmlns:exist="http://exist.sourceforge.net/NS/exist" xmlns:functx="http://www.functx.com"
     exclude-result-prefixes="#default xs tei xhtml" version="2.0">
     <xsl:import href="https://raw.githubusercontent.com/transpect/xslt-util/master/functx/xsl/functx.xsl"/>
-    <xsl:import href="tei/html/html.xsl"/>
-    <xsl:import href="tei/common/functions.xsl"/>
+    <xsl:import href="../../Stylesheets/common/common.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes" xml:space="preserve"/>
     <xsl:param name="lang">en</xsl:param>
     <xsl:param name="base" as="xs:string"/>
