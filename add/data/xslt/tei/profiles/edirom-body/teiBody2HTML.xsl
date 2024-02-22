@@ -386,7 +386,8 @@
             <xsl:apply-templates/>
         </span>
     </xsl:template>
-<xsl:template match="tei:pb" priority="5">
+    
+    <xsl:template match="tei:pb" priority="5">
         <xsl:variable name="page_folio">
             <xsl:choose>
                 <xsl:when test="matches(@n, '\d+[a-z]?(r|v)')"> fol. </xsl:when>
