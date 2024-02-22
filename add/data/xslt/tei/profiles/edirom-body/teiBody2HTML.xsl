@@ -1195,7 +1195,8 @@
     <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
         <desc>
             <p>Process element note</p>
-            <p>copied from TEI Stylesheets xhtml2/core.xsl in order to fix link target in Edirom-Online</p>
+            <p>copied from TEI Stylesheets/html/html_core.xsl in order to fix link target in Edirom-Online</p>
+            <p>Used, e.g., for endnotes</p>
         </desc>
     </doc>
     <xsl:template name="makeaNote">
@@ -1221,19 +1222,23 @@
             </div>
             <xsl:if test="$footnoteBackLink= 'true'">
                 <xsl:text> </xsl:text>
+                <!-- here are the Edirom Online specific modifications -->
                 <xsl:element name="a">
-                    <!-- here are the Edirom Online specific modifications -->
+                    <xsl:variable name="linkTarget" select="$docUri || '#' || $identifier || '_return'"/><!-- TODO: move linkTarget calculation to edirom-specific function -->
                     <xsl:attribute name="class">link_return</xsl:attribute>
-                    <xsl:attribute name="href" select="$docUri || '#' || $identifier || '_return'"/>
-                    <xsl:attribute name="title">Go back to text</xsl:attribute>
+                    <xsl:attribute name="href" select="$linkTarget">
+                        <!-- actually not needed for functionality of Edirom Online -->
+                    </xsl:attribute>
+                    <xsl:attribute name="title">Go back to text</xsl:attribute><!-- TODO: use i18n -->
                     <xsl:attribute name="onclick">
+                        <!-- this is where the real magic happens -->
                         <xsl:text>loadLink('</xsl:text>
-                        <xsl:value-of select="$docUri || '#' || $identifier || '_return'"/>
+                        <xsl:value-of select="$linkTarget"/>
                         <xsl:text>', {useExisting:true}); return false;</xsl:text>
                     </xsl:attribute>
-                    <!-- end of the Edirom Online specific modifications -->
-                    <xsl:text>↵</xsl:text>
+                    <xsl:text>↵</xsl:text><!-- TODO: parametrize -->
                 </xsl:element>
+                <!-- end of the Edirom Online specific modifications -->
             </xsl:if>
         </div>
     </xsl:template>
