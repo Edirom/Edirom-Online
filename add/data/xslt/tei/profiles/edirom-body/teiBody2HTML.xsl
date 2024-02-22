@@ -8,7 +8,7 @@
     <xsl:import href="../../Stylesheets/html/html.xsl"/>
     <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes" xml:space="preserve"/>
     <xsl:param name="lang">en</xsl:param>
-    <xsl:param name="base" as="xs:string"/>
+    <xsl:param name="base"  select="'../../../'" as="xs:string"/>
     <xsl:param name="docUri" as="xs:anyURI"/>
     <xsl:param name="contextPath" as="xs:string"/>
     <!-- OVERWRITE FOLLOWING TEI-PARAMS -->
