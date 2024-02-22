@@ -76,7 +76,7 @@ let $doc :=
             )
     )
 
-let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
+let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '')
 let $edition := request:get-parameter('edition', '')
 let $imageserver := eutil:getPreference('image_server', $edition)
 
