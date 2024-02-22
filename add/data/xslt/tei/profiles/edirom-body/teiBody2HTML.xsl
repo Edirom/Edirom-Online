@@ -28,14 +28,6 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="fallback">
-        <xsl:choose>
-            <xsl:when test="$lang eq 'en'"/>
-            <xsl:otherwise>
-                <xsl:copy-of select="document(concat($base, 'i18n/en.xml'))"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
     <xsl:function name="tei:getLabel" xpath-default-namespace="">
         <xsl:param name="key"/>
         <xsl:choose>
@@ -46,7 +38,6 @@
                 <xsl:value-of select="$language/id($key)/text()"/>
             </xsl:when>
             <xsl:otherwise>
-                <!--<xsl:value-of select="$fallback/id($key)/text()"/><!-\- BWB welchen Sinn macht das? -\->-->
                 <xsl:value-of select="$key"/>
             </xsl:otherwise>
         </xsl:choose>
