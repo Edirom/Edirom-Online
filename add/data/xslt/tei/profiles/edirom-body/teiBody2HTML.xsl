@@ -1225,7 +1225,7 @@
                     <!-- here are the Edirom Online specific modifications -->
                     <xsl:attribute name="class">link_return</xsl:attribute>
                     <xsl:attribute name="href" select="$docUri || '#' || $identifier || '_return'"/>
-                    <xsl:attribute name="title">"Go back to text</xsl:attribute>
+                    <xsl:attribute name="title">Go back to text</xsl:attribute>
                     <xsl:attribute name="onclick">
                         <xsl:text>loadLink('</xsl:text>
                         <xsl:value-of select="$docUri || '#' || $identifier || '_return'"/>
