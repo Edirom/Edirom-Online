@@ -109,11 +109,7 @@ let $params := (
     <param name="pageLayout" value="CSS"/>
 )
 
-let $doc :=
-    if ($xslInstruction) then
-        (transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
-    else
-        (transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
+let $doc := transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
 
 let $doc :=
     transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'),
