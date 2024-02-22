@@ -296,8 +296,7 @@
         </xsl:choose>
     </xsl:template>
     <xsl:template match="tei:ref">
-        <xsl:param name="class">link_<xsl:value-of select="local-name(.)"/>
-        </xsl:param>
+        <xsl:param name="class" select="'link_' || local-name(.)"/>
         <xsl:choose>
             <xsl:when test="starts-with(@target, 'xmldb:exist://')">
                 <a>
