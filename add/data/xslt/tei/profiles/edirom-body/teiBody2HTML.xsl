@@ -506,7 +506,7 @@
             select="tei:*[not(self::tei:speaker) and not(self::tei:stage[@rend = 'inline'][1])]"/>
     </xsl:template>
     <xsl:template match="tei:del" priority="5">
-        <xsl:element name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+        <xsl:element name="{if (*[not(tei:isInline(.))]) then 'div' else 'span' }">
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default">del</xsl:with-param>
             </xsl:call-template>
@@ -623,7 +623,7 @@
     </xsl:template>
     <xsl:template match="tei:stage" priority="5">
         <xsl:element
-            name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            name="{if (*[not(tei:isInline(.))]) then 'div' else 'span' }">
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default">
                     <xsl:choose>
@@ -649,7 +649,7 @@
     </xsl:template>
     <xsl:template match="tei:add" priority="5">
         <xsl:element
-            name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            name="{if (*[not(tei:isInline(.))]) then 'div' else 'span' }">
             <xsl:if test="./parent::tei:subst and @place='above'">
                 <xsl:variable name="del" select="preceding-sibling::tei:del"/>
                 <xsl:variable name="delLines" select="count($del//tei:lb)"/>
@@ -677,7 +677,7 @@
     </xsl:template>
     <xsl:template match="tei:subst" priority="5">
         <xsl:element
-            name="{if (tei:blockContext(.) or *[not(tei:is-inline(.))]) then 'div' else 'span' }">
+            name="{if (*[not(tei:isInline(.))]) then 'div' else 'span' }">
             <xsl:call-template name="rendToClass">
                 <xsl:with-param name="default"> subst </xsl:with-param>
             </xsl:call-template>
@@ -707,7 +707,7 @@
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:call-template name="doDivBody"/>
+                <xsl:call-template name="makeDivBody"/>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
