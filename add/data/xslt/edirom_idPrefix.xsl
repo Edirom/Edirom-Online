@@ -67,4 +67,21 @@
     <xsl:template match="text() | comment() | processing-instruction()">
         <xsl:copy/>
     </xsl:template>
+    
+    <xd:doc scope="component">
+        <xd:desc>Process onclick attributes to prepend $idPrefix if starting fragement identifiers.</xd:desc>
+    </xd:doc>
+    <xsl:template match="@onclick">
+        <xsl:variable name="matchExpression">loadLink('#</xsl:variable>
+        <xsl:attribute name="onclick">
+            <xsl:analyze-string select="." regex="(loadLink\('#)">
+                <xsl:matching-substring>
+                    <xsl:value-of select="regex-group(1) || $idPrefix"/>
+                </xsl:matching-substring>
+                <xsl:non-matching-substring>
+                    <xsl:copy/>
+                </xsl:non-matching-substring>
+            </xsl:analyze-string>
+        </xsl:attribute>
+    </xsl:template>
 </xsl:stylesheet>
