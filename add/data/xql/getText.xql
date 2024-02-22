@@ -111,11 +111,14 @@ let $params := (
 
 let $doc := transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
 
-let $doc :=
-    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'),
-        <parameters>
-            <param name="idPrefix" value="{$idPrefix}"/></parameters>
-    )
+(: Do a second transformation to add edirom online ID prefixes for unique ID values if object is open mutiple times :)
+let $xsl := '../xslt/edirom_idPrefix.xsl'
+
+let $params := (
+    <param name="idPrefix" value="{$idPrefix}"/>
+)
+
+let $doc := transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
 
 let $body := $doc//xhtml:body
 
