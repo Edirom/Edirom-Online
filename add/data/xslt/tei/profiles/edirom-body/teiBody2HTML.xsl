@@ -17,6 +17,9 @@
     <xsl:param name="textType"/>
     <!-- END FREIDI PARAMETER -->
     <xsl:variable name="masterFile" select="string('file')"/>
+    <xd:doc scope="component">
+        <xd:desc>The language variable for the Edirom Online language file.</xd:desc>
+    </xd:doc>
     <xsl:variable name="language">
         <xsl:choose>
             <xsl:when test="doc-available(concat($base, 'i18n/{$lang}.xml'))">
@@ -27,12 +30,14 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
+    
+    <xd:doc scope="component">
+        <xd:desc>Get a label text from the Edirom or edition-specific language files.</xd:desc>
+        <xd:param name="key">The key to lookup in the language file.</xd:param>
+    </xd:doc>
     <xsl:function name="tei:getLabel" xpath-default-namespace="">
         <xsl:param name="key"/>
         <xsl:choose>
-            <!--<xsl:when test="$lang eq 'en'">
-                <xsl:value-of select="$language/id($key)/text()"/>
-            </xsl:when>-->
             <xsl:when test="$language/id($key) and not($language/id($key)/text() eq '')">
                 <xsl:value-of select="$language/id($key)/text()"/>
             </xsl:when>
