@@ -17,7 +17,6 @@
     <xsl:param name="textType"/>
     <!-- END FREIDI PARAMETER -->
     <xsl:variable name="masterFile" select="string('file')"/>
-    <xsl:variable name="i18n" select="document(concat($base, 'tei/i18n.xml'))"/>
     <xsl:variable name="language">
         <xsl:choose>
             <xsl:when test="doc-available(concat($base, 'i18n/{$lang}.xml'))">
