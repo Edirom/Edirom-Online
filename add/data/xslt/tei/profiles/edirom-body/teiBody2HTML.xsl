@@ -295,6 +295,10 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    <xd:doc scope="component">
+        <xd:desc>Override template for tei:ref if link target starts with xmldb:exist://</xd:desc>
+    </xd:doc>
     <xsl:template match="tei:ref">
         <xsl:param name="class" select="'link_' || local-name(.)"/>
         <xsl:choose>
