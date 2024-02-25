@@ -80,7 +80,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template name="bodyMicroData"/>
     <xsl:template name="showGraphic">
         <xsl:variable name="File">
             <xsl:choose>
