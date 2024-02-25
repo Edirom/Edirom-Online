@@ -46,6 +46,8 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
+    
+    <!-- TODO check if still needed as currently unused -->
     <xsl:function name="tei:calcDimension">
         <xsl:param name="value"/>
         <xsl:choose>
