@@ -378,7 +378,7 @@ declare function local:toJSON($type as xs:string, $label as xs:string, $mdiv as 
         let $singel-serv-resolveURL := $configResource//conf:single-serv-resolveURL/string()
         let $docuservURLinternal := $configResource//conf:docuservURLinternal/string()
         let $singleURL := 
-            if (matches($digilibBaseParams, 'music/editions/'))
+            if (matches($digilibBaseParams, '(music/editions/|music/mused/)'))
                             then 
                                 try {
                                     (
