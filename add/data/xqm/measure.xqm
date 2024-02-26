@@ -31,27 +31,35 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
  :)
 declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
 
-    if($mei//mei:parts)
-    then(
+    if($mei//mei:parts) then (
         let $mdiv := $mei/id($mdivID)
-        let $measureNs := for $measure in $mdiv//mei:measure
-                            return measure:analyzeLabels($measure)
+
+        let $measureNs :=
+            for $measure in $mdiv//mei:measure
+            return measure:analyzeLabels($measure)
 
         let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
+
         return
             for $measureN in $measureNsDistinct
             let $measures := measure:resolveMultiMeasureRests($mdiv, $measureN)
-            let $measures := for $part in $mdiv//mei:part
-                                let $partMeasures := if($part//mei:measure/@label)
-                                                     then($part//mei:measure[@label = $measureN][1])
-                                                     else($part//mei:measure[@n = $measureN][1])
-                                for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
-                                    let $voiceRef := $part//mei:staffDef/@decls
-                                    return
-                                        concat('{id:"', $measure/@xml:id, '",
-                                        voice: "', $voiceRef,
-                                        '", partLabel: "', eutil:getPartLabel($measure, 'measure'),
-                                        '"}')
+
+            let $measures :=
+                for $part in $mdiv//mei:part
+                let $partMeasures :=
+                    if($part//mei:measure/@label) then (
+                        $part//mei:measure[@label = $measureN][1]
+                    ) else (
+                        $part//mei:measure[@n = $measureN][1]
+                    )
+                for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
+                let $voiceRef := $part//mei:staffDef/@decls
+                return
+                    concat(
+                        '{id:"', $measure/@xml:id, '",
+                        voice: "', $voiceRef, '",
+                        partLabel: "', eutil:getPartLabel($measure, 'measure'),
+                    '"}')
             return
                 concat('{',
                     'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',
@@ -59,25 +67,22 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
                     'mdivs: ["', $mdiv/@xml:id, '"], ',
                     'name: "', $measureN, '"',
                 '}')
-    )
-
-    else(
+    ) else (
         for $measure in $mei/id($mdivID)//mei:measure
-            let $hasLabel := exists($measure[@label])
-            let $attr := if($hasLabel)then('label')else('n')
-            let $measures := $mei/id($mdivID)//mei:measure[@*[local-name() = $attr] = $measure/@*[local-name() = $attr]]
-            let $measure := $measures[1]
-            let $measureLabel := measure:getMeasureLabelAttr($measure)
-                return
-                    concat('{',
-                        'id: "', $measure/@xml:id, '", ',
-                        'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
-                        'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ',
-                        'name: "', $measureLabel, '"',
-                    '}')
-        )
+        let $hasLabel := exists($measure[@label])
+        let $attr := if($hasLabel)then('label')else('n')
+        let $measures := $mei/id($mdivID)//mei:measure[@*[local-name() = $attr] = $measure/@*[local-name() = $attr]]
+        let $measure := $measures[1]
+        let $measureLabel := measure:getMeasureLabelAttr($measure)
+        return
+            concat('{',
+                'id: "', $measure/@xml:id, '", ',
+                'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
+                'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ',
+                'name: "', $measureLabel, '"',
+            '}')
+    )
 };
-
 
 (:~
  : Returns an attribute from a measure for labeling
@@ -86,9 +91,12 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
  : @return Attribute Label or N
  :)
 declare function measure:getMeasureLabelAttr($measure as node()){
-    if(exists($measure[@label]))
-    then($measure/@label)
-    else($measure/@n)
+
+    if(exists($measure[@label])) then (
+        $measure/@label
+    ) else (
+        $measure/@n
+    )
 };
 
 (:~
@@ -99,13 +107,16 @@ declare function measure:getMeasureLabelAttr($measure as node()){
  : @return A span containing the label
  :)
 declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel as xs:string)  as node() {
+
     let $measureParentElem := local-name($measure/parent::node())
     return
-        if($measureParentElem = 'supplied')
-        then(<span class="supplied">{'[' || $measureLabel || ']'}</span>)
-        else if($measureParentElem = 'del')
-        then(<span class="del">{$measureLabel}</span>)
-        else(<span>{$measureLabel}</span>)
+        if($measureParentElem = 'supplied') then (
+            <span class="supplied">{'[' || $measureLabel || ']'}</span>
+        ) else if($measureParentElem = 'del') then (
+            <span class="del">{$measureLabel}</span>
+        ) else (
+            <span>{$measureLabel}</span>
+        )
 };
 
 (:~
@@ -115,33 +126,37 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
  : @return A span containing the label
  :)
 declare function measure:getMeasureLabel($measure as node()) as node() {
+
     let $measureLabel := measure:getMeasureLabelAttr($measure)
     let $measureID := $measure/@xml:id
     let $measureFacs := $measure/@facs
     let $measuresZoneRef := $measure/ancestor::mei:mdiv//mei:measure[@facs = $measureFacs]
     let $measureZoneRefCount := count($measuresZoneRef)
+
     let $measureLabels :=
-        if(not($measure/parent::mei:reg))
-        then(
-             if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
-             then(for $measure in $measuresZoneRef
-                    let $measureLabel := measure:getMeasureLabelAttr($measure)
-                    let $measureLabel := measure:makeMeasureLabelCritical($measure, $measureLabel)
-                    let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
-                    return
-                        <span>{$measureLabel}</span>
-                 )
-             else if ($measureZoneRefCount gt 1)
-             then(for $label in $measuresZoneRef
-                    return
-                        measure:makeMeasureLabelCritical($label, $label/string(@label)))
-             else(measure:makeMeasureLabelCritical($measure, $measureLabel))
-        )
-        else if($measure/parent::mei:reg)
-        then(for $measure in $measuresZoneRef
+        if(not($measure/parent::mei:reg)) then (
+            if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest)) then (
+                for $measure in $measuresZoneRef
+                let $measureLabel := measure:getMeasureLabelAttr($measure)
+                let $measureLabel := measure:makeMeasureLabelCritical($measure, $measureLabel)
+                let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
                 return
-                    measure:getRegMeasureLabel($measure/parent::mei:reg))
-        else(<span>noLabel</span>)
+                    <span>{$measureLabel}</span>
+            ) else if ($measureZoneRefCount gt 1) then (
+                for $label in $measuresZoneRef
+                return
+                    measure:makeMeasureLabelCritical($label, $label/string(@label))
+            ) else (
+                measure:makeMeasureLabelCritical($measure, $measureLabel)
+            )
+        ) else if($measure/parent::mei:reg) then (
+            for $measure in $measuresZoneRef
+            return
+                measure:getRegMeasureLabel($measure/parent::mei:reg)
+        ) else (
+            <span>noLabel</span>
+        )
+
     return
         measure:joinMeasureLabels($measureLabels)
 };
@@ -153,12 +168,16 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
  : @return A span containing the joined label
  :)
 declare function measure:joinMeasureLabels($labels as node()*) as node() {
-    <span>{for $label at $pos in functx:distinct-deep($labels)
-            return
-                if($pos = 1)
-                then($label)
-                else('/',$label)
-           }</span>
+
+    <span>{
+        for $label at $pos in functx:distinct-deep($labels)
+        return
+            if($pos = 1) then (
+                $label
+            ) else(
+                '/',$label
+            )
+    }</span>
 };
 
 (:~
@@ -168,6 +187,7 @@ declare function measure:joinMeasureLabels($labels as node()*) as node() {
  : @return The label as string
  :)
 declare function measure:getRegMeasureLabel($reg as node()) as node() {
+
     let $measures := $reg/mei:measure
     let $measuresCount := count($measures)
     let $measureStart := $measures[1]
@@ -184,11 +204,14 @@ declare function measure:getRegMeasureLabel($reg as node()) as node() {
  : @return The value of the rest as string
  :)
 declare function measure:getMRest($measure) {
-    if($measure//mei:mRest)
-    then(string('1'))
-    else if($measure//mei:multiRest)
-    then($measure//mei:multiRest/string(@num))
-    else(string('0'))
+
+    if($measure//mei:mRest) then (
+        string('1')
+    ) else if($measure//mei:multiRest) then(
+        $measure//mei:multiRest/string(@num)
+    ) else (
+        string('0')
+    )
 };
 
 (:~
@@ -198,27 +221,37 @@ declare function measure:getMRest($measure) {
  : @return An array of strings
  :)
 declare function measure:analyzeLabels($measure as node()) {
+
     let $labels := $measure/@label
-    let $labelsAnalyzed := for $label in $labels
-                               return
-                                    if (contains($label, '–'))
-                                    then (let $first := substring-before($label, '–')
-                                          let $last := substring-after($label, '–')
-                                          let $steps := xs:integer(number($last) - number($first) + number(1))
-                                          for $i in 1 to $steps return string(number($first) + $i - 1))
-                                    else ($label)
+
+    let $labelsAnalyzed :=
+        for $label in $labels
+        return
+            if (contains($label, '–')) then (
+                let $first := substring-before($label, '–')
+                let $last := substring-after($label, '–')
+                let $steps := xs:integer(number($last) - number($first) + number(1))
+                for $i in 1 to $steps
+                return string(number($first) + $i - 1)
+            ) else ($label)
+
       return
-        if($labels)
-        then($labelsAnalyzed)
-        else ($measure/@n)
+        if($labels) then (
+            $labelsAnalyzed
+        ) else (
+            $measure/@n
+        )
 };
 
 declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) {
+
     let $measureNNumber := number($measureN)
     return
-        if ($mdiv//mei:measure/@label)
-        then ($mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))])
-        else ($mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))])
+        if ($mdiv//mei:measure/@label) then (
+            $mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))]
+        ) else (
+            $mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))]
+        )
 };
 
 (:~
@@ -240,7 +273,6 @@ declare function measure:getMeasuresOnPage($mei as node(), $surface as node()) a
     return
         for $measure in $measures
         let $measureLabel := measure:getMeasureLabel($measure)
-
         return
             map {
                 'zoneId': $zone/string(@xml:id),
