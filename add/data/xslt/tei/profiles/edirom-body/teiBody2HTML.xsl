@@ -47,28 +47,6 @@
         </xsl:choose>
     </xsl:function>
     
-    <!-- TODO check if still needed as currently unused -->
-    <xsl:function name="tei:calcDimension">
-        <xsl:param name="value"/>
-        <xsl:choose>
-            <xsl:when test="contains($value,'in')">
-                <xsl:value-of select="round($dpi * number(substring-before($value,'in')))"/>
-            </xsl:when>
-            <xsl:when test="contains($value,'pt')">
-                <xsl:value-of select="round($dpi * (number(substring-before($value,'pt')) div 72))"/>
-            </xsl:when>
-            <xsl:when test="contains($value,'cm')">
-                <xsl:value-of select="round($dpi * (number(substring-before($value,'cm')) div 2.54 ))"/>
-            </xsl:when>
-            <xsl:when test="contains($value,'px')">
-                <xsl:value-of select="substring-before($value,'px')"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$value"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:function>
-    
     <!-- OLD EDIROM OVERRIDES -->
     <!-- TODO: check if still needed -->
     <!-- 
