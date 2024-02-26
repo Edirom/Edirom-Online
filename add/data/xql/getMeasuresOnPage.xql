@@ -37,8 +37,6 @@ let $mei := doc($uri)/root()
 let $surface := $mei/id($surfaceId)
 
 return (
-    array {
-        (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
-        measure:getMeasuresOnPage($mei, $surface)
-    }
+    (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
+    measure:getMeasuresOnPage($mei, $surface)
 )
