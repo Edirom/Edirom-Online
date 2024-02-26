@@ -77,8 +77,13 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] display graphic file</desc>
+    </doc>
     <xsl:template name="showGraphic">
-        <xsl:variable name="File">
+        <!-- Edirom Online specific cutomization -->
+        <!-- TODO check if all these cases reolve properly
+        
             <xsl:choose>
                 <xsl:when test="starts-with(@url, 'http://')">
                     <xsl:value-of select="@url"/>
@@ -90,12 +95,12 @@
                     <xsl:variable name="folder-ups" select="functx:number-of-matches(@url, '../')"/>
                     <xsl:variable name="unprefixedDocUri" select="substring-after($docUri, 'xmldb:exist:///db/')"/>
                     <xsl:variable name="uri-tokens" select="tokenize($unprefixedDocUri, '/')" as="xs:string*"/>
-<!--                    <xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-->
+<!-/-                    <xsl:value-of select="string-join(($uri-tokens[position() lt last() - $folder-ups]), '/') || functx:substring-after-last-match(@url, '../')"/>-/->
                     <xsl:value-of select="string-join(($contextPath, $uri-tokens[position() lt last() - $folder-ups + 1], functx:substring-after-last-match(@url, '\.\./')), '/')"/>
                 </xsl:when>
                 <xsl:when test="@url != ''">
                     <xsl:value-of select="@url"/>
-                    <!--<xsl:value-of select="concat($graphicsPrefix, @url)"/>
+                    <!-/-<xsl:value-of select="concat($graphicsPrefix, @url)"/>
                     <xsl:if test="not(contains(@url,'.'))">
                         <xsl:value-of select="$graphicsSuffix"/>
                     </xsl:if>
@@ -119,13 +124,35 @@
                     <xsl:if test="not(@width | @height | @scale)">
                         <xsl:value-of select="concat('dw=350', '&amp;', 'amp;')"/>
                     </xsl:if>
-                    <xsl:text>mo=fit</xsl:text>-->
+                    <xsl:text>mo=fit</xsl:text>-/->
                 </xsl:when>
                 <xsl:when test="@url = ''">error<xsl:value-of select="$graphicsSuffix"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:message terminate="yes">Cannot work out how to do a graphic
                     </xsl:message>
+                </xsl:otherwise>
+            </xsl:choose>
+        -->
+        <xsl:variable name="graphicsPrefix">
+            <xsl:choose>
+                <xsl:when test="starts-with(@url, '../')">
+                    <xsl:value-of select="$contextPath || '/' || substring-after(functx:substring-before-last($docUri, '/'), 'xmldb:exist:///db/') || '/'"/>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- /Edirom Online specific cutomization -->
+        <xsl:variable name="File">
+            <xsl:choose>
+                <xsl:when test="self::tei:binaryObject"/>
+                <xsl:when test="@url">
+                    <xsl:sequence select="tei:resolveURI(.,@url)"/>
+                    <xsl:if test="not(contains(@url,'.'))">
+                        <xsl:value-of select="$graphicsSuffix"/>
+                    </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:message>Found binaryObject without @url.</xsl:message>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -159,7 +186,8 @@
                 <xsl:choose>
                     <xsl:when test="@type='thumbnail'"/>
                     <xsl:when test="starts-with(@mimeType, 'video')">
-                        <video src="{$File}" controls="controls">
+                        <video src="{$graphicsPrefix}{$File}"
+                            controls="controls">
                             <xsl:if test="../tei:graphic[@type='thumbnail']">
                                 <xsl:attribute name="poster">
                                     <xsl:value-of select="../tei:graphic[@type='thumbnail']/@url"/>
@@ -168,42 +196,68 @@
                         </video>
                     </xsl:when>
                     <xsl:otherwise>
-                        <img src="{$File}">
-                            <xsl:attribute name="alt">
-                                <xsl:value-of select="$Alt"/>
-                            </xsl:attribute>
-                            <xsl:call-template name="imgHook"/>
-                            <xsl:if test="@xml:id">
-                                <xsl:attribute name="id">
-                                    <xsl:value-of select="@xml:id"/>
-                                </xsl:attribute>
-                            </xsl:if>
-                            <xsl:call-template name="rendToClass"/>
+                        <xsl:variable name="sizes">
                             <xsl:if test="@width">
-                                <xsl:call-template name="setDimension">
-                                    <xsl:with-param name="value">
-                                        <xsl:value-of select="@width"/>
-                                    </xsl:with-param>
-                                    <xsl:with-param name="name">width</xsl:with-param>
-                                </xsl:call-template>
+                                <xsl:text> width:</xsl:text>
+                                <xsl:value-of select="@width"/>
+                                <xsl:text>;</xsl:text>
                             </xsl:if>
                             <xsl:if test="@height">
-                                <xsl:call-template name="setDimension">
-                                    <xsl:with-param name="value">
-                                        <xsl:value-of select="@height"/>
-                                    </xsl:with-param>
-                                    <xsl:with-param name="name">height</xsl:with-param>
-                                </xsl:call-template>
+                                <xsl:text> height:</xsl:text>
+                                <xsl:value-of select="@height"/>
+                                <xsl:text>;</xsl:text>
                             </xsl:if>
-                        </img>
+                        </xsl:variable>
+                        <xsl:variable name="i">
+                            <img>
+                                <xsl:attribute name="src">
+                                    <xsl:choose>
+                                        <xsl:when test="self::tei:binaryObject">
+                                            <xsl:variable name="mime" select="if (@mimeType) then @mimeType else 'image/*'"/>
+                                            <xsl:variable name="enc" select="if (@encoding) then @encoding else 'base64'"/>
+                                            <xsl:value-of select="concat('data:', $mime, ';', $enc, ',', normalize-space(text()))"/>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <xsl:value-of
+                                                select="concat($graphicsPrefix,$File)"/>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </xsl:attribute>
+                                <xsl:attribute name="alt">
+                                    <xsl:value-of select="$Alt"/>
+                                </xsl:attribute>
+                                <xsl:call-template name="imgHook"/>
+                                <xsl:if test="@xml:id">
+                                    <xsl:attribute name="id">
+                                        <xsl:value-of select="@xml:id"/>
+                                    </xsl:attribute>
+                                </xsl:if>
+                                <xsl:call-template name="makeRendition"/>
+                            </img>
+                        </xsl:variable>
+                        <xsl:for-each select="$i/*">
+                            <xsl:copy>
+                                <xsl:copy-of select="@*[not(name()='style')]"/>
+                                <xsl:choose>
+                                    <xsl:when test="$sizes=''">
+                                        <xsl:copy-of select="@style"/>
+                                    </xsl:when>
+                                    <xsl:when test="not(@style)">
+                                        <xsl:attribute name="style" select="$sizes"/>
+                                    </xsl:when>
+                                    <xsl:otherwise>
+                                        <xsl:attribute name="style"
+                                            select="concat(@style,';' ,$sizes)"/>
+                                    </xsl:otherwise>
+                                </xsl:choose>
+                            </xsl:copy>
+                        </xsl:for-each>
                     </xsl:otherwise>
                 </xsl:choose>
             </xsl:when>
             <xsl:otherwise>
                 <div class="altfigure">
-                    <xsl:call-template name="i18n">
-                        <xsl:with-param name="word">figureWord</xsl:with-param>
-                    </xsl:call-template>
+                    <xsl:sequence select="tei:i18n('figureWord')"/>
                     <xsl:text> </xsl:text>
                     <xsl:for-each select="self::tei:figure|parent::tei:figure">
                         <xsl:number count="tei:figure[tei:head]" level="any"/>
