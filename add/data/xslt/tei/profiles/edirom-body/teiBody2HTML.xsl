@@ -68,7 +68,9 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    <xsl:template name="makeSection">
+    
+    <!-- OLD EDIROM OVERRIDES -->
+    <!--<xsl:template name="makeSection">
         <xsl:param name="element"/>
         <xsl:element name="div">
             <xsl:attribute name="class" select="string('section')"/>
@@ -1036,5 +1038,7 @@
     <xsl:template name="stdheader">
         <xsl:param name="title"/>
     </xsl:template>
+    
+    <!-- / OLD EDIROM OVERRIDES -->
     
 </xsl:stylesheet>
