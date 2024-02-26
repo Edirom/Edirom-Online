@@ -24,6 +24,7 @@
                 <include name="data/xqm/"/>
                 <include name="data/xslt/*"/>
                 <include name="data/xslt/i18n/"/>
+                <include name="data/xslt/tei/profiles/**"/>
                 <include name="data/xslt/tei/Stylesheets/catalog.xml"/>
                 <include name="data/xslt/tei/Stylesheets/i18n.xml"/>
                 <include name="data/xslt/tei/Stylesheets/html/"/>
