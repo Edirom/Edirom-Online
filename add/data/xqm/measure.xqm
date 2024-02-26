@@ -1,52 +1,42 @@
 xquery version "3.1";
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
-
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
-
-:)
-
+ : For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
 (:~
-: This module provides library functions for Sources
-:
-: @author Dennis Ried
-:)
+ : This module provides library functions for Sources
+ :
+ : @author Dennis Ried
+ :)
 module namespace measure = "http://www.edirom.de/xquery/measure";
+
+(: IMPORTS ================================================================= :)
+
+import module namespace functx="http://www.functx.com";
+
+import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+
+(: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
-import module namespace functx="http://www.functx.com";
+(: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
-: Returns maps for each measure containing measure ID, measures (if multiRest), mdiv ID and a label 
-:
-: @param $mei the mei file
-: @param $mdivID the ID of the mdiv
-: @return Maps (as strings)
-:)
+ : Returns maps for each measure containing measure ID, measures (if multiRest), mdiv ID and a label
+ :
+ : @param $mei the mei file
+ : @param $mdivID the ID of the mdiv
+ : @return Maps (as strings)
+ :)
 declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
-    
+
     if($mei//mei:parts)
     then(
         let $mdiv := $mei/id($mdivID)
         let $measureNs := for $measure in $mdiv//mei:measure
                             return measure:analyzeLabels($measure)
-                          
+
         let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
         return
             for $measureN in $measureNsDistinct
@@ -70,7 +60,7 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
                     'name: "', $measureN, '"',
                 '}')
     )
-    
+
     else(
         for $measure in $mei/id($mdivID)//mei:measure
             let $hasLabel := exists($measure[@label])
@@ -90,11 +80,11 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
 
 
 (:~
-: Returns an attribute from a measure for labeling 
-:
-: @param $measure The measure to be processed
-: @return Attribute Label or N
-:)
+ : Returns an attribute from a measure for labeling
+ :
+ : @param $measure The measure to be processed
+ : @return Attribute Label or N
+ :)
 declare function measure:getMeasureLabelAttr($measure as node()){
     if(exists($measure[@label]))
     then($measure/@label)
@@ -102,12 +92,12 @@ declare function measure:getMeasureLabelAttr($measure as node()){
 };
 
 (:~
-: Adds diacritical characters
-:
-: @param $measure The measure to be processed
-: @param $measureLabel The label of the measure
-: @return A span containing the label
-:)
+ : Adds diacritical characters
+ :
+ : @param $measure The measure to be processed
+ : @param $measureLabel The label of the measure
+ : @return A span containing the label
+ :)
 declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel as xs:string)  as node() {
     let $measureParentElem := local-name($measure/parent::node())
     return
@@ -119,18 +109,18 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
 };
 
 (:~
-: Returns a label for a measure (range) 
-:
-: @param $measure The measure to be processed
-: @return A span containing the label
-:)
+ : Returns a label for a measure (range)
+ :
+ : @param $measure The measure to be processed
+ : @return A span containing the label
+ :)
 declare function measure:getMeasureLabel($measure as node()) as node() {
     let $measureLabel := measure:getMeasureLabelAttr($measure)
     let $measureID := $measure/@xml:id
     let $measureFacs := $measure/@facs
     let $measuresZoneRef := $measure/ancestor::mei:mdiv//mei:measure[@facs = $measureFacs]
     let $measureZoneRefCount := count($measuresZoneRef)
-    let $measureLabels := 
+    let $measureLabels :=
         if(not($measure/parent::mei:reg))
         then(
              if(($measureZoneRefCount gt 1) and ($measure//mei:multiRest))
@@ -157,11 +147,11 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
 };
 
 (:~
-: Returns a label for a measure (range) 
-:
-: @param $labels The measure to be processed
-: @return A span containing the joined label
-:)
+ : Returns a label for a measure (range)
+ :
+ : @param $labels The measure to be processed
+ : @return A span containing the joined label
+ :)
 declare function measure:joinMeasureLabels($labels as node()*) as node() {
     <span>{for $label at $pos in functx:distinct-deep($labels)
             return
@@ -172,11 +162,11 @@ declare function measure:joinMeasureLabels($labels as node()*) as node() {
 };
 
 (:~
-: Returns a label for a regularized measure (range) 
-:
-: @param $reg The reg element (containing measure) to be processed
-: @return The label as string
-:)
+ : Returns a label for a regularized measure (range)
+ :
+ : @param $reg The reg element (containing measure) to be processed
+ : @return The label as string
+ :)
 declare function measure:getRegMeasureLabel($reg as node()) as node() {
     let $measures := $reg/mei:measure
     let $measuresCount := count($measures)
@@ -188,11 +178,11 @@ declare function measure:getRegMeasureLabel($reg as node()) as node() {
 };
 
 (:~
-: Returns the value of a (multi) measure rest
-:
-: @param $measure The measure to be processed
-: @return The value of the rest as string
-:)
+ : Returns the value of a (multi) measure rest
+ :
+ : @param $measure The measure to be processed
+ : @return The value of the rest as string
+ :)
 declare function measure:getMRest($measure) {
     if($measure//mei:mRest)
     then(string('1'))
@@ -202,11 +192,11 @@ declare function measure:getMRest($measure) {
 };
 
 (:~
-: Returns resolved labels
-:
-: @param $measure The measure to be processed
-: @return An array of strings
-:)
+ : Returns resolved labels
+ :
+ : @param $measure The measure to be processed
+ : @return An array of strings
+ :)
 declare function measure:analyzeLabels($measure as node()) {
     let $labels := $measure/@label
     let $labelsAnalyzed := for $label in $labels
@@ -232,25 +222,25 @@ declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as 
 };
 
 (:~
-    Finds all measures on a page.
-    
-    @param $mei The sourcefile
-    @param $surface The surface to look at
-    @returns A list of json objects with measure information
-:)
+ : Finds all measures on a page.
+ :
+ : @param $mei The sourcefile
+ : @param $surface The surface to look at
+ : @returns A list of json objects with measure information
+ :)
 declare function measure:getMeasuresOnPage($mei as node(), $surface as node()) as map(*)* {
 
     for $zone in $surface/mei:zone[@type='measure']
     let $zoneRef := concat('#', $zone/@xml:id)
-    (: 
-        The first predicate with `contains` is just a rough estimate to narrow down the result set.
-        It uses the index and is fast while the second (exact) predicate is generally too slow
-    :)
+    (:
+     : The first predicate with `contains` is just a rough estimate to narrow down the result set.
+     : It uses the index and is fast while the second (exact) predicate is generally too slow
+     :)
     let $measures := $mei//mei:measure[contains(@facs, $zoneRef)][$zoneRef = tokenize(@facs, '\s+')]
     return
         for $measure in $measures
         let $measureLabel := measure:getMeasureLabel($measure)
-        
+
         return
             map {
                 'zoneId': $zone/string(@xml:id),
