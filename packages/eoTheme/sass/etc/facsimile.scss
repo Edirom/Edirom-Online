@@ -17,6 +17,10 @@
     	@include background-image(radial-gradient(center , rgba(100, 100, 100, 0.3), rgba(0, 0, 0, 0) 5px));
 	}
 	
+	.del {
+        text-decoration: line-through;
+    }
+	
 	.measure.highlighted {
 		 box-shadow: 0 0 4px rgba(0, 0, 0, 0.6) inset;
 	}
