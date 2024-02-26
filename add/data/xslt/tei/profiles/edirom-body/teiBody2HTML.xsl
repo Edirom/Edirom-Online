@@ -70,12 +70,29 @@
     </xsl:function>
     
     <!-- OLD EDIROM OVERRIDES -->
-    <!--<xsl:template name="makeSection">
+    <!-- TODO: check if still needed -->
+    <!-- 
+        maybe this is not needed any more and was for the header transformation.
+        potential solution iv override still needed
+        capture Edirom specific cases and default to:
+        <xsl:next-match>
+            <xsl:with-param name="level" select="$level"/>
+            <xsl:with-param name="heading" select="if (tei:getLabel(local-name($element)) != '') then tei:getLabel(local-name($element)) else if ($heading != '') then $heading else local-name($element)"/>
+            <xsl:with-param name="implicitBlock" select="$implicitBlock"/>
+        </xsl:next-match>
+    -->
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>Section-like object</desc>
+    </doc>
+    <xsl:template name="makeSection">
         <xsl:param name="element"/>
+        <xsl:param name="level"/>
+        <xsl:param name="heading"/>
+        <xsl:param name="implicitBlock"/>
         <xsl:element name="div">
             <xsl:attribute name="class" select="string('section')"/>
-            <xsl:element name="h1">
-                <xsl:value-of select="if(tei:getLabel(local-name($element)) != '')then(tei:getLabel(local-name($element)))else(local-name($element))"/>
+            <xsl:element name="h{$level}">
+                <xsl:value-of select="if (tei:getLabel(local-name($element)) != '') then tei:getLabel(local-name($element)) else if ($heading != '') then $heading else local-name($element)"/>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class" select="string('propertyList')"/>
