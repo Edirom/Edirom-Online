@@ -17,6 +17,19 @@
     <xsl:param name="textType"/>
     <!-- END FREIDI PARAMETER -->
     <xsl:variable name="masterFile" select="string('file')"/>
+    <!-- LEGACY TEI PARAM -->
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl" class="misc" type="string">
+        <desc>
+            <p>Character separating values in a rend attribute.</p>
+            <p>Some projects use multiple values in <tt
+                xmlns="http://www.w3.org/1999/xhtml">rend</tt>
+                attributes. These are handled, but the separator character(s)
+                must be specified.</p>
+        </desc>
+    </doc>
+    <xsl:param name="rendSeparator">; </xsl:param>
+    <!-- / LEGACY TEI PARAM -->
+    
     <xd:doc scope="component">
         <xd:desc>The language variable for the Edirom Online language file.</xd:desc>
     </xd:doc>
@@ -1090,4 +1103,203 @@
     
     <!-- / OLD EDIROM OVERRIDES -->
     
+    
+    <!-- SAVED OLD TEI FUNCTIONS AND TEMPLATES TO MAKE THIS WORK -->
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] Active a value for @rend<param name="value">value</param>
+        </desc>
+    </doc>
+    <xsl:template name="applyRend">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:param name="value"/>
+        <xsl:choose>
+            <xsl:when test="not($value='')">
+                <xsl:variable name="thisparm" select="substring-before($value,$rendSeparator)"/>
+                <xsl:call-template name="renderingInner">
+                    <xsl:with-param name="value" select="$thisparm"/>
+                    <xsl:with-param name="rest" select="substring-after($value,$rendSeparator)"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] convert rend attribute to HTML class</desc>
+    </doc>
+    <xsl:template name="rendToClass">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:param name="id">true</xsl:param>
+        <xsl:param name="default">.</xsl:param>
+        <xsl:choose>
+            <xsl:when test="$id='false'"/>
+            <xsl:when test="$id=''"/>
+            <xsl:when test="$id='true' and @xml:id">
+                <xsl:attribute name="id">
+                    <xsl:value-of select="@xml:id"/>
+                </xsl:attribute>
+            </xsl:when>
+            <xsl:when test="$id='true' and self::tei:p and $generateParagraphIDs='true'">
+                <xsl:attribute name="id">
+                    <xsl:value-of select="generate-id()"/>
+                </xsl:attribute>
+            </xsl:when>
+            <xsl:when test="$id='true'"/>
+            <xsl:otherwise>
+                <xsl:attribute name="id" select="$id"/>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:if test="$outputTarget='html5'">
+            <xsl:call-template name="microdata"/>
+        </xsl:if>
+        <xsl:variable name="class1">
+            <xsl:choose>
+                <xsl:when test="$default=''"/>
+                <xsl:when test="not($default='.')">
+                    <xsl:value-of select="$default"/>
+                </xsl:when>
+                <xsl:when test="@type">
+                    <xsl:value-of select="@type"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="local-name()"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:call-template name="rendToClassHook"/>
+            <xsl:if test="tei:isTranscribable(.) and $mediaoverlay='true'">
+                <xsl:text> transcribable</xsl:text>
+            </xsl:if>
+        </xsl:variable>
+        <xsl:variable name="class2">
+            <xsl:choose>
+                <xsl:when test="@rend">
+                    <xsl:value-of select="translate(@rend,'/','-')"/>
+                </xsl:when>
+                <xsl:when test="@rendition">
+                    <xsl:call-template name="findRendition">
+                        <xsl:with-param name="value">
+                            <xsl:value-of select="@rendition"/>
+                        </xsl:with-param>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:when test="key('TAGREND',local-name())">
+                    <xsl:for-each select="key('TAGREND',local-name())">
+                        <xsl:call-template name="findRendition">
+                            <xsl:with-param name="value">
+                                <xsl:value-of select="@render"/>
+                            </xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:for-each>
+                </xsl:when>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:choose>
+            <xsl:when test="$class1='' and $class2=''"/>
+            <xsl:when test="$class2=''">
+                <xsl:attribute name="class">
+                    <xsl:value-of select="normalize-space($class1)"/>
+                </xsl:attribute>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:attribute name="class">
+                    <xsl:if test="not($class1='')">
+                        <xsl:value-of select="$class1"/>
+                        <xsl:text> </xsl:text>
+                    </xsl:if>
+                    <xsl:value-of select="$class2"/>
+                </xsl:attribute>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:choose>
+            <xsl:when test="@rendition">
+                <xsl:call-template name="applyRendition"/>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] Activate a value for @rendition<param name="value">value</param>
+        </desc>
+    </doc>
+    <xsl:template name="applyRendition">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:attribute name="class">
+            <xsl:for-each select="tokenize(normalize-space(@rendition),' ')">
+                <xsl:call-template name="findRendition">
+                    <xsl:with-param name="value">
+                        <xsl:value-of select="."/>
+                    </xsl:with-param>
+                </xsl:call-template>
+            </xsl:for-each>
+        </xsl:attribute>
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] Look up rendition value <param name="value">value</param>
+        </desc>
+    </doc>
+    <xsl:template name="findRendition">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:param name="value"/>
+        <xsl:choose>
+            <xsl:when test="starts-with($value,'#')">
+                <xsl:value-of select="substring-after($value,'#')"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:for-each select="document($value)">
+                    <xsl:apply-templates select="@xml:id"/>
+                </xsl:for-each>
+            </xsl:otherwise>
+        </xsl:choose>
+        <xsl:text> </xsl:text>
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] allow for local extensions to rendToClass</desc>
+    </doc>
+    <xsl:template name="rendToClassHook">
+        <!-- TODO: do we really need this? look for alternative in new version of Stylesheets -->
+    </xsl:template>
+    
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html] Process unknown rend attribute by turning it into
+            an HTML class<param name="value">current value</param>
+            <param name="rest">remaining values</param>
+        </desc>
+    </doc>
+    <xsl:template name="unknownRendBlock">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:param name="value"/>
+        <xsl:param name="rest"/>
+        <xsl:if test="not($value='')">
+            <xsl:attribute name="class">
+                <xsl:value-of select="$value"/>
+            </xsl:attribute>
+            <xsl:call-template name="applyRend">
+                <xsl:with-param name="value" select="$rest"/>
+            </xsl:call-template>
+        </xsl:if>
+    </xsl:template>
+    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
+        <desc>[html]  Process unknown rend attribute by turning it into
+            an HTML class<param name="value">value</param>
+            <param name="rest">rest</param>
+        </desc>
+    </doc>
+    <xsl:template name="unknownRendInline">
+        <!-- TODO: look for alternative in new version of Stylesheets -->
+        <xsl:param name="value"/>
+        <xsl:param name="rest"/>
+        <xsl:if test="not($value='')">
+            <span class="{$value}">
+                <xsl:call-template name="applyRend">
+                    <xsl:with-param name="value" select="$rest"/>
+                </xsl:call-template>
+            </span>
+        </xsl:if>
+    </xsl:template>
+    <!-- /SAVED OLD TEI TEMPLATES TO MAKE THIS WORK -->
 </xsl:stylesheet>
