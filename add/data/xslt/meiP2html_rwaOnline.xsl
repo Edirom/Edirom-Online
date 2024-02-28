@@ -14,12 +14,14 @@
     
     <xsl:variable name="configResource" select="doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')"/>
     <xsl:variable name="config" select="$configResource//conf:elements[@type = 'rwaOnline']"/>
+    <xsl:variable name="activeObjectTypes" select="$config//conf:objectType/text()"/>
+    <xsl:variable name="activeMRIWorks">
+        <xsl:value-of select="doc('xmldb:exist:///db/apps/rwaData/cache/mriWorks-activeWorkDescs.xml')//mei:work/@corresp"/>
+    </xsl:variable>
     <xsl:variable name="rwaOnlineURL" select="$configResource//conf:rwaOnlineURL/string()"/>
     <xsl:variable name="docuservURL" select="$configResource//conf:docuservURL/string()"/>
     <xsl:variable name="imagePath" select="concat($docuservURL, 'edition-rwa/images/')"/>
     <xsl:variable name="docuservOptions" select="string('?mo=file')"/>
-    <xsl:variable name="activeObjectTypes" select="$config//conf:objectType/text()"/>
-    <xsl:variable name="activeMRIWorks" select="'mri_work_00036', 'mri_work_00038', 'mri_work_00044', 'mri_work_00049', 'mri_work_00052', 'mri_work_00055', 'mri_work_00788', 'mri_work_00789', 'mri_work_00250', 'mri_work_00253', 'mri_work_00248', 'mri_work_00249', 'mri_work_00254', 'mri_work_00256', 'mri_work_00255', 'mri_work_00230', 'mri_work_00130', 'mri_work_00131', 'mri_work_00132', 'mri_work_00942', 'mri_work_01000', 'mri_work_00221', 'mri_work_01039', 'mri_work_01040', 'mri_work_00222', 'mri_work_00168'"/>
     
     <xsl:variable name="footnotes">
         <xsl:copy-of select=".//mei:annot[@type = 'note' and @place = 'foot']"/>
@@ -54,17 +56,17 @@
     </xsl:function>
     
     <xsl:function name="local:getObjectType">
-        <xsl:param name="objectID"/>
+        <xsl:param name="objectID"></xsl:param>
         <xsl:choose>
             <xsl:when test="matches($objectID, 'mri_work_*')">mriWork</xsl:when>
-            <xsl:when test="matches($objectID, 'mri_postalObject_*')">mriPostalObject</xsl:when>
+            <xsl:when test="matches($objectID, 'mri_postObj_*')">mriPostalItem</xsl:when>
             <xsl:when test="matches($objectID, 'mri_doc_*')">mriDocument</xsl:when>
             <xsl:when test="matches($objectID, 'mri_pers_*')">mriPersonalia</xsl:when>
             <xsl:when test="matches($objectID, 'mri_inst_*')">mriPersonalia</xsl:when>
             <xsl:when test="matches($objectID, 'mri_template_*')">mriTemplate</xsl:when>
             <xsl:when test="matches($objectID, 'mri_loc_*')">mriLocation</xsl:when>
-            <xsl:when test="matches($objectID, 'rwa_essay_*')">rwaEssay</xsl:when>
-            <xsl:when test="matches($objectID, 'rwa_annotation_*')">rwaAnnot</xsl:when>
+            <xsl:when test="matches($objectID, 'rwa_blogpost_*')">rwaBlogpost</xsl:when>
+            <xsl:when test="matches($objectID, 'bio_*')">mrpBio</xsl:when>
             <xsl:otherwise>undefined</xsl:otherwise>
         </xsl:choose>
     </xsl:function>
