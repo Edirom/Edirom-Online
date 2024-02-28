@@ -112,7 +112,7 @@
                                 <xsl:text>', {})</xsl:text>
                             </xsl:attribute>
                         </xsl:when>
-                        <xsl:when test="$objectType = ('rwaEssay', 'mriPersonalia', 'mriWork', 'mriPostalObject', 'mriTemplate')">
+                        <xsl:when test="$objectType = $activeObjectTypes">
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink('</xsl:text>
                                 <xsl:value-of select="$rwaOnlineURL"/>
