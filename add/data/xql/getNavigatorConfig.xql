@@ -1,4 +1,4 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
   Edirom Online
   Copyright (C) 2011 The Edirom Project
@@ -106,28 +106,42 @@ declare function local:getSeparator() {
     <div class="navigatorSeparator"></div>
 };
 
-declare function local:getDefinition($navConfig) {
+declare function local:getDefinition($navConfig, $edition) {
     let $elems := $navConfig/*
-    for $elem in $elems
+    let $identModule := $edition//edirom:identifier[@type = 'module']
+    let $moduleName := 
+        switch ($identModule)
+        case '01' return 'I'
+        case '02' return 'II'
+        case '03' return 'III'
+        default return ''
+    let $identVolume := $edition//edirom:identifier[@type = 'volume']
+    let $volName := $edition/edirom:editionName/edirom:name[@xml:lang = $lang]
+    let $rwaEditionVolIdentString := concat('RWA&#160;', $moduleName, '/', number($identVolume))
     return
-        if(local-name($elem) eq 'navigatorItem')
-        then(
-            local:getItem($elem, 1)
-        )
-        else if(local-name($elem) eq 'navigatorSeparator')
-        then(
-            local:getSeparator()
-        )
-        else if(local-name($elem) eq 'navigatorCategory')
-        then(
-            (: check if there are any items in category to show, dependig on (RWA) rules defined in local:getDefinition :)
-            let $category := local:getCategory($elem, 1)
+        (
+            <div class="rwaNavigatorVolIdent">{$rwaEditionVolIdentString}</div>,
+            for $elem in $elems
             return
-                if ($category//div[starts-with(./@class, 'navigatorItem')])
-                then ($category)
-                else ()
+                if(local-name($elem) eq 'navigatorItem')
+                then(
+                    local:getItem($elem, 1)
+                )
+                else if(local-name($elem) eq 'navigatorSeparator')
+                then(
+                    local:getSeparator()
+                )
+                else if(local-name($elem) eq 'navigatorCategory')
+                then(
+                    (: check if there are any items in category to show, dependig on (RWA) rules defined in local:getDefinition :)
+                    let $category := local:getCategory($elem, 1)
+                    return
+                        if ($category//div[starts-with(./@class, 'navigatorItem')])
+                        then ($category)
+                        else ()
+                )
+                else()
         )
-        else()
 };
 
 let $editionId := request:get-parameter('editionId', '')
@@ -137,4 +151,4 @@ let $work := $edition/id($workId)
 let $navConfig := $work/edirom:navigatorDefinition
 
 return
-    local:getDefinition($navConfig)
+    local:getDefinition($navConfig, $edition)
