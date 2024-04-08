@@ -21,18 +21,6 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns whether a document is a work or not
- :
- : @param $uri The URI of the document
- : @return Is work or not
- :)
-declare function teitext:isText($uri as xs:string) as xs:boolean {
-
-    exists(doc($uri)/tei:TEI)
-
-};
-
-(:~
  : Returns a text's label
  :
  : @param $source The URIs of the Text's document to process
@@ -43,5 +31,17 @@ declare function teitext:getLabel($uri as xs:string, $edition as xs:string) as x
     let $language := eutil:getLanguage($edition)
 
     return doc($uri)//tei:titleStmt/data(tei:title[not(@xml:lang) or @xml:lang = $language])
+
+};
+
+(:~
+ : Returns whether a document is a work or not
+ :
+ : @param $uri The URI of the document
+ : @return Is work or not
+ :)
+declare function teitext:isText($uri as xs:string) as xs:boolean {
+
+    exists(doc($uri)/tei:TEI)
 
 };
