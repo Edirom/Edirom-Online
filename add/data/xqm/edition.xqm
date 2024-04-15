@@ -125,7 +125,9 @@ declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string 
  :)
 declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
     
-    doc($uri)//edirom:preferences/@xlink:href => string()
+    if(doc($uri)//edirom:preferences/@xlink:href => string()) then(
+        doc($uri)//edirom:preferences/@xlink:href => string()
+    ) else ('../prefs/edirom-prefs.xml')
 };
 
 (:~
