@@ -15,8 +15,24 @@
     <tstamp/>
 
     <target name="build-plus">
-        <copy todir="${build.dir}">
-            <fileset dir="${basedir}/add"/>
+        <copy todir="${build.dir}" preservelastmodified="true">
+            <fileset dir="${basedir}/add">
+                <include name="*"/>
+                <include name="data/locale/"/>
+                <include name="data/prefs/"/>
+                <include name="data/xql/"/>
+                <include name="data/xqm/"/>
+                <include name="data/xslt/*"/>
+                <include name="data/xslt/i18n/"/>
+                <include name="data/xslt/tei/profiles/**"/>
+                <include name="data/xslt/tei/Stylesheets/catalog.xml"/>
+                <include name="data/xslt/tei/Stylesheets/i18n.xml"/>
+                <include name="data/xslt/tei/Stylesheets/html/"/>
+                <include name="data/xslt/tei/Stylesheets/common/"/>
+                <include name="data/xslt/tei/Stylesheets/VERSION"/>
+                <include name="help/**"/>
+                <include name="index/**"/>
+            </fileset>
             <filterset begintoken="@" endtoken="@">
                 <filter token="project.version" value="${project.version}"/>
                 <filter token="project.app" value="${project.app}"/>

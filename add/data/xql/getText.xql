@@ -6,18 +6,28 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+
 declare namespace request = "http://exist-db.org/xquery/request";
+
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
+
 declare namespace xhtml = "http://www.w3.org/1999/xhtml";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
-(:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
+declare option output:method "xhtml";
+
+declare option output:media-type "text/html";
+
+declare option output:omit-xml-declaration "yes";
+
+declare option output:indent "yes";
 
 (: QUERY BODY ============================================================== :)
 
@@ -28,8 +38,8 @@ let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
 let $doc := eutil:getDoc($uri)/root()
 let $contextPath := request:get-context-path()
-
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
+
 let $xslInstruction :=
     for $i in fn:serialize($xslInstruction, ())
     return
@@ -56,6 +66,7 @@ let $doc :=
     else (
         let $pb1 := $doc//tei:pb[@facs eq '#' || $page]/@n
         let $pb2 := ($doc//tei:pb[@facs eq '#' || $page]/following::tei:pb)[1]/@n
+        
         return
             transform:transform($doc, doc('../xslt/reduceToPage.xsl'),
                 <parameters>
@@ -65,8 +76,7 @@ let $doc :=
             )
     )
 
-let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
-
+let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '')
 let $edition := request:get-parameter('edition', '')
 let $imageserver := eutil:getPreference('image_server', $edition)
 
@@ -80,7 +90,7 @@ let $xsl :=
     if ($xslInstruction) then
         ($xslInstruction)
     else
-        ('../xslt/teiBody2HTML.xsl')
+        ('../xslt/tei/profiles/edirom-body/teiBody2HTML.xsl')
 
 (:TODO introduce injection-point for tei-stylesheet parameters :)
 let $params := (
@@ -89,26 +99,26 @@ let $params := (
     <param name="docUri" value="{$uri}"/>,
     <param name="contextPath" value="{$contextPath}"/>,
     (: parameters for the TEI Stypesheets :)
-    <param name="autoHead" value="'false'"/>,
-    <param name="autoToc" value="'false'"/>,
+    <param name="autoHead" value="false"/>,
+    <param name="autoToc" value="false"/>,
     <param name="base" value="{concat($base, '/../xslt/')}"/>,
+    <param name="documentationLanguage" value="{eutil:getLanguage($edition)}"/>,
     <param name="footnoteBackLink" value="true"/>,
-    <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO frm XSLT <param name="graphicsPrefix"/>:)
-    <param name="numberHeadings" value="'false'"/>,
-    <param name="pageLayout" value="'CSS'"/>
+    <param name="graphicsPrefix" value="{$imagePrefix}"/>, (:TODO from XSLT <param name="graphicsPrefix"/>:)
+    <param name="numberHeadings" value="false"/>,
+    <param name="pageLayout" value="CSS"/>
 )
 
-let $doc :=
-    if ($xslInstruction) then
-        (transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
-    else
-        (transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>))
+let $doc := transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
 
-let $doc :=
-    transform:transform($doc, doc('../xslt/edirom_idPrefix.xsl'),
-        <parameters>
-            <param name="idPrefix" value="{$idPrefix}"/></parameters>
-    )
+(: Do a second transformation to add edirom online ID prefixes for unique ID values if object is open mutiple times :)
+let $xsl := '../xslt/edirom_idPrefix.xsl'
+
+let $params := (
+    <param name="idPrefix" value="{$idPrefix}"/>
+)
+
+let $doc := transform:transform($doc, doc($xsl), <parameters>{$params}</parameters>)
 
 let $body := $doc//xhtml:body
 
