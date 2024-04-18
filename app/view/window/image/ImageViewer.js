@@ -784,12 +784,13 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         var imgX = (-me.offX / me.zoom);
         var imgY = (-me.offY / me.zoom);
+        var imgWidth = (me.getWidth() / me.zoom);
+        var imgHeight = (me.getHeight() / me.zoom);
+
         if (me.imgRotate == 180) {
             imgX = me.imgWidth - imgX - imgWidth;
             imgY = me.imgHeight - imgY - imgHeight;
         }
-        var imgWidth = (me.getWidth() / me.zoom);
-        var imgHeight = (me.getHeight() / me.zoom);
 
         if(imgWidth > me.imgWidth - imgX) imgWidth = me.imgWidth - imgX;
         if(imgHeight > me.imgHeight - imgY) imgHeight = me.imgHeight - imgY;
