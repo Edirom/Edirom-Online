@@ -450,10 +450,10 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
         
-        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
+        me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue()); // see onShowMeasure in MeasureBasedView controller
     },
     
-    showMeasure: function(data) {
+    showMeasure: function(data) { // called by MeasureBasedView controller
         var me = this;
         
         Ext.Array.each(me.imageViewers, function(viewer) {
@@ -467,19 +467,26 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actPage = '';
         var actSystem = 0;
         var lastULX = 0;
+        var lastRotate = 0;
         
         Ext.Array.each(data, function(d) {
-            
             var pageId = d['pageId'];
-            if(actPage != pageId) {
+            if(actPage != pageId) { // additional viewer for each distinct pageId
                 viewerCount++;
                 actPage = pageId;
                 actSystem = 0;
-                lastULX = 0;
+                lastRotate = d['rotate'];
+                lastULX = lastRotate == 180 ? d['width'] : 0;
             }
-            
+
+            if(lastRotate != d['rotate']) { // add. viewer for differently rotated elements
+                viewerCount++;
+                actSystem++;
+                lastRotate = d['rotate'];
+            }
+
             var ulx = d['ulx'];
-            if(lastULX > Number(ulx)) {
+            if((lastRotate == 0 && lastULX > Number(ulx)) || (lastRotate == 180 && lastULX < Number(ulx))) { // add. viewer if in different 'sheet systems'
                 viewerCount++;
                 actSystem++;
             }
@@ -549,10 +556,14 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             
             var viewer = me.imageViewers[i];
             var group = grouped[groupKeys[i]];
-            
+            var rotationAngle = group.measures[0]['rotate'];
+
             if(group.measures[0]['path'] != viewer.imgPath) {
                 viewer.clear();
-                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
+                viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId'], rotationAngle);
+            }
+            if (rotationAngle != viewer.imgRotate) {
+                viewer.rotateView(rotationAngle);
             }
             
             var ulx = Number.MAX_VALUE;
@@ -566,9 +577,13 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                 if(Number(d['lrx']) > lrx) lrx = Number(d['lrx']);
                 if(Number(d['lry']) > lry) lry = Number(d['lry']);
             });
-            
+
             var width = lrx - ulx;
             var height = lry - uly;
+            if (viewer.imgRotate == 180) {
+                ulx = viewer.imgWidth - ulx - width;
+                uly = viewer.imgHeight - uly - height;
+            }
     
             viewer.showRect(ulx, uly, width, height, true);
         }
