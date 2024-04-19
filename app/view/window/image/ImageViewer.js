@@ -116,6 +116,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         me.imgWidth = width;
         me.imgHeight = height;
+        me.imgRotate = null;
         me.imgPath = path;
         me.imgId = pageId;
 
