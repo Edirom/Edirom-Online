@@ -21,6 +21,10 @@ Ext.define('EdiromOnline.view.navigator.Navigator', {
 
     alias : 'widget.navigator',
 
+    config: {
+        draggable: false
+       },
+
     minHeight: 0,
     height: 500,
     width: 250,
@@ -30,7 +34,6 @@ Ext.define('EdiromOnline.view.navigator.Navigator', {
     shadow: false,
 
     closable: false,
-    draggable: false,
     resizable: true,
     resizeHandles: 'w s',
 
