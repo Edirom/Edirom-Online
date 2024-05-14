@@ -9,6 +9,16 @@ Ext.define('EdiromOnline.view.main.Main', {
     extend: 'Ext.tab.Panel',
     xtype: 'app-main',
 
+    config: {
+        tabBar: {
+            flex: 1,
+            layout: {
+                align: 'stretch',
+                overflowHandler: 'none'
+            }
+        }
+    },
+
     requires: [
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
@@ -40,13 +50,6 @@ Ext.define('EdiromOnline.view.main.Main', {
         iconCls: 'fa-th-list'
     },
 
-    tabBar: {
-        flex: 1,
-        layout: {
-            align: 'stretch',
-            overflowHandler: 'none'
-        }
-    },
 
     responsiveConfig: {
         tall: {
