@@ -45,12 +45,15 @@ Ext.define('EdiromOnline.view.window.util.PageSpinner', {
         me.combo = Ext.create('Ext.form.ComboBox', {
             width: 45,
             hideTrigger: true,
-            queryMode: 'local',
-            store: store,
-            displayField: 'name',
-            valueField: 'id',
             cls: 'pageInputBox',
-            autoSelect: true
+            autoSelect: true,
+            items: [{
+                displayField: 'name',
+                valueField  : 'id',
+                store       : store,
+                queryMode   : 'local',
+                typeAhead   : true
+            }],
         });
 
         me.add([
