@@ -67,7 +67,7 @@ Ext.define('EdiromOnline.view.desktop.App', {
             items: [ me.desktop ]
         });
 
-        Ext.EventManager.on(window, 'beforeunload', me.onUnload, me);
+        window.on('beforeunload', me.onUnload, me);
 
         me.isReady = true;
         me.fireEvent('ready', me);
