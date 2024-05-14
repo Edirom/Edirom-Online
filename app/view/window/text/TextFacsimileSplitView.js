@@ -205,18 +205,16 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
                 });
 
                 tip.on('afterrender', function() {
-                    Ext.Ajax.request({
-                        url: 'data/xql/getAnnotation.xql',
-                        method: 'GET',
-                        params: {
+                    window.doAJAXRequest('data/xql/getAnnotation.xql',
+                        'GET', 
+                        {
                             uri: uri,
                             target: 'tip'
                         },
-                        success: function(response){
+                        Ext.bind(function(response){
                             this.update(response.responseText);
-                        },
-                        scope: this
-                    });
+                        }, this)
+                    );
                 }, tip);
 
             }, me);

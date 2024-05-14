@@ -1,28 +1,20 @@
-xquery version "3.0";
+xquery version "3.1";
+
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
+ : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+(: IMPORTS ================================================================= :)
 
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
+import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
-:)
+(: NAMESPACE DECLARATIONS ================================================== :)
 
-import module namespace source="http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
-import module namespace teitext="http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
-
-declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+
+(: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "text";
 declare option output:media-type "text/html";
@@ -30,34 +22,45 @@ declare option output:media-type "text/html";
 declare function local:getParticipants($annot as element()) as xs:string* {
     
     let $participants := tokenize($annot/string(@plist), ' ')
-    let $docs := distinct-values(for $p in $participants return substring-before($p, '#'))
+    let $docs := distinct-values(for $p in $participants
+    return
+        substring-before($p, '#'))
     return
         for $doc in $docs
         return
             
-            if(source:isSource($doc))
-            then(local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
+            if (source:isSource($doc))
+            then
+                (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
             
-            else if(teitext:isText($doc))
-            then(string-join($participants[starts-with(., $doc)], $doc), ' ')
-            
-            else()
+            else
+                if (teitext:isText($doc))
+                then
+                    (string-join($participants[starts-with(., $doc)], $doc), ' ')
+                
+                else
+                    ()
 };
 
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
     let $elems := for $p in $participants
-                    let $id := substring-after($p, '#')
-                    let $elem := doc($doc)/id($id)
-                    order by count($elem/preceding::*)
-                    return $elem
-
+    let $id := substring-after($p, '#')
+    let $elem := doc($doc)/id($id)
+        order by count($elem/preceding::*)
+    return
+        $elem
+    
     return
         string-join(
-            (for $elem in $elems[local-name() != 'measure']
-            return concat($doc, '#', $elem/@xml:id)
-            ,
-            if(count($elems[local-name() = 'measure']) gt 0)then(local:groupSourceParticipants($elems[local-name() = 'measure'], $doc))else()
-            )
+        (for $elem in $elems[local-name() != 'measure']
+        return
+            concat($doc, '#', $elem/@xml:id)
+        ,
+        if (count($elems[local-name() = 'measure']) gt 0) then
+            (local:groupSourceParticipants($elems[local-name() = 'measure'], $doc))
+        else
+            ()
+        )
         , ' ')
 };
 
@@ -67,24 +70,32 @@ declare function local:groupSourceParticipants($elems as node()*, $doc as xs:str
         for $startId in distinct-values($startIds)
         let $elem := $elems/id($startId)
         let $measureCount := count(index-of($startIds, $startId)) - 1
-        let $tstamp2 := if($measureCount gt 0)
-                        then(concat('?tstamp2=', $measureCount, 'm+0'))
-                        else('')
+        let $tstamp2 := if ($measureCount gt 0)
+        then
+            (concat('?tstamp2=', $measureCount, 'm+0'))
+        else
+            ('')
         let $isInPart := exists(doc($doc)/id($startId)/ancestor::mei:part)
         return
             if ($isInPart)
-            then concat($doc, '#measure_', $elem/ancestor::mei:mdiv/@xml:id, '_', $elem/@n, $tstamp2)
-            else concat($doc, '#', $startId, $tstamp2)
+            then
+                concat($doc, '#measure_', $elem/ancestor::mei:mdiv/@xml:id, '_', $elem/@n, $tstamp2)
+            else
+                concat($doc, '#', $startId, $tstamp2)
 };
 
 declare function local:getStartIdsOfRange($elems as node()*, $pos as xs:integer, $id as xs:string) as xs:string* {
-    if($elems[$pos])
-    then(
-        if(count($elems[$pos - 1]/preceding::mei:measure) = count($elems[$pos]/preceding::mei:measure) - 1)
-        then(($id, local:getStartIdsOfRange($elems, $pos + 1, $id)))
-        else(($elems[$pos]/string(@xml:id), local:getStartIdsOfRange($elems, $pos + 1, $elems[$pos]/string(@xml:id))))
-    )
-    else()
+    if ($elems[$pos])
+    then
+        (
+        if (count($elems[$pos - 1]/preceding::mei:measure) = count($elems[$pos]/preceding::mei:measure) - 1)
+        then
+            (($id, local:getStartIdsOfRange($elems, $pos + 1, $id)))
+        else
+            (($elems[$pos]/string(@xml:id), local:getStartIdsOfRange($elems, $pos + 1, $elems[$pos]/string(@xml:id))))
+        )
+    else
+        ()
 };
 
 let $uri := request:get-parameter('uri', '')
@@ -93,5 +104,5 @@ let $doc := doc($uri)
 let $annot := $doc/id($annotId)
 
 return
-    string-join(local:getParticipants($annot),'
+    string-join(local:getParticipants($annot), '
     ')

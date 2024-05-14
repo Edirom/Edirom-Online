@@ -1,3 +1,5 @@
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml)
+
 # Edirom Online
 
 Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db](https://exist-db.org/). It is based on the work of the [_Edirom_-Project](https://edirom.de/edirom-projekt/) that originally was funded by the German Research Foundation (DFG). This software brings paperbased historio-critical editions of music texts to the web.

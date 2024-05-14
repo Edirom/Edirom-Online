@@ -1,5 +1,6 @@
-xquery version "1.0";
+xquery version "3.1";
 
+import module namespace edition="http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/util.xqm";
 
 declare variable $exist:path external;
@@ -20,12 +21,13 @@ return
     else if ($exist:path eq "/") then
         (: redirect root path to index.html :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
-            <redirect url="index.html?lang={$langVal}"/>
+            <redirect url="index.html"/>
         </dispatch>
     else if ($exist:path eq "/index.html") then
         (: forward index.html to index.xql :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="index.xql">
+                <set-header name="Set-Cookie" value="edirom-language={$langVal}" />
                 <add-parameter name="lang" value="{$langVal}"/>
             </forward>
         </dispatch>

@@ -42,17 +42,15 @@ Ext.define('EdiromOnline.controller.window.HeaderView', {
         var uri = view.uri;
         var type = view.type;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getHeader.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getHeader.xql',
+            'GET', 
+            {
                 uri: uri,
                 type: type
             },
-            success: function(response){
+            Ext.bind(function(response){
                 view.setContent(response.responseText);
-            },
-            scope: this
-        });
+            }, this)
+        );
     }
 });
