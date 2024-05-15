@@ -7,6 +7,9 @@ on:
     types: [ opened, synchronize, reopened ]
     branches: [ develop, main ]
 
+permissions:
+  contents: read
+
 env:
   DOCKER_IMAGE: bwbohl/sencha-cmd
 
