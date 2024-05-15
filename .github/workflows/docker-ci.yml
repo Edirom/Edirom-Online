@@ -7,6 +7,9 @@ on:
     types: [ opened, synchronize, reopened ]
     branches: [ develop, main ]
 
+permissions:
+  contents: read
+
 env:
   DOCKER_IMAGE: bwbohl/sencha-cmd
 
@@ -18,10 +21,10 @@ jobs:
 
     steps:
     - name: Chekout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       
     - name: Get short sha
-      uses: benjlevesque/short-sha@v3.0
+      uses: benjlevesque/short-sha@599815c8ee942a9616c92bcfb4f947a3b670ab0b # v3.0
       id: short-sha
       with:
         length: 7       
@@ -31,7 +34,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@v4.3.1
+      uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
