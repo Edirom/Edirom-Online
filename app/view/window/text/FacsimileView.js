@@ -50,12 +50,12 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
 
         if (image_server === "openseadragon") {
             me.imageViewer = Ext.create(
-                "EdiromOnline.view.window.image.OpenSeaDragonViewer",
+                "EdiromOnline.view.window.image.OpenSeaDragonViewer"
             );
         } else {
             /*TODO: test agains 'digilib'? -> what should be the fallback? */
             me.imageViewer = Ext.create(
-                "EdiromOnline.view.window.image.ImageViewer",
+                "EdiromOnline.view.window.image.ImageViewer"
             );
         }
 
@@ -64,7 +64,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
         me.bottomBar = new EdiromOnline.view.window.BottomBar({
             owner: me,
             region: "south",
-            enableOverflow: false,
+            enableOverflow: false
         });
 
         me.items = [me.imageViewer, me.bottomBar];
@@ -128,7 +128,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
         me.imageViewer.showImage(
             me.activePage.get("path"),
             me.activePage.get("width"),
-            me.activePage.get("height"),
+            me.activePage.get("height")
         );
     },
 
@@ -167,7 +167,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                 },
                 listeners: {
                     change: Ext.bind(me.zoomChanged, me, [], 0),
-                },
+                }
             });
         }
         if (image_server === "openseadragon") {
@@ -185,7 +185,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                 },
                 listeners: {
                     change: Ext.bind(me.zoomChanged, me, [], 0),
-                },
+                }
             });
         }
 
@@ -209,12 +209,12 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                     {
                         id: me.id + "_fitFacsimile",
                         text: getLangString(
-                            "view.window.source.SourceView_fitView",
+                            "view.window.source.SourceView_fitView"
                         ),
-                        handler: Ext.bind(me.fitFacsimile, me, [], 0),
-                    },
-                ],
-            },
+                        handler: Ext.bind(me.fitFacsimile, me, [], 0)
+                    }
+                ]
+            }
         });
         me.window.getTopbar().addViewSpecificItem(me.viewMenu, me.id);
     },
@@ -239,7 +239,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                 },
                 listeners: {
                     change: Ext.bind(me.zoomChanged, me, [], 0),
-                },
+                }
             });
         }
         if (image_server === "openseadragon") {
@@ -257,7 +257,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                 },
                 listeners: {
                     change: Ext.bind(me.zoomChanged, me, [], 0),
-                },
+                }
             });
         }
 
@@ -267,7 +267,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                 width: 121,
                 cls: "pageSpinner",
                 owner: me,
-            },
+            }
         );
 
         me.separator = Ext.create("Ext.toolbar.Separator");
@@ -343,8 +343,8 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
             indent: false,
             cls: "menuButton",
             menu: {
-                items: [],
-            },
+                items: []
+            }
         });
         me.window.getTopbar().addViewSpecificItem(me.gotoMenu, me.id);
 
@@ -358,8 +358,8 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
                     me.gotoChapter,
                     me,
                     chapter.get("pageId"),
-                    true,
-                ),
+                    true
+                )
             });
         });
 
@@ -374,5 +374,5 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
     gotoPage: function (pageId) {
         var me = this;
         me.pageSpinner.setPage(me.imageSet.getById(pageId));
-    },
+    }
 });
