@@ -63,7 +63,7 @@ Ext.define("EdiromOnline.controller.window.text.FacsimileView", {
                 });
 
                 me.pagesLoaded(pages, view);
-            }, this),
+            }, this)
         );
 
         window.doAJAXRequest(
@@ -82,7 +82,7 @@ Ext.define("EdiromOnline.controller.window.text.FacsimileView", {
                 });
 
                 me.chaptersLoaded(chapters, view);
-            }, this),
+            }, this)
         );
     },
 
