@@ -651,13 +651,13 @@ Ext.define('EdiromOnline.view.window.source.GotoMsg', {
         var map = me.getKeyMap();
 
         map.addBinding({
-            key: Ext.EventObject.ENTER,
+            key: Ext.event.Event.ENTER,
             fn: me.gotoFn,
             scope: me
         });
 
         map.addBinding({
-            key: Ext.EventObject.ESC,
+            key: Ext.event.Event.ESC,
             fn: me.close,
             scope: me
         });
