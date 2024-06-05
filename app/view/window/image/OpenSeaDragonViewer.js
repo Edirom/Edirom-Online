@@ -48,7 +48,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         
         me.imagePrefix = getPreference('image_prefix');
         
-        me.addEvents('zoomChanged',
+        //me.addEvents('zoomChanged',
                     'imageChanged');
         
        var openseadragonEvents;

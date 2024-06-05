@@ -52,7 +52,7 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     constructor : function (config) {
         Ext.apply(this, config);
 
-        this.addEvents(
+        //this.addEvents(
             /**
              * @event activate
              * Fires when an inactive filter becomes active

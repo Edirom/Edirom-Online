@@ -130,7 +130,7 @@ menuItemCfgs : {
         fields = me.fields = me.fields || {};
         fieldCfg = me.fieldCfg = me.fieldCfg || {};
         
-        me.addEvents(
+        //me.addEvents(
             /**
              * @event update
              * Fires when a filter configuration has changed

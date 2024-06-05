@@ -37,7 +37,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
     initComponent: function () {
         var me = this;
 
-        me.addEvents('switchDesktop',
+        //me.addEvents('switchDesktop',
                     'sortGrid',
                     'sortHorizontally',
                     'sortVertically',
@@ -420,7 +420,7 @@ Ext.define('EdiromOnline.view.desktop.TrayClock', {
         var me = this, time = Ext.Date.format(new Date(), me.timeFormat),
             text = me.tpl.apply({ time: time });
         if (me.lastText != text) {
-            me.setText(text);
+            me.update(text);
             me.lastText = text;
         }
         me.timer = Ext.Function.defer(me.updateTime, 10000, me);

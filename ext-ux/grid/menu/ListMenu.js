@@ -46,7 +46,7 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
 
     constructor : function (cfg) {
         this.selected = [];
-        this.addEvents(
+        //this.addEvents(
             /**
              * @event checkchange
              * Fires when there is a change in checked items from this list
@@ -62,7 +62,7 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
             var options = [];
             for(var i=0, len=cfg.options.length; i<len; i++){
                 var value = cfg.options[i];
-                switch(Ext.type(value)){
+                switch(Ext.typeOf(value)){
                     case 'array':  options.push(value); break;
                     case 'object': options.push([value.id, value[this.labelField]]); break;
                     case 'string': options.push([value, value]); break;
