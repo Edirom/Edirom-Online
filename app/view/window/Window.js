@@ -49,7 +49,7 @@ Ext.define('EdiromOnline.view.window.Window', {
 
     initComponent: function() {
 
-        this.addEvents('viewSwitched', 'loadInternalLink');
+        //this.addEvents('viewSwitched', 'loadInternalLink');
 
         this.tbar = this.topbar = new EdiromOnline.view.window.TopBar(this.getTopbarConfig());
 

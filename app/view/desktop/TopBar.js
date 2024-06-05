@@ -77,7 +77,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                 cls: 'ux-desktop-topbar-flex',
                 items: [
                         me.homeButton,
-                        { xtype: 'tbtext', text: getLangString('view.desktop.TopBar_homeBtnLabel'), id: 'homeBtnLabel' },
+                        { xtype: 'tbtext', html: getLangString('view.desktop.TopBar_homeBtnLabel'), id: 'homeBtnLabel' },
                         this.workCombo,
                         {
                             xtype: 'splitter',

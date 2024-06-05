@@ -606,9 +606,9 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             var group = grouped[groupKeys[i]];
             viewer.flex = group.width / overallWidth;
         }
-
-        me.forceComponentLayout();
-
+        
+        me.updateLayout();
+        
         for(var i = 0; i < viewerCount; i++) {
 
             var viewer = me.imageViewers[i];
@@ -795,8 +795,8 @@ Ext.define('EdiromOnline.view.window.source.IntervalSpinner', {
     extend: 'Ext.form.Spinner',
 
     step: 1,
-    size: 4,
-
+    width: 4,
+    
     onSpinUp: function() {
         var me = this;
         if (!me.readOnly) {

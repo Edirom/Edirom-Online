@@ -72,7 +72,7 @@ Ext.define('EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator',
     initComponent: function() {
         var me = this;
 
-        me.addEvents('showConnection');
+        //me.addEvents('showConnection');
 
         me.title = getLangString('view.window.concordanceNavigator.ConcordanceNavigator_Title');
 
