@@ -61,7 +61,7 @@ Ext.define('EdiromOnline.view.utils.Lightbox', {
     },
 
     initMarkup: function() {
-        var overlay = Ext.core.DomHelper.append(document.body, {
+        var overlay = Ext.dom.Helper.append(document.body, {
             id: 'ux-lightbox-overlay',
             style: 'opacity:'+this.overlayOpacity+';filter:alpha(opacity='+(this.overlayOpacity*100)+')'
         }, true);
