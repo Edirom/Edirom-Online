@@ -56,7 +56,7 @@ Ext.define('EdiromOnline.controller.desktop.TopBar', {
         Ext.getStore('Works').each(function(work) {
             var me = this;
             var workId = work.get('id');
-            var active = (me.application.activeWork == workId);
+            var active = (EdiromOnline.getApplication().activeWork == workId);
 
             me.topbar.workCombo.menu.add({
                 xtype: 'menucheckitem',
@@ -78,7 +78,7 @@ Ext.define('EdiromOnline.controller.desktop.TopBar', {
         var work = Ext.getStore('Works').getById(workId);
         topbar.workCombo.setText(work.get('title'));
 
-        this.application.selectWork(workId);
+        EdiromOnline.getApplication().selectWork(workId);
     }
 });
 

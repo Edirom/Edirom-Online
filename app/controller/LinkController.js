@@ -60,7 +60,7 @@ Ext.define('EdiromOnline.controller.LinkController', {
 
         var existingWindows = null;
         if(config['useExisting']) {
-            var desktop = this.application.getController('desktop.Desktop').getActiveDesktop();
+            var desktop = EdiromOnline.getApplication().getController('desktop.Desktop').getActiveDesktop();
             existingWindows = desktop.getActiveWindowsSet(true);
         }
 
@@ -117,13 +117,13 @@ Ext.define('EdiromOnline.controller.LinkController', {
                 i = config['sortIncludes'].length;
             
             if(config['sort'] == 'sortGrid')
-                positions = this.application.getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
+                positions = EdiromOnline.getApplication().getController('desktop.Desktop').getGridPositioning(uriWindows.getCount() + i);
             
             if(config['sort'] == 'sortVertically')
-                positions = this.application.getController('desktop.Desktop').getVerticalPositioning(uriWindows.getCount() + i);
+                positions = EdiromOnline.getApplication().getController('desktop.Desktop').getVerticalPositioning(uriWindows.getCount() + i);
 
             if(config['sort'] == 'sortHorizontally')
-                positions = this.application.getController('desktop.Desktop').getHorizontalPositioning(uriWindows.getCount() + i);
+                positions = EdiromOnline.getApplication().getController('desktop.Desktop').getHorizontalPositioning(uriWindows.getCount() + i);
 
             if(i > 0) {
                 for(var j = 0; j < config['sortIncludes'].length; j++) {
@@ -188,7 +188,7 @@ Ext.define('EdiromOnline.controller.LinkController', {
     parseExistLink: function(uri, cfg) {
         var me = this;
         
-        return me.application.getController('window.WindowController').createWindow(uri, cfg);
+        return EdiromOnline.getApplication().getController('window.WindowController').createWindow(uri, cfg);
     },
 
     parseEdiromLink: function(uri) {

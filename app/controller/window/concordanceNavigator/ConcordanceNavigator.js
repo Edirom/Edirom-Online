@@ -28,7 +28,7 @@ Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavig
 
     init: function() {
 	    
-	    this.application.addListener('workSelected', this.onWorkSelected, this);
+	    EdiromOnline.getApplication().addListener('workSelected', this.onWorkSelected, this);
 	    
         this.control({
             'concordanceNavigator': {
@@ -51,7 +51,7 @@ Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavig
 
 	    var me = this;
 	    if(me.navwin != null) {
-	    	var app = me.application;
+	    	var app = EdiromOnline.getApplication();
 			app.callFunctionOfEdition(me.navwin, 'getConcordances', Ext.bind(me.concordancesLoaded, me, [me.navwin], true));
 		}
 	    
@@ -67,7 +67,7 @@ Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavig
 
         //win.on('showConnection', me.onShowConnection, me);
 
-        var app = me.application;
+        var app = EdiromOnline.getApplication();
         app.callFunctionOfEdition(win, 'getConcordances', Ext.bind(me.concordancesLoaded, me, [win], true));
     },
 
@@ -77,7 +77,7 @@ Ext.define('EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavig
 
     onShowConnection: function(navigator, plist) {
         var me = this;
-        var linkController = me.application.getController('LinkController');
+        var linkController = EdiromOnline.getApplication().getController('LinkController');
         linkController.loadLink(plist, {useExisting: true, onlyExisting: true}); //TODO: in Preferences einbauen; TODO: grid sorting vorerst rausgenommen
     }
 });

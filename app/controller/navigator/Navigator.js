@@ -26,7 +26,7 @@ Ext.define('EdiromOnline.controller.navigator.Navigator', {
 
     init: function() {
 
-        this.application.addListener('workSelected', this.onWorkSelected, this);
+        EdiromOnline.getApplication().addListener('workSelected', this.onWorkSelected, this);
 
         this.navigators = new Array();
         this.navigatorContents = new Ext.util.MixedCollection();
@@ -44,7 +44,7 @@ Ext.define('EdiromOnline.controller.navigator.Navigator', {
 
     fetchNavigatorContent: function(workId) {
 
-        var editionId = this.application.activeEdition;
+        var editionId = EdiromOnline.getApplication().activeEdition;
         var lang = window.getLanguage('application_language');
 
         window.doAJAXRequest('data/xql/getNavigatorConfig.xql',
@@ -73,10 +73,10 @@ Ext.define('EdiromOnline.controller.navigator.Navigator', {
     },
 
     onNavigatorRendered: function(navigator) {
-        if(this.hasNavigatorContent(this.application.activeWork))
-            navigator.body.update(this.getNavigatorContent(this.application.activeWork));
+        if(this.hasNavigatorContent(EdiromOnline.getApplication().activeWork))
+            navigator.body.update(this.getNavigatorContent(EdiromOnline.getApplication().activeWork));
         else {
-            this.fetchNavigatorContent(this.application.activeWork);
+            this.fetchNavigatorContent(EdiromOnline.getApplication().activeWork);
         }
 
         this.navigators.push(navigator);
