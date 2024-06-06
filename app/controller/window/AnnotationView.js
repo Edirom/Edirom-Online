@@ -51,7 +51,7 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
 
     onShowAnnotation: function(view, uri) {
 
-        var editionId = this.application.activeEdition;
+        var editionId = EdiromOnline.getApplication().activeEdition;
         var lang = getPreference('application_language');
     
         window.doAJAXRequest('data/xql/getAnnotationText.xql',
@@ -106,7 +106,7 @@ Ext.define('EdiromOnline.controller.window.AnnotationView', {
             });
         }
 
-        var linkController = this.application.getController('LinkController');
+        var linkController = EdiromOnline.getApplication().getController('LinkController');
         
         window.doAJAXRequest('data/xql/getAnnotationOpenAllUris.xql',
             'GET', 

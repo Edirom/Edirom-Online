@@ -40,7 +40,7 @@ Ext.define('EdiromOnline.controller.AJAXController', {
     doAJAXRequest: function(url, method, params, successFn, retryNo, async) {
         var me = this;
         
-        var editionId = this.application.activeEdition;
+        var editionId = EdiromOnline.getApplication().activeEdition;
         params = Ext.applyIf(params, {edition: editionId});
         
         var lang = window.getLanguage();

@@ -53,7 +53,7 @@ Ext.define('EdiromOnline.controller.desktop.TaskBar', {
     },
     
     onSwitchDesktop: function(num) {
-        this.application.switchDesktop(num);
+        EdiromOnline.getApplication().switchDesktop(num);
     },
     
     onSwitchLanguage: function() {
@@ -78,13 +78,13 @@ Ext.define('EdiromOnline.controller.desktop.TaskBar', {
     
     onMeasureVisibilityChanged: function(button, event) {
         var me = this;
-        var tools = me.application.getController('ToolsController');
+        var tools = EdiromOnline.getApplication().getController('ToolsController');
         tools.setGlobalMeasureVisibility(button.pressed);
     },
     
     onAnnotationVisibilityChanged: function(button, event) {
         var me = this;
-        var tools = me.application.getController('ToolsController');
+        var tools = EdiromOnline.getApplication().getController('ToolsController');
         tools.setGlobalAnnotationVisibility(button.pressed);
     },
     

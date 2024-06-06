@@ -39,7 +39,7 @@ Ext.define('EdiromOnline.controller.window.source.VerovioView', {
 		view.initialized = true;
 		
 		var uri = view.uri;
-		view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri + "&edition=" + this.application.activeEdition);
+		view.setIFrameURL('data/xql/getExtendedStaff.xql?uri=' + uri + "&edition=" + EdiromOnline.getApplication().activeEdition);
 
 		view.on('gotoMeasureByName', me.onGotoMeasureByName, me);
 		view.on('gotoMeasure', me.onGotoMeasure, me);
