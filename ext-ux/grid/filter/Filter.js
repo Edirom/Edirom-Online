@@ -52,19 +52,19 @@ Ext.define('Ext.ux.grid.filter.Filter', {
     constructor : function (config) {
         Ext.apply(this, config);
 
-        //this.addEvents(
+        // this.addEvents(
             /**
              * @event activate
              * Fires when an inactive filter becomes active
              * @param {Ext.ux.grid.filter.Filter} this
              */
-            'activate',
+        //    'activate',
             /**
              * @event deactivate
              * Fires when an active filter becomes inactive
              * @param {Ext.ux.grid.filter.Filter} this
              */
-            'deactivate',
+        //    'deactivate',
             /**
              * @event serialize
              * Fires after the serialization process. Use this to attach additional parameters to serialization
@@ -72,14 +72,14 @@ Ext.define('Ext.ux.grid.filter.Filter', {
              * @param {Array/Object} data A map or collection of maps representing the current filter configuration.
              * @param {Ext.ux.grid.filter.Filter} filter The filter being serialized.
              */
-            'serialize',
+        //    'serialize',
             /**
              * @event update
              * Fires when a filter configuration has changed
              * @param {Ext.ux.grid.filter.Filter} this The filter object.
              */
-            'update'
-        );
+        //    'update'
+        //);
         Ext.ux.grid.filter.Filter.superclass.constructor.call(this);
 
         // setting filtered to true on all filter instances ensures that the filter won't be blurred when the mouse leaves the component

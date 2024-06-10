@@ -136,8 +136,8 @@ menuItemCfgs : {
              * Fires when a filter configuration has changed
              * @param {Ext.ux.grid.filter.Filter} this The filter object.
              */
-            'update'
-        );
+        //    'update'
+        //);
       
         me.updateTask = Ext.create('Ext.util.DelayedTask', me.fireUpdate, me);
     
