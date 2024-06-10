@@ -429,12 +429,12 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     initComponent: function () {
 
         var me = this;
-
-        me.addEvents('showMeasure',
+        
+        /*me.addEvents('showMeasure',
             'measureVisibilityChange',
             'annotationsVisibilityChange',
-            'overlayVisibilityChange');
-
+            'overlayVisibilityChange');*/
+        
         // SourceView
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);

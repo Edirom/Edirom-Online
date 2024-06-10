@@ -47,10 +47,10 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         var me = this;
 
         me.imagePrefix = getPreference('image_prefix');
-
-        me.addEvents('zoomChanged',
-                    'imageChanged');
-
+        
+        /*me.addEvents('zoomChanged',
+                    'imageChanged');*/
+        
        var openseadragonEvents;
 
         if (me.partLabel != null) {

@@ -53,8 +53,8 @@ Ext.define('Ext.ux.grid.menu.ListMenu', {
              * @param {Object} item Ext.menu.CheckItem
              * @param {Object} checked The checked value that was set
              */
-            'checkchange'
-        );
+        //    'checkchange'
+        //);
 
         this.callParent([cfg = cfg || {}]);
 

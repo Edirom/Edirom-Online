@@ -64,8 +64,8 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
         
         me.imgPrefix = getPreference('image_prefix');
         
-        //me.addEvents('zoomChanged',
-                    'imageChanged');
+        /*me.addEvents('zoomChanged',
+                    'imageChanged');*/
        
 /*       from OPERA*/
        var facsContEvents;

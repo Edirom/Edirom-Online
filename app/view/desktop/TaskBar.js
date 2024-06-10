@@ -37,14 +37,14 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
     initComponent: function () {
         var me = this;
 
-        //me.addEvents('switchDesktop',
+        /*me.addEvents('switchDesktop',
                     'sortGrid',
                     'sortHorizontally',
                     'sortVertically',
                     'openConcordanceNavigator',
                     'openSearchWindow',
                     'openAboutWindow',
-                    'switchLanguage');
+                    'switchLanguage');*/
 
         me.windowSort = new Ext.toolbar.Toolbar(me.getWindowSortConfig());
         me.globalTools = new Ext.toolbar.Toolbar(me.getGlobalToolsConfig());
