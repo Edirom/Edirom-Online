@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A small abstract class that contains the shared behaviour for any summary
  * calculations to be used in the grid.
@@ -29,18 +9,21 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
     alias: 'feature.abstractsummary',
 
     summaryRowCls: Ext.baseCSSPrefix + 'grid-row-summary',
-    summaryTableCls: Ext.plainTableCls + ' ' + Ext.baseCSSPrefix + 'grid-table',
     summaryRowSelector: '.' + Ext.baseCSSPrefix + 'grid-row-summary',
+
+    readDataOptions: {
+        recordCreator: Ext.identityFn
+    },
 
     // High priority rowTpl interceptor which sees summary rows early, and renders them correctly and then aborts the row rendering chain.
     // This will only see action when summary rows are being updated and Table.onUpdate->Table.bufferRender renders the individual updated sumary row.
     summaryRowTpl: {
-        before: function(values, out) {
-            // If a summary record comes through the rendering pipeline, render it simply, and return false from the
-            // before method which aborts the tpl chain
-            if (values.record.isSummary) {
-                this.summaryFeature.outputSummaryRecord(values.record, values, out);
-                return false;
+        fn: function(out, values, parent) {
+            // If a summary record comes through the rendering pipeline, render it simply instead of proceeding through the tplchain
+            if (values.record.isSummary && this.summaryFeature.showSummaryRow) {
+                this.summaryFeature.outputSummaryRecord(values.record, values, out, parent);
+            } else {
+                this.nextTpl.applyOut(values, out, parent);
             }
         },
         priority: 1000
@@ -61,14 +44,63 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
         // Add a high priority interceptor which renders summary records simply
         // This will only see action ona bufferedRender situation where summary records are updated.
         me.view.addRowTpl(me.summaryRowTpl).summaryFeature = me;
+
+        // Define on the instance to store info needed by summary renderers.
+        me.summaryData = {};
+        me.groupInfo = {};
+
+        // Cell widths in the summary table are set directly into the cells. There's no <colgroup><col>
+        // Some browsers use content box and some use border box when applying the style width of a TD
+        if (!me.summaryTableCls) {
+            me.summaryTableCls = Ext.baseCSSPrefix + 'grid-item';
+        }
     },
 
     /**
      * Toggle whether or not to show the summary row.
      * @param {Boolean} visible True to show the summary row
      */
-    toggleSummaryRow: function(visible) {
-        this.showSummaryRow = !!visible;
+    toggleSummaryRow: function(visible /* private */, fromLockingPartner) {
+        var me = this,
+            prev = me.showSummaryRow,
+            doRefresh;
+
+        visible = visible != null ? !!visible : !me.showSummaryRow;
+        me.showSummaryRow = visible;
+        if (visible && visible !== prev) {
+            // If being shown, something may have changed while not visible, so
+            // force the summary records to recalculate
+            me.updateNext = true;
+        }
+
+        // If there is another side to be toggled, then toggle it (as long as we are not already being commanded from that other side);
+        // Then refresh the whole arrangement.
+        if (me.lockingPartner) {
+            if (!fromLockingPartner) {
+                me.lockingPartner.toggleSummaryRow(visible, true);
+                doRefresh = true;
+            }
+        } else {
+            doRefresh = true;
+        }
+        if (doRefresh) {
+            me.grid.ownerGrid.getView().refresh();
+        }
+    },
+
+    createRenderer: function (column, record) {
+        var me = this,
+            ownerGroup = record.ownerGroup,
+            summaryData = ownerGroup ? me.summaryData[ownerGroup] : me.summaryData,
+            // Use the column.getItemId() for columns without a dataIndex. The populateRecord method does the same.
+            dataIndex = column.dataIndex || column.getItemId();
+
+        return function (value, metaData) {
+             return column.summaryRenderer ?
+                column.summaryRenderer(record.data[dataIndex], summaryData, dataIndex, metaData) :
+                // For no summaryRenderer, return the field value in the Feature record.
+                record.data[dataIndex];
+        };
     },
 
     outputSummaryRecord: function(summaryRecord, contextValues, out) {
@@ -93,21 +125,17 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
         for (i = 0; i < colCount; i++) {
             column = columns[i];
             column.savedRenderer = column.renderer;
-            if (column.summaryRenderer) {
-                column.renderer = column.summaryRenderer;
-            } else if (!column.summaryType) {
-                column.renderer = Ext.emptyFn;
-            }
 
-            // Summary records may contain values based upon the column's ID if the column is not mapped from a field
-            if (!column.dataIndex) {
-                column.dataIndex = column.id;
+            if (column.summaryType || column.summaryRenderer) {
+                column.renderer = this.createRenderer(column, summaryRecord);
+            } else {
+                column.renderer = Ext.emptyFn;
             }
         }
 
         // Use the base template to render a summary row
         view.rowValues = values;
-        view.self.prototype.rowTpl.applyOut(values, out);
+        view.self.prototype.rowTpl.applyOut(values, out, parent);
         view.rowValues = savedRowValues;
 
         // Restore regular column renderers
@@ -125,30 +153,35 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
      * @param {String/Function} type The type of aggregation. If a function is specified it will
      * be passed to the stores aggregate function.
      * @param {String} field The field to aggregate on
-     * @param {Boolean} group True to aggregate in grouped mode 
+     * @param {Boolean} group True to aggregate in grouped mode
      * @return {Number/String/Object} See the return type for the store functions.
      * if the group parameter is `true` An object is returned with a property named for each group who's
      * value is the summary value.
      */
-    getSummary: function(store, type, field, group){
-        var records = group.records;
+    getSummary: function (store, type, field, group) {
+        var isGrouped = !!group,
+            item = isGrouped ? group : store;
 
         if (type) {
             if (Ext.isFunction(type)) {
-                return store.getAggregate(type, null, records, [field]);
+                if (isGrouped) {
+                    return item.aggregate(field, type);
+                } else {
+                    return item.aggregate(type, null, false, [field]);
+                }
             }
 
             switch (type) {
                 case 'count':
-                    return records.length;
+                    return item.count(field);
                 case 'min':
-                    return store.getMin(records, field);
+                    return item.min(field);
                 case 'max':
-                    return store.getMax(records, field);
+                    return item.max(field);
                 case 'sum':
-                    return store.getSum(records, field);
+                    return item.sum(field);
                 case 'average':
-                    return store.getAverage(records, field);
+                    return item.average(field);
                 default:
                     return '';
 
@@ -156,120 +189,52 @@ Ext.define('Ext.grid.feature.AbstractSummary', {
         }
     },
 
-    /**
-     * Used by the Grouping Feature when {@link #showSummaryRow} is `true`.
-     * 
-     * Generates group summary data for the whole store.
-     * @private
-     * @return {Object} An object hash keyed by group name containing summary records.
-     */
-    generateSummaryData: function(){
+    generateSummaryData: function (groupField) {
         var me = this,
-            store = me.view.store,
-            groups = store.groups.items,
-            reader = store.proxy.reader,
-            len = groups.length,
-            groupField = me.getGroupField(),
-            data = {},
-            lockingPartner = me.lockingPartner,
-            i, group, record,
-            root, summaryRows, hasRemote,
-            convertedSummaryRow, remoteData;
+            reader = me.view.store.getProxy().getReader(),
+            convertedSummaryRow = {},
+            remoteData = {},
+            i, len, root, summaryRows;
 
-        /**
-         * @cfg {String} [remoteRoot=undefined]
-         * The name of the property which contains the Array of summary objects.
-         * It allows to use server-side calculated summaries.
-         */
-        if (me.remoteRoot && reader.rawData) {
-            hasRemote = true;
-            remoteData = {};
-            // reset reader root and rebuild extractors to extract summaries data
-            root = reader.root;
-            reader.root = me.remoteRoot;
-            reader.buildExtractors(true);
-            summaryRows = reader.getRoot(reader.rawData)||[];
+        // reset reader root and rebuild extractors to extract summaries data
+        root = reader.getRootProperty();
+        reader.setRootProperty(me.remoteRoot);
+        reader.buildExtractors(true);
+        summaryRows = reader.getRoot(reader.rawData);
+
+        if (summaryRows) {
+            if (!Ext.isArray(summaryRows)) {
+                summaryRows = [summaryRows];
+            }
+
             len = summaryRows.length;
 
-            // Ensure the Reader has a data conversion function to convert a raw data row into a Record data hash
-            if (!reader.convertRecordData) {
-                reader.buildExtractors();
-            }
-
             for (i = 0; i < len; ++i) {
-                convertedSummaryRow = {};
-
-                // Convert a raw data row into a Record's hash object using the Reader
-                reader.convertRecordData(convertedSummaryRow, summaryRows[i]);
-                remoteData[convertedSummaryRow[groupField]] = convertedSummaryRow;
+                // Convert a raw data row into a Record's hash object using the Reader.
+                convertedSummaryRow = reader.extractRecordData(summaryRows[i], me.readDataOptions);
+                if (groupField) {
+                    remoteData[convertedSummaryRow[groupField]] = convertedSummaryRow;
+                }
             }
-
-            // restore initial reader configuration
-            reader.root = root;
-            reader.buildExtractors(true);
         }
 
-        for (i = 0; i < len; ++i) {
-            group = groups[i];
-            // Something has changed or it doesn't exist, populate it
-            if (hasRemote || group.isDirty() || !group.hasAggregate()) {
-                if (hasRemote) {
-                    record = me.populateRemoteRecord(group, remoteData);
-                } else {
-                    record = me.populateRecord(group);
-                }
-                // Clear the dirty state of the group if this is the only Summary, or this is the right hand (normal grid's) summary
-                if (!lockingPartner || (me.view.ownerCt === me.view.ownerCt.ownerLockable.normalGrid)) {
-                    group.commit();
-                }
-            } else {
-                record = group.getAggregateRecord();
-            }
-            data[group.key] = record;
-        }
+        // Restore initial reader configuration.
+        reader.setRootProperty(root);
+        reader.buildExtractors(true);
 
-        return data;
+        return groupField ? remoteData : convertedSummaryRow;
     },
 
-    populateRemoteRecord: function(group, data) {
-        var record = group.getAggregateRecord(true),
-            groupData = data[group.key],
-            field;
+    setSummaryData: function (record, colId, summaryValue, groupName) {
+        var summaryData = this.summaryData;
 
-        record.beginEdit();
-        for (field in groupData) {
-            if (groupData.hasOwnProperty(field)) {
-                if (field !== record.idProperty) {
-                    record.set(field, groupData[field]);
-                }
+        if (groupName) {
+            if (!summaryData[groupName]) {
+                summaryData[groupName] = {};
             }
+            summaryData[groupName][colId] = summaryValue;
+        } else {
+            summaryData[colId] = summaryValue;
         }
-        record.endEdit(true);
-        record.commit(true);
-
-        return record;
-    },
-
-    populateRecord: function(group){
-        var me = this,
-            view = me.grid.ownerLockable ? me.grid.ownerLockable.view : me.view,
-            store = me.view.store,
-            record = group.getAggregateRecord(),
-            // Use the full column set, regardless of locking
-            columns = view.headerCt.getGridColumns(),
-            len = columns.length,
-            i, column, fieldName;
-
-        record.beginEdit();
-        for (i = 0; i < len; ++i) {
-            column = columns[i];
-            // Use the column id if there's no mapping, could be a calculated field
-            fieldName = column.dataIndex || column.id;
-            record.set(fieldName, me.getSummary(store, column.summaryType, fieldName, group));
-        }
-        record.endEdit(true);
-        record.commit();
-
-        return record;
     }
 });

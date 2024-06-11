@@ -1,4 +1,4 @@
-<project name="init-impl">
+<project name="x-init-impl">
     <!--
     Init-Local
     -->
@@ -70,10 +70,6 @@
         -->
         <x-sencha-init prefix=""/>
         
-        <!-- 
-        default the build environment to production if it is unset by this point 
-        -->
-        <property name="build.environment" value="production"/>
         <property name="CR" value="&#10;"/>
         <property name="build.version" value="${package.version}"/>
 
@@ -101,9 +97,11 @@
         See if there is a ./sass subfolder
         -->
         <if>
-            <not>
-                <available file="${package.sass.dir}" type="dir"/>
-            </not>
+            <or>
+                <equals arg1="${package.sass}" arg2="false"/>
+                <equals arg1="${package.sass}" arg2="0"/>
+                <equals arg1="${package.sass}" arg2="null"/>
+            </or>
             <then>
                 <property name="skip.sass" value="1"/>
             </then>
@@ -119,6 +117,10 @@
                     <equals arg1="theme" arg2="${package.type}"/>
                 </not>
                 <equals arg1="touch" arg2="${framework.name}"/>
+                <equals arg1="modern" arg2="${toolkit.name}"/>
+                <equals arg1="false" arg2="${package.slicer}"/>
+                <equals arg1="null" arg2="${package.slicer}"/>
+                <equals arg1="0" arg2="${package.slicer}"/>
             </or>
             <then>
                 <property name="skip.slice" value="1"/>
@@ -129,9 +131,14 @@
         See if there is an ./examples subfolder full of example applications.
         -->
         <if>
-            <not>
-                <available file="${package.examples.dir}" type="dir"/>
-            </not>
+            <and>
+                <not>
+                    <available file="${package.examples.dir}" type="dir"/>
+                </not>
+                <not>
+                    <isset property="package.example.path"/>
+                </not>
+            </and>
             <then>
                 <property name="skip.examples" value="1"/>
             </then>
@@ -144,7 +151,10 @@
         <if>
             <not>
                 <and>
-                    <equals arg1="${package.type}" arg2="framework"/>
+                    <or>
+                        <equals arg1="${package.type}" arg2="framework"/>
+                        <equals arg1="${package.type}" arg2="toolkit"/>
+                    </or>
                     <available file="${package.subpkgs.dir}" type="dir"/>
                 </and>
             </not>
@@ -195,6 +205,18 @@
             <exclude name="**/theme-capture.*"/>
         </fileset>
                 
+        
+        <if>
+            <isset property="package.toolkit"/>
+            <then>
+                <property name="package.sass.fashion" value="true"/>
+            </then>
+        </if>
+
+        <property name="package.sass.fashion" value="false"/>
+        <property name="package.sass.rhino" value="false"/>
+        <property name="package.sass.dynamic" value="false"/>
+
         <!--
         this property is set indicating we've reached the end of the
         core init phase.  it's presence will indicate that we've already
@@ -263,4 +285,17 @@
             ]]>
         </x-compile>
     </target>
+
+    <target name="-init-web-server" unless="skip.web.start">
+        <x-server port="${build.web.port}"
+                  portPropertyName="build.web.port"
+                  defaultSassFile="${package.example.scss}"
+                  defaultCssFile="${package.example.css}"
+                  refid="package.web.server">
+            <mapping name="~cmd" path="${cmd.dir}"/>
+            <mapping name="" path="${build.web.root}"/>
+        </x-server>
+        <x-echo>Package web server available at http://localhost:${build.web.port}</x-echo>
+    </target>
+
 </project>

@@ -5,10 +5,10 @@ Ext.define('Ext.ux.form.MultiSelect', {
     
     extend: 'Ext.form.FieldContainer',
     
-    mixins: {
-        bindable: 'Ext.util.Bindable',
-        field: 'Ext.form.field.Field'    
-    },
+    mixins: [
+        'Ext.util.StoreHolder',
+        'Ext.form.field.Field'
+    ],
     
     alternateClassName: 'Ext.ux.Multiselect',
     alias: ['widget.multiselectfield', 'widget.multiselect'],
@@ -100,7 +100,7 @@ Ext.define('Ext.ux.form.MultiSelect', {
     delimiter: ',',
     
     /**
-     * @cfg String [dragText="{0} Item{1}"] The text to show while dragging items.
+     * @cfg {String} [dragText="{0} Item{1}"] The text to show while dragging items.
      * {0} will be replaced by the number of items. {1} will be replaced by the plural
      * form if there is more than 1 item.
      */
@@ -133,7 +133,10 @@ Ext.define('Ext.ux.form.MultiSelect', {
     initComponent: function(){
         var me = this;
 
+        me.items = me.setupItems();
+
         me.bindStore(me.store, true);
+
         if (me.store.autoCreated) {
             me.valueField = me.displayField = 'field1';
             if (!me.store.expanded) {
@@ -144,28 +147,28 @@ Ext.define('Ext.ux.form.MultiSelect', {
         if (!Ext.isDefined(me.valueField)) {
             me.valueField = me.displayField;
         }
-        me.items = me.setupItems();
-        
-        
+
         me.callParent();
         me.initField();
-        me.addEvents('drop');    
     },
-    
+
     setupItems: function() {
         var me = this;
 
         me.boundList = Ext.create('Ext.view.BoundList', Ext.apply({
             anchor: 'none 100%',
-            deferInitialRefresh: false,
             border: 1,
             multiSelect: true,
             store: me.store,
             displayField: me.displayField,
             disabled: me.disabled
         }, me.listConfig));
+
         me.boundList.getSelectionModel().on('selectionchange', me.onSelectChange, me);
-        
+
+        // Boundlist expects a reference to its pickerField for when an item is selected (see Boundlist#onItemClick).
+        me.boundList.pickerField = me;
+
         // Only need to wrap the BoundList in a Panel if we have a title.
         if (!me.title) {
             return me.boundList;
@@ -421,7 +424,9 @@ Ext.define('Ext.ux.form.MultiSelect', {
         if (me.rendered) {
             ++me.ignoreSelectChange;
             selModel.deselectAll();
-            selModel.select(me.getRecordsForValue(value));
+            if (value.length) {
+                selModel.select(me.getRecordsForValue(value));
+            }
             --me.ignoreSelectChange;
         } else {
             me.selectOnRender = true;

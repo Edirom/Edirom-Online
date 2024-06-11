@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * @class Ext.fx.Manager
  * Animation Manager which keeps track of all current animations and manages them on a frame by frame basis.
@@ -31,14 +11,17 @@ Ext.define('Ext.fx.Manager', {
 
     singleton: true,
 
-    requires: ['Ext.util.MixedCollection',
-               'Ext.fx.target.Element',
-               'Ext.fx.target.ElementCSS',
-               'Ext.fx.target.CompositeElement',
-               'Ext.fx.target.CompositeElementCSS',
-               'Ext.fx.target.Sprite',
-               'Ext.fx.target.CompositeSprite',
-               'Ext.fx.target.Component'],
+    requires: [
+        'Ext.util.MixedCollection',
+        'Ext.util.TaskRunner',
+        'Ext.fx.target.Element',
+        'Ext.fx.target.ElementCSS',
+        'Ext.fx.target.CompositeElement',
+        'Ext.fx.target.CompositeElementCSS',
+        'Ext.fx.target.Sprite',
+        'Ext.fx.target.CompositeSprite',
+        'Ext.fx.target.Component'
+    ],
 
     mixins: {
         queue: 'Ext.fx.Queue'
@@ -46,32 +29,18 @@ Ext.define('Ext.fx.Manager', {
 
     /* End Definitions */
 
+    /**
+     * @private
+     */
     constructor: function() {
         var me = this;
         me.items = new Ext.util.MixedCollection();
+        me.targetArr = {};
         me.mixins.queue.constructor.call(me);
         
         // Do not use fireIdleEvent: false. Each tick of the TaskRunner needs to fire the idleEvent
         // in case an animation callback/listener adds a listener.
         me.taskRunner = new Ext.util.TaskRunner();
-
-        // this.requestAnimFrame = (function() {
-        //     var raf = window.requestAnimationFrame ||
-        //               window.webkitRequestAnimationFrame ||
-        //               window.mozRequestAnimationFrame ||
-        //               window.oRequestAnimationFrame ||
-        //               window.msRequestAnimationFrame;
-        //     if (raf) {
-        //         return function(callback, element) {
-        //             raf(callback);
-        //         };
-        //     }
-        //     else {
-        //         return function(callback, element) {
-        //             window.setTimeout(callback, Ext.fx.Manager.interval);
-        //         };
-        //     }
-        // })();
     },
 
     /**
@@ -224,15 +193,16 @@ Ext.define('Ext.fx.Manager', {
             if (anim.isRunning()) {
                 //Ext.log('      running anim ', anim.target.id);
                 me.runAnim(anim);
+            }
             //<debug>
-            } else if (!me.useCSS3) {
+            //else if (!me.useCSS3) {
                 // When using CSS3 transitions the animations get paused since they are not
                 // needed once the transition is handed over to the browser, so we can
                 // ignore this case. However if we are doing JS animations and something is
                 // paused here it's possibly unintentional.
                 //Ext.log(' (i)  anim ', anim.id, ' is active but not running...');
+            //}
             //</debug>
-            }
         }
 
         // Apply all the pending changes to their targets
@@ -251,15 +221,20 @@ Ext.define('Ext.fx.Manager', {
      * @private
      * Run the individual animation for this frame
      */
-    runAnim: function(anim) {
+    runAnim: function(anim, forceEnd) {
         if (!anim) {
             return;
         }
         var me = this,
-            useCSS3 = me.useCSS3 && anim.target.type == 'element',
+            useCSS3 = me.useCSS3 && anim.target.type === 'element',
             elapsedTime = me.timestamp - anim.startTime,
             lastFrame = (elapsedTime >= anim.duration),
             target, o;
+            
+        if (forceEnd) {
+            elapsedTime = anim.duration;
+            lastFrame = true;
+        }
 
         target = this.collectTargetData(anim, elapsedTime, useCSS3, lastFrame);
         
@@ -290,6 +265,12 @@ Ext.define('Ext.fx.Manager', {
             o.single = true;
             target.on(o);
         }
+        return target;
+    },
+    
+    jumpToEnd: function(anim) {
+        var target = this.runAnim(anim, true);
+        this.applyAnimAttrs(target, target.anims[anim.id]);
     },
 
     /**
@@ -338,6 +319,21 @@ Ext.define('Ext.fx.Manager', {
         };
         
         return target;
+    },
+    
+    // Duplicating this code for performance reasons. We only want to apply the anims
+    // to a single animation because we're hitting the end. It may be out of sequence from
+    // the runner timer.
+    applyAnimAttrs: function(target, animWrap) {
+        var anim = animWrap.anim;
+        if (animWrap.attributes && anim.isRunning()) {
+            target.el.setAttr(animWrap.attributes, false, animWrap.isLastFrame);
+                            
+            // If this particular anim is at the last frame end it
+            if (animWrap.isLastFrame) {
+                anim.lastFrame();
+            }
+        }
     },
     
     /**

@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * The subclasses of this class provide actions to perform upon {@link Ext.form.Basic Form}s.
  *
@@ -81,20 +61,25 @@ Ext.define('Ext.form.action.Action', {
      */
 
     /**
-     * @cfg {Function} success
+     * @cfg {Function/String} success
      * The function to call when a valid success return packet is received.
      * @cfg {Ext.form.Basic} success.form The form that requested the action
      * @cfg {Ext.form.action.Action} success.action The Action class. The {@link #result} property of this object may
-     * be examined to perform custom postprocessing.
+     * be examined to perform custom post-processing.
+     * 
+     * @declarativeHandler
      */
 
     /**
-     * @cfg {Function} failure
-     * The function to call when a failure packet was received, or when an error ocurred in the Ajax communication.
+     * @cfg {Function/String} failure
+     * The function to call when a failure packet was received, or when an error 
+     * occurred in the Ajax communication.
      * @cfg {Ext.form.Basic} failure.form The form that requested the action
-     * @cfg {Ext.form.action.Action} failure.action The Action class. If an Ajax error ocurred, the failure type will
-     * be in {@link #failureType}. The {@link #result} property of this object may be examined to perform custom
-     * postprocessing.
+     * @cfg {Ext.form.action.Action} failure.action The Action class. If an Ajax error 
+     * occurred, the failure type will be in {@link #failureType}. The {@link #result} 
+     * property of this object may be examined to perform custom post-processing.
+     * 
+     * @declarativeHandler
      */
 
     /**
@@ -221,9 +206,15 @@ Ext.define('Ext.form.action.Action', {
      * @param {Object} response
      */
     onFailure : function(response){
+        var form = this.form,
+            formActive = form && !form.destroying && !form.isDestroyed;
+        
         this.response = response;
         this.failureType = Ext.form.action.Action.CONNECT_FAILURE;
-        this.form.afterAction(this, false);
+        
+        if (formActive) {
+            form.afterAction(this, false);
+        }
     },
 
     /**

@@ -1,26 +1,6 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Private class which acts as a HeaderContainer for the Lockable which aggregates all columns
- * from both sides of the Loackable. It is never rendered, it's just used to interrogate the
+ * from both sides of the Lockable. It is never rendered, it's just used to interrogate the
  * column collection.
  * @private
  */
@@ -30,11 +10,52 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
         'Ext.grid.ColumnManager'
     ],
 
+    headerCtRelayEvents: [
+        "blur",
+        "focus",
+        "move",
+        "resize",
+        "destroy",
+        "beforedestroy",
+        "boxready",
+        "afterrender",
+        "render",
+        "beforerender",
+        "removed",
+        "hide",
+        "beforehide",
+        "show",
+        "beforeshow",
+        "enable",
+        "disable",
+        "added",
+        "deactivate",
+        "beforedeactivate",
+        "activate",
+        "beforeactivate",
+        "remove",
+        "add",
+        "beforeremove",
+        "beforeadd",
+        "afterlayout",
+        "menucreate",
+        "sortchange",
+        "columnschanged",
+        "columnshow",
+        "columnhide",
+        "columnmove",
+        "headertriggerclick",
+        "headercontextmenu",
+        "headerclick",
+        "columnresize",
+        "statesave",
+        "beforestatesave",
+        "staterestore",
+        "beforestaterestore"
+    ],
+
     constructor: function(lockable) {
         var me = this,
-            events,
-            event,
-            eventNames = [],
             lockedGrid = lockable.lockedGrid,
             normalGrid = lockable.normalGrid;
 
@@ -42,20 +63,19 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
         me.callParent();
 
         // Create the unified column manager for the lockable grid assembly
+        lockedGrid.visibleColumnManager.rootColumns =
+            normalGrid.visibleColumnManager.rootColumns =
+            lockable.visibleColumnManager =
+            me.visibleColumnManager = new Ext.grid.ColumnManager(true, lockedGrid.headerCt, normalGrid.headerCt);
+            
         lockedGrid.columnManager.rootColumns =
             normalGrid.columnManager.rootColumns =
             lockable.columnManager =
-            me.columnManager = new Ext.grid.ColumnManager(lockedGrid.headerCt, normalGrid.headerCt);
+            me.columnManager = new Ext.grid.ColumnManager(false, lockedGrid.headerCt, normalGrid.headerCt);
 
-        // Relay events from both sides' headerCts
-        events = lockedGrid.headerCt.events;
-        for (event in events) {
-            if (events.hasOwnProperty(event)) {
-                eventNames.push(event);
-            }
-        }
-        me.relayEvents(lockedGrid.headerCt, eventNames);
-        me.relayEvents(normalGrid.headerCt, eventNames);
+        // Relay *all* events from the two HeaderContainers
+        me.relayEvents(lockedGrid.headerCt, me.headerCtRelayEvents);
+        me.relayEvents(normalGrid.headerCt, me.headerCtRelayEvents);
     },
 
     getRefItems: function() {
@@ -83,8 +103,8 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
             lockedGrid     = me.lockable.lockedGrid,
             lockedHeaderCt = lockedGrid.headerCt,
             normalHeaderCt = me.lockable.normalGrid.headerCt,
-            lockedCols     = Ext.Array.toValueMap(lockedHeaderCt.items.items, 'headerId'),
-            normalCols     = Ext.Array.toValueMap(normalHeaderCt.items.items, 'headerId'),
+            lockedCols     = Ext.Array.toValueMap(lockedHeaderCt.items.items, 'stateId'),
+            normalCols     = Ext.Array.toValueMap(normalHeaderCt.items.items, 'stateId'),
             locked         = [],
             normal         = [],
             lockedWidth    = 1,
@@ -108,7 +128,7 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
                 }
                 if (existing.locked) {
                     locked.push(existing);
-                    if (!existing.hidden && typeof existing.width == 'number') {
+                    if (!existing.hidden && typeof existing.width === 'number') {
                         lockedWidth += existing.width;
                     }
                 } else {
@@ -118,7 +138,7 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
         }
 
         // state and config must have the same columns (compare counts for now):
-        if (locked.length + normal.length == lockedHeaderCt.items.getCount() + normalHeaderCt.items.getCount()) {
+        if (locked.length + normal.length === lockedHeaderCt.items.getCount() + normalHeaderCt.items.getCount()) {
             lockedHeaderCt.removeAll(false);
             normalHeaderCt.removeAll(false);
 
@@ -127,5 +147,19 @@ Ext.define('Ext.grid.locking.HeaderContainer', {
 
             lockedGrid.setWidth(lockedWidth);
         }
+    },
+
+    disable: function() {
+        var topGrid = this.lockable;
+
+        topGrid.lockedGrid.headerCt.disable();
+        topGrid.normalGrid.headerCt.disable();
+    },
+
+    enable: function() {
+        var topGrid = this.lockable;
+
+        topGrid.lockedGrid.headerCt.enable();
+        topGrid.normalGrid.headerCt.enable();
     }
 });

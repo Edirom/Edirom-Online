@@ -18,7 +18,25 @@ $loadmask-background-color: #ccc !default;
  * @var {string}
  * The type of cursor to dislay when the cursor is over the LoadMask
  */
-$loadmask-cursor: null !default;
+$loadmask-cursor: default !default;
+
+/**
+ * @var {string}
+ * The border-style of the LoadMask focus border
+ */
+$loadmask-border-style-focus: solid !default;
+
+/**
+ * @var {string}
+ * The border-color of the LoadMask focus border
+ */
+$loadmask-border-color-focus: $base-color !default;
+
+/**
+ * @var {string}
+ * The border-width of the LoadMask focus border
+ */
+$loadmask-border-width-focus: 1px !default;
 
 /**
  * @var {number/list}
@@ -56,7 +74,7 @@ $loadmask-msg-background-color: $base-color !default;
  * of a predefined gradient or a list of color stops. Used as the `$type` parameter for
  * {@link Global_CSS#background-gradient}.
  */
-$loadmask-msg-background-gradient: null !default;
+$loadmask-msg-background-gradient: 'none' !default;
 
 /**
  * @var {number/list}
@@ -116,7 +134,7 @@ $loadmask-msg-inner-font-size: $font-size !default;
  * @var {string}
  * The font-weight of the message inner element
  */
-$loadmask-msg-inner-font-weight: normal !default;
+$loadmask-msg-inner-font-weight: $font-weight !default;
 
 /**
  * @var {string}

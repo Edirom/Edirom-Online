@@ -1,5 +1,8 @@
 .#{$prefix}collapse-el {
     cursor: $collapse-tool-cursor;
+    @if $collapse-tool-opacity != 1 {
+        @include opacity($collapse-tool-opacity);
+    }
 }
 
 .#{$prefix}layout-split-left,
@@ -83,4 +86,13 @@
     .#{$prefix}collapse-el {
         @include opacity($splitter-active-collapse-tool-opacity);
     }
+}
+
+.#{$prefix}splitter-focus {
+    @include css-outline(
+        $width: $splitter-focus-outline-width,
+        $style: $splitter-focus-outline-style,
+        $color: $splitter-focus-outline-color,
+        $offset: $splitter-focus-outline-offset
+    );
 }

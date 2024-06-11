@@ -4,8 +4,9 @@
 Ext.define('Ext.ux.TabReorderer', {
 
     extend: 'Ext.ux.BoxReorderer',
+    alias: 'plugin.tabreorderer',
 
-    itemSelector: '.x-tab',
+    itemSelector: '.' + Ext.baseCSSPrefix + 'tab',
 
     init: function(tabPanel) {
         var me = this;
@@ -16,7 +17,7 @@ Ext.define('Ext.ux.TabReorderer', {
         tabPanel.onAdd = Ext.Function.createSequence(tabPanel.onAdd, me.onAdd);
     },
 
-    afterFirstLayout: function() {
+    onBoxReady: function() {
         var tabs,
             len,
             i = 0,
@@ -46,7 +47,7 @@ Ext.define('Ext.ux.TabReorderer', {
         // Move the associated card to match the tab order
         if (me.dragCmp) {
             me.container.tabPanel.setActiveTab(me.dragCmp.card);
-            me.container.tabPanel.move(me.startIndex, me.curIndex);
+            me.container.tabPanel.move(me.dragCmp.card, me.curIndex);
         }
     }
 });

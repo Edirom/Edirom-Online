@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Private utility class for Ext.Splitter.
  * @private
@@ -30,15 +10,17 @@ Ext.define('Ext.resizer.SplitterTracker', {
     overlayCls: Ext.baseCSSPrefix + 'resizable-overlay',
 
     createDragOverlay: function () {
-        var overlay;
+        var overlay,
+            El = Ext.dom.Element;
 
         overlay = this.overlay =  Ext.getBody().createChild({
+            role: 'presentation',
             cls: this.overlayCls, 
             html: '&#160;'
         });
 
         overlay.unselectable();
-        overlay.setSize(Ext.Element.getViewWidth(true), Ext.Element.getViewHeight(true));
+        overlay.setSize(El.getDocumentWidth(), El.getDocumentHeight());
         overlay.show();
     },
 
@@ -66,7 +48,7 @@ Ext.define('Ext.resizer.SplitterTracker', {
             return false;
         }
 
-        if (collapseEl && target === me.getSplitter().collapseEl.dom) {
+        if (collapseEl && target === collapseEl.dom) {
             return false;
         }
 
@@ -92,6 +74,39 @@ Ext.define('Ext.resizer.SplitterTracker', {
         var splitter = this.getSplitter();
         this.createDragOverlay();
         splitter.addCls(splitter.baseCls + '-active');
+    },
+
+    onResizeKeyDown: function(e) {
+        var me = this,
+            splitter = me.getSplitter(),
+            key = e.getKey(),
+            incrIdx = splitter.orientation === 'vertical' ? 0 : 1,
+            incr = key === e.UP || key === e.LEFT ? -1 : 1,
+            easing;
+
+        if (!me.active && me.onBeforeStart(e)) {
+            Ext.fly(e.target).on('keyup', me.onResizeKeyUp, me);
+            me.triggerStart(e);
+            me.onMouseDown(e);
+            me.startXY = splitter.getXY();
+            me.lastKeyDownXY = Ext.Array.slice(me.startXY);
+
+            // Movement increment eases to 4 over two seconds.
+            easing = me.easing = new Ext.fx.easing.Linear();
+            easing.setStartTime(Ext.Date.now());
+            easing.setStartValue(1);
+            easing.setEndValue(4);
+            easing.setDuration(2000);
+        }
+        if (me.active) {
+            me.lastKeyDownXY[incrIdx] = Math.round(me.lastKeyDownXY[incrIdx] + (incr * me.easing.getValue()));
+            me.lastXY = me.lastKeyDownXY;
+            splitter.setXY(me.getXY('dragTarget'));
+        }
+    },
+
+    onResizeKeyUp: function(e) {
+        this.onMouseUp(e);
     },
 
     // calculate the constrain Region in which the splitter el may be moved.
@@ -213,7 +228,7 @@ Ext.define('Ext.resizer.SplitterTracker', {
         var me = this;
 
         if (me.overlay) {
-             me.overlay.remove();
+             me.overlay.destroy();
              delete me.overlay;
         }
 

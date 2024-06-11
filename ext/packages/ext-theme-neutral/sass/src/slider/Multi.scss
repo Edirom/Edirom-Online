@@ -1,6 +1,6 @@
 /* Horizontal styles */
 .#{$prefix}slider-horz {
-    padding-left: $horizontal-slider-end-cap-width;
+    padding-left: $horizontal-slider-start-cap-width;
     background: no-repeat 0 (-$horizontal-slider-thumb-height);
 
     .#{$prefix}slider-end {
@@ -13,35 +13,37 @@
     height: $horizontal-slider-thumb-height;
 }
 
-@if $include-ext-form-field-base {
-    .#{$prefix}ie6,
-    .#{$prefix}ie7,
-    .#{$prefix}quirks .#{$prefix}ie {
-        .#{$prefix}form-item .#{$prefix}slider-horz {
-            margin-top: round(($form-field-height - $horizontal-slider-thumb-height) / 2);
-        }
-    }
-}
-
 .#{$prefix}slider-horz .#{$prefix}slider-thumb {
     width: $horizontal-slider-thumb-width;
     height: $horizontal-slider-thumb-height;
-    margin-left: -$horizontal-slider-end-cap-width;
+    margin-left: -$horizontal-slider-start-cap-width;
     background-image: theme-background-image('slider/slider-thumb', 'png');
+}
+
+.#{$prefix}slider-horz.#{$prefix}slider-focus .#{$prefix}slider-thumb {
+    background-position: (-$horizontal-slider-thumb-width * 3) (-$horizontal-slider-thumb-height * 3);
 }
 
 .#{$prefix}slider-horz .#{$prefix}slider-thumb-over {
     background-position: (-$horizontal-slider-thumb-width) (-$horizontal-slider-thumb-height);
 }
 
+.#{$prefix}slider-horz.#{$prefix}slider-focus .#{$prefix}slider-thumb-over {
+    background-position: (-$horizontal-slider-thumb-width * 4) (-$horizontal-slider-thumb-height * 4);
+}
+
 .#{$prefix}slider-horz .#{$prefix}slider-thumb-drag {
     background-position: (-$horizontal-slider-thumb-width * 2) (-$horizontal-slider-thumb-height * 2);
+}
+
+.#{$prefix}slider-horz.#{$prefix}slider-focus .#{$prefix}slider-thumb-drag {
+    background-position: (-$horizontal-slider-thumb-width * 5) (-$horizontal-slider-thumb-height * 5);
 }
 
 @if $include-rtl {
     .#{$prefix}rtl.#{$prefix}slider-horz {
         padding-left: 0;
-        padding-right: $horizontal-slider-end-cap-width;
+        padding-right: $horizontal-slider-start-cap-width;
         background-position: right (-$horizontal-slider-thumb-height * 2);
         
         .#{$prefix}slider-end {
@@ -57,9 +59,21 @@
 }
 
 /* Vertical styles */
+.#{$prefix}slider-ct-vert {
+    height: 100%;
+}
+
 .#{$prefix}slider-vert {
-    padding-top: $vertical-slider-end-cap-height;
+    padding-top: $vertical-slider-start-cap-height;
     background: no-repeat (-$vertical-slider-thumb-width * 2) 0;
+    height: 100%;
+
+    > .#{$prefix}slider-end {
+        height: 100%;
+        > .#{$prefix}slider-inner {
+            height: 100%;
+        }
+    }
 }
 
 .#{$prefix}slider-vert .#{$prefix}slider-end {
@@ -79,12 +93,24 @@
     background-image: theme-background-image('slider/slider-v-thumb', 'png');
 }
 
+.#{$prefix}slider-vert.#{$prefix}slider-focus .#{$prefix}slider-thumb {
+    background-position: (-$vertical-slider-thumb-width * 3) (-$vertical-slider-thumb-height * 3);
+}
+
 .#{$prefix}slider-vert .#{$prefix}slider-thumb-over {
     background-position: (-$vertical-slider-thumb-width) (-$vertical-slider-thumb-height);
 }
 
+.#{$prefix}slider-vert.#{$prefix}slider-focus .#{$prefix}slider-thumb-over {
+    background-position: (-$vertical-slider-thumb-width * 4) (-$vertical-slider-thumb-height * 4);
+}
+
 .#{$prefix}slider-vert .#{$prefix}slider-thumb-drag {
     background-position: (-$vertical-slider-thumb-width * 2) (-$vertical-slider-thumb-height * 2);
+}
+
+.#{$prefix}slider-vert.#{$prefix}slider-focus .#{$prefix}slider-thumb-drag {
+    background-position: (-$vertical-slider-thumb-width * 5) (-$vertical-slider-thumb-height * 5);
 }
 
 .#{$prefix}slider-horz,
@@ -97,4 +123,10 @@
 .#{$prefix}slider-vert .#{$prefix}slider-end,
 .#{$prefix}slider-vert .#{$prefix}slider-inner {
     background-image: theme-background-image('slider/slider-v-bg', 'png');
+}
+
+.#{$prefix}slider-default-cell > .#{$prefix}grid-cell-inner,
+.#{$prefix}sliderwidget-default-cell > .#{$prefix}grid-cell-inner {
+    padding-top:   floor(($grid-row-height - $horizontal-slider-thumb-height) / 2);
+    padding-bottom: ceil(($grid-row-height - $horizontal-slider-thumb-height) / 2);
 }

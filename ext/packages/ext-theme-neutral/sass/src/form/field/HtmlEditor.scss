@@ -98,7 +98,7 @@
 }
 
 .#{$prefix}html-editor-wrap textarea {
-    font: $form-field-font;
+    font: $form-field-font-weight $form-field-font-size $form-field-font-family;
     background-color: $html-editor-background-color;
     resize: none;
 }

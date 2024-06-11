@@ -67,6 +67,10 @@ Ext.define('Ext.ux.event.RecorderManager', {
                 handler: me.onPlay,
                 scope: me,
                 menu: [
+                    speed('Qarter Speed (0.25x)', .25),
+                    speed('Half Speed (0.5x)', .5),
+                    speed('3/4 Speed (0.75x)', .75),
+                    '-',
                     speed('Recorded Speed (1x)', 1),
                     speed('Double Speed (2x)', 2),
                     speed('Quad Speed (4x)', 4),
@@ -90,7 +94,7 @@ Ext.define('Ext.ux.event.RecorderManager', {
             }
         ];
 
-        var events = me.attachTo.testEvents;
+        var events = me.attachTo && me.attachTo.testEvents;
         me.items = [
             {
                 xtype: 'textarea',
@@ -108,7 +112,7 @@ Ext.define('Ext.ux.event.RecorderManager', {
         me.fbar = [
             {
                 xtype: 'tbtext',
-                text: 'Attached To: ' + me.attachTo.location.href
+                text: 'Attached To: ' + (me.attachTo && me.attachTo.location.href)
             }
         ];
 
@@ -184,6 +188,7 @@ Ext.define('Ext.ux.event.RecorderManager', {
                 me.player = Ext.create('Ext.ux.event.Player', {
                     attachTo: window.opener,
                     eventQueue: events,
+                    speed: me.playSpeed,
                     listeners: {
                         stop: me.onPlayStop,
                         scope: me

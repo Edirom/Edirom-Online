@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Hebrew Translations
  * By spartacus (from forums) 06-12-2007
@@ -59,8 +39,8 @@ Ext.onReady(function() {
 
     if (Ext.util && Ext.util.Format) {
         Ext.apply(Ext.util.Format, {
-            thousandSeparator: '.',
-            decimalSeparator: ',',
+            thousandSeparator: ',',
+            decimalSeparator: '.',
             currencySign: '\u20aa',
             // Iraeli Shekel
             dateFormat: 'd/m/Y'
@@ -153,6 +133,11 @@ Ext.define("Ext.locale.he.form.field.Date", {
     invalidText: "{1} הוא לא תאריך תקני - חייב להיות בפורמט {0}",
     format: "m/d/y",
     altFormats: "m/d/Y|m-d-y|m-d-Y|m/d|m-d|md|mdy|mdY|d|Y-m-d"
+});
+
+Ext.define("Ext.locale.he.form.field.File", {
+    override: "Ext.form.field.File",
+    buttonText: "עיון ..."
 });
 
 Ext.define("Ext.locale.he.form.field.ComboBox", {
@@ -262,7 +247,7 @@ Ext.define("Ext.locale.he.grid.header.Container", {
 });
 
 Ext.define("Ext.locale.he.grid.GroupingFeature", {
-    override: "Ext.grid.GroupingFeature",
+    override: "Ext.grid.feature.Grouping",
     emptyGroupText: '(ריק)',
     groupByText: 'הצג בקבוצות לפי שדה זה',
     showGroupsText: 'הצג בקבוצות'

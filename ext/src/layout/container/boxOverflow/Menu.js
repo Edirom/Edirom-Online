@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * @private
  */
@@ -28,26 +8,26 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
     extend: 'Ext.layout.container.boxOverflow.None',
     requires: ['Ext.toolbar.Separator', 'Ext.button.Button'],
     alternateClassName: 'Ext.layout.boxOverflow.Menu',
-    
-    /* End Definitions */
+    alias: [
+        'box.overflow.menu',
+        'box.overflow.Menu' // capitalized for 4.x compat
+    ],
 
-    /**
-     * @cfg {String} triggerButtonCls
-     * CSS class added to the Button which shows the overflow menu.
-     */
+    /* End Definitions */
 
     /**
      * @property {String} noItemsMenuText
      * HTML fragment to render into the toolbar overflow menu if there are no items to display
      */
-    noItemsMenuText : '<div class="' + Ext.baseCSSPrefix + 'toolbar-no-items">(None)</div>',
+    noItemsMenuText : '<div class="' + Ext.baseCSSPrefix + 'toolbar-no-items" role="menuitem">(None)</div>',
 
-    constructor: function(layout) {
+    menuCls: Ext.baseCSSPrefix + 'box-menu',
+
+    constructor: function(config) {
         var me = this;
 
-        me.callParent(arguments);
+        me.callParent([config]);
 
-        me.triggerButtonCls = me.triggerButtonCls || Ext.baseCSSPrefix + 'box-menu-after';
         /**
          * @property {Array} menuItems
          * Array of all items that are currently hidden and should go into the dropdown menu
@@ -56,7 +36,7 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
     },
 
     beginLayout: function (ownerContext) {
-        this.callParent(arguments);
+        this.callParent([ownerContext]);
 
         // Before layout, we need to re-show all items which we may have hidden due to a
         // previous overflow...
@@ -64,7 +44,7 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
     },
 
     beginLayoutCycle: function (ownerContext, firstCycle) {
-        this.callParent(arguments);
+        this.callParent([ownerContext, firstCycle]);
 
         if (!firstCycle) {
             // if we are being re-run, we need to clear any overflow from the last run and
@@ -75,8 +55,19 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         }
     },
 
-    onRemove: function(comp){
+    onRemove: function(comp) {
         Ext.Array.remove(this.menuItems, comp);
+    },
+
+    clearItem: function(comp) {
+        var menu = comp.menu;
+
+        if (comp.isButton && menu) {
+            // If the button had a menu, forcibly set it
+            // again so that the ownerCmp is reset correctly
+            // and is no longer pointing at the overflow
+            comp.setMenu(menu, false);
+        }
     },
 
     // We don't define a prefix in menu overflow.
@@ -106,12 +97,12 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
          */
         me.menuTrigger = new Ext.button.Button({
             id: oid + '-menu-trigger',
-            cls: Ext.layout.container.Box.prototype.innerCls + ' ' + me.triggerButtonCls + ' ' + Ext.baseCSSPrefix + 'toolbar-item',
+            cls: me.menuCls + '-after ' + Ext.baseCSSPrefix + 'toolbar-item',
             plain: owner.usePlainButtons,
             ownerCt: owner, // To enable the Menu to ascertain a valid zIndexManager owner in the same tree
             ownerLayout: layout,
             iconCls: Ext.baseCSSPrefix + me.getOwnerType(owner) + '-more-icon',
-            ui: owner instanceof Ext.toolbar.Toolbar ? 'default-toolbar' : 'default',
+            ui: owner.defaultButtonUI || 'default',
             menu: me.menu,
             // Menu will be empty when we're showing it because we populate items after
             showEmptyMenu: true,
@@ -121,24 +112,21 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         return me.menuTrigger.getRenderTree();
     },
     
-    getOverflowCls: function() {
-        return Ext.baseCSSPrefix + this.layout.direction + '-box-overflow-body';
+    getOverflowCls: function(direction) {
+        return this.menuCls + '-body-' + direction;
     },
 
     handleOverflow: function(ownerContext) {
         var me = this,
-            layout = me.layout,
-            names = layout.names,
-            plan = ownerContext.state.boxPlan,
-            posArgs = [null, null];
+            layout = me.layout;
 
         me.showTrigger(ownerContext);
 
         // Center the menuTrigger button only if we are not vertical.
-        // TODO: Should we emulate align: 'middle' like this, or should we 'stretchmax' the menuTrigger?
-        if (me.layout.direction !== 'vertical') {
-            posArgs[names.heightIndex] = (plan.maxSize - me.menuTrigger[names.getHeight]()) / 2;
-            me.menuTrigger.setPosition.apply(me.menuTrigger, posArgs);
+        if (layout.direction !== 'vertical') {
+            me.menuTrigger.setLocalY(
+                (ownerContext.state.boxPlan.maxSize - me.menuTrigger[layout.names.getHeight]()) / 2
+            );
         }
 
         return {
@@ -162,8 +150,6 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         }
     },
 
-    _asLayoutRoot: { isRoot: true },
-
     /**
      * @private
      * Called by the layout, when it determines that there is no overflow.
@@ -173,24 +159,24 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
     clearOverflow: function(ownerContext) {
         var me = this,
             items = me.menuItems,
-            item,
-            i = 0,
             length = items.length,
             owner = me.layout.owner,
-            asLayoutRoot = me._asLayoutRoot;
+            asLayoutRoot = owner._asLayoutRoot,
+            item, i;
 
         owner.suspendLayouts();
         me.captureChildElements();
         me.hideTrigger();
         owner.resumeLayouts();
 
-        for (; i < length; i++) {
+        for (i = 0; i < length; i++) {
             item = items[i];
 
             // What we are doing here is preventing the layout bubble from invalidating our
             // owner component. We need just the button to be added to the layout run.
             item.suspendLayouts();
             item.show();
+            me.clearItem(item);
             item.resumeLayouts(asLayoutRoot);
         }
 
@@ -212,10 +198,9 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
             plan = ownerContext.state.boxPlan,
             available = plan.targetSize[sizeProp],
             childItems = ownerContext.childItems,
-            len = childItems.length,
             menuTrigger = me.menuTrigger,
-            childContext,
-            comp, i, props;
+            menuItems = me.menuItems,
+            childContext, comp, i, props, len;
 
         // We don't want the menuTrigger.show to cause owner's layout to be invalidated, so
         // we force just the button to be invalidated and added to the current run.
@@ -229,8 +214,12 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
 
         // Hide all items which are off the end, and store them to allow them to be restored
         // before each layout operation.
-        me.menuItems.length = 0;
-        for (i = 0; i < len; i++) {
+        for (i = 0, len = menuItems.length; i < len; ++i) {
+            me.clearItem(menuItems[i]);
+        }
+        menuItems.length = 0;
+
+        for (i = 0, len = childItems.length; i < len; i++) {
             childContext = childItems[i];
             props = childContext.props;
             if (props[startProp] + props[sizeProp] > available) {
@@ -269,8 +258,7 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
             };
 
         menu.suspendLayouts();
-        me.clearMenu();
-        menu.removeAll();
+        menu.removeAll(false);
 
         for (; i < len; i++) {
             item = items[i];
@@ -301,20 +289,19 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
      * @param {Ext.Component} component The component to create the config for
      * @param {Boolean} hideOnClick Passed through to the menu item
      */
-    createMenuConfig : function(component, hideOnClick) {
-        var me = this,
-            config = Ext.apply({}, component.initialConfig),
+    createMenuConfig: function (component, hideOnClick) {
+        var config = Ext.apply({}, component.initialConfig),
             group  = component.toggleGroup;
 
         Ext.copyTo(config, component, [
             'iconCls', 'icon', 'itemId', 'disabled', 'handler', 'scope', 'menu', 'tabIndex'
         ]);
 
-        Ext.apply(config, {
-            text       : component.overflowText || component.text,
+        Ext.applyIf(config, {
+            text: component.overflowText || component.text,
             hideOnClick: hideOnClick,
             destroyMenu: false,
-            listeners  : {}
+            listeners: null
         });
 
         // Clone must have same value, and must sync original's value on change
@@ -326,18 +313,20 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
             // That's because we monitor the clone's change event, and sync the
             // original field by calling setValue, so the original field's change
             // event will still fire.
-            config.listeners.change = function(c, newVal, oldVal) {                            
-                component.setValue(newVal);
-            }
+            config.listeners = {
+                change: function(c, newVal, oldVal) {                            
+                    component.setValue(newVal);
+                }
+            };
         }
 
         // ToggleButtons become CheckItems
         else if (group || component.enableToggle) {
             Ext.apply(config, {
                 hideOnClick: false,
-                group  : group,
+                group: group,
                 checked: component.pressed,
-                handler: function(item, e) {
+                handler: function (item, e) {
                     component.onClick(e);
                 }
             });
@@ -346,9 +335,9 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         // Buttons may have their text or icon changed - this must be propagated to the clone in the overflow menu
         if (component.isButton && !component.changeListenersAdded) {
             component.on({
-                textchange: me.onButtonAttrChange,
-                iconchange: me.onButtonAttrChange,
-                toggle:     me.onButtonToggle
+                textchange: this.onButtonAttrChange,
+                iconchange: this.onButtonAttrChange,
+                toggle: this.onButtonToggle
             });
             component.changeListenersAdded = true;
         }
@@ -391,11 +380,21 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
      */
     addComponentToMenu : function(menu, component) {
         var me = this,
-        i, items, iLen;
+            i, items, iLen;
 
-        if (component instanceof Ext.toolbar.Separator) {
+        // No equivalent to fill, skip it
+        if (component instanceof Ext.toolbar.Fill) {
+            return;
+        }
+        // Separator maps to MenuSeparator
+        else if (component instanceof Ext.toolbar.Separator) {
             menu.add('-');
-        } else if (component.isComponent) {
+        }
+        else if (component.overflowClone) {
+            menu.add(component.overflowClone);
+        }
+        // Other types...
+        else if (component.isComponent) {
             if (component.isXType('splitbutton')) {
                 component.overflowClone = menu.add(me.createMenuConfig(component, true));
 
@@ -411,28 +410,6 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
                 }
             } else {
                 component.overflowClone = menu.add(Ext.create(Ext.getClassName(component), me.createMenuConfig(component)));
-            }
-        }
-    },
-
-    /**
-     * @private
-     * Deletes the sub-menu of each item in the expander menu. Submenus are created for items such as
-     * splitbuttons and buttongroups, where the Toolbar item cannot be represented by a single menu item
-     */
-    clearMenu : function() {
-        var menu = this.menu,
-            items, i, iLen, item;
-        
-        if (menu && menu.items) {
-            items = menu.items.items;
-            iLen  = items.length;
-            
-            for (i = 0; i < iLen; i++) {
-                item = items[i];
-                if (item.setMenu) {
-                    item.setMenu(null);
-                }
             }
         }
     },

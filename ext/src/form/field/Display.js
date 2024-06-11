@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A display-only text field which is not validated and not submitted. This is useful for when you want to display a
  * value from a form's {@link Ext.form.Basic#load loaded data} but do not want to allow the user to edit or submit that
@@ -33,7 +13,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     Ext.create('Ext.form.Panel', {
  *         renderTo: Ext.getBody(),
  *         width: 175,
- *         height: 120,
+ *         height: 150,
  *         bodyPadding: 10,
  *         title: 'Final Score',
  *         items: [{
@@ -57,15 +37,20 @@ Ext.define('Ext.form.field.Display', {
     alias: 'widget.displayfield',
     requires: ['Ext.util.Format', 'Ext.XTemplate'],
     alternateClassName: ['Ext.form.DisplayField', 'Ext.form.Display'],
+    
+    ariaRole: 'textbox',
+    
     fieldSubTpl: [
-        '<div id="{id}" role="input" ',
+        '<div id="{id}" role="{role}" {inputAttrTpl}',
         '<tpl if="fieldStyle"> style="{fieldStyle}"</tpl>', 
-        ' class="{fieldCls}">{value}</div>',
+        ' class="{fieldCls} {fieldCls}-{ui}">{value}</div>',
         {
             compiled: true,
             disableFormats: true
         }
     ],
+    
+    focusable: false,
 
     /**
      * @cfg {Boolean} readOnly
@@ -89,8 +74,28 @@ Ext.define('Ext.form.field.Display', {
     
     /**
      * @cfg {Function} renderer
-     * A function to transform the raw value for display in the field. The function will receive 2 arguments, the raw value
-     * and the {@link Ext.form.field.Display} object.
+     * A function to transform the raw value for display in the field.
+     * 
+     *     Ext.create('Ext.form.Panel', {
+     *         renderTo: document.body,
+     *         width: 175,
+     *         bodyPadding: 10,
+     *         title: 'Final Score',
+     *         items: [{
+     *             xtype: 'displayfield',
+     *             fieldLabel: 'Grade',
+     *             name: 'final_grade',
+     *             value: 68,
+     *             renderer: function (value, field) {
+     *                 var color = (value < 70) ? 'red' : 'black';
+     *                 return '<span style="color:' + color + ';">' + value + '</span>';
+     *             }
+     *         }]
+     *     });
+     * 
+     * @param {Object} value The raw field {@link #value}
+     * @param {Ext.form.field.Display} field The display field
+     * @return {String} displayValue The HTML string to be rendered
      */
     
     /**
@@ -109,18 +114,26 @@ Ext.define('Ext.form.field.Display', {
     initEvents: Ext.emptyFn,
 
     submitValue: false,
+
+    getValue: function() {
+        return this.value;
+    },
+    
+    valueToRaw: function(value) {
+        if (value || value === 0 || value === false) {
+            return value;
+        } else {
+            return '';
+        }
+    },
     
     isDirty: function(){
         return false;
     },
 
-    isValid: function() {
-        return true;
-    },
+    isValid: Ext.returnTrue,
 
-    validate: function() {
-        return true;
-    },
+    validate: Ext.returnTrue,
 
     getRawValue: function() {
         return this.rawValue;
@@ -129,7 +142,7 @@ Ext.define('Ext.form.field.Display', {
     setRawValue: function(value) {
         var me = this;
             
-        value = Ext.value(value, '');
+        value = Ext.valueFrom(value, '');
         me.rawValue = value;
         if (me.rendered) {
             me.inputEl.dom.innerHTML = me.getDisplayValue();
@@ -154,7 +167,7 @@ Ext.define('Ext.form.field.Display', {
         return display;
     },
         
-    getSubTplData: function() {
+    getSubTplData: function(fieldData) {
         var ret = this.callParent(arguments);
 
         ret.value = this.getDisplayValue();

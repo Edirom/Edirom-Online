@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This layout manages multiple child Components, each fitted to the Container, where only a single child Component can be
  * visible at any given time.  This layout style is most commonly used for wizards, tab implementations, etc.
@@ -163,7 +143,14 @@ Ext.define('Ext.layout.container.Card', {
      * true might improve performance.
      */
     deferredRender : false,
-    
+
+    // @private
+    // Gecko has a scroll bug where it will remember the scroll position of removed card panels and reapply
+    // that scroll position when a new card is added. We use this cache to remove the scroll position when
+    // the card is added to the layout and then reapply the actual position after the layout has resumed.
+    // See EXTJS-16173.
+    scrollableCache: (Ext.isGecko ? {} : null),
+
     getRenderTree: function () {
         var me = this,
             activeItem = me.getActiveItem();
@@ -202,7 +189,7 @@ Ext.define('Ext.layout.container.Card', {
     renderChildren: function () {
         var me = this,
             active = me.getActiveItem();
-            
+
         if (!me.deferredRender) {
             me.callParent();
         } else if (active) {
@@ -220,50 +207,59 @@ Ext.define('Ext.layout.container.Card', {
 
     /**
      * Return the active (visible) component in the layout.
-     * @returns {Ext.Component}
+     * @return {Ext.Component}
      */
     getActiveItem: function() {
         var me = this,
-            // Ensure the calculated result references a Component
-            result = me.parseActiveItem(me.activeItem || (me.owner && me.owner.activeItem));
+            // It's necessary to check that me.activeItem is not undefined as it could be 0 (falsey). We're more interested in
+            // checking the layout's activeItem property, since that is the source of truth for an activeItem.  If it's
+            // determined to be empty, check the owner. Note that a default item is returned if activeItem is `undefined` but
+            // not `null`. Also, note that `null` is legitimate value and completely different from `undefined`.
+            item = me.activeItem === undefined ? (me.owner && me.owner.activeItem) : me.activeItem,
+            result = me.parseActiveItem(item);
 
         // Sanitize the result in case the active item is no longer there.
-        if (result && me.owner.items.indexOf(result) != -1) {
+        if (result && me.owner.items.indexOf(result) !== -1) {
             me.activeItem = result;
-        } else {
-            me.activeItem = null;
         }
 
-        return me.activeItem;
+        // Note that in every use case me.activeItem will have a truthy value except for when a container or tabpanel is explicity
+        // configured with activeItem/Tab === null or when an out-of-range index is given for an active tab (as it will be undefined).
+        // In those cases, it is meaningful to return the null value, so do so.
+        return result == null ? null : (me.activeItem || me.owner.activeItem);
     },
 
     // @private
-    parseActiveItem: function(item) {
+    parseActiveItem: function (item) {
+        var activeItem;
+
         if (item && item.isComponent) {
-            return item;
-        } else if (typeof item == 'number' || item === undefined) {
-            return this.getLayoutItems()[item || 0];
+            activeItem = item;
+        } else if (typeof item === 'number' || item === undefined) {
+            activeItem = this.getLayoutItems()[item || 0];
+        } else if (item === null) {
+            activeItem = null;
         } else {
-            return this.owner.getComponent(item);
+            activeItem = this.owner.getComponent(item);
         }
+
+        return activeItem;
     },
 
     // @private. Called before both dynamic render, and bulk render.
     // Ensure that the active item starts visible, and inactive ones start invisible
     configureItem: function(item) {
-        if (item === this.getActiveItem()) {
-            item.hidden = false;
-        } else {
-            item.hidden = true;
-        }
+        item.setHiddenState(item !== this.getActiveItem());
         this.callParent(arguments);
     },
 
     onRemove: function(component) {
-        var me = this;
-        
-        if (component === me.activeItem) {
-            me.activeItem = null;
+        this.callParent([component]);
+
+        if (component === this.activeItem) {
+            // Note setting to `undefined` is intentional. Don't null it out since null now has a specific meaning in
+            // tab management (it specifies not setting an active item).
+            this.activeItem = undefined;
         }
     },
 
@@ -278,7 +274,7 @@ Ext.define('Ext.layout.container.Card', {
 
     /**
      * Return the active (visible) component in the layout to the next card
-     * @returns {Ext.Component} The next component or false.
+     * @return {Ext.Component} The next component or false.
      */
     getNext: function() {
         var wrap = arguments[0],
@@ -300,7 +296,7 @@ Ext.define('Ext.layout.container.Card', {
 
     /**
      * Return the active (visible) component in the layout to the previous card
-     * @returns {Ext.Component} The previous component or false.
+     * @return {Ext.Component} The previous component or false.
      */
     getPrev: function() {
         var wrap = arguments[0],
@@ -342,17 +338,19 @@ Ext.define('Ext.layout.container.Card', {
      */
     setActiveItem: function(newCard) {
         var me = this,
+            scrollableCache = me.scrollableCache,
             owner = me.owner,
             oldCard = me.activeItem,
             rendered = owner.rendered,
-            newIndex;
+            newIndex, focusNewCard,
+            oldCardScrollable, cached, currentPosition;
 
         newCard = me.parseActiveItem(newCard);
         newIndex = owner.items.indexOf(newCard);
 
         // If the card is not a child of the owner, then add it.
         // Without doing a layout!
-        if (newIndex == -1) {
+        if (newIndex === -1) {
             newIndex = owner.items.items.length;
             Ext.suspendLayouts();
             newCard = owner.add(newCard);
@@ -360,7 +358,7 @@ Ext.define('Ext.layout.container.Card', {
         }
 
         // Is this a valid, different card?
-        if (newCard && oldCard != newCard) {
+        if (newCard && oldCard !== newCard) {
             // Fire the beforeactivate and beforedeactivate events on the cards
             if (newCard.fireEvent('beforeactivate', newCard, oldCard) === false) {
                 return false;
@@ -379,21 +377,64 @@ Ext.define('Ext.layout.container.Card', {
 
                 if (oldCard) {
                     if (me.hideInactive) {
+                        focusNewCard = oldCard.el.contains(Ext.Element.getActiveElement());
+
+                        // Workaround for FF bug (see EXTJS-16173). We must reset the scroll positions here
+                        // before the old card and its targetEl is hidden and removed from the document.
+                        // Afterwards, it's too late and the bug will appear (the scroll position of the
+                        // removed card will be reapplied).
+                        if (scrollableCache && (oldCardScrollable = oldCard.scrollable)) {
+                            scrollableCache[oldCard.id] = {
+                                position: oldCardScrollable.getPosition()
+                            }
+
+                            oldCardScrollable.scrollTo(0, 0);
+                        }
+
                         oldCard.hide();
-                        oldCard.hiddenByLayout = true;
+                        if (oldCard.hidden) {
+                            oldCard.hiddenByLayout = true;
+                            oldCard.fireEvent('deactivate', oldCard, newCard);
+                        }
+                        // Hide was vetoed, we cannot change cards.
+                        else {
+                            return false;
+                        }
                     }
-                    oldCard.fireEvent('deactivate', oldCard, newCard);
                 }
+
                 // Make sure the new card is shown
                 if (newCard.hidden) {
                     newCard.show();
                 }
 
-                // Layout needs activeItem to be correct, so set it if the show has not been vetoed
-                if (!newCard.hidden) {
+                // Layout needs activeItem to be correct, so clear it if the show has been vetoed,
+                // set it if the show has *not* been vetoed.
+                if (newCard.hidden) {
+                    me.activeItem = newCard = null;
+                } else {
                     me.activeItem = newCard;
+
+                    // If the card being hidden contained focus, attempt to focus the new card
+                    // So as not to leave focus undefined.
+                    // The focus() call will focus the defaultFocus if it is a container
+                    // so ensure there is a defaultFocus.
+                    if (focusNewCard) {
+                        if (!newCard.defaultFocus) {
+                            newCard.defaultFocus = ':focusable';
+                        }
+                        newCard.focus();
+                    }
                 }
+
                 Ext.resumeLayouts(true);
+
+                // Workaround for FF bug (see EXTJS-16173). Only now after the layout has resumed can
+                // we reapply the actual scroll position.
+                if (scrollableCache && (cached = scrollableCache[newCard.id])) {
+                    currentPosition = cached.position;
+                    newCard.scrollable.scrollTo(currentPosition.x, currentPosition.y);
+                }
             } else {
                 me.activeItem = newCard;
             }

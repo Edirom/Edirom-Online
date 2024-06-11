@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This is a base class for layouts that contain a single item that automatically expands to fill the layout's
  * container. This class is intended to be extended or created via the layout:'fit'
@@ -56,42 +36,12 @@ Ext.define('Ext.layout.container.Fit', {
 
     /* End Definitions */
 
+    /**
+     * @inheritdoc
+     */
     itemCls: Ext.baseCSSPrefix + 'fit-item',
-    targetCls: Ext.baseCSSPrefix + 'layout-fit',
     type: 'fit',
    
-    /**
-     * @cfg {Object} defaultMargins
-     * If the individual contained items do not have a margins property specified or margin specified via CSS, the
-     * default margins from this property will be applied to each item.
-     *
-     * This property may be specified as an object containing margins to apply in the format:
-     *
-     *     {
-     *         top: (top margin),
-     *         right: (right margin),
-     *         bottom: (bottom margin),
-     *         left: (left margin)
-     *     }
-     *
-     * This property may also be specified as a string containing space-separated, numeric margin values. The order of
-     * the sides associated with each value matches the way CSS processes margin values:
-     *
-     *   - If there is only one value, it applies to all sides.
-     *   - If there are two values, the top and bottom borders are set to the first value and the right and left are
-     *     set to the second.
-     *   - If there are three values, the top is set to the first value, the left and right are set to the second,
-     *     and the bottom is set to the third.
-     *   - If there are four values, they apply to the top, right, bottom, and left, respectively.
-     *
-     */
-    defaultMargins: {
-        top: 0,
-        right: 0,
-        bottom: 0,
-        left: 0
-    },
-
     manageMargins: true,
 
     sizePolicies: {
@@ -104,7 +54,7 @@ Ext.define('Ext.layout.container.Fit', {
     getItemSizePolicy: function (item, ownerSizeModel) {
         // this layout's sizePolicy is derived from its owner's sizeModel:
         var sizeModel = ownerSizeModel || this.owner.getSizeModel(),
-            mode = (sizeModel.width.shrinkWrap ? 0 : 1) |
+            mode = (sizeModel.width.shrinkWrap ? 0 : 1) | // jshint ignore:line
                    (sizeModel.height.shrinkWrap ? 0 : 2);
 
        return this.sizePolicies[mode];
@@ -125,7 +75,7 @@ Ext.define('Ext.layout.container.Fit', {
         // settings affect the available size. This particularly effects self-sizing
         // containers such as fields, in which the target element is naturally sized,
         // and should not be stretched by a sized child item.
-        if (resetSizes && ownerContext.targetContext.el.dom.tagName.toUpperCase() != 'TD') {
+        if (resetSizes && ownerContext.targetContext.el.dom.tagName.toUpperCase() !== 'TD') {
             resetSizes = resetWidth = resetHeight = false;
         }
 
@@ -191,7 +141,7 @@ Ext.define('Ext.layout.container.Fit', {
                                    c.scrollFlags.y) || undef;
     },
 
-    calculate : function (ownerContext) {
+    calculate: function (ownerContext) {
         var me = this,
             childItems = ownerContext.childItems,
             length = childItems.length,
@@ -207,6 +157,7 @@ Ext.define('Ext.layout.container.Fit', {
             overflowY = ownerContext.overflowY,
             scrollbars, scrollbarSize, padding, i, contentWidth, contentHeight;
 
+        ownerContext.state.info = info;
         if (overflowX || overflowY) {
             // If we have children that have minHeight/Width, we may be forced to overflow
             // and gain scrollbars. If so, we want to remove their space from the other
@@ -217,21 +168,28 @@ Ext.define('Ext.layout.container.Fit', {
 
             if (scrollbars) {
                 scrollbarSize = Ext.getScrollbarSize();
-                if (scrollbars & 1) { // if we need the hscrollbar, remove its height
+                if (scrollbars & 1) { // jshint ignore:line
+                    // if we need the hscrollbar, remove its height
                     containerSize.height -= scrollbarSize.height;
                 }
-                if (scrollbars & 2) { // if we need the vscrollbar, remove its width
+                if (scrollbars & 2) { // jshint ignore:line
+                    // if we need the vscrollbar, remove its width
                     containerSize.width -= scrollbarSize.width;
                 }
             }
         }
 
-        // Size the child items to the container (if non-shrinkWrap):
-        for (i = 0; i < length; ++i) {
-            info.index = i;
-            me.fitItem(childItems[i], info);
+        // If length === 0, it means we either have no child items, or the children are hidden
+        if (length > 0) {
+            // Size the child items to the container (if non-shrinkWrap):
+            for (i = 0; i < length; ++i) {
+                info.index = i;
+                me.fitItem(childItems[i], info);
+            }
+        } else {
+            info.contentWidth = info.contentHeight = 0;
         }
-        
+
         if (shrinkWrapHeight || shrinkWrapWidth) {
             padding = ownerContext.targetContext.getPaddingInfo();
             
@@ -246,7 +204,8 @@ Ext.define('Ext.layout.container.Fit', {
                     // the scrollbar flag (if set) will indicate that an overflow exists on
                     // the horz(1) or vert(2) axis... if not set, then there could never be
                     // an overflow...
-                    if (scrollbars & 2) { // if we need the vscrollbar, add its width
+                    if (scrollbars & 2) { // jshint ignore:line
+                        // if we need the vscrollbar, add its width
                         contentWidth += scrollbarSize.width;
                     }
                     if (!ownerContext.setContentWidth(contentWidth)) {
@@ -266,7 +225,8 @@ Ext.define('Ext.layout.container.Fit', {
                     // the scrollbar flag (if set) will indicate that an overflow exists on
                     // the horz(1) or vert(2) axis... if not set, then there could never be
                     // an overflow...
-                    if (scrollbars & 1) { // if we need the hscrollbar, add its height
+                    if (scrollbars & 1) { // jshint ignore:line
+                        // if we need the hscrollbar, add its height
                         contentHeight += scrollbarSize.height;
                     }
                     if (!ownerContext.setContentHeight(contentHeight)) {
@@ -292,7 +252,7 @@ Ext.define('Ext.layout.container.Fit', {
         me.fitItemHeight(itemContext, info);
 
         // If not all required dimensions have been satisfied, we're not done.
-        if (info.got != info.needed) {
+        if (info.got !== info.needed) {
             me.done = false;
         }
     },
@@ -316,6 +276,9 @@ Ext.define('Ext.layout.container.Fit', {
             if (info.targetSize.gotWidth) {
                 ++info.got;
                 this.setItemWidth(itemContext, info);
+            } else {
+                // Too early to position
+                return;
             }
         }
 
@@ -340,6 +303,9 @@ Ext.define('Ext.layout.container.Fit', {
             if (info.targetSize.gotHeight) {
                 ++info.got;
                 this.setItemHeight(itemContext, info);
+            } else {
+                // Too early to position
+                return;
             }
         }
 

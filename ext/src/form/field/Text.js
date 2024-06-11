@@ -1,26 +1,4 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
- * @docauthor Jason Johnston <jason@sencha.com>
- *
  * A basic text field.  Can be used as a direct replacement for traditional text inputs,
  * or as the base class for more sophisticated input controls (like {@link Ext.form.field.TextArea}
  * and {@link Ext.form.field.ComboBox}). Has support for empty-field placeholder values (see {@link #emptyText}).
@@ -74,12 +52,126 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *             vtype: 'email'  // requires value to be a valid email address format
  *         }]
  *     });
+ *
+ * # Custom Subclasses
+ *
+ * This class can be extended to provide additional functionality. The example below demonstrates creating
+ * a custom search field that uses the HTML5 search input type.
+ *
+ *     @example
+ *     // A simple subclass of Base that creates a HTML5 search field. Redirects to the
+ *     // searchUrl when the Enter key is pressed.222
+ *     Ext.define('Ext.form.SearchField', {
+ *         extend: 'Ext.form.field.Text',
+ *         alias: 'widget.searchfield',
+ *     
+ *         inputType: 'search',
+ *     
+ *         // Config defining the search URL
+ *         searchUrl: 'http://www.google.com/search?q={0}',
+ *     
+ *         // Add specialkey listener
+ *         initComponent: function() {
+ *             this.callParent();
+ *             this.on('specialkey', this.checkEnterKey, this);
+ *         },
+ *     
+ *         // Handle enter key presses, execute the search if the field has a value
+ *         checkEnterKey: function(field, e) {
+ *             var value = this.getValue();
+ *             if (e.getKey() === e.ENTER && !Ext.isEmpty(value)) {
+ *                 location.href = Ext.String.format(this.searchUrl, value);
+ *             }
+ *         }
+ *     });
+ *     
+ *     Ext.create('Ext.form.Panel', {
+ *         title: 'Base Example',
+ *         bodyPadding: 5,
+ *         width: 250,
+ *     
+ *         // Fields will be arranged vertically, stretched to full width
+ *         layout: 'anchor',
+ *         defaults: {
+ *             anchor: '100%'
+ *         },
+ *         items: [{
+ *             xtype: 'searchfield',
+ *             fieldLabel: 'Search',
+ *             name: 'query'
+ *         }],
+ *         renderTo: Ext.getBody()
+ *     });
  */
 Ext.define('Ext.form.field.Text', {
     extend:'Ext.form.field.Base',
     alias: 'widget.textfield',
-    requires: ['Ext.form.field.VTypes', 'Ext.layout.component.field.Text'],
+    requires: [
+        'Ext.form.field.VTypes',
+        'Ext.form.trigger.Trigger',
+        'Ext.util.TextMetrics'
+    ],
     alternateClassName: ['Ext.form.TextField', 'Ext.form.Text'],
+
+    config: {
+        /**
+         * @cfg {Boolean} hideTrigger
+         * `true` to hide all triggers
+         */
+        hideTrigger: false,
+
+        // @cmd-auto-dependency {aliasPrefix: "trigger.", isKeyedObject: true}
+        /**
+         * @cfg {Object} triggers
+         * {@link Ext.form.trigger.Trigger Triggers} to use in this field.  The keys in
+         * this object are unique identifiers for the triggers. The values in this object
+         * are {@link Ext.form.trigger.Trigger Trigger} configuration objects.
+         *
+         *     Ext.create('Ext.form.field.Text', {
+         *         renderTo: document.body,
+         *         fieldLabel: 'My Custom Field',
+         *         triggers: {
+         *             foo: {
+         *                 cls: 'my-foo-trigger',
+         *                 handler: function() {
+         *                     console.log('foo trigger clicked');
+         *                 }
+         *             },
+         *             bar: {
+         *                 cls: 'my-bar-trigger',
+         *                 handler: function() {
+         *                     console.log('bar trigger clicked');
+         *                 }
+         *             }
+         *         }
+         *     });
+         * 
+         * The weight value may be a negative value in order to position custom triggers 
+         * ahead of default triggers like that of ComboBox.
+         * 
+         *     Ext.create('Ext.form.field.ComboBox', {
+         *         renderTo: Ext.getBody(),
+         *         fieldLabel: 'My Custom Field',
+         *         triggers: {
+         *             foo: {
+         *                 cls: 'my-foo-trigger',
+         *                 weight: -2, // negative to place before default triggers
+         *                 handler: function() {
+         *                     console.log('foo trigger clicked');
+         *                 }
+         *             },
+         *             bar: {
+         *                 cls: 'my-bar-trigger',
+         *                 weight: -1, 
+         *                 handler: function() {
+         *                     console.log('bar trigger clicked');
+         *                 }
+         *             }
+         *         }
+         *     });
+         */
+        triggers: undefined
+    },
 
     /**
      * @cfg {String} vtypeText
@@ -96,10 +188,11 @@ Ext.define('Ext.form.field.Text', {
 
     /**
      * @cfg {Number} size
-     * An initial value for the 'size' attribute on the text input element. This is only used if the field has no
-     * configured {@link #width} and is not given a width by its container's layout. Defaults to 20.
+     * An initial value for the 'size' attribute on the text input element. This is only
+     * used if the field has no configured {@link #width} and is not given a width by its
+     * container's layout. Defaults to 20.
+     * @deprecated use {@link #width} instead.
      */
-    size: 20,
 
     /**
      * @cfg {Boolean} [grow=false]
@@ -208,7 +301,8 @@ Ext.define('Ext.form.field.Text', {
 
     /**
      * @cfg {Boolean} [selectOnFocus=false]
-     * true to automatically select any existing field text when the field receives input focus
+     * `true` to automatically select any existing field text when the field receives input
+     * focus. Only applies when {@link #editable editable} = true
      */
 
     //<locale>
@@ -224,14 +318,25 @@ Ext.define('Ext.form.field.Text', {
      * A custom validation function to be called during field validation ({@link #getErrors}).
      * If specified, this function will be called first, allowing the developer to override the default validation
      * process.
+     * 
+     *     Ext.create('Ext.form.field.Text', {
+     *         renderTo: document.body,
+     *         name: 'phone',
+     *         fieldLabel: 'Phone Number',
+     *         validator: function (val) {
+     *             // remove non-numeric characters
+     *             var tn = val.replace(/[^0-9]/g,''),
+     *                 errMsg = "Must be a 10 digit telephone number";
+     *             // if the numeric value is not 10 digits return an error message
+     *             return (tn.length === 10) ? true : errMsg;
+     *         }
+     *     });
      *
-     * This function will be passed the following parameters:
+     * @param {Object} validator.value The current field value
+     * @return {Boolean/String} response
      *
-     * @cfg {Object} validator.value The current field value
-     * @cfg {Boolean/String} validator.return
-     *
-     * - True if the value is valid
-     * - An error message if the value is invalid
+     *  - True if the value is valid
+     *  - An error message if the value is invalid
      */
 
     /**
@@ -282,71 +387,161 @@ Ext.define('Ext.form.field.Text', {
      * true to enable the proxying of key events for the HTML input field
      */
 
-    componentLayout: 'textfield',
-
     // private
     valueContainsPlaceholder : false,
 
+    ariaRole: 'textbox',
+
+    /**
+     * @cfg {Boolean} editable
+     * false to prevent the user from typing text directly into the field; the field can
+     * only have its value set programmatically or via an action invoked by a trigger.
+     */
+    editable: true,
+
+    /**
+     * @cfg {Boolean} repeatTriggerClick
+     * `true` to attach a {@link Ext.util.ClickRepeater click repeater} to the trigger(s).
+     * Click repeating behavior can also be configured on the individual {@link #triggers
+     * trigger instances using the trigger's {@link {Ext.form.trigger.Trigger#repeatClick
+     * repeatClick} config.
+     */
+    repeatTriggerClick: false,
+
+    /**
+     * @cfg {Boolean} readOnly
+     * `true` to prevent the user from changing the field, and hide all triggers.
+     */
+
+    /**
+     * @cfg {String}
+     * The CSS class that is added to the div wrapping the input element and trigger button(s).
+     */
+    triggerWrapCls: Ext.baseCSSPrefix + 'form-trigger-wrap',
+
+    triggerWrapFocusCls: Ext.baseCSSPrefix + 'form-trigger-wrap-focus',
+    triggerWrapInvalidCls: Ext.baseCSSPrefix + 'form-trigger-wrap-invalid',
+
+    fieldBodyCls: Ext.baseCSSPrefix + 'form-text-field-body',
+
+    /**
+     * @cfg {String}
+     * The CSS class that is added to the element wrapping the input element
+     */
+    inputWrapCls: Ext.baseCSSPrefix + 'form-text-wrap',
+
+    inputWrapFocusCls: Ext.baseCSSPrefix + 'form-text-wrap-focus',
+    inputWrapInvalidCls: Ext.baseCSSPrefix + 'form-text-wrap-invalid',
+    growCls: Ext.baseCSSPrefix + 'form-text-grow',
+
+    // private
+    monitorTab: true,
+    // private
+    mimicing: false,
+    
+    needArrowKeys: true,
+
+    childEls: [
+        /**
+         * @property {Ext.dom.Element} triggerWrap
+         * A reference to the element which encapsulates the input field and all
+         * trigger button(s). Only set after the field has been rendered.
+         */
+        'triggerWrap',
+
+        /**
+         * @property {Ext.dom.Element} inputWrap
+         * A reference to the element that wraps the input element. Only set after the
+         * field has been rendered.
+         */
+        'inputWrap'
+    ],
+
+    preSubTpl: [
+        '<div id="{cmpId}-triggerWrap" data-ref="triggerWrap" class="{triggerWrapCls} {triggerWrapCls}-{ui}">',
+            '<div id={cmpId}-inputWrap data-ref="inputWrap" class="{inputWrapCls} {inputWrapCls}-{ui}">'
+    ],
+
+    postSubTpl: [
+            '</div>', // end inputWrap
+            '<tpl for="triggers">{[values.renderTrigger(parent)]}</tpl>',
+        '</div>' // end triggerWrap
+    ],
+
+    /**
+     * @event autosize
+     * Fires when the **{@link #autoSize}** function is triggered and the field is resized according to the
+     * {@link #grow}/{@link #growMin}/{@link #growMax} configs as a result. This event provides a hook for the
+     * developer to apply additional logic at runtime to resize the field if needed.
+     * @param {Ext.form.field.Text} this This text field
+     * @param {Number} width The new field width
+     */
+
+    /**
+     * @event keydown
+     * Keydown input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
+     * @param {Ext.form.field.Text} this This text field
+     * @param {Ext.event.Event} e
+     */
+
+    /**
+     * @event keyup
+     * Keyup input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
+     * @param {Ext.form.field.Text} this This text field
+     * @param {Ext.event.Event} e
+     */
+
+    /**
+     * @event keypress
+     * Keypress input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
+     * @param {Ext.form.field.Text} this This text field
+     * @param {Ext.event.Event} e
+     */
 
     initComponent: function () {
-        var me = this;
-        
+        var me = this,
+            emptyCls = me.emptyCls;
+
         if (me.allowOnlyWhitespace === false) {
             me.allowBlank = false;
         }
 
+        //<debug>
+        if (me.size) {
+            Ext.log.warn('Ext.form.field.Text "size" config was deprecated in Ext 5.0. Please specify a "width" or use a layout instead.');
+        }
+        //</debug>
+        // In Ext JS 4.x the layout system used the following magic formula for converting
+        // the "size" config into a pixel value.
+        if (me.size) {
+            me.defaultBodyWidth = me.size * 6.5 + 20;
+        }
+
+        if (!me.onTrigger1Click) {
+            // for compat with 4.x TriggerField
+            me.onTrigger1Click = me.onTriggerClick;
+        }
+
         me.callParent();
 
-        me.addEvents(
-            /**
-             * @event autosize
-             * Fires when the **{@link #autoSize}** function is triggered and the field is resized according to the
-             * {@link #grow}/{@link #growMin}/{@link #growMax} configs as a result. This event provides a hook for the
-             * developer to apply additional logic at runtime to resize the field if needed.
-             * @param {Ext.form.field.Text} this This text field
-             * @param {Number} width The new field width
-             */
-            'autosize',
-
-            /**
-             * @event keydown
-             * Keydown input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
-             * @param {Ext.form.field.Text} this This text field
-             * @param {Ext.EventObject} e
-             */
-            'keydown',
-            /**
-             * @event keyup
-             * Keyup input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
-             * @param {Ext.form.field.Text} this This text field
-             * @param {Ext.EventObject} e
-             */
-            'keyup',
-            /**
-             * @event keypress
-             * Keypress input field event. This event only fires if **{@link #enableKeyEvents}** is set to true.
-             * @param {Ext.form.field.Text} this This text field
-             * @param {Ext.EventObject} e
-             */
-            'keypress'
-        );
+        if (me.readOnly) {
+            me.setReadOnly(me.readOnly);
+        }
+        me.fieldFocusCls = me.baseCls + '-focus';
+        me.emptyUICls = emptyCls + ' ' + emptyCls + '-' + me.ui;
         me.addStateEvents('change');
-        me.setGrowSizePolicy();
     },
 
     // private
-    setGrowSizePolicy: function(){
-        if (this.grow) {
-            this.shrinkWrap |= 1; // width must shrinkWrap
-        }    
-    },
-
-    // private
-    initEvents : function(){
+    initEvents: function(){
         var me = this,
             el = me.inputEl;
 
         me.callParent();
+
+        // Workaround for https://code.google.com/p/chromium/issues/detail?id=4505
+        // On mousedown, add a single: true mouseup listener which prevents default.
+        // That will prevent deselection of the text that was selected in the onFocus method.
         if(me.selectOnFocus || me.emptyText){
             me.mon(el, 'mousedown', me.onMouseDown, me);
         }
@@ -381,13 +576,13 @@ Ext.define('Ext.form.field.Text', {
         this.autoSize();
     },
 
-    getSubTplData: function() {
+    getSubTplData: function(fieldData) {
         var me = this,
             value = me.getRawValue(),
             isEmpty = me.emptyText && value.length < 1,
             maxLength = me.maxLength,
             placeholder;
-            
+
         // We can't just dump the value here, since MAX_VALUE ends up
         // being something like 1.xxxxe+300, which gets interpreted as 1
         // in the markup
@@ -408,24 +603,240 @@ Ext.define('Ext.form.field.Text', {
             }
         }
 
-        return Ext.apply(me.callParent(), {
-            maxLength   : maxLength,
-            readOnly    : me.readOnly,
-            placeholder : placeholder,
-            value       : value,
-            fieldCls    : me.fieldCls + ((isEmpty && (placeholder || value)) ? ' ' + me.emptyCls : '') + (me.allowBlank ? '' :  ' ' + me.requiredCls)
+        return Ext.apply(me.callParent(arguments), {
+            triggerWrapCls: me.triggerWrapCls,
+            inputWrapCls: me.inputWrapCls,
+            triggers: me.orderedTriggers,
+            maxLength: maxLength,
+            readOnly: !me.editable || me.readOnly,
+            placeholder: placeholder,
+            value: value,
+            fieldCls: me.fieldCls + ((isEmpty && (placeholder || value)) ? ' ' + me.emptyUICls : '') + (me.allowBlank ? '' :  ' ' + me.requiredCls)
         });
     },
 
-    afterRender: function(){
-        this.autoSize();
-        this.callParent();
+    onRender: function() {
+        var me = this,
+            triggers = me.getTriggers(),
+            elements = [],
+            id, triggerEl;
+
+        if (Ext.supports.FixedTableWidthBug) {
+            // Workaround for https://bugs.webkit.org/show_bug.cgi?id=130239 and
+            // https://code.google.com/p/chromium/issues/detail?id=377190
+            // See styleHooks for more details
+            me.el._needsTableWidthFix = true;
+        }
+
+        me.callParent();
+
+        if (triggers) {
+            this.invokeTriggers('onFieldRender');
+
+            /**
+             * @property {Ext.CompositeElement} triggerEl
+             * @deprecated 5.0
+             * A composite of all the trigger button elements. Only set after the field has
+             * been rendered.
+             */
+            for(id in triggers) {
+                elements.push(triggers[id].el);
+            }
+            // for 4.x compat, also set triggerCell
+            triggerEl = me.triggerEl = me.triggerCell = new Ext.CompositeElement(elements, true);
+        }
+
+        /**
+         * @property {Ext.dom.Element} inputCell
+         * A reference to the element that wraps the input element. Only set after the
+         * field has been rendered.
+         * @deprecated 5.0 use {@link #inputWrap} instead
+         */
+        me.inputCell = me.inputWrap;
     },
 
-    onMouseDown: function(e){
+    afterRender: function(){
         var me = this;
-        if(!me.hasFocus){
-            me.mon(me.inputEl, 'mouseup', Ext.emptyFn, me, { single: true, preventDefault: true });
+
+        me.autoSize();
+        me.callParent();
+        me.invokeTriggers('afterFieldRender');
+    },
+
+    onMouseDown: function(){
+        var me = this;
+        if(!me.hasFocus) {
+            // On the next mouseup, prevent default.
+            // 99% of the time, it will be the mouseup of the click into the field, and 
+            // We will be preventing deselection of selected text: https://code.google.com/p/chromium/issues/detail?id=4505
+            // Listener is on the doc in case the pointer moves out before user lets go.
+            Ext.getDoc().on('mouseup', Ext.emptyFn, me, { single: true, preventDefault: true });
+        }
+    },
+
+    applyTriggers: function(triggers) {
+        var me = this,
+            hideAllTriggers = me.getHideTrigger(),
+            readOnly = me.readOnly,
+            orderedTriggers = me.orderedTriggers = [],
+            repeatTriggerClick = me.repeatTriggerClick,
+            id, triggerCfg, trigger, triggerCls, i;
+
+        //<debug>
+        if (me.rendered) {
+            Ext.Error.raise("Cannot set triggers after field has already been rendered.");
+        }
+
+        // don't warn if we have both triggerCls and triggers, because picker field
+        // uses triggerCls to style the "picker" trigger.
+        if ((me.triggerCls && !triggers) || me.trigger1Cls) {
+            Ext.log.warn("Ext.form.field.Text: 'triggerCls' and 'trigger<n>Cls'" +
+                " are deprecated.  Use 'triggers' instead.");
+        }
+        //</debug>
+
+        if (!triggers) {
+            // For compatibility with 4.x, transform the trigger<n>Cls configs into the
+            // new "triggers" config.
+            triggers = {};
+
+            if (me.triggerCls && !me.trigger1Cls) {
+                me.trigger1Cls = me.triggerCls;
+            }
+
+            // Assignment in conditional test is deliberate here
+            for (i = 1; triggerCls = me['trigger' + i + 'Cls']; i++) { // jshint ignore:line
+                triggers['trigger' + i] = {
+                    cls: triggerCls,
+                    extraCls: Ext.baseCSSPrefix + 'trigger-index-' + i,
+                    handler: 'onTrigger' + i + 'Click',
+                    compat4Mode: true,
+                    scope: me
+                };
+            }
+        }
+
+        for(id in triggers) {
+            if (triggers.hasOwnProperty(id)) {
+                triggerCfg = triggers[id];
+                triggerCfg.field = me;
+                triggerCfg.id = id;
+
+                /*
+                 * An explicitly-configured 'triggerConfig.hideOnReadOnly : false' allows {@link #hideTrigger} analysis
+                 */
+                if ((readOnly && triggerCfg.hideOnReadOnly !== false) || (hideAllTriggers && triggerCfg.hidden !== false)) {
+                    triggerCfg.hidden = true;
+                }
+                if (repeatTriggerClick && (triggerCfg.repeatClick !== false)) {
+                    triggerCfg.repeatClick = true;
+                }
+
+                trigger = triggers[id] = Ext.form.trigger.Trigger.create(triggerCfg);
+                orderedTriggers.push(trigger);
+            }
+        }
+
+        Ext.Array.sort(orderedTriggers, Ext.form.trigger.Trigger.weightComparator);
+
+        return triggers;
+    },
+
+    /**
+     * Invokes a method on all triggers.
+     * @param {String} methodName
+     * @private
+     */
+    invokeTriggers: function(methodName, args) {
+        var me = this,
+            triggers = me.getTriggers(),
+            id, trigger;
+
+        if (triggers) {
+            for (id in triggers) {
+                if (triggers.hasOwnProperty(id)) {
+                    trigger = triggers[id];
+                    // IE8 needs "|| []" if args is undefined
+                    trigger[methodName].apply(trigger, args || []);
+                }
+            }
+        }
+    },
+
+    /**
+     * Returns the trigger with the given id
+     * @param {String} id
+     * @return {Ext.form.trigger.Trigger}
+     */
+    getTrigger: function(id) {
+        return this.getTriggers()[id];
+    },
+
+    updateHideTrigger: function(hideTrigger) {
+        this.invokeTriggers(hideTrigger ? 'hide' : 'show');
+    },
+
+    /**
+     * Sets the editable state of this field.
+     * @param {Boolean} editable True to allow the user to directly edit the field text.
+     * If false is passed, the user will only be able to modify the field using the trigger.
+     */
+    setEditable: function(editable) {
+        var me = this;
+
+        me.editable = editable;
+        if (me.rendered) {
+            me.setReadOnlyAttr(!editable || me.readOnly);
+        }
+    },
+
+    /**
+     * Sets the read-only state of this field.
+     * @param {Boolean} readOnly True to prevent the user changing the field and explicitly
+     * hide the trigger(s). Setting this to true will supersede settings editable and
+     * hideTrigger. Setting this to false will defer back to {@link #editable editable} and {@link #hideTrigger hideTrigger}.
+     */
+    setReadOnly: function(readOnly) {
+        var me = this,
+            triggers = me.getTriggers(),
+            hideTriggers = me.getHideTrigger(),
+            trigger,
+            id;
+
+        readOnly = !!readOnly;
+
+        me.callParent([readOnly]);
+        if (me.rendered) {
+            me.setReadOnlyAttr(readOnly || !me.editable);
+        }
+
+        if (triggers) {
+            for (id in triggers) {
+                trigger = triggers[id];
+                /*
+                 * Controlled trigger visibility state is only managed fully when 'hideOnReadOnly' is falsy.
+                 * Truth table:
+                 *   - If the trigger is configured/defaulted as 'hideOnReadOnly : true', it's readOnly-visibility
+                 *     is determined solely by readOnly state of the Field.
+                 *   - If 'hideOnReadOnly : false/undefined', the Fields.{link #hideTrigger hideTrigger} is honored.
+                 */
+                if (trigger.hideOnReadOnly === true || (trigger.hideOnReadOnly !== false && !hideTriggers)) {
+                    trigger.setVisible(!readOnly);
+                }
+            }
+        }
+    },
+
+    // private. sets the readonly attribute of the input element
+    setReadOnlyAttr: function(readOnly) {
+        var me = this,
+            readOnlyName = 'readonly',
+            inputEl = me.inputEl.dom;
+
+        if (readOnly) {
+            inputEl.setAttribute(readOnlyName, readOnlyName);
+        } else {
+            inputEl.removeAttribute(readOnlyName);
         }
     },
 
@@ -488,7 +899,7 @@ Ext.define('Ext.form.field.Text', {
         this.applyEmptyText();
     },
 
-    applyEmptyText : function(){
+    applyEmptyText: function(){
         var me = this,
             emptyText = me.emptyText,
             isEmpty;
@@ -506,13 +917,16 @@ Ext.define('Ext.form.field.Text', {
             //all browsers need this because of a styling issue with chrome + placeholders.
             //the text isnt vertically aligned when empty (and using the placeholder)
             if (isEmpty) {
-                me.inputEl.addCls(me.emptyCls);
+                me.inputEl.addCls(me.emptyUICls);
+            }
+            else {
+                me.inputEl.removeCls(me.emptyUICls);
             }
 
             me.autoSize();
         }
     },
-    
+
     afterFirstLayout: function() {
         this.callParent();
         if (Ext.isIE && this.disabled) {
@@ -522,9 +936,19 @@ Ext.define('Ext.form.field.Text', {
             }
         }
     },
-    
+
+    //private
+    toggleInvalidCls: function(hasError) {
+        var method = hasError ? 'addCls' : 'removeCls';
+
+        this.callParent();
+
+        this.triggerWrap[method](this.triggerWrapInvalidCls);
+        this.inputWrap[method](this.inputWrapInvalidCls);
+    },
+
     // private
-    beforeFocus : function(){
+    beforeFocus: function(){
         var me = this,
             inputEl = me.inputEl,
             emptyText = me.emptyText,
@@ -534,69 +958,62 @@ Ext.define('Ext.form.field.Text', {
         if ((emptyText && !Ext.supports.Placeholder) && (inputEl.dom.value === me.emptyText && me.valueContainsPlaceholder)) {
             me.setRawValue('');
             isEmpty = true;
-            inputEl.removeCls(me.emptyCls);
+            inputEl.removeCls(me.emptyUICls);
             me.valueContainsPlaceholder = false;
         } else if (Ext.supports.Placeholder) {
-            me.inputEl.removeCls(me.emptyCls);
+            inputEl.removeCls(me.emptyUICls);
         }
-        if (me.selectOnFocus || isEmpty) {
-            // see: http://code.google.com/p/chromium/issues/detail?id=4505
-            if (Ext.isWebKit) {
-                if (!me.inputFocusTask) {
-                    me.inputFocusTask = new Ext.util.DelayedTask(me.focusInput, me);
-                }
-                me.inputFocusTask.delay(1);
-            } else {
-                inputEl.dom.select();
-            }
-        }
-    },
-    
-    focusInput: function(){
-        var input = this.inputEl;
-        if (input) {
-            input = input.dom;
-            if (input) {
-                input.select();
-            }
-        }    
     },
 
-    onFocus: function() {
+    onFocus: function(e) {
         var me = this;
+
         me.callParent(arguments);
+        if (me.selectOnFocus) {
+            me.inputEl.dom.select();
+        }
+
         if (me.emptyText) {
             me.autoSize();
         }
+
+        me.addCls(me.fieldFocusCls);
+        me.triggerWrap.addCls(me.triggerWrapFocusCls);
+        me.inputWrap.addCls(me.inputWrapFocusCls);
+        me.invokeTriggers('onFieldFocus', [e]);
     },
 
-    // private
-    postBlur : function(){
-        this.callParent(arguments);
+    // @private
+    onBlur: function(e) {
+        var me = this;
+
+        me.callParent(arguments);
+
+        me.removeCls(me.fieldFocusCls);
+        me.triggerWrap.removeCls(me.triggerWrapFocusCls);
+        me.inputWrap.removeCls(me.inputWrapFocusCls);
+        me.invokeTriggers('onFieldBlur', [e]);
+    },
+
+    completeEdit: function(e) {
+        this.callParent([e]);
         this.applyEmptyText();
     },
 
     // private
     filterKeys : function(e){
         /*
+         * Current only FF will fire keypress events for special keys.
+         * 
          * On European keyboards, the right alt key, Alt Gr, is used to type certain special characters.
          * JS detects a keypress of this as ctrlKey & altKey. As such, we check that alt isn't pressed
          * so we can still process these special characters.
          */
-        if (e.ctrlKey && !e.altKey) {
+        if ((e.ctrlKey && !e.altKey) || e.isSpecialKey()) {
             return;
         }
-        var key = e.getKey(),
-            charCode = String.fromCharCode(e.getCharCode());
-
-        if((Ext.isGecko || Ext.isOpera) && (e.isNavKeyPress() || key === e.BACKSPACE || (key === e.DELETE && e.button === -1))){
-            return;
-        }
-
-        if((!Ext.isGecko && !Ext.isOpera) && e.isSpecialKey() && !charCode){
-            return;
-        }
-        if(!this.maskRe.test(charCode)){
+        var charCode = String.fromCharCode(e.getCharCode());
+        if (!this.maskRe.test(charCode)) {
             e.stopEvent();
         }
     },
@@ -638,7 +1055,7 @@ Ext.define('Ext.form.field.Text', {
             inputEl = me.inputEl;
 
         if (inputEl && me.emptyText && !Ext.isEmpty(value)) {
-            inputEl.removeCls(me.emptyCls);
+            inputEl.removeCls(me.emptyUICls);
             me.valueContainsPlaceholder = false;
         }
 
@@ -703,8 +1120,10 @@ Ext.define('Ext.form.field.Text', {
      * @return {String[]} Array of any validation errors
      */
     getErrors: function(value) {
+        value = arguments.length ? (value == null ? '' : value) : this.processRawValue(this.getRawValue());
+
         var me = this,
-            errors = me.callParent(arguments),
+            errors = me.callParent([value]),
             validator = me.validator,
             vtype = me.vtype,
             vtypes = Ext.form.field.VTypes,
@@ -712,15 +1131,13 @@ Ext.define('Ext.form.field.Text', {
             format = Ext.String.format,
             msg, trimmed, isBlank;
 
-        value = value || me.processRawValue(me.getRawValue());
-
         if (Ext.isFunction(validator)) {
             msg = validator.call(me, value);
             if (msg !== true) {
                 errors.push(msg);
             }
         }
-        
+
         trimmed = me.allowOnlyWhitespace ? value : Ext.String.trim(value);
 
         if (trimmed.length < 1 || (value === me.emptyText && me.valueContainsPlaceholder)) {
@@ -734,7 +1151,7 @@ Ext.define('Ext.form.field.Text', {
             isBlank = true;
         }
 
-        // If a blank value has been allowed through, then exempt it dfrom the minLength check.
+        // If a blank value has been allowed through, then exempt it from the minLength check.
         // It must be allowed to hit the vtype validation.
         if (!isBlank && value.length < me.minLength) {
             errors.push(format(me.minLengthText, me.minLength));
@@ -762,67 +1179,118 @@ Ext.define('Ext.form.field.Text', {
      * @param {Number} [start=0] The index where the selection should start
      * @param {Number} [end] The index where the selection should end (defaults to the text length)
      */
-    selectText : function(start, end){
+    selectText: function (start, end) {
         var me = this,
             v = me.getRawValue(),
-            doFocus = true,
+            len = v.length,
             el = me.inputEl.dom,
-            undef,
             range;
 
-        if (v.length > 0) {
-            start = start === undef ? 0 : start;
-            end = end === undef ? v.length : end;
+        if (len > 0) {
+            start = start === undefined ? 0 : Math.min(start, len);
+            end = end === undefined ? len : Math.min(end, len);
+
             if (el.setSelectionRange) {
                 el.setSelectionRange(start, end);
-            }
-            else if(el.createTextRange) {
+            } else if (el.createTextRange) {
                 range = el.createTextRange();
                 range.moveStart('character', start);
-                range.moveEnd('character', end - v.length);
+                range.moveEnd('character', end - len);
                 range.select();
             }
-            doFocus = Ext.isGecko || Ext.isOpera;
         }
-        if (doFocus) {
-            me.focus();
-        }
+
+        // TODO: Reinvestigate FF and Opera.
+    },
+
+    // Template method, override in Combobox.
+    getGrowWidth: function () {
+        return this.inputEl.dom.value;
     },
 
     /**
-     * Automatically grows the field to accomodate the width of the text up to the maximum field width allowed. This
-     * only takes effect if {@link #grow} = true, and fires the {@link #autosize} event if the width changes.
+     * Automatically grows the field to accommodate the width of the text up to the maximum
+     * field width allowed. This only takes effect if {@link #grow} = true, and fires the
+     * {@link #autosize} event if the width changes.
      */
     autoSize: function() {
-        var me = this;
-        if (me.grow && me.rendered) {
-            me.autoSizing = true;
-            me.updateLayout();
-        }
-    },
-
-    afterComponentLayout: function() {
         var me = this,
-            width;
+            triggers, triggerId, triggerWidth, inputEl, width, value;
 
-        me.callParent(arguments);
-        if (me.autoSizing) {
-            width = me.inputEl.getWidth();
-            if (width !== me.lastInputWidth) {
-                me.fireEvent('autosize', me, width);
-                me.lastInputWidth = width;
-                delete me.autoSizing;
+        if (me.grow && me.rendered && me.getSizeModel().width.auto) {
+            inputEl = me.inputEl;
+            triggers = me.getTriggers();
+            triggerWidth = 0;
+
+            value = Ext.util.Format.htmlEncode(
+                me.getGrowWidth() || (me.hasFocus ? '' : me.emptyText) || ''
+            );
+            value += me.growAppend;
+
+            for (triggerId in triggers) {
+                triggerWidth += triggers[triggerId].el.getWidth();
             }
+
+            width = inputEl.getTextWidth(value) +  triggerWidth +
+                // The element that has the border depends on theme - inputWrap (classic)
+                // or triggerWrap (neptune)
+                me.inputWrap.getBorderWidth('lr') + me.triggerWrap.getBorderWidth('lr');
+
+            width = Math.min(Math.max(width, me.growMin), me.growMax);
+
+            me.bodyEl.setWidth(width);
+
+            me.updateLayout();
+
+            me.fireEvent('autosize', me, width);
         }
     },
-    
+
     onDestroy: function(){
         var me = this;
+
+        me.invokeTriggers('destroy');
+        Ext.destroy(me.triggerRepeater);
+
         me.callParent();
-        
-        if (me.inputFocusTask) {
-            me.inputFocusTask.cancel();
-            me.inputFocusTask = null;
+    },
+
+    onTriggerClick: Ext.emptyFn,
+
+    privates: {
+        /**
+         * @private
+         * @override
+         */
+        getTdType: function () {
+            return 'textfield';
+        }
+    },
+
+    deprecated: {
+        5: {
+            methods: {
+                /**
+                 * Get the total width of the trigger button area.
+                 * @return {Number} The total trigger width
+                 * @deprecated 5.0
+                 */
+                getTriggerWidth: function() {
+                    var triggers = this.getTriggers(),
+                        width = 0,
+                        id;
+                    if (triggers && this.rendered) {
+                        for (id in triggers) {
+                            if (triggers.hasOwnProperty(id)) {
+                                width += triggers[id].el.getWidth();
+                            }
+                        }
+                    }
+
+                    return width;
+                }
+            }
         }
     }
+
 });

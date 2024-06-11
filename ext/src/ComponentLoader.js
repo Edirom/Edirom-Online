@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This class is used to load content via Ajax into a {@link Ext.Component}. In general 
  * this class will not be instanced directly, rather a loader configuration will be passed to the
@@ -128,6 +108,14 @@ Ext.define('Ext.ComponentLoader', {
     target: null,
 
     /**
+     * @cfg {Boolean/Object} loadOnRender
+     * `true` to have the loader make a request when the {@link #target} is rendered. If the target is
+     * already rendered, a load will take place immediately.
+     * This argument can also be a set of options that will be passed to {@link #method-load} when it is called.
+     */
+    loadOnRender: false,
+
+    /**
      * @cfg {Boolean/Object} loadMask True or a {@link Ext.LoadMask} configuration to enable masking during loading.
      */
     loadMask: false,
@@ -159,7 +147,7 @@ The function must return false is loading is not successful. Below is a sample o
             url: 'myPage.php',
             renderer: function(loader, response, active) {
                 var text = response.responseText;
-                loader.getTarget().update('The response is ' + text);
+                loader.getTarget().setHtml('The response is ' + text);
                 return true;
             }
         }
@@ -173,17 +161,29 @@ The function must return false is loading is not successful. Below is a sample o
      * @param {String/Ext.Component} target The component to be the target of this loader. If a string is passed
      * it will be looked up via its id.
      */
-    setTarget: function(target){
+    setTarget: function(target) {
         var me = this;
 
         if (Ext.isString(target)) {
             target = Ext.getCmp(target);
         }
 
-        if (me.target && me.target != target) {
+        if (me.target && me.target !== target) {
             me.abort();
         }
         me.target = target;
+        if (target && me.loadOnRender) {
+            if (target.rendered) {
+                me.doLoadOnRender();
+            } else {
+                me.mon(target, 'render', me.doLoadOnRender, me);
+            }
+        }
+    },
+
+    doLoadOnRender: function() {
+        var loadOnRender = this.loadOnRender;
+        this.load(Ext.isObject(loadOnRender) ? loadOnRender : null);
     },
 
     // inherit docs

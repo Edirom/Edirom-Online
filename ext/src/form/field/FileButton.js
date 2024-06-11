@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  *
  */
@@ -26,7 +6,7 @@ Ext.define('Ext.form.field.FileButton', {
     alias: 'widget.filebutton',
     
     childEls: [
-        'btnEl', 'btnWrap', 'btnInnerEl', 'btnIconEl', 'fileInputEl'
+        'fileInputEl'
     ],
     
     inputCls: Ext.baseCSSPrefix + 'form-file-input',
@@ -34,38 +14,56 @@ Ext.define('Ext.form.field.FileButton', {
     cls: Ext.baseCSSPrefix + 'form-file-btn',
     
     preventDefault: false,
+    
+    // Button element *looks* focused but it should never really receive focus itself,
+    // and with it being a <div></div> we don't need to render tabindex attribute at all
+    tabIndex: null,
 
-    renderTpl: [
-        '<span id="{id}-btnWrap" class="{baseCls}-wrap',
-            '<tpl if="splitCls"> {splitCls}</tpl>',
-            '{childElCls}" unselectable="on">',
-            '<span id="{id}-btnEl" class="{baseCls}-button">',
-                '<span id="{id}-btnInnerEl" class="{baseCls}-inner {innerCls}',
-                    '{childElCls}" unselectable="on">',
-                    '{text}',
-                '</span>',
-                '<span role="img" id="{id}-btnIconEl" class="{baseCls}-icon-el {iconCls}',
-                    '{childElCls} {glyphCls}" unselectable="on" style="',
-                    '<tpl if="iconUrl">background-image:url({iconUrl});</tpl>',
-                    '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">',
-                    '<tpl if="glyph">&#{glyph};</tpl><tpl if="iconCls || iconUrl">&#160;</tpl>',
-                '</span>',
-            '</span>',
-        '</span>',
-        '<input id="{id}-fileInputEl" class="{childElCls} {inputCls}" type="file" size="1" name="{inputName}">'
+    autoEl: {
+        tag: 'div',
+        unselectable: 'on'
+    },
+    
+    /*
+     * This <input type="file"/> element is placed above the button element to intercept
+     * mouse clicks, as well as receive focus. This is the only way to make browser file input
+     * dialog open on user action, and populate the file input value when file(s) are selected.
+     * The tabIndex value here comes from the template arguments generated in getTemplateArgs
+     * method below; it is copied from the owner FileInput's tabIndex property.
+     */
+    afterTpl: [
+        '<input id="{id}-fileInputEl" data-ref="fileInputEl" class="{childElCls} {inputCls}" ',
+            'type="file" size="1" name="{inputName}" role="{role}" ',
+            '<tpl if="tabIndex != null">tabindex="{tabIndex}"</tpl>',
+        '>'
     ],
+
+    // private
+    getAfterMarkup: function(values) {
+        return this.getTpl('afterTpl').apply(values);
+    },
     
     getTemplateArgs: function(){
         var args = this.callParent();
         args.inputCls = this.inputCls;
         args.inputName = this.inputName;
+        args.tabIndex = this.ownerCt.tabIndex;
         return args;
     },
     
     afterRender: function(){
         var me = this;
+        
         me.callParent(arguments);
-        me.fileInputEl.on('change', me.fireChange, me);    
+        
+        // We place focus and blur listeners on fileInputEl to activate Button's
+        // focus and blur style treatment
+        me.fileInputEl.on({
+            scope: me,
+            change: me.fireChange,
+            focus: me.onFileFocus,
+            blur: me.onFileBlur
+        });
     },
     
     fireChange: function(e){
@@ -79,30 +77,72 @@ Ext.define('Ext.form.field.FileButton', {
      * button's clicks.
      */
     createFileInput : function(isTemporary) {
-        var me = this;
-        me.fileInputEl = me.el.createChild({
-            name: me.inputName,
-            id: !isTemporary ? me.id + '-fileInputEl' : undefined,
-            cls: me.inputCls,
-            tag: 'input',
-            type: 'file',
-            size: 1
+        var me = this,
+            fileInputEl = me.fileInputEl = me.el.createChild({
+                name: me.inputName,
+                id: !isTemporary ? me.id + '-fileInputEl' : undefined,
+                cls: me.inputCls,
+                tag: 'input',
+                type: 'file',
+                size: 1,
+                role: 'button'
+            });
+
+        // This is our focusEl
+        fileInputEl.dom.setAttribute(Ext.Component.componentIdAttribute, me.id);
+        
+        // We place focus and blur listeners on fileInputEl to activate Button's
+        // focus and blur style treatment
+        fileInputEl.on({
+            scope: me,
+            change: me.fireChange,
+            focus: me.onFileFocus,
+            blur: me.onFileBlur
         });
-        me.fileInputEl.on('change', me.fireChange, me);  
     },
-    
-    reset: function(remove){
-        if (remove) {
-            this.fileInputEl.remove();
+
+    onFileFocus: function(e) {
+        var ownerCt = this.ownerCt;
+        
+        if (!this.hasFocus) {
+            this.onFocus(e);
         }
-        this.createFileInput(!remove);
+        
+        if (ownerCt && !ownerCt.hasFocus) {
+            ownerCt.onFocus(e);
+        }
+    },
+
+    onFileBlur: function(e) {
+        var ownerCt = this.ownerCt;
+        
+        if (this.hasFocus) {
+            this.onBlur(e);
+        }
+        
+        if (ownerCt && ownerCt.hasFocus) {
+            ownerCt.onBlur(e);
+        }
     },
     
-    restoreInput: function(el){
-        this.fileInputEl.remove();
+    reset: function(remove) {
+        // We do not add listeners to focusEls now.
+        // The Focus event publisher calls into Components on focus and blur
+        var me = this;
+        if (remove) {
+            me.fileInputEl.destroy();
+        }
+        me.createFileInput(!remove);
+    },
+    
+    restoreInput: function(el) {
+        // We do not add listeners to focusEls now.
+        // The Focus event publisher calls into Components on focus and blur
+        var me = this;
+        me.fileInputEl.destroy();
         el = Ext.get(el);
-        this.el.appendChild(el);
-        this.fileInputEl = el;
+        me.el.appendChild(el);
+        me.fileInputEl = el;
     },
     
     onDisable: function(){
@@ -113,5 +153,15 @@ Ext.define('Ext.form.field.FileButton', {
     onEnable : function() {
         this.callParent();
         this.fileInputEl.dom.disabled = false;
+    },
+    
+    privates: {
+        getFocusEl: function() {
+            return this.fileInputEl;
+        },
+        
+        getFocusClsEl: function() {
+            return this.el;
+        }
     }
 });

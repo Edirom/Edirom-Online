@@ -14,7 +14,7 @@ the target provided here. Doing that can create problems for upgrading to newer
 versions of Cmd so it is not recommended but it will be easier to manage than editing
 this file in most cases.
 -->
-<project name="pkg-build-impl">
+<project name="x-pkg-build-impl">
     
     <!--
     ===============================================================
@@ -66,6 +66,7 @@ this file in most cases.
     system properties and ant task definitions
     ===============================================================
     -->
+    <import file="${basedir}/.sencha/package/refresh-impl.xml"/>
     <import file="${basedir}/.sencha/package/init-impl.xml"/>
     <target name="init"
             depends="init-local,
@@ -75,7 +76,8 @@ this file in most cases.
                      -after-init,
                      -before-init-defaults,
                      -init-defaults,
-                     -after-init-defaults"/>
+                     -after-init-defaults,
+                     -init-compiler"/>
 
     <!--
     ===============================================================
@@ -90,8 +92,8 @@ this file in most cases.
             depends="js,
                      inherit-resources,
                      copy-resources,
-                     sass,
                      slice,
+                     sass,
                      subpkgs,
                      examples,
                      pkg"/>
@@ -109,7 +111,8 @@ this file in most cases.
     <target name="-before-clean"/>
     <target name="-after-clean"/>
     <target name="-clean">
-        <delete dir="${build.dir}"/>
+        <delete dir="${package.output.base}"/>
+        <delete dir="${build.temp.dir}"/>
     </target>
     <target name="clean" 
             depends="init"
@@ -294,7 +297,7 @@ this file in most cases.
         <x-make-pkg dir="${package.dir}"
                     files="${build.pkg.manifest}"
                     pkg="${pkg.build.dir}/${pkg.file.name}"
-                    temp="${build.dir}/temp"/>
+                    temp="${build.temp.dir}"/>
     </target>
     <target name="pkg" 
             depends="init"
@@ -304,6 +307,34 @@ this file in most cases.
             <target name="-pkg"/>
             <target name="-after-pkg"/>
         </x-ant-call>
+    </target>
+
+    <!--
+    ===============================================================
+    Build Dependencies
+    uses the compiler to build metadata files for all detected
+    file-to-file dependencies
+    ===============================================================
+    -->
+    <target name="build-dependencies" depends="init,-init-compile-js">
+        <x-compile refid="${compiler.ref.id}">
+            <![CDATA[
+            include
+                -all
+            and
+            meta
+                -infoType=Dependencies
+                -basePath=${build.dir}
+                -tpl={0}
+                -out=${build.dir}/dependencies.json
+            and
+            meta
+                -infoType=AppManifest
+                -basePath=${build.dir}
+                -tpl={0}
+                -out=${build.dir}/bootsequence.json
+            ]]>
+        </x-compile>
     </target>
 
     <!--

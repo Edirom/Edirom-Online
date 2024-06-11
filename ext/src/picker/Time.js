@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A time picker which provides a list of times from which to choose. This is used by the Ext.form.field.Time
  * class to allow browsing and selection of valid times, but could also be used with other components.
@@ -41,6 +21,45 @@ Ext.define('Ext.picker.Time', {
     extend: 'Ext.view.BoundList',
     alias: 'widget.timepicker',
     requires: ['Ext.data.Store', 'Ext.Date'],
+
+    config: {
+        /*
+         * @private
+         * @override
+         * This class creates its own store based upon time range and increment configuration.
+         */
+        store: true
+    },
+
+    statics: {
+        /**
+         * @private
+         * Creates the internal {@link Ext.data.Store} that contains the available times. The store
+         * is loaded with all possible times, and it is later filtered to hide those times outside
+         * the minValue/maxValue.
+         */
+        createStore: function(format, increment) {
+            var dateUtil = Ext.Date,
+                clearTime = dateUtil.clearTime,
+                initDate = this.prototype.initDate,
+                times = [],
+                min = clearTime(new Date(initDate[0], initDate[1], initDate[2])),
+                max = dateUtil.add(clearTime(new Date(initDate[0], initDate[1], initDate[2])), 'mi', (24 * 60) - 1);
+
+            while(min <= max){
+                times.push({
+                    disp: dateUtil.dateFormat(min, format),
+                    date: min
+                });
+                min = dateUtil.add(min, 'mi', increment);
+            }
+
+            return new Ext.data.Store({
+                model: Ext.picker.Time.prototype.modelType,
+                data: times
+            });
+        }
+    },
 
     /**
      * @cfg {Date} minValue
@@ -102,18 +121,19 @@ Ext.define('Ext.picker.Time', {
         me.absMin = clearTime(new Date(initDate[0], initDate[1], initDate[2]));
         me.absMax = dateUtil.add(clearTime(new Date(initDate[0], initDate[1], initDate[2])), 'mi', (24 * 60) - 1);
 
-        me.store = me.createStore();
-
-        // Add our min/max range filter, but do not apply it.
-        // The owning TimeField will filter it.
-        me.store.addFilter(me.rangeFilter = new Ext.util.Filter({
-            id: 'time-picker-filter'
-        }), false);
-
         // Updates the range filter's filterFn according to our configured min and max
         me.updateList();
 
         me.callParent();
+    },
+
+    applyStore: function(store, oldStore) {
+        // TimePicker may be used standalone without being configured as a BoundList by a Time field.
+        // In this case, we have to create our own store.
+        if (store === true) {
+            store = Ext.picker.Time.createStore(this.format, this.increment);
+        }
+        return store;
     },
 
     /**
@@ -155,46 +175,26 @@ Ext.define('Ext.picker.Time', {
     updateList: function() {
         var me = this,
             min = me.normalizeDate(me.minValue || me.absMin),
-            max = me.normalizeDate(me.maxValue || me.absMax);
-
-        me.rangeFilter.setFilterFn(function(record) {
-            var date = record.get('date');
-            return date >= min && date <= max;
-        });
-        me.store.filter();
-    },
-
-    /**
-     * @private
-     * Creates the internal {@link Ext.data.Store} that contains the available times. The store
-     * is loaded with all possible times, and it is later filtered to hide those times outside
-     * the minValue/maxValue.
-     */
-    createStore: function() {
-        var me = this,
-            utilDate = Ext.Date,
-            times = [],
-            min = me.absMin,
-            max = me.absMax;
-
-        while(min <= max){
-            times.push({
-                disp: utilDate.dateFormat(min, me.format),
-                date: min
-            });
-            min = utilDate.add(min, 'mi', me.increment);
+            max = me.normalizeDate(me.maxValue || me.absMax),
+            filters = me.getStore().getFilters(),
+            filter = me.rangeFilter;
+        
+        filters.beginUpdate();
+        if (filter) {
+            filters.remove(filter);
         }
-
-        return new Ext.data.Store({
-            fields: ['disp', 'date'],
-            data: times
+        filter = me.rangeFilter = new Ext.util.Filter({
+            filterFn: function(record) {
+                var date = record.get('date');
+                return date >= min && date <= max;
+            }
         });
-    },
-
-    focusNode: function (rec) {
-        // We don't want the view being focused when interacting with the inputEl (see Ext.form.field.ComboBox:onKeyUp)
-        // so this is here to prevent focus of the boundlist view. See EXTJSIV-7319.
-        return false;
+        filters.add(filter);
+        filters.endUpdate();
     }
-
+}, function() {
+    this.prototype.modelType = Ext.define(null, {
+        extend: 'Ext.data.Model',
+        fields: ['disp', 'date']
+    });
 });

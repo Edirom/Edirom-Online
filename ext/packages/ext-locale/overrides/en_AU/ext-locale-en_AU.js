@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * List compiled by mystix on the extjs.com forums.
  * Thank you Mystix!
@@ -71,6 +51,51 @@ Ext.onReady(function() {
             dateFormat: 'd/m/Y'
         });
     }
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Bound", {
+    override: "Ext.data.validator.Bound",
+    emptyMessage: "Must be present"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Email", {
+    override: "Ext.data.validator.Email",
+    message: "Is not a valid email address"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Exclusion", {
+    override: "Ext.data.validator.Exclusion",
+    message: "Is a value that has been excluded"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Format", {
+    override: "Ext.data.validator.Format",
+    message: "Is in the wrong format"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Inclusion", {
+    override: "Ext.data.validator.Inclusion",
+    message: "Is not in the list of acceptable values"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Length", {
+    override: "Ext.data.validator.Length",
+    minOnlyMessage: "Length must be at least {0}",
+    maxOnlyMessage: "Length must be no more than {0}",
+    bothMessage: "Length must be between {0} and {1}"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Presence", {
+    override: "Ext.data.validator.Presence",
+    message: "Must be present"
+});
+
+Ext.define("Ext.locale.en_AU.data.validator.Range", {
+    override: "Ext.data.validator.Range",
+    minOnlyMessage: "Must be must be at least {0}",
+    maxOnlyMessage: "Must be no more than than {0}",
+    bothMessage: "Must be between {0} and {1}",
+    nanMessage: "Must be numeric"
 });
 
 Ext.define("Ext.locale.en_AU.view.View", {
@@ -144,7 +169,6 @@ Ext.define("Ext.locale.en_AU.form.field.Text", {
 
 Ext.define("Ext.locale.en_AU.form.field.Number", {
     override: "Ext.form.field.Number",
-    decimalSeparator: ".",
     decimalPrecision: 2,
     minText: "The minimum value for this field is {0}",
     maxText: "The maximum value for this field is {0}",
@@ -272,9 +296,9 @@ Ext.define("Ext.locale.en_AU.grid.DateColumn", {
 });  
 
 Ext.define("Ext.locale.en_AU.grid.GroupingFeature", {
-    override: "Ext.grid.GroupingFeature",
+    override: "Ext.grid.feature.Grouping",
     emptyGroupText: '(None)',
-    groupByText: 'Group By This Field',
+    groupByText: 'Group by this field',
     showGroupsText: 'Show in Groups'
 });
 
@@ -296,6 +320,11 @@ Ext.define("Ext.locale.en_AU.form.field.Time", {
     altFormats: "g:ia|g:iA|g:i a|g:i A|h:i|g:i|H:i|ga|ha|gA|h a|g a|g A|gi|hi|gia|hia|g|H"
 });
 
+Ext.define("Ext.locale.en_AU.form.field.File", {
+    override: "Ext.form.field.File",
+    buttonText: "Browse..."
+});
+
 Ext.define("Ext.locale.en_AU.form.CheckboxGroup", {
     override: "Ext.form.CheckboxGroup",
     blankText: "You must select at least one item in this group"
@@ -314,6 +343,43 @@ Ext.define("Ext.locale.en_AU.window.MessageBox", {
         yes: "Yes",
         no: "No"
     }    
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.Filters", {
+    override: "Ext.grid.filters.Filters",
+    menuFilterText: "Filters"
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.filter.Boolean", {
+    override: "Ext.grid.filters.filter.Boolean",
+    yesText: "Yes",
+    noText: "No"
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.filter.Date", {
+    override: "Ext.grid.filters.filter.Date",
+    fields: {
+        lt: {text: 'Before'},
+        gt: {text: 'After'},
+        eq: {text: 'On'}
+    },
+    // Defaults to Ext.Date.defaultFormat
+    dateFormat: null
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.filter.List", {
+    override: "Ext.grid.filters.filter.List",
+    loadingText: "Loading..."
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.filter.Number", {
+    override: "Ext.grid.filters.filter.Number",
+    emptyText: "Enter Number..."
+});
+
+Ext.define("Ext.locale.en_AU.grid.filters.filter.String", {
+    override: "Ext.grid.filters.filter.String",
+    emptyText: "Enter Filter Text..."
 });
 
 // This is needed until we can refactor all of the locales into individual files

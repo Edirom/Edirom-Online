@@ -1,4 +1,4 @@
-<project name="package.sub.builds">
+<project name="x-sub-builds-impl">
 
     <macrodef name="x-process-sub-packages">
         <attribute name="all" default="false"/>
@@ -6,14 +6,25 @@
         <sequential>
             <if>
                 <and>
+                    <isset property="package.subpkgs.packages"/>
+                    <not>
+                        <isset property="package.subpkgs.dir"/>
+                    </not>
+                </and>
+                <then>
+                    <property name="package.subpkgs.dir" value="${package.dir}"/>
+                </then>
+            </if>
+            <if>
+                <and>
                     <isset property="package.subpkgs.dir"/>
                     <available file="${package.subpkgs.dir}" type="dir"/>
                 </and>
                 <then>
                     <local name="sub.packages.list"/>
-                    <condition property="sub.packages.list" value="${package.subpkgs}">
+                    <condition property="sub.packages.list" value="${package.subpkgs.packages}">
                         <and>
-                            <isset property="package.subpkgs"/>
+                            <isset property="package.subpkgs.packages"/>
                             <equals arg1="@{all}" arg2="false"/>
                         </and>
                     </condition>
@@ -22,7 +33,7 @@
                         <dirset dir="${package.subpkgs.dir}" includes="${sub.packages.list}"/>
                         <sequential>
                             <if>
-                                <available file="@{pkg-dir}/.sencha/package/sencha.cfg"/>
+                                <available file="@{pkg-dir}/package.json"/>
                                 <then>
                                     <tasks/>
                                 </then>
@@ -38,28 +49,86 @@
         <attribute name="all" default="false"/>
         <element name="tasks" implicit="true"/>
         <sequential>
+            <local name="example.apps"/>
+            <local name="example.path"/>
+            <local name="example.dir"/>
+
+            <condition property="example.apps" value="*">
+                <equals arg1="@{all}" arg2="true"/>
+            </condition>
+            <condition property="example.apps" value="${package.example.apps}">
+                <isset property="package.example.apps"/>
+            </condition>
+            <condition property="example.apps" value="${package.examples}">
+                <isset property="package.examples"/> <!-- legacy value -->
+            </condition>
+
+            <condition property="example.path" value="${package.example.path}">
+                <isset property="package.example.path"/>
+            </condition>
+            <condition property="example.path" value="${package.examples.dir}">
+                <isset property="package.examples.dir"/> <!-- legacy value -->
+            </condition>
+
             <if>
-                <and>
-                    <isset property="package.examples.dir"/>
-                    <available file="${package.examples.dir}" type="dir"/>
-                </and>
+                <isset property="example.path"/>
                 <then>
-                    <local name="example.list"/>
-                    <condition property="example.list" value="${package.examples}">
-                        <and>
-                            <isset property="package.examples"/>
-                            <equals arg1="@{all}" arg2="false"/>
-                        </and>
-                    </condition>
-                    <property name="example.list" value="*"/>
-                    <for param="example-dir">
-                        <dirset dir="${package.examples.dir}" includes="${example.list}"/>
+                    <for list="${example.path}" delimiter="," param="dir">
                         <sequential>
+                            <x-canonical-path property="example.dir" overwrite="true"
+                                    path="@{dir}"
+                                    basedir="${package.dir}"/>
+
+                            <x-echo>Processing examples in "@{dir}" (${example.dir})</x-echo>
+
                             <if>
-                                <available file="@{example-dir}/.sencha/app/sencha.cfg"/>
+                                <isset property="example.apps"/>
                                 <then>
-                                    <tasks/>
+                                    <for list="${example.apps}" delimiter="," param="app">
+                                        <sequential>
+                                            <if>
+                                                <available file="${example.dir}/@{app}/app.json"/>
+                                                <then>
+                                                    <!--
+                                                    Use for loop so <tasks> can use the
+                                                    pieces @{app} and @{dir} of the full
+                                                    path @{example-dir}
+                                                    -->
+                                                    <for param="example-dir">
+                                                        <dirset dir="${example.dir}" includes="@{app}"/>
+                                                        <sequential>
+                                                            <tasks/>
+                                                        </sequential>
+                                                    </for>
+                                                </then>
+                                                <else>
+                                                    <if>
+                                                        <available file="${example.dir}/@{app}" type="dir"/>
+                                                        <then>
+                                                            <x-echo>No app at ${example.dir}/@{app}</x-echo>
+                                                        </then>
+                                                    </if>
+                                                </else>
+                                            </if>
+                                        </sequential>
+                                    </for>
                                 </then>
+                                <elseif>
+                                    <available file="@{dir}" type="dir"/>
+                                    <then>
+                                        <for param="example-dir">
+                                            <dirset dir="@{dir}" includes="*"/>
+                                            <sequential>
+                                                <if>
+                                                    <available file="@{example-dir}/app.json"/>
+                                                    <then>
+                                                        <tasks/>
+                                                    </then>
+                                                </if>
+                                            </sequential>
+                                        </for>
+                                    </then>
+                                </elseif>
                             </if>
                         </sequential>
                     </for>
@@ -83,8 +152,7 @@
                          inheritall="false" 
                          inheritrefs="true"
                          target="@{target}">
-                        <property name="compiler.ref.id" 
-                                  value="compiler-${sub.name}"/>
+                        <property name="compiler.ref.id" value="compiler-${sub.name}"/>
                         <properties/>
                     </ant>
                 </then>
@@ -118,8 +186,32 @@
     <target name="-after-subpkgs"/>
     <target name="-subpkgs">
         <x-process-sub-packages>
-            <x-sub-build dir="@{pkg-dir}"
-                         inherit-version="${build.subpkgs.inherit.version}"/>
+            <local name="sub.name"/>
+            <basename file="@{pkg-dir}"
+                      property="sub.name"/>
+            <x-echo>Building sub package ${sub.name}</x-echo>
+            <if>
+                <x-is-true value="${build.subpkgs.inherit.version}"/>
+                <then>
+                    <x-sencha-command dir="@{pkg-dir}" inheritall="false">
+                        <property name="extra.packages.dir" value="${extra.packages.dir}"/>
+                        <property name="compiler.ref.id" value="compiler-${sub.name}"/>
+                        <property name="build.version" value="${build.version}"/>
+                        <property name="package.sass.rhino" value="${package.sass.rhino}"/>
+                        package
+                        build
+                    </x-sencha-command>
+                </then>
+                <else>
+                    <x-sencha-command dir="@{pkg-dir}" inheritall="false">
+                        <property name="extra.packages.dir" value="${extra.packages.dir}"/>
+                        <property name="compiler.ref.id" value="compiler-${sub.name}"/>
+                        <property name="package.sass.rhino" value="${package.sass.rhino}"/>
+                        package
+                        build
+                    </x-sencha-command>
+                </else>
+            </if>
         </x-process-sub-packages>
     </target>
 
@@ -127,6 +219,7 @@
     <target name="-after-clean-subpkgs"/>
     <target name="-clean-subpkgs">
         <x-process-sub-packages>
+            <x-echo>Cleaning sub package in @{pkg-dir}</x-echo>
             <x-sub-build dir="@{pkg-dir}"
                          target="clean"
                          inherit-version="${build.subpkgs.inherit.version}"/>
@@ -136,7 +229,8 @@
     <target name="-before-upgrade-subpkgs"/>
     <target name="-after-upgrade-subpkgs"/>
     <target name="-upgrade-subpkgs">
-        <x-process-sub-packages all="true">
+        <x-process-sub-packages>
+            <x-echo>Upgrading sub package in @{pkg-dir}</x-echo>
             <x-sencha-command dir="@{pkg-dir}" inheritall="false">
                 <property name="args.force" value="true"/>
                 package
@@ -150,16 +244,22 @@
     <target name="-after-examples"/>
     <target name="-examples">
         <x-process-examples>
-            <echo>Building example in @{example-dir}</echo>
-            <x-sub-build dir="@{example-dir}"/>
+            <x-echo>Building example in @{example-dir}</x-echo>
+            <x-sencha-command dir="@{example-dir}" inheritall="false">
+                <property name="extra.packages.dir" value="${extra.packages.dir}"/>
+                <property name="app.sass.rhino" value="${package.sass.rhino}"/>
+                app
+                build
+                -uses
+            </x-sencha-command>
         </x-process-examples>
     </target>
     
     <target name="-before-upgrade-examples"/>
     <target name="-after-upgrade-examples"/>
     <target name="-upgrade-examples">
-        <x-process-examples all="true">
-            <echo>Upgrading example in @{example-dir}</echo>
+        <x-process-examples>
+            <x-echo>Upgrading example in @{example-dir}</x-echo>
             <x-sencha-command dir="@{example-dir}" inheritall="false">
                 <property name="args.force" value="true"/>
                 app
@@ -172,11 +272,18 @@
     <target name="-before-clean-examples"/>
     <target name="-after-clean-examples"/>
     <target name="-clean-examples">
-        <x-process-examples all="true">
-            <echo>Cleaning example in @{example-dir}</echo>
+        <x-process-examples>
+            <x-echo>Cleaning example in @{example-dir}</x-echo>
             <x-sub-build dir="@{example-dir}"
                          target="clean"/>
         </x-process-examples>
     </target>
-    
+
+    <target name="list-examples" depends="init"
+            description="List all example apps for this package">
+        <x-process-examples>
+            <x-echo>   @{example-dir}</x-echo>
+        </x-process-examples>
+    </target>
+
 </project>

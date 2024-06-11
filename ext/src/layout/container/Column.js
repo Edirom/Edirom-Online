@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This is the layout style of choice for creating structural layouts in a multi-column format where the width of each
  * column can be specified as a percentage or fixed width, but the height is allowed to vary based on the content. This
@@ -96,6 +76,9 @@ Ext.define('Ext.layout.container.Column', {
 
     targetCls: Ext.baseCSSPrefix + 'column-layout-ct',
 
+    // The clear value to force floats to wrap back to zero
+    clearSide: 'left',
+
     // Columns with a columnWidth have their width managed.
     columnWidthSizePolicy: {
         readsWidth: 0,
@@ -107,8 +90,13 @@ Ext.define('Ext.layout.container.Column', {
     createsInnerCt: true,
 
     manageOverflow: true,
+
+    // Column layout needs to set the size of items configured with columnWidth, and it
+    // needs to read the size of items with a configured width.
+    setsItemSize: true,
+    needsItemSize: true,
     
-    isItemShrinkWrap: function(ownerContext){
+    isItemShrinkWrap: function(item) {
         return true;
     },
 
@@ -127,6 +115,7 @@ Ext.define('Ext.layout.container.Column', {
 
     calculateItems: function (ownerContext, containerSize) {
         var me = this,
+            columnCount = me.columnCount,
             targetContext = ownerContext.targetContext,
             items = ownerContext.childItems,
             len = items.length,
@@ -152,6 +141,28 @@ Ext.define('Ext.layout.container.Column', {
         for (i = 0; i < len; ++i) {
             itemContext = items[i];
 
+            // Ensure that each row start clears to start of row.
+            // Tall items would block it as below.
+            // "Item 4" requires clear:left to begin at column zero.
+            // +------------------------------- +
+            // |+--------+ +--------+ +--------+|
+            // ||        | |        | |        ||
+            // || Item 1 | | Item 2 | | Item 3 ||
+            // ||        | +--------+ +--------+|
+            // ||        | +--------+           |
+            // |+--------+ |        |           |
+            // |           | Item 4 |           |
+            // |           |        |           |
+            // |           +--------+           |
+            // +--------------------------------+
+            if (columnCount) {
+                if (i % columnCount) {
+                    itemContext.setProp('clear', null);
+                } else {
+                    itemContext.setProp('clear', me.clearSide);
+                }
+            }
+
             // this is needed below for non-calculated columns, but is also needed in the
             // next loop for calculated columns... this way we only call getMarginInfo in
             // this loop and use the marginInfo property in the next...
@@ -159,11 +170,10 @@ Ext.define('Ext.layout.container.Column', {
 
             if (!itemContext.widthModel.calculated) {
                 itemWidth = itemContext.getProp('width');
-                if (typeof itemWidth != 'number') {
+                if (typeof itemWidth !== 'number') {
                     itemContext.block(me, 'width');
                     blocked = true;
                 }
-
                 contentWidth += itemWidth + itemMarginWidth;
             }
         }
@@ -173,6 +183,7 @@ Ext.define('Ext.layout.container.Column', {
 
             for (i = 0; i < len; ++i) {
                 itemContext = items[i];
+
                 if (itemContext.widthModel.calculated) {
                     itemMarginWidth = itemContext.marginInfo.width; // always set by above loop
                     itemWidth = itemContext.target.columnWidth;
@@ -187,20 +198,5 @@ Ext.define('Ext.layout.container.Column', {
 
         // we registered all the values that block this calculation, so abort now if blocked...
         return !blocked;
-    },
-
-    setCtSizeIfNeeded: function(ownerContext, containerSize) {
-        var me = this,
-            padding = ownerContext.paddingContext.getPaddingInfo();
-
-        me.callParent(arguments);
-
-        // IE6/7/quirks lose right padding when using the shrink wrap template, so
-        // reduce the size of the outerCt by the amount of right padding.
-        if ((Ext.isIEQuirks || Ext.isIE7m) && me.isShrinkWrapTpl && padding.right) {
-            ownerContext.outerCtContext.setProp('width',
-                containerSize.width + padding.left);
-        }
     }
-
 });

@@ -1,26 +1,4 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
- * @docauthor Jason Johnston <jason@sencha.com>
- *
  * A numeric text field that provides automatic keystroke filtering to disallow non-numeric characters,
  * and numeric validation to limit the value to a range of valid numbers. The range of acceptable number
  * values can be controlled by setting the {@link #minValue} and {@link #maxValue} configs, and fractional
@@ -136,9 +114,9 @@ Ext.define('Ext.form.field.Number', {
     //<locale>
     /**
      * @cfg {String} decimalSeparator
-     * Character(s) to allow as the decimal separator
+     * Character(s) to allow as the decimal separator. Defaults to {@link Ext.util.Format#decimalSeparator decimalSeparator}.
      */
-    decimalSeparator : '.',
+    decimalSeparator : null,
     //</locale>
     
     //<locale>
@@ -232,10 +210,34 @@ Ext.define('Ext.form.field.Number', {
 
     initComponent: function() {
         var me = this;
+        if (me.decimalSeparator === null) {
+            me.decimalSeparator = Ext.util.Format.decimalSeparator;
+        }
         me.callParent();
 
         me.setMinValue(me.minValue);
         me.setMaxValue(me.maxValue);
+    },
+
+    setValue: function(value) {
+        var me = this,
+            bind, valueBind;
+
+        // This portion of the code is to prevent a binding from stomping over
+        // the typed value. Say we have decimalPrecision 4 and the user types
+        // 1.23456. The value of the field will be set as 1.2346 and published to
+        // the viewmodel, which will trigger the binding to fire and setValue to
+        // be called on the field, which would then set the value (and rawValue) to
+        // 1.2346. Instead, if we have focus and the value is the same, just leave
+        // the rawValue alone
+        if (me.hasFocus) {
+            bind = me.getBind();
+            valueBind = bind && bind.value;
+            if (valueBind && valueBind.syncing && value === me.value) {
+                return me;
+            }
+        }
+        return me.callParent([value]);
     },
 
     /**
@@ -246,12 +248,12 @@ Ext.define('Ext.form.field.Number', {
      * @return {String[]} All validation errors for this field
      */
     getErrors: function(value) {
+        value = arguments.length > 0 ? value : this.processRawValue(this.getRawValue());
+
         var me = this,
-            errors = me.callParent(arguments),
+            errors = me.callParent([value]),
             format = Ext.String.format,
             num;
-
-        value = Ext.isDefined(value) ? value : this.processRawValue(this.getRawValue());
 
         if (value.length < 1) { // if it's blank and textfield didn't flag it then it's valid
              return errors;
@@ -400,13 +402,14 @@ Ext.define('Ext.form.field.Number', {
         return parseFloat(Ext.Number.toFixed(parseFloat(value), precision));
     },
 
-    beforeBlur : function() {
+    onBlur : function(e) {
         var me = this,
-            v = me.parseValue(me.getRawValue());
+            v = me.rawToValue(me.getRawValue());
 
         if (!Ext.isEmpty(v)) {
             me.setValue(v);
         }
+        me.callParent([e]);
     },
     
     setSpinUpEnabled: function(enabled, /* private */ internal){
@@ -444,8 +447,7 @@ Ext.define('Ext.form.field.Number', {
     },
     
     setSpinValue: function(value) {
-        var me = this,
-            len;
+        var me = this;
             
         if (me.enforceMaxLength) {
             // We need to round the value here, otherwise we could end up with a
