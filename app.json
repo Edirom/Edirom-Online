@@ -5,6 +5,24 @@
 
     "name": "EdiromOnline",
 
+    "version": "1.0.0-beta.6",
+
+    "theme": "eoTheme",
+
+    "css": [
+        {
+            "path": "bootstrap.css",
+            "bootstrap": true
+        }
+    ],
+
+    "js": [
+        {
+            "path": "app.js",
+            "bundle": true
+        }
+    ],
+
     "requires": [
     ],
 
