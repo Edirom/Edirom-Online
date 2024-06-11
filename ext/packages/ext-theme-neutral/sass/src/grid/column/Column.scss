@@ -1,15 +1,18 @@
 .#{$prefix}column-header {
     border-right: $grid-column-header-border-width $grid-column-header-border-style $grid-header-border-color;
 
-    @if $grid-column-header-color {
+    @if not is-null($grid-column-header-color) {
         color: $grid-column-header-color;
     }
     font: $grid-column-header-font;
 
-    @if ($supports-gradients or $compile-all) and $grid-header-background-gradient != null {
+    // This is to remove default focused element styling in Firefox and IE
+    outline: 0;
+
+    @if not is-null($grid-header-background-gradient) {
         @include background-gradient($grid-header-background-color, $grid-header-background-gradient);
     }
-    @if $grid-header-background-gradient == null {
+    @if is-null($grid-header-background-gradient) {
         background-color: $grid-header-background-color;
     }
 }
@@ -33,19 +36,51 @@
 
 .#{$prefix}column-header-inner {
     padding: $grid-header-padding;
-    text-overflow: ellipsis;
 }
 
-@if $supports-gradients {
-    .#{$prefix}column-header-over,
-    .#{$prefix}column-header-sort-ASC,
-    .#{$prefix}column-header-sort-DESC {
-        @include background-gradient($grid-header-over-background-color, $grid-header-over-background-gradient);
+.#{$prefix}column-header-inner-empty {
+    // The default text for an empty column header is a space.  It can trigger an ellipsis
+    // if the column width is too small.  Ensure this does not happen by clipping overflow
+    // of empty colum headers.
+    text-overflow: clip;
+}
+
+// Compound selector here to increase the specificity
+.#{$prefix}column-header.#{$prefix}column-header-focus {
+    .#{$prefix}column-header-inner:before {
+        content: "";
+        position: absolute;
+        top: $grid-column-header-focus-border-inset;
+        right: $grid-column-header-focus-border-inset;
+        bottom: $grid-column-header-focus-border-inset;
+        left: $grid-column-header-focus-border-inset;
+        border: $grid-column-header-focus-border-width $grid-column-header-focus-border-style $grid-column-header-focus-border-color;
+        pointer-events: none;
+    }
+
+    // For some reason without this rule the inner focus border on grouped column headers
+    // looks 1px higher than it should. This does not apply to column headers outside a group
+    &.#{$prefix}group-sub-header .#{$prefix}column-header-inner:before {
+        bottom: 0px;
+    }
+
+    @if not is-null($grid-column-header-focus-color) {
+        color: $grid-column-header-focus-color;
+    }
+
+    @if not is-null($grid-column-header-focus-background-color) {
+        @include background-gradient($grid-column-header-focus-background-color, $grid-header-background-gradient);
     }
 }
 
-@if not $supports-gradients or $compile-all  {
-    @if $grid-header-background-gradient != null {
+.#{$prefix}column-header-over,
+.#{$prefix}column-header-sort-ASC,
+.#{$prefix}column-header-sort-DESC {
+    @include background-gradient($grid-header-over-background-color, $grid-header-over-background-gradient);
+}
+
+@if $include-slicer-gradient {
+    @if not is-null($grid-header-background-gradient) {
         .#{$prefix}nlg {
             .#{$prefix}grid-header-ct,
             .#{$prefix}column-header {
@@ -55,7 +90,7 @@
         $stretch: slicer-background-stretch(column-header, bottom);
     }
 
-    @if $grid-header-over-background-gradient != null {
+    @if not is-null($grid-header-over-background-gradient) {
         .#{$prefix}nlg {
             .#{$prefix}column-header-over,
             .#{$prefix}column-header-sort-ASC,

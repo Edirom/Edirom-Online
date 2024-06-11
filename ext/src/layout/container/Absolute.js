@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This is a layout that inherits the anchoring of {@link Ext.layout.container.Anchor} and adds the
  * ability for x/y positioning using the standard x and y component config options.
@@ -83,8 +63,8 @@ Ext.define('Ext.layout.container.Absolute', {
     /**
      * @cfg {Boolean} ignoreOnContentChange
      * True indicates that changes to one item in this layout do not effect the layout in
-     * general. This may need to be set to false if {@link Ext.Component#autoScroll}
-     * is enabled for the container.
+     * general. This may need to be set to false if the component is
+     * {@link Ext.Component#scrollable scrollable}.
      */
     ignoreOnContentChange: true,
 
@@ -141,11 +121,11 @@ Ext.define('Ext.layout.container.Absolute', {
 
     calculateContentSize: function (ownerContext, dimensions) {
         var me = this,
-            containerDimensions = (dimensions || 0) |
-                   ((ownerContext.widthModel.shrinkWrap ? 1 : 0) |
+            containerDimensions = (dimensions || 0) | // jshint ignore:line
+                   ((ownerContext.widthModel.shrinkWrap ? 1 : 0) | // jshint ignore:line
                     (ownerContext.heightModel.shrinkWrap ? 2 : 0)),
-            calcWidth = (containerDimensions & 1) || undefined,
-            calcHeight = (containerDimensions & 2) || undefined,
+            calcWidth = (containerDimensions & 1) || undefined,// jshint ignore:line
+            calcHeight = (containerDimensions & 2) || undefined,// jshint ignore:line
             childItems = ownerContext.childItems,
             length = childItems.length,
             contentHeight = 0,

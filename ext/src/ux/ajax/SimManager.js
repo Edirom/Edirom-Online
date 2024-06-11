@@ -20,7 +20,7 @@
  *              delay: 300
  *          }).register({
  *              '/app/data/url': {
- *                  stype: 'json',  // use JsonSimlet (stype is like xtype for components)
+ *                  type: 'json',  // use JsonSimlet (type is like xtype for components)
  *                  data: [
  *                      { foo: 42, bar: 'abc' },
  *                      ...
@@ -63,7 +63,7 @@ Ext.define('Ext.ux.ajax.SimManager', {
 
     /**
      * @cfg {String} defaultType
-     * The default `stype` to apply to generic {@link Ext.ux.ajax.Simlet} configuration objects. The
+     * The default `type` to apply to generic {@link Ext.ux.ajax.Simlet} configuration objects. The
      * default is 'basic'.
      */
     defaultType: 'basic',
@@ -82,13 +82,16 @@ Ext.define('Ext.ux.ajax.SimManager', {
     ready: false,
 
     constructor: function () {
-        this.simlets = {};
+        this.simlets = [];
     },
 
     getSimlet: function (url) {
         // Strip down to base URL (no query parameters or hash):
         var me = this,
-            index = url.indexOf('?');
+            index = url.indexOf('?'),
+            simlets = me.simlets,
+            len = simlets.length,
+            i, simlet, simUrl, match;
 
         if (index < 0) {
             index = url.indexOf('#');
@@ -96,8 +99,21 @@ Ext.define('Ext.ux.ajax.SimManager', {
         if (index > 0) {
             url = url.substring(0, index);
         }
+        
+        for (i = 0; i < len; ++i) {
+            simlet = simlets[i];
+            simUrl = simlet.url;
+            if (simUrl instanceof RegExp) {
+                match = simUrl.test(url);
+            } else {
+                match = simUrl === url;
+            }
+            if (match) {
+                return simlet;
+            }
+        }
 
-        return me.simlets[url] || me.defaultSimlet;
+        return me.defaultSimlet;
     },
 
     getXhr: function (method, url, options, async) {
@@ -114,7 +130,6 @@ Ext.define('Ext.ux.ajax.SimManager', {
      * Initializes this singleton and applies configuration options.
      * @param {Object} config An optional object with configuration properties to apply.
      * @return {Ext.ux.ajax.SimManager} this
-     * @markdown
      */
     init: function (config) {
         var me = this;
@@ -163,6 +178,9 @@ Ext.define('Ext.ux.ajax.SimManager', {
                         if (script.simlet) {
                             script.jsonpCallback = request.params[request.callbackKey];
                             script.send(null);
+
+                            // Ext.data.JsonP will attempt dom removal of a script tag, so emulate its presence
+                            request.script = document.createElement('script');
                         } else {
                             this.callParent(arguments);
                         }
@@ -187,7 +205,6 @@ Ext.define('Ext.ux.ajax.SimManager', {
      * @param {Array/Object} simlet Either a {@link Ext.ux.ajax.Simlet} instance or config, an Array
      * of such elements or an Object keyed by URL with values that are {@link Ext.ux.ajax.Simlet}
      * instances or configs.
-     * @markdown
      */
     register: function (simlet) {
         var me = this;
@@ -197,9 +214,9 @@ Ext.define('Ext.ux.ajax.SimManager', {
         function reg (one) {
             var simlet = one;
             if (!simlet.isSimlet) {
-                simlet = Ext.create('simlet.' + (simlet.stype || me.defaultType), one);
+                simlet = Ext.create('simlet.' + (simlet.type || simlet.stype || me.defaultType), one);
             }
-            me.simlets[one.url] = simlet;
+            me.simlets.push(simlet);
             simlet.manager = me;
         }
 

@@ -1,24 +1,5 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
+ * @class Ext.form.action.DirectSubmit
  * Provides Ext.direct support for submitting form data.
  *
  * This example illustrates usage of Ext.direct.Direct to **submit** a form through Ext.Direct.
@@ -107,43 +88,40 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  * Also see the discussion in {@link Ext.form.action.DirectLoad}.
  */
 Ext.define('Ext.form.action.DirectSubmit', {
-    extend:'Ext.form.action.Submit',
-    requires: ['Ext.direct.Manager'],
+    extend: 'Ext.form.action.Submit',
     alternateClassName: 'Ext.form.Action.DirectSubmit',
     alias: 'formaction.directsubmit',
+    
+    requires: [
+        'Ext.direct.Manager'
+    ],
+    
+    mixins: [
+        'Ext.form.action.DirectAction'
+    ],
 
     type: 'directsubmit',
 
     doSubmit: function() {
         var me = this,
             form = me.form,
-            api = form.api,
-            fn = api.submit,
-            callback = Ext.Function.bind(me.onComplete, me),
-            formInfo = me.buildForm(),
-            options;
+            metadata = me.metadata || form.metadata,
+            timeout = me.timeout || form.timeout,
+            fn, formInfo, args;
         
-        if (typeof fn !== 'function') {
-            //<debug>
-            var fnName = fn;
-            //</debug>
-            
-            api.submit = fn = Ext.direct.Manager.parseMethod(fn);
-            
-            //<debug>
-            if (!Ext.isFunction(fn)) {
-                Ext.Error.raise('Cannot resolve Ext.Direct API method ' + fnName);
-            }
-            //</debug>
-        }
+        fn       = me.resolveMethod('submit');
+        formInfo = me.buildForm();
         
-        if (me.timeout || form.timeout) {
-            options = {
-                timeout: me.timeout * 1000 || form.timeout * 1000
-            };
-        }
+        args = fn.directCfg.method.getArgs({
+            params: formInfo.formEl,
+            options: timeout != null ? { timeout: timeout * 1000 } : null,
+            metadata: metadata,
+            callback: me.onComplete,
+            scope: me
+        });
         
-        fn.call(window, formInfo.formEl, callback, me, options);
+        fn.apply(window, args);
+        
         me.cleanup(formInfo);
     },
 
@@ -154,7 +132,7 @@ Ext.define('Ext.form.action.DirectSubmit', {
         return (this.result = result);
     },
     
-    onComplete: function(data, response){
+    onComplete: function(data){
         if (data) {
             this.onSuccess(data);
         } else {

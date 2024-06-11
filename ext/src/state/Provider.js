@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * @class Ext.state.Provider
  * <p>Abstract base class for state provider implementations. The provider is responsible
@@ -41,18 +21,17 @@ Ext.define('Ext.state.Provider', {
      */
     prefix: 'ext-',
     
+    /**
+     * @event statechange
+     * Fires when a state change occurs.
+     * @param {Ext.state.Provider} this This state provider
+     * @param {String} key The state key which was changed
+     * @param {String} value The encoded value for the state
+     */
+
     constructor : function(config){
-        config = config || {};
         var me = this;
         Ext.apply(me, config);
-        /**
-         * @event statechange
-         * Fires when a state change occurs.
-         * @param {Ext.state.Provider} this This state provider
-         * @param {String} key The state key which was changed
-         * @param {String} value The encoded value for the state
-         */
-        me.addEvents("statechange");
         me.state = {};
         me.mixins.observable.constructor.call(me);
     },
@@ -64,8 +43,8 @@ Ext.define('Ext.state.Provider', {
      * @return {Object} The state data
      */
     get : function(name, defaultValue){
-        return typeof this.state[name] == "undefined" ?
-            defaultValue : this.state[name];
+        var ret = this.state[name];
+        return ret === undefined ? defaultValue : ret;
     },
 
     /**
@@ -107,14 +86,9 @@ Ext.define('Ext.state.Provider', {
         var me = this,
             re = /^(a|n|d|b|s|o|e)\:(.*)$/,
             matches = re.exec(unescape(value)),
-            all,
-            type,
-            keyValue,
-            values,
-            vLen,
-            v;
+            all, type, keyValue, values, vLen, v;
             
-        if(!matches || !matches[1]){
+        if (!matches || !matches[1]) {
             return; // non state
         }
         
@@ -128,10 +102,10 @@ Ext.define('Ext.state.Provider', {
             case 'd':
                 return new Date(Date.parse(value));
             case 'b':
-                return (value == '1');
+                return (value === '1');
             case 'a':
                 all = [];
-                if(value != ''){
+                if (value) {
                     values = value.split('^');
                     vLen   = values.length;
 
@@ -143,7 +117,7 @@ Ext.define('Ext.state.Provider', {
                 return all;
            case 'o':
                 all = {};
-                if(value != ''){
+                if (value) {
                     values = value.split('^');
                     vLen   = values.length;
 
@@ -167,29 +141,27 @@ Ext.define('Ext.state.Provider', {
     encodeValue : function(value){
         var flat = '',
             i = 0,
-            enc,
-            len,
-            key;
+            enc, len, key;
             
         if (value == null) {
             return 'e:1';    
-        } else if(typeof value == 'number') {
+        } else if(typeof value === 'number') {
             enc = 'n:' + value;
-        } else if(typeof value == 'boolean') {
+        } else if(typeof value === 'boolean') {
             enc = 'b:' + (value ? '1' : '0');
         } else if(Ext.isDate(value)) {
-            enc = 'd:' + value.toGMTString();
+            enc = 'd:' + value.toUTCString();
         } else if(Ext.isArray(value)) {
             for (len = value.length; i < len; i++) {
                 flat += this.encodeValue(value[i]);
-                if (i != len - 1) {
+                if (i !== len - 1) {
                     flat += '^';
                 }
             }
             enc = 'a:' + flat;
-        } else if (typeof value == 'object') {
+        } else if (typeof value === 'object') {
             for (key in value) {
-                if (typeof value[key] != 'function' && value[key] !== undefined) {
+                if (typeof value[key] !== 'function' && value[key] !== undefined) {
                     flat += key + '=' + this.encodeValue(value[key]) + '^';
                 }
             }

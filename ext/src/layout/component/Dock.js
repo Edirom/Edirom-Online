@@ -1,28 +1,8 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This ComponentLayout handles docking for Panels. It takes care of panels that are
  * part of a ContainerLayout that sets this Panel's size and Panels that are part of
  * an AutoContainerLayout in which this panel get his height based of the CSS or
- * or its content.
+ * its content.
  * @private
  */
 Ext.define('Ext.layout.component.Dock', {
@@ -118,6 +98,8 @@ Ext.define('Ext.layout.component.Dock', {
         left: 'border-left-width'
     },
 
+    _itemCls: Ext.baseCSSPrefix + 'docked',
+
     handleItemBorders: function() {
         var me = this,
             owner = me.owner,
@@ -130,7 +112,9 @@ Ext.define('Ext.layout.component.Dock', {
             i, ln, item, dock, side,
             collapsed = me.collapsed;
 
-        if (me.initializedBorders == currentGeneration || (owner.border && !owner.manageBodyBorders)) {
+        // If we're collapsed with mini, it means we're in a border layout so we'll
+        // be visibility: hidden
+        if (me.initializedBorders === currentGeneration || (owner.border && !owner.manageBodyBorders) || (owner.collapsed && owner.collapseMode === 'mini')) {
             return;
         }
 
@@ -195,6 +179,8 @@ Ext.define('Ext.layout.component.Dock', {
                 }
                 if ((!borders[side].satisfied && !owner.bodyBorder) || owner.bodyBorder === false) {
                     owner.addBodyCls(noBorderClassesSides[side]);
+                } else {
+                    owner.removeBodyCls(noBorderClassesSides[side]);
                 }
             }
             else if (borders[side].satisfied) {
@@ -236,8 +222,10 @@ Ext.define('Ext.layout.component.Dock', {
         }
         
         shrinkWrapDock = shrinkWrapDock === true ? 3 : (shrinkWrapDock || 0);
-        ownerContext.shrinkWrapDockHeight = (shrinkWrapDock & 1) && ownerContext.heightModel.shrinkWrap;
-        ownerContext.shrinkWrapDockWidth = (shrinkWrapDock & 2) && ownerContext.widthModel.shrinkWrap;
+        ownerContext.shrinkWrapDockHeight = (shrinkWrapDock & 1) && // jshint ignore:line
+                                            ownerContext.heightModel.shrinkWrap;
+        ownerContext.shrinkWrapDockWidth = (shrinkWrapDock & 2) && // jshint ignore:line
+                                           ownerContext.widthModel.shrinkWrap;
     },
 
     beginLayout: function(ownerContext) {
@@ -246,6 +234,7 @@ Ext.define('Ext.layout.component.Dock', {
             docked = me.getLayoutItems(),
             layoutContext = ownerContext.context,
             dockedItemCount = docked.length,
+            lastCollapsedState = me.lastCollapsedState,
             dockedItems, i, item, itemContext, offsets,
             collapsed, dock;
 
@@ -254,7 +243,7 @@ Ext.define('Ext.layout.component.Dock', {
         // Cache the children as ContextItems (like a Container). Also setup to handle
         // collapsed state:
         collapsed = owner.getCollapsed();
-        if (collapsed !== me.lastCollapsedState && Ext.isDefined(me.lastCollapsedState)) {
+        if (collapsed !== lastCollapsedState && lastCollapsedState !== undefined) {
             // If we are collapsing...
             if (me.owner.collapsed) {
                 ownerContext.isCollapsingOrExpanding = 1;
@@ -278,7 +267,7 @@ Ext.define('Ext.layout.component.Dock', {
                 itemContext = layoutContext.getCmp(item);
                 itemContext.dockedAt = { x: 0, y: 0 };
                 itemContext.offsets = offsets = Ext.Element.parseBox(item.offsets || 0);
-                itemContext.horizontal = dock == 'top' || dock == 'bottom';
+                itemContext.horizontal = dock === 'top' || dock === 'bottom';
                 offsets.width = offsets.left + offsets.right;
                 offsets.height = offsets.top + offsets.bottom;
                 dockedItems.push(itemContext);
@@ -350,9 +339,9 @@ Ext.define('Ext.layout.component.Dock', {
             item = docked[i].target;
             dock = item.dock;
 
-            if (dock == 'right') {
+            if (dock === 'right') {
                 item.setLocalX(0);
-            } else if (dock != 'left') {
+            } else if (dock !== 'left') {
                 continue;
             }
 
@@ -370,11 +359,11 @@ Ext.define('Ext.layout.component.Dock', {
             framing, horz, vert, forward, backward;
 
         // make sure we can use these value w/o calling methods to get them
-        ownerContext.borderInfo  || ownerContext.getBorderInfo();
-        ownerContext.paddingInfo || ownerContext.getPaddingInfo();
-        ownerContext.frameInfo   || ownerContext.getFrameInfo();
-        bodyContext.borderInfo   || bodyContext.getBorderInfo();
-        bodyContext.paddingInfo  || bodyContext.getPaddingInfo();
+        ownerContext.borderInfo  || ownerContext.getBorderInfo(); // jshint ignore:line
+        ownerContext.paddingInfo || ownerContext.getPaddingInfo(); // jshint ignore:line
+        ownerContext.frameInfo   || ownerContext.getFrameInfo(); // jshint ignore:line
+        bodyContext.borderInfo   || bodyContext.getBorderInfo(); // jshint ignore:line
+        bodyContext.paddingInfo  || bodyContext.getPaddingInfo(); // jshint ignore:line
 
         // On CSS3 browsers, the border and padding frame the outer el. On non-CSS3
         // browsers, the outer el has no border or padding - all that appears on the
@@ -592,15 +581,17 @@ Ext.define('Ext.layout.component.Dock', {
             itemContext.clearMarginCache();
         }
 
-        itemContext.marginInfo || itemContext.getMarginInfo(); // get marginInfo ready
+        if (!itemContext.marginInfo) {
+            itemContext.getMarginInfo(); // get marginInfo ready
+        }
 
-        if (dock == axis.dockBegin) {
+        if (dock === axis.dockBegin) {
             if (axis.shrinkWrap) {
                 pos = me.dockOutwardBegin(ownerContext, itemContext, item, axis);
             } else {
                 pos = me.dockInwardBegin(ownerContext, itemContext, item, axis);
             }
-        } else if (dock == axis.dockEnd) {
+        } else if (dock === axis.dockEnd) {
             if (axis.shrinkWrap) {
                 pos = me.dockOutwardEnd(ownerContext, itemContext, item, axis);
             } else {
@@ -752,7 +743,7 @@ Ext.define('Ext.layout.component.Dock', {
     dockStretch: function (ownerContext, itemContext, item, axis) {
         var dock = item.dock, // left/top/right/bottom (also used to index padding/border)
             sizeProp = axis.sizeProp, // 'width' or 'height'
-            horizontal = dock == 'top' || dock == 'bottom',
+            horizontal = dock === 'top' || dock === 'bottom',
             border = ownerContext.frameBorder,
             offsets = itemContext.offsets,
             padding = ownerContext.framePadding,
@@ -863,7 +854,8 @@ Ext.define('Ext.layout.component.Dock', {
             if (collapsed) {
                 // in this case "ignoreFrameBegin === ignoreFrameEnd" so we can take the
                 // special cases out of the mix here...
-            } else if (ignoreFrameEnd) {
+            } // jshint ignore:line
+            else if (ignoreFrameEnd) {
                 // When a component ignores the end framing, we simply move it further
                 // "down" by the end padding and we do not add the end framing to the
                 // shrinkWrap size.
@@ -1078,8 +1070,8 @@ Ext.define('Ext.layout.component.Dock', {
             after = this.afterInvalidateShrinkWrapDock,
             horzSize = horz.end - horz.begin,
             vertSize = vert.initialSize,
-            invalidateHorz = horz.shrinkWrapDock && horz.maxChildSize < horzSize,
-            invalidateVert = vert.shrinkWrapDock && vert.maxChildSize < vertSize,
+            invalidateHorz = horz.shrinkWrapDock && horz.maxChildSize <= horzSize,
+            invalidateVert = vert.shrinkWrapDock && vert.maxChildSize <= vertSize,
             dockedItems, len, i, itemContext, itemSize, isHorz, axis, sizeProp;
 
         if (invalidateHorz || invalidateVert) {
@@ -1159,15 +1151,15 @@ Ext.define('Ext.layout.component.Dock', {
         var me = this,
             lastCollapsedState, policy;
 
-        if (ownerContext.isCollapsingOrExpanding == 1) {
+        if (ownerContext.isCollapsingOrExpanding === 1) {
             lastCollapsedState = me.lastCollapsedState;
-        } else if (ownerContext.isCollapsingOrExpanding == 2) {
+        } else if (ownerContext.isCollapsingOrExpanding === 2) {
             lastCollapsedState = ownerContext.lastCollapsedState;
         }
 
-        if (lastCollapsedState == 'left' || lastCollapsedState == 'right') {
+        if (lastCollapsedState === 'left' || lastCollapsedState === 'right') {
             policy = me.horizontalCollapsePolicy;
-        } else if (lastCollapsedState == 'top' || lastCollapsedState == 'bottom') {
+        } else if (lastCollapsedState === 'top' || lastCollapsedState === 'bottom') {
             policy = me.verticalCollapsePolicy;
         }
 
@@ -1198,7 +1190,7 @@ Ext.define('Ext.layout.component.Dock', {
 
             for (i = 0, length = all.length; i < length; ++i) {
                 dock = all[i].dock;
-                isBefore = (dock == 'top' || dock == 'left');
+                isBefore = (dock === 'top' || dock === 'left');
                 if (beforeBody ? isBefore : !isBefore) {
                     dockedItems.push(all[i]);
                 }
@@ -1208,7 +1200,7 @@ Ext.define('Ext.layout.component.Dock', {
         }
 
         if (sort) {
-            renderOrder = (order = order || 'render') == 'render';
+            renderOrder = (order = order || 'render') === 'render';
             Ext.Array.sort(dockedItems, function(a, b) {
                 var aw,
                     bw;
@@ -1218,7 +1210,7 @@ Ext.define('Ext.layout.component.Dock', {
                 if (renderOrder && ((aw = me.owner.dockOrder[a.dock]) !== (bw = me.owner.dockOrder[b.dock]))) {
 
                     // The two dockOrder values cancel out when two items are on opposite sides.
-                    if (!(aw + bw)) {
+                    if (!(aw + bw)) { // jshint ignore:line
                         return aw - bw;
                     }
                 }
@@ -1285,14 +1277,14 @@ Ext.define('Ext.layout.component.Dock', {
             owner = me.owner;
         
         // If we are collapsing...
-        if (ownerContext.isCollapsingOrExpanding == 1) {
+        if (ownerContext.isCollapsingOrExpanding === 1) {
             if (owner.reExpander) {
                 owner.reExpander.el.show();
             }
             // Add the collapsed class now, so that collapsed CSS rules are applied before measurements are taken by the layout.
             owner.addClsWithUI(owner.collapsedCls);
             ownerContext.redo(true);
-        } else if (ownerContext.isCollapsingOrExpanding == 2) {
+        } else if (ownerContext.isCollapsingOrExpanding === 2) {
             // Remove the collapsed class now, before layout calculations are done.
             owner.removeClsWithUI(owner.collapsedCls);
             ownerContext.bodyContext.redo();
@@ -1331,7 +1323,7 @@ Ext.define('Ext.layout.component.Dock', {
         // Calculate the number of DOM nodes in our target that are not our docked items
         for (i = 0, j = 0; i < targetChildCount; i++) {
             targetChildNode = targetNodes[i];
-            if (Ext.fly(targetChildNode).hasCls(Ext.baseCSSPrefix + 'resizable-handle')) {
+            if (targetChildNode.nodeType === 1 && Ext.fly(targetChildNode).hasCls(Ext.baseCSSPrefix + 'resizable-handle')) {
                 break;
             }
             for (j = 0; j < dockedItemCount; j++) {
@@ -1377,7 +1369,7 @@ Ext.define('Ext.layout.component.Dock', {
             owner = me.owner;
         
         // If we are collapsing...
-        if (ownerContext.isCollapsingOrExpanding == 1) {
+        if (ownerContext.isCollapsingOrExpanding === 1) {
 
             // We do not want to see the re-expander header until the final collapse is complete
             if (owner.reExpander) {
@@ -1386,7 +1378,7 @@ Ext.define('Ext.layout.component.Dock', {
             // Add the collapsed class now, so that collapsed CSS rules are applied before measurements are taken by the layout.
             owner.removeClsWithUI(owner.collapsedCls);
             ownerContext.undo(true);
-        } else if (ownerContext.isCollapsingOrExpanding == 2) {
+        } else if (ownerContext.isCollapsingOrExpanding === 2) {
             // Remove the collapsed class now, before layout calculations are done.
             owner.addClsWithUI(owner.collapsedCls);
             ownerContext.bodyContext.undo();
@@ -1474,15 +1466,15 @@ Ext.define('Ext.layout.component.Dock', {
         }
 
         dock = item.dock;
-        vertical = (dock == 'left' || dock == 'right');
+        vertical = (dock === 'left' || dock === 'right');
 
         shrinkWrapDock = shrinkWrapDock === true ? 3 : (shrinkWrapDock || 0);
         if (vertical) {
             policy = policy.vert;
-            shrinkWrapDock = shrinkWrapDock & 1;
+            shrinkWrapDock = shrinkWrapDock & 1; // jshint ignore:line
         } else {
             policy = policy.horz;
-            shrinkWrapDock = shrinkWrapDock & 2;
+            shrinkWrapDock = shrinkWrapDock & 2; // jshint ignore:line
         }
 
         if (shrinkWrapDock) {
@@ -1508,8 +1500,10 @@ Ext.define('Ext.layout.component.Dock', {
     configureItem : function(item, pos) {
         this.callParent(arguments);
 
-        item.addCls(Ext.baseCSSPrefix + 'docked');
-        item.addClsWithUI(this.getDockCls(item.dock));
+        item.addCls(this._itemCls);
+        if (!item.ignoreBorderManagement) {
+            item.addClsWithUI(this.getDockCls(item.dock));
+        }
     },
 
     /**
@@ -1522,12 +1516,17 @@ Ext.define('Ext.layout.component.Dock', {
         return 'docked-' + dock;
     },
 
-    afterRemove : function(item) {
+    afterRemove: function(item) {
+        var dom;
+
         this.callParent(arguments);
-        if (this.itemCls) {
-            item.el.removeCls(this.itemCls + '-' + item.dock);
+
+        item.removeCls(this._itemCls);
+        if (!item.ignoreBorderManagement) {
+            item.removeClsWithUI(this.getDockCls(item.dock));
         }
-        var dom = item.el.dom;
+
+        dom = item.el.dom;
 
         if (!item.destroying && dom) {
             dom.parentNode.removeChild(dom);

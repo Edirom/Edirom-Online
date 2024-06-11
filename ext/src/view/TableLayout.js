@@ -1,188 +1,246 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  *  Component layout for {@link Ext.view.Table}
  *  @private
- * 
+ *
  */
 Ext.define('Ext.view.TableLayout', {
     extend: 'Ext.layout.component.Auto',
-    requires: ['Ext.util.CSS'],
 
-    alias: ['layout.tableview'],
+    alias: 'layout.tableview',
     type: 'tableview',
 
-    beginLayout: function(ownerContext) {
+    beginLayout: function (ownerContext) {
         var me = this,
-            otherSide = me.owner.lockingPartner,
-            owner = me.owner;
+            partner = me.owner.lockingPartner,
+            context = ownerContext.context;
 
-        me.callParent(arguments);
-        
-        // If we are in a twinned grid (locked view) then set up bidirectional links with the other side's layout context
-        if (otherSide) {
-            me.lockedGrid = me.owner.up('[lockable]');
-            me.lockedGrid.needsRowHeightSync = true;
-            if (!ownerContext.lockingPartner) {
-                ownerContext.lockingPartner = ownerContext.context.getItem(otherSide, otherSide.el);
-                if (ownerContext.lockingPartner && !ownerContext.lockingPartner.lockingPartner) {
-                    ownerContext.lockingPartner.lockingPartner = ownerContext;
-                }
+        if (!me.columnFlusherId) {
+            me.columnFlusherId = me.id + '-columns';
+            me.rowHeightFlusherId = me.id + '-rows';
+        }
+
+        me.callParent([ ownerContext ]);
+
+        // If we are in a twinned grid (locked view) then set up bidirectional links with
+        // the other side's layout context. If the locked or normal side is hidden then
+        // we should treat it as thoguh we were laying out a single grid, so don't setup the partners.
+        // This is typically if a grid is configured with locking but starts with no locked columns.
+        if (partner && partner.grid.isVisible()) {
+            if (!ownerContext.lockingPartnerContext) {
+                (ownerContext.lockingPartnerContext = context.getCmp(partner)).
+                    lockingPartnerContext = ownerContext;
             }
+
+            ownerContext.rowHeightSynchronizer = me.owner.syncRowHeightBegin();
         }
 
-        // Grab a ContextItem for the header container
-        ownerContext.headerContext = ownerContext.context.getCmp(me.headerCt);
+        // Grab a ContextItem for the header container (and make sure the TableLayout can
+        // reach us as well):
+        (ownerContext.headerContext = context.getCmp(me.headerCt)).viewContext = ownerContext;
+    },
 
-        // Grab ContextItem for the table only if there is a table to size
-        if (me.owner.body.dom) {
-            ownerContext.bodyContext = ownerContext.getEl(me.owner.body);
-        }
-        if (Ext.isWebKit) {
-            owner.el.select(owner.getBodySelector()).setStyle('table-layout', 'auto');
+    beginLayoutCycle: function (ownerContext, firstCycle) {
+        this.callParent([ ownerContext, firstCycle ]);
+
+        if (ownerContext.syncRowHeights) {
+            ownerContext.target.syncRowHeightClear(ownerContext.rowHeightSynchronizer);
+            ownerContext.syncRowHeights = false;
         }
     },
 
-    calculate: function(ownerContext) {
+    calculate: function (ownerContext) {
         var me = this,
-            lockingPartner = me.lockingPartner,
+            context = ownerContext.context,
+            lockingPartnerContext = ownerContext.lockingPartnerContext,
+            headerContext = ownerContext.headerContext,
+            ownerCtContext = ownerContext.ownerCtContext,
             owner = me.owner,
-            contentHeight = 0,
-            emptyEl;
+            columnsChanged = headerContext.getProp('columnsChanged'),
+            state = ownerContext.state,
+            columnFlusher, otherSynchronizer, synchronizer, rowHeightFlusher,
+            bodyDom = owner.body.dom,
+            bodyHeight, ctSize, overflowY;
 
-        // We can only complete our work (setting the CSS rules governing column widths) if the
-        // Grid's HeaderContainer's ColumnLayout has set the widths of its columns.
-        if (ownerContext.headerContext.hasProp('columnWidthsDone')) {
-            if (!me.setColumnWidths(ownerContext)) {
+        // Shortcut when empty grid - let the base handle it.
+        // EXTJS-14844: Even when no data rows (all.getCount() === 0) there may be summary rows to size.
+        if (!owner.all.getCount() && (!bodyDom || !owner.body.child('table'))) {
+            ownerContext.setProp('viewOverflowY', false);
+            me.callParent([ ownerContext ]);
+            return;
+        }
+
+        if (columnsChanged === undefined) {
+            // We cannot proceed when we have rows but no columnWidths determined...
+            me.done = false;
+            return;
+        }
+
+        if (columnsChanged) {
+            if (!(columnFlusher = state.columnFlusher)) {
+                // Since the columns have changed, we need to write the widths to the DOM.
+                context.queueFlush(state.columnFlusher = columnFlusher = {
+                    ownerContext: ownerContext,
+                    columnsChanged: columnsChanged,
+                    layout: me,
+                    id: me.columnFlusherId,
+                    flush: me.flushColumnWidths
+                });
+            }
+
+            if (!columnFlusher.flushed) {
+                // We have queued the columns to be written, but they are still pending, so
+                // we cannot proceed.
                 me.done = false;
                 return;
             }
-            ownerContext.state.columnWidthsSynced = true;
-            if (ownerContext.bodyContext) {
-                emptyEl = me.owner.el.down('.' + owner.ownerCt.emptyCls, true);
-                if (!emptyEl) {
-                    contentHeight = ownerContext.bodyContext.el.dom.offsetHeight;
-                    ownerContext.bodyContext.setHeight(contentHeight, false);
-                } else {
-                    contentHeight = emptyEl.offsetHeight;
+        }
+
+        // Either no columns changed, or we have flushed those changes.. which means the
+        // column widths in the DOM are correct. Now we can proceed to syncRowHeights (if
+        // we are locking) or wrap it up by determining our vertical overflow.
+
+        if (lockingPartnerContext) {
+            if (!(rowHeightFlusher = state.rowHeightFlusher)) {
+                // When we are locking, both sides need to read their row heights in a read
+                // phase (i.e., right now).
+                if (!(synchronizer = state.rowHeights)) {
+                    state.rowHeights = synchronizer = ownerContext.rowHeightSynchronizer;
+                    me.owner.syncRowHeightMeasure(synchronizer);
+                    ownerContext.setProp('rowHeights', synchronizer);
                 }
-                ownerContext.setProp('contentHeight', contentHeight);
+
+                if (!(otherSynchronizer = lockingPartnerContext.getProp('rowHeights'))) {
+                    me.done = false;
+                    return;
+                }
+
+                context.queueFlush(state.rowHeightFlusher = rowHeightFlusher = {
+                    ownerContext: ownerContext,
+                    synchronizer: synchronizer,
+                    otherSynchronizer: otherSynchronizer,
+                    layout: me,
+                    id: me.rowHeightFlusherId,
+                    flush: me.flushRowHeights
+                });
             }
-            
-            // If we are part of a twinned table view set (locking grid)
-            // Then only complete when both sides are complete.
-            if (lockingPartner && !lockingPartner.state.columnWidthsSynced) {
+
+            if (!rowHeightFlusher.flushed) {
                 me.done = false;
-            } else {
-                me.callParent(arguments);
+                return;
             }
+        }
 
-        } else {
-            me.done = false;
+        me.callParent([ ownerContext ]);
+
+        if (!ownerContext.heightModel.shrinkWrap) {
+            // If the grid is shrink wrapping, we can't be overflowing
+            overflowY = false;
+            if (!ownerCtContext.heightModel.shrinkWrap) {
+                // We are placed in a fit layout of the gridpanel (our ownerCt), so we need to
+                // consult its containerSize when we are not shrink-wrapping to see if our
+                // content will overflow vertically.
+                ctSize = ownerCtContext.target.layout.getContainerSize(ownerCtContext);
+                if (!ctSize.gotHeight) {
+                    me.done = false;
+                    return;
+                }
+
+                bodyHeight = bodyDom.offsetHeight;
+                overflowY = bodyHeight > ctSize.height;
+            }
+            ownerContext.setProp('viewOverflowY', overflowY);
         }
     },
 
-    measureContentHeight: function(ownerContext) {
-        var lockingPartner = ownerContext.lockingPartner;
+    measureContentHeight: function (ownerContext) {
+        var owner = this.owner,
+            bodyDom = owner.body.dom,
+            emptyEl = owner.emptyEl,
+            bodyHeight = 0;
 
-        // Only able to produce a valid contentHeight if there's no table
-        // ... or we have flushed all column widths to the table (or both tables if we are a pair)
-        if (!ownerContext.bodyContext || (ownerContext.state.columnWidthsSynced && (!lockingPartner || lockingPartner.state.columnWidthsSynced))) {
-            return this.callParent(arguments);
+        if (emptyEl) {
+            bodyHeight += emptyEl.offsetHeight;
         }
+
+        if (bodyDom){
+            bodyHeight += bodyDom.offsetHeight;
+        }
+
+        // This will have been figured out by now because the columnWidths have been
+        // published...
+        if (ownerContext.headerContext.state.boxPlan.tooNarrow) {
+            bodyHeight += Ext.getScrollbarSize().height;
+        }
+
+        return bodyHeight;
     },
 
-    setColumnWidths: function(ownerContext) {
-        var me = this,
-            owner = me.owner,
-            context = ownerContext.context,
-            columns = me.headerCt.getVisibleGridColumns(),
-            column,
-            i = 0, len = columns.length,
-            tableWidth = 0,
-            columnLineWidth = 0,
-            childContext,
-            colWidth,
-            isContentBox = !Ext.isBorderBox;
+    flushColumnWidths: function () {
+        // NOTE: The "this" pointer here is the flusher object that was queued.
+        var flusher = this,
+            me = flusher.layout,
+            ownerContext = flusher.ownerContext,
+            columnsChanged = flusher.columnsChanged,
+            owner = ownerContext.target,
+            len = columnsChanged.length,
+            column, i, colWidth, lastBox;
 
-        // So that the setProp can trigger this layout.
-        if (context) {
-            context.currentLayout = me;
+        if (ownerContext.state.columnFlusher !== flusher) {
+            return;
         }
 
         // Set column width corresponding to each header
         for (i = 0; i < len; i++) {
-            column = columns[i];
-            childContext = context.getCmp(column);
-            colWidth = childContext.props.width;
-            if (isNaN(colWidth)) {
-                // We don't have a width set, so we need to trigger when this child
-                // actually gets a width assigned so we can continue. Technically this
-                // shouldn't happen however we have a bug inside ColumnLayout where
-                // columnWidthsDone is set incorrectly. This is just a workaround.
-                childContext.getProp('width');
-                return false;
-            }
-            tableWidth += colWidth;
-            // https://sencha.jira.com/browse/EXTJSIV-9263 - Browsers which cannot be switched to border box when doctype present (IE6 & IE7) - must subtract borders width from width of cells.
-            if (isContentBox && owner.columnLines) {
-                // https://sencha.jira.com/browse/EXTJSIV-9744 - default border width to 1 because
-                // We are looking at the *header* border widths and Neptune, being a borderless theme
-                // omits the border from the last column *HEADER*. But we are interrogating that to
-                // know the width of border lines between cells which are not omitted.
-                if (!columnLineWidth) {
-                    columnLineWidth = context.getCmp(column).borderInfo.width || 1;
-                }
-                colWidth -= columnLineWidth;
+            if (!(column = columnsChanged[i])) {
+                continue;
             }
 
-            // Select column sizing <col> elements within every <table> within the grid.
-            // 90% of the time, there will be only one table.
-            // The RowWrap and Summary Features embed tables within colspanning cells, and these also
-            // get <colgroup><col></colgroup> sizers which need updating.
-            // On IE8, sizing <col> elements to control column width was about 2.25 times
-            // faster than selecting all the cells in the column to be resized.
-            // Column sizing using dynamic CSS rules is *extremely* expensive on IE.
-            owner.body.select(owner.getColumnSizerSelector(column)).setWidth(colWidth);
+            colWidth = column.props.width;
+            owner.body.select(owner.getColumnSizerSelector(column.target)).setWidth(colWidth);
 
+            // Enable the next go-round of headerCt's ColumnLayout change check to
+            // read true, flushed lastBox widths that are in the Table
+            lastBox = column.lastBox;
+            if (lastBox) {
+                lastBox.width = colWidth;
+            }
         }
-        // Set widths of all tables (includes tables embedded in RowWrap and Summary rows)
-        owner.el.select(owner.getBodySelector()).setWidth(tableWidth);
-        return true;
+
+        flusher.flushed = true;
+
+        if (!me.pending) {
+            ownerContext.context.queueLayout(me);
+        }
     },
 
-    finishedLayout: function() {
-        var me = this,
-            owner = me.owner;
+    flushRowHeights: function () {
+        // NOTE: The "this" pointer here is the flusher object that was queued.
+        var flusher = this,
+            me = flusher.layout,
+            ownerContext = flusher.ownerContext;
 
-        me.callParent(arguments);
-
-        if (Ext.isWebKit) {
-            owner.el.select(owner.getBodySelector()).setStyle('table-layout', '');
+        if (ownerContext.state.rowHeightFlusher !== flusher) {
+            return;
         }
-        // Make sure only one side gets to do the sync on completion - it's an expensive process.
-        // Only do it if the syncRowHeightConfig hasn't been set to false.
-        if (owner.refreshCounter && me.lockedGrid && me.lockedGrid.syncRowHeight && me.lockedGrid.needsRowHeightSync) {
-            me.lockedGrid.syncRowHeights();
-            me.lockedGrid.needsRowHeightSync = false;
+
+        ownerContext.target.syncRowHeightFinish(flusher.synchronizer,
+                                                flusher.otherSynchronizer);
+
+        flusher.flushed = true;
+
+        ownerContext.syncRowHeights = true;
+        if (!me.pending) {
+            ownerContext.context.queueLayout(me);
+        }
+    },
+
+    finishedLayout: function(ownerContext) {
+        var nodeContainer = Ext.fly(this.owner.getNodeContainer());
+
+        this.callParent([ ownerContext ]);
+
+        if (nodeContainer) {
+            nodeContainer.setWidth(ownerContext.headerContext.props.contentWidth);
         }
     }
 });

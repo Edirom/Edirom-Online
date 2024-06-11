@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A class which handles loading of data from a server into the Fields of an {@link Ext.form.Basic}.
  *
@@ -113,15 +93,24 @@ Ext.define('Ext.form.action.Load', {
      */
     onSuccess: function(response){
         var result = this.processResponse(response),
-            form = this.form;
+            form = this.form,
+            formActive = form && !form.destroying && !form.isDestroyed;
+        
         if (result === true || !result.success || !result.data) {
             this.failureType = Ext.form.action.Action.LOAD_FAILURE;
-            form.afterAction(this, false);
+            
+            if (formActive) {
+                form.afterAction(this, false);
+            }
+            
             return;
         }
-        form.clearInvalid();
-        form.setValues(result.data);
-        form.afterAction(this, true);
+        
+        if (formActive) {
+            form.clearInvalid();
+            form.setValues(result.data);
+            form.afterAction(this, true);
+        }
     },
 
     /**

@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Slider which supports vertical or horizontal orientation, keyboard adjustments, configurable snapping, axis clicking
  * and animation. Can be added as an item to any container.
@@ -37,7 +17,34 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
 Ext.define('Ext.slider.Single', {
     extend: 'Ext.slider.Multi',
     alias: ['widget.slider', 'widget.sliderfield'],
-    alternateClassName: ['Ext.Slider', 'Ext.form.SliderField', 'Ext.slider.SingleSlider', 'Ext.slider.Slider'],
+    alternateClassName: [
+        'Ext.Slider',
+        'Ext.form.SliderField',
+        'Ext.slider.SingleSlider',
+        'Ext.slider.Slider'
+    ],
+
+    /**
+     * @inheritdoc
+     */
+    defaultBindProperty: 'value',
+
+    initComponent: function() {
+        if (this.publishOnComplete) {
+            this.valuePublishEvent = 'changecomplete';
+        }
+        this.callParent();
+    },
+
+    /**
+     * @cfg {Boolean} [publishOnComplete=true]
+     * This controls when the value of the slider is published to the `ViewModel`. By
+     * default this is done only when the thumb is released (the change is complete). To
+     * cause this to happen on every change of the thumb position, specify `false`. This
+     * setting is `true` by default for improved performance on slower devices (such as
+     * older browsers or tablets).
+     */
+    publishOnComplete: true,
 
     /**
      * Returns the current value of the slider
@@ -52,19 +59,22 @@ Ext.define('Ext.slider.Single', {
      * Programmatically sets the value of the Slider. Ensures that the value is constrained within the minValue and
      * maxValue.
      * @param {Number} value The value to set the slider to. (This will be constrained within minValue and maxValue)
-     * @param {Boolean} [animate] Turn on or off animation
+     * @param {Object/Boolean} [animate] `false` to not animate. `true` to use the default animation. This may also be an
+     * animate configuration object, see {@link #cfg-animate}. If this configuration is omitted, the {@link #cfg-animate} configuration
+     * will be used.
      */
     setValue: function(value, animate) {
         var args = arguments,
             len  = args.length;
 
-        // this is to maintain backwards compatiblity for sliders with only one thunb. Usually you must pass the thumb
+        // this is to maintain backwards compatibility for sliders with only one thumb. Usually you must pass the thumb
         // index to setValue, but if we only have one thumb we inject the index here first if given the multi-slider
         // signature without the required index. The index will always be 0 for a single slider
-        if (len == 1 || (len <= 3 && typeof args[1] != 'number')) {
+        if (len === 1 || (len <= 3 && typeof args[1] !== 'number')) {
             args = Ext.toArray(args);
             args.unshift(0);
         }
+
         return this.callParent(args);
     },
 

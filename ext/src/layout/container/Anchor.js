@@ -1,29 +1,9 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * This is a layout that enables anchoring of contained elements relative to the container's dimensions.
  * If the container is resized, all anchored items are automatically rerendered according to their
  * `{@link #anchor}` rules.
  *
- * This class is intended to be extended or created via the {@link Ext.container.AbstractContainer#layout layout}: 'anchor' 
+ * This class is intended to be extended or created via the {@link Ext.container.Container#layout layout}: 'anchor'
  * config, and should generally not need to be created directly via the new keyword.
  * 
  * AnchorLayout does not have any direct config options (other than inherited ones). By default,
@@ -50,7 +30,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *             {
  *                 xtype: 'panel',
  *                 title: 'Offset -300 Width & -200 Height',
- *                 anchor: '-300 -200'		
+ *                 anchor: '-300 -200'   
  *             },
  *             {
  *                 xtype: 'panel',
@@ -75,8 +55,8 @@ Ext.define('Ext.layout.container.Anchor', {
     /**
      * @cfg {String} anchor
      *
-     * This configuation option is to be applied to **child `items`** of a container managed by
-     * this layout (ie. configured with `layout:'anchor'`).
+     * This configuration option is to be applied to **child `items`** of a container managed 
+     * by an {@link Ext.layout.container.Anchor Anchor Layout}.
      *
      * This value is what tells the layout how an item should be anchored to the container. `items`
      * added to an AnchorLayout accept an anchoring-specific config property of **anchor** which is a string
@@ -130,10 +110,16 @@ Ext.define('Ext.layout.container.Anchor', {
 
     manageOverflow: true,
 
+    // Anchor layout does not read the size of individual items in the shrink-wrapping
+    // dimension(s) because, as a subclass of autocontainer, it measures them as a whole
+    // using an outer element.  However, anchor layout may set the size of its items in
+    // non-shrink-wrapping dimension(s).
+    setsItemSize: true,
+
     beginLayoutCycle: function (ownerContext) {
         var me = this,
             dimensions = 0,
-            anchorSpec, childContext, childItems, i, length, target;
+            anchorSpec, childContext, childItems, i, length;
 
         me.callParent(arguments);
 
@@ -146,13 +132,13 @@ Ext.define('Ext.layout.container.Anchor', {
 
             if (anchorSpec) {
                 if (childContext.widthModel.calculated && anchorSpec.right) {
-                    dimensions |= 1;
+                    dimensions |= 1; // jshint ignore:line
                 }
                 if (childContext.heightModel.calculated && anchorSpec.bottom) {
-                    dimensions |= 2;
+                    dimensions |= 2; // jshint ignore:line
                 }
 
-                if (dimensions == 3) { // if (both dimensions in play)
+                if (dimensions === 3) { // if (both dimensions in play)
                     break;
                 }
             }
@@ -173,7 +159,7 @@ Ext.define('Ext.layout.container.Anchor', {
             gotWidth = containerSize.gotWidth,
             ownerHeight = containerSize.height,
             ownerWidth = containerSize.width,
-            knownDimensions = (gotWidth ? 1 : 0) | (gotHeight ? 2 : 0),
+            knownDimensions = (gotWidth ? 1 : 0) | (gotHeight ? 2 : 0), // jshint ignore:line
             anchorDimensions = ownerContext.anchorDimensions,
             anchorSpec, childContext, childMargins, height, i, width;
 
@@ -207,7 +193,7 @@ Ext.define('Ext.layout.container.Anchor', {
         }
 
         // If all required dimensions are known, we're done
-        return (knownDimensions & anchorDimensions) === anchorDimensions;
+        return (knownDimensions & anchorDimensions) === anchorDimensions; // jshint ignore:line
     },
 
     //<debug>
@@ -266,14 +252,14 @@ Ext.define('Ext.layout.container.Anchor', {
     },
 
     parseAnchor: function(a, start, cstart) {
-        if (a && a != 'none') {
+        if (a && a !== 'none') {
             var factory = this.anchorFactory,
                 delta;
 
             if (this.parseAnchorRE.test(a)) {
                 return factory.standard(cstart - start);
             }    
-            if (a.indexOf('%') != -1) {
+            if (a.indexOf('%') !== -1) {
                 return factory.ratio(parseFloat(a.replace('%', '')) * 0.01);
             }    
             delta = parseInt(a, 10);
@@ -304,7 +290,7 @@ Ext.define('Ext.layout.container.Anchor', {
 
         me.callParent(arguments);
 
-        if (!item.anchor && item.items && !Ext.isNumber(item.width) && !(Ext.isIE6 && Ext.isStrict)) {
+        if (!item.anchor && item.items && !Ext.isNumber(item.width)) {
             item.anchor = anchor = me.defaultAnchor;
         }
 
@@ -315,7 +301,7 @@ Ext.define('Ext.layout.container.Anchor', {
          * @member Ext.container.Container
          */ 
         if (owner.anchorSize) {
-            if (typeof owner.anchorSize == 'number') {
+            if (typeof owner.anchorSize === 'number') {
                 anchorWidth = owner.anchorSize;
             } else {
                 anchorWidth = owner.anchorSize.width;

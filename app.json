@@ -1,4 +1,8 @@
 {
+    /**
+     * The Sencha Framework for this application: "ext" or "touch".     */
+    "framework": "ext",
+
     "name": "EdiromOnline",
 
     "requires": [

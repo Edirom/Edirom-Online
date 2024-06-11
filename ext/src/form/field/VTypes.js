@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * @singleton
  * @alternateClassName Ext.form.VTypes
@@ -42,12 +22,15 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  * To create custom VTypes:
  *
  *     // custom Vtype for vtype:'time'
- *     var timeTest = /^([1-9]|1[0-9]):([0-5][0-9])(\s[a|p]m)$/i;
- *     Ext.apply(Ext.form.field.VTypes, {
- *         //  vtype validation function
- *         time: function(val, field) {
- *             return timeTest.test(val);
+ *     Ext.define('Override.form.field.VTypes', {
+ *         override: 'Ext.form.field.VTypes',
+ *
+ *         // vtype validation function
+ *         time: function(value) {
+ *             return this.timeRe.test(value);
  *         },
+ *         // RegExp for the value to be tested against within the validation function
+ *         timeRe: /^([1-9]|1[0-9]):([0-5][0-9])(\s[a|p]m)$/i,
  *         // vtype Text property: The error text to display when the validation function returns false
  *         timeText: 'Not a valid time.  Must be in the format "12:34 PM".',
  *         // vtype Mask property: The keystroke filter mask
@@ -70,16 +53,20 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  * Another example of a custom validator:
  *
  *     // custom Vtype for vtype:'IPAddress'
- *     Ext.apply(Ext.form.field.VTypes, {
- *         IPAddress:  function(v) {
- *             return /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/.test(v);
+ *     Ext.define('Override.form.field.VTypes', {
+ *         override: 'Ext.form.field.VTypes',
+ *
+ *         IPAddress:  function(value) {
+ *             return this.IPAddressRe.test(value);
  *         },
+ *         IPAddressRe: /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/,
  *         IPAddressText: 'Must be a numeric IP address',
  *         IPAddressMask: /[\d\.]/i
  *     });
  *
- * It's important to note that using {@link Ext#apply Ext.apply()} means that the custom validator function
- * as well as `Text` and `Mask` fields are added as properties of the `Ext.form.field.VTypes` singleton.
+ * It's important to note that using {@link Ext#define Ext.define()} with the {@link Ext.Class#override override} property
+ * means that the custom validator function as well as `Text` and `Mask` fields are added as properties
+ * of the `Ext.form.field.VTypes` singleton.
  */
 Ext.define('Ext.form.field.VTypes', (function(){
     // closure these in so they are only created once.
@@ -145,8 +132,8 @@ Ext.define('Ext.form.field.VTypes', (function(){
          * @param {String} value The email address
          * @return {Boolean} true if the RegExp test passed, and false if not.
          */
-        'email' : function(v){
-            return email.test(v);
+        'email' : function(value){
+            return email.test(value);
         },
         //<locale>
         /**
@@ -168,8 +155,8 @@ Ext.define('Ext.form.field.VTypes', (function(){
          * @param {String} value The URL
          * @return {Boolean} true if the RegExp test passed, and false if not.
          */
-        'url' : function(v){
-            return url.test(v);
+        'url' : function(value){
+            return url.test(value);
         },
         //<locale>
         /**
@@ -185,8 +172,8 @@ Ext.define('Ext.form.field.VTypes', (function(){
          * @param {String} value The value
          * @return {Boolean} true if the RegExp test passed, and false if not.
          */
-        'alpha' : function(v){
-            return alpha.test(v);
+        'alpha' : function(value){
+            return alpha.test(value);
         },
         //<locale>
         /**
@@ -207,8 +194,8 @@ Ext.define('Ext.form.field.VTypes', (function(){
          * @param {String} value The value
          * @return {Boolean} true if the RegExp test passed, and false if not.
          */
-        'alphanum' : function(v){
-            return alphanum.test(v);
+        'alphanum' : function(value){
+            return alphanum.test(value);
         },
         //<locale>
         /**

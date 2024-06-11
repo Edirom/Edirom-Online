@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Italian translation
  * 28 Maggio 2012   updated by Fabio De Paolis (many changes, update to 4.1.0)
@@ -146,11 +126,11 @@ Ext.define("Ext.locale.it.form.field.Text", {
 
 Ext.define("Ext.locale.it.form.field.Number", {
     override: "Ext.form.field.Number",
-    decimalSeparator: ",",
     decimalPrecision: 2,
     minText: "Il valore minimo \u00E8 {0}",
     maxText: "Il valore massimo \u00E8 {0}",
-    nanText: "{0} non \u00E8 un valore numerico valido"
+    nanText: "{0} non \u00E8 un valore numerico valido",
+    negativeText: "Il valore del campo non può essere negativo"
 });
 
 Ext.define("Ext.locale.it.form.field.Date", {
@@ -272,7 +252,7 @@ Ext.define("Ext.locale.it.grid.header.Container", {
 });
 
 Ext.define("Ext.locale.it.grid.GroupingFeature", {
-    override: "Ext.grid.GroupingFeature",
+    override: "Ext.grid.feature.Grouping",
     emptyGroupText: '(Nessun dato)',
     groupByText: 'Raggruppa per questo campo',
     showGroupsText: 'Mostra nei gruppi'
@@ -287,20 +267,20 @@ Ext.define("Ext.locale.it.grid.PropertyColumnModel", {
     falseText: "false"
 });
 
-Ext.define("Ext.locale.it.grid.BooleanColumn", {
-    override: "Ext.grid.BooleanColumn",
+Ext.define("Ext.locale.it.grid.column.Boolean", {
+    override: "Ext.grid.column.Boolean",
     trueText: "vero",
     falseText: "falso",
     undefinedText: '&#160;'
 });
 
-Ext.define("Ext.locale.it.grid.NumberColumn", {
-    override: "Ext.grid.NumberColumn",
-    format: '0.000,00'
+Ext.define("Ext.locale.it.grid.column.Number", {
+    override: "Ext.grid.column.Number",
+    format: '0,000.00'
 });
 
-Ext.define("Ext.locale.it.grid.DateColumn", {
-    override: "Ext.grid.DateColumn",
+Ext.define("Ext.locale.it.grid.column.Date", {
+    override: "Ext.grid.column.Date",
     format: 'd/m/Y'
 });
 

@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Simple helper class for easily creating image components. This renders an image tag to
  * the DOM with the configured src.
@@ -28,6 +8,8 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *
  *     var changingImage = Ext.create('Ext.Img', {
  *         src: 'http://www.sencha.com/img/20110215-feat-html5.png',
+ *         width: 184,
+ *         height: 90,
  *         renderTo: Ext.getBody()
  *     });
  *
@@ -35,7 +17,7 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *     changingImage.setSrc('http://www.sencha.com/img/20110215-feat-perf.png');
  *
  * By default, only an img element is rendered and that is this component's primary
- * {@link Ext.AbstractComponent#getEl element}. If the {@link Ext.AbstractComponent#autoEl} property
+ * {@link Ext.Component#getEl element}. If the {@link Ext.Component#autoEl} property
  * is other than 'img' (the default), the a child img element will be added to the primary
  * element. This can be used to create a wrapper element around the img.
  *
@@ -46,6 +28,12 @@ Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
  *         autoEl: 'div', // wrap in a div
  *         renderTo: Ext.getBody()
  *     });
+ *
+ * ## Image Dimensions
+ *
+ * You should include height and width dimensions for any image owned by a parent 
+ * container.  By omitting dimensions, an owning container will not know how to 
+ * size and position the image in the initial layout.
  */
 Ext.define('Ext.Img', {
     extend: 'Ext.Component',
@@ -89,6 +77,10 @@ Ext.define('Ext.Img', {
      * the `@` symbol. For example '65@My Font Family'.
      */
 
+    ariaRole: 'img',
+    
+    maskOnDisable: false,
+
     initComponent: function() {
         if (this.glyph) {
             this.autoEl = 'div';
@@ -98,6 +90,7 @@ Ext.define('Ext.Img', {
 
     getElConfig: function() {
         var me = this,
+            autoEl = me.autoEl,
             config = me.callParent(),
             glyphFontFamily = Ext._glyphFontFamily,
             glyph = me.glyph,
@@ -105,21 +98,23 @@ Ext.define('Ext.Img', {
 
         // It is sometimes helpful (like in a panel header icon) to have the img wrapped
         // by a div. If our autoEl is not 'img' then we just add an img child to the el.
-        if (me.autoEl == 'img') {
+        if (autoEl === 'img' || (Ext.isObject(autoEl) && autoEl.tag === 'img')) {
             img = config;
         } else if (me.glyph) {
             if (typeof glyph === 'string') {
                 glyphParts = glyph.split('@');
                 glyph = glyphParts[0];
-                glyphFontFamily = glyphParts[1];
+                glyphFontFamily = glyphParts[1] || glyphFontFamily;
             }
             config.html = '&#' + glyph + ';';
             if (glyphFontFamily) {
-                config.style = 'font-family:' + glyphFontFamily;
+                config.style = config.style || {};
+                config.style.fontFamily = glyphFontFamily;
             }
         } else {
             config.cn = [img = {
                 tag: 'img',
+                role: me.ariaRole,
                 id: me.id + '-img'
             }];
         }
@@ -144,16 +139,29 @@ Ext.define('Ext.Img', {
 
     onRender: function () {
         var me = this,
+            autoEl = me.autoEl,
             el;
 
         me.callParent(arguments);
 
         el = me.el;
-        me.imgEl = (me.autoEl == 'img') ? el : el.getById(me.id + '-img');
+        
+        if (autoEl === 'img' || (Ext.isObject(autoEl) && autoEl.tag === 'img')) {
+            me.imgEl = el;
+        } else {
+            me.imgEl = el.getById(me.id + '-img');
+        }
     },
 
     onDestroy: function () {
-        Ext.destroy(this.imgEl);
+        var me = this,
+            imgEl = me.imgEl;
+
+        // Only clean up when the img is a child, otherwise it will get handled
+        // by the element destruction in the parent
+        if (imgEl && me.el !== imgEl) {
+            imgEl.destroy();
+        }
         this.imgEl = null;
         this.callParent();
     },
@@ -173,23 +181,28 @@ Ext.define('Ext.Img', {
         }
     },
 
+    /**
+     * Updates the {@link #glyph} of the image.
+     * @param {Number/String} glyph
+     */
     setGlyph: function(glyph) {
         var me = this,
             glyphFontFamily = Ext._glyphFontFamily,
-            glyphParts, dom;
+            old = me.glyph,
+            el = me.el,
+            glyphParts;
 
-        if (glyph != me.glyph) {
+        me.glyph = glyph;
+        if (me.rendered && glyph !== old) {
             if (typeof glyph === 'string') {
                 glyphParts = glyph.split('@');
                 glyph = glyphParts[0];
-                glyphFontFamily = glyphParts[1];
+                glyphFontFamily = glyphParts[1] || glyphFontFamily;
             }
 
-            dom = me.el.dom;
-
-            dom.innerHTML = '&#' + glyph + ';';
+            el.dom.innerHTML = '&#' + glyph + ';';
             if (glyphFontFamily) {
-                dom.style = 'font-family:' + glyphFontFamily;
+                el.setStyle('font-family', glyphFontFamily);
             }
         }
     }

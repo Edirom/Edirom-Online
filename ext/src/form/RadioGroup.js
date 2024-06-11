@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A {@link Ext.form.FieldContainer field container} which has a specialized layout for arranging
  * {@link Ext.form.field.Radio} controls into columns, and provides convenience {@link Ext.form.field.Field}
@@ -74,6 +54,10 @@ Ext.define('Ext.form.RadioGroup', {
     requires: [
         'Ext.form.field.Radio'
     ],
+    
+    mixins: [
+        'Ext.util.FocusableContainer'
+    ],
 
     /**
      * @cfg {Ext.form.field.Radio[]/Object[]} items
@@ -99,9 +83,11 @@ Ext.define('Ext.form.RadioGroup', {
 
     // private
     groupCls : Ext.baseCSSPrefix + 'form-radio-group',
-
-    getBoxes: function(query) {
-        return this.query('[isRadio]' + (query||''));
+    
+    ariaRole: 'radiogroup',
+    
+    getBoxes: function(query, root) {
+        return (root || this).query('[isRadio]' + (query||''));
     },
     
     checkChange: function() {
@@ -119,30 +105,131 @@ Ext.define('Ext.form.RadioGroup', {
     /**
      * Sets the value of the radio group. The radio with corresponding name and value will be set.
      * This method is simpler than {@link Ext.form.CheckboxGroup#setValue} because only 1 value is allowed
-     * for each name.
-     * 
+     * for each name. You can use the setValue method as:
+     *
+     *     var form = Ext.create('Ext.form.Panel', {
+     *         title       : 'RadioGroup Example',
+     *         width       : 300,
+     *         bodyPadding : 10,
+     *         renderTo    : Ext.getBody(),
+     *         items       : [
+     *             {
+     *                 xtype      : 'radiogroup',
+     *                 fieldLabel : 'Group',
+     *                 items      : [
+     *                     { boxLabel : 'Item 1', name : 'rb', inputValue : 1 },
+     *                     { boxLabel : 'Item 2', name : 'rb', inputValue : 2 }
+     *                 ]
+     *             }
+     *         ],
+     *         tbar        : [
+     *             {
+     *                 text    : 'setValue on RadioGroup',
+     *                 handler : function () {
+     *                     form.child('radiogroup').setValue({
+     *                         rb : 2
+     *                     });
+     *                 }
+     *             }
+     *         ]
+     *     });
+     *
      * @param {Object} value The map from names to values to be set.
-     * @return {Ext.form.CheckboxGroup} this
+     * @return {Ext.form.RadioGroup} this
      */
     setValue: function(value) {
         var cbValue, first, formId, radios,
             i, len, name;
 
         if (Ext.isObject(value)) {
-            for (name in value) {
-                if (value.hasOwnProperty(name)) {
-                    cbValue = value[name];
-                    first = this.items.first();
-                    formId = first ? first.getFormId() : null;
-                    radios = Ext.form.RadioManager.getWithValue(name, cbValue, formId).items;
-                    len = radios.length;
+            Ext.suspendLayouts();
+            first = this.items.first();
+            formId = first ? first.getFormId() : null;
 
-                    for (i = 0; i < len; ++i) {
-                        radios[i].setValue(true);
-                    }
+            for (name in value) {
+                cbValue = value[name];
+                radios = Ext.form.RadioManager.getWithValue(name, cbValue, formId).items;
+                len = radios.length;
+
+                for (i = 0; i < len; ++i) {
+                    radios[i].setValue(true);
                 }
             }
+            Ext.resumeLayouts(true);
         }
         return this;
+    },
+    
+    privates: {
+        getFocusables: function() {
+            return this.getBoxes();
+        },
+        
+        initDefaultFocusable: function(beforeRender) {
+            var me = this,
+                checked, item;
+
+            checked = me.getChecked();
+        
+            // In a Radio group, only one button is supposed to be checked
+            //<debug>
+            if (checked.length > 1) {
+                Ext.log.error("RadioGroup " + me.id + " has more than one checked button");
+            }
+            //</debug>
+        
+            // If we have a checked button, it gets the initial childTabIndex,
+            // otherwise the first button gets it
+            if (checked.length) {
+                item = checked[0];
+            }
+            else {
+                item = me.findNextFocusableChild(null, true, null, beforeRender);
+            }
+            
+            if (item) {
+                me.activateFocusable(item);
+            }
+            
+            return item;
+        },
+        
+        onFocusableContainerFocusLeave: function() {
+            this.clearFocusables();
+            this.initDefaultFocusable();
+        },
+        
+        doFocusableChildAdd: function(child) {
+            var me = this,
+                mixin = me.mixins.focusablecontainer,
+                boxes, i, len;
+            
+            boxes = child.isContainer ? me.getBoxes('', child) : [child];
+            
+            for (i = 0, len = boxes.length; i < len; i++) {
+                mixin.doFocusableChildAdd.call(me, boxes[i]);
+            }
+        },
+        
+        doFocusableChildRemove: function(child) {
+            var me = this,
+                mixin = me.mixins.focusablecontainer,
+                boxes, i, len;
+            
+            boxes = child.isContainer ? me.getBoxes('', child) : [child];
+            
+            for (i = 0, len = boxes.length; i < len; i++) {
+                mixin.doFocusableChildRemove.call(me, boxes[i]);
+            }
+        },
+    
+        focusChild: function(radio, forward, e) {
+            var nextRadio = this.mixins.focusablecontainer.focusChild.apply(this, arguments);
+        
+            // Ctrl-arrow does not select the radio that is going to be focused
+            if (!e.ctrlKey) {
+                nextRadio.setValue(true);
+            }
+        }
     }
 });

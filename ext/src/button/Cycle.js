@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * A specialized SplitButton that contains a menu of {@link Ext.menu.CheckItem} elements. The button automatically
  * cycles through each menu item on click, raising the button's {@link #change} event (or calling the button's
@@ -75,11 +55,12 @@ Ext.define('Ext.button.Cycle', {
      * showText = true).
      */
     /**
-     * @cfg {Function} changeHandler
+     * @cfg {Function/String} [changeHandler=undefined]
      * A callback function that will be invoked each time the active menu item in the button's menu has changed. If this
      * callback is not supplied, the SplitButton will instead fire the {@link #change} event on active item change. The
      * changeHandler function will be called with the following argument list: (SplitButton this, Ext.menu.CheckItem
      * item)
+     * @declarativeHandler
      */
     /**
      * @cfg {String} forceIcon
@@ -101,6 +82,15 @@ Ext.define('Ext.button.Cycle', {
      * available choices.
      */
 
+    /**
+     * @event change
+     * Fires after the button's active menu item has changed. Note that if a {@link #changeHandler} function is
+     * set on this CycleButton, it will be called instead on active item change and this change event will not
+     * be fired.
+     * @param {Ext.button.Cycle} this
+     * @param {Ext.menu.CheckItem} item The menu item that was selected
+     */
+
     // @private
     getButtonText: function(item) {
         var me = this,
@@ -119,38 +109,35 @@ Ext.define('Ext.button.Cycle', {
     /**
      * Sets the button's active menu item.
      * @param {Ext.menu.CheckItem} item The item to activate
-     * @param {Boolean} [suppressEvent=false] True to prevent the button's change event from firing.
+     * @param {Boolean} [suppressEvent=false] True to prevent the {@link #change} event and {@link #changeHandler} from firing.
      */
     setActiveItem: function(item, suppressEvent) {
-        var me = this;
+        var me = this,
+            changeHandler = me.changeHandler,
+            forceIcon = me.forceIcon,
+            forceGlyph = me.forceGlyph;
 
+        me.settingActive = true;
         if (!Ext.isObject(item)) {
             item = me.menu.getComponent(item);
         }
         if (item) {
-            if (!me.rendered) {
-                me.text = me.getButtonText(item);
-                me.iconCls = item.iconCls;
-                me.glyph = item.glyph;
-            } else {
-                me.setText(me.getButtonText(item));
-                me.setIconCls(item.iconCls);
-                me.setGlyph(item.glyph);
-            }
+            me.setText(me.getButtonText(item));
+            me.setIconCls(forceIcon ? forceIcon : item.iconCls);
+            me.setGlyph(forceGlyph ? forceGlyph : item.glyph);
+
             me.activeItem = item;
             if (!item.checked) {
                 item.setChecked(true, false);
             }
-            if (me.forceIcon) {
-                me.setIconCls(me.forceIcon);
-            }
-            if (me.forceGlyph) {
-                me.setGlyph(me.forceGlyph);
-            }
             if (!suppressEvent) {
+                if (changeHandler) {
+                    Ext.callback(changeHandler, me.scope, [me, item], 0, me);
+                }
                 me.fireEvent('change', me, item);
             }
         }
+        me.settingActive = false;
     },
 
     /**
@@ -167,23 +154,6 @@ Ext.define('Ext.button.Cycle', {
             checked = 0,
             items,
             i, iLen, item;
-
-        me.addEvents(
-            /**
-             * @event change
-             * Fires after the button's active menu item has changed. Note that if a {@link #changeHandler} function is
-             * set on this CycleButton, it will be called instead on active item change and this change event will not
-             * be fired.
-             * @param {Ext.button.Cycle} this
-             * @param {Ext.menu.CheckItem} item The menu item that was selected
-             */
-            "change"
-        );
-
-        if (me.changeHandler) {
-            me.on('change', me.changeHandler, me.scope || me);
-            delete me.changeHandler;
-        }
 
         // Allow them to specify a menu config which is a standard Button config.
         // Remove direct use of "items" in 5.0.
@@ -217,17 +187,12 @@ Ext.define('Ext.button.Cycle', {
         me.itemCount = me.menu.items.length;
         me.callParent(arguments);
         me.on('click', me.toggleSelected, me);
-        me.setActiveItem(checked, me);
-
-        // If configured with a fixed width, the cycling will center a different child item's text each click. Prevent this.
-        if (me.width && me.showText) {
-            me.addCls(Ext.baseCSSPrefix + 'cycle-fixed-width');
-        }
+        me.setActiveItem(checked, true);
     },
 
     // @private
     checkHandler: function(item, pressed) {
-        if (pressed) {
+        if (pressed && !this.settingActive) {
             this.setActiveItem(item);
         }
     },

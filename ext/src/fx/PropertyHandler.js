@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * @private
  */
@@ -25,7 +5,7 @@ Ext.define('Ext.fx.PropertyHandler', {
 
     /* Begin Definitions */
 
-    requires: ['Ext.draw.Draw'],
+    requires: ['Ext.fx.DrawPath'],
 
     statics: {
         defaultHandler: {
@@ -117,24 +97,29 @@ Ext.define('Ext.fx.PropertyHandler', {
             get: function(from, end, damper, initialFrom, attr) {
                 var ln = from.length,
                     out = [],
-                    i, initial, res, j, len;
+                    i, initial;
+
                 for (i = 0; i < ln; i++) {
                     out.push([from[i][0], this.computeDelta(from[i][1], end, damper, initial, attr)]);
                 }
+
                 return out;
             },
 
             set: function(values, easing) {
                 var ln = values.length,
                     out = [],
-                    i, val, res, len, j;
+                    i, val;
+
                 for (i = 0; i < ln; i++) {
                     val  = values[i][1];
                     out.push([values[i][0], val.delta]);
                 }
+
                 return out;
             }
         },
+
         color: {
             rgbRE: /^rgb\(([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\)$/i,
             hexRE: /^#?([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})$/i,
@@ -173,14 +158,17 @@ Ext.define('Ext.fx.PropertyHandler', {
             computeDelta: function(from, end, damper, initial) {
                 from = this.parseColor(from);
                 end = this.parseColor(end, damper);
+
                 var start = initial ? initial : from,
                     tfrom = typeof start,
                     tend = typeof end;
+
                 //Extra check for when the color string is not recognized.
-                if (tfrom == 'string' ||  tfrom == 'undefined'
-                  || tend == 'string' || tend == 'undefined') {
+                if (tfrom === 'string' || tfrom === 'undefined' ||
+                    tend === 'string' || tend === 'undefined') {
                     return end || start;
                 }
+
                 return {
                     from:  from,
                     delta: {
@@ -214,13 +202,13 @@ Ext.define('Ext.fx.PropertyHandler', {
                         from = val.from;
                         delta = val.delta;
                         //multiple checks to reformat the color if it can't recognized by computeDelta.
-                        val = (typeof val == 'object' && 'red' in val)? 
+                        val = (typeof val === 'object' && 'red' in val) ?
                                 'rgb(' + val.red + ', ' + val.green + ', ' + val.blue + ')' : val;
-                        val = (typeof val == 'object' && val.length)? val[0] : val;
-                        if (typeof val == 'undefined') {
+                        val = (typeof val === 'object' && val.length)? val[0] : val;
+                        if (typeof val === 'undefined') {
                             return [];
                         }
-                        parsedString = typeof val == 'string'? val :
+                        parsedString = typeof val === 'string'? val :
                             'rgb(' + [
                                   (from.red + Math.round(delta.red * easing)) % 256,
                                   (from.green + Math.round(delta.green * easing)) % 256,
@@ -237,7 +225,7 @@ Ext.define('Ext.fx.PropertyHandler', {
         },
         object: {
             interpolate: function(prop, damper) {
-                damper = (typeof damper == 'number') ? damper : 1;
+                damper = (typeof damper === 'number') ? damper : 1;
                 var out = {},
                     p;
                 for(p in prop) {
@@ -298,7 +286,7 @@ Ext.define('Ext.fx.PropertyHandler', {
 
         path: {
             computeDelta: function(from, end, damper, initial) {
-                damper = (typeof damper == 'number') ? damper : 1;
+                damper = (typeof damper === 'number') ? damper : 1;
                 var start;
                 from = +from || 0;
                 end = +end || 0;
@@ -311,7 +299,7 @@ Ext.define('Ext.fx.PropertyHandler', {
 
             forcePath: function(path) {
                 if (!Ext.isArray(path) && !Ext.isArray(path[0])) {
-                    path = Ext.draw.Draw.parsePathString(path);
+                    path = Ext.fx.DrawPath.parsePathString(path);
                 }
                 return path;
             },
@@ -324,7 +312,7 @@ Ext.define('Ext.fx.PropertyHandler', {
                 for (i = 0; i < startLn; i++) {
                     startPath = this.forcePath(start[i][1]);
 
-                    deltaPath = Ext.draw.Draw.interpolatePaths(startPath, endPath);
+                    deltaPath = Ext.fx.DrawPath.interpolatePaths(startPath, endPath);
                     startPath = deltaPath[0];
                     endPath = deltaPath[1];
 

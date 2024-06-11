@@ -1,23 +1,3 @@
-/*
-This file is part of Ext JS 4.2
-
-Copyright (c) 2011-2013 Sencha Inc
-
-Contact:  http://www.sencha.com/contact
-
-GNU General Public License Usage
-This file may be used under the terms of the GNU General Public License version 3.0 as
-published by the Free Software Foundation and appearing in the file LICENSE included in the
-packaging of this file.
-
-Please review the following information to ensure the GNU General Public License version 3.0
-requirements will be met: http://www.gnu.org/copyleft/gpl.html.
-
-If you are unsure which license is appropriate for your use, please contact the sales department
-at http://www.sencha.com/contact.
-
-Build date: 2013-05-16 14:36:50 (f9be68accb407158ba2b1be2c226a6ce1f649314)
-*/
 /**
  * Japanese translation
  * By tyama
@@ -88,6 +68,11 @@ Ext.onReady(function() {
     }
 });
 
+Ext.define("Ext.locale.ja.LoadMask", {
+    override: "Ext.LoadMask",
+    msg: "読み込み中..."
+});
+
 Ext.define("Ext.locale.ja.view.View", {
     override: "Ext.view.View",
     emptyText: ""
@@ -156,13 +141,18 @@ Ext.define("Ext.locale.ja.form.field.Text", {
     emptyText: null
 });
 
+Ext.define("Ext.locale.ja.form.field.File", {
+    override: "Ext.form.field.File",
+    buttonText: "参照..."
+});
+
 Ext.define("Ext.locale.ja.form.field.Number", {
     override: "Ext.form.field.Number",
-    decimalSeparator: ".",
     decimalPrecision: 2,
     minText: "このフィールドの最小値は {0} です。",
     maxText: "このフィールドの最大値は {0} です。",
-    nanText: "{0} は数値ではありません。"
+    nanText: "{0} は数値ではありません。",
+    negativeText: "負の値は無効です。"
 });
 
 Ext.define("Ext.locale.ja.form.field.Date", {
@@ -280,8 +270,13 @@ Ext.define("Ext.locale.ja.grid.header.Container", {
     columnsText: "カラム"
 });
 
+Ext.define("Ext.locale.ja.grid.column.Date", {
+    override: "Ext.grid.column.Date",
+    format: "Y/m/d"
+});
+
 Ext.define("Ext.locale.ja.grid.GroupingFeature", {
-    override: "Ext.grid.GroupingFeature",
+    override: "Ext.grid.feature.Grouping",
     emptyGroupText: '(なし)',
     groupByText: 'このカラムでグルーピング',
     showGroupsText: 'グルーピング'
