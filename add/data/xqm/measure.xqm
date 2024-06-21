@@ -146,6 +146,8 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
                 for $label in $measuresZoneRef
                 return
                     measure:makeMeasureLabelCritical($label, $label/string(@label))
+            ) else if ($measure//mei:multiRest) then (
+                <span>{$measureLabel || '–' || (number($measureLabel) + number($measure//mei:multiRest/@num) - 1)}</span>
             ) else (
                 measure:makeMeasureLabelCritical($measure, $measureLabel)
             )
