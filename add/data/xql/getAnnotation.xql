@@ -202,11 +202,11 @@ declare function local:getItemLabel($elem as element()) {
 
     let $name := local-name($elem)
     return (
-        if ($name = 'measure') then (
+        if($name = 'measure') then (
             if ($lang = 'de') then
-                (concat('Takt ', $elem/@n))
+                (concat('Takt ', if ($elem/@label) then ($elem/@label) else ($elem/@n)))
             else
-                (concat('Bar ', $elem/@n))
+                (concat('Bar ',if ($elem/@label) then ($elem/@label) else ($elem/@n)))
         ) else
             (),
 
