@@ -41,16 +41,14 @@ Ext.define('EdiromOnline.controller.window.iFrameView', {
 
         var uri = view.uri;
         
-        Ext.Ajax.request({
-            url: 'data/xql/getiFrameURL.xql',
-            method: 'GET',
-            params: {
+        window.doAJAXRequest('data/xql/getiFrameURL.xql',
+            'GET', 
+            {
                 uri: uri
             },
-            success: function(response){
+            Ext.bind(function(response){
                 view.setContent(response.responseText);
-            },
-            scope: this
-        });
+            }, this)
+        );
     }
 });

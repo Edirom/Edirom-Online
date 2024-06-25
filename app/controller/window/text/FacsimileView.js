@@ -16,77 +16,85 @@
  *  You should have received a copy of the GNU General Public License
  *  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
  */
-Ext.define('EdiromOnline.controller.window.text.FacsimileView', {
+Ext.define("EdiromOnline.controller.window.text.FacsimileView", {
+    extend: "Ext.app.Controller",
 
-    extend: 'Ext.app.Controller',
+    views: ["window.text.FacsimileView"],
 
-    views: [
-        'window.text.FacsimileView'
-    ],
-
-    init: function() {
+    init: function () {
         this.control({
-            'facsimileView': {
-               afterlayout : this.onAfterLayout,
-               single: true
-            }
+            facsimileView: {
+                afterlayout: this.onAfterLayout,
+                single: true,
+            },
         });
     },
-    
-    onAfterLayout: function(view) {
 
+    onAfterLayout: function (view) {
         var me = this;
 
-        if(view.initialized) return;
+        if (view.initialized) return;
         view.initialized = true;
 
-        view.on('gotoChapter', me.onGotoChapter, me);
+        view.on("gotoChapter", me.onGotoChapter, me);
 
         var uri = view.uri;
 
-        Ext.Ajax.request({
-            url: 'data/xql/getPages.xql',
-            method: 'GET',
-            params: {
-                uri: uri
+        window.doAJAXRequest(
+            "data/xql/getPages.xql",
+            "GET",
+            {
+                uri: uri,
             },
-            success: function(response){
+            Ext.bind(function (response) {
                 var data = response.responseText;
 
-                var pages = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'path', 'width', 'height', 'measures', 'annotations'],
-                    data: Ext.JSON.decode(data)
+                var pages = Ext.create("Ext.data.Store", {
+                    fields: [
+                        "id",
+                        "name",
+                        "path",
+                        "width",
+                        "height",
+                        "measures",
+                        "annotations",
+                    ],
+                    data: Ext.JSON.decode(data),
                 });
 
-                view.setImageSet(pages);
-            }
-        });
-        
-        Ext.Ajax.request({
-            url: 'data/xql/getChapters.xql',
-            method: 'GET',
-            params: {
+                me.pagesLoaded(pages, view);
+            }, this),
+        );
+
+        window.doAJAXRequest(
+            "data/xql/getChapters.xql",
+            "GET",
+            {
                 uri: view.uri,
-                mode: 'pageMode'
+                mode: "pageMode",
             },
-            success: function(response){
+            Ext.bind(function (response) {
                 var data = response.responseText;
 
-                var chapters = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name', 'pageId'],
-                    data: Ext.JSON.decode(data)
+                var chapters = Ext.create("Ext.data.Store", {
+                    fields: ["id", "name", "pageId"],
+                    data: Ext.JSON.decode(data),
                 });
 
                 me.chaptersLoaded(chapters, view);
-            }
-        });
+            }, this),
+        );
     },
-    
-    chaptersLoaded: function(chapters, view) {
+
+    pagesLoaded: function (pages, view) {
+        view.setImageSet(pages);
+    },
+
+    chaptersLoaded: function (chapters, view) {
         view.setChapters(chapters);
     },
-    
-    onGotoChapter: function(view, pageId) {
+
+    onGotoChapter: function (view, pageId) {
         view.gotoPage(pageId);
-    }
+    },
 });
