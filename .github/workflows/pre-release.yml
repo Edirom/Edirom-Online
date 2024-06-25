@@ -1,4 +1,4 @@
-name: Build
+name: pre-release
 
 on:
   push:
@@ -18,6 +18,8 @@ jobs:
   build:
     name: Build Edirom Online
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
     - name: Chekout repository
@@ -42,3 +44,23 @@ jobs:
         path: ${{ github.workspace }}/build-xar/Edirom-Online-*.xar
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
         #optional retention-days: 1 to 90
+
+    - name: Delete dev-release
+      if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
+      uses: dev-drprasad/delete-tag-and-release@v1.0.1
+      with:
+        delete_release: true
+        tag_name: dev
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create dev-release
+      if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
+      uses: ncipollo/release-action@v1.14.0
+      with:
+        allowUpdates: true
+        artifacts: dist/bazga-webapp-${{ github.sha }}.xar
+        commit: ${{ github.sha }}
+        name: "Development Build"
+        prerelease: true
+        replacesArtifacts: true
+        tag: dev
