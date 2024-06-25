@@ -1,31 +1,26 @@
-xquery version "1.0";
+xquery version "3.1";
 (:
-  Edirom Online
-  Copyright (C) 2011 The Edirom Project
-  http://www.edirom.de
+ : For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
-  Edirom Online is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+(: IMPORTS ================================================================= :)
 
-  Edirom Online is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
-  You should have received a copy of the GNU General Public License
-  along with Edirom Online.  If not, see <http://www.gnu.org/licenses/>.
+(: NAMESPACE DECLARATIONS ================================================== :)
 
-  ID: $Id: getXml.xql 1219 2012-01-20 08:33:28Z daniel $
-:)
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+(: OPTION DECLARATIONS ===================================================== :)
 
-declare namespace request="http://exist-db.org/xquery/request";
-declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare option output:method "xml";
+declare option output:media-type "text/xml";
+declare option output:omit-xml-declaration "no";
+declare option output:indent "yes";
 
-declare option exist:serialize "method=xml media-type=text/xml omit-xml-declaration=no indent=yes";
+(: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
 let $internalId := request:get-parameter('internalId', '')
@@ -33,6 +28,7 @@ let $doc := eutil:getDoc($uri)/root()
 let $internal := $doc/id($internalId)
 
 return
-    if(exists($internal))
-    then($internal)
-    else($doc)
+    if (exists($internal)) then
+        ($internal)
+    else
+        ($doc)

@@ -1,7 +1,7 @@
 xquery version "3.1";
 (:
-For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
-:)
+ : For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
+ :)
 
 (:~
     Returns the HTML for a specific annotation for an AnnotationView.
@@ -10,49 +10,64 @@ For LICENSE-Details please refer to the LICENSE file in the root directory of th
     @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
 :)
 
-
-declare namespace mei = "http://www.music-encoding.org/ns/mei";
-declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+(: IMPORTS ================================================================= :)
 
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
+(: NAMESPACE DECLARATIONS ================================================== :)
+
+declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+
+(: OPTION DECLARATIONS ===================================================== :)
+
 declare option output:method "json";
 declare option output:media-type "application/json";
+
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $lang := request:get-parameter('lang', '');
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $uri := request:get-parameter('uri', '');
-declare variable $imageBasePath := if ($imageserver = 'leaflet')
-then
+declare variable $imageBasePath := if ($imageserver = 'leaflet') then
     (eutil:getPreference('leaflet_prefix', $edition))
 else
     (eutil:getPreference('image_prefix', $edition));
 
+(: FUNCTION DECLARATIONS =================================================== :)
+
+(:~
+ : Tokenizes the value of an annotation and gets attributes of each participant
+ :
+ : @param $annot an mei:annot element
+ :
+ : @return a map{} with the attributes of all participants
+ :)
 declare function local:getParticipants($annot as element()) as map(*)* {
 
     let $participants := tokenize($annot/string(@plist), ' ')
-    let $docs := distinct-values(for $p in $participants
-    return
-        substring-before($p, '#'))
+
+    (: get distinct document uris referenced in @plist :)
+    let $docs :=
+        distinct-values(
+            for $p in $participants
+            return substring-before($p, '#')
+        )
+
     return
         for $doc in $docs
-            order by $doc
+        order by $doc
         return
-            if (source:isSource($doc))
-            then
+            if (source:isSource($doc)) then
+                (: filter participants starting with matching doc uri and call getSourceParticipants :)
                 (local:getSourceParticipants($participants[starts-with(., $doc)], $doc))
-
-            else
-                if (teitext:isText($doc))
-                then
-                    (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
-
-                else
-                    ()
+            else if (teitext:isText($doc)) then
+                (local:getTextParticipants($participants[starts-with(., $doc)], $doc))
+            else ()
 };
 
 declare function local:getTextParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
@@ -98,9 +113,15 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
         else
             (local:getTextNotePrecedingContent($preceding))
 };
-
+(:~
+ : This function returns a map with details of annotation participants from a specific music source
+ :
+ : @param $participants a prefiltered sequence of annotation URIs pointing to $doc
+ : @param $doc a URI pointing to the MEI document
+ :)
 declare function local:getSourceParticipants($participants as xs:string*, $doc as xs:string) as map(*)* {
 
+    (: group participants :)
     let $combs := local:groupParticipants($participants, $doc)
 
     return
@@ -109,36 +130,41 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         let $partIndices := tokenize($comb, '-')
 
         let $elems :=
-        for $p in distinct-values($partIndices)
-        let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
-        let $element.id := substring-after($relevant.participant, '#')
-        let $elem := local:getElement($relevant.participant)
-        (:return if(exists($elem)) then(local-name($elem)) else($relevant.participant):)
+            for $p in distinct-values($partIndices)
+            let $relevant.participant := $participants[starts-with(., $doc)][number($p)]
+            let $element.id := substring-after($relevant.participant, '#')
+            let $elem := local:getElement($relevant.participant)
+            (:return if(exists($elem)) then(local-name($elem)) else($relevant.participant):)
             where exists($elem)
             order by count($elem/preceding::*)
-        return
-            $elem
+            return
+                $elem
 
-            where count($elems) gt 0
-
-        let $zones := for $elem in $elems
-        return
-            local:getZone($elem)
+        let $zones :=
+            for $elem in $elems
+            return
+                local:getZone($elem)
 
         let $type := local:getType($zones)
         let $label := local:getItemLabel($elems)
 
         let $mdiv := '' (: TODO if($elem/ancestor-or-self::mei:mdiv) then($elem/ancestor-or-self::mei:mdiv/@label) else(''):)
-        let $page := if ($zones[1]/parent::mei:surface/@label != '') then
-            ($zones[1]/parent::mei:surface/string(@label))
-        else
-            ($zones[1]/parent::mei:surface/string(@n))
+        let $page :=
+            if ($zones[1]/parent::mei:surface/@label != '') then
+                ($zones[1]/parent::mei:surface/string(@label))
+            else
+                ($zones[1]/parent::mei:surface/string(@n))
+
         let $sourceLabel := source:getLabel($doc, $edition)
         let $siglum := ($elems[1]/root()//mei:*[@type eq 'siglum'])[1]/text()
 
-        let $part := string-join(distinct-values(for $e in $elems
-        return
-            $e/ancestor::mei:part/string(@label)), '-')
+        let $part :=
+            string-join(
+                distinct-values(
+                    for $e in $elems
+                    return
+                        $e/ancestor::mei:part/string(@label)),
+            '-')
 
         let $graphic := $zones[1]/../mei:graphic[@type = 'facsimile']
         let $imgWidth := number($graphic/@width)
@@ -159,6 +185,8 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
         }
 
         let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
+
+        where count($elems) gt 0
 
         return
             map {
@@ -199,35 +227,33 @@ declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*)
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
 
-    let $elems := for $p in $participants
-    let $id := substring-after($p, '#')
-    return
-        doc($doc)/id($id)
+    let $elems :=
+        for $p in $participants
+        let $id := substring-after($p, '#')
+        return doc($doc)/id($id)
 
-    let $zones := for $elem in $elems
-    return
-        local:getZone($elem)
+    let $zones :=
+        for $elem in $elems
+        return local:getZone($elem)
 
-    let $combs := for $p at $i in $participants
-    return
-        local:getCombinations($elems, $zones, $i, count($zones))
+    let $combs :=
+        for $p at $i in $participants
+        return local:getCombinations($elems, $zones, $i, count($zones))
 
     return
         reverse(
-        for $comb at $i in reverse($combs)
-        let $contained := for $n in (1 to count($combs) - $i)
-        return
-            if (contains($combs[$n], $comb))
-            then
-                (1)
-            else
-                (0)
-        return
-            if (exists(index-of($contained, 1)))
-            then
-                ()
-            else
-                ($comb)
+            for $comb at $i in reverse($combs)
+            let $contained := for $n in (1 to count($combs) - $i)
+                return
+                    if (contains($combs[$n], $comb)) then
+                        (1)
+                    else
+                        (0)
+            return
+                if (exists(index-of($contained, 1))) then
+                    ()
+                else
+                    ($comb)
         )
 };
 
@@ -235,31 +261,33 @@ declare function local:getCombinations($elems as element()*, $zones as element()
 
     let $currentZone := $zones[$i]
     let $currentElem := $elems[$i]
+
     return
-        if (local-name($currentElem) eq 'measure' or local-name($currentElem) eq 'staff')
-        then
-            (
+        if (local-name($currentElem) eq 'measure' or local-name($currentElem) eq 'staff') then (
             string-join((
-            string($i),
-            for $n in ($i + 1 to $total)
-            return
-                if ((local-name($elems[$n]) eq 'measure' or local-name($elems[$n]) eq 'staff') and local:compareZones($currentZone, $zones[$n]))
-                then
-                    (local:getCombinations($elems, $zones, $n, $total))
-                else
-                    ()
-            ), '-')
-            )
-        else
-            (
+                string($i),
+                for $n in ($i + 1 to $total)
+                return
+                    if ((local-name($elems[$n]) eq 'measure' or local-name($elems[$n]) eq 'staff') and local:compareZones($currentZone, $zones[$n])) then
+                        (local:getCombinations($elems, $zones, $n, $total))
+                    else
+                        ()
+                ), '-')
+        ) else (
             string($i)
-            )
+        )
 };
 
 declare function local:compareZones($zone1 as element(), $zone2 as element()) as xs:boolean {
 
     let $samePage := deep-equal($zone1/.., $zone2/..)
-    let $overlapping := not(number($zone1/@ulx) gt number($zone2/@lrx) or number($zone1/@lrx) lt number($zone2/@ulx) or number($zone1/@uly) gt number($zone2/@lry) or number($zone1/@lry) lt number($zone2/@uly))
+    let $overlapping := not(
+        number($zone1/@ulx) gt number($zone2/@lrx) or
+        number($zone1/@lrx) lt number($zone2/@ulx) or
+        number($zone1/@uly) gt number($zone2/@lry) or
+        number($zone1/@lry) lt number($zone2/@uly)
+    )
+
     return
         $samePage and $overlapping
 };
@@ -281,17 +309,13 @@ declare function local:getElement($uri as xs:string) as element()? {
     @return The zone element
 :)
 declare function local:getZone($elem as element()) as element()? {
-    if ($elem/@facs)
-    then
-        (
+    if ($elem/@facs) then (
         let $zoneId := replace($elem/@facs, '^#', '')
         return
             $elem/root()/id($zoneId)
-        )
+    )
     else
-        (
         $elem
-        )
 };
 
 (:~
@@ -320,25 +344,23 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgHeight := number($graphic/@height)
     let $isAbsolute := starts-with($imagePath, 'http')
 
-    let $fields := if ($imageserver = 'leaflet') then
-        (substring-before($imagePath, '.'))
-    else
-        ()
+    let $fields :=
+        if ($imageserver = 'leaflet') then
+            (substring-before($imagePath, '.'))
+        else
+            ()
 
     return
-        if ($isAbsolute)
-        then
+        if ($isAbsolute) then
             $imagePath
         else
             switch ($imageserver)
                 case 'leaflet'
-                    return
-                        concat($basePath, $fields)
+                    return concat($basePath, $fields)
                 case 'openseadragon'
-                    return
-                        concat($basePath, translate($imagePath, '/', '!'))
-                default return
-                    concat($basePath, $imagePath, '?')
+                    return concat($basePath, translate($imagePath, '/', '!'))
+                default
+                    return concat($basePath, $imagePath, '?')
 
 };
 
@@ -372,76 +394,65 @@ declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:i
 
 declare function local:getItemLabel($elems as element()*) as xs:string {
     let $language := eutil:getLanguage($edition)
+
     return
-        string-join(
-        for $type in distinct-values(for $elem in $elems
-        return
-            local-name($elem))
-        let $items := for $elem in $elems
-        return
-            if (local-name($elem) eq $type) then
-                ($elem)
-            else
-                ()
-        let $itemLabelMultiRestSensitive := if ($items[1]//mei:multiRest)
-        then
-            ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
-        else
-            ($items[1]/@n)
-        return
-            if (local-name($items[1]) eq 'measure')
-            then
-                (
-                if (count($items) gt 1)
-                then
-                    (eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
-                else
-                    (eutil:getLanguageString('Bar_n', $itemLabelMultiRestSensitive, $language))
-                )
-            else
-                if (local-name($items[1]) eq 'staff')
-                (: TODO: $itemLabelMultiRestSensitive also for staffs? :)
-                then
-                    (
-                    if (count($items) gt 1)
-                    then
-                        (
+        string-join((
+            for $type in distinct-values(
+                for $elem in $elems
+                return local-name($elem))
 
-                        let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
-
-                        let $label := if ($lang = 'de')
-                        then
-                            (if (count($measureNs) gt 1) then
-                                (concat('Takte ', $measureNs[1], '-', $measureNs[last()]))
-                            else
-                                (concat('Takt ', $measureNs[1])))
-                        else
-                            (if (count($measureNs) gt 1) then
-                                (concat('Bars ', $measureNs[1], '-', $measureNs[last()]))
-                            else
-                                (concat('Bar ', $measureNs[1])))
-
-                        return
-
-                            concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
-
-                        )
-                    else
-                        (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
-                    )
-                else
-                    if (local-name($items[1]) eq 'zone')
-                    then
-                        (
-                        if (count($items) gt 1)
-                        then
-                            ((:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:) )
-                        else
-                            (concat('Ausschnitt (S. ', $items[1]/parent::mei:surface/@n, ')'))
-                        )
+            let $items :=
+                for $elem in $elems
+                return
+                    if (local-name($elem) eq $type) then
+                        $elem
                     else
                         ()
-        , ' ')
+
+            let $itemLabelMultiRestSensitive :=
+                if ($items[1]//mei:multiRest) then
+                    ($items[1]/@n || '–' || number($items[1]/@n) + number($items[1]//mei:multiRest/@num) - 1)
+                else
+                    $items[1]/@n
+
+            return
+                if (local-name($items[1]) eq 'measure') then (
+                    if (count($items) gt 1) then
+                        (eutil:getLanguageString('Bars_from_to', ($items[1]/@n, $items[last()]/@n), $language))
+                    else
+                        (eutil:getLanguageString('Bar_n', $itemLabelMultiRestSensitive, $language))
+                ) else if (local-name($items[1]) eq 'staff') then (: TODO: $itemLabelMultiRestSensitive also for staffs? :) (
+                    if (count($items) gt 1) then (
+                        let $measureNs := distinct-values($items/ancestor::mei:measure/@n)
+
+                        let $label :=
+                            if ($lang = 'de') then(
+                                if (count($measureNs) gt 1) then
+                                    (concat('Takte ', $measureNs[1], '-', $measureNs[last()]))
+                                else (
+                                    concat('Takt ', $measureNs[1])
+                                )
+                            ) else (
+                                if (count($measureNs) gt 1) then (
+                                    concat('Bars ', $measureNs[1], '-', $measureNs[last()])
+                                ) else (
+                                    concat('Bar ', $measureNs[1])
+                                )
+                            )
+
+                        return
+                            concat($label, ' (', string-join($items/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ', '), ')')
+                    ) else
+                        (concat('Takt ', $items[1]/ancestor::mei:measure/@n, ' (', $items[1]/preceding::mei:staffDef[@n = $items[1]/@n][1]/@label.abbr, ')'))
+
+                ) else if (local-name($items[1]) eq 'zone') then (
+                    if (count($items) gt 1) then (
+                        (:Dieser Fall sollte nicht vorkommen, da freie zones nicht zusammengefasst werden dürfen:)
+                    ) else (
+                        concat('Ausschnitt (S. ', $items[1]/parent::mei:surface/@n, ')')
+                    )
+                ) else ()
+        ), ' ')
 
 };
 
