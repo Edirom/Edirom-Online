@@ -58,7 +58,7 @@ jobs:
       uses: ncipollo/release-action@v1.14.0
       with:
         allowUpdates: true
-        artifacts: dist/bazga-webapp-${{ github.sha }}.xar
+        artifacts: ${{ github.workspace }}/build-xar/Edirom-Online-*.xar
         commit: ${{ github.sha }}
         name: "Development Build"
         prerelease: true
