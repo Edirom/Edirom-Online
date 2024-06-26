@@ -280,7 +280,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
     for $zone in $zones
     let $e := $elems[substring(@facs, 2) = $zone/@xml:id][1]
 
-    let $e := +
+    let $e :=
         if ($e) then
             ($e)
         else
