@@ -345,6 +345,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 Ext.Array.push(me.shapes.get('annotations'), annoId + '_' + anno.id + '_inner');
                 var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
                 
+                // bind onclick action to annotation icon
                 annoIcon.on('click', me.openShapeLink, me, {
                     single: true,
                     stopEvent : true,
