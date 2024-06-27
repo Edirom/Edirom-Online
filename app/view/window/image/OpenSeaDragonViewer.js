@@ -307,6 +307,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
+
+            Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
+
             Ext.Array.each(plist, function(shape) {
 
                 var id = shape.id;
@@ -342,7 +345,6 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     anno.dom.append(annoIcon);
                 }
 
-                Ext.Array.push(me.shapes.get('annotations'), annoId + '_' + anno.id + '_inner');
                 var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
                 
                 // bind onclick action to annotation icon
