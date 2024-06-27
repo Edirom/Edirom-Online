@@ -190,18 +190,34 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     annotationFilterChanged: function(item, event) {
         var me = this;
 
+        // if me.annotationsVisible is false do nothing
         if(!me.annotationsVisible) return;
 
+        // set visible Priorities
         var visiblePriorities = [];
-        me.annotPrioritiesMenu.items.each(function(item) {
-            if(item.checked)
-                visiblePriorities.push(item.priorityId);
-        });
+
+        // iterate over corresponding menu to get priorities
+        if(me.annotPrioritiesMenu.items.length != 0) {
+            me.annotPrioritiesMenu.items.each(function(item) {
+                if(item.checked)
+                    visiblePriorities.push(item.priorityId);
+            });
+        } else {
+            visiblePriorities.push('undefined');
+        }
+
+        // set visible categories
         var visibleCategories = [];
-        me.annotCategoriesMenu.items.each(function(item) {
-            if(item.checked)
-                visibleCategories.push(item.categoryId);
-        });
+
+        // iterate over corresponding menu to get categories
+        if(me.annotCategoriesMenu.items.length != 0) {
+            me.annotCategoriesMenu.items.each(function(item) {
+                if(item.checked)
+                    visibleCategories.push(item.categoryId);
+            });
+        } else {
+            visibleCategories.push('undefined');
+        }
 
         me.pageBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
         me.measureBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);

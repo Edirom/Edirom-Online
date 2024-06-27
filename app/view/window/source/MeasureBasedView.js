@@ -644,15 +644,26 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                     var className = annotDiv.dom.className.replace('annotIcon', '').trim();
                     var classes = className.split(' ');
 
-                    var hasCategory = false;
-                    var hasPriority = false;
+                    var matchesCategoryFilter = false;
+                    var matchesPriorityFilter = false;
 
+                    // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
                     for(var i = 0; i < classes.length; i++) {
-                        hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
-                        hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
+                        matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
+
+                        matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
                     }
 
-                    if(hasCategory & hasPriority)
+                    // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                    if( matchesCategoryFilter == false & visibleCategories == 'undefined') {
+                        matchesCategoryFilter = true;
+                    }
+                    // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                    if( matchesPriorityFilter == false & visiblePriorities == 'undefined') {
+                        matchesPriorityFilter = true;
+                    }
+
+                    if(matchesCategoryFilter & matchesPriorityFilter)
                         annotDiv.removeCls('hidden');
                     else
                         annotDiv.addCls('hidden');
