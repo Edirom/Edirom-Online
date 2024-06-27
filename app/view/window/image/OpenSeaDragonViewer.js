@@ -412,10 +412,8 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     getShapeElem: function(shapeId) {
    
         var me = this;
-        var elem = me.el.getById(me.id + '_' + shapeId);
-        if(elem === null)
-            elem = me.el.getById(shapeId);
-            
+        var elem = me.el.getById(me.id + '_' + shapeId) || me.el.getById(shapeId);
+
         return elem;
     },
     
