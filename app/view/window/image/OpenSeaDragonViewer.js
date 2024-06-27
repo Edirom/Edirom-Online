@@ -352,7 +352,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 });
 
                 var tip = Ext.create('Ext.tip.ToolTip', {
-                    target: annoId + '_' + anno.id + '_inner',
+                    target: annoIcon.id,
                     cls: 'annotationTip',
                     width: me.annotTipWidth,
                     maxWidth: me.annotTipMaxWidth,
