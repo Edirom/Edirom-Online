@@ -308,7 +308,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var plist = Ext.Array.toArray(annotation.get('plist'));
             
 
-            Ext.Array.insert(me.shapes.get('annotations'), 0, plist);
+            Ext.Array.push(me.shapes.get('annotations'), plist);
 
             Ext.Array.each(plist, function(shape) {
 
