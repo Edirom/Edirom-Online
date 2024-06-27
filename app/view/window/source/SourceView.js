@@ -197,7 +197,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var visiblePriorities = [];
 
         // iterate over corresponding menu to get priorities
-        if(me.annotPrioritiesMenu.items.length != 0) {
+        if(me.annotPrioritiesMenu != null && me.annotPrioritiesMenu.items.length != 0) {
             me.annotPrioritiesMenu.items.each(function(item) {
                 if(item.checked)
                     visiblePriorities.push(item.priorityId);
