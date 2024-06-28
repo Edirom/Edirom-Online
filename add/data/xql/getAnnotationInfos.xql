@@ -72,9 +72,15 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
     
     distinct-values(
         for $annot in $annots
+        
+        (: older Edirom Online models (pre MEI 4) :)
         let $oldLink := $annot/mei:ptr[@type = "priority"]/replace(@target, '#', '')
+        
+        (: MEI 4 and above Edirom Online model using @class and mei:taxonomy :)
         let $classes := tokenize(replace(normalize-space($annot/@class), '#', ''), ' ')
+        
         let $newLink := $classes[starts-with(., 'ediromAnnotPrio')]
+        
         return
             distinct-values(($oldLink, $newLink))[string-length(.) gt 0]
     )
