@@ -254,6 +254,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         var me = this;
 
+        //abort if me.shapes does not contain key
         if(!me.shapes.containsKey(groupName)) {
             if(debug !== null && debug) {
                 console.log('me.shapes does not contain key: ' + groupName);
@@ -261,6 +262,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             return;
         }
 
+        // create function for each shape
         var fn = function(shape) {
 
             var id;
@@ -313,6 +315,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             console.log(annotations);
         }
 
+        //add empty annotations array to shapes
         me.shapes.add('annotations', []);
 
         if(debug !== null && debug) {
