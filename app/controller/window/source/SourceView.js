@@ -85,7 +85,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             'GET',
             {
                 uri: view.uri,
-                lang: getPreference('application_language')
+                lang: getPreference('application_language')//TODO lang
             },
             Ext.bind(function(response){
                 var me = this;
@@ -105,6 +105,8 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                     fields: ['id', 'name'],
                     data: data['categories']
                 });
+
+                //TODO why not save to object store?
 
                 me.annotInfosLoaded(priorities, categories, view);
             }, this)
@@ -222,7 +224,6 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             if(typeof view.getActivePage() == 'undefined') return;
             
             var pageId = view.getActivePage().get('id');
-            var lang = getPreference('application_language');
 
             window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
 
@@ -230,7 +231,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                 {
                     uri: view.uri,
                     pageId: pageId,
-                    lang: lang
+                    lang: lang //TODO
                 },
                 Ext.bind(function(response){
                     var me = this;
