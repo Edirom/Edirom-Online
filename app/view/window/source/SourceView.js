@@ -210,7 +210,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         var visibleCategories = [];
 
         // iterate over corresponding menu to get categories
-        if(me.annotCategoriesMenu.items.length != 0) {
+        if(me.annotCategoriesMenu != null && me.annotCategoriesMenu.items.length != 0) {
             me.annotCategoriesMenu.items.each(function(item) {
                 if(item.checked)
                     visibleCategories.push(item.categoryId);
