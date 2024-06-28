@@ -83,6 +83,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         if(debug !== null && debug) {
             console.log('View: PageBasedView: annotationFilterChanged: annotations');
             console.log(annotations);
+            console.log(me.imageViewer.shapes.get('annotations'));
+            console.log('me.imageViewer.viewer.overlaysContainer.childNodes');
+            console.log(me.imageViewer.viewer.overlaysContainer.childNodes);
         }
 
         if(image_server === 'leaflet'){
@@ -92,18 +95,20 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             return;
         }
 
-        var fn = Ext.bind(function(annotation) {
-            var annotDiv = this.imageViewer.getShapeElem(annotation.id);
+        var fn = Ext.bind(function(annotDiv) {
 
-            var className = annotDiv.dom.className.replace('annotIcon', '').trim();
+            if(debug !== null && debug) {
+                console.log('View: PageBasedView: annotationFilterChanged: annotations fn');
+                console.log(annotDiv);
+            }
 
-            var classes = className.split(' ');
+            var prioritiesCategories = annotDiv.classList.remove('annotIcon');
 
             var matchesCategoryFilter = false;
             var matchesPriorityFilter = false;
 
             // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
-            for(var i = 0; i < classes.length; i++) {
+            for(var i = 0; i < prioritiesCategories.length; i++) {
                 matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
 
                 matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
@@ -124,10 +129,28 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
                 annotDiv.addCls('hidden');
         }, me);
 
-        if(annotations.each)
-            annotations.each(fn);
-        else
-            Ext.Array.each(annotations, fn);
+        Ext.Array.each(annotations, function(annotation) {
+
+            var annotDiv = me.imageViewer.getShapeElem(annotation.id);
+            var classList = annotDiv.dom.classList;
+
+            if(debug !== null && debug) {
+                console.log(annotDiv);
+                console.log(classList);
+            }
+
+            if (classList.contains('annoIcon')) {
+                fn(annotDiv);
+            } else {
+                console.log('process children');
+                //var children = Array.from(annotDiv.children);
+                //children.forEach(fn);
+                Ext.each(annotDiv.childNodes, fn);
+            }
+
+
+        })
+
     },
 
     setImageSet: function(imageSet) {
