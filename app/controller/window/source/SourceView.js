@@ -230,8 +230,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                 'GET',
                 {
                     uri: view.uri,
-                    pageId: pageId,
-                    lang: lang //TODO
+                    pageId: pageId
                 },
                 Ext.bind(function(response){
                     var me = this;
