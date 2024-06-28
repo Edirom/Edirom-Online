@@ -288,7 +288,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         me.shapes.add(groupName, []);
     },
-    
+
 
     highlightShape: function(event, owner, shape) {
 
@@ -337,7 +337,6 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var priority = annotation.get('priority');
             var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
-            
 
             Ext.Array.push(me.shapes.get('annotations'), plist);
 
@@ -349,7 +348,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
                 var partType = shape.type;
-                
+
                 var anno = me.viewer.getOverlayById(me.id + '_' + id);
                 if(anno === null) {
 
@@ -378,7 +377,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
                 // retrieve dom element of annotationIcon to bind actions
                 var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
-                
+
                 // bind onclick action to annotation icon
                 annoIcon.on('click', me.openShapeLink, me, {
                     single: true,
