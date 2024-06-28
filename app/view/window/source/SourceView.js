@@ -166,6 +166,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
                 text: getLangString('view.window.source.SourceView_prioMenu'),
                 menu: me.annotPrioritiesMenu
             });
+        }
 
         if(categories.data.length > 0){
             var categoriesItems = [];
