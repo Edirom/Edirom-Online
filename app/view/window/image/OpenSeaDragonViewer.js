@@ -337,6 +337,11 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         // iterate over annotations
         annotations.each(function(annotation) {
 
+            if(debug !== null && debug) {
+                console.log('Processing annotation…');
+                console.log(annotation);
+            }
+
             var annoId = annotation.get('id');
             var name = annotation.get('title');
             var uri = annotation.get('uri');
