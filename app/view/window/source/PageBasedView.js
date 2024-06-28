@@ -67,10 +67,23 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
      
+
+        if(debug !== null && debug) {
+            console.log('View: PageBasedView: annotationFilterChanged');
+            console.log('visibleCategories');
+            console.log(visibleCategories);
+            console.log('visiblePriorities');
+            console.log(visiblePriorities);
+        }
+
      	var image_server = getPreference('image_server');
 
         var annotations = me.imageViewer.getShapes('annotations');
 
+        if(debug !== null && debug) {
+            console.log('View: PageBasedView: annotationFilterChanged: annotations');
+            console.log(annotations);
+        }
 
         if(image_server === 'leaflet'){
             me.imageViewer.removeShapes('annotations');

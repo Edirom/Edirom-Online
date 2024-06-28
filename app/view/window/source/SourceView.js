@@ -146,6 +146,15 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setAnnotationFilter: function(priorities, categories) {
         var me = this;
 
+        if(debug !== null && debug) {
+            console.log('View: SourceView: setAnnotationFilter');
+            console.log('priorities');
+            console.log(priorities);
+            console.log('categories');
+            console.log(categories);
+
+        }
+
         if(priorities.data.length > 0) {
             var prioritiesItems = [];
             priorities.each(function(priority) {

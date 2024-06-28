@@ -37,6 +37,10 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
     onSourceViewRendered: function(view) {
         var me = this;
 
+        if(debug !== null && debug) {
+            console.log('Controller: SourceView: onSourceViewRendered');
+        }
+
         if(view.initialized) return;
         view.initialized = true;
 
@@ -53,6 +57,9 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
         ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
+        if(debug !== null && debug) {
+            console.log('Controller: SourceView: onSourceViewRendered. getMovements');
+        }
         window.doAJAXRequest('data/xql/getMovements.xql',
             'GET', 
             {
@@ -69,7 +76,11 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                 me.movementsLoaded(movements, view);
             }, this)
         );
-        
+
+        if(debug !== null && debug) {
+            console.log('Controller: SourceView: onSourceViewRendered: getAnnotationInfos');
+        }
+
         window.doAJAXRequest('data/xql/getAnnotationInfos.xql',
             'GET',
             {
@@ -81,6 +92,10 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                 var data = response.responseText;
 
                 data = Ext.JSON.decode(data);
+
+                if(debug !== null && debug) {
+                    console.log(data);
+                }
 
                 var priorities = Ext.create('Ext.data.Store', {
                     fields: ['id', 'name'],
@@ -193,8 +208,16 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
     onAnnotationsVisibilityChange: function(view, visible) {
         var me = this;
 
+        if(debug !== null && debug) {
+            console.log('controller: SourceView: onAnnotationsVisibilityChange');
+        }
+
         if(visible) {
-            
+
+            if(debug !== null && debug) {
+                console.log('visible: ' + visible);
+            }
+
             // If there is now active page, we don't need to load annotations
             if(typeof view.getActivePage() == 'undefined') return;
             
