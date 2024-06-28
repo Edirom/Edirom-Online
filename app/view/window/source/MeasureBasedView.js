@@ -639,7 +639,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
 			else{
 
                 var fn = Ext.bind(function(annotation) {
-                    var annotDiv = viewer.getShapeElem(annotation);
+                    var annotDiv = viewer.getShapeElem(annotation.id);
 
                     var className = annotDiv.dom.className.replace('annotIcon', '').trim();
                     var classes = className.split(' ');
