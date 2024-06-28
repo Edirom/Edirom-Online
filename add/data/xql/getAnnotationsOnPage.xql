@@ -147,7 +147,7 @@ declare function local:getParticipants($annoId as xs:string, $plist as xs:string
         
         return
             map {
-                'id': 'annotation_' || $annoId || '_' || string($p/@xml:id),
+                'id': 'annotation__' || string($p/@xml:id),
                 'type': if($p/@type != '') then string($p/@type) else local-name($p),
                 'ulx': $coord[1],
                 'uly': $coord[2],

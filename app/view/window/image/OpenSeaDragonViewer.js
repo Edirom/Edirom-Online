@@ -356,7 +356,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             //iterate over an annotations plist
             Ext.Array.each(plist, function(shape) {
 
-                var id = shape.id;
+                var id = shape.id; //pattern from XQL 'annotation_' || $annoId || '_' || string($p/@xml:id)
                 var x = shape.ulx;
                 var y = shape.uly;
                 var width = shape.lrx - shape.ulx;
@@ -370,8 +370,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     anno.id = me.id + '_' + id;
                     anno.className = 'annotation';
 
+                    // annoIcon: has to be nearly identical to annoIcon in else
                     var annoIcon = document.createElement('div');
-                    annoIcon.id = anno.id + '_inner';
+                    annoIcon.id = anno.id + annoId;
                     annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
                     anno.append(annoIcon);
 
@@ -382,15 +383,16 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
                 }else {
 
+                    // annoIcon: has to be nearly identical to annoIcon in if
                     var anno = me.el.getById(me.id + '_' + id);
                     var annoIcon = document.createElement('div');
-                    annoIcon.id = annoId + '_' + anno.id + '_inner';
+                    annoIcon.id = anno.id + annoId;
                     annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
                     anno.dom.append(annoIcon);
                 }
 
                 // retrieve dom element of annotationIcon to bind actions
-                var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
+                var annoIcon = me.el.getById(annoIcon.id);
 
                 // bind onclick action to annotation icon
                 annoIcon.on('click', me.openShapeLink, me, {
