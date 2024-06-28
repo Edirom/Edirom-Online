@@ -34,18 +34,18 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     imageSet: null,
     imageToShow: null,
-    
+
     cls: 'pageBasedView',
-    
+
     initComponent: function () {
-    
+
         var me = this;
-    
+
         me.addEvents('overlayVisibilityChange');
         me.owner.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
-    
+
     	var image_server = getPreference('image_server');
-    	
+
     	if(image_server === 'leaflet'){
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
@@ -54,19 +54,19 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     	}else{
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
     	}
-    
+
         this.items = [
             me.imageViewer
         ];
 
         me.callParent();
-        
+
  	   me.imageViewer.on('zoomChanged', me.updateZoom, me);
     },
 
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
-     
+
 
         if(debug !== null && debug) {
             console.log('View: PageBasedView: annotationFilterChanged');
@@ -91,12 +91,12 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             me.imageViewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
             return;
         }
-                 
+
         var fn = Ext.bind(function(annotation) {
             var annotDiv = this.imageViewer.getShapeElem(annotation.id);
 
             var className = annotDiv.dom.className.replace('annotIcon', '').trim();
-            
+
             var classes = className.split(' ');
 
             var matchesCategoryFilter = false;
@@ -131,7 +131,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     },
 
     setImageSet: function(imageSet) {
-    
+
         var me = this;
         me.imageSet = imageSet;
 
@@ -143,7 +143,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         }else if(me.imageSet.getCount() > 0)
             me.pageSpinner.setPage(me.imageSet.getAt(0));
-            
+
         me.owner.fireEvent('afterImagesLoaded', me.owner, imageSet);
     },
 
@@ -160,7 +160,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         me.imageViewer.showImage(me.activePage.get('path'),
             me.activePage.get('width'), me.activePage.get('height'));
-            
+
         if(me.owner.measuresVisible)
             me.owner.fireEvent('measureVisibilityChange', me.owner, true);
 
@@ -169,7 +169,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         var layers = Object.keys(me.owner.overlaysVisible);
         Ext.Array.each(layers, function(layer) {
-			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);     
+			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);
         });
 
     },
@@ -194,7 +194,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         var me = this;
 
        var image_server = getPreference('image_server');
-    	
+
     	if(image_server === 'digilib'){
     		me.zoomSlider = Ext.create('Ext.slider.Single', {
             width: 140,
@@ -237,9 +237,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             cls: 'pageSpinner',
             owner: me
         });
-        
+
         me.separator = Ext.create('Ext.toolbar.Separator');
-        
+
         if(image_server === 'digilib' || image_server === 'openseadragon'){
         return [me.zoomSlider, me.separator, me.pageSpinner];
         }
@@ -247,30 +247,30 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         	 return [me.pageSpinner];
         }
     },
-    
+
     hideToolbarEntries: function() {
         var me = this;
         if(typeof me.zoomSlider !== 'undefined'){
         	me.zoomSlider.hide();
-        }       
+        }
         me.pageSpinner.hide();
         if(typeof me.separator !== 'undefined'){
         	me.separator.hide();
-        }        
+        }
     },
-    
+
     showToolbarEntries: function() {
         var me = this;
         if(typeof me.zoomSlider !== 'undefined'){
         	me.zoomSlider.show();
-        }         
+        }
         me.pageSpinner.show();
         if(typeof me.separator !== 'undefined'){
         	 me.separator.show();
-        }  
-       
+        }
+
     },
-    
+
     fitFacsimile: function() {
         this.imageViewer.fitInImage();
     },
@@ -294,17 +294,17 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         me.imageViewer.showRect(x, y, width, height, true);
     },
-    
+
     showAnnotations: function(annotations) {
         var me = this;
         me.imageViewer.addAnnotations(annotations);
     },
-    
+
     onOverlayVisibilityChange: function(view, state) {
         var me = this;
         me.fireEvent('overlayVisiblityChange', me, me.owner.overlaysVisible, me.getActivePage().get('id'), me.owner.uri, me.owner);
     },
-    
+
     hideAnnotations: function() {
         var me = this;
         me.imageViewer.removeShapes('annotations');
@@ -315,13 +315,13 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         	this.zoomSlider.suspendEvents();
         	this.zoomSlider.setValue(Math.round(zoom * 100));
         	this.zoomSlider.resumeEvents();
-        }          
+        }
     },
 
     zoomChanged: function(slider) {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
     },
-    
+
     getContentConfig: function() {
         var me = this;
         return {
@@ -329,9 +329,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             rect: me.imageViewer.getActualRect()
         };
     },
-    
+
     setContentConfig: function(config) {
         var me = this;
-        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false); 
+        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false);
     }
 });
