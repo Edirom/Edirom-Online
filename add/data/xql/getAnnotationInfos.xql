@@ -26,7 +26,11 @@ declare variable $edition := request:get-parameter('edition', '');
 declare variable $edition_path := eutil:getPreference('edition_path', $edition);
 
 (:~
- : Returns distinct list of catagories
+ : Returns distinct list of catagories used be the submitted annotations
+ :
+ : @param $annots a sequence of annotation elements (usually mei:annot)
+ :
+ : @return a sequence of strings
  :)
 declare function local:getDistinctCategories($annots as element()*) as xs:string* {
     
@@ -40,7 +44,11 @@ declare function local:getDistinctCategories($annots as element()*) as xs:string
 };
 
 (:~
- : Returns distinct list of annotation priorities
+ : Returns distinct list of annotation priorities used by the submitted annotations
+ :
+ : @param $annots a sequence of annotation elements (usually mei:annot)
+ :
+ : @return a sequence of strings
  :)
 declare function local:getDistinctPriorities($annots as element()*) as xs:string* {
     
