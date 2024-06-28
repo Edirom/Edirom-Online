@@ -253,7 +253,13 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         }
 
         var me = this;
-        if(!me.shapes.containsKey(groupName)) return;
+
+        if(!me.shapes.containsKey(groupName)) {
+            if(debug !== null && debug) {
+                console.log('me.shapes does not contain key: ' + groupName);
+            }
+            return;
+        }
 
         var fn = function(shape) {
 
