@@ -46,6 +46,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     	var image_server = getPreference('image_server');
 
+        //TODO leaflet deprecation
     	if(image_server === 'leaflet'){
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
@@ -65,8 +66,8 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     },
 
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
-        var me = this;
 
+        var me = this;
 
         if(debug !== null && debug) {
             console.log('View: PageBasedView: annotationFilterChanged');
@@ -76,6 +77,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             console.log(visiblePriorities);
         }
 
+        //TODO leaflet deprecation
      	var image_server = getPreference('image_server');
 
         var annotations = me.imageViewer.getShapes('annotations');
@@ -84,10 +86,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             console.log('View: PageBasedView: annotationFilterChanged: annotations');
             console.log(annotations);
             console.log(me.imageViewer.shapes.get('annotations'));
-            console.log('me.imageViewer.viewer.overlaysContainer.childNodes');
-            console.log(me.imageViewer.viewer.overlaysContainer.childNodes);
         }
 
+        //TODO leaflet deprecation
         if(image_server === 'leaflet'){
             me.imageViewer.removeShapes('annotations');
             me.imageViewer.addAnnotations(annotations);
@@ -95,63 +96,84 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             return;
         }
 
-        var fn = Ext.bind(function(annotDiv) {
+        // define function to apply to relevant element IDs
+        var fn = Ext.bind(function(annotationId) {
+
+            var annotDiv = Ext.get(annotationId);
+            var classList = annotDiv.dom.classList;
+            var prioritiesCategories = Ext.Array.toArray(classList);
+            Ext.Array.remove(prioritiesCategories, 'measure');
+            Ext.Array.remove(prioritiesCategories, 'annoIcon');
 
             if(debug !== null && debug) {
                 console.log('View: PageBasedView: annotationFilterChanged: annotations fn');
+                console.log(annotationId);
                 console.log(annotDiv);
+                console.log(classList);
+                console.log(prioritiesCategories);
             }
 
-            var prioritiesCategories = annotDiv.classList.remove('annotIcon');
-
+            // create category and priority match variables
             var matchesCategoryFilter = false;
             var matchesPriorityFilter = false;
 
             // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
             for(var i = 0; i < prioritiesCategories.length; i++) {
-                matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
+                matchesCategoryFilter |= Ext.Array.contains(visibleCategories, prioritiesCategories[i]);
 
-                matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
+                matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, prioritiesCategories[i]);
             }
 
-            // if filter results are falsey check if visibleCategories are undefined and if so assign true
-            if( matchesCategoryFilter == false & visibleCategories == 'undefined') {
+            if(debug !== null && debug) {
+                console.log(matchesCategoryFilter);
+                console.log(matchesPriorityFilter);
+            }
+
+            // if filter results are false check if visibleCategories are undefined and if so assign true
+            if( matchesCategoryFilter == false && visibleCategories == 'undefined') {
                 matchesCategoryFilter = true;
             }
+
             // if filter results are falsey check if visibleCategories are undefined and if so assign true
-            if( matchesPriorityFilter == false & visiblePriorities == 'undefined') {
+            if( matchesPriorityFilter == false && visiblePriorities == 'undefined') {
                 matchesPriorityFilter = true;
             }
 
+            // depending on match results assign or remove class 'hidden'
             if(matchesCategoryFilter & matchesPriorityFilter)
                 annotDiv.removeCls('hidden');
             else
                 annotDiv.addCls('hidden');
         }, me);
 
+
+        var annotationDivIds = [];
+
         Ext.Array.each(annotations, function(annotation) {
 
-            var annotDiv = me.imageViewer.getShapeElem(annotation.id);
-            var classList = annotDiv.dom.classList;
-
             if(debug !== null && debug) {
-                console.log(annotDiv);
-                console.log(classList);
+                console.log('annotation');
+                console.log(annotation);
+                console.log('me');
+                console.log(me);
+                console.log('me.owner.owner');
+                console.log(me.owner.owner);
             }
 
-            if (classList.contains('annoIcon')) {
-                fn(annotDiv);
-            } else {
-                console.log('process children');
-                //var children = Array.from(annotDiv.children);
-                //children.forEach(fn);
-                Ext.each(annotDiv.childNodes, fn);
-            }
+            var annotDiv = me.imageViewer.getShapeElem(annotation.id);
+            var children = Ext.Array.toArray(annotDiv.dom.childNodes);
 
+            // Ext.Array.push(annotationDivIds, annotation.id);
+            Ext.Array.push(annotationDivIds, Ext.Array.pluck(children, 'id'));
+        });
 
-        })
+        if(debug !== null && debug) {
+            console.log(annotationDivIds);
+        }
 
+        Ext.Array.each(annotationDivIds, fn);
     },
+
 
     setImageSet: function(imageSet) {
 
