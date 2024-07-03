@@ -46,7 +46,7 @@ let $eoEditionFileSingle := <html>
                                     <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
                                     
                                     <script>
-                                        var debug=true;
+                                        var debug=false;
                                     </script>
                                     
                                     <!-- **Raphael JS** -->
