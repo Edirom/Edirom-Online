@@ -52,7 +52,7 @@
         </zip>
     </target>
 
-    <target name="copy-xar" depends="xar">
+    <target name="copy-xar" depends="xar,build-plus">
         <copy file="${dist.dir}/${xar.name}" todir="${xar.destination}"/>
     </target>
 </project>
