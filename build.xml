@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project default="xar" name="Edirom-Online-RWA">
+<project default="build-xar" name="Edirom-Online-RWA">
     <xmlproperty file="expath-pkg.xml"/><!-- provides "${package}"" variable -->
     
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
@@ -17,7 +17,25 @@
     </tstamp>
     <property name="xar.name" value="${project.app}-${project.version}-${DATETIME}.xar"/>
 
-    <target name="build-plus">
+    <target name="sencha-build">
+        <exec executable="sencha">
+            <arg value="app"/>
+            <arg value="build"/>
+        </exec>
+        <delete dir="${temp.dir}"></delete>
+    </target>
+
+    <target name="prep-build-plus">
+        <copy todir="${build.dir}">
+            <fileset dir="./add"/>
+        </copy>
+        <copy todir="${build.dir}">
+            <file file="build.xml"/>
+            <file file="expath-pkg.xml"/>
+        </copy>
+    </target>
+
+    <target name="build-plus" depends="prep-build-plus">
         <copy todir="${build.dir}" preservelastmodified="true">
             <fileset dir="${basedir}/add">
                 <include name="*"/>
@@ -48,11 +66,13 @@
     <target name="xar">
         <mkdir dir="${build.dir}"/>
         <zip basedir="${build.dir}" destfile="${dist.dir}/${xar.name}">
-            <exclude name="${temp.dir.name}/**" />
+            <exclude name="${temp.dir}/**" />
         </zip>
     </target>
 
-    <target name="copy-xar" depends="xar,build-plus">
+    <target name="build-xar" depends="clean,sencha-build,build-plus,xar"/>
+
+    <target name="copy-xar" depends="build-xar">
         <copy file="${dist.dir}/${xar.name}" todir="${xar.destination}"/>
     </target>
 </project>
