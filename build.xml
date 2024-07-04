@@ -51,4 +51,8 @@
             <exclude name="${temp.dir.name}/**" />
         </zip>
     </target>
+
+    <target name="copy-xar" depends="xar">
+        <copy file="${dist.dir}/${xar.name}" todir="${xar.destination}"/>
+    </target>
 </project>
