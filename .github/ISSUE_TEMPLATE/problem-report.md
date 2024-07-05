@@ -2,7 +2,6 @@
 name: Problem report
 about: Create a report to a problem
 title: "[BUG]"
-labels: 'Type: bug report'
 assignees: ''
 
 ---
@@ -30,7 +29,7 @@ Please provide a link to your data (e.g. https://klarinettenquintett.weber-gesam
 **Environment information**
 - Browser [e.g. Chrome, Safari, Firefox]
 - Version of your MEI files [e.g. 5.0]
- - Add any other context, that might be helpful
+- Add any other context, that might be helpful
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
