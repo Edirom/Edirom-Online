@@ -11,7 +11,7 @@ A clear and concise description of what the problem is.
 
 **To Reproduce**
 Steps to reproduce the behavior, e.g.:
-1. Go to '...'
+1. Go to '...' [e.g. https://klarinettenquintett.weber-gesamtausgabe.de]
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
@@ -20,7 +20,7 @@ Steps to reproduce the behavior, e.g.:
 A clear and concise description of what you expected to happen.
 
 **Data**
-Please provide a link to your data (e.g. https://klarinettenquintett.weber-gesamtausgabe.de) to see the problem or an extract of your data to reproduce the problem.
+Please provide a link to your data (e.g. https://github.com/Edirom/EditionExample) to see the problem or an extract of your data to reproduce the problem.
 
 **Edirom information**
  - Version of Edirom [e.g. Release v1.0.0-beta.4 (Emeritus), see [releases](https://github.com/Edirom/Edirom-Online/releases)]
