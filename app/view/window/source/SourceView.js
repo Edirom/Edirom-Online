@@ -570,12 +570,18 @@ Ext.define('EdiromOnline.view.window.source.GotoMsg', {
 
         me.title = getLangString('view.window.source.SourceView_GotoMsg_Title');
 
+        // check if contains more than one item and save to variable as boolean
+        var isDisabled = ((me.movements.data.length <= 1) ? true : false);
+
         me.combo = Ext.create('Ext.form.ComboBox', {
             fieldLabel: getLangString('view.window.source.SourceView_GotoMsg_MovmentNumber'),
             store: me.movements,
             queryMode: 'local',
             displayField: 'name',
-            valueField: 'id'
+            valueField: 'id',
+            cls: 'gotoMovement',
+            disabled: isDisabled,
+            disabledCls: 'x-disabled'
         });
 
         me.field = Ext.create('Ext.form.field.Text', {
