@@ -63,6 +63,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         var me = this;
 
+        // create movementComboBox
         me.mdivSelector = Ext.create('Ext.form.ComboBox', {
             store: Ext.create('Ext.data.Store', {
                     fields: ['id', 'name'],
@@ -75,6 +76,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             margin: '0 0 0 0',
             id: 'mdiv_combo_' + me.id,
             hidden: true,
+            cls: 'movementCombo',
+            disabled: false,
+            disabledCls: 'x-disabled',
             listeners:{
                 scope: me,
                 'select': me.setMdiv
@@ -156,16 +160,35 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
     setMovements: function(movements) {
         var me = this;
+
+        // set view movements to submitted movements
         me.movements = movements;
-        
+
+        // initialize variable data
         var data = [];
+
+        // create a reduced array from me.movements in variable data without movements wrapper
         movements.data.each(function(elem) {
             data.push(elem.data);
         });
+
+        console.log(me.mdivSelector);
+
+        // push data variable to view's mdivSelector store
         me.mdivSelector.getStore().loadData(data);
-        
+
+        // ? set a value on mdivSelector
         if(me.owner.window.internalIdType != 'measure')
             me.mdivSelector.setValue(data[0]['id']);
+
+        // check if data contains more than one item and save to variable as boolean
+        var isDisabled = ((data.length <= 1) ? true : false);
+
+        // set disabled state on views mdivSelector
+        if (isDisabled) {
+            me.mdivSelector.disable();
+        }
+
     },
 
     setMeasures: function(measures) {
