@@ -83,7 +83,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         me.measureSpinner = Ext.create('EdiromOnline.view.window.source.MeasureSpinner', {
             width: 121,
-            cls: 'pageSpinner', //TODO
+            cls: 'pageSpinner', //TODO adjust class to measureSpinner and add in SCSS
             owner: me,
             hidden: true
         });
