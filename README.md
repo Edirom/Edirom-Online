@@ -1,4 +1,4 @@
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml)
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648)
 
 # Edirom Online
 
