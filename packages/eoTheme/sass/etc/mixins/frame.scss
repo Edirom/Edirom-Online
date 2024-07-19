@@ -24,9 +24,14 @@
     $padding: null,
     $background-color: null,
     $background-gradient: null,
+    $supports-border-radius: true,
+    $supports-gradients: true,
+    $compile-all: true,
     $table: false,
     $background-direction: top,
+    $ignore_frame_padding: true,
     $include-frame-rtl: false,
+    $inner_border_width: 0,
     // an optional ui to use for images
     $img-ui: $ui,
     $background-stretch: null
