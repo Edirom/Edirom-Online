@@ -65,7 +65,7 @@
             <xsl:when test="matches($objectID, 'mri_inst_*')">mriPersonalia</xsl:when>
             <xsl:when test="matches($objectID, 'mri_template_*')">mriTemplate</xsl:when>
             <xsl:when test="matches($objectID, 'mri_loc_*')">mriLocation</xsl:when>
-            <xsl:when test="matches($objectID, 'rwa_blogpost_*')">rwaBlogpost</xsl:when>
+            <xsl:when test="matches($objectID, 'rwa_post_*')">rwaBlogpost</xsl:when>
             <xsl:when test="matches($objectID, 'bio_*')">mrpBio</xsl:when>
             <xsl:when test="matches($objectID, 'rwa_annotation_*')">rwaAnnot</xsl:when>
             <xsl:otherwise>undefined</xsl:otherwise>
