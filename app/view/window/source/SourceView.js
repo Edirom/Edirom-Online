@@ -146,62 +146,91 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setAnnotationFilter: function(priorities, categories) {
         var me = this;
 
-        var prioritiesItems = [];
-        priorities.each(function(priority) {
-            prioritiesItems.push({
-                text: priority.get('name'),
-                priorityId: priority.get('id'),
-                checked: true,
-                handler: Ext.bind(me.annotationFilterChanged, me)
+        if(debug !== null && debug) {
+            console.log('View: SourceView: setAnnotationFilter');
+            console.log('priorities');
+            console.log(priorities);
+            console.log('categories');
+            console.log(categories);
+
+        }
+
+        if(priorities.data.length > 0) {
+            var prioritiesItems = [];
+            priorities.each(function(priority) {
+                prioritiesItems.push({
+                    text: priority.get('name'),
+                    priorityId: priority.get('id'),
+                    checked: true,
+                    handler: Ext.bind(me.annotationFilterChanged, me)
+                });
             });
-        });
 
-        me.annotPrioritiesMenu = Ext.create('Ext.menu.Menu', {
-             items: prioritiesItems
-        });
-
-        me.annotMenu.menu.add({
-            id: me.id + '_annotCategoryFilter',
-            text: getLangString('view.window.source.SourceView_prioMenu'),
-            menu: me.annotPrioritiesMenu
-        });
-
-        var categoriesItems = [];
-        categories.each(function(category) {
-            categoriesItems.push({
-                text: category.get('name'),
-                categoryId: category.get('id'),
-                checked: true,
-                handler: Ext.bind(me.annotationFilterChanged, me)
+            me.annotPrioritiesMenu = Ext.create('Ext.menu.Menu', {
+                items: prioritiesItems
             });
-        });
 
-        me.annotCategoriesMenu = Ext.create('Ext.menu.Menu', {
-             items: categoriesItems
-        });
+            me.annotMenu.menu.add({
+                id: me.id + '_annotCategoryFilter',
+                text: getLangString('view.window.source.SourceView_prioMenu'),
+                menu: me.annotPrioritiesMenu
+            });
+        }
 
-        me.annotMenu.menu.add({
-            id: me.id + '_annotPriorityFilter',
-            text: getLangString('view.window.source.SourceView_categoriesMenu'),
-            menu: me.annotCategoriesMenu
-        });
+        if(categories.data.length > 0){
+            var categoriesItems = [];
+            categories.each(function(category) {
+                categoriesItems.push({
+                    text: category.get('name'),
+                    categoryId: category.get('id'),
+                    checked: true,
+                    handler: Ext.bind(me.annotationFilterChanged, me)
+                });
+            });
+
+            me.annotCategoriesMenu = Ext.create('Ext.menu.Menu', {
+                items: categoriesItems
+            });
+
+            me.annotMenu.menu.add({
+                id: me.id + '_annotPriorityFilter',
+                text: getLangString('view.window.source.SourceView_categoriesMenu'),
+                menu: me.annotCategoriesMenu
+            });
+        }
     },
 
     annotationFilterChanged: function(item, event) {
         var me = this;
 
+        // if me.annotationsVisible is false do nothing
         if(!me.annotationsVisible) return;
 
+        // set visible Priorities
         var visiblePriorities = [];
-        me.annotPrioritiesMenu.items.each(function(item) {
-            if(item.checked)
-                visiblePriorities.push(item.priorityId);
-        });
+
+        // iterate over corresponding menu to get priorities
+        if(me.annotPrioritiesMenu != null && me.annotPrioritiesMenu.items.length != 0) {
+            me.annotPrioritiesMenu.items.each(function(item) {
+                if(item.checked)
+                    visiblePriorities.push(item.priorityId);
+            });
+        } else {
+            visiblePriorities.push('undefined');
+        }
+
+        // set visible categories
         var visibleCategories = [];
-        me.annotCategoriesMenu.items.each(function(item) {
-            if(item.checked)
-                visibleCategories.push(item.categoryId);
-        });
+
+        // iterate over corresponding menu to get categories
+        if(me.annotCategoriesMenu != null && me.annotCategoriesMenu.items.length != 0) {
+            me.annotCategoriesMenu.items.each(function(item) {
+                if(item.checked)
+                    visibleCategories.push(item.categoryId);
+            });
+        } else {
+            visibleCategories.push('undefined');
+        }
 
         me.pageBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
         me.measureBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
