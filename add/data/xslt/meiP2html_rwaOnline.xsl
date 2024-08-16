@@ -228,6 +228,12 @@
             </xsl:if>
         </figure>
     </xsl:template>
+    <xsl:template match="mei:hi">
+        <xsl:variable name="rendition" select="./@rend/string()"/>
+        <span class="{$rendition}">
+            <xsl:apply-templates/>
+        </span>
+    </xsl:template>
     <xsl:template match="text()">
         <xsl:copy/>
     </xsl:template>
