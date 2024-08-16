@@ -28,12 +28,13 @@ The active contributors have agreed to organise their work along the so-called '
 
 * Check the [network graph](https://github.com/Edirom/Edirom-Online/network) to see all the other forks of other persons to make sure, nobody else is already working on the topic, you want to start to address.
 * Please discuss your idea first in an [issue](https://github.com/Edirom/Edirom-Online/issues). If there is no issue for your idea yet, please **open an issue**. There might be different ways to solve a problem and we want to make sure to find the right approach before spending time on a PR that cannot be merged.
-* Fork the `Edirom/Edirom-Online` repository into your own account, e.g. `username/Edirom-Online`.
-* Create a dedicated branch for your fix or feature on your repository, e.g. `ftr-some-new-feature`.
+* **Fork** the `Edirom/Edirom-Online` repository into your own account, e.g. `username/Edirom-Online`. (Only if you plan to develop not on your own but with other developers and only in this case, open a dedicated branch on the Edirom-Online repository.)
+* Create a **dedicated branch** for your fix or feature on your repository, e.g. `ftr-some-new-feature`.
 * Make your changes, while you can commit to your branch as many times as you like.
-* After finishing your work, you can open a pull request to `Edirom/Edirom-Online` and fill in our [PR-template](https://github.com/Edirom/Edirom-Online/tree/develop/.github/pull_request_template.md) to describe what your pull request wants to implement. Make sure, that you MUST address the developer-branch.
+* It is essential to **test** your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3 container and deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample). For other deployment methods, please see our documentation in the [wiki](https://github.com/Edirom/Edirom-Online/wiki). 
+* After finishing your work, you can open a **pull request** to `Edirom/Edirom-Online` and fill in our [PR-template](https://github.com/Edirom/Edirom-Online/tree/develop/.github/pull_request_template.md) to describe what your pull request wants to implement. Make sure, that you MUST address the developer-branch.
 * Each pull request should implement ONE feature or bugfix. If you want to add or fix more than one thing, submit more than one pull request.
-* Your submission will be reviewed afterwards. If you are asked to make changes, you can push these changes to your original branch and the pull request will be automatically updated.
+* Your submission will be **reviewed** afterwards. If you are asked to make changes, you can push these changes to your original branch and the pull request will be automatically updated.
 * You may then delete your dedicated branch, after your pull request was merged into the `Edirom/Edirom-Online` repository.
 
 #### Commit messages
