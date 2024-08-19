@@ -1,5 +1,18 @@
 [![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
+<div align="center">
+ 
+**[Show cases](https://github.com/Edirom/Edirom-Online#-Show-cases) • 
+[Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online#-Contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online#-Get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online#-Code-of-Conduct) • 
+[License](https://github.com/Edirom/Edirom-Online#-License)**
+
+</div>
+
 # Edirom-Online
 
 Edirom-Online is software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data. This allows the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
@@ -9,22 +22,22 @@ The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Pad
 
 To get some practical insights, look at this projects and editions that already use Edirom-Online.
 
-***Webers Klarinettenquintett op.34***
+**Webers Klarinettenquintett op.34**
 
 The third version of Webers Klarinettenquintett op.34 was created 2022 by [Virtueller Forschungsverbund Edirom] (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in [MEI] and visualized with [Verovio], annotations and texts.
   * publication of [Webers Klarinettenquintett]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
 
-******Freischütz Digital******
+**Freischütz Digital**
 
 The digital edition of Webers Freischütz was developed by the project "[Freischütz Digital] – Paradigmatische Umsetzung eines genuin digitalen Editionskonzepts" (BMBF, 2012–2015). Several demonstrators were developed and integrated into the Edirom-Online, e.g. 'Dynamic Score Rendering' and 'Genetic Text Stages'.
   * publication of [Webers Freischütz]
   * code of [Freischütz: Edirom-Online]
 
-<img src="./.github/images/EdiromOnline_FreischuetzDigital.jpg" width="80%">
+<img src="./.github/images/EdiromOnline_WeberFreischuetz_2015.jpg" width="80%">
 
-***Bargheer: Fiedellieder plus***
+**Bargheer: Fiedellieder plus**
 
 "Carl Louis Bargheer: Fiedellieder plus - Eine digitale Edition" was created 2013 as a students project at [Musikwissenschaftliches Seminar Detmold/Paderborn] with an early version of Edirom-Online.
   * publication of [Bargheers Fiedellieder]
@@ -80,7 +93,7 @@ When you have your system preapared with all Sencha Cmd prerequisites or you hav
   * also see [building Edirom locally] above
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-beta.5-[TIMESTAMP].xar`
 * build **xar of sample data** for deploying at exist-db
-  * also see [building sample data](https://github.com/Edirom/EditionExample?tab=readme-ov-file#building)
+  * also see [building sample data]
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
 * in **eXist-db Package Manager** click on the "Edirom Online" entry - you will be directed to the running Edirom at `http://localhost:8080/exist/apps/Edirom-Online/index.html`
 
@@ -142,8 +155,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [exist-db via Docker]: https://exist-db.org/exist/apps/doc/docker
 [stadlerpeter/existdb]: https://hub.docker.com/r/stadlerpeter/existdb
 [building Edirom locally]: https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#building-locally
-
-
+[building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
 [Edirom mailinglist]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
