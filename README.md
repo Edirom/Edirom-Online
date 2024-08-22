@@ -16,11 +16,11 @@
 # Edirom-Online
 
 Edirom-Online is software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
-The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at the [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
+The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
 
 ## Show cases
 
-To get some practical insights, look at this projects and editions that already use Edirom-Online.
+To get some practical insights, look at these projects and editions that already use Edirom-Online.
 
 **Clarinet quintet op.34 by Weber**
 
@@ -50,11 +50,11 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 ## Get started
 
 Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db].  
-Please make sure, the software is still under high development and has to be seen as beta software.
+Please be aware, the software is still under high development and has to be seen as beta software.
 
 ### Cloning this repository
 
-Since this repository uses submodules for e.g. fonts, it is necessary to clone the repository with the recursive addition.
+Since this repository uses submodules for e.g. fonts, it is necessary to clone the repository recursively.
 
 ```bash
 git clone --recursive <project url>
@@ -70,7 +70,7 @@ git submodule update --init --recursive
 
 For building Edirom Online you need *Sencha Cmd* installed on your system. You might want to refer to the [Sencha Cmd System Setup] section for more details.
 
-Alternatively we recommend to use a container image for building, e.g. [bwbohl/sencha-cmd]
+Alternatively, we recommend to use a Docker container image for building, e.g. [bwbohl/sencha-cmd]
 
 ```bash
 docker run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
