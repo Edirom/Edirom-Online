@@ -15,17 +15,17 @@
 
 # Edirom-Online
 
-Edirom-Online is software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data. This allows the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
+Edirom-Online is software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
 The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at the [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
 
 ## Show cases
 
 To get some practical insights, look at this projects and editions that already use Edirom-Online.
 
-**Webers Klarinettenquintett op.34**
+**Clarinet quintet op.34 by Weber**
 
-The third version of Webers Klarinettenquintett op.34 was created 2022 by [Virtueller Forschungsverbund Edirom] (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in [MEI] and visualized with [Verovio], annotations and texts.
-  * publication of [Webers Klarinettenquintett]
+The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with , annotations and texts.
+  * publication of [Webers clarinet quintet]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
 
@@ -39,7 +39,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 **Bargheer: Fiedellieder plus**
 
-"Carl Louis Bargheer: Fiedellieder plus - Eine digitale Edition" was created 2013 as a students project at [Musikwissenschaftliches Seminar Detmold/Paderborn] with an early version of Edirom-Online.
+"Carl Louis Bargheer: Fiedellieder plus - Eine digitale Edition" was created 2013 as a students project at Musikwissenschaftliches Seminar Detmold/Paderborn with an early version of Edirom-Online.
   * publication of [Bargheers Fiedellieder]
   * code of [Bargheer: Edirom-Online]
   * data of [Bargheer: Edition]
@@ -132,7 +132,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Virtueller Forschungsverbund Edirom]: https://github.com/Edirom 
 [Paderborn University]: https://www.uni-paderborn.de/en/
 [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen]: https://edirom.de/edirom-projekt/
-[Webers Klarinettenquintett]: https://klarinettenquintett.weber-gesamtausgabe.de/
+[Webers clarinet quintet]: https://klarinettenquintett.weber-gesamtausgabe.de/
 [Freischütz digital]: https://freischuetz-digital.de/
 [Webers Freischütz]: https://edition.freischuetz-digital.de/
 [Freischütz: Edirom-Online]: https://github.com/Freischuetz-Digital/Edirom-Online
