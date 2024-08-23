@@ -76,7 +76,7 @@ Alternatively, we recommend to use a Docker container image for building, e.g. [
 docker run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
 ```
 
-When you have your system preapared with all Sencha Cmd prerequisites or you have your docker container running you have to execute a sencha build command through calling the build script included in this repository with one of the sencha build-type options (please refer to [sencha app build reference] for details), either in your native shell or in the container shell, e.g.:
+When you have your system prepared with all Sencha Cmd prerequisites or you have your docker container running you are now set up to execute the sencha build command. Do this by calling the build script included in this repository with one of the sencha build-type options (please refer to [sencha app build reference] for details), either in your native shell or in the container shell, e.g.:
 
 ```bash
 ./build.sh testing
