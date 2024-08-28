@@ -19,7 +19,7 @@ If you think you found a bug in Edirom-Online, first please search our [issues l
 
 ### Feature requests
 
-If you think, Edirom-Online should have a feature that does not exist already, please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a wish for a similar feature was already reported. If not, please open an issue and describe the feature using our [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/feature_request.md) for new features. 
+If you think, Edirom-Online should have a feature that does not exist already, please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a wish for a similar feature was already reported. If not, please [open an issue](https://github.com/Edirom/Edirom-Online/issues/new?assignees=&labels=Type%3A+feature+request&projects=&template=feature_request.md&title=%5Bftr%5D) and describe the feature using our [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/feature_request.md) for new features. 
 
 ### Contributing code and documentation
 
