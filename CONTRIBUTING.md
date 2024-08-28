@@ -15,7 +15,7 @@ So first of all, thank you for considering contributing to Edirom-Online! When y
 
 ### Bug reports
 
-If you think you found a bug in Edirom-Online, first please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a similar issue has already been opened. If not, please open an issue. We implemented a [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/problem-report.md) for problems and bugs to get as much information about the bug as possible, e.g. how the problem can be reproduced. Provide as much information as you can.
+If you think you found a bug in Edirom-Online, first please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a similar issue has already been opened. If not, please [open an issue](https://github.com/Edirom/Edirom-Online/issues/new?assignees=&labels=&projects=&template=problem-report.md&title=%5BBUG%5D). We implemented a [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/problem-report.md) for problems and bugs to get as much information about the bug as possible, e.g. how the problem can be reproduced. Provide as much information as you can.
 
 ### Feature requests
 
