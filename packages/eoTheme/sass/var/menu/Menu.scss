@@ -10,4 +10,8 @@ $menu-border-color: darken($window-base-color,15%);
 		top: 3px !important;
 	}
 
+	.x-disabled {
+		opacity: 0.5;
+	}
+
 }

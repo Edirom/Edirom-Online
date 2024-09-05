@@ -239,10 +239,16 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setMovements: function(movements) {
         var me = this;
 
+        // set me.movements to submitted JSON array
         me.movements = movements;
+
+        // set meovements for measureBaseView
         me.measureBasedView.setMovements(movements);
 
+        // initialize movementItems variable
         var movementItems = [];
+
+        // iterate over submitted movements and push them to movementItems variable
         movements.each(function(movement) {
             movementItems.push({
                 text: movement.get('name'),
@@ -250,9 +256,16 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             });
         });
 
+        // check if contains more than one item and save to variable as boolean
+        var isDisabled = ((movementItems.length <= 1) ? true : false);
+
+        // add gotoMovement entry to goto menu
         me.gotoMenu.menu.add({
             id: me.id + '_gotoMovement',
             text: getLangString('view.window.source.SourceView_gotoMovement'),
+            cls: 'gotoMovement',
+            disabled: isDisabled,
+            disabledCls: 'x-disabled',
             menu: {
                 items: movementItems
             }
@@ -586,12 +599,18 @@ Ext.define('EdiromOnline.view.window.source.GotoMsg', {
 
         me.title = getLangString('view.window.source.SourceView_GotoMsg_Title');
 
+        // check if contains more than one item and save to variable as boolean
+        var isDisabled = ((me.movements.data.length <= 1) ? true : false);
+
         me.combo = Ext.create('Ext.form.ComboBox', {
             fieldLabel: getLangString('view.window.source.SourceView_GotoMsg_MovmentNumber'),
             store: me.movements,
             queryMode: 'local',
             displayField: 'name',
-            valueField: 'id'
+            valueField: 'id',
+            cls: 'gotoMovement',
+            disabled: isDisabled,
+            disabledCls: 'x-disabled'
         });
 
         me.field = Ext.create('Ext.form.field.Text', {
