@@ -16,9 +16,9 @@ declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace system = "http://exist-db.org/xquery/system";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
-declare namespace xhtml = "http://www.w3.org/1999/xhtml";
-declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
+declare namespace transform = "http://exist-db.org/xquery/transform";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
