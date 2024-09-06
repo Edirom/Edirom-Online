@@ -24,19 +24,19 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     },
 
     layout: 'fit',
-    
+
     border: 0,
-    
+
     viewer: null,
-    
+
     imageWidth: 0,
     imageHeight: 0,
-    
+
     imagePrefix: null,
-    
+
     shapes: null,
     partLabel: null,
-    
+
     annotTipWidth: 220,
     annotTipMaxWidth: 300,
     annotTipHeight: 140,
@@ -45,12 +45,12 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
     initComponent: function () {
 
         var me = this;
-        
+
         me.imagePrefix = getPreference('image_prefix');
-        
+
         me.addEvents('zoomChanged',
                     'imageChanged');
-        
+
        var openseadragonEvents;
 
         if (me.partLabel != null) {
@@ -64,19 +64,19 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         else {
           openseadragonEvents = '<div id="' + me.id + '_openseadragonEvents" class="openseadragonEvents"></div>';
          };
-         
+
         me.html = '<div id="' + me.id + '_openseadragon" style="background-color: black; top:0px; bottom: 0px; left: 0px; right: 0px; position:absolute;"></div>' + openseadragonEvents;
 
         me.shapes = new Ext.util.MixedCollection();
-        
+
         me.callParent();
-        
+
         me.on('afterrender', me.initSurface, me, {single: true});
     },
 
     initSurface: function() {
         var me = this;
-        
+
         me.viewer = OpenSeadragon({
             id: me.id + '_openseadragon',
             showNavigator:  false,
@@ -86,25 +86,25 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         me.viewer.addHandler('zoom', function(event){ me.fireEvent('zoomChanged', event.zoom);});
         me.viewer.gestureSettingsMouse.clickToZoom = false;
     },
-            
+
     clear: function() {
         var me = this;
         me.rect = null;
     },
-    
+
     showImage: function(path, width, height, pageId) {
         var me = this;
-        
+
         me.imageHeight = height;
         me.imageWidth = width;
         me.imgPath = path;
         me.imgId = pageId;
-        
+
         var iiifPath = path;
         if(!path.startsWith("http")) {
             iiifPath = me.imagePrefix + path.replace(new RegExp('\/', 'g'), '!');
         }
-        
+
         me.viewer.open({
             "@context": "http://iiif.io/api/image/2/context.json",
             "@id": iiifPath,
@@ -122,34 +122,30 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         });
         me.fireEvent('imageChanged', me, path, pageId);
     },
-        
-    removeShapes: function() {
-        
-    },
-    
+
     fitInImage: function() {
-    
+
         var me = this;
         me.viewer.viewport.goHome();
     },
-    
+
     setZoomAndCenter: function(z) {
-    
+
         var me = this;
         me.viewer.viewport.zoomTo(z);
     },
-    
+
     getActualRect: function() {
-    
+
         var me = this;
-        
+
         var viewportBounds = me.viewer.viewport.getBounds();
         var imageBounds = me.viewer.viewport.viewportToImageRectangle(viewportBounds.x, viewportBounds.y, viewportBounds.width, viewportBounds.height);
         var x = (imageBounds.x < 0?0:imageBounds.x);
         var y = (imageBounds.y < 0?0:imageBounds.y);
         var width = (imageBounds.width > me.imageWidth?me.imageWidth:imageBounds.width);
         var height = (imageBounds.height > me.imageHeight?me.imageHeight:imageBounds.height);
-        
+
         return {
             x: x,
             y: y,
@@ -157,9 +153,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             height: height
         };
     },
-    
+
     showRect: function(x, y, width, height, highlight) {
-    
+
         var me = this;
         me.rect = {
             x:x,
@@ -172,9 +168,9 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
         me.viewer.viewport.fitBoundsWithConstraints(rect);
     },
-    
+
     addMeasures: function(shapes) {
-   
+
         var me = this;
 
         me.shapes.add('measures', shapes);
@@ -192,10 +188,10 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             measure.id = me.id + '_' + id;
             measure.className = "measure";
             measure.innerHTML = '<span class="' + (name === ''?'measureInnerEmpty':'measureInner') + '" id="' + me.id + '_' + id + '_inner">' + name + '</span>';
-            
+
             var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
             var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
-            
+
             me.viewer.addOverlay({
                 element: measure,
                 location: new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)
@@ -209,17 +205,17 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             });
         });
     },
-    
+
     addSVGOverlay: function(overlayId, overlay, name, uri, fn) {
-    
+
         var me = this;
-        
+
         var svgId = me.id + '_' + overlayId;
         var overlayOSD = me.viewer.getOverlayById(svgId);
         if (overlayOSD !== null ) {
             return;
         }
-        
+
         overlay.each(function(overlay){
             if (overlay.get('svg') !== null) {
                 parser = new DOMParser;
@@ -239,7 +235,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             }
         });
     },
-    
+
     removeSVGOverlay: function(overlayId) {
         var me = this;
         var svgId = me.id + '_' + overlayId;
@@ -248,12 +244,25 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             overlayOSD.destroy();
         }
     },
-    
-    removeShapes: function(groupName) {
-   
-        var me = this;
-        if(!me.shapes.containsKey(groupName)) return;
 
+    removeShapes: function(groupName) {
+
+        if(debug !== null && debug) {
+            console.log('view: OpenSeaDragonView: removeShapes');
+            console.log(groupName);
+        }
+
+        var me = this;
+
+        //abort if me.shapes does not contain key
+        if(!me.shapes.containsKey(groupName)) {
+            if(debug !== null && debug) {
+                console.log('me.shapes does not contain key: ' + groupName);
+            }
+            return;
+        }
+
+        // create function for each shape
         var fn = function(shape) {
 
             var id;
@@ -262,6 +271,11 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 id = shape.get('id');
             }catch(e) {
                 id = shape.id;
+            }
+
+            if(debug !== null && debug) {
+                console.log('me.id: ' + me.id);
+                console.log('+shape.id: ' + me.id + '_' + id);
             }
 
             me.viewer.removeOverlay(me.id + '_' + id);
@@ -274,34 +288,59 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         me.shapes.add(groupName, []);
     },
-    
+
+
     highlightShape: function(event, owner, shape) {
-    
+
         var elem = Ext.get(shape);
         elem.addCls('highlighted');
-        
+
         var annotId = elem.getAttribute('data-edirom-annot-id');
         Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
         Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).addCls('combinedHighlight');
     },
 
     deHighlightShape: function(event, owner, shape) {
-    
+
         var elem = Ext.get(shape);
         elem.removeCls('highlighted');
-        
+
         var annotId = elem.getAttribute('data-edirom-annot-id');
         Ext.select('div[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
         Ext.select('span[data-edirom-annot-id=' + annotId + ']', this.el).removeCls('combinedHighlight');
     },
-    
+
     addAnnotations: function(annotations) {
-    	
+
         var me = this;
 
+        if(debug !== null && debug) {
+            console.log('controller: OpenseaDragonView: addAnnotaitons');
+            console.log('annotations RAW');
+            console.log(annotations);
+        }
+
+        //add empty annotations array to shapes
         me.shapes.add('annotations', []);
 
+        // template for annotation element
+        //TODO: currently unused
+        //var dh = Ext.DomHelper;
+        //var tpl = dh.createTemplate('<div id="{0}" class="annotation {2} {3} {4}" data-edirom-annot-id="{4}"><div id="{0}_inner" class="annotIcon" title="{1}"></div></div>');
+        //tpl.compile();
+
+        if(debug !== null && debug) {
+            console.log('me.shapes annotations');
+            console.log(me.shapes.get('annotations'));
+        }
+
+        // iterate over annotations
         annotations.each(function(annotation) {
+
+            if(debug !== null && debug) {
+                console.log('Processing annotation…');
+                console.log(annotation);
+            }
 
             var annoId = annotation.get('id');
             var name = annotation.get('title');
@@ -310,53 +349,61 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
             var priority = annotation.get('priority');
             var fn = annotation.get('fn');
             var plist = Ext.Array.toArray(annotation.get('plist'));
-            
+
+            //push plist to me.shapes annotations
+            Ext.Array.push(me.shapes.get('annotations'), plist);
+
+            //iterate over an annotations plist
             Ext.Array.each(plist, function(shape) {
 
-                var id = shape.id;
+                var id = shape.id; //pattern from XQL 'annotation_' || $annoId || '_' || string($p/@xml:id)
                 var x = shape.ulx;
                 var y = shape.uly;
                 var width = shape.lrx - shape.ulx;
                 var height = shape.lry - shape.uly;
                 var partType = shape.type;
-                
+
                 var anno = me.viewer.getOverlayById(me.id + '_' + id);
                 if(anno === null) {
-                    
+
                     var anno = document.createElement('div');
                     anno.id = me.id + '_' + id;
                     anno.className = 'annotation';
 
+                    // annoIcon: has to be nearly identical to annoIcon in else
                     var annoIcon = document.createElement('div');
-                    annoIcon.id = annoId + '_' + anno.id + '_inner';
+                    annoIcon.id = anno.id + annoId;
                     annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
                     anno.append(annoIcon);
-                    
+
                     var point = me.viewer.viewport.imageToViewportCoordinates(x, y);
                     var rect = me.viewer.viewport.imageToViewportRectangle(x, y, width, height);
-                    
+
                     me.viewer.addOverlay({element:anno, location:new OpenSeadragon.Rect(point.x, point.y, rect.width, rect.height)});
-                
+
                 }else {
-                    
+
+                    // annoIcon: has to be nearly identical to annoIcon in if
                     var anno = me.el.getById(me.id + '_' + id);
                     var annoIcon = document.createElement('div');
-                    annoIcon.id = annoId + '_' + anno.id + '_inner';
+                    annoIcon.id = anno.id + annoId;
                     annoIcon.className = 'annotIcon ' + categories + ' ' + priority + ' ' + partType;
                     anno.dom.append(annoIcon);
                 }
 
-                Ext.Array.push(me.shapes.get('annotations'), annoId + '_' + anno.id + '_inner');
-                var annoIcon = me.el.getById(annoId + '_' + anno.id + '_inner');
-                
+                // retrieve dom element of annotationIcon to bind actions
+                var annoIcon = me.el.getById(annoIcon.id);
+
+                // bind onclick action to annotation icon
                 annoIcon.on('click', me.openShapeLink, me, {
                     single: true,
                     stopEvent : true,
                     fn: fn
                 });
 
+                // create the tooltip for the annotation
                 var tip = Ext.create('Ext.tip.ToolTip', {
-                    target: annoId + '_' + anno.id + '_inner',
+                    target: annoIcon.id,
                     cls: 'annotationTip',
                     width: me.annotTipWidth,
                     maxWidth: me.annotTipMaxWidth,
@@ -368,6 +415,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     html: getLangString('Annotation_plus_Title', name)
                 });
 
+                // bind function to fetch the contents for the annotation tooltip
                 tip.on('afterrender', function() {
                     window.doAJAXRequest('data/xql/getAnnotation.xql',
                         'GET',
@@ -388,6 +436,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     }, this);
                 }, tip);
 
+                // delay hiding the annotation tooltip
                 tip.on('beforehide', function() {
                     if(this.el.hasCls('mouseOverAnnot')) {
                         Ext.Function.defer(function(){
@@ -397,28 +446,33 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     }
                 }, tip);
             });
+            if(debug !== null && debug) {
+                console.log('me.shapes annotations');
+                console.log(me.shapes.get('annotations'));
+            }
         });
     },
-    
+
     getShapes: function(groupName) {
-    
+
         var me = this;
         var shapes = me.shapes.get(groupName);
         return (shapes == null || typeof shapes === 'undefined'?[]:shapes);
     },
-    
+
     getShapeElem: function(shapeId) {
-   
+
+        if(debug !== null && debug) {
+            console.log('view: OpenSeaDragonView: getShapeElem: ' + shapeId);
+        }
         var me = this;
-        var elem = me.el.getById(me.id + '_' + shapeId);
-        if(elem === null)
-            elem = me.el.getById(shapeId);
-            
+        var elem = me.el.getById(me.id + '_' + shapeId);//TODO causes problems || me.el.getById(shapeId);
+
         return elem;
     },
-    
+
     listenForShapeLink: function(e, dom, args) {
-    
+
         var me = this;
 
         if(e.button != 0) return;
