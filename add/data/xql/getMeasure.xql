@@ -18,11 +18,8 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
-declare option output:omit-xml-declaration "yes";
-
-(:TODO serialize to JSON :)
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
@@ -53,9 +50,8 @@ let $movementId :=
         ($movementId)
 
 return
-    (:TODO map and serialize to JSON instead of concat :)
-    concat('{',
-    'measureId:"', $measureId, '",',
-    'movementId:"', $movementId, '",',
-    'measureCount:"', $measureCount, '"',
-    '}')
+    map {
+        'measureId': $measureId,
+        'movementId': $movementId
+        'measureCount': $measureCount
+    }
