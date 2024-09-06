@@ -17,12 +17,14 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/ut
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:media-type "text/plain";
+declare option output:method "text";
 
 declare function local:getAnnotations($edition as xs:string, $edition_path as xs:string, $uri as xs:string, $elemIds as xs:string*) as xs:string* {
     
