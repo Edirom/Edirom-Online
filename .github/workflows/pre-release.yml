@@ -24,6 +24,8 @@ jobs:
     steps:
     - name: Chekout repository
       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      with:
+        submodules: 'recursive'
       
     - name: Get short sha
       uses: benjlevesque/short-sha@599815c8ee942a9616c92bcfb4f947a3b670ab0b # v3.0
