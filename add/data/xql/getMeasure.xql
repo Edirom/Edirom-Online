@@ -40,7 +40,7 @@ let $measureId :=
 
 let $mei := doc($id)/root()
 
-let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/@xml:id
+let $movementId := $mei/id($measureId)/ancestor::mei:mdiv[1]/string(@xml:id)
 
 (: Specific handling of virtual measure IDs for parts in OPERA project :)
 let $movementId :=
@@ -52,6 +52,6 @@ let $movementId :=
 return
     map {
         'measureId': $measureId,
-        'movementId': $movementId
+        'movementId': $movementId,
         'measureCount': $measureCount
     }
