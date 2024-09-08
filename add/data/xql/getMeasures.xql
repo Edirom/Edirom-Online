@@ -82,7 +82,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as arra
                 }
     ) else (
         if ($mei/id($mdivID)//mei:measure[@label]) then (
-            for $measureN in $mei/id($mdivID)//mei:measure/@label
+            for $measureN in $mei/id($mdivID)//mei:measure/data(@label)
             let $measures := $mei/id($mdivID)//mei:measure[@label = $measureN]
             let $measure := $measures[1]
             (:let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n):)
