@@ -66,7 +66,7 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as arra
                     else
                         ($part//mei:measure[@n = $measureN][1])
                 for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
-                let $voiceRef := $part//mei:staffDef/@decls
+                let $voiceRef := $part//mei:staffDef/string(@decls)
                 return
                     map {
                         "id": $measure/string(@xml:id),
