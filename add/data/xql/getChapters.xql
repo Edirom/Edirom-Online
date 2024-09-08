@@ -48,7 +48,7 @@ declare function local:changeFormat($n) as xs:string {
 
 let $uri := request:get-parameter('uri', '')
 let $mode := request:get-parameter('mode', '')
-let $tei := eutil:getDoc($uri)/root()
+let $tei := eutil:getDoc($uri)
 
 let $ret as array(*)* :=
     array {
@@ -79,9 +79,9 @@ let $ret as array(*)* :=
                         ($label)
                 return
                     map {
-                        'id': $chapter/string(@xml:id),
-                        'name': concat($n, $label),
-                        'pageId': $pageId
+                        "id": $chapter/string(@xml:id),
+                        "name": concat($n, $label),
+                        "pageId": $pageId
                     }
             ) else if ($elem/local-name() = 'milestone' and $elem[@unit = 'number']) then (
                 let $numbers := $elem
@@ -89,9 +89,9 @@ let $ret as array(*)* :=
                 order by $numbers/number(replace(@n, '\D', '')), $numbers/@n
                 return
                     map {
-                        'id': $numbers/string(@xml:id),
-                        'name': $n,
-                        'pageId': $pageId
+                        "id": $numbers/string(@xml:id),
+                        "name": $n,
+                        "pageId": $pageId
                     }
             ) else if ($elem/local-name() = 'div' and $elem[@type = 'act']) then (
                 let $act := $elem
@@ -117,9 +117,9 @@ let $ret as array(*)* :=
                             ('-1')
                     return
                         map {
-                            '"id"': $scene/string(@xml:id),
-                            '"name"': $label,
-                            'pageId': $pageId
+                            "id": $scene/string(@xml:id),
+                            "name": $label,
+                            "pageId": $pageId
                         }
             ) else
                 ()
