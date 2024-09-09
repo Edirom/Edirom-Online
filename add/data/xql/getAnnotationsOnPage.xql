@@ -107,7 +107,8 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
     
     (: TODO: search in other documents and in other collections :)
     (: TODO: check if annotations hold URIs or IDRefs :)
-    functx:distinct-deep(
+    let $annots := collection(eutil:getPreference('edition_path', $edition))//mei:annot
+    let $ret :=
         for $id in $elemIds
         
         let $uriPlusId := concat($uri, '#', $id)
@@ -115,7 +116,6 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
         let $hashId := '#' || $id
         
         (: all mei:annot elements in the editions 'edition_path' collection :)
-        let $annots := collection(eutil:getPreference('edition_path', $edition))//mei:annot
         
         return
             (:
@@ -124,7 +124,7 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
              :)
             $annots[contains(@plist, $uriPlusId)][$uriPlusId = tokenize(@plist, '\s')] |
             $annots[contains(@plist, $hashId)][$hashId = tokenize(@plist, '\s')]
-    )
+    return functx:distinct-deep($ret)
 };
 
 (:~
@@ -232,7 +232,11 @@ let $measureLike :=
     for $id in $zones[@type = 'measure' or @type = 'staff']/string(@xml:id)
     let $ref := concat('#', $id)
     return
-        $mei//*[$ref = tokenize(@facs, '\s')]
+        (:
+         : The first predicate with `contains` is just a rough estimate to narrow down the result set.
+         : It uses the index and is fast while the second (exact) predicate is generally too slow
+         :)
+        $mei//*[contains(@facs, $ref)][$ref = tokenize(@facs, '\s+')]
 
 let $svgLike := $surface//svg:svg
 
