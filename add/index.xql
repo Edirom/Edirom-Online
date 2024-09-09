@@ -45,6 +45,10 @@ let $eoEditionFileSingle := <html>
                                     <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
                                     <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
                                     
+                                    <script>
+                                        var debug=false;
+                                    </script>
+                                    
                                     <!-- **Raphael JS** -->
                                     <script type="text/javascript" src="resources/js/raphael-min.js"/>
                                     
