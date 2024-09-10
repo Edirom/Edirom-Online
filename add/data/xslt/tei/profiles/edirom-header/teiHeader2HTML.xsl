@@ -46,6 +46,10 @@
         <xsl:apply-templates select="//tei:teiHeader"/>
     </xsl:template>
     
+    
+    <xd:doc scope="component">
+        <xd:desc>determine node handling in plainCommaSep mode</xd:desc>
+    </xd:doc>
     <xsl:template match="node()" mode="plainCommaSep">
         <xsl:choose>
             <!-- nur attribute keinerlei kindknoten -->
