@@ -61,7 +61,7 @@ return
             </parameters>
         )
     ) else if ($type = 'text') then (
-        transform:transform($doc, concat($base, 'teiHeader2HTML.xsl'),
+        transform:transform($doc, concat($base, 'tei/profiles/edirom-header/teiHeader2HTML.xsl'),
             <parameters>
                 <param name="base" value="{$base}"/>
                 <param name="lang" value="{$lang}"/>
