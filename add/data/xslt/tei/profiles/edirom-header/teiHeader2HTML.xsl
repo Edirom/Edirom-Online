@@ -35,7 +35,7 @@
   
     
 <!-- OUTPUT ======================================================= -->
-    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
+    <xsl:output encoding="UTF-8" media-type="text/xhtml" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
 
 <!-- DEFAULT TEMPLATEs ======================================================= -->
     
