@@ -2,31 +2,33 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eof="http://www.edirom.de/xslt/ediromOnlineFunctions" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs eof xd tei" version="2.0" xml:space="default">
 
 <!-- IMPORTs TEI ======================================================= -->
-    <xsl:import href="tei/common2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/tei.xsl"/>
-    <xsl:import href="tei/xhtml2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/core.xsl"/>
-    <xsl:import href="tei/common2/textstructure.xsl"/>
-    <xsl:import href="tei/common2/header.xsl"/>
-    <xsl:import href="tei/common2/linking.xsl"/>
-    <xsl:import href="tei/common2/figures.xsl"/>
-    <xsl:import href="tei/common2/textcrit.xsl"/>
-    <xsl:import href="tei/common2/i18n.xsl"/>
-    <xsl:import href="tei/common2/functions.xsl"/>
-    <xsl:import href="tei/xhtml2/core.xsl"/>
-    <xsl:import href="tei/xhtml2/corpus.xsl"/>
-    <xsl:import href="tei/xhtml2/dictionaries.xsl"/>
-    <xsl:import href="tei/xhtml2/drama.xsl"/>
-    <xsl:import href="tei/xhtml2/figures.xsl"/>
-    <xsl:import href="tei/xhtml2/header.xsl"/>
-    <xsl:import href="tei/xhtml2/linking.xsl"/>
-    <xsl:import href="tei/xhtml2/namesdates.xsl"/>
-    <xsl:import href="tei/xhtml2/tagdocs.xsl"/>
-    <xsl:import href="tei/xhtml2/textstructure.xsl"/>
-    <xsl:import href="tei/xhtml2/textcrit.xsl"/>
-    <xsl:import href="tei/xhtml2/transcr.xsl"/>
-    <xsl:import href="tei/xhtml2/verse.xsl"/>
-    <xsl:import href="tei/common2/verbatim.xsl"/>
+<!--    <xsl:import href="../../Stylesheets/common/common_param.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/html/html_param.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_core.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_textstructure.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_header.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_linking.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_figures.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_textcrit.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/i18n.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/functions.xsl"/>-->
+    
+<!--    <xsl:import href="../../Stylesheets/html/html.xsl"/>-->
+    <!--<xsl:import href="../../Stylesheets/html/html_core.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_corpus.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_dictionaries.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_drama.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_figures.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_header.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_linking.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_namesdates.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_tagdocs.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_textstructure.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_textcrit.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_transcr.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_verse.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/verbatim.xsl"/>-->
   
 <!-- IMPORTs ======================================================= -->
     <xsl:import href="../../../ediromOnline_params.xsl"/>
