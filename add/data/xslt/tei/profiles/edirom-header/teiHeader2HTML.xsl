@@ -29,9 +29,9 @@
     <xsl:import href="tei/common2/verbatim.xsl"/>
   
 <!-- IMPORTs ======================================================= -->
-    <xsl:import href="ediromOnline_params.xsl"/>
-    <xsl:import href="ediromOnline_functions.xsl"/>
-    <xsl:import href="ediromOnline_metadata.xsl"/>
+    <xsl:import href="../../../ediromOnline_params.xsl"/>
+    <xsl:import href="../../../ediromOnline_functions.xsl"/>
+    <xsl:import href="../../../ediromOnline_metadata.xsl"/>
   
     
 <!-- OUTPUT ======================================================= -->
