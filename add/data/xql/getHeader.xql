@@ -5,6 +5,8 @@ xquery version "3.1";
 
 (: IMPORTS ================================================================= :)
 
+import module namespace apputil="http://exist-db.org/xquery/apps";
+
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
@@ -36,7 +38,7 @@ let $docUri :=
 let $doc := eutil:getDoc($docUri)
 let $lang := request:get-parameter('lang', 'de')
 
-let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)
+let $base := 'xmldb:exist:///db/apps/' || apputil:link-to-app('http://www.edirom.de/apps/EdiromOnline', "data/xslt/")
 
 return
     if ($type = 'work') then (
