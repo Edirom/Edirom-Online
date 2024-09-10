@@ -774,7 +774,7 @@
     <xsl:template name="postCodeSettlement">
         <xsl:element name="div">
             <xsl:call-template name="rendToClass">
-                <xsl:with-param name="id">postCodeSettlement</xsl:with-param>
+                <xsl:with-param name="default">postCodeSettlement</xsl:with-param>
             </xsl:call-template>
             <xsl:apply-templates select="tei:postCode" mode="plain"/>
             <xsl:text> </xsl:text>
