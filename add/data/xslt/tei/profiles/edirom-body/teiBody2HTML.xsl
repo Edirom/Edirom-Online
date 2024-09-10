@@ -73,9 +73,9 @@
             <xsl:with-param name="implicitBlock" select="$implicitBlock"/>
         </xsl:next-match>
     -->
-    <doc xmlns="http://www.oxygenxml.com/ns/doc/xsl">
-        <desc>Section-like object</desc>
-    </doc>
+    <xd:doc>
+        <xd:desc>Section-like object</xd:desc>
+    </xd:doc>
     <xsl:template name="makeSection">
         <xsl:param name="element"/>
         <xsl:param name="level"/>
@@ -148,11 +148,16 @@
                 </xsl:otherwise>
             </xsl:choose>
         -->
+        
+        <!-- the graphics prefix will be prepended and should identify relative @urls -->
         <xsl:variable name="graphicsPrefix">
             <xsl:choose>
-                <xsl:when test="starts-with(@url, '../')">
-                    <xsl:value-of select="$contextPath || '/' || substring-after(functx:substring-before-last($docUri, '/'), 'xmldb:exist:///db/') || '/'"/>
+                <xsl:when test="starts-with(@url, 'http')">
+                    <!-- url starts with http i.e. points to a web accessible location -->
                 </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$contextPath || '/' || substring-after(functx:substring-before-last($docUri, '/'), 'xmldb:exist:///db/') || '/'"/>
+                </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
         <!-- /Edirom Online specific cutomization -->
