@@ -608,10 +608,22 @@
     
     
     <xsl:template match="mei:seriesStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+            <xsl:with-param name="sub" select="false()"/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    
+    <xsl:template match="mei:seriesStmt/*" mode="plainCommaSep">
+        <xsl:apply-templates select="." mode="valueOnly" />
+    </xsl:template>
+    
+    <!--<xsl:template match="mei:seriesStmt">
         <xsl:variable name="sub">
             <xsl:choose>
                 <xsl:when test="ancestor::mei:work">
-                    <!-- TODO test -->
+                    <!-\- TODO test -\->
                     <xsl:value-of select="true()" />
                 </xsl:when>
                 <xsl:when test="ancestor::mei:source">
@@ -624,7 +636,7 @@
             <xsl:with-param name="key" select="local-name(.)" />
             <xsl:with-param name="node" select="." />
         </xsl:call-template>
-        <!--<xsl:element name="div">
+        <!-\-<xsl:element name="div">
             <xsl:call-template name="rendToSubProperty">
                 <xsl:with-param name="key" select="string('seriesStmt')"/>
             </xsl:call-template>
@@ -634,8 +646,8 @@
                     <xsl:with-param name="sub" select="true()"></xsl:with-param>
                 </xsl:apply-templates>
             </xsl:element>
-        </xsl:element>-->
-        <!--<xsl:element name="div">
+        </xsl:element>-\->
+        <!-\-<xsl:element name="div">
             <xsl:attribute name="class">propertyList</xsl:attribute>
             <xsl:for-each select="./title">
                 <xsl:call-template name="title"/>
@@ -646,8 +658,8 @@
             <xsl:for-each select="./identifier">
                 <xsl:call-template name="identifier"/>
             </xsl:for-each>
-        </xsl:element>-->
-    </xsl:template>
+        </xsl:element>-\->
+    </xsl:template>-->
     
     
     <xsl:template match="mei:source" name="source">
@@ -1366,29 +1378,29 @@
   </xsl:template>-->
     
     
-    <xsl:template match="mei:editionStmt" mode="plainCommaSep">
+    <!--<xsl:template match="mei:editionStmt" mode="plainCommaSep">
         <xsl:param name="sub" tunnel="yes" />
         <xsl:apply-templates mode="#current">
             <xsl:with-param name="sub" select="true()" tunnel="yes" />
         </xsl:apply-templates>
-    </xsl:template>
+    </xsl:template>-->
     
     
-    <xsl:template match="mei:edition">
+    <!--<xsl:template match="mei:edition">
         <xsl:param name="sub" tunnel="yes" />
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="." />
             <xsl:with-param name="sub" select="$sub" tunnel="yes" />
         </xsl:call-template>
-    </xsl:template>
+    </xsl:template>-->
     
     
-    <xsl:template match="mei:edition" mode="plainCommaSep">
+    <!--<xsl:template match="mei:edition" mode="plainCommaSep">
         <xsl:apply-templates select="@*" />
         <xsl:apply-templates select="*" mode="plainCommaSep">
             <xsl:with-param name="sub" select="true()" tunnel="yes" />
         </xsl:apply-templates>
-    </xsl:template>
+    </xsl:template>-->
     
     
     <xsl:template match="mei:fig" mode="#all">
