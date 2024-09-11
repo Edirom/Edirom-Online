@@ -364,6 +364,37 @@
     <xsl:template match="tei:encodingDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
+    
+    <xsl:template match="tei:encodingDesc/tei:tagsDecl">
+        <xsl:element name="div">
+            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:element name="div">
+                <xsl:attribute name="class">key</xsl:attribute>
+                <xsl:value-of select="eof:getLabel(local-name())"/>
+                <xsl:if test="@n">
+                    <xsl:value-of select="concat(' ', @n)"/>
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="div">
+                <xsl:attribute name="class">value</xsl:attribute>
+                
+                <xsl:element name="dl">
+                    
+                    <xsl:for-each select="*">
+                        <xsl:element name="dt">
+                            <xsl:value-of select="eof:getLabel(local-name())"/>
+                        </xsl:element>
+                        <xsl:element name="dd">
+                            <xsl:apply-templates select="." mode="plainCommaSep" />
+                        </xsl:element>
+                    </xsl:for-each>
+                    
+                </xsl:element>
+                
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
     <xsl:template match="tei:handNotes">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
