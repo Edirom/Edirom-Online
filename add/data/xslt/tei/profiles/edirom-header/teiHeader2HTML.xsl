@@ -508,21 +508,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:respStmt">
-        <xsl:element name="div">
-            <xsl:call-template name="rendToClass">
-                <xsl:with-param name="default">respStmt property</xsl:with-param>
-            </xsl:call-template>
-            <xsl:apply-templates select="tei:resp" mode="bibl"/>
-            <xsl:element name="div">
-                <xsl:call-template name="rendToClass">
-                    <xsl:with-param name="default">value</xsl:with-param>
-                </xsl:call-template>
-                <xsl:apply-templates select="tei:name" mode="bibl"/>
-            </xsl:element>
-        </xsl:element>
-    </xsl:template>
-    
     
     <xsl:template match="tei:resp" mode="bibl">
         <xsl:element name="div">
