@@ -149,7 +149,14 @@
             </xsl:choose>
         -->
         
-        <!-- the graphics prefix will be prepended and should identify relative @urls -->
+        <!-- 
+            The variable `$graphicsPrefix` is to distinguish images (referenced from a TEI file) that are 
+            a) to be fetched from a remote location (via http or https) or 
+            b) from the current EOL instance
+            
+            In the case of a) `$graphicsPrefix` will be the empty-sequence
+            In the case of b) `$graphicsPrefix` will hold a string with the computed URL of the image
+        -->
         <xsl:variable name="graphicsPrefix" as="xs:string?">
             <xsl:choose>
                 <xsl:when test="starts-with(@url, 'http')">
