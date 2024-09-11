@@ -800,53 +800,9 @@
     </xsl:template>
     
     
-    <xsl:template match="tei:titleStmt/tei:respStmt" mode="plainCommaSep">
-        
-        <xsl:variable name="key" select="local-name()"/>
-        <xsl:variable name="subkey" select="tei:resp"/>
-        
-        <xsl:element name="div">
-            <xsl:attribute name="class">subProperty</xsl:attribute>
-            <xsl:element name="span">
-                <xsl:attribute name="class" select="string('subkey')"/>
-                <xsl:value-of select="eof:getLabel($key)"/>
-                <xsl:if test="$subkey != ''">
-                    <xsl:element name="span">
-                        <xsl:attribute name="class" select="'subkey'"/>
-                        <xsl:value-of select="$subkey"/>
-                    </xsl:element>
-                </xsl:if>
-            </xsl:element>
-            <xsl:element name="span">
-                <xsl:attribute name="class" select="string('subvalue')"/>
-                <xsl:variable name="nodes" as="node()+">
-                    <xsl:for-each select="* except tei:resp">
-                        <xsl:apply-templates select="." mode="plain"/>
-                    </xsl:for-each>
-                </xsl:variable>
-                
-                <xsl:variable name="joiner">
-                    <xsl:text>, </xsl:text>
-                </xsl:variable>
-                
-                <xsl:for-each select="$nodes">
-                    
-                    <xsl:variable name="position" select="position()"/>
-                    
-                    <xsl:choose>
-                        <xsl:when test="$position = count($nodes)">
-                            <xsl:copy-of select="." />
-                        </xsl:when>
-                        <xsl:otherwise>
-                            <xsl:copy-of select="., $joiner" />
-                        </xsl:otherwise>
-                    </xsl:choose>
-                    
-                </xsl:for-each>
-                
-            </xsl:element>
-        </xsl:element>
-    </xsl:template>
+  <xsl:template match="tei:titleStmt/tei:respStmt" mode="plainCommaSep">
+      <xsl:apply-imports/>
+  </xsl:template>
     
     
     <xsl:template match="tei:titleStmt/tei:respStmt/tei:resp" mode="plain" />

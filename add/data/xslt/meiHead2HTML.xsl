@@ -854,7 +854,7 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:respStmt" name="respStmt">
+    <!--<xsl:template match="mei:respStmt" name="respStmt">
         <xsl:param name="sub" tunnel="yes" />
         <xsl:variable name="key">
             <xsl:choose>
@@ -897,10 +897,10 @@
                 </xsl:call-template>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template>
+    </xsl:template>-->
     
     
-    <xsl:template match="mei:respStmt" mode="plainCommaSep">
+    <!--<xsl:template match="mei:respStmt" mode="plainCommaSep">
         <xsl:param name="sub" tunnel="yes" />
         <xsl:variable name="key">
             <xsl:choose>
@@ -928,7 +928,7 @@
             <xsl:with-param name="node" select="." />
             <xsl:with-param name="key" select="$key" />
         </xsl:call-template>
-    </xsl:template>
+    </xsl:template>-->
     
     
     <xsl:template match="mei:persName['led' = tokenize(@role, ' ')]" mode="plainCommaSep subProp">
@@ -951,7 +951,7 @@
     </xsl:template>-->
     
     
-    <!--<xsl:template match="respStmt/*[not(local-name() eq 'resp')]" name="resp" mode="plainCommaSep">
+    <xsl:template match="respStmt/*[not(local-name() eq 'resp')]" name="resp" mode="plainCommaSep">
             <xsl:element name="div">
                 <xsl:attribute name="class">property</xsl:attribute>
                 <xsl:element name="div">
@@ -986,7 +986,9 @@
                     </xsl:choose>
                 </xsl:element>
             </xsl:element>
-        </xsl:template>-->
+        </xsl:template>
+    
+    <!-- TODO include the following into the general concept -->
     <!--<xsl:template match="respStmt/*[not(local-name() eq 'resp')]" name="respValue" mode="valueOnly">
         <xsl:choose>
             <xsl:when test="@authURI">
