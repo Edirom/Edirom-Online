@@ -2408,4 +2408,10 @@
         <xsl:apply-templates mode="plainCommaSep" />
     </xsl:template>
     
+    <xsl:template match="mei:title[ancestor::mei:p]" mode="plainCommaSep">
+        <xsl:element name="q">
+            <xsl:apply-templates />
+        </xsl:element>
+    </xsl:template>
+    
 </xsl:stylesheet>
