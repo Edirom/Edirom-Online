@@ -2420,4 +2420,8 @@
         </xsl:element>
     </xsl:template>
     
+    <xsl:template match="mei:lb[ancestor::mei:titlePage]" mode="valueOnly">
+        <xsl:element name="br" />
+    </xsl:template>
+    
 </xsl:stylesheet>
