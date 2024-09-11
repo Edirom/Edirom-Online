@@ -201,6 +201,13 @@
         </xsl:call-template>
     </xsl:template>
     
+    
+    <xsl:template match="tei:editionStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <xsl:template match="tei:extent" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
