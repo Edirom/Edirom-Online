@@ -91,7 +91,7 @@ declare function eutil:getLocalizedName($node, $lang) {
         if($node/edirom:names) then
             ($name)
         else
-            ($name => string-join(' ') => normalize-space())
+            (eutil:joindAndNormalize($name,' '))
 
 };
 
@@ -108,25 +108,25 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
   
     let $titleMEI :=
         if ($lang != '' and $lang = $node/mei:title/@xml:lang and not($node/mei:title/mei:titlePart)) then
-            ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
+            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]//text(), ''))
         else if ($lang != '' and $lang = $node/mei:title/@xml:lang and $node/mei:title/mei:titlePart) then
-            ($node/mei:title[@xml:lang = $lang]/mei:titlePart[1]//text() => string-join() => normalize-space())
+            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]/mei:titlePart[1]//text(), ''))
         else
-            (($node//mei:title)[1]//text() => string-join() => normalize-space())
+            (eutil:joindAndNormalize(($node//mei:title)[1]//text(), ''))
     
     let $titleTEI :=
         if ($lang != '' and $lang = $node/tei:title/@xml:lang) then
-            $node/tei:title[@xml:lang = $lang]/text()
+            eutil:joindAndNormalize($node/tei:title[@xml:lang = $lang]//text(), '')
         else
-            $node/tei:title[1]/text()
+            eutil:joindAndNormalize($node/tei:title[1]//text(), '')
     
     return
-        if ($namespace = 'mei') then
+        if ($namespace = 'mei' and $titleMEI != '') then
             ($titleMEI)
-        else if ($namespace = 'tei') then
+        else if ($namespace = 'tei' and $titleTEI != '') then
             ($titleTEI)
         else
-            ('unknown')
+            ('[No title found!]')
 
 };
 (:~
@@ -240,7 +240,7 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
             upper-case($i)
 
     return
-        normalize-space(string-join(($label, $numbering),' '))
+        eutil:joindAndNormalize(($label, $numbering),' ')
 
 };
 
