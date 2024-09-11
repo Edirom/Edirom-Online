@@ -150,7 +150,7 @@
         -->
         
         <!-- the graphics prefix will be prepended and should identify relative @urls -->
-        <xsl:variable name="graphicsPrefix">
+        <xsl:variable name="graphicsPrefix" as="xs:string?">
             <xsl:choose>
                 <xsl:when test="starts-with(@url, 'http')">
                     <!-- url starts with http i.e. points to a web accessible location -->
