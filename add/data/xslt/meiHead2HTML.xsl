@@ -2414,4 +2414,10 @@
         </xsl:element>
     </xsl:template>
     
+    <xsl:template match="mei:q" mode="valueOnly">
+        <xsl:element name="q">
+            <xsl:apply-templates />
+        </xsl:element>
+    </xsl:template>
+    
 </xsl:stylesheet>
