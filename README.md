@@ -2,7 +2,7 @@
 
 <div align="center">
  
-**[Show cases](https://github.com/Edirom/Edirom-Online#-Show-cases) • 
+**[Showcases](https://github.com/Edirom/Edirom-Online#-Show-cases) • 
 [Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
 [Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
 [Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
