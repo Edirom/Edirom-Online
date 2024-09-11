@@ -457,6 +457,14 @@
     </xsl:template>
     
     
+    <xsl:template match="mei:fileDesc/mei:titleStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="." />
+            <xsl:with-param name="sub" select="true()" tunnel="yes" />
+        </xsl:call-template>
+    </xsl:template>
+    
+    
     <!--<xsl:template match="mei:fileDesc" mode="getFileInfo">
         <xsl:apply-templates select="./mei:titleStmt"/>
         <xsl:if test="count(./pubStmt/child::node()) gt 0">
