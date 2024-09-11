@@ -104,20 +104,19 @@
     <entry xml:id="workTitle">Titel</entry>
     <entry xml:id="unpub">Unveröffentlicht</entry>
     <entry xml:id="geogName">Ort</entry>
+
     <!-- MEI -->
     <entry xml:id="annot">Annotation</entry>
-    <entry xml:id="componentGrp">Bestandteile</entry>
-    <entry xml:id="expressionList">Expressionen</entry>
-    <entry xml:id="handList">Schreiber</entry>
-    <entry xml:id="pubStmt">Publikation</entry>
-    <entry xml:id="pupPlace">Ort</entry>
-    
-    
-    <entry xml:id="corpName">Körperschaft</entry>
     <entry xml:id="captureMode">Aufnahmemodus</entry>
     <entry xml:id="carrierForm">Datenträger</entry>
+    <entry xml:id="componentGrp">Bestandteile</entry>
+    <entry xml:id="corpName">Körperschaft</entry>
+    <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="fileChar">Eigenschaften</entry>
+    <entry xml:id="handList">Schreiber</entry>
     <entry xml:id="playingSpeed">Abspielgeschwindigkeit</entry>
+    <entry xml:id="pubStmt">Publikation</entry>
+    <entry xml:id="pupPlace">Ort</entry>
     <entry xml:id="relationList">FRBR-Beziehungen</entry>
     <entry xml:id="soundChan">Tonkanäle</entry>
     
