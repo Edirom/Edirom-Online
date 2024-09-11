@@ -690,6 +690,12 @@
         </xsl:element>
     </xsl:template>
     
+    <xsl:template match="tei:titleStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     
     <xsl:template match="tei:revisionDesc">
         <xsl:call-template name="makeSection"/>
