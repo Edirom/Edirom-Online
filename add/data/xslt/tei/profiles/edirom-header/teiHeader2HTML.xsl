@@ -338,6 +338,20 @@
     
     
     <xsl:template match="tei:change">
+        
+        <xsl:variable name="who">
+            <xsl:variable name="whos" as="xs:string+">
+                <xsl:for-each select="tokenize(@who, ' '), tei:name, tei:persName, tei:orgName">
+                    <xsl:value-of select="."/>
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:value-of select="$whos" separator=", "/>
+        </xsl:variable>
+        
+        <xsl:variable name="when">
+            <xsl:value-of select="(@when, tei:date/@when)[1]" />
+        </xsl:variable>
+        
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -346,20 +360,40 @@
                 <xsl:if test="@n">
                     <xsl:value-of select="concat(' ', @n)"/>
                 </xsl:if>
-                <xsl:if test="@when">
+                <xsl:if test="$when != ''">
                     <xsl:element name="span">
                         <xsl:attribute name="class">date</xsl:attribute>
-                        <xsl:value-of select="./@when"/>
+                        <xsl:value-of select="$when"/>
                     </xsl:element>
                 </xsl:if>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:value-of select="concat(@who, ': ')"/>
+                <xsl:value-of select="concat($who, ': ')"/>
                 <xsl:apply-templates/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:date that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:date" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:name that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:name" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:orgName that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:orgName" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:persName that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:persName" mode="#all" />
     
     <xsl:template match="tei:encodingDesc">
         <xsl:call-template name="makeSection"/>
