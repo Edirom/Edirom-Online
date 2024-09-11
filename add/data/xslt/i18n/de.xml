@@ -111,8 +111,8 @@
     <entry xml:id="handList">Schreiber</entry>
     <entry xml:id="pubStmt">Publikation</entry>
     <entry xml:id="pupPlace">Ort</entry>
-
-
+    
+    
     <entry xml:id="corpName">Körperschaft</entry>
     <entry xml:id="captureMode">Aufnahmemodus</entry>
     <entry xml:id="carrierForm">Datenträger</entry>
@@ -164,8 +164,8 @@
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     <entry xml:id="respStmt">Verfasserangabe</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
-   <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
-
+    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
+    
     
     <entry xml:id="Encoders">Codierung</entry>
     <entry xml:id="binding">Einband</entry>
@@ -187,6 +187,6 @@
     <entry xml:id="height">Höhe</entry>
     <entry xml:id="descLink">Quellenbeschreibung</entry>
     
-<entry xml:id="singers">Sänger</entry>
+    <entry xml:id="singers">Sänger</entry>
     <entry xml:id="musicians">Musiker</entry>
 </language>
