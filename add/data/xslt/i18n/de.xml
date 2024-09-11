@@ -114,6 +114,7 @@
     <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="fileChar">Eigenschaften</entry>
     <entry xml:id="handList">Schreiber</entry>
+    <entry xml:id="manifestationList">FRBR-Manifestationen</entry>
     <entry xml:id="playingSpeed">Abspielgeschwindigkeit</entry>
     <entry xml:id="pubStmt">Publikation</entry>
     <entry xml:id="pupPlace">Ort</entry>
