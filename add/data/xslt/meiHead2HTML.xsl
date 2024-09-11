@@ -2087,7 +2087,7 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:watermark" mode="plainCommaSep">
+    <xsl:template match="mei:watermark[not(ancestor::mei:p)]" mode="plainCommaSep">
         <xsl:element name="div">
             <xsl:attribute name="class">subproperty</xsl:attribute>
             <xsl:element name="div">
