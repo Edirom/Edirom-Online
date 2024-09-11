@@ -584,6 +584,16 @@
         </xsl:call-template>
     </xsl:template>
     
+    <xsl:template match="tei:seriesStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    <xsl:template match="tei:seriesStmt/*" mode="plainCommaSep">
+        <xsl:apply-templates select="." mode="valueOnly" />
+    </xsl:template>
+    
     <xd:doc scope="component">
         <xd:desc>define subProperties for pubStmt</xd:desc>
     </xd:doc>
