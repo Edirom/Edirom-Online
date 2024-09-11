@@ -19,9 +19,9 @@
     <xsl:import href="../../Stylesheets/html/html_corpus.xsl"/>
     <xsl:import href="../../Stylesheets/html/html_dictionaries.xsl"/>
     <xsl:import href="../../Stylesheets/html/html_drama.xsl"/>
-    <xsl:import href="../../Stylesheets/html/html_figures.xsl"/>
-    <xsl:import href="../../Stylesheets/html/html_header.xsl"/>
-    <xsl:import href="../../Stylesheets/html/html_linking.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_figures.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/html/html_header.xsl"/>-->
+    <!--<xsl:import href="../../Stylesheets/html/html_linking.xsl"/>
     <xsl:import href="../../Stylesheets/html/html_namesdates.xsl"/>
     <xsl:import href="../../Stylesheets/html/html_tagdocs.xsl"/>
     <xsl:import href="../../Stylesheets/html/html_textstructure.xsl"/>
