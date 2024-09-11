@@ -179,6 +179,14 @@
     <xsl:attribute name="class" select="default"/>
   </xsl:template>
     
+    <!-- TEMPLATES APPLICABLE TO TEI AND MEI -->
+    
+    <xsl:template match="*:editionStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
     <xsl:template match="*:titleStmt/*:respStmt" mode="plainCommaSep">
         
         <xsl:variable name="key" select="local-name()"/>
