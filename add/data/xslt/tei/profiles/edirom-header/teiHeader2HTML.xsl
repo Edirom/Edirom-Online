@@ -895,6 +895,11 @@
             <xsl:text>) </xsl:text>
         </xsl:if>
     </xsl:template>
+    <xsl:template match="tei:langUsage">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
 
     <xsl:template match="tei:listChange" mode="plainCommaSep">
         <xsl:element name="ul">
