@@ -66,23 +66,32 @@
         </xsl:variable>
         <span class="superscript"><xsl:value-of select="$footnoteCount"/></span>
     </xsl:template>
+    
+    <xd:doc scope="component">
+        <xd:desc>Transform mei:ref elements to HTML a-elements. Adds a onclick attribute to handle links with the Edirom Online LinkController.</xd:desc>
+    </xd:doc>
     <xsl:template match="mei:ref">
-        <span class="ref">
+        <xsl:element name="a">
+            <xsl:attribute name="class">ref</xsl:attribute>
+            <xsl:attribute name="href" select="@target" />
             <xsl:choose>
                 <xsl:when test="matches(@target, '\[.*\]')">
+                    <!-- target contains square brackets
+                        this ca n be used to submit loadlink options
+                    -->
                     <xsl:attribute name="onclick">
                         <xsl:text>loadLink('</xsl:text>
                         <xsl:value-of select="replace(@target, '\[.*\]', '')"/>
                         <xsl:text>', {</xsl:text>
                         <xsl:value-of select="replace(substring-before(substring-after(@target, '['), ']'), '=', ':')"/>
-                        <xsl:text>})</xsl:text>
+                        <xsl:text>}); return false;</xsl:text>
                     </xsl:attribute>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:attribute name="onclick">
-                        <xsl:text>loadLink("</xsl:text>
+                        <xsl:text>loadLink('</xsl:text>
                         <xsl:value-of select="@target"/>
-                        <xsl:text>")</xsl:text>
+                        <xsl:text>'); return false;</xsl:text>
                     </xsl:attribute>
                 </xsl:otherwise>
             </xsl:choose>
@@ -90,7 +99,7 @@
                 <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
             </xsl:if>
             <xsl:apply-templates select="* | text()"/>
-        </span>
+        </xsl:element>
     </xsl:template>
     <xsl:template match="mei:rend">
         <xsl:variable name="style">

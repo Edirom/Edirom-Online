@@ -9,6 +9,8 @@
     
     <xsl:import href="ediromOnline_metadata.xsl" />
     
+    <xsl:import href="meiP2html.xsl" />
+    
     
     <xd:doc scope="stylesheet">
         <xd:desc>
@@ -2241,15 +2243,8 @@
     </xsl:template>
     
     
-    <xsl:template match="ref">
-        <xsl:element name="a">
-            <xsl:attribute name="href">
-                <xsl:value-of select="@target" />
-            </xsl:attribute>
-            <xsl:attribute name="target">blank_</xsl:attribute>
-            <!-- TODO check for edirom internal links -->
-            <xsl:apply-templates select="* | text()" />
-        </xsl:element>
+    <xsl:template match="mei:ref" mode="#all">
+        <xsl:apply-imports />
     </xsl:template>
     
     
