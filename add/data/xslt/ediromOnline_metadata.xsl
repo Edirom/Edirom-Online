@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eof="http://www.edirom.de/xslt/ediromOnlineFunctions" xmlns:mei="http://www.music-encoding.org/ns/mei" exclude-result-prefixes="xs" version="2.0" xml:space="default">
+
+
     <xsl:import href="ediromOnline_functions.xsl" />
+
+
     <xsl:template match="node()" mode="plainCommaSep">
         <xsl:choose>
             <!-- nur attribute keinerlei kindknoten -->
@@ -67,13 +71,19 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+
     <xsl:template match="*" mode="plainDivs">
         <xsl:element name="div">
             <xsl:call-template name="rendToClass" />
             <xsl:apply-templates />
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template match="@*" mode="subProp" />
+
+
     <xsl:template name="makeSection">
         <xsl:param name="element" />
         <xsl:element name="div">
@@ -92,6 +102,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="rendToSection">
         <xsl:param name="key">
             <xsl:value-of select="eof:getLabel(local-name())" />
@@ -102,6 +114,8 @@
             <xsl:value-of select="$key" />
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="propOrSub">
         <xsl:param name="sub" />
         <xsl:param name="key" />
@@ -121,6 +135,8 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+
     <xsl:template name="rendToProperty">
         <xsl:param name="key" select="local-name()" />
         <xsl:attribute name="class">property</xsl:attribute>
@@ -129,6 +145,8 @@
             <xsl:value-of select="eof:getLabel($key)" />
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="makeProperty">
         <xsl:param name="node" />
         <xsl:param name="key" select="local-name($node)" />
@@ -157,6 +175,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="rendToSubProperty">
         <xsl:param name="key" select="local-name()" />
         <xsl:attribute name="class">subProperty</xsl:attribute>
@@ -165,6 +185,8 @@
             <xsl:value-of select="eof:getLabel($key)" />
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="makeSubProperty">
         <xsl:param name="node" />
         <xsl:param name="key" select="local-name($node)" />
@@ -182,6 +204,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+
+
     <xsl:template name="rendToClass">
         <xsl:param name="default" />
         <xsl:attribute name="class" select="default" />
@@ -189,11 +213,13 @@
 
     <!-- TEMPLATES APPLICABLE TO TEI AND MEI -->
 
+
     <xsl:template match="*:editionStmt">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="." />
         </xsl:call-template>
     </xsl:template>
+
 
     <xsl:template match="*:titleStmt/*:respStmt" mode="plainCommaSep">
 
