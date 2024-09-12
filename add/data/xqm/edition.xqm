@@ -19,6 +19,10 @@ import module namespace functx="http://www.functx.com";
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 
+(: VARIABLE DECLARATIONS =================================================== :)
+
+declare variable $edition:default-prefs-location as xs:string := '../prefs/edirom-prefs.xml';
+
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
