@@ -5,6 +5,20 @@
     <xsl:import href="ediromOnline_functions.xsl" />
 
 
+    <!-- DEFAULT TEMPLATEs ======================================================= -->
+
+
+    <xd:doc scope="component">
+        <xd:desc>Disable output for XML comments</xd:desc>
+    </xd:doc>
+    <xsl:template match="comment()" mode="#all" />
+
+    <xd:doc scope="component">
+        <xd:desc>Disable output for XML processing-instructions</xd:desc>
+    </xd:doc>
+    <xsl:template match="processing-instruction()" mode="#all" />
+
+
     <xsl:template match="node()" mode="plainCommaSep">
         <xsl:choose>
             <!-- nur attribute keinerlei kindknoten -->
