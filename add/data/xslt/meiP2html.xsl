@@ -141,13 +141,28 @@
             <xsl:apply-templates select="* | text()"/>
         </span>
     </xsl:template>
+    
+    <xd:doc scope="component">
+        <xd:desc>Transform mei:lb to HTML br-element or HTML span-Element with ' | ' as content, depending on its ancestor.</xd:desc>
+    </xd:doc>
     <xsl:template match="mei:lb">
-        <br>
+        
+        <xsl:variable name="element-name" select="if (ancestor::mei:titlePage) then 'br' else 'span'"/>
+        
+        <xsl:element name="{$element-name}">
+            
             <xsl:if test="@xml:id">
                 <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>
             </xsl:if>
-        </br>
+            
+            <xsl:if test="$element-name = 'span'">
+                <xsl:text> | </xsl:text>
+            </xsl:if>
+            
+        </xsl:element>
+            
     </xsl:template>
+    
     <xsl:template match="mei:quote">
         <span class="quote">
             <xsl:if test="@xml:id">
