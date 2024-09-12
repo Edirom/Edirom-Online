@@ -1687,9 +1687,10 @@
     
     
     <xsl:template match="mei:date" mode="plainCommaSep">
-        <xsl:call-template name="makeSubProperty">
+        <!--<xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="." />
-        </xsl:call-template>
+        </xsl:call-template>-->
+        <xsl:apply-imports></xsl:apply-imports>
     </xsl:template>
     
     
