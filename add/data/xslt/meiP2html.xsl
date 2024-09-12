@@ -52,7 +52,7 @@
             <xsl:copy-of select="$footnotesBlock"/>
         </xsl:if>
     </xsl:template>
-    <xsl:template match="mei:p">
+    <xsl:template match="mei:p" name="mei:p">
         <p>
             <xsl:if test="@xml:id">
                 <xsl:attribute name="xml:id" select="concat($idPrefix,@xml:id)"/>

@@ -2253,10 +2253,11 @@
     </xsl:template>
     
     
+    <xd:doc scope="component">
+        <xd:desc>Apply the templates defined in meiP2HTML.xsl for MEI paragraphs.</xd:desc>
+    </xd:doc>
     <xsl:template match="mei:p" mode="plainCommaSep">
-        <p>
-            <xsl:apply-templates mode="plainCommaSep" />
-        </p>
+        <xsl:call-template name="mei:p" />
     </xsl:template>
     
     
