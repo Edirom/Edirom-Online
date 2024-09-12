@@ -497,13 +497,6 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:history" mode="plainCommaSep">
-        <xsl:call-template name="makeSubProperty">
-            <xsl:with-param name="node" select="." />
-        </xsl:call-template>
-    </xsl:template>
-    
-    
     <!--<xsl:template match="mei:titleStmt">
 <!-\-        <xsl:element name="div">-\->
 <!-\-            <xsl:attribute name="class">propertyList</xsl:attribute>-\->
