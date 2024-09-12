@@ -1556,7 +1556,7 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:annot">
+    <xsl:template match="mei:annot[not(ancestor::mei:p)]">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="." />
             <xsl:with-param name="key">
