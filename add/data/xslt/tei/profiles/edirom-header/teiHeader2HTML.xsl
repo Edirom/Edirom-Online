@@ -46,16 +46,6 @@
 <!-- DEFAULT TEMPLATEs ======================================================= -->
     
     <xd:doc scope="component">
-        <xd:desc>Disable output for XML comments</xd:desc>
-    </xd:doc>
-    <xsl:template match="comment()" mode="#all" />
-    
-    <xd:doc scope="component">
-        <xd:desc>Disable output for XML processing-instructions</xd:desc>
-    </xd:doc>
-    <xsl:template match="processing-instruction()" mode="#all" />
-    
-    <xd:doc scope="component">
         <xd:desc>Override for root template in order to start processing at teiHeader</xd:desc>
     </xd:doc>
     <xsl:template match="/">
