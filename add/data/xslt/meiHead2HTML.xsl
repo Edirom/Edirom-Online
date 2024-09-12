@@ -459,7 +459,7 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:fileDesc/mei:titleStmt">
+    <xsl:template match="mei:fileDesc/mei:titleStmt | mei:manifestation/mei:titleStmt">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="." />
             <xsl:with-param name="sub" select="true()" tunnel="yes" />
