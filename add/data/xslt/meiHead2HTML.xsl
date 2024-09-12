@@ -770,7 +770,7 @@
     </xsl:template>
     
     
-    <xsl:template match="mei:title" name="title" mode="#all">
+    <xsl:template match="mei:titleStmt/mei:title" name="title" mode="#all">
         <xsl:param name="sub" tunnel="yes" />
         <xsl:element name="div">
             <xsl:attribute name="class" select="
