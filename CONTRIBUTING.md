@@ -48,7 +48,7 @@ Please make sure to provide meaningful and understandable commit messsages, that
 
 Releases are discussed and declared by the Edirom community. The planned scope of features and bug fixes of upcoming releases can be read from corresponding [milestones](https://github.com/Edirom/Edirom-Online/milestones), and eventually you can also see here  where contributions are most urgent needed. The Edirom community uses the functionality of Github projects to track the development of Edirom-Online using the project [Edirom Development](https://github.com/orgs/Edirom/projects/4/views/1). 
 
-The most recent 'stable' version of MEI is always found on the 'main' branch, where all releases are tagged from. The most recent 'work in progress' is found on the 'develop' branch. 
+The most recent 'stable' version of Edirom-Online is always found on the 'main' branch, where all releases are tagged from. The most recent 'work in progress' is found on the 'develop' branch. 
 
 ## Versioning
 
