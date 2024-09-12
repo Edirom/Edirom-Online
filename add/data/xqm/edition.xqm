@@ -122,16 +122,15 @@ declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string 
 };
 
 (:~
- : Returns the URI for the preferences file
+ : Returns the URI of the preferences file for a given edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The URI of the preference file
+ : @return The URI of the edition's preference file or the default edirom preferences as fallback
  :)
-declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
-    
-    if(doc($uri)//edirom:preferences/@xlink:href => string()) then(
-        doc($uri)//edirom:preferences/@xlink:href => string()
-    ) else ('../prefs/edirom-prefs.xml')
+declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
+    if(doc-available($uri) and doc($uri)//edirom:preferences/@xlink:href => string()) 
+    then(doc($uri)//edirom:preferences/@xlink:href => string()) 
+    else $edition:default-prefs-location
 };
 
 (:~
