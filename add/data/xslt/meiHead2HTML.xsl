@@ -1313,23 +1313,10 @@
     </xsl:template>
     
     
-    <xsl:template match="creation">
-        <xsl:element name="div">
-            <xsl:attribute name="class">property</xsl:attribute>
-            <xsl:element name="div">
-                <xsl:attribute name="class">key</xsl:attribute>
-                <xsl:value-of select="eof:getLabel('creation')" />
-            </xsl:element>
-            <xsl:element name="div">
-                <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:apply-templates select="./child::node()[1]" />
-                <xsl:for-each select="./child::*[count(preceding-sibling::*) gt 0]">
-                    <xsl:element name="br" />
-                    <xsl:apply-templates select="node()" mode="valueOnly" />
-                    <xsl:value-of select="string(' ')" />
-                </xsl:for-each>
-            </xsl:element>
-        </xsl:element>
+    <xsl:template match="mei:creation">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="." />
+        </xsl:call-template>
     </xsl:template>
     
     
