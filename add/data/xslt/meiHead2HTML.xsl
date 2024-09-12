@@ -2410,9 +2410,9 @@
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="mei:q" mode="valueOnly">
+    <xsl:template match="mei:q" mode="#all">
         <xsl:element name="q">
-            <xsl:apply-templates />
+            <xsl:apply-templates mode="#current" />
         </xsl:element>
     </xsl:template>
     
