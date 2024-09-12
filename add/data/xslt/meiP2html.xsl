@@ -3,9 +3,9 @@
 
     <xd:doc scope="stylesheet">
         <xd:desc>
-            <xd:p> <xd:b>Created on:</xd:b> Mar 19, 2012</xd:p>
-            <xd:p> <xd:b>Author:</xd:b> Johannes Kepper</xd:p>
-            <xd:p> </xd:p>
+            <xd:p><xd:b>Created on:</xd:b> Mar 19, 2012</xd:p>
+            <xd:p><xd:b>Author:</xd:b> Johannes Kepper</xd:p>
+            <xd:p></xd:p>
         </xd:desc>
     </xd:doc>
 
