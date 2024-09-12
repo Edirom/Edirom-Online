@@ -32,7 +32,7 @@ let $edition := request:get-parameter('edition', '')
 
 (:let $base := concat('file:', system:get-module-load-path()):)
 (:let $file := doc(concat($base, '/../prefs/edirom-prefs.xml')):)
-let $file := doc('../prefs/edirom-prefs.xml')
+let $file := doc($edition:default-prefs-location)
 
 let $projectFile := doc(edition:getPreferencesURI($edition))
 
