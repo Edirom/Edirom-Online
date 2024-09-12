@@ -186,6 +186,11 @@
     </xsl:template>
     
     
+    <xsl:template match="mei:desc" mode="plainCommaSep">
+        <xsl:apply-templates mode="#current" />
+    </xsl:template>
+    
+    
     <xsl:template match="mei:expression" mode="subProp">
         <xsl:value-of select=".//mei:instrVoice/@label" separator=", " />
     </xsl:template>
