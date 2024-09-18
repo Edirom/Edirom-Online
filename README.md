@@ -2,7 +2,7 @@
 
 <div align="center">
  
-**[Show cases](https://github.com/Edirom/Edirom-Online#-Show-cases) • 
+**[Showcases](https://github.com/Edirom/Edirom-Online#-Showcases) •
 [Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
 [Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
 [Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
@@ -18,7 +18,7 @@
 Edirom-Online is a software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows for the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
 The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
 
-## Show cases
+## Showcases
 
 To get some practical insights, look at these projects and editions that already use Edirom-Online.
 
