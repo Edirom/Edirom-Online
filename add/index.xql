@@ -20,8 +20,8 @@ declare option output:omit-xml-declaration "yes";
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter("edition", "");
-declare variable $editionUri := edition:findEdition($edition);
-declare variable $preferences := doc(edition:getPreferencesURI($editionUri));
+declare variable $editionUri := if($edition) then edition:findEdition($edition) else();
+declare variable $preferences := if($editionUri) then(doc(edition:getPreferencesURI($editionUri))) else();
 
 let $eoEditionFiles := collection('/db/apps')//edirom:edition[@xml:id]
 let $eoEditionFilesCount := count($eoEditionFiles)
@@ -49,7 +49,7 @@ let $comment := comment{"
 let $eoEditionFileSingle := <html>
                                 <head>
                                     <meta charset="UTF-8"/>
-                                    <title>{edition:getName($editionUri)} – Edirom-Online</title>
+                                    <title>{if($editionUri) then(edition:getName($editionUri)) else()} – Edirom-Online</title>
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
                                     <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
