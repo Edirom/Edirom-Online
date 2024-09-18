@@ -10,11 +10,15 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/ut
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:media-type "text/html";
+declare option output:method "xhtml";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
 
 (: QUERY BODY ============================================================== :)
 

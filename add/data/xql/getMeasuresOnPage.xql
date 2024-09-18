@@ -31,9 +31,11 @@ declare option output:media-type "application/json";
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
+
 let $surfaceId := request:get-parameter('pageId', '')
 
 let $mei := doc($uri)/root()
+
 let $surface := $mei/id($surfaceId)
 
 return (

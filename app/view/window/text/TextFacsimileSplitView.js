@@ -45,8 +45,11 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     	
     	if(me.image_server === 'leaflet'){
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
-    	}
-    	else{
+    	}else if(me.image_server === "openseadragon") {
+            me.imageViewer = Ext.create(
+                "EdiromOnline.view.window.image.OpenSeaDragonViewer",
+            );
+        }else{
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
     	}
 
@@ -87,7 +90,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
 
         var me = this;
 
-		if(me.image_server === 'digilib'){
+		if(me.image_server === 'digilib' || me.image_server === 'openseadragon'){
         	me.zoomSlider = Ext.create('Ext.slider.Single', {
             	width: 140,
             	value: 100,
