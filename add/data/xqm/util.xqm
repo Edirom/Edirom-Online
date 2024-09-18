@@ -403,7 +403,7 @@ declare function eutil:request-lang-preferred-iso639() as xs:string {
 (:~
  : Returns one joined and normalized string
  :
- : @param $string The string(s) to be processed
+ : @param $strings The string(s) to be processed
  : @param $separator One ore more characters as separators for joining the string
  : @return The string (joined and normalized space)
  :)
