@@ -403,6 +403,16 @@ declare function eutil:request-lang-preferred-iso639() as xs:string {
  : Returns one joined and normalized string
  :
  : @param $strings The string(s) to be processed
+ : @return The string (joined with whitespace and normalized space)
+ :)
+declare function eutil:joindAndNormalize($strings as xs:string*) as xs:string {
+    $strings => string-join(' ') => normalize-space()
+};
+
+(:~
+ : Returns one joined and normalized string
+ :
+ : @param $strings The string(s) to be processed
  : @param $separator One ore more characters as separators for joining the string
  : @return The string (joined and normalized space)
  :)
