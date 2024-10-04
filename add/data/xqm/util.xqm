@@ -91,7 +91,7 @@ declare function eutil:getLocalizedName($node, $lang) {
         if($node/edirom:names) then
             ($name)
         else
-            (eutil:joindAndNormalize($name,' '))
+            (eutil:joindAndNormalize($name))
 
 };
 
@@ -110,15 +110,15 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
         if ($lang != '' and $lang = $node/mei:title[mei:titlePart]/@xml:lang) then
             (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]/mei:titlePart, '. '))
         else if ($lang != '' and $lang = $node/mei:title[not(mei:titlePart)]/@xml:lang) then
-            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang], ''))
+            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]))
         else
-            (eutil:joindAndNormalize(($node//mei:title)[1], ''))
+            (eutil:joindAndNormalize(($node//mei:title)[1]))
     
     let $titleTEI :=
         if ($lang != '' and $lang = $node/tei:title/@xml:lang) then
-            eutil:joindAndNormalize($node/tei:title[@xml:lang = $lang]//text(), '')
+            eutil:joindAndNormalize($node/tei:title[@xml:lang = $lang])
         else
-            eutil:joindAndNormalize($node/tei:title[1]//text(), '')
+            eutil:joindAndNormalize($node/tei:title[1])
     
     return
         if ($namespace = 'mei' and $titleMEI != '') then
@@ -240,7 +240,7 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
             upper-case($i)
 
     return
-        eutil:joindAndNormalize(($label, $numbering),' ')
+        eutil:joindAndNormalize(($label, $numbering))
 
 };
 
