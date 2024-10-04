@@ -91,7 +91,7 @@ declare function eutil:getLocalizedName($node, $lang) {
         if($node/edirom:names) then
             ($name)
         else
-            (eutil:joindAndNormalize($name))
+            (eutil:joinedAndNormalize($name))
 
 };
 
@@ -108,17 +108,17 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
   
     let $titleMEI :=
         if ($lang != '' and $lang = $node/mei:title[mei:titlePart]/@xml:lang) then
-            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]/mei:titlePart, '. '))
+            (eutil:joinedAndNormalize($node/mei:title[@xml:lang = $lang]/mei:titlePart, '. '))
         else if ($lang != '' and $lang = $node/mei:title[not(mei:titlePart)]/@xml:lang) then
-            (eutil:joindAndNormalize($node/mei:title[@xml:lang = $lang]))
+            (eutil:joinedAndNormalize($node/mei:title[@xml:lang = $lang]))
         else
-            (eutil:joindAndNormalize(($node//mei:title)[1]))
+            (eutil:joinedAndNormalize(($node//mei:title)[1]))
     
     let $titleTEI :=
         if ($lang != '' and $lang = $node/tei:title/@xml:lang) then
-            eutil:joindAndNormalize($node/tei:title[@xml:lang = $lang])
+            eutil:joinedAndNormalize($node/tei:title[@xml:lang = $lang])
         else
-            eutil:joindAndNormalize($node/tei:title[1])
+            eutil:joinedAndNormalize($node/tei:title[1])
     
     return
         if ($namespace = 'mei' and $titleMEI != '') then
@@ -240,7 +240,7 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
             upper-case($i)
 
     return
-        eutil:joindAndNormalize(($label, $numbering))
+        eutil:joinedAndNormalize(($label, $numbering))
 
 };
 
@@ -405,7 +405,7 @@ declare function eutil:request-lang-preferred-iso639() as xs:string {
  : @param $strings The string(s) to be processed
  : @return The string (joined with whitespace and normalized space)
  :)
-declare function eutil:joindAndNormalize($strings as xs:string*) as xs:string {
+declare function eutil:joinedAndNormalize($strings as xs:string*) as xs:string {
     $strings => string-join(' ') => normalize-space()
 };
 
@@ -416,6 +416,6 @@ declare function eutil:joindAndNormalize($strings as xs:string*) as xs:string {
  : @param $separator One ore more characters as separators for joining the string
  : @return The string (joined and normalized space)
  :)
-declare function eutil:joindAndNormalize($strings as xs:string*, $separator as xs:string) as xs:string {
+declare function eutil:joinedAndNormalize($strings as xs:string*, $separator as xs:string) as xs:string {
     $strings => string-join($separator) => normalize-space()
 };
