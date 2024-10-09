@@ -19,6 +19,7 @@ declare option output:media-type "text/plain";
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
+
 let $mei := doc($uri)/root()
 
 let $ret :=
@@ -26,7 +27,14 @@ let $ret :=
     return
         map {
             'id': $movement/string(@xml:id),
-            'name': $movement/string(@label)
+            'name': $movement/string(@label),
+            'parts': for $part in $movement//mei:part
+                     return
+                         map {
+                             'id': $part/string(@xml:id),
+                             'name': $part/string(@label)
+                         }
+
         }
 
 let $array := array {$ret}
