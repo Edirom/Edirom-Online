@@ -49,7 +49,7 @@ let $comment := comment{"
 let $eoIndexPage :=  <html>
                         <head>
                             <meta charset="UTF-8"/>
-                            <title>dirom-Online</title>
+                            <title>Edirom-Online</title>
                             <!-- **CSS** -->
                             <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
                             <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
