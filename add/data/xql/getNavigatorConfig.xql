@@ -10,13 +10,17 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/ut
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:media-type "text/html";
+declare option output:method "xhtml";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 

@@ -1,14 +1,27 @@
 xquery version "3.1";
 
+(: IMPORTS ================================================================= :)
+
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
 
+(: NAMESPACE DECLARATIONS ================================================== :)
+
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
+
+(: OPTION DECLARATIONS ===================================================== :)
+
+declare option output:media-type "text/html";
+declare option output:method "html5";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
+
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter("edition", "");
 declare variable $editionUri := edition:findEdition($edition);
 declare variable $preferences := doc(edition:getPreferencesURI($editionUri));
-
-declare option exist:serialize "method=html5 media-type=text/html omit-xml-declaration=yes indent=yes";
 
 let $eoEditionFiles := collection('/db/apps')//edirom:edition[@xml:id]
 let $eoEditionFilesCount := count($eoEditionFiles)
@@ -44,6 +57,10 @@ let $eoEditionFileSingle := <html>
                                     <!-- **CSS** -->
                                     <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
                                     <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
+                                    
+                                    <script>
+                                        var debug=false;
+                                    </script>
                                     
                                     <!-- **Raphael JS** -->
                                     <script type="text/javascript" src="resources/js/raphael-min.js"/>

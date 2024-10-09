@@ -34,18 +34,19 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     imageSet: null,
     imageToShow: null,
-    
+
     cls: 'pageBasedView',
-    
+
     initComponent: function () {
-    
+
         var me = this;
-    
+
         me.addEvents('overlayVisibilityChange');
         me.owner.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
-    
+
     	var image_server = getPreference('image_server');
-    	
+
+        //TODO leaflet deprecation
     	if(image_server === 'leaflet'){
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
     		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
@@ -54,60 +55,128 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
     	}else{
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
     	}
-    
+
         this.items = [
             me.imageViewer
         ];
 
         me.callParent();
-        
+
  	   me.imageViewer.on('zoomChanged', me.updateZoom, me);
     },
 
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
-        var me = this;
-     
-     	var image_server = getPreference('image_server');
-     
-         var annotations = me.imageViewer.getShapes('annotations');
-          
-            if(image_server === 'leaflet'){   
-            	me.imageViewer.removeShapes('annotations');
-            	me.imageViewer.addAnnotations(annotations);
-        		me.imageViewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
-        		return;
-        }
-                 
-        var fn = Ext.bind(function(annotation) {
-            var annotDiv = this.imageViewer.getShapeElem(annotation);
-         
-            var className = annotDiv.dom.className.replace('annotIcon', '').trim();
-            
-            var classes = className.split(' ');
-            
-            var hasCategory = false;
-            var hasPriority = false;
 
-            for(var i = 0; i < classes.length; i++) {
-                hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
-                
-                hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
+        var me = this;
+
+        if(debug !== null && debug) {
+            console.log('View: PageBasedView: annotationFilterChanged');
+            console.log('visibleCategories');
+            console.log(visibleCategories);
+            console.log('visiblePriorities');
+            console.log(visiblePriorities);
+        }
+
+        //TODO leaflet deprecation
+     	var image_server = getPreference('image_server');
+
+        var annotations = me.imageViewer.getShapes('annotations');
+
+        if(debug !== null && debug) {
+            console.log('View: PageBasedView: annotationFilterChanged: annotations');
+            console.log(annotations);
+            console.log(me.imageViewer.shapes.get('annotations'));
+        }
+
+        //TODO leaflet deprecation
+        if(image_server === 'leaflet'){
+            me.imageViewer.removeShapes('annotations');
+            me.imageViewer.addAnnotations(annotations);
+            me.imageViewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
+            return;
+        }
+
+        // define function to apply to relevant element IDs
+        var fn = Ext.bind(function(annotationId) {
+
+            var annotDiv = Ext.get(annotationId);
+            var classList = annotDiv.dom.classList;
+            var prioritiesCategories = Ext.Array.toArray(classList);
+            Ext.Array.remove(prioritiesCategories, 'measure');
+            Ext.Array.remove(prioritiesCategories, 'annoIcon');
+
+            if(debug !== null && debug) {
+                console.log('View: PageBasedView: annotationFilterChanged: annotations fn');
+                console.log(annotationId);
+                console.log(annotDiv);
+                console.log(classList);
+                console.log(prioritiesCategories);
             }
-            
-            if(hasCategory & hasPriority)
+
+            // create category and priority match variables
+            var matchesCategoryFilter = false;
+            var matchesPriorityFilter = false;
+
+            // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
+            for(var i = 0; i < prioritiesCategories.length; i++) {
+                matchesCategoryFilter |= Ext.Array.contains(visibleCategories, prioritiesCategories[i]);
+
+                matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, prioritiesCategories[i]);
+            }
+
+            if(debug !== null && debug) {
+                console.log(matchesCategoryFilter);
+                console.log(matchesPriorityFilter);
+            }
+
+            // if filter results are false check if visibleCategories are undefined and if so assign true
+            if( matchesCategoryFilter == false && visibleCategories == 'undefined') {
+                matchesCategoryFilter = true;
+            }
+
+            // if filter results are falsey check if visibleCategories are undefined and if so assign true
+            if( matchesPriorityFilter == false && visiblePriorities == 'undefined') {
+                matchesPriorityFilter = true;
+            }
+
+            // depending on match results assign or remove class 'hidden'
+            if(matchesCategoryFilter & matchesPriorityFilter)
                 annotDiv.removeCls('hidden');
             else
                 annotDiv.addCls('hidden');
         }, me);
 
-        if(annotations.each)
-            annotations.each(fn);
-        else
-            Ext.Array.each(annotations, fn);
+
+        var annotationDivIds = [];
+
+        Ext.Array.each(annotations, function(annotation) {
+
+            if(debug !== null && debug) {
+                console.log('annotation');
+                console.log(annotation);
+                console.log('me');
+                console.log(me);
+                console.log('me.owner.owner');
+                console.log(me.owner.owner);
+            }
+
+            var annotDiv = me.imageViewer.getShapeElem(annotation.id);
+            var children = Ext.Array.toArray(annotDiv.dom.childNodes);
+
+            // Ext.Array.push(annotationDivIds, annotation.id);
+            Ext.Array.push(annotationDivIds, Ext.Array.pluck(children, 'id'));
+        });
+
+        if(debug !== null && debug) {
+            console.log(annotationDivIds);
+        }
+
+        Ext.Array.each(annotationDivIds, fn);
     },
 
+
     setImageSet: function(imageSet) {
-    
+
         var me = this;
         me.imageSet = imageSet;
 
@@ -119,7 +188,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         }else if(me.imageSet.getCount() > 0)
             me.pageSpinner.setPage(me.imageSet.getAt(0));
-            
+
         me.owner.fireEvent('afterImagesLoaded', me.owner, imageSet);
     },
 
@@ -136,7 +205,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         me.imageViewer.showImage(me.activePage.get('path'),
             me.activePage.get('width'), me.activePage.get('height'));
-            
+
         if(me.owner.measuresVisible)
             me.owner.fireEvent('measureVisibilityChange', me.owner, true);
 
@@ -145,7 +214,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         var layers = Object.keys(me.owner.overlaysVisible);
         Ext.Array.each(layers, function(layer) {
-			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);     
+			me.owner.fireEvent('overlayVisiblityChange', me.owner, layer, me.owner.overlaysVisible[layer]);
         });
 
     },
@@ -170,7 +239,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         var me = this;
 
        var image_server = getPreference('image_server');
-    	
+
     	if(image_server === 'digilib'){
     		me.zoomSlider = Ext.create('Ext.slider.Single', {
             width: 140,
@@ -213,9 +282,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             cls: 'pageSpinner',
             owner: me
         });
-        
+
         me.separator = Ext.create('Ext.toolbar.Separator');
-        
+
         if(image_server === 'digilib' || image_server === 'openseadragon'){
         return [me.zoomSlider, me.separator, me.pageSpinner];
         }
@@ -223,30 +292,30 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         	 return [me.pageSpinner];
         }
     },
-    
+
     hideToolbarEntries: function() {
         var me = this;
         if(typeof me.zoomSlider !== 'undefined'){
         	me.zoomSlider.hide();
-        }       
+        }
         me.pageSpinner.hide();
         if(typeof me.separator !== 'undefined'){
         	me.separator.hide();
-        }        
+        }
     },
-    
+
     showToolbarEntries: function() {
         var me = this;
         if(typeof me.zoomSlider !== 'undefined'){
         	me.zoomSlider.show();
-        }         
+        }
         me.pageSpinner.show();
         if(typeof me.separator !== 'undefined'){
         	 me.separator.show();
-        }  
-       
+        }
+
     },
-    
+
     fitFacsimile: function() {
         this.imageViewer.fitInImage();
     },
@@ -270,17 +339,17 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         me.imageViewer.showRect(x, y, width, height, true);
     },
-    
+
     showAnnotations: function(annotations) {
         var me = this;
         me.imageViewer.addAnnotations(annotations);
     },
-    
+
     onOverlayVisibilityChange: function(view, state) {
         var me = this;
         me.fireEvent('overlayVisiblityChange', me, me.owner.overlaysVisible, me.getActivePage().get('id'), me.owner.uri, me.owner);
     },
-    
+
     hideAnnotations: function() {
         var me = this;
         me.imageViewer.removeShapes('annotations');
@@ -291,13 +360,13 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
         	this.zoomSlider.suspendEvents();
         	this.zoomSlider.setValue(Math.round(zoom * 100));
         	this.zoomSlider.resumeEvents();
-        }          
+        }
     },
 
     zoomChanged: function(slider) {
         this.imageViewer.setZoomAndCenter(slider.getValue() / 100);
     },
-    
+
     getContentConfig: function() {
         var me = this;
         return {
@@ -305,9 +374,9 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             rect: me.imageViewer.getActualRect()
         };
     },
-    
+
     setContentConfig: function(config) {
         var me = this;
-        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false); 
+        me.imageViewer.showRect(config.rect.x, config.rect.y, config.rect.width, config.rect.height, false);
     }
 });

@@ -279,21 +279,20 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 };
 
 (:~
- : Return a value of preference to key
+ : Returns a value from the preferences for a given key
  :
- : @param $key The key to search for
- : @return The string
+ : @param $key The key to look up
+ : @param $edition The current edition URI
+ : @return The preference value
  :)
 declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string {
 
-    let $file := doc('../prefs/edirom-prefs.xml')
-    let $projectFile := doc(edition:getPreferencesURI($edition))
+    let $preferencesFile := 
+        try { doc(edition:getPreferencesURI($edition)) }
+        catch * { util:log-system-out('Failed to load preferences') }
 
     return
-        if($projectFile != 'null' and $projectFile//entry[@key = $key]) then
-            ($projectFile//entry[@key = $key]/string(@value))
-        else
-            ($file//entry[@key = $key]/string(@value))
+        $preferencesFile//entry[@key = $key]/@value => string()
 
 };
 

@@ -202,11 +202,11 @@ declare function local:getItemLabel($elem as element()) {
 
     let $name := local-name($elem)
     return (
-        if ($name = 'measure') then (
+        if($name = 'measure') then (
             if ($lang = 'de') then
-                (concat('Takt ', $elem/@n))
+                (concat('Takt ', if ($elem/@label) then ($elem/@label) else ($elem/@n)))
             else
-                (concat('Bar ', $elem/@n))
+                (concat('Bar ',if ($elem/@label) then ($elem/@label) else ($elem/@n)))
         ) else
             (),
 
@@ -280,7 +280,7 @@ declare function local:calculatePreviewsForTip($participants as xs:string*) {
     for $zone in $zones
     let $e := $elems[substring(@facs, 2) = $zone/@xml:id][1]
 
-    let $e := +
+    let $e :=
         if ($e) then
             ($e)
         else

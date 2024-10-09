@@ -6,13 +6,13 @@ xquery version "3.1";
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
-declare namespace xlink = "http://www.w3.org/1999/xlink";
-declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:media-type "text/plain";
+declare option output:method "text";
 
 (: QUERY BODY ============================================================== :)
 

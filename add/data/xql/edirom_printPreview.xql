@@ -14,14 +14,18 @@ import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/ut
 declare namespace eof = "http://www.edirom.de/xquery/ediromOnlineFunctions";
 declare namespace fo = "http://www.w3.org/1999/XSL/Format";
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace system = "http://exist-db.org/xquery/system";
 declare namespace tei = "http://www.tei-c.org/ns/1.0";
-declare namespace xhtml = "http://www.w3.org/1999/xhtml";
-declare namespace xslfo = "http://exist-db.org/xquery/xslfo";
+declare namespace transform = "http://exist-db.org/xquery/transform";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=html media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:media-type "text/html";
+declare option output:method "html";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 

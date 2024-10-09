@@ -16,10 +16,13 @@ import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/wor
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:media-type "text/plain";
+declare option output:method "text";
 
 (: QUERY BODY ============================================================== :)
 

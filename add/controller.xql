@@ -1,14 +1,22 @@
 xquery version "3.1";
 
+(: IMPORTS ================================================================= :)
+
 import module namespace edition="http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/util.xqm";
+
+(: NAMESPACE DECLARATIONS ================================================== :)
+
+declare namespace exist="http://exist.sourceforge.net/NS/exist";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request="http://exist-db.org/xquery/request";
+
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $exist:path external;
 declare variable $exist:resource external;
 declare variable $exist:prefix external;
 declare variable $exist:controller external;
-
-declare option exist:serialize "method=xhtml media-type=application/xhtml+html";
 
 let $langVal := eutil:getLanguage(request:get-parameter("edition", ""))
 
