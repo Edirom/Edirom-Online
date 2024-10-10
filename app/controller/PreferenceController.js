@@ -86,9 +86,9 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
             ignoredKeys = [ "start_documents_uri" ];
 
             // throw an error only if the key is not in the ignoredKeys array
-            if(!ignoredKeys.indexOf(key) > -1){
+            if(!ignoredKeys.includes(key)){
                 Ext.Error.raise({
-                    msg: 'No preference found with this key',
+                    msg: 'No preference found with that key',
                     key: key,
                     level: 'warn' //warn, error, fatal
                 });
