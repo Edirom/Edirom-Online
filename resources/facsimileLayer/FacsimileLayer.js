@@ -309,7 +309,6 @@ L.TileLayer.FacsimileLayer = L.TileLayer.extend({
 		this.bounds = L.latLngBounds(latLngLeft, latLngRight);
 		
 		// create rectangle
-		// console.log(Ext.getCmp('leafletfacsimile').getMap());
 		this.rectangle = L.rectangle(this.bounds, {
 			color: 'black', weight: 1, opacity: 0.8
 		}).addTo(this._map);
