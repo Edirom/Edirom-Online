@@ -22,8 +22,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
-        'EdiromOnline.view.window.image.OpenSeaDragonViewer',
-        'EdiromOnline.view.window.image.LeafletFacsimile'
+        'EdiromOnline.view.window.image.OpenSeaDragonViewer'
     ],
 
     alias : 'widget.pageBasedView',
@@ -46,11 +45,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
     	var image_server = getPreference('image_server');
 
-        //TODO leaflet deprecation
-    	if(image_server === 'leaflet'){
-    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%'});
-    		//Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
-    	}else if(image_server === 'openseadragon') {
+        if(image_server === 'openseadragon') {
     	    me.imageViewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer');
     	}else{
     		me.imageViewer = Ext.create('EdiromOnline.view.window.image.ImageViewer');
@@ -77,8 +72,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             console.log(visiblePriorities);
         }
 
-        //TODO leaflet deprecation
-     	var image_server = getPreference('image_server');
+       	var image_server = getPreference('image_server');
 
         var annotations = me.imageViewer.getShapes('annotations');
 
@@ -86,14 +80,6 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             console.log('View: PageBasedView: annotationFilterChanged: annotations');
             console.log(annotations);
             console.log(me.imageViewer.shapes.get('annotations'));
-        }
-
-        //TODO leaflet deprecation
-        if(image_server === 'leaflet'){
-            me.imageViewer.removeShapes('annotations');
-            me.imageViewer.addAnnotations(annotations);
-            me.imageViewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
-            return;
         }
 
         // define function to apply to relevant element IDs
