@@ -23,7 +23,6 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
         'EdiromOnline.view.window.image.OpenSeaDragonViewer',
-        'EdiromOnline.view.window.image.LeafletFacsimile',
         'Ext.selection.CheckboxModel',
         'Ext.layout.container.Border'
     ],
@@ -443,10 +442,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
 
         var image_server = getPreference('image_server');
         var viewer = null;
-    	if(image_server === 'leaflet'){
-    		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%', partLabel: me.partLabel});
-    	}
-    	else if(image_server === 'openseadragon'){
+    	if(image_server === 'openseadragon'){
     		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%', partLabel: me.partLabel});
     	}else {
     		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1, partLabel: me.partLabel});
@@ -563,9 +559,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
 
 
            	var viewer = null;
-       		if(image_server === 'leaflet'){
-       			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
-       		} else if(image_server === 'openseadragon'){
+       		if(image_server === 'openseadragon'){
        			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
        		} else{
        			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
@@ -620,7 +614,7 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
             var viewer = me.imageViewers[i];
             var group = grouped[groupKeys[i]];
 
-            if(group.measures[0]['path'] != viewer.imgPath || image_server === 'leaflet') {
+            if(group.measures[0]['path'] != viewer.imgPath) {
                 viewer.clear();
                 viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
             }
@@ -653,51 +647,42 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         Ext.Array.each(me.imageViewers, function(viewer) {
             var annotations = viewer.getShapes('annotations');
 
- 			if(image_server === 'leaflet'){
-            	//viewer.removeShapes('annotations');
-            	viewer.addAnnotations(annotations);
-        		//viewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
+            var fn = Ext.bind(function(annotation) {
+                var annotDiv = viewer.getShapeElem(annotation.id);
 
-       		}
-			else{
+                var className = annotDiv.dom.className.replace('annotIcon', '').trim();
+                var classes = className.split(' ');
 
-                var fn = Ext.bind(function(annotation) {
-                    var annotDiv = viewer.getShapeElem(annotation.id);
+                var matchesCategoryFilter = false;
+                var matchesPriorityFilter = false;
 
-                    var className = annotDiv.dom.className.replace('annotIcon', '').trim();
-                    var classes = className.split(' ');
+                // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
+                for(var i = 0; i < classes.length; i++) {
+                    matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
 
-                    var matchesCategoryFilter = false;
-                    var matchesPriorityFilter = false;
+                    matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
+                }
 
-                    // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
-                    for(var i = 0; i < classes.length; i++) {
-                        matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
+                // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                if( matchesCategoryFilter == false & visibleCategories == 'undefined') {
+                    matchesCategoryFilter = true;
+                }
+                // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                if( matchesPriorityFilter == false & visiblePriorities == 'undefined') {
+                    matchesPriorityFilter = true;
+                }
 
-                        matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
-                    }
-
-                    // if filter results are falsey check if visibleCategories are undefined and if so assign true
-                    if( matchesCategoryFilter == false & visibleCategories == 'undefined') {
-                        matchesCategoryFilter = true;
-                    }
-                    // if filter results are falsey check if visibleCategories are undefined and if so assign true
-                    if( matchesPriorityFilter == false & visiblePriorities == 'undefined') {
-                        matchesPriorityFilter = true;
-                    }
-
-                    if(matchesCategoryFilter & matchesPriorityFilter)
-                        annotDiv.removeCls('hidden');
-                    else
-                        annotDiv.addCls('hidden');
-                }, me);
+                if(matchesCategoryFilter & matchesPriorityFilter)
+                    annotDiv.removeCls('hidden');
+                else
+                    annotDiv.addCls('hidden');
+            }, me);
 
             if (typeof annotations !== 'undefined') {
                 if(annotations.each)
                     annotations.each(fn);
                 else
                     Ext.Array.each(annotations, fn);
-            }
             }
         });
 
