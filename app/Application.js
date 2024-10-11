@@ -182,7 +182,7 @@ Ext.define('EdiromOnline.Application', {
     
     openStartDocuments: function() {
         var me = this;
-        var uris = me.getController('PreferenceController').getPreference('start_documents_uri');
+        var uris = me.getController('PreferenceController').getPreference('start_documents_uri', true);
         if(uris){
             window.loadLink(uris);
         }

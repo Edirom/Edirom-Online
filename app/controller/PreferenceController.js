@@ -64,6 +64,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
     getPreference: function(key, lax) {
         var me = this;
 
+        // if key does not exist but lax is true, return null
         if(!me.preferences[key] && lax)
             return null;
         
@@ -81,19 +82,12 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
         }
 
         if(!me.preferences[key]) {
-
-            // ignore errors for these keys
-            ignoredKeys = [ "start_documents_uri" ];
-
-            // throw an error only if the key is not in the ignoredKeys array
-            if(!ignoredKeys.includes(key)){
-                Ext.Error.raise({
-                    msg: 'No preference found with that key',
-                    key: key,
-                    level: 'warn' //warn, error, fatal
-                });
-            }            
-
+            Ext.Error.raise({
+                msg: 'No preference found with this key',
+                key: key,
+                level: 'warn' //warn, error, fatal
+            });
+        
             return null;
         }
 
