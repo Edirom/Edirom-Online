@@ -61,7 +61,7 @@ declare function local:getMeasures($mei as node(), $surface as node()) as map(*)
                 'lry': $zone/string(@lry),
                 'id': $measure/string(@xml:id),
                 'name': $measureLabel,
-                'type': $measure/string(@type),
+                'type': $measure/string(@type),(: where is measure type being used :)
                 'rest': local:getMRest($measure)
             }
 };
@@ -79,14 +79,15 @@ declare function local:getMRest($measure) {
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
+
 let $surfaceId := request:get-parameter('pageId', '')
 
 let $mei := doc($uri)/root()
+
 let $surface := $mei/id($surfaceId)
 
-return (
+return
     array {
         (: TODO: überlegen, wie die Staff-spezifischen Ausschnitte angezeigt werden sollen :)
         local:getMeasures($mei, $surface)
     }
-)

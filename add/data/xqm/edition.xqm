@@ -19,6 +19,10 @@ import module namespace functx="http://www.functx.com";
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 
+(: VARIABLE DECLARATIONS =================================================== :)
+
+declare variable $edition:default-prefs-location as xs:string := '../prefs/edirom-prefs.xml';
+
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
@@ -75,7 +79,10 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
         if(doc-available($uri)) then
             doc($uri)
         else
-            doc(edition:findEdition($uri))
+            if(edition:findEdition($uri)) then
+                doc(edition:findEdition($uri))
+            else
+                ()
     )
     return
         if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "") then
@@ -118,16 +125,15 @@ declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string 
 };
 
 (:~
- : Returns the URI for the preferences file
+ : Returns the URI of the preferences file for a given edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The URI of the preference file
+ : @return The URI of the edition's preference file or the default edirom preferences as fallback
  :)
-declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
-    
-    if(doc($uri)//edirom:preferences/@xlink:href => string()) then(
-        doc($uri)//edirom:preferences/@xlink:href => string()
-    ) else ('../prefs/edirom-prefs.xml')
+declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
+    if(doc-available($uri) and doc($uri)//edirom:preferences/@xlink:href => string()) 
+    then(doc($uri)//edirom:preferences/@xlink:href => string()) 
+    else $edition:default-prefs-location
 };
 
 (:~
@@ -138,7 +144,7 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
  : @param $editionID The '@xml:id' of the edirom:edition document to process
  : @return The URI of the Edition file
  :)
-declare function edition:findEdition($editionID as xs:string?) as xs:string {
+declare function edition:findEdition($editionID as xs:string?) as xs:string? {
     
     if(not($editionID) or $editionID eq '') then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]

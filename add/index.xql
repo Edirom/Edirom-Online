@@ -1,14 +1,27 @@
 xquery version "3.1";
 
+(: IMPORTS ================================================================= :)
+
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
 
+(: NAMESPACE DECLARATIONS ================================================== :)
+
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
+
+(: OPTION DECLARATIONS ===================================================== :)
+
+declare option output:media-type "text/html";
+declare option output:method "html5";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
+
+(: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter("edition", "");
-declare variable $editionUri := edition:findEdition($edition);
-declare variable $preferences := doc(edition:getPreferencesURI($editionUri));
-
-declare option exist:serialize "method=html5 media-type=text/html omit-xml-declaration=yes indent=yes";
+declare variable $editionUri := if($edition) then edition:findEdition($edition) else();
+declare variable $preferences := if($editionUri) then(doc(edition:getPreferencesURI($editionUri))) else();
 
 let $eoEditionFiles := collection('/db/apps')//edirom:edition[@xml:id]
 let $eoEditionFilesCount := count($eoEditionFiles)
@@ -33,97 +46,63 @@ let $comment := comment{"
 "
 }
 
-let $eoEditionFileSingle := <html>
-                                <head>
-                                    <meta charset="UTF-8"/>
-                                    <title>{edition:getName($editionUri)} – Edirom-Online</title>
-                                    <!-- **CSS** -->
-                                    <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
-                                    <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
-                                    
-                                    <!-- **CSS** -->
-                                    <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
-                                    <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
-                                    
-                                    <!-- **Raphael JS** -->
-                                    <script type="text/javascript" src="resources/js/raphael-min.js"/>
-                                    
-                                    <!-- **Leaflet** -->
-                                    <link rel="stylesheet" href="resources/leaflet-0.7.3/leaflet.css"/>
-                                    <link rel="stylesheet" href="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.css"/>
-                                    <script type="text/javascript" src="resources/leaflet-0.7.3/leaflet.js"/>
-                                    <script type="text/javascript" src="resources/facsimileLayer/FacsimileLayer.js"/>
-                                    <script src="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.js"/>
-                                    
-                                    <!-- **Open Sea Dragon** -->
-                                    <script type="text/javascript" src="resources/js/openseadragon.min.js"/>
-                                    
-                                    <!-- **JQUERY** -->
-                                    <script type="text/javascript" src="resources/jquery/jquery-2.1.3.js" charset="utf-8"/>
-                                    
-                                    <!-- **ACE** -->
-                                    <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"/>
-                                    <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
-                                    
-                                    <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
-                                    <!-- TODO if prefs css then include here -->
-                                    {
-                                        if ($preferences//entry[@key = "additional_css_path" and @value != ''])
-                                        then
-                                            <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
-                                        else ()
-                                    }
-                                    <script type="text/javascript" src="app.js"/>
-                                    
-                                    <!-- **WHERE TO OPEN LINKS** -->
-                                    <base target="_blank"/>
-                                    
-                                </head>
-                                <body>
-                                    <script type="text/javascript" src="resources/js/tipped/tipped.js"/>
-                                </body>
-                            </html>
-let $eoEditionFileMulti :=  <html>
-                                <head>
-                                    <meta charset="UTF-8"/>
-                                    <title>Edirom-Online</title>
-                                    <!-- **CSS** -->
-                                    <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
-                                    <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
-                                    
-                                    <!-- **CSS** -->
-                                    <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
-                                    <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
-                                    
-                                    <!-- **Raphael JS** -->
-                                    <script type="text/javascript" src="resources/js/raphael-min.js"/>
-                                    
-                                    <!-- **Leaflet** -->
-                                    <link rel="stylesheet" href="resources/leaflet-0.7.3/leaflet.css"/>
-                                    <link rel="stylesheet" href="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.css"/>
-                                    <script type="text/javascript" src="resources/leaflet-0.7.3/leaflet.js"/>
-                                    <script type="text/javascript" src="resources/facsimileLayer/FacsimileLayer.js"/>
-                                    <script src="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.js"/>
-                                    
-                                    <!-- **Open Sea Dragon** -->
-                                    <script type="text/javascript" src="resources/js/openseadragon.min.js"/>
-                                    
-                                    <!-- **JQUERY** -->
-                                    <script type="text/javascript" src="resources/jquery/jquery-2.1.3.js" charset="utf-8"/>
-                                    
-                                    <!-- **ACE** -->
-                                    <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"/>
-                                    <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
-                                    
-                                    <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
-                                    
-                                </head>
-                                <body class="x-body">
-                                    <div class="container" style="margin: 8.75%;">
-                                        <img src="resources/pix/ViFE-logo-small-144x144-trans.png"/>
-                                        <h1 style="margin-top:5px;">Edirom Online</h1>
-                                        <h3 class="navigatorCategoryTitle">Bitte Edition auswählen</h3>
-                                        <ul>
+let $eoIndexPage :=  <html>
+                        <head>
+                            <meta charset="UTF-8"/>
+                            <title>Edirom-Online</title>
+                            <!-- **CSS** -->
+                            <link rel="stylesheet" type="text/css" href="resources/css/todo.css"/>
+                            <link rel="stylesheet" type="text/css" href="resources/css/annotation-style.css"/>
+                            
+                            <!-- **CSS** -->
+                            <link rel="stylesheet" href="resources/css/font-awesome.min.css"/>
+                            <link rel="stylesheet" type="text/css" href="resources/css/tipped/tipped.css"/>
+                            
+                            <!-- **Raphael JS** -->
+                            <script type="text/javascript" src="resources/js/raphael-min.js"/>
+                            
+                            <!-- **Leaflet** -->
+                            <link rel="stylesheet" href="resources/leaflet-0.7.3/leaflet.css"/>
+                            <link rel="stylesheet" href="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.css"/>
+                            <script type="text/javascript" src="resources/leaflet-0.7.3/leaflet.js"/>
+                            <script type="text/javascript" src="resources/facsimileLayer/FacsimileLayer.js"/>
+                            <script src="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.js"/>
+                            
+                            <!-- **Open Sea Dragon** -->
+                            <script type="text/javascript" src="resources/js/openseadragon.min.js"/>
+                            
+                            <!-- **JQUERY** -->
+                            <script type="text/javascript" src="resources/jquery/jquery-2.1.3.js" charset="utf-8"/>
+                            
+                            <!-- **ACE** -->
+                            <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"/>
+                            <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
+                            
+                            <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
+                            {
+                                if(($eoEditionFilesCount gt 1 or $eoEditionFilesCount eq 0) and not($edition)) then
+                                    ()
+                                else
+                                    (<!-- TODO if prefs css then include here -->,
+                                     if ($preferences//entry[@key = "additional_css_path" and @value != ''])
+                                     then
+                                        <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
+                                     else (),
+                                     <script type="text/javascript" src="app.js"/>,
+                                     <!-- **WHERE TO OPEN LINKS** -->,
+                                     <base target="_blank"/>)
+                            }
+                        </head>
+                        <body class="x-body">
+                            {if(($eoEditionFilesCount gt 1 or $eoEditionFilesCount eq 0) and not($edition)) then
+                                (<div class="container" style="margin: 8.75%;">
+                                    <img src="resources/pix/ViFE-logo-small-144x144-trans.png"/>
+                                    <h1 style="margin-top:5px;">Edirom Online</h1>
+                                    {if($eoEditionFilesCount eq 0 and not($edition)) then
+                                        (<h3 class="navigatorCategoryTitle">Es wurden keine Editionen gefunden.</h3>)
+                                     else
+                                        (<h3 class="navigatorCategoryTitle">Bitte Edition auswählen</h3>,
+                                         <ul>
                                             {
                                                 for $eoEditionFile in $eoEditionFiles
                                                     let $editionUri := document-uri($eoEditionFile/root())
@@ -141,11 +120,13 @@ let $eoEditionFileMulti :=  <html>
                                                     )
                                             }
                                         </ul>
-                                    </div>
-                                </body>
-                            </html>
-
+                                        )
+                                    } 
+                                </div>)
+                            else
+                                (<script type="text/javascript" src="resources/js/tipped/tipped.js"/>)
+                            }
+                        </body>
+                    </html>
 return
-    if($eoEditionFilesCount > 1 and not($edition))
-    then($comment, $eoEditionFileMulti)
-    else($comment, $eoEditionFileSingle)
+    ($comment, $eoIndexPage)

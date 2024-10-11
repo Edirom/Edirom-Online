@@ -15,20 +15,22 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "../x
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:media-type "text/html";
+declare option output:method "xhtml";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
 
 (: QUERY BODY ============================================================== :)
 
 let $mode := request:get-parameter('mode', '')
 let $edition := request:get-parameter('edition', '')
 
-(:let $base := concat('file:', system:get-module-load-path()):)
-(:let $file := doc(concat($base, '/../prefs/edirom-prefs.xml')):)
-let $file := doc('../prefs/edirom-prefs.xml')
+let $file := doc($edition:default-prefs-location)
 
 let $projectFile := doc(edition:getPreferencesURI($edition))
 
