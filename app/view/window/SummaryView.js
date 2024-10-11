@@ -47,16 +47,8 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 		
 		me.image_server = getPreference('image_server');
 		
-		if (me.image_server === 'leaflet') {
-			me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {
-				region:
-				'south', collapsible: false, flex: 2
-			});
-			me.items =[
-			me.imageViewer];
-		} else {
-			me.items =[];
-		}
+		me.items =[];
+
 		me.callParent();
 	},
 	
@@ -68,29 +60,12 @@ Ext.define('EdiromOnline.view.window.SummaryView', {
 		fragment.appendChild(tempDiv);
 		tempDiv.innerHTML = data;
 		var name = tempDiv.getElementsByClassName("summaryViewSource");
-		
-		if (me.image_server === 'leaflet' && typeof name !== 'undefined') {
-			var name1 = tempDiv.getElementsByTagName("p")[0].firstChild.data;
-			tempDiv.getElementsByTagName("p")[0].firstChild.data = "";
-			
-			var fields = name1.split('§');
-			var imagePath = fields[0];
-			var width = fields[1];
-			var height = fields[2];
-			me.imageViewer.showImage(imagePath,
-			width, height, '');
-			me.add({
-				collapsible: false,
-				region: 'center',
-				html: tempDiv.innerHTML
-			});
-		} else {
-			me.add({
-				collapsible: false,
-				region: 'center',
-				html: data
-			});
-		}
+				
+		me.add({
+			collapsible: false,
+			region: 'center',
+			html: data
+		});
 	},
 	
 	getContentConfig: function () {
