@@ -23,7 +23,6 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
     requires: [
         "EdiromOnline.view.window.image.ImageViewer",
         "EdiromOnline.view.window.image.OpenSeaDragonViewer",
-        "EdiromOnline.view.window.image.LeafletFacsimile",
     ],
 
     alias: "widget.facsimileView",
@@ -49,12 +48,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
 
         var image_server = getPreference("image_server");
 
-        if (image_server === "leaflet") {
-            me.imageViewer = Ext.create(
-                "EdiromOnline.view.window.image.LeafletFacsimile",
-                { flex: 1, width: "100%" },
-            );
-        } else if (image_server === "openseadragon") {
+        if (image_server === "openseadragon") {
             me.imageViewer = Ext.create(
                 "EdiromOnline.view.window.image.OpenSeaDragonViewer",
             );
