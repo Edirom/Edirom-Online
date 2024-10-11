@@ -85,7 +85,7 @@
     <entry xml:id="exhibHist">Ausstellungsgeschichte</entry>
     <entry xml:id="extent">Umfang</entry>
     <entry xml:id="hand">Hand</entry>
-    <entry xml:id="identifier">Signatur</entry>
+    <entry xml:id="identifier">Bezeichner</entry>
     <entry xml:id="inscription">Aufdruck</entry>
     <entry xml:id="physLoc">Aufbewahrungsort</entry>
     <entry xml:id="physMedium">Material</entry>
@@ -104,20 +104,20 @@
     <entry xml:id="workTitle">Titel</entry>
     <entry xml:id="unpub">Unveröffentlicht</entry>
     <entry xml:id="geogName">Ort</entry>
+
     <!-- MEI -->
     <entry xml:id="annot">Annotation</entry>
-    <entry xml:id="componentGrp">Bestandteile</entry>
-    <entry xml:id="expressionList">Expressionen</entry>
-    <entry xml:id="handList">Schreiber</entry>
-    <entry xml:id="pubStmt">Publikation</entry>
-    <entry xml:id="pupPlace">Ort</entry>
-
-
-    <entry xml:id="corpName">Körperschaft</entry>
     <entry xml:id="captureMode">Aufnahmemodus</entry>
     <entry xml:id="carrierForm">Datenträger</entry>
+    <entry xml:id="componentGrp">Bestandteile</entry>
+    <entry xml:id="corpName">Körperschaft</entry>
+    <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="fileChar">Eigenschaften</entry>
+    <entry xml:id="handList">Schreiber</entry>
+    <entry xml:id="manifestationList">FRBR-Manifestationen</entry>
     <entry xml:id="playingSpeed">Abspielgeschwindigkeit</entry>
+    <entry xml:id="pubStmt">Publikation</entry>
+    <entry xml:id="pupPlace">Ort</entry>
     <entry xml:id="relationList">FRBR-Beziehungen</entry>
     <entry xml:id="soundChan">Tonkanäle</entry>
     
@@ -131,10 +131,11 @@
     <entry xml:id="availability">Verfügbarkeit</entry>
     <entry xml:id="collation">Lagenordnung</entry>
     <entry xml:id="decoDesc">Dekor</entry>
-    <entry xml:id="editionStmt">Edition</entry>
+    <entry xml:id="editionStmt">Angaben zur Ausgabe</entry>
     <entry xml:id="fileDesc">Dateinformationen</entry>
     <entry xml:id="foliation">Paginierung/Foliierung</entry>
     <entry xml:id="imprint">Publikation</entry>
+    <entry xml:id="langUsage">Sprachgebrauch</entry>
     <entry xml:id="listWit">erwähnte Zeugen</entry>
     <entry xml:id="listBibl">Bibliographie</entry>
     <entry xml:id="material">Material</entry>
@@ -143,13 +144,15 @@
     <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publikation</entry>
     <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
+    <entry xml:id="rendition">Darstellungsinformationen</entry>
     <entry xml:id="seriesStmt">Reihe</entry>
+    <entry xml:id="tagsDecl">Beschreibung des Tag-Gebrauchs</entry>
     <entry xml:id="title_a">Titel (analytisch)</entry>
     <entry xml:id="title_m">Titel (monographisch)</entry>
     <entry xml:id="title_j">Titel (in einem Journal)</entry>
     <entry xml:id="title_s">Titel (in einer Serien)</entry>
     <entry xml:id="title_u">Titel (unveröffentlicht)</entry>
-    <entry xml:id="idno">Signatur</entry>
+    <entry xml:id="idno">Bezeichner</entry>
     <entry xml:id="date">Datum</entry>
     <entry xml:id="country">Land</entry>
     <entry xml:id="settlement">Ort</entry>
@@ -159,10 +162,10 @@
     <entry xml:id="itemList">Exemplar(e)</entry>
     <entry xml:id="placeName">Ort</entry>
     <entry xml:id="pubStmt">Informationen zur Publikation</entry>
-    <entry xml:id="respStmt">Verantwortlich</entry>
+    <entry xml:id="respStmt">Verfasserangabe</entry>
     <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
-   <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
-
+    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
+    
     
     <entry xml:id="Encoders">Codierung</entry>
     <entry xml:id="binding">Einband</entry>
@@ -184,6 +187,6 @@
     <entry xml:id="height">Höhe</entry>
     <entry xml:id="descLink">Quellenbeschreibung</entry>
     
-<entry xml:id="singers">Sänger</entry>
+    <entry xml:id="singers">Sänger</entry>
     <entry xml:id="musicians">Musiker</entry>
 </language>
