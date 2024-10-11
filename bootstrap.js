@@ -85,11 +85,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.audio.AudioView": [],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.view.window.iFrameView": [],
-  "EdiromOnline.view.window.image.ImageLeafletContainer": [],
-  "EdiromOnline.view.window.image.ImageLeafletDetails": [],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
-  "EdiromOnline.view.window.image.LeafletFacsimile": [],
   "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
   "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [],
@@ -1032,17 +1029,8 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.iFrameView": [
     "widget.iFrameView"
   ],
-  "EdiromOnline.view.window.image.ImageLeafletContainer": [
-    "widget.layout-horizontal-box"
-  ],
-  "EdiromOnline.view.window.image.ImageLeafletDetails": [
-    "widget.layout-vertical-box"
-  ],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
-  "EdiromOnline.view.window.image.LeafletFacsimile": [
-    "widget.leafletmapview"
-  ],
   "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
   "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [
