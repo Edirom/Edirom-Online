@@ -79,7 +79,10 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
         if(doc-available($uri)) then
             doc($uri)
         else
-            doc(edition:findEdition($uri))
+            if(edition:findEdition($uri)) then
+                doc(edition:findEdition($uri))
+            else
+                ()
     )
     return
         if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "") then
@@ -141,7 +144,7 @@ declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
  : @param $editionID The '@xml:id' of the edirom:edition document to process
  : @return The URI of the Edition file
  :)
-declare function edition:findEdition($editionID as xs:string?) as xs:string {
+declare function edition:findEdition($editionID as xs:string?) as xs:string? {
     
     if(not($editionID) or $editionID eq '') then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]
