@@ -58,15 +58,14 @@ jobs:
     - name: Download artifact from previous job
       uses: actions/download-artifact@v4
       with:
-        github-token: ${{ secrets.GH_PAT }}
+        name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
+        path: xars
     - name: debug
       run: ls -laR ${{ github.workspace }}
-    - name: Unzip artifact to current workdir
-      run: unzip *.zip
     - name: Create Docker container
       run: |
         docker create --rm --name edirom-online -p 8080:8080 stadlerpeter/existdb:6
-        for i in *.xar ; do docker cp $i edirom-online:/opt/exist/autodeploy/ ; done
+        for i in xars/*.xar ; do docker cp $i edirom-online:/opt/exist/autodeploy/ ; done
     - name: Run Docker container
       run: |
         docker start edirom-online
