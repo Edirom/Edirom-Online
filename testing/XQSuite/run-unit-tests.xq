@@ -1,5 +1,10 @@
 xquery version "3.1";
 
+(:~
+ : Main executable XQuery for running XQSuite unit tests
+ : @see http://exist-db.org/exist/apps/doc/xqsuite.xml
+:)
+
 (: the following line must be added to each of the modules that include unit tests :)
 import module namespace test="http://exist-db.org/xquery/xqsuite" at "resource:org/exist/xquery/lib/xqsuite/xqsuite.xql";
  
