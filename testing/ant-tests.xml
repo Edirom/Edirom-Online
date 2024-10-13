@@ -20,6 +20,13 @@
             For general information about XQSuite see http://exist-db.org/exist/apps/doc/xqsuite.xml
         </description>
         
+        <!--
+            Hard coded here which should actually be a dependency. 
+            Yet, the current setup needs sencha for creating this 
+            so I simply put it here, too 
+        -->
+        <mkdir dir="${temp.dir}"/>
+        
         <!-- Retrieve the unit tests from the eXistdb -->
         <get src="${xqunit-url}" dest="${temp.dir}/xqunit-tests-results.xml"/>
         
