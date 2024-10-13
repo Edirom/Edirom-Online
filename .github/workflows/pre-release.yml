@@ -1,4 +1,4 @@
-name: pre-release
+name: Build, test, and tag
 
 on:
   push:
@@ -10,9 +10,6 @@ on:
 permissions:
   contents: read
 
-env:
-  DOCKER_IMAGE: bwbohl/sencha-cmd
-
 jobs:
 
   build:
@@ -22,13 +19,13 @@ jobs:
       contents: write
 
     steps:
-    - name: Chekout repository
-      uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+    - name: Checkout repository
+      uses: actions/checkout@4
       with:
         submodules: 'recursive'
       
     - name: Get short sha
-      uses: benjlevesque/short-sha@599815c8ee942a9616c92bcfb4f947a3b670ab0b # v3.0
+      uses: benjlevesque/short-sha@3
       id: short-sha
       with:
         length: 7       
@@ -38,7 +35,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
+      uses: actions/upload-artifact@4
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
@@ -47,20 +44,57 @@ jobs:
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
         #optional retention-days: 1 to 90
 
+
+  xqunit:
+    name: Run XQSuite unit tests
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Download artifact from previous job
+      uses: actions/download-artifact@v4
+      with:
+        github-token: ${{ secrets.GH_PAT }}
+    - name: Create Docker container
+      run: |
+        docker create --rm --name edirom-online -p 8080:8080 stadlerpeter/existdb:6
+        for i in *.xar ; do docker cp $i edirom-online:/opt/exist/autodeploy/ ; done
+    - name: Run Docker container
+      run: |
+        docker start edirom-online
+        i=0 ; while (! docker inspect edirom-online | grep -e Status....healthy) ; do if ((i > 30)) ; then echo ' **** timeout ... aborting **** ' ; exit 1 ; else sleep 5 ; echo waiting for container ... ; i=$((i+1)) ; fi ; done
+    - name: Run test suite
+      run: ant xqunit-tests
+    - name: Tear down Docker
+      run: docker kill edirom-online
+
+
+  update-tag:
+    name: Update git development tag and Github release
+    needs: xqunit
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
     - name: Delete dev-release
       if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
-      uses: dev-drprasad/delete-tag-and-release@v1.1
+      run: gh release delete dev --cleanup-tag -y
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REPO: ${{ github.event.repository.name }}
+
+    - name: Download artifact from previous job
+      uses: actions/download-artifact@v4
       with:
-        delete_release: true
-        tag_name: dev
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.GH_PAT }}
 
     - name: Create dev-release
       if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
       uses: ncipollo/release-action@v1.14.0
       with:
         allowUpdates: true
-        artifacts: ${{ github.workspace }}/build-xar/Edirom-Online-*.xar
+        artifacts: ${{ github.workspace }}/Edirom-Online-*.xar
         commit: ${{ github.sha }}
         name: "Development Build"
         prerelease: true
