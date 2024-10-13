@@ -62,7 +62,7 @@ jobs:
     - name: debug
       run: ls -laR ${{ github.workspace }}
     - name: Unzip artifact to current workdir
-      run: unzip ${{ github.workspace }}/Edirom-Online/*.zip -d .
+      run: unzip *.zip
     - name: Create Docker container
       run: |
         docker create --rm --name edirom-online -p 8080:8080 stadlerpeter/existdb:6
