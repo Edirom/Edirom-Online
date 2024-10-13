@@ -44,6 +44,10 @@ jobs:
         if-no-files-found: warn # 'warn' or 'ignore' are also available, defaults to `warn` 
         #optional retention-days: 1 to 90
 
+    outputs:
+      # saving this as output for following jobs to pick up
+      artifact_name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
+
 
   xqunit:
     name: Run XQSuite unit tests
@@ -58,7 +62,7 @@ jobs:
     - name: Download artifact from previous job
       uses: actions/download-artifact@v4
       with:
-        name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
+        name: ${{ needs.build.outputs.artifact_name }}
         path: xars
     - name: debug
       run: ls -laR ${{ github.workspace }}
@@ -78,7 +82,7 @@ jobs:
 
   update-tag:
     name: Update git development tag and Github release
-    needs: xqunit
+    needs: [build,xqunit]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -94,14 +98,15 @@ jobs:
     - name: Download artifact from previous job
       uses: actions/download-artifact@v4
       with:
-        github-token: ${{ secrets.GH_PAT }}
+        name: ${{ needs.build.outputs.artifact_name }}
+        path: xars
 
     - name: Create dev-release
       if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
       uses: ncipollo/release-action@v1.14.0
       with:
         allowUpdates: true
-        artifacts: ${{ github.workspace }}/Edirom-Online-*.xar
+        artifacts: ${{ github.workspace }}/xars/Edirom-Online-*.xar
         commit: ${{ github.sha }}
         name: "Development Build"
         prerelease: true
