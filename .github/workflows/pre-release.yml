@@ -55,6 +55,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: Install libxml2-utils for xmllint
       run: |
         sudo apt-get update
