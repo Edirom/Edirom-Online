@@ -90,6 +90,8 @@ jobs:
       contents: write
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
     - name: Delete dev-release
       if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
       run: gh release delete dev --cleanup-tag -y
