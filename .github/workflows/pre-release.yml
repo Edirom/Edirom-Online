@@ -56,6 +56,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Install libsaxonhe-java for XQuery support
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsaxonhe-java
       - name: Run test
         run: ant check-language-files
 
