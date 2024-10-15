@@ -18,8 +18,8 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
@@ -27,50 +27,46 @@ declare variable $lang := request:get-parameter('lang', '');
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
-declare function local:getGroups($parent) {
+declare function local:getGroups($parent) as map(*)? {
     if ($parent/edirom:groups) then (
-        concat('
-            {', 'label: "', eutil:getLocalizedName($parent/edirom:groups, $lang),
-            '", groups: [', local:getSingleGroups($parent/edirom:groups), ']}'
-        )
+        map {
+            "label": eutil:getLocalizedName($parent/edirom:groups, $lang),
+            "groups": local:getSingleGroups($parent/edirom:groups)
+        }
     ) else
-        (string('null'))
+        ()
 };
 
-declare function local:getSingleGroups($parent) {
-    string-join(
+declare function local:getSingleGroups($parent) as array(*)* {
+    array {
         for $group in $parent/edirom:group
         return
-            concat('
-                {',
-                    'name: "', eutil:getLocalizedName($group, $lang), '", ',
-                    'connections: ', local:getConnections($group),
-                '}')
-    , ',')
+            map {
+                "name": eutil:getLocalizedName($group, $lang),
+                "connections": local:getConnections($group)
+            }
+    }
 };
 
-declare function local:getConnections($parent) {
+declare function local:getConnections($parent) as map(*)? {
     if ($parent/edirom:connections) then (
-        concat(
-            '{',
-                'label: "', eutil:getLocalizedName($parent/edirom:connections, $lang), '",
-                connections: [', local:getSingleConnections($parent/edirom:connections),
-            ']}'
-        )
+        map {
+            "label": eutil:getLocalizedName($parent/edirom:connections, $lang),
+            "connections": local:getSingleConnections($parent/edirom:connections)
+        }
     ) else
-        (string('null'))
+        ()
 };
 
-declare function local:getSingleConnections($parent) {
-    string-join(
+declare function local:getSingleConnections($parent) as array(*)* {
+    array {
         for $connection in $parent/edirom:connection
         return
-            concat('
-                {',
-                    'name: "', $connection/string(@name), '", ',
-                    'plist: "', $connection/@plist, '"',
-                '}')
-    , ',')
+            map {
+                "name": $connection/string(@name),
+                "plist": $connection/string(@plist)
+            }
+    }
 };
 
 (: QUERY BODY ============================================================== :)
@@ -82,17 +78,13 @@ let $work := $mei/id($workId)
 let $concordances := $work//edirom:concordance
 
 return (
-    concat(
-        '[',
-        string-join(
-            for $concordance in $concordances
-            return
-                concat('
-                    {',
-                        'name: "', eutil:getLocalizedName($concordance, $lang), '", ',
-                        'groups: ', local:getGroups($concordance), ', ',
-                        'connections: ', local:getConnections($concordance),
-                    '}')
-        , ','),
-    ']')
+    array {
+        for $concordance in $concordances
+        return
+            map {
+                "name": eutil:getLocalizedName($concordance, $lang),
+                "groups": local:getGroups($concordance),
+                "connections": local:getConnections($concordance)
+            }
+    }
 )

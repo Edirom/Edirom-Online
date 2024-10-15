@@ -18,13 +18,13 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
-let $mei := eutil:getDoc($uri)/root()
+let $mei := eutil:getDoc($uri)
 
 let $ret :=
     for $surface in $mei//mei:surface
@@ -54,11 +54,5 @@ let $ret :=
     ) else
     ($ret)
 
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
-
 return
-    serialize($ret, $options)
+    $ret

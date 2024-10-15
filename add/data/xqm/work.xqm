@@ -18,29 +18,27 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util
 
 declare namespace edirom="http://www.edirom.de/ns/1.3";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace request = "http://exist-db.org/xquery/request";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns a JSON representation of a Work
+ : Returns  a map object with details about a Work
  :
  : @param $uri The URI of the Work's document to process
- : @return The JSON representation
+ : @return a map object with the keys "id", "doc", and "title" 
  :)
-declare function work:toJSON($uri as xs:string, $edition as xs:string) as xs:string {
+declare function work:details($uri as xs:string, $edition as xs:string) as map(*) {
     
     let $work := doc($uri)/mei:mei | doc($uri)/mei:work
     let $lang := request:get-parameter('lang', '')
     
     return
-        concat('
-            {',
-                'id: "', $work/string(@xml:id), '", ',
-                'doc: "', $uri, '", ',
-                'title: "', replace(eutil:getLocalizedTitle((($work/descendant-or-self::mei:work)[1]), $lang), '"', '\\"'),
-                '"',
-            '}')
-
+        map {
+            "id": $work/string(@xml:id),
+            "doc": $uri,
+            "title": replace(eutil:getLocalizedTitle((($work/descendant-or-self::mei:work)[1]), $lang), '"', '\\"')
+        }
 };
 
 (:~
