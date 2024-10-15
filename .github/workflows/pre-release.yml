@@ -61,7 +61,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libsaxonhe-java
       - name: Run test
-        run: ant check-language-files
+        run: ant -lib /usr/share/java/ check-language-files
 
   xqunit:
     name: Run XQSuite unit tests
