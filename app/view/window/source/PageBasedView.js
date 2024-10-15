@@ -69,7 +69,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         var me = this;
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('View: PageBasedView: annotationFilterChanged');
             console.log('visibleCategories');
             console.log(visibleCategories);
@@ -82,7 +82,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         var annotations = me.imageViewer.getShapes('annotations');
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('View: PageBasedView: annotationFilterChanged: annotations');
             console.log(annotations);
             console.log(me.imageViewer.shapes.get('annotations'));
@@ -105,7 +105,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             Ext.Array.remove(prioritiesCategories, 'measure');
             Ext.Array.remove(prioritiesCategories, 'annoIcon');
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('View: PageBasedView: annotationFilterChanged: annotations fn');
                 console.log(annotationId);
                 console.log(annotDiv);
@@ -124,7 +124,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
                 matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, prioritiesCategories[i]);
             }
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log(matchesCategoryFilter);
                 console.log(matchesPriorityFilter);
             }
@@ -151,7 +151,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
 
         Ext.Array.each(annotations, function(annotation) {
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('annotation');
                 console.log(annotation);
                 console.log('me');
@@ -167,7 +167,7 @@ Ext.define('EdiromOnline.view.window.source.PageBasedView', {
             Ext.Array.push(annotationDivIds, Ext.Array.pluck(children, 'id'));
         });
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log(annotationDivIds);
         }
 
