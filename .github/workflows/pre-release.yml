@@ -48,6 +48,16 @@ jobs:
       # saving this as output for following jobs to pick up
       artifact_name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
 
+  check-language-files:
+    name: Check alignment of language files
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Run test
+        run: ant check-language-files
 
   xqunit:
     name: Run XQSuite unit tests
