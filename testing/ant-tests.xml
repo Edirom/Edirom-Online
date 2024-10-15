@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="EdiromOnlineTesting">
+    
+    <property name="xqunit-url" value="http://localhost:8080/exist/apps/Edirom-Online/testing/XQSuite/run-unit-tests.xq"/>
+    
+    <target name="run-all-tests" depends="xqunit-tests"/>
+    
+    <target name="-check-dependencies">
+        <description>Check for necessary executables</description>
+        <property environment="env" /> 
+        <available file="xmllint"  
+            filepath="${env.PATH}"  
+            property="xmllint.present"/>
+        <fail unless="${xmllint.present}" 
+            message="Missing executable 'xmllint'"/>
+    </target>
+    
+    <target name="xqunit-tests" depends="-check-dependencies" if="xmllint.present">
+        <description>Run the XQSuite unit tests. 
+            For general information about XQSuite see http://exist-db.org/exist/apps/doc/xqsuite.xml
+        </description>
+        
+        <!--
+            Hard coded here which should actually be a dependency. 
+            Yet, the current setup needs sencha for creating this 
+            so I simply put it here, too 
+        -->
+        <mkdir dir="${temp.dir}"/>
+        
+        <!-- Retrieve the unit tests from the eXistdb -->
+        <get src="${xqunit-url}" dest="${temp.dir}/xqunit-tests-results.xml"/>
+        
+        <!-- Parse the results and check for errors -->
+        <exec executable="xmllint" dir="${temp.dir}" outputproperty="error.count">
+            <arg line="--xpath &quot;count(//testcase[failure])&quot; xqunit-tests-results.xml"/>
+        </exec>
+        
+        <!-- Load the results and output to the logs -->
+        <loadfile srcFile="${temp.dir}/xqunit-tests-results.xml" property="xqunit-tests-results"/>
+        <echo>${xqunit-tests-results}</echo>
+        
+        <!-- Fail the build if errors are encountered -->
+        <fail message="XQSuite unit tests encountered erros">
+            <condition>
+                <not>
+                    <equals arg1="${error.count}" arg2="0"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
+        
+</project>

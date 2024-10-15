@@ -2,6 +2,7 @@
 <project name="EdiromOnline" default="xar">
     
     <import file="${basedir}/.sencha/app/build-impl.xml"/>
+    <import file="${basedir}/testing/ant-tests.xml"/>
     
     <property name="project.version" value="1.0.0-beta.6"/>
     <property name="project.app" value="Edirom-Online"/>
@@ -32,6 +33,9 @@
                 <include name="data/xslt/tei/Stylesheets/VERSION"/>
                 <include name="help/**"/>
                 <include name="index/**"/>
+            </fileset>
+            <fileset dir="${basedir}">
+                <include name="testing/**"/>
             </fileset>
             <filterset begintoken="@" endtoken="@">
                 <filter token="project.version" value="${project.version}"/>
