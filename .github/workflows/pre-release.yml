@@ -92,7 +92,7 @@ jobs:
 
   update-tag:
     name: Update git development tag and Github release
-    needs: [build,xqunit]
+    needs: [build,xqunit,check-language-files]
     if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
     runs-on: ubuntu-latest
     permissions:
