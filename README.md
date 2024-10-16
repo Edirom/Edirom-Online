@@ -103,7 +103,7 @@ Edirom Online depends heavily on the JavaScript framework [Ext JS] which is incl
 
 For running the tests provided in the [ANT build file] we rely on `xmllint` 
 and `SaxonHE`. 
-On a Debian based Linux system these can be installed with `ap-get install 
+On a Debian based Linux system these can be installed with `apt-get install 
 libsaxonhe-java libxml2-utils`. 
 If SaxonHE is not available from your classpath by default you might need to 
 explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib 
