@@ -101,6 +101,15 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
 
 Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
 
+For running the tests provided in the [ANT build file] we rely on `xmllint` 
+and `SaxonHE`. 
+On a Debian based Linux system these can be installed with `apt-get install 
+libsaxonhe-java libxml2-utils`. 
+If SaxonHE is not available from your classpath by default you might need to 
+explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib 
+/usr/share/java/ run-all-tests`. 
+
+
 ## Roadmap
 
 Until today Edirom-Online and its features were developed as one application with strong dependencies on the JavaScript framework [Ext JS] (current version Ext JS 4.2.1) like mentioned above. Frontend and backend are currently living in this one application. Regarding to Edirom-Onlines release plans ExtJS is planned to be updated in the near future until ExtJS 7.0.0.
@@ -162,7 +171,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
-
+[ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
 
 <!--
 # EdiromOnline/app
