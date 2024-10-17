@@ -1,3 +1,5 @@
+<div align="center">
+ 
 [![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml)
 [![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases)
 [![GitHub license](https://img.shields.io/github/license/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/blob/main/LICENSE)
@@ -7,7 +9,11 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online.svg?type=small)](https://app.fossa.com/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online?ref=badge_small)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5347861.svg)](https://doi.org/10.5281/zenodo.7472503) 
 
-<div align="center">
+</div>
+
+<hr/>
+
+<div align="center"> 
  
 **[Showcases](https://github.com/Edirom/Edirom-Online#-Showcases) •
 [Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
