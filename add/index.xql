@@ -61,13 +61,6 @@ let $eoIndexPage :=  <html>
                             <!-- **Raphael JS** -->
                             <script type="text/javascript" src="resources/js/raphael-min.js"/>
                             
-                            <!-- **Leaflet** -->
-                            <link rel="stylesheet" href="resources/leaflet-0.7.3/leaflet.css"/>
-                            <link rel="stylesheet" href="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.css"/>
-                            <script type="text/javascript" src="resources/leaflet-0.7.3/leaflet.js"/>
-                            <script type="text/javascript" src="resources/facsimileLayer/FacsimileLayer.js"/>
-                            <script src="resources/Leaflet.tooltip-master/dist/leaflet.tooltip.js"/>
-                            
                             <!-- **Open Sea Dragon** -->
                             <script type="text/javascript" src="resources/js/openseadragon.min.js"/>
                             

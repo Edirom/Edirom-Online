@@ -33,11 +33,7 @@ declare variable $edition := request:get-parameter('edition', '');
 
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 
-declare variable $imageBasePath :=
-    if ($imageserver = 'leaflet') then
-        (eutil:getPreference('leaflet_prefix', $edition))
-    else
-        (eutil:getPreference('image_prefix', $edition));
+declare variable $imageBasePath := eutil:getPreference('image_prefix', $edition);
 
 declare variable $lang := request:get-parameter('lang', '');
 
