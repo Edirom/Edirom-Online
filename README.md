@@ -3,6 +3,7 @@
 [![GitHub license](https://img.shields.io/github/license/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/blob/main/LICENSE)
 [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) 
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md) 
+[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133)
 [![FOSSA Status](https://app.fossa.com/api/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online.svg?type=small)](https://app.fossa.com/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online?ref=badge_small)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5347861.svg)](https://doi.org/10.5281/zenodo.7472503) 
 
