@@ -23,6 +23,7 @@ Ext.define('EdiromOnline.Application', {
     
     controllers: [
         'AJAXController',
+        'ComponentController',
         'CookieController',
         'LanguageController',
         'PreferenceController',
