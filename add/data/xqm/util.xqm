@@ -17,8 +17,8 @@ module namespace eutil = "http://www.edirom.de/xquery/util";
 
 import module namespace functx = "http://www.functx.com";
 
-import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace annotation="http://www.edirom.de/xquery/annotation" at "annotation.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "edition.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "source.xqm";
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
