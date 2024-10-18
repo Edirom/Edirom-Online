@@ -33,14 +33,12 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
 
         var me = this;
         me.imagePrefix = getPreference('image_prefix');
+        me.imageViewerURL = getPreference('edirom-image-viewer-url');
 
         me.addEvents('zoomChanged',
                     'imageChanged');
 
-        let jsElement = document.createElement("script");
-        jsElement.setAttribute("defer", "defer");
-        jsElement.setAttribute("src", "resources/edirom-image-viewer.js"); //https://cdn.jsdelivr.net/gh/Edirom/edirom-image-viewer@latest/edirom-image-viewer.js")
-        document.querySelector("head").appendChild(jsElement);
+        window.loadComponent(me.imageViewerURL);
 
         me.html = `<edirom-openseadragon id="${me.id}-edirom-image-viewer" 
             preserveviewport='true'
