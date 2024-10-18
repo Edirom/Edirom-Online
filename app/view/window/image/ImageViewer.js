@@ -32,6 +32,7 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     initComponent: function () {
 
         var me = this;
+        me.imagePrefix = getPreference('image_prefix');
 
         me.addEvents('zoomChanged',
                     'imageChanged');
@@ -61,8 +62,13 @@ Ext.define('EdiromOnline.view.window.image.ImageViewer', {
     showImage: function(path, width, height, pageId) {
         var me = this;
 
+        var iiifPath = path;
+        if(!path.startsWith("http")) {
+            iiifPath = me.imagePrefix + path.replace(new RegExp('\/', 'g'), '!');
+        }
+
         var contEl = me.el.getById(me.id + '-edirom-image-viewer');
-        contEl.set({'tileSources': JSON.stringify([ path ])});
+        contEl.set({'tileSources': JSON.stringify([ iiifPath ])});
     },
 
     fitInImage: function() {
