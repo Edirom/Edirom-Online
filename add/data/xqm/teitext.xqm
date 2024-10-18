@@ -12,7 +12,7 @@ module namespace teitext="http://www.edirom.de/xquery/teitext";
 
 (: IMPORTS ================================================================= :)
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/util" at "util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
