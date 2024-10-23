@@ -48,6 +48,20 @@ jobs:
       # saving this as output for following jobs to pick up
       artifact_name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
 
+  check-language-files:
+    name: Check alignment of language files
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install libsaxonhe-java for XQuery support
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsaxonhe-java
+      - name: Run test
+        run: ant -lib /usr/share/java/ check-language-files
 
   xqunit:
     name: Run XQSuite unit tests
@@ -66,8 +80,6 @@ jobs:
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
-    - name: debug
-      run: ls -laR ${{ github.workspace }}
     - name: Create Docker container
       run: |
         docker create --rm --name edirom-online -p 8080:8080 stadlerpeter/existdb:6
@@ -84,7 +96,8 @@ jobs:
 
   update-tag:
     name: Update git development tag and Github release
-    needs: [build,xqunit]
+    needs: [build,xqunit,check-language-files]
+    if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -93,7 +106,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
     - name: Delete dev-release
-      if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
       run: gh release delete dev --cleanup-tag -y
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -106,7 +118,6 @@ jobs:
         path: xars
 
     - name: Create dev-release
-      if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
       uses: ncipollo/release-action@v1.14.0
       with:
         allowUpdates: true
