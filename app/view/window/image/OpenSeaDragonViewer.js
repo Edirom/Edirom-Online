@@ -247,7 +247,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
     removeShapes: function(groupName) {
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('view: OpenSeaDragonView: removeShapes');
             console.log(groupName);
         }
@@ -256,7 +256,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         //abort if me.shapes does not contain key
         if(!me.shapes.containsKey(groupName)) {
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('me.shapes does not contain key: ' + groupName);
             }
             return;
@@ -273,7 +273,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                 id = shape.id;
             }
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('me.id: ' + me.id);
                 console.log('+shape.id: ' + me.id + '_' + id);
             }
@@ -314,7 +314,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
         var me = this;
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('controller: OpenseaDragonView: addAnnotaitons');
             console.log('annotations RAW');
             console.log(annotations);
@@ -329,7 +329,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         //var tpl = dh.createTemplate('<div id="{0}" class="annotation {2} {3} {4}" data-edirom-annot-id="{4}"><div id="{0}_inner" class="annotIcon" title="{1}"></div></div>');
         //tpl.compile();
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('me.shapes annotations');
             console.log(me.shapes.get('annotations'));
         }
@@ -337,7 +337,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
         // iterate over annotations
         annotations.each(function(annotation) {
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('Processing annotation…');
                 console.log(annotation);
             }
@@ -446,7 +446,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
                     }
                 }, tip);
             });
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('me.shapes annotations');
                 console.log(me.shapes.get('annotations'));
             }
@@ -462,7 +462,7 @@ Ext.define('EdiromOnline.view.window.image.OpenSeaDragonViewer', {
 
     getShapeElem: function(shapeId) {
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('view: OpenSeaDragonView: getShapeElem: ' + shapeId);
         }
         var me = this;

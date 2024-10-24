@@ -13,12 +13,12 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
-declare function local:findMeasure($mei, $movementId, $measureIdName) {
+declare function local:findMeasure($mei, $movementId, $measureIdName) as element(mei:measure)? {
     let $m := $mei/id($measureIdName)
     return
         if ($m) then
@@ -27,31 +27,26 @@ declare function local:findMeasure($mei, $movementId, $measureIdName) {
             (($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1])
 };
 
-declare function local:getMeasure($mei, $measure, $movementId) as xs:string {
-    
+declare function local:getMeasure($mei, $measure, $movementId) as map(*) {
     let $measureId := $measure/string(@xml:id)
     let $zoneId := substring-after($measure/string(@facs), '#')
     let $zone := $mei/id($zoneId)
     let $surface := $zone/parent::mei:surface
     let $graphic := $surface/mei:graphic[@type = 'facsimile']
-    
     return
-        
-        concat(
-            '{',
-                'measureId:"', $measureId, '",',
-                'zoneId:"', $zoneId, '",',
-                'pageId:"', $surface/string(@xml:id), '", ',
-                'movementId:"', $movementId, '",',
-                'path: "', $graphic/string(@target), '", ',
-                'width: "', $graphic/string(@width), '", ',
-                'height: "', $graphic/string(@height), '", ',
-                'ulx: "', $zone/string(@ulx), '", ',
-                'uly: "', $zone/string(@uly), '", ',
-                'lrx: "', $zone/string(@lrx), '", ',
-                'lry: "', $zone/string(@lry), '"',
-            '}'
-        )
+        map {
+            "measureId": $measureId,
+            "zoneId": $zoneId,
+            "pageId": $surface/string(@xml:id),
+            "movementId": $movementId,
+            "path": $graphic/string(@target),
+            "width": $graphic/string(@width),
+            "height": $graphic/string(@height),
+            "ulx": $zone/string(@ulx),
+            "uly": $zone/string(@uly),
+            "lrx": $zone/string(@lrx),
+            "lry": $zone/string(@lry)
+        }
 };
 
 (: QUERY BODY ============================================================== :)
@@ -80,15 +75,12 @@ let $extraMeasuresParts :=
         $exm/following-sibling::mei:measure[(exists(@label) and @label = $exm/@label) or (not(exists(@label)) and @n = $exm/@n)]
 
 return
-    concat(
-        '[',
-            string-join((
-                local:getMeasure($mei, $measure, $movementId),
-                for $m in $extraMeasures
-                return
-                    local:getMeasure($mei, $m, $movementId),
-                for $m in $extraMeasuresParts
-                return
-                    local:getMeasure($mei, $m, $movementId)
-            ), ','),
-    ']')
+    array {
+        local:getMeasure($mei, $measure, $movementId),
+        for $m in $extraMeasures
+        return
+            local:getMeasure($mei, $m, $movementId),
+        for $m in $extraMeasuresParts
+        return
+            local:getMeasure($mei, $m, $movementId)
+    }

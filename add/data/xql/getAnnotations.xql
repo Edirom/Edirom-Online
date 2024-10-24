@@ -21,8 +21,8 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
@@ -39,11 +39,6 @@ let $map :=
         'total': count(doc($uri)//mei:annot[@type = 'editorialComment']),
         'annotations': array {annotation:annotationsToJSON($uri, $edition)}
     }
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
 
 return
-    serialize($map, $options)
+    $map

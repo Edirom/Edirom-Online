@@ -18,13 +18,13 @@ declare namespace svg = "http://www.w3.org/2000/svg";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
+let $mei := doc($uri)
 let $surfaceId := request:get-parameter('pageId', '')
 let $overlayId := request:get-parameter('overlayId', '')
 
@@ -40,11 +40,5 @@ let $overlay :=
         'svg': $svg
     }
 
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
-    }
-
 return
-    serialize($overlay, $options)
+    $overlay

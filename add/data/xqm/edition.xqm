@@ -26,21 +26,20 @@ declare variable $edition:default-prefs-location as xs:string := '../prefs/ediro
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns a JSON representation of an Edition
+ : Returns a map object with details about an Edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The JSON representation
+ : @return a map object with the keys "id", "doc", and "name" 
  :)
-declare function edition:toJSON($uri as xs:string) as xs:string {
+declare function edition:details($uri as xs:string) as map(*) {
     
     let $edition := doc($uri)/edirom:edition
     return
-        concat('
-            {',
-        'id: "', $edition/string(@xml:id), '", ',
-        'doc: "', $uri, '", ',
-        'name: "', $edition/edirom:editionName, '"',
-        '}')
+        map {
+            "id": $edition/string(@xml:id),
+            "doc": $uri,
+            "name": $edition/edirom:editionName
+        }
 };
 
 (:~
