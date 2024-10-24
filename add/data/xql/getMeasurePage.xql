@@ -24,9 +24,7 @@ declare function local:findMeasure($mei, $movementId, $measureIdName) as element
         if ($m) then
             ($m)
         else
-            (($mei/id($movementId)//mei:measure[@n eq $measureIdName])[1])
-};
-
+         (($mei/id($movementId)//mei:measure[@label eq $measureIdName], $mei/id($movementId)//mei:measure[@n eq $measureIdName])[1]) 
 declare function local:getMeasure($mei, $measure, $movementId) as map(*) {
     let $measureId := $measure/string(@xml:id)
     let $zoneId := substring-after($measure/string(@facs), '#')
