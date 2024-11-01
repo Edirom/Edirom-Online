@@ -15,14 +15,14 @@
 
 <div align="center"> 
  
-**[Showcases](https://github.com/Edirom/Edirom-Online#-Showcases) •
-[Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
-[Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online#-Contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online#-Get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online#-Code-of-Conduct) • 
-[License](https://github.com/Edirom/Edirom-Online#-License)**
+**[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
+[Get started](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#code-of-conduct) • 
+[License](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#license)**
 
 </div>
 
