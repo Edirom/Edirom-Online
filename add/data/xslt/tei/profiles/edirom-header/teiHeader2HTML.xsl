@@ -2,40 +2,46 @@
 <xsl:stylesheet xmlns="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:tei="http://www.tei-c.org/ns/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:eof="http://www.edirom.de/xslt/ediromOnlineFunctions" xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" exclude-result-prefixes="xs eof xd tei" version="2.0" xml:space="default">
 
 <!-- IMPORTs TEI ======================================================= -->
-    <xsl:import href="tei/common2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/tei.xsl"/>
-    <xsl:import href="tei/xhtml2/tei-param.xsl"/>
-    <xsl:import href="tei/common2/core.xsl"/>
-    <xsl:import href="tei/common2/textstructure.xsl"/>
-    <xsl:import href="tei/common2/header.xsl"/>
-    <xsl:import href="tei/common2/linking.xsl"/>
-    <xsl:import href="tei/common2/figures.xsl"/>
-    <xsl:import href="tei/common2/textcrit.xsl"/>
-    <xsl:import href="tei/common2/i18n.xsl"/>
-    <xsl:import href="tei/common2/functions.xsl"/>
-    <xsl:import href="tei/xhtml2/core.xsl"/>
-    <xsl:import href="tei/xhtml2/corpus.xsl"/>
-    <xsl:import href="tei/xhtml2/dictionaries.xsl"/>
-    <xsl:import href="tei/xhtml2/drama.xsl"/>
-    <xsl:import href="tei/xhtml2/figures.xsl"/>
-    <xsl:import href="tei/xhtml2/header.xsl"/>
-    <xsl:import href="tei/xhtml2/linking.xsl"/>
-    <xsl:import href="tei/xhtml2/namesdates.xsl"/>
-    <xsl:import href="tei/xhtml2/tagdocs.xsl"/>
-    <xsl:import href="tei/xhtml2/textstructure.xsl"/>
-    <xsl:import href="tei/xhtml2/textcrit.xsl"/>
-    <xsl:import href="tei/xhtml2/transcr.xsl"/>
-    <xsl:import href="tei/xhtml2/verse.xsl"/>
-    <xsl:import href="tei/common2/verbatim.xsl"/>
+<!--    <xsl:import href="../../Stylesheets/common/common_param.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/html/html_param.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_core.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_textstructure.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_header.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_linking.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_figures.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/common_textcrit.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/i18n.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/functions.xsl"/>-->
+    
+<!--    <xsl:import href="../../Stylesheets/html/html.xsl"/>-->
+    <!--<xsl:import href="../../Stylesheets/html/html_core.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_corpus.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_dictionaries.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_drama.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_figures.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/html/html_header.xsl"/>-->
+    <!--<xsl:import href="../../Stylesheets/html/html_linking.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_namesdates.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_tagdocs.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_textstructure.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_textcrit.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_transcr.xsl"/>
+    <xsl:import href="../../Stylesheets/html/html_verse.xsl"/>-->
+<!--    <xsl:import href="../../Stylesheets/common/verbatim.xsl"/>-->
   
 <!-- IMPORTs ======================================================= -->
-    <xsl:import href="ediromOnline_params.xsl"/>
-    <xsl:import href="ediromOnline_functions.xsl"/>
-    <xsl:import href="ediromOnline_metadata.xsl"/>
+    
+    <xsl:import href="../../../ediromOnline_params.xsl"/>
+    
+    <xsl:import href="../../../ediromOnline_functions.xsl"/>
+    
+    <xsl:import href="../../../ediromOnline_metadata.xsl"/>
   
     
 <!-- OUTPUT ======================================================= -->
-    <xsl:output encoding="UTF-8" media-type="text/xhmtl" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
+    
+    <xsl:output encoding="UTF-8" media-type="text/xhtml" method="xhtml" omit-xml-declaration="yes" indent="yes"/>
 
 <!-- DEFAULT TEMPLATEs ======================================================= -->
     
@@ -46,6 +52,10 @@
         <xsl:apply-templates select="//tei:teiHeader"/>
     </xsl:template>
     
+    
+    <xd:doc scope="component">
+        <xd:desc>determine node handling in plainCommaSep mode</xd:desc>
+    </xd:doc>
     <xsl:template match="node()" mode="plainCommaSep">
         <xsl:choose>
             <!-- nur attribute keinerlei kindknoten -->
@@ -112,6 +122,7 @@
         </xsl:choose>
     </xsl:template>
     
+    
     <xsl:template match="*" mode="plainDivs">
         <xsl:element name="div">
             <xsl:call-template name="rendToClass"/>
@@ -119,7 +130,9 @@
         </xsl:element>
     </xsl:template>
     
+    
     <xsl:template match="@*" mode="subProp"/>
+
 
     <xsl:template match="node()" mode="subProp">
         <xsl:if test="@*">
@@ -134,7 +147,9 @@
         </xsl:if>
         <xsl:apply-templates mode="plainCommaSep"/>
     </xsl:template>
+
 <!-- NAMED TEMPLATEs ======================================================= -->
+    
     <xd:doc scope="component">
         <xd:desc>Override TEI microData template</xd:desc>
     </xd:doc>
@@ -142,14 +157,18 @@
 
 <!-- TEMPLATEs ======================================================= -->
     
+    
     <xsl:template match="@role" mode="plainCommaSep">
         <xsl:value-of select="eof:getLabel(.)"/>
     </xsl:template>
+    
+    
     <xsl:template match="@when" mode="plainCommaSep">
         <xsl:text> (</xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>) </xsl:text>
     </xsl:template>
+    
     
     <xsl:template match="tei:abstract">
         <xsl:call-template name="makeProperty">
@@ -174,52 +193,70 @@
             </xsl:element>
         </xsl:for-each>
     </xsl:template>
+    
+    
     <xsl:template match="tei:author">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:author" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
     
+    
     <xsl:template match="tei:extent" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
-        <xsl:template match="tei:publisher">
+
+
+    <xsl:template match="tei:publisher">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
+
     <xsl:template match="tei:publisher" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
     </xsl:call-template>
     </xsl:template>
+
+
     <xsl:template match="tei:placeName[parent::tei:bibl]">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
+
     <xsl:template match="tei:placeName" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
+
     <xsl:template match="tei:date">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
+
     <xsl:template match="tei:date" mode="bibl">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+
     <xd:doc scope="component">
         <xd:desc>Add a div with class teiHeader then process children</xd:desc>
     </xd:doc>
@@ -229,6 +266,7 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
+    
     
     <xsl:template match="tei:biblStruct">
         <xsl:choose>
@@ -241,6 +279,7 @@
         </xsl:choose>
     </xsl:template>
     
+    
     <xsl:template match="tei:biblFull">
         <xsl:element name="div">
             <xsl:call-template name="rendToProperty"/>
@@ -252,6 +291,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
     
     <xsl:template match="tei:textClass">
         <xsl:param name="sub" tunnel="yes"/>
@@ -268,9 +308,13 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    
     <xsl:template match="tei:textClass" mode="plainCommaSep">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
+    
+    
     <xsl:template match="tei:analytic" mode="bibl">
         <xsl:element name="div">
             <xsl:call-template name="rendToProperty"/>
@@ -282,6 +326,8 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
+    
     <xsl:template match="tei:monogr" mode="bibl">
         <xsl:element name="div">
             <xsl:call-template name="rendToProperty"/>
@@ -315,6 +361,20 @@
     
     
     <xsl:template match="tei:change">
+        
+        <xsl:variable name="who">
+            <xsl:variable name="whos" as="xs:string+">
+                <xsl:for-each select="tokenize(@who, ' '), tei:name, tei:persName, tei:orgName">
+                    <xsl:value-of select="."/>
+                </xsl:for-each>
+            </xsl:variable>
+            <xsl:value-of select="$whos" separator=", "/>
+        </xsl:variable>
+        
+        <xsl:variable name="when">
+            <xsl:value-of select="(@when, tei:date/@when)[1]" />
+        </xsl:variable>
+        
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
             <xsl:element name="div">
@@ -323,43 +383,101 @@
                 <xsl:if test="@n">
                     <xsl:value-of select="concat(' ', @n)"/>
                 </xsl:if>
-                <xsl:if test="@when">
+                <xsl:if test="$when != ''">
                     <xsl:element name="span">
                         <xsl:attribute name="class">date</xsl:attribute>
-                        <xsl:value-of select="./@when"/>
+                        <xsl:value-of select="$when"/>
                     </xsl:element>
                 </xsl:if>
             </xsl:element>
             <xsl:element name="div">
                 <xsl:attribute name="class">value</xsl:attribute>
-                <xsl:value-of select="concat(@who, ': ')"/>
+                <xsl:value-of select="concat($who, ': ')"/>
                 <xsl:apply-templates/>
             </xsl:element>
         </xsl:element>
     </xsl:template>
     
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:date that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:date" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:name that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:name" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:orgName that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:orgName" mode="#all" />
+    
+    <xd:doc scope="component">
+        <xd:desc>Ignore tei:persName that is immediate child of tei:change</xd:desc> 
+    </xd:doc>
+    <xsl:template match="tei:change/tei:persName" mode="#all" />
+    
     <xsl:template match="tei:encodingDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
+    
+    <xsl:template match="tei:encodingDesc/tei:tagsDecl">
+        <xsl:element name="div">
+            <xsl:attribute name="class">property</xsl:attribute>
+            <xsl:element name="div">
+                <xsl:attribute name="class">key</xsl:attribute>
+                <xsl:value-of select="eof:getLabel(local-name())"/>
+                <xsl:if test="@n">
+                    <xsl:value-of select="concat(' ', @n)"/>
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="div">
+                <xsl:attribute name="class">value</xsl:attribute>
+                
+                <xsl:element name="dl">
+                    
+                    <xsl:for-each select="*">
+                        <xsl:element name="dt">
+                            <xsl:value-of select="eof:getLabel(local-name())"/>
+                        </xsl:element>
+                        <xsl:element name="dd">
+                            <xsl:apply-templates select="." mode="plainCommaSep" />
+                        </xsl:element>
+                    </xsl:for-each>
+                    
+                </xsl:element>
+                
+            </xsl:element>
+        </xsl:element>
+    </xsl:template>
+    
+    
     <xsl:template match="tei:handNotes">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:handNotes" mode="plainCommaSep">
         <xsl:apply-templates mode="#current"/>
     </xsl:template>
+    
+    
     <xsl:template match="tei:handNote" mode="plainCommaSep">
         <xsl:element name="p">
             <xsl:apply-templates mode="#current"/>
         </xsl:element>
     </xsl:template>
     
+    
     <xsl:template match="tei:imprint">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
     
     <xsl:template match="tei:imprint" mode="bibl">
         <xsl:element name="div">
@@ -377,6 +495,7 @@
         </xsl:element>
     </xsl:template>
     
+    
     <xsl:template match="tei:imprint" mode="plainCommaSep">
         <xsl:value-of select="tei:publisher"/>
         <xsl:text> (</xsl:text>
@@ -385,22 +504,28 @@
         <xsl:value-of select="tei:pubPlace, tei:date" separator=", "/>
     </xsl:template>
     
+    
     <xsl:template match="tei:msContents"/>
+    
     
     <xsl:template match="tei:notesStmt">
         <xsl:element name="div">
             <xsl:call-template name="makeSection"/>
         </xsl:element>
     </xsl:template>
+    
+    
     <xsl:template match="tei:physDesc">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
     
+    
     <xsl:template match="tei:physDesc" mode="plainCommaSep">
         <xsl:apply-templates select="@* | node()" mode="plainCommaSep"/>
     </xsl:template>
+    
     
     <xsl:template match="tei:objectDesc/@form" mode="plainCommaSep" priority="5">
         <xsl:value-of select="eof:getLabel(.)"/>
@@ -420,20 +545,6 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
-    <xsl:template match="tei:respStmt">
-        <xsl:element name="div">
-            <xsl:call-template name="rendToClass">
-                <xsl:with-param name="default">respStmt property</xsl:with-param>
-            </xsl:call-template>
-            <xsl:apply-templates select="tei:resp" mode="bibl"/>
-            <xsl:element name="div">
-                <xsl:call-template name="rendToClass">
-                    <xsl:with-param name="default">value</xsl:with-param>
-                </xsl:call-template>
-                <xsl:apply-templates select="tei:name" mode="bibl"/>
-            </xsl:element>
-        </xsl:element>
-    </xsl:template>
     
     
     <xsl:template match="tei:resp" mode="bibl">
@@ -445,6 +556,8 @@
 <!--            <xsl:value-of select="$pListKeyDelim"/>-->
         </xsl:element>
     </xsl:template>
+    
+    
     <xsl:template match="tei:samplingDecl">
         <xsl:element name="div">
             <xsl:attribute name="class">property</xsl:attribute>
@@ -458,6 +571,7 @@
             </xsl:element>
         </xsl:element>
     </xsl:template>
+    
     <xd:doc scope="component">
         <xd:desc>Process element witness</xd:desc>
     </xd:doc>
@@ -512,22 +626,37 @@
 <!--        <xsl:apply-templates mode="plainCommaSep"/>-->
     </xsl:template>
     
+    
     <xsl:template match="tei:repository/@n" mode="plainCommaSep">
         <xsl:text>(</xsl:text>
         <xsl:value-of select="."/>
         <xsl:text>)</xsl:text>
     </xsl:template>
     
+    
     <xsl:template match="tei:msName">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
-
+    
+    
     <xsl:template match="tei:publicationStmt">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
+    </xsl:template>
+    
+    
+    <xsl:template match="tei:seriesStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    
+    <xsl:template match="tei:seriesStmt/*" mode="plainCommaSep">
+        <xsl:apply-templates select="." mode="valueOnly" />
     </xsl:template>
     
     <xd:doc scope="component">
@@ -538,13 +667,15 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
-
+    
+    
     <xsl:template match="tei:availability" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
-
+    
+    
     <xsl:template match="@target" mode="plainCommaSep">
         <xsl:element name="a">
             <xsl:attribute name="href" select="."/>
@@ -552,30 +683,37 @@
             <xsl:value-of select="."/>
         </xsl:element>
     </xsl:template>
-        
+    
+    
     <xsl:template match="tei:idno" name="identifier">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
             </xsl:call-template>
     </xsl:template>
     
+    
     <xsl:template match="tei:idno[parent::tei:source]" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:idno" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:orgName">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
             <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
         </xsl:call-template>
     </xsl:template>
-        <xsl:template match="tei:ptr">
+    
+    <xsl:template match="tei:ptr">
         <xsl:choose>
             <xsl:when test="parent::tei:edition">
                 <xsl:call-template name="makeProperty">
@@ -602,12 +740,16 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+    
+    
     <xsl:template match="tei:title">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
             <xsl:with-param name="key" select="if(@type)then(concat(local-name(), '_', @type))else(local-name())"/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:title" mode="bibl" name="title_bibl">
         <!--<xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
@@ -627,9 +769,59 @@
     </xsl:template>
     
     
+    <xsl:template match="tei:titleStmt">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    
+    <xsl:template match="tei:titleStmt/tei:* except tei:respStmt" mode="plainCommaSep">
+        <xsl:call-template name="makeSubProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    
+  <xsl:template match="tei:titleStmt/tei:respStmt" mode="plainCommaSep">
+      <xsl:apply-imports/>
+  </xsl:template>
+    
+    
+    <xsl:template match="tei:titleStmt/tei:respStmt/tei:resp" mode="plain" />
+    
+    
+    <xsl:template match="tei:titleStmt/tei:title" mode="plainCommaSep">
+        
+        <xsl:variable name="key" select="local-name()"/>
+        <xsl:variable name="subkey" select="@type"/>
+        
+        <xsl:element name="div">
+            <xsl:attribute name="class">subProperty</xsl:attribute>
+            <xsl:element name="span">
+                <xsl:attribute name="class" select="string('subkey')"/>
+                <xsl:value-of select="eof:getLabel($key)"/>
+                <xsl:if test="$subkey != ''">
+                    <xsl:element name="span">
+                        <xsl:attribute name="class" select="'subkey'"/>
+                        <xsl:value-of select="$subkey"/>
+                    </xsl:element>
+                </xsl:if>
+            </xsl:element>
+            <xsl:element name="span">
+                <xsl:attribute name="class" select="string('subvalue')"/>
+                <xsl:apply-templates select="." mode="plain"/>
+            </xsl:element>
+        </xsl:element>
+        
+    </xsl:template>
+    
+    
     <xsl:template match="tei:revisionDesc">
         <xsl:call-template name="makeSection"/>
     </xsl:template>
+    
+    
     <xsl:template match="tei:funder">
         <xsl:element name="div">
             <xsl:call-template name="rendToProperty"/>
@@ -649,6 +841,7 @@
         </xsl:call-template>
     </xsl:template>
     
+    
     <xsl:template match="@material" mode="plainCommaSep"/><!-- TODO -->
     
     
@@ -657,6 +850,8 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:extent" mode="plainCommaSep" name="extent">
         <xsl:param name="key" select="local-name(.)"/>
         <xsl:element name="div">
@@ -691,10 +886,12 @@
         </xsl:element>
     </xsl:template>
     
+    
     <xsl:template match="tei:address" mode="plainDivs">
         <xsl:apply-templates select="tei:street" mode="#current"/>
         <xsl:call-template name="postCodeSettlement"/>
     </xsl:template>
+    
     
     <xsl:template match="tei:address" mode="plainCommaSep">
         <xsl:element name="div">
@@ -706,12 +903,12 @@
     </xsl:template>
     
     
-
     <xsl:template match="tei:history | tei:additional">
         <xsl:call-template name="makeProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
     
     <xsl:template match="tei:history" mode="plainCommaSep">
         <xsl:apply-templates mode="#current"/>
@@ -725,9 +922,12 @@
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
+    
     <xsl:template match="tei:creation" mode="plainCommaSep">
         <xsl:apply-templates mode="plainCommaSep"/>
     </xsl:template>
+    
     
     <xsl:template match="tei:dimensions" mode="plainCommaSep">
         <xsl:value-of select="@type, @unit" separator=", "/>
@@ -744,7 +944,15 @@
             <xsl:text>) </xsl:text>
         </xsl:if>
     </xsl:template>
-
+    
+    
+    <xsl:template match="tei:langUsage">
+        <xsl:call-template name="makeProperty">
+            <xsl:with-param name="node" select="."/>
+        </xsl:call-template>
+    </xsl:template>
+    
+    
     <xsl:template match="tei:listChange" mode="plainCommaSep">
         <xsl:element name="ul">
             <xsl:for-each select="tei:change">
@@ -757,7 +965,6 @@
     </xsl:template>
     
     
-
     <xsl:template match="tei:placeName">
         <xsl:value-of select="*" separator=", "/>
     </xsl:template>
@@ -767,10 +974,12 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
+    
+    
     <xsl:template name="postCodeSettlement">
         <xsl:element name="div">
             <xsl:call-template name="rendToClass">
-                <xsl:with-param name="id">postCodeSettlement</xsl:with-param>
+                <xsl:with-param name="default">postCodeSettlement</xsl:with-param>
             </xsl:call-template>
             <xsl:apply-templates select="tei:postCode" mode="plain"/>
             <xsl:text> </xsl:text>
@@ -784,17 +993,20 @@
         </p>
     </xsl:template>
     
+    
     <xsl:template match="tei:p" mode="plainCommaSep">
         <p>
             <xsl:apply-templates/>
         </p>
     </xsl:template>
     
+    
     <xsl:template match="tei:provenance" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
     
     <xsl:template match="tei:listBibl" mode="plainCommaSep">
         <xsl:element name="span">
@@ -813,9 +1025,11 @@
         <xsl:call-template name="makeSection"/>
     </xsl:template>
     
+    
     <xsl:template match="tei:watermark" mode="plainCommaSep">
         <xsl:call-template name="makeSubProperty">
             <xsl:with-param name="node" select="."/>
         </xsl:call-template>
     </xsl:template>
+    
 </xsl:stylesheet>
