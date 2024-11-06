@@ -8,6 +8,7 @@ xquery version "3.1";
 import module namespace kwic = "http://exist-db.org/xquery/kwic";
 import module namespace transform="http://exist-db.org/xquery/transform";
 
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
@@ -25,6 +26,7 @@ declare option output:media-type "text/html";
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $lang := request:get-parameter('lang', '');
+declare variable $edition := request:get-parameter('uri', '');
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
@@ -75,12 +77,12 @@ let $return :=
         
         let $search :=
             if (string-length($term) gt 0) then (
-                collection('/db')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-                | collection('/db')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-                | collection('/db')//mei:mei[ft:query(., $term)]
-                | collection('/db')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-                | collection('/db')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
-                | collection('/db')//mei:annot[contains(@xml:id, $term)]
+                edition:collection($edition)//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+                | edition:collection($edition)//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+                | edition:collection($edition)//mei:mei[ft:query(., $term)]
+                | edition:collection($edition)//mei:title[ft:query(., $term)]/ancestor::mei:mei
+                | edition:collection($edition)//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+                | edition:collection($edition)//mei:annot[contains(@xml:id, $term)]
             ) else
                 ()
         
