@@ -5,7 +5,8 @@ while getopts "d" flag; do
    d) # Handle the -d flag
    # run docker
    echo "Running in Docker..."
-   docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:latest /bin/bash -c "./build.sh testing; exit"
+    # run docker
+    docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:latest /bin/bash -c "./build.sh testing; exit"
    exit
    ;;   
    \?)
