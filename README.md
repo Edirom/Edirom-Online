@@ -109,7 +109,9 @@ See the [Edirom-Online milestones] for more details.
 
 ## Contributing
 
-After all this information, you decided to conribute to Edirom-Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+After all this information, you decided to contribute to Edirom-Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+
+If you encounter a security issue in the code, please see the [Security Policy](.github/SECURITY.md) for further guidance.
 
 ## Get in touch
 
