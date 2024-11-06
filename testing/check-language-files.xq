@@ -24,13 +24,19 @@ declare variable $edirom:language-files-path as xs:string external;
 
 declare function edirom:print-missing-keys() as element()* {
     let $language-files := collection($edirom:language-files-path)
-    let $languages := $language-files/langFile/lang 
+    let $languages :=
+        $language-files/langFile/lang | (: language files in add/data/locale :)
+        $language-files/language/@xml:lang (: language files in add/data/xslt/i18n :)
     return
     
         for $entry in $language-files//entry
-        group by $key := $entry/data(@key)
+        group by $key := $entry/data((@key,@xml:id))
         where count($entry) ne count($language-files)
-        let $available := $entry/ancestor::langFile/lang ! string(.)
+        let $available :=
+        (
+            $entry/ancestor::langFile/lang ! string(.), (: language files in add/data/locale :)
+            $entry/parent::language/@xml:lang ! string(.) (: language files in add/data/xslt/i18n :)
+        )
         let $missing := $languages[not(. = $available)]
         return
             <key missing="{$missing => string-join(' ')}" available="{$available => string-join(' ')}">{$key}</key>
