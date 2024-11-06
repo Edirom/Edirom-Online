@@ -68,7 +68,8 @@ Ext.define('EdiromOnline.controller.window.search.SearchWindow', {
             'GET', 
             {
                 term: term,
-                lang: getPreference('application_language')
+                lang: getPreference('application_language'),
+                uri: view.uri
             },
             Ext.bind(function(response){
                 me.win.setResult(response.responseText);
