@@ -13,29 +13,23 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:method "text";
-declare option output:media-type "text/plain";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
+let $mei := doc($uri)
 
-let $ret :=
-    for $movement in $mei//mei:mdiv
-    return
-        map {
-            'id': $movement/string(@xml:id),
-            'name': $movement/string(@label)
+let $movements as array(*)* :=
+    array {
+        for $movement in $mei//mei:mdiv
+        return
+            map {
+                'id': $movement/string(@xml:id),
+                'name': $movement/string(@label)
         }
-
-let $array := array {$ret}
-
-let $options :=
-    map {
-        'method': 'json',
-        'media-type': 'text/plain'
     }
 
 return
-    serialize($array, $options)
+    $movements
