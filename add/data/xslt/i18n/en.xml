@@ -107,7 +107,6 @@
     <entry xml:id="msName">Manuscript name</entry>
     <entry xml:id="msIdentifier">Location</entry>
     <entry xml:id="publicationStmt">Publication</entry>
-    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
     <entry xml:id="seriesStmt">Series</entry>
     <entry xml:id="title_a">Title (analytic)</entry>
     <entry xml:id="title_m">Title (monographic)</entry>

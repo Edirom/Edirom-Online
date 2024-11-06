@@ -109,7 +109,6 @@
     <entry xml:id="componentGrp">Bestandteile</entry>
     <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="handList">Schreiber</entry>
-    <entry xml:id="pubStmt">Publikation</entry>
     <entry xml:id="pupPlace">Ort</entry>
 
 
@@ -142,7 +141,6 @@
     <entry xml:id="msIdentifier">Repositorium</entry>
     <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publikation</entry>
-    <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
     <entry xml:id="seriesStmt">Reihe</entry>
     <entry xml:id="title_a">Titel (analytisch)</entry>
     <entry xml:id="title_m">Titel (monographisch)</entry>
