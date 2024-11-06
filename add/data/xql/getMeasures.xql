@@ -19,13 +19,13 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
-declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
-    
+declare function local:getMeasures($mei as node(), $mdivID as xs:string) as array(*)* {
+    array {
     if ($mei//mei:parts) then (
         let $mdiv := $mei/id($mdivID)
         let $measureNs :=
@@ -66,54 +66,48 @@ declare function local:getMeasures($mei as node(), $mdivID as xs:string) as xs:s
                     else
                         ($part//mei:measure[@n = $measureN][1])
                 for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
-                let $voiceRef := $part//mei:staffDef/@decls
+                let $voiceRef := $part//mei:staffDef/string(@decls)
                 return
-                    concat(
-                        '{id:"', $measure/@xml:id, '",
-                        voice: "', $voiceRef,
-                        '", partLabel: "', eutil:getPartLabel($measure, 'measure'),
-                        '"}'
-                    )
+                    map {
+                        "id": $measure/string(@xml:id),
+                        "voice": $voiceRef,
+                        "partLabel": eutil:getPartLabel($measure, 'measure')
+                    }
             return
-                concat(
-                    '{',
-                        'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',
-                        'measures: [', string-join($measures, ','), '], ',
-                        'mdivs: ["', $mdiv/@xml:id, '"], ', (: TODO :)
-                        'name: "', $measureN, '"',
-                    '}'
-                )
+                map {
+                    "id": 'measure_' || $mdiv/@xml:id || '_' || $measureN,
+                    "measures": $measures,
+                    "mdivs": $mdiv/string(@xml:id),
+                    "name": $measureN
+                }
     ) else (
         if ($mei/id($mdivID)//mei:measure[@label]) then (
-            for $measureN in $mei/id($mdivID)//mei:measure/@label
+            for $measureN in $mei/id($mdivID)//mei:measure/data(@label)
             let $measures := $mei/id($mdivID)//mei:measure[@label = $measureN]
             let $measure := $measures[1]
             (:let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n):)
             return
-                concat(
-                    '{',
-                        'id: "', $measure/@xml:id, '", ',
-                        'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
-                        'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
-                        'name: "', $measureN, '"', (: Hier Unterscheiden wg. Auftakt. :)
-                    '}'
-                )
+                map {
+                    "id": $measure/string(@xml:id),
+                    "measures": array { map { "id": $measure/string(@xml:id), "voice": "score"} },
+                    "mdivs": array { $measure/ancestor::mei:mdiv[1]/string(@xml:id) }, (: TODO :)
+                    "name": $measureN (: Hier Unterscheiden wg. Auftakt. :)
+                }
         ) else (
             for $measureN in $mei/id($mdivID)//mei:measure/data(@n)
             let $measures := $mei/id($mdivID)//mei:measure[@n = $measureN]
             let $measure := $measures[1]
             (:let $measureLabel := if(exists($measure/@label) and not(contains($measure/@label,'/'))) then($measure/@label) else($measure/@n):)
             return
-                concat(
-                    '{',
-                        'id: "', $measure/@xml:id, '", ',
-                        'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
-                        'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ', (: TODO :)
-                        'name: "', $measureN, '"', (: Hier Unterscheiden wg. Auftakt. :)
-                    '}'
-                )
+                map {
+                    "id": $measure/string(@xml:id),
+                    "measures": array { map { "id": $measure/string(@xml:id), "voice": "score"} },
+                    "mdivs": array { $measure/ancestor::mei:mdiv[1]/string(@xml:id) }, (: TODO :)
+                    "name": $measureN (: Hier Unterscheiden wg. Auftakt. :)
+                }
         )
     )
+    }
 };
 
 (: QUERY BODY ============================================================== :)
@@ -122,7 +116,5 @@ let $uri := request:get-parameter('uri', '')
 let $mdivID := request:get-parameter('mdiv', '')
 let $mei := doc($uri)/root()
 
-let $ret := local:getMeasures($mei, $mdivID)
-
 return
-    concat('[', string-join($ret, ','), ']')
+    local:getMeasures($mei, $mdivID)
