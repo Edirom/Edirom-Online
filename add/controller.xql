@@ -37,6 +37,7 @@ return
             <forward url="index.xql">
                 <set-header name="Set-Cookie" value="edirom-language={$langVal}" />
                 <add-parameter name="lang" value="{$langVal}"/>
+                <add-parameter name="exist:controller" value="{$exist:controller}"/>
             </forward>
         </dispatch>
     (:else if (starts-with($exist:path, "/data")) then
