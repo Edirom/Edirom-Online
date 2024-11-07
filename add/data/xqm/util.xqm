@@ -293,7 +293,7 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
     
     let $prefFileDefault := doc($edition:default-prefs-location)
     
-    let $prefFile := if($prefFileCustom//entry/@key = 'application_language') then
+    let $prefFile := if($prefFileCustom//entry/@key = $key) then
                          $prefFileCustom
                      else
                          ($prefFileDefault)
