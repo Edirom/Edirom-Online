@@ -82,7 +82,6 @@ let $return :=
                 | edition:collection($edition)//mei:annot[contains(@xml:id, $term)]
             ) else
                 ()
-        
         return (
             
             if (count($search) gt 0) then (
@@ -159,13 +158,14 @@ let $return :=
                                         else
                                             ('')
                                     }">{
-                                    kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{
+                                    kwic:get-summary(kwic:expand($match), ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{
                                                 if ($internalId) then
                                                     (concat('#', $internalId))
                                                 else
                                                     ()
                                             }?path={$path}&amp;term={replace($term, '"', '\\"')}');"/>,
-                                    util:function(xs:QName("local:filter"), 2))
+                                    local:filter#2
+                                    )
                                 }</div>
                         ,
                         if ($hitCount gt 3) then
