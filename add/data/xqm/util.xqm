@@ -289,7 +289,7 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
 
     let $prefFileCustom := 
         try { doc(edition:getPreferencesURI($edition)) }
-        catch * { console:log('Failed to load preferences') }
+        catch * { util:log-system-out('Failed to load preferences') }
     
     let $prefFileDefault := doc($edition:default-prefs-location)
     
