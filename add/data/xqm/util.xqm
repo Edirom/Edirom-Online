@@ -287,12 +287,19 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
  :)
 declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string {
 
-    let $preferencesFile := 
+    let $prefFileCustom := 
         try { doc(edition:getPreferencesURI($edition)) }
-        catch * { util:log-system-out('Failed to load preferences') }
-
+        catch * { console:log('Failed to load preferences') }
+    
+    let $prefFileDefault := doc($edition:default-prefs-location)
+    
+    let $prefFile := if($prefFileCustom//entry/@key = 'application_language') then
+                         $prefFileCustom
+                     else
+                         ($prefFileDefault)
+        
     return
-        $preferencesFile//entry[@key = $key]/@value => string()
+        $prefFile//entry[@key = $key]/@value => string()
 
 };
 
