@@ -23,11 +23,6 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare option output:method "xhtml";
 declare option output:media-type "text/html";
 
-(: VARIABLE DECLARATIONS =================================================== :)
-
-declare variable $lang := request:get-parameter('lang', '');
-declare variable $edition := request:get-parameter('uri', '');
-
 (: FUNCTION DECLARATIONS =================================================== :)
 
 declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
@@ -50,6 +45,8 @@ declare function local:getPath($node as node()) as xs:string {
 
 (: QUERY BODY ============================================================== :)
 
+let $lang := request:get-parameter('lang', '')
+let $edition := request:get-parameter('edition', '')
 let $term := request:get-parameter('term', '')
 
 let $trans :=
