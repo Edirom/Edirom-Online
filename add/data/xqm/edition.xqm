@@ -21,7 +21,7 @@ declare namespace xlink = "http://www.w3.org/1999/xlink";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
-declare variable $edition:default-prefs-location as xs:string := '../prefs/edirom-prefs.xml';
+declare variable $edition:default-prefs-location as xs:string := request:get-parameter('exist:controller','xmldb:exist:///db/apps/Edirom-Online') || '/data/prefs/edirom-prefs.xml';
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
