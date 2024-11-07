@@ -33,10 +33,7 @@ declare variable $lang := request:get-parameter('lang', '');
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $uri := request:get-parameter('uri', '');
-declare variable $imageBasePath := if ($imageserver = 'leaflet') then
-    (eutil:getPreference('leaflet_prefix', $edition))
-else
-    (eutil:getPreference('image_prefix', $edition));
+declare variable $imageBasePath := eutil:getPreference('image_prefix', $edition);
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
@@ -344,19 +341,13 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgHeight := number($graphic/@height)
     let $isAbsolute := starts-with($imagePath, 'http')
 
-    let $fields :=
-        if ($imageserver = 'leaflet') then
-            (substring-before($imagePath, '.'))
-        else
-            ()
+    let $fields := ()
 
     return
         if ($isAbsolute) then
             $imagePath
         else
             switch ($imageserver)
-                case 'leaflet'
-                    return concat($basePath, $fields)
                 case 'openseadragon'
                     return concat($basePath, translate($imagePath, '/', '!'))
                 default

@@ -27,11 +27,7 @@ declare option output:omit-xml-declaration "yes";
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 
-declare variable $imagePrefix :=
-    if ($imageserver = 'leaflet') then
-        (eutil:getPreference('leaflet_prefix', $edition))
-    else
-        (eutil:getPreference('image_prefix', $edition));
+declare variable $imagePrefix := eutil:getPreference('image_prefix', $edition);
 
 (: QUERY BODY ============================================================== :)
 
