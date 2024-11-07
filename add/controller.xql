@@ -35,7 +35,6 @@ return
         (: forward index.html to index.xql :)
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="index.xql">
-                <set-header name="Set-Cookie" value="edirom-language={$langVal}" />
                 <add-parameter name="lang" value="{$langVal}"/>
                 <add-parameter name="exist:controller" value="{$exist:controller}"/>
             </forward>
