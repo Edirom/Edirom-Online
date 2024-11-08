@@ -25,11 +25,16 @@ declare option output:media-type "text/html";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
-declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
+(:~
+ : Callback function for `kwic:get-summary`
+ : Contrary to the documentation at https://exist-db.org/exist/apps/doc/kwic (1Q18)
+ : this function has to return a node(), see https://github.com/eXist-db/exist/issues/4239
+ :)
+declare function local:filter($node as node(), $mode as xs:string) as node()? {
     if ($mode eq 'before') then
-        concat($node, ' ')
+        text { concat($node, ' ') }
     else
-        concat(' ', $node)
+        text { concat(' ', $node) }
 };
 
 declare function local:getPath($node as node()) as xs:string {
@@ -158,7 +163,7 @@ let $return :=
                                         else
                                             ('')
                                     }">{
-                                    kwic:get-summary(kwic:expand($match), ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{
+                                    kwic:get-summary($match, ($match/exist:match)[1], <config width="100" link="loadLink('xmldb:exist://{$uri}{
                                                 if ($internalId) then
                                                     (concat('#', $internalId))
                                                 else
