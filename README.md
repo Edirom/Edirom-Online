@@ -24,7 +24,7 @@ To get some practical insights, look at these projects and editions that already
 
 **Clarinet quintet op.34 by Weber**
 
-The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with , annotations and texts.
+The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
   * publication of [Webers clarinet quintet]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
