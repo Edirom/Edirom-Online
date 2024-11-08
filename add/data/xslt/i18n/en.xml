@@ -178,6 +178,6 @@
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
     <entry xml:id="descLink">Source Description</entry>
-    <entry xml:id="singers">Sänger</entry>
+    <entry xml:id="singers">Singers</entry>
     <entry xml:id="musicians">Musiker</entry>
 </language>
