@@ -40,7 +40,7 @@ declare function edirom:print-missing-keys() as element()* {
         let $missing := $languages[not(. = $available)]
         let $duplicates :=
             for $i in $entry
-            group by $langkey := $i/ancestor::langFile/lang
+            group by $langkey := ($i/ancestor::langFile/lang, $i/parent::language/@xml:lang)
             where count($i) gt 1
             return $langkey
         return
