@@ -51,40 +51,42 @@
 
     <target name="check-language-files">
         <description>Check alignment of language files and report missing entries</description>
-        <sequential>
-            <local name="xquery.result"/>
-            <java classname="net.sf.saxon.Query" failonerror="false" outputproperty="xquery.result">
-                <arg value="testing/check-language-files.xq"/>
-                <arg value="{http://www.edirom.de/ns/1.3}language-files-path=../add/data/locale?select=*.xml"/>
-            </java>
-            <fail>
-                Missing entries in language files at /add/data/locale: &#10;${xquery.result}
-                <condition>
-                    <!-- 
-                        If all goes well, "<results/>" will be returned of string-length=10
-                        Any errors reported will add to this string-length hence cause the test to fail
-                    -->
-                    <length string="${xquery.result}" when="greater" length="10"/>
-                </condition>
-            </fail>
-        </sequential>
-        <sequential>
-            <local name="xquery.result"/>
-            <java classname="net.sf.saxon.Query" failonerror="false" outputproperty="xquery.result">
-                <arg value="testing/check-language-files.xq"/>
-                <arg value="{http://www.edirom.de/ns/1.3}language-files-path=../add/data/xslt/i18n?select=*.xml"/>
-            </java>
-            <fail>
-                Missing entries in language files at /add/data/xslt/i18n: &#10;${xquery.result}
-                <condition>
-                    <!--
-                        If all goes well, "<results/>" will be returned of string-length=10
-                        Any errors reported will add to this string-length hence cause the test to fail
-                    -->
-                    <length string="${xquery.result}" when="greater" length="10"/>
-                </condition>
-            </fail>
-        </sequential>
+        <parallel>
+            <sequential>
+                <local name="xquery.result"/>
+                <java classname="net.sf.saxon.Query" failonerror="false" outputproperty="xquery.result">
+                    <arg value="testing/check-language-files.xq"/>
+                    <arg value="{http://www.edirom.de/ns/1.3}language-files-path=../add/data/locale?select=*.xml"/>
+                </java>
+                <fail>
+                    Missing entries in language files at /add/data/locale: &#10;${xquery.result}
+                    <condition>
+                        <!-- 
+                            If all goes well, "<results/>" will be returned of string-length=10
+                            Any errors reported will add to this string-length hence cause the test to fail
+                        -->
+                        <length string="${xquery.result}" when="greater" length="10"/>
+                    </condition>
+                </fail>
+            </sequential>
+            <sequential>
+                <local name="xquery.result"/>
+                <java classname="net.sf.saxon.Query" failonerror="false" outputproperty="xquery.result">
+                    <arg value="testing/check-language-files.xq"/>
+                    <arg value="{http://www.edirom.de/ns/1.3}language-files-path=../add/data/xslt/i18n?select=*.xml"/>
+                </java>
+                <fail>
+                    Missing entries in language files at /add/data/xslt/i18n: &#10;${xquery.result}
+                    <condition>
+                        <!--
+                            If all goes well, "<results/>" will be returned of string-length=10
+                            Any errors reported will add to this string-length hence cause the test to fail
+                        -->
+                        <length string="${xquery.result}" when="greater" length="10"/>
+                    </condition>
+                </fail>
+            </sequential>
+        </parallel>
     </target>
 
 </project>
