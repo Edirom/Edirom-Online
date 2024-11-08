@@ -129,14 +129,19 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
             ('[No title found!]')
 
 };
+
 (:~
  : Returns a document
  :
  : @param $uri The URIs of the documents to process
  : @return The document
  :)
-declare function eutil:getDoc($uri) {
-    doc($uri)
+declare function eutil:getDoc($uri as xs:string?) as document-node()? {
+    if(empty($uri) or ($uri eq ""))
+    then util:log("warn", "No document URI provided")
+    else if(doc-available($uri))
+    then doc($uri)
+    else util:log("warn", "Unable to load document at " || $uri)
 };
 
 (:~
