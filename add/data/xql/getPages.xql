@@ -24,7 +24,7 @@ declare option output:media-type "application/json";
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
-let $mei := eutil:getDoc($uri)
+let $mei := doc($uri)
 
 let $ret :=
     for $surface in $mei//mei:surface

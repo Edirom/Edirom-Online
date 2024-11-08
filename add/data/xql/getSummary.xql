@@ -514,7 +514,7 @@ let $docUri := if (contains($uri, '#')) then
     (substring-before($uri, '#'))
 else
     ($uri)
-let $doc := eutil:getDoc($docUri)
+let $doc := doc($docUri)
 let $edition := request:get-parameter('edition', '')
 let $server := eutil:getPreference('image_server', $edition)
 let $imagePrefix := local:getImagePath($server, $edition)

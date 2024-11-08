@@ -33,7 +33,7 @@ let $docUri :=
         (substring-before($uri, '#'))
     else
         ($uri)
-let $doc := eutil:getDoc($docUri)
+let $doc := doc($docUri)
 let $lang := request:get-parameter('lang', 'de')
 
 let $base := concat(replace(system:get-module-load-path(), 'embedded-eXist-server', ''), '/../xslt/') (: TODO: Prüfen, wie wir an dem replace vorbei kommen:)

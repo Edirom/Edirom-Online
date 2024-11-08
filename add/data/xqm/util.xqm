@@ -129,24 +129,6 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
             ('[No title found!]')
 
 };
-(:~
- : Returns a document
- :
- : @param $uri The URIs of the documents to process
- : @return The document
- :)
-declare function eutil:getDoc($uri) {
-
-    if(starts-with($uri, 'textgrid:')) then(
-        let $session := request:get-cookie-value('edirom_online_textgrid_sessionId')
-        return
-            doc('http://textgridlab.org/1.0/tgcrud/rest/' || $uri || '/data?sessionId=' || $session)
-    
-    ) else (
-        doc($uri)
-    )
-
-};
 
 (:~
  : Returns a comma separated list of document labels

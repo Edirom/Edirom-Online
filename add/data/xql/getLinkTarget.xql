@@ -250,7 +250,7 @@ let $path :=
     else
         ($path)
 
-let $doc := eutil:getDoc($docUri)
+let $doc := doc($docUri)
 
 let $internal := $doc/id($internalId)
 
