@@ -23,26 +23,28 @@ declare variable $edirom:language-files-path as xs:string external;
 
 
 declare function edirom:print-missing-keys() as element()* {
-    let $language-files := collection($edirom:language-files-path)
-    let $languages :=
+    let $language-files as document-node()* := collection($edirom:language-files-path)
+    let $languages as xs:string* :=
+        (
         $language-files/langFile/lang | (: language files in add/data/locale :)
         $language-files/language/@xml:lang (: language files in add/data/xslt/i18n :)
+        ) ! string(.)
     return
     
         for $entry in $language-files//entry
         group by $key := $entry/data((@key,@xml:id))
         where count($entry) ne count($language-files)
-        let $available :=
+        let $available as xs:string+ :=
         (
             $entry/ancestor::langFile/lang ! string(.), (: language files in add/data/locale :)
             $entry/parent::language/@xml:lang ! string(.) (: language files in add/data/xslt/i18n :)
         )
-        let $missing := $languages[not(. = $available)]
-        let $duplicates :=
+        let $missing as xs:string* := $languages[not(. = $available)]
+        let $duplicates as xs:string* :=
             for $i in $entry
-            group by $langkey := ($i/ancestor::langFile/lang, $i/parent::language/@xml:lang)
+            group by $langkey := data(($i/ancestor::langFile/lang, $i/parent::language/@xml:lang))
             where count($i) gt 1
-            return $langkey
+            return $langkey => string()
         return
             if(count($duplicates) gt 0)
             (: duplicate keys :)
