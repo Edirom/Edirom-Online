@@ -136,16 +136,7 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
  : @return The document
  :)
 declare function eutil:getDoc($uri) {
-
-    if(starts-with($uri, 'textgrid:')) then(
-        let $session := request:get-cookie-value('edirom_online_textgrid_sessionId')
-        return
-            doc('http://textgridlab.org/1.0/tgcrud/rest/' || $uri || '/data?sessionId=' || $session)
-    
-    ) else (
-        doc($uri)
-    )
-
+    doc($uri)
 };
 
 (:~
