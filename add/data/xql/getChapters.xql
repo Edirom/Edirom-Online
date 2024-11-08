@@ -48,7 +48,7 @@ declare function local:changeFormat($n) as xs:string {
 
 let $uri := request:get-parameter('uri', '')
 let $mode := request:get-parameter('mode', '')
-let $tei := doc($uri)
+let $tei := eutil:getDoc($uri)
 
 let $ret as array(*)* :=
     array {

@@ -32,7 +32,7 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 :)
 declare function source:isSource($uri as xs:string) as xs:boolean {
 
-    let $doc := doc($uri)
+    let $doc := eutil:getDoc($uri)
     let $meiVersion4To5Regex := '^[4-5](\.\d){1,2}(-dev)?(\+(anyStart|basic|CMN|Mensural|Neumes))?$'
 
     return

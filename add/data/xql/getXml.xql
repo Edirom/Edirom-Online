@@ -24,7 +24,7 @@ declare option output:indent "yes";
 
 let $uri := request:get-parameter('uri', '')
 let $internalId := request:get-parameter('internalId', '')
-let $doc := doc($uri)/root()
+let $doc := eutil:getDoc($uri)/root()
 let $internal := $doc/id($internalId)
 
 return

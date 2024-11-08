@@ -28,7 +28,7 @@ let $docUri :=
         (substring-before($uri, '#'))
     else
         ($uri)
-let $doc := doc($docUri)
+let $doc := eutil:getDoc($docUri)
 let $artist := $doc//mei:titleStmt/mei:respStmt/mei:persName[@role = 'artist']
 let $album := $doc//mei:meiHead/mei:fileDesc/mei:sourceDesc/mei:source[1]/mei:titleStmt/mei:title[1]/text()
 let $albumCover := $doc//mei:graphic[@type = 'cover']/string(@target)

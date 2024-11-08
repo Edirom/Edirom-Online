@@ -36,7 +36,7 @@ let $idPrefix := request:get-parameter('idPrefix', '')
 let $term := request:get-parameter('term', '')
 let $path := request:get-parameter('path', '')
 let $page := request:get-parameter('page', '')
-let $doc := doc($uri)/root()
+let $doc := eutil:getDoc($uri)/root()
 let $contextPath := request:get-context-path()
 let $xslInstruction := $doc//processing-instruction(xml-stylesheet)
 
