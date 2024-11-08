@@ -154,7 +154,7 @@
     <entry xml:id="handDesc">Description of Hands</entry>
     <entry xml:id="handNotes">Notes on hands</entry>
     <entry xml:id="itemList">Item List</entry>
-    <entry xml:id="placeName">Ort</entry>
+    <entry xml:id="placeName">Place name</entry>
     
     <entry xml:id="respStmt">Responsibility</entry>
     <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
