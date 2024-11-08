@@ -176,12 +176,11 @@ declare function edition:getName($uri as xs:string) as xs:string {
 (:~
  : Returns the frontend URI of the edition, e.g. if the edirom:edition file
  : submitted via $editionUri is xmldb:exist///db/apps/editionFolder/edition.xml
- : and the $contextPath is /exist the string returned woud be /exist/apps/editionFolder
+ : and the $contextPath is /exist the string returned would be /exist/apps/editionFolder
  :
- : @param $editionUri The xmldb-collection-path of the edition
- : @param $contextPath the request:get-context-path() of the frontend
- :
- : @return xs:string
+ : @param $editionUri The URI of the Edition's document to process
+ : @param $contextPath The request:get-context-path() of the frontend
+ : @return The frontend URI of the edition
  :)
 declare function edition:getFrontendUri($editionUri as xs:string, $contextPath as xs:string) as xs:string {
 
@@ -191,8 +190,17 @@ declare function edition:getFrontendUri($editionUri as xs:string, $contextPath a
         string-join(($contextPath, $editionContext), '/')
 };
 
-declare function edition:collection($edition as xs:string?) as document-node()* {
-    if($edition)
-    then collection(eutil:getPreference('edition_path', $edition))
+(:~
+ : Returns the documents contained in the collection specified by the
+ : `edition_path` parameter in the edition's preference file.
+ : If `$editionUri` is the empty sequence or no information is found
+ : for `edition_path`, the empty sequence is returned.
+ :
+ : @param $edition The URI of the Edition's document to process
+ : @return The document nodes contained in or under the given collection
+ :)
+declare function edition:collection($editionUri as xs:string?) as document-node()* {
+    if($editionUri and eutil:getPreference('edition_path', $editionUri))
+    then collection(eutil:getPreference('edition_path', $editionUri))
     else util:log('warn', 'No edition provided')
 };
