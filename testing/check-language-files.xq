@@ -38,8 +38,17 @@ declare function edirom:print-missing-keys() as element()* {
             $entry/parent::language/@xml:lang ! string(.) (: language files in add/data/xslt/i18n :)
         )
         let $missing := $languages[not(. = $available)]
+        let $duplicates :=
+            for $i in $entry
+            group by $langkey := $i/ancestor::langFile/lang
+            where count($i) gt 1
+            return $langkey
         return
-            <key missing="{$missing => string-join(' ')}" available="{$available => string-join(' ')}">{$key}</key>
+            if(count($duplicates) gt 0)
+            (: duplicate keys :)
+            then <key duplicates="{$duplicates => string-join(' ')}">{$key}</key>
+            (: missing keys :)
+            else <key missing="{$missing => string-join(' ')}" available="{$available => string-join(' ')}">{$key}</key>
 };
 
 <results>{
