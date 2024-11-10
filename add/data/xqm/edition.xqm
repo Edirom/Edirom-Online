@@ -13,13 +13,14 @@ module namespace edition = "http://www.edirom.de/xquery/edition";
 (: IMPORTS ================================================================= :)
 
 import module namespace functx="http://www.functx.com";
+
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
-declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace util = "http://exist-db.org/xquery/util";
+declare namespace xlink = "http://www.w3.org/1999/xlink";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
