@@ -39,6 +39,9 @@ declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace system="http://exist-db.org/xquery/system";
 declare namespace transform="http://exist-db.org/xquery/transform";
 
+declare namespace conf="https://www.maxreger.info/conf";
+import module namespace mrpShared="https://www.maxreger.info/mrpShared" at "../../../mrpApp/modules/mrpShared.xqm";
+
 declare function local:getLocalizedTitle($node) {
   let $lang := request:get-parameter('lang', '')
   let $nodeName := local-name($node)
@@ -159,18 +162,19 @@ declare function annotation:toJSON($anno as element()) as xs:string {
                     return if ( contains($p, '#'))
                                 then (substring-before($p, '#'))
                                 else $p
-    let $sigla := string-join(
-                    for $p in distinct-values($pList)
-                    let $pDoc := doc($p)
-                    where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
-                    return if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type eq 'siglum'])
-                            then ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type eq 'siglum'][1]//text())
-                            else if (exists($pDoc//mei:manifestation//mei:relation[@target = $workID]))
-                                    then if ($pDoc//mei:manifestation//mei:relation[@target = $workID]/@label = 'null')
-                                        then ()
-                                        else $pDoc//mei:manifestation//mei:relation[@target = $workID]/@label/string()
-                                    else ($workID)
-    , ', ')
+    
+    let $pListAsSourceIDs := 
+        for $p in distinct-values($pList)
+        let $pDoc := doc($p)
+        where not($pDoc//mei:availability[@type = 'rwaOnline'] = 'hidden')
+        return $pDoc//@xml:id[1]
+    let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+    let $mrpUrl := $configResource//conf:mrpURL
+    let $lang := mrpShared:get-lang()
+    let $getAnnotationSiglaAsArrayUrl := concat($mrpUrl, '/cat/rest/getAnnotationSiglaAsArray.xql?workID=', $workID, '&amp;sourceIDs[]=', string-join($pListAsSourceIDs, '&amp;sourceIDs[]='), '&amp;lang=', $lang)
+    let $queryResult := hc:send-request(<hc:request href="{$getAnnotationSiglaAsArrayUrl}" method="get"/>)[2]
+    let $sigla := $queryResult
+    
     let $catURIs := tokenize(replace($anno/mei:ptr[@type = 'categories']/@target,'#',''),' ')
     let $cats := string-join(
                     for $u in $catURIs

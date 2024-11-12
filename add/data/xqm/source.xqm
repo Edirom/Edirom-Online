@@ -33,6 +33,10 @@ import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
+declare namespace conf="https://www.maxreger.info/conf";
+
+import module namespace mrpShared="https://www.maxreger.info/mrpShared" at "../../../mrpApp/modules/mrpShared.xqm";
+
 (:~
 : Returns whether a document is a work or not
 :
@@ -91,26 +95,17 @@ declare function source:getSigla($sources as xs:string*, $workID as xs:string) a
 : @return The sigla
 :)
 declare function source:getSiglaAsArray($sources as xs:string*, $workID as xs:string) as xs:string* {
-    for $source in $sources
-    where not(doc($source)//mei:availability[@type = 'rwaOnline'] = 'hidden')
+    let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+    let $mrpUrl := $configResource//conf:mrpURL
+    let $lang := mrpShared:get-lang()
+    
+    let $sourceIDs := 
+        for $source in $sources
+        where not(doc($source)//mei:availability[@type = 'rwaOnline'] = 'hidden')
+        return doc($source)//@xml:id[1]/string()
+    
+    let $getAnnotationSiglaAsArrayUrl := concat($mrpUrl, '/cat/rest/getAnnotationSiglaAsArray.xql?workID=', $workID, '&amp;sourceIDs[]=', string-join($sourceIDs, '&amp;sourceIDs[]='), '&amp;lang=', $lang)
+    let $queryResult := hc:send-request(<hc:request href="{$getAnnotationSiglaAsArrayUrl}" method="get"/>)[2]
     return
-        source:getSiglum($source, $workID)
-};
-(::)
-(:~
-: Returns a source's siglum
-:
-: @param $source The URIs of the Source's document to process
-: @return The siglum
-:)
-declare function source:getSiglum($source as xs:string, $workID as xs:string) as xs:string? {
-     
-    let $sourceDoc := doc($source)
-    return if ($sourceDoc//mei:source/mei:identifier[@type eq 'siglum'])
-            then ($sourceDoc//mei:source/mei:identifier[@type eq 'siglum'][1]//text())
-            else if (exists($sourceDoc//mei:manifestation//mei:relation[@target = $workID]))
-                    then if ($sourceDoc//mei:manifestation//mei:relation[@target = $workID]/@label = 'null')
-                        then ()
-                        else $sourceDoc//mei:manifestation//mei:relation[@target = $workID]/@label/string()
-                    else ('ERROR')
+        $queryResult
 };
