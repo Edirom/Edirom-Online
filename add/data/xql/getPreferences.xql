@@ -15,6 +15,7 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "../x
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace pref = "http://www.edirom.de/ns/prefs/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace response = "http://exist-db.org/xquery/response";
@@ -43,8 +44,8 @@ return
             </output:serialization-parameters>
         let $data := 
             map:merge((
-                $file//entry ! map:entry(./string(@key), ./string(@value)), 
-                $projectFile//entry ! map:entry(./string(@key), ./string(@value))  
+                $file//(pref:entry|entry) ! map:entry(./string(@key), ./string(@value)), 
+                $projectFile//(pref:entry|entry) ! map:entry(./string(@key), ./string(@value))  
             ))
         return
             response:stream($data => serialize($outputOptions), $serializationParameters)

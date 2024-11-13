@@ -26,6 +26,7 @@ import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom="http://www.edirom.de/ns/1.3";
+declare namespace pref = "http://www.edirom.de/ns/prefs/1.0";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace system="http://exist-db.org/xquery/system";
@@ -292,7 +293,7 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
         catch * { util:log-system-out('Failed to load preferences') }
 
     return
-        $preferencesFile//entry[@key = $key]/@value => string()
+        $preferencesFile//(pref:entry|entry)[@key = $key]/@value => string()
 
 };
 

@@ -19,7 +19,7 @@
  *
  *  ID: $Id$
  -->
-<prefs>
+<prefs xmlns="http://www.edirom.de/ns/prefs/1.0">
     <version>1.0</version>
     <entries>
         <entry key="application_language" value="de"/>

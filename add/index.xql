@@ -7,6 +7,7 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "data
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace pref = "http://www.edirom.de/ns/prefs/1.0";
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
@@ -84,9 +85,9 @@ let $eoIndexPage :=  <html>
                                     ()
                                 else
                                     (<!-- TODO if prefs css then include here -->,
-                                     if ($preferences//entry[@key = "additional_css_path" and @value != ''])
+                                     if ($preferences//(pref:entry|entry)[@key = "additional_css_path" and @value != ''])
                                      then
-                                        <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
+                                        <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//(pref:entry|entry)[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
                                      else (),
                                      <script type="text/javascript" src="app.js"/>,
                                      <!-- **WHERE TO OPEN LINKS** -->,
