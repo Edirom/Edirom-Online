@@ -1,15 +1,15 @@
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
 
 <div align="center">
  
-**[Showcases](https://github.com/Edirom/Edirom-Online#-Showcases) •
-[Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
-[Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online#-Contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online#-Get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online#-Code-of-Conduct) • 
-[License](https://github.com/Edirom/Edirom-Online#-License)**
+**[Showcases](https://github.com/Edirom/Edirom-Online#showcases) •
+[Get started](https://github.com/Edirom/Edirom-Online#get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online#dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online#roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online#contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online#get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online#code-of-Conduct) • 
+[License](https://github.com/Edirom/Edirom-Online#license)**
 
 </div>
 
@@ -24,7 +24,7 @@ To get some practical insights, look at these projects and editions that already
 
 **Clarinet quintet op.34 by Weber**
 
-The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with , annotations and texts.
+The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
   * publication of [Webers clarinet quintet]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
@@ -101,6 +101,15 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
 
 Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
 
+For running the tests provided in the [ANT build file] we rely on `xmllint` 
+and `SaxonHE`. 
+On a Debian based Linux system these can be installed with `apt-get install 
+libsaxonhe-java libxml2-utils`. 
+If SaxonHE is not available from your classpath by default you might need to 
+explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib 
+/usr/share/java/ run-all-tests`. 
+
+
 ## Roadmap
 
 Until today Edirom-Online and its features were developed as one application with strong dependencies on the JavaScript framework [Ext JS] (current version Ext JS 4.2.1) like mentioned above. Frontend and backend are currently living in this one application. Regarding to Edirom-Onlines release plans ExtJS is planned to be updated in the near future until ExtJS 7.0.0.
@@ -162,7 +171,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
-
+[ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
 
 <!--
 # EdiromOnline/app
