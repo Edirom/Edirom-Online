@@ -37,7 +37,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
     onSourceViewRendered: function(view) {
         var me = this;
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('Controller: SourceView: onSourceViewRendered');
         }
 
@@ -57,7 +57,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
         ToolsController.addAnnotationVisibilityListener(view.id, Ext.bind(view.checkGlobalAnnotationVisibility, view));
         view.checkGlobalAnnotationVisibility(ToolsController.areAnnotationsVisible());
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('Controller: SourceView: onSourceViewRendered. getMovements');
         }
         window.doAJAXRequest('data/xql/getMovements.xql',
@@ -77,7 +77,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
             }, this)
         );
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('Controller: SourceView: onSourceViewRendered: getAnnotationInfos');
         }
 
@@ -93,7 +93,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
 
                 data = Ext.JSON.decode(data);
 
-                if(debug !== null && debug) {
+                if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                     console.log(data);
                 }
 
@@ -210,13 +210,13 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
     onAnnotationsVisibilityChange: function(view, visible) {
         var me = this;
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('controller: SourceView: onAnnotationsVisibilityChange');
         }
 
         if(visible) {
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('visible: ' + visible);
             }
 

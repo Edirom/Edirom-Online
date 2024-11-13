@@ -41,8 +41,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
     cls: 'annotationView',
     
     image_server: null,
-	imageLeafletContainer: null,
-
     
     initComponent: function () {
 
@@ -154,30 +152,8 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             border: 0
         });
         
-          me.image_server = getPreference('image_server');
-        
-        if (me.image_server === 'leaflet') {		
-			
-			me.imageLeafletContainer = new EdiromOnline.view.window.image.ImageLeafletContainer();
-
-//Ext.create('EdiromOnline.view.window.image.ImageLeafletContainer');
-
-			//me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
-			
-			me.participantsPanel = Ext.create('Ext.panel.Panel', {
-            		layout: 'card',
-            		border: 0,
-            		items: [
-            			me.imageLeafletContainer,
-            			me.participantsPanelGrid,
-                me.participantsPanelSingle,
-                me.participantsPanelList
-           			 ]
-        		});
-					
-		} else {
-        
-        
+        me.image_server = getPreference('image_server');
+                
         me.participantsPanel = Ext.create('Ext.panel.Panel', {
             layout: 'card',
             border: 0,
@@ -187,7 +163,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 me.participantsPanelList
             ]
         });
-        }
 
         var annotLayoutClass = getPreference('annotation_layout');
 
@@ -485,7 +460,6 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
             me.setPreviewSingle(participants);
             me.setPreviewList(participants);
     	} else{
-    		me.imageLeafletContainer.removeAll(true);
     		me.setPreviewGrid(participants);
     	}
     },
@@ -580,28 +554,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                         wide |= true;
                     else
                         square |= true;
-                }else{
-    				var imgData = Ext.JSON.decode(hiddenData);
-    				var imagePath = participant['digilibBaseParams'];
-    	 				
-    				var imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1, margin: '10 10 10 10'});
-    					
-    				var imageLeafletDetails = Ext.create('EdiromOnline.view.window.image.ImageLeafletDetails', {height: '100%', flex:1, items:[imageViewer, {
-    				xtype: 'label',
-            		html: source,
-            		margin: '0 10 0 10'
-    
-    			}] });	
-    				me.imageLeafletContainer.add(imageLeafletDetails);
-    
-    				imageViewer.showImage(imagePath, imgData.origW, imgData.origH, 'annot');
-    				var rectangle = imageViewer.showRect(imgData.x, imgData.y, imgData.width, imgData.height, null);
-    				rectangle.on('dblclick', function (e) { 
-             			me.participantClickedGrid(e, me, {participant: id});
-    
-          			});
-    
-    			}
+                }
 
 		    }
         });
@@ -706,27 +659,7 @@ Ext.define('EdiromOnline.view.window.AnnotationView', {
                 	shape.on('dblclick', me.participantClickedSingle, me, {prevView: prevView});
                         
 				}
-				else{
-					var imgData = Ext.JSON.decode(hiddenData);
-					var imagePath = participant['digilibBaseParams'];
- 				
-					var imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1, margin: '10 10 10 10'});
-					
-					var imageLeafletDetails = Ext.create('EdiromOnline.view.window.image.ImageLeafletDetails', {height: '100%', flex:1, items:[imageViewer, {
-        				xtype: 'label',
-                		html: source,
-                		margin: '0 10 0 10'
-        
-        			}] });	
-					me.imageLeafletContainer.add(imageLeafletDetails);
-					
-					imageViewer.showImage(imagePath, imgData.origW, imgData.origH, 'annot');
-					var rectangle = imageViewer.showRect(imgData.x, imgData.y, imgData.width, imgData.height, null);
-					rectangle.on('dblclick', function (e) { 
-						
-         				me.participantClickedSingle('dblclick', me, {participant: id});
-      				});
-				}
+				
 			}
            /*
             var stepLeft = shape.query('div.stepLeft')[0];

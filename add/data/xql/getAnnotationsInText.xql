@@ -20,8 +20,8 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (:~
     Finds all annotations in all works.
@@ -29,47 +29,45 @@ declare option output:method "text";
     @param $elems The elements to check (most likely measures and zones)
     @returns A sequence of annotation elements
 :)
-declare function local:findAnnotations($uri as xs:string) as element()* {
+declare function local:findAnnotations($uri as xs:string) as element(mei:annot)* {
     
     (: TODO: check if annotations hold URIs or IDRefs :)
     collection('/db/contents')//mei:annot[matches(@plist, $uri)]
 };
 
-declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as xs:string* {
-    for $annotation in $annotations
-    let $id := $annotation/string(@xml:id)
-    let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
-    let $prio := $annotation/mei:ptr[@type = "priority"]/replace(@target, '#', '')
-    let $cat := $annotation/mei:ptr[@type = "categories"]/replace(@target, '#', '')
-    let $plist :=
-        for $p in tokenize($annotation/@plist, '\s+')
+declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*)* {
+    array {
+        for $annotation in $annotations
+        let $id := $annotation/string(@xml:id)
+        let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
+        let $prio := $annotation/mei:ptr[@type = "priority"]/replace(@target, '#', '')
+        let $cat := $annotation/mei:ptr[@type = "categories"]/replace(@target, '#', '')
+        let $plist as array(*)* :=
+            array {
+                for $p in tokenize($annotation/@plist, '\s+')
+                return
+                    if (starts-with($p, $uriSharp)) then
+                        (concat('{id:"', $id, '__', substring-after($p, $uriSharp), '"}'))
+                    else
+                        ()
+            }
+        let $plist := string-join($plist, ',')
         return
-            if (starts-with($p, $uriSharp)) then
-                (concat('{id:"', $id, '__', substring-after($p, $uriSharp), '"}'))
-            else
-                ()
-    let $plist := string-join($plist, ',')
-    return (: TODO map instead of concat :)
-        concat('
-           	{',
-            'id: "', $id, '", ',
-            'plist: [', $plist, '], ',
-            'svgList: [], ',
-            'fn: "loadLink(\"', $uri, '\")", ',
-            'uri: "', $uri, '", ',
-            'priority: "', $prio, '", ',
-            'categories: "', $cat, '"',
-            '}'
-        )
+            map {
+                'id': $id,
+                'plist': $plist,
+                'svgList': [],
+                'fn': 'loadLink("' || $uri || '")',
+                'uri': $uri,
+                'priority': $prio,
+                'categories': $cat
+            }
+    }
 };
 
 let $uri := request:get-parameter('uri', '')
 let $uriSharp := concat($uri, '#')
 let $annotations := local:findAnnotations($uri)
 
-return (: TODO map instead of concat :)
-    concat(
-        '[',
-        string-join(local:getAnnotations($uriSharp, $annotations), ','),
-        ']'
-    )
+return 
+    local:getAnnotations($uriSharp, $annotations)

@@ -21,8 +21,8 @@ declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
@@ -30,12 +30,8 @@ let $uri := request:get-parameter('editionId', '')
 let $workUris := edition:getWorkUris($uri)
 
 return
-(: JSON serialization of map instad of text serialization with concat :)
-    concat(
-        '[',
-        string-join(
-            for $workUri in $workUris
-            return
-                work:toJSON($workUri, $uri)
-        , ','),
-    ']')
+    array {
+        for $workUri in $workUris
+        return
+            work:details($workUri, $uri)
+    }

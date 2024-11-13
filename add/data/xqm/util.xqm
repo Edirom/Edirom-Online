@@ -17,8 +17,8 @@ module namespace eutil = "http://www.edirom.de/xquery/util";
 
 import module namespace functx = "http://www.functx.com";
 
-import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace annotation="http://www.edirom.de/xquery/annotation" at "annotation.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "edition.xqm";
 import module namespace source="http://www.edirom.de/xquery/source" at "source.xqm";
 import module namespace teitext="http://www.edirom.de/xquery/teitext" at "teitext.xqm";
 import module namespace work="http://www.edirom.de/xquery/work" at "work.xqm";
@@ -91,7 +91,7 @@ declare function eutil:getLocalizedName($node, $lang) {
         if($node/edirom:names) then
             ($name)
         else
-            ($name => string-join(' ') => normalize-space())
+            (eutil:joinAndNormalize($name))
 
 };
 
@@ -107,26 +107,26 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
     let $namespace := eutil:getNamespace($node)
   
     let $titleMEI :=
-        if ($lang != '' and $lang = $node/mei:title/@xml:lang and not($node/mei:title/mei:titlePart)) then
-            ($node/mei:title[@xml:lang = $lang]//text() => string-join() => normalize-space())
-        else if ($lang != '' and $lang = $node/mei:title/@xml:lang and $node/mei:title/mei:titlePart) then
-            ($node/mei:title[@xml:lang = $lang]/mei:titlePart[1]//text() => string-join() => normalize-space())
+        if ($lang != '' and $lang = $node/mei:title[mei:titlePart]/@xml:lang) then
+            (eutil:joinAndNormalize($node/mei:title[@xml:lang = $lang]/mei:titlePart, '. '))
+        else if ($lang != '' and $lang = $node/mei:title[not(mei:titlePart)]/@xml:lang) then
+            (eutil:joinAndNormalize($node/mei:title[@xml:lang = $lang]))
         else
-            (($node//mei:title)[1]//text() => string-join() => normalize-space())
+            (eutil:joinAndNormalize(($node//mei:title)[1]))
     
     let $titleTEI :=
         if ($lang != '' and $lang = $node/tei:title/@xml:lang) then
-            $node/tei:title[@xml:lang = $lang]/text()
+            eutil:joinAndNormalize($node/tei:title[@xml:lang = $lang])
         else
-            $node/tei:title[1]/text()
+            eutil:joinAndNormalize($node/tei:title[1])
     
     return
-        if ($namespace = 'mei') then
+        if ($namespace = 'mei' and $titleMEI != '') then
             ($titleMEI)
-        else if ($namespace = 'tei') then
+        else if ($namespace = 'tei' and $titleTEI != '') then
             ($titleTEI)
         else
-            ('unknown')
+            ('[No title found!]')
 
 };
 (:~
@@ -240,7 +240,7 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
             upper-case($i)
 
     return
-        normalize-space(string-join(($label, $numbering),' '))
+        eutil:joinAndNormalize(($label, $numbering))
 
 };
 
@@ -397,4 +397,25 @@ declare function eutil:request-lang-preferred-iso639() as xs:string {
         else
             "en"
 
+};
+
+(:~
+ : Returns one joined and normalized string
+ :
+ : @param $strings The string(s) to be processed
+ : @return The string (joined with whitespace and normalized space)
+ :)
+declare function eutil:joinAndNormalize($strings as xs:string*) as xs:string {
+    $strings => string-join(' ') => normalize-space()
+};
+
+(:~
+ : Returns one joined and normalized string
+ :
+ : @param $strings The string(s) to be processed
+ : @param $separator One ore more characters as separators for joining the string
+ : @return The string (joined and normalized space)
+ :)
+declare function eutil:joinAndNormalize($strings as xs:string*, $separator as xs:string) as xs:string {
+    $strings => string-join($separator) => normalize-space()
 };

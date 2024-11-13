@@ -6,4 +6,4 @@ updates:
     schedule:
       interval: 'weekly'
     labels:
-      - 'gh actions dependencies'
+      - 'Area: Build & deploy'

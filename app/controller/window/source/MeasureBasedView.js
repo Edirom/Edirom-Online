@@ -157,13 +157,13 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
         var me = this;
         
 
-        if(debug !== null && debug) {
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
             console.log('controller: MeasureBasedView: onAnnotationsVisibilityChange');
         }
 
         if(visible) {
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('visible: ' + visible);
             }
 
@@ -187,7 +187,7 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
             );
         }else {
 
-            if(debug !== null && debug) {
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
                 console.log('visible: ' + visible);
             }
 

@@ -26,21 +26,20 @@ declare variable $edition:default-prefs-location as xs:string := '../prefs/ediro
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns a JSON representation of an Edition
+ : Returns a map object with details about an Edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The JSON representation
+ : @return a map object with the keys "id", "doc", and "name" 
  :)
-declare function edition:toJSON($uri as xs:string) as xs:string {
+declare function edition:details($uri as xs:string) as map(*) {
     
     let $edition := doc($uri)/edirom:edition
     return
-        concat('
-            {',
-        'id: "', $edition/string(@xml:id), '", ',
-        'doc: "', $uri, '", ',
-        'name: "', $edition/edirom:editionName, '"',
-        '}')
+        map {
+            "id": $edition/string(@xml:id),
+            "doc": $uri,
+            "name": $edition/edirom:editionName
+        }
 };
 
 (:~
@@ -79,7 +78,10 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
         if(doc-available($uri)) then
             doc($uri)
         else
-            doc(edition:findEdition($uri))
+            if(edition:findEdition($uri)) then
+                doc(edition:findEdition($uri))
+            else
+                ()
     )
     return
         if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "") then
@@ -141,7 +143,7 @@ declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
  : @param $editionID The '@xml:id' of the edirom:edition document to process
  : @return The URI of the Edition file
  :)
-declare function edition:findEdition($editionID as xs:string?) as xs:string {
+declare function edition:findEdition($editionID as xs:string?) as xs:string? {
     
     if(not($editionID) or $editionID eq '') then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]

@@ -20,12 +20,11 @@ declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('id', '')
 return
-    (:TODO use map an serialization options :)
-    edition:toJSON($uri)
+    edition:details($uri)
