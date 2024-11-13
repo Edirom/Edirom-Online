@@ -208,6 +208,7 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:string) as xs:string {
 
     (: request:get-parameter('lang', '') doesn't work?? [DeRi]:)
+    (: replace with eutil:getLanguage($edition) or similar:)
 
     let $lang :=
         if(request:get-parameter('lang', '') = '') then
@@ -221,9 +222,9 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
 
     let $perfResLabel :=
         if($type eq 'measure') then
-            ($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/@label)
+            ($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/(@label|@codedval))
         else
-            ($measureOrPerfRes/@label)
+            ($measureOrPerfRes/(@label|@codedval))
 
     let $dictKey := 'perfMedium.perfRes.' || functx:substring-before-if-contains($perfResLabel,'.')
 
