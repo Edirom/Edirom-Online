@@ -90,7 +90,7 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
  : @param $measure The measure to be processed
  : @return Attribute Label or N
  :)
-declare function measure:getMeasureLabelAttr($measure as node()){
+declare function measure:getMeasureLabelAttr($measure as node()) as xs:string {
 
     if(exists($measure[@label])) then (
         $measure/@label
@@ -205,7 +205,7 @@ declare function measure:getRegMeasureLabel($reg as node()) as node() {
  : @param $measure The measure to be processed
  : @return The value of the rest as string
  :)
-declare function measure:getMRest($measure) {
+declare function measure:getMRest($measure) as xs:string {
 
     if($measure//mei:mRest) then (
         string('1')
@@ -222,7 +222,7 @@ declare function measure:getMRest($measure) {
  : @param $measure The measure to be processed
  : @return An array of strings
  :)
-declare function measure:analyzeLabels($measure as node()) {
+declare function measure:analyzeLabels($measure as node()) as xs:string* {
 
     let $labels := $measure/@label
 
@@ -245,8 +245,14 @@ declare function measure:analyzeLabels($measure as node()) {
         )
 };
 
-declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) {
-
+(:~
+ : Resolvs multi-measure rests
+ :
+ : @param $mdiv The mdiv to be processed
+ : @param $measureN The number of the measure to be resolved
+ : @return The measures coverd by the multi-measure rest
+ :)
+declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) as node()* {
     let $measureNNumber := number($measureN)
     return
         if ($mdiv//mei:measure/@label) then (
