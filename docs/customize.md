@@ -1,3 +1,20 @@
+# Customize Edirom Online and content
+
+- [Customize Edirom Online](#customize-edirom-online)
+  * [Annotations](#annotations)
+  * [CSS](#css)
+  * [Image server](#image-server)
+  * [Topbar](#topbar)
+  * [Welcome window](#welcome-window)
+- [Customize content](#customize-content)
+  * [SVG overlays](#svg-overlays)
+  * [Windows](#windows)
+- [Links](#links)
+  * [Links to XML in the eXist-database](#links-to-xml-in-the-exist-database)
+  * [Links from outside Edirom Online](#links-from-outside-edirom-online)
+  * [JS](#js)
+    
+
 # Customize Edirom Online
 
 ## Annotations
