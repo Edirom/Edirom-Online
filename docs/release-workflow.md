@@ -20,4 +20,4 @@
 - `git checkout develop`
 - `git merge --no-ff rel/1.0.0-beta.[X]` (release branch into develop)
 
-first version of this file was written by @riedde, 22.12.20222 (wiki)
+first version of this file was written by @riedde, 22.12.2022 (wiki)
