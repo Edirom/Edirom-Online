@@ -68,8 +68,14 @@
             <xsl:when test="matches($objectID, 'rwa_post_*')">rwaBlogpost</xsl:when>
             <xsl:when test="matches($objectID, 'bio_*')">mrpBio</xsl:when>
             <xsl:when test="matches($objectID, 'rwa_annotation_*')">rwaAnnot</xsl:when>
+            <xsl:when test="matches($objectID, 'rwa_(musms|muspr|edition)_*')">rwaSource</xsl:when>
             <xsl:otherwise>undefined</xsl:otherwise>
         </xsl:choose>
+    </xsl:function>
+    
+    <xsl:function name="local:isActiveObjectType">
+        <xsl:param name="objectType"></xsl:param>
+        <xsl:sequence select="$objectType = $activeObjectTypes or $objectType = ('rwaSource')"></xsl:sequence>
     </xsl:function>
     
     <xsl:template match="/">
@@ -97,15 +103,25 @@
     </xsl:template>
     
     <xsl:template match="mei:ref">
-        <xsl:variable name="objectID" select="replace(replace(./@target/string(), '.html', ''), '#', '')"/>
+        <xsl:variable name="objectID" select="replace(replace(./@target/string(), '\.(html|xml)', ''), '#(.*)?', '')"/>
+        <xsl:variable name="objectIDHashtag" select="replace(replace(./@target/string(), '\.(html|xml)', ''), '(.*)?#', '#')"/>
         <xsl:variable name="objectType" select="local:getObjectType($objectID)"/>
         <xsl:choose>
-            <xsl:when test="$objectType = $activeObjectTypes">
+            <xsl:when test="local:isActiveObjectType($objectType)">
                 <span>
                     <xsl:attribute name="class">ref</xsl:attribute>
                     <xsl:choose>
+                        <xsl:when test="$objectType = 'rwaSource'">
+                            <xsl:variable name="rwaSourceDocURI" select="doc(concat($rwaOnlineURL, 'resources/xql/getDocURI.xql?id=', $objectID))//uri/string()"/>
+                            <xsl:variable name="rwaAnnotURI" select="concat('xmldb:exist://', $rwaSourceDocURI, $objectIDHashtag)"/>
+                            <xsl:attribute name="onclick">
+                                <xsl:text>loadLink('</xsl:text>
+                                <xsl:value-of select="$rwaAnnotURI"/>
+                                <xsl:text>', {})</xsl:text>
+                            </xsl:attribute>
+                        </xsl:when>
                         <xsl:when test="$objectType = 'rwaAnnot'">
-                            <xsl:variable name="rwaWorkDocURI" select="doc(concat($rwaOnlineURL, 'rest/getDocURI.xql?id=', $objectID))//uri/string()"/>
+                            <xsl:variable name="rwaWorkDocURI" select="doc(concat($rwaOnlineURL, 'resources/xql/getDocURI.xql?id=', $objectID))//uri/string()"/>
                             <xsl:variable name="rwaAnnotURI" select="concat('xmldb:exist://', $rwaWorkDocURI, '#', $objectID)"/>
                             <xsl:attribute name="onclick">
                                 <xsl:text>loadLink('</xsl:text>
