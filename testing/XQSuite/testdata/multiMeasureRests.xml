@@ -1,0 +1,172 @@
+<mdiv xmlns="http://www.music-encoding.org/ns/mei" xml:id="x19d7fd5c-b8b4-47d8-8967-c6a27b5cd1a9"
+   n="3" label="Menuetto Capriccio. Presto" meiversion="4.0.1">
+   <!-- excerpt taken from clarinet quintet at https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/sources/source-4-MEI.xml -->
+   <section xml:id="x64b68d9d-c2ba-40a2-9a0a-683b30b4261d">
+      <measure xml:id="xacea1fff-da53-42b4-bb5e-e814e1ca653a" n="107">
+         <staff xml:id="xff8e47e7-809e-4352-a1b1-2c66a76db961" n="1">
+            <layer xml:id="x2fda5f4f-f621-47f3-98cc-92bdebc1bf19" n="1">
+               <mRest xml:id="x8b0bfd1a-8769-4266-8a79-465e2ca3224e"/>
+            </layer>
+         </staff>
+         <staff xml:id="x7c31e81a-618c-4154-a096-ad992caf89da" n="2">
+            <layer xml:id="xa27ff9b6-b7e3-418b-83ee-f226cf930530" n="1">
+               <note xml:id="xf4f1a8a7-4cec-4d04-8cb9-9c1d40686641" dur="4" oct="4" pname="b"
+                  stem.dir="down" artic="stacc">
+                  <accid xml:id="x176da0b5-75b6-487b-8353-96d5d65536d7" accid.ges="f"/>
+               </note>
+               <note xml:id="xd3c5c8e6-0f2e-40f9-ae66-082b2d4b3fc7" dur="8" oct="5" pname="d"
+                  grace="unacc" stem.dir="up" stem.mod="1slash" ho="-1.9338mm"/>
+               <note xml:id="xfff04a89-79f3-4034-b05e-cd4b37ed6952" dur="4" oct="5" pname="c"
+                  stem.dir="down" artic="stacc"/>
+               <note xml:id="x90282e15-8378-4968-84e4-fb69a9fd7c4b" dur="4" oct="4" pname="b"
+                  stem.dir="down" artic="stacc">
+                  <accid xml:id="x22b9fe71-a812-437c-a07f-6f2b43d74b2c" accid.ges="f"/>
+               </note>
+            </layer>
+         </staff>
+         <staff xml:id="xce1a1ae0-051c-4cce-9d1f-4a942b0ab791" n="3">
+            <layer xml:id="x24415aec-4f20-4508-9057-673f7d67ce61" n="1">
+               <note xml:id="xa75d0e91-c2ad-4409-b7e4-fd4dc97ebb76" dur="4" oct="4" pname="f"
+                  stem.dir="up" artic="stacc"/>
+               <note xml:id="x44c58138-4496-4bb2-beff-0319104aef92" dur="4" oct="4" pname="a"
+                  stem.dir="up" artic="stacc"/>
+               <note xml:id="x40fb88dd-cfbc-4552-8053-8ebbfb5642c6" dur="4" oct="4" pname="f"
+                  stem.dir="up" artic="stacc"/>
+            </layer>
+         </staff>
+         <staff xml:id="x59464932-5966-4155-bb1c-28e6d3cc50f3" n="4">
+            <layer xml:id="x0b82282c-c924-4d49-b896-4ebe402d43f3" n="1">
+               <note xml:id="x7428e4c8-a683-472d-bd07-219f1ca40b1c" dur="4" oct="4" pname="d"
+                  stem.dir="down" artic="stacc"/>
+               <note xml:id="x2644c47a-cf3f-4a9a-8b8a-ae91935f9c14" dur="4" oct="4" pname="e"
+                  stem.dir="down" artic="stacc">
+                  <accid xml:id="xca62636a-3444-42e8-ab5f-79c75afa5e84" accid.ges="f"/>
+               </note>
+               <note xml:id="x6d517c63-4f4c-4b76-98fc-74fb1226f908" dur="4" oct="4" pname="d"
+                  stem.dir="down" artic="stacc"/>
+            </layer>
+         </staff>
+         <staff xml:id="x67607597-1af5-4a11-9c4d-4fc19c99a470" n="5">
+            <layer xml:id="x3fa6bacf-6d18-4a21-88f1-1b60705242f3" n="1">
+               <note xml:id="xd4eb4897-4664-4158-9387-2d9f30c9ec6c" dur="4" oct="3" pname="b"
+                  stem.dir="down" artic="stacc">
+                  <accid xml:id="xf76d1887-9b1c-4ecb-a5e5-c287a1aad960" accid.ges="f"/>
+               </note>
+               <note xml:id="xb45aae83-bbea-4dee-a601-7e41f55aaa9f" dur="4" oct="3" pname="f"
+                  stem.dir="down" artic="stacc"/>
+               <note xml:id="x1b41abb8-a28a-4fa5-8eca-3cb5e4f1bc77" dur="4" oct="3" pname="b"
+                  stem.dir="down" artic="stacc">
+                  <accid xml:id="x45256562-40c0-4051-abbe-609e6373e4da" accid.ges="f"/>
+               </note>
+            </layer>
+         </staff>
+      </measure>
+      <measure xml:id="x9cafb006-025b-4019-9430-936ab85a62db" right="rptend" n="108">
+         <staff xml:id="x734d85be-0016-46cb-870f-c83832a5a9db" n="1">
+            <layer xml:id="x329eefc9-112e-45be-8d11-6192be6b9eba" n="1">
+               <multiRest xml:id="xe9ace48e-8c8f-4e09-b148-669c9c622787" num="2"/>
+            </layer>
+         </staff>
+         <staff xml:id="x103f0765-102b-45ba-935b-92991d7eb77f" n="2">
+            <layer xml:id="x6e1af6eb-b22a-47e5-b62a-c77da263eb7d" n="1">
+               <multiRest xml:id="x5b945b6f-ae28-44c3-b972-cd7e82453eda" num="2"/>
+            </layer>
+         </staff>
+         <staff xml:id="xfd7b6c27-7cc5-4bf9-a9ae-08fb7c0e4c59" n="3">
+            <layer xml:id="x255710b1-bc18-412d-97db-1919037d227e" n="1">
+               <multiRest xml:id="x7434fa0f-aab7-4e18-9221-2ad62fce861c" num="2"/>
+            </layer>
+         </staff>
+         <staff xml:id="x5780d0b6-5433-4d5b-b638-84b7fcae7933" n="4">
+            <layer xml:id="x3c1ca579-15ef-4107-807b-53abacbd2ce6" n="1">
+               <multiRest xml:id="x21994fda-c22e-4fd6-abd9-4c46642daa57" num="2"/>
+            </layer>
+         </staff>
+         <staff xml:id="x9d3bc7a3-8322-44c7-9ea2-930cc94d8420" n="5">
+            <layer xml:id="x3434d0b5-b659-4a16-904f-2d91f54bb22c" n="1">
+               <multiRest xml:id="x94fdc3bb-1a41-43fa-a862-82fabf7e18be" num="2"/>
+            </layer>
+         </staff>
+         <dir xml:id="x51187c15-5c27-4776-8008-5e090d0d66c2" place="below" staff="5"
+            tstamp="4.000000">(Fine)</dir>
+         <annot xml:id="annotation-257" source="#source-3 #source-2 #source-5"
+            class="#ediromAnnotPrio2 #wega.annotation.category.notational-variant" staff="1"
+            tstamp="1" tstamp2="1m+4" type="editorialComment"
+            plist="xmldb:exist:///db/apps/weber-klarinettenquintett-eol-emeritus/sources/source-3.xml#barGroup-2002844                              xmldb:exist:///db/apps/weber-klarinettenquintett-eol-emeritus/sources/source-2.xml#barGroup-1438                              xmldb:exist:///db/apps/weber-klarinettenquintett-eol-emeritus/sources/source-5.xml#barGroup-172339">
+            <p>Der Stichfehler in der Cl (zwei statt vier Takte Pause nach T. 105) wurde in ED₂
+               nicht korrigiert und hat daher Eingang in weitere Ausgaben gefunden.</p>
+         </annot>
+      </measure>
+      <scoreDef xml:id="xbcc97ddb-c2e5-41f0-84f6-a3e2d1909894" key.sig="3f"/>
+      <measure xml:id="xf48dfa96-2cf1-43e5-8fbf-ec8d1dca7501" left="rptstart" n="110">
+         <staff xml:id="x64f97717-d198-4b1a-b781-6007919e8a7b" n="1">
+            <layer xml:id="xa984364c-714a-4831-a1c5-749fb4f351ac" n="1">
+               <mRest xml:id="x2bacf22c-62aa-4cd1-bc00-32c369d05f4c"/>
+            </layer>
+         </staff>
+         <staff xml:id="xda6bad09-cea5-462e-a546-ea2ea8510ff5" n="2">
+            <layer xml:id="x8d4a5d6b-9a0e-4a33-8ce8-cd8ee380f830" n="1">
+               <note xml:id="xb1134b19-4905-421c-b8b8-3b655234292b" dots="1" dur="2" oct="4"
+                  pname="b" stem.dir="down">
+                  <accid xml:id="xe91c3024-29fa-4508-a236-e03c3dd347d5" accid.ges="f"/>
+               </note>
+            </layer>
+         </staff>
+         <staff xml:id="x6fabdd69-c45d-4def-a13b-8d5997297da9" n="3">
+            <layer xml:id="xdc59434b-021c-4de6-b76c-8746406cc411" n="1">
+               <mRest xml:id="xdb26eadb-99a6-48c6-a494-2de690c8cc52"/>
+            </layer>
+         </staff>
+         <staff xml:id="x8e9105ad-f9a9-40e0-88bd-50198ba94d3c" n="4">
+            <layer xml:id="xa09759a3-f777-49be-af8c-ea89a41ab753" n="1">
+               <mRest xml:id="xc429cd0b-43de-4efa-958e-49ca8606763e"/>
+            </layer>
+         </staff>
+         <staff xml:id="x1e0bca5d-6301-45fb-ac29-5efed01223fd" n="5">
+            <layer xml:id="x5d7cce3f-bdc9-4702-8b08-cdaf5fe02a03" n="1">
+               <mRest xml:id="x99396940-86db-49ce-83a3-494dc3ff5978"/>
+            </layer>
+         </staff>
+         <tie xml:id="x3282b7b6-b7d9-4689-958d-e7894e548447"
+            startid="#xb1134b19-4905-421c-b8b8-3b655234292b"
+            endid="#x762b7489-482f-4b1e-8ba7-1ace39afe415"/>
+         <dynam xml:id="x57cb1e39-b9e6-40ef-ad2d-5598ac4bf553" staff="2" tstamp="1.000000">p</dynam>
+         <dir staff="1" tstamp="1" place="above" xml:id="xfdc790d5-3c8c-489a-a332-186c64c73603"
+            >Trio</dir>
+
+      </measure>
+      <measure xml:id="x10f96702-291d-4d4e-962a-755a4eed2507" n="111">
+         <staff xml:id="x7e05edae-3d98-41be-9bdc-c63e1d554e52" n="1">
+            <layer xml:id="xb462a6e2-6ab4-4409-80ef-ba1d680c2ec4" n="1">
+               <mRest xml:id="x3e2c9f49-a52c-4f5c-8e44-e8c5a3c73386"/>
+            </layer>
+         </staff>
+         <staff xml:id="x9f72d115-c624-494f-a86d-b3d265ba879b" n="2">
+            <layer xml:id="x0c834c6e-0d74-4186-b28a-8d4f02e1e909" n="1">
+               <note xml:id="x762b7489-482f-4b1e-8ba7-1ace39afe415" dots="1" dur="2" oct="4"
+                  pname="b" stem.dir="down">
+                  <accid xml:id="xdc844c19-cd1c-4d9e-882a-c19492e1c956" accid.ges="f"/>
+               </note>
+            </layer>
+         </staff>
+         <staff xml:id="xe857036a-58f7-4947-8dfb-67d7bdea3db5" n="3">
+            <layer xml:id="xda1bd30d-723a-4dc6-9513-c14620f3c791" n="1">
+               <mRest xml:id="xe7713a56-ea4d-4b5c-9518-8cff9c88db2e"/>
+            </layer>
+         </staff>
+         <staff xml:id="x1eafdd00-f8c7-4117-84ef-7be0a060d929" n="4">
+            <layer xml:id="xb3edf528-0038-478f-afdc-cdd633c1cc65" n="1">
+               <mRest xml:id="x2731373e-2dda-45aa-8bc7-ff9c6418281c"/>
+            </layer>
+         </staff>
+         <staff xml:id="xfbe87c07-4058-4484-8f63-16c3a34d4180" n="5">
+            <layer xml:id="x4e3dab4f-1bec-4e6e-b02f-58fe2cd474a9" n="1">
+               <mRest xml:id="x9c27a829-8c27-4176-a29a-f755109defd3"/>
+            </layer>
+         </staff>
+         <slur xml:id="xa6d6ae7e-228a-4b27-8a5f-61855621412d" staff="2"
+            startid="#x762b7489-482f-4b1e-8ba7-1ace39afe415" tstamp="1.000000"
+            endid="#x09d63b7f-dd86-4abc-b7b5-e05763317358" tstamp2="5m+1.0000" layer="1"/>
+      </measure>
+   </section>
+</mdiv>

@@ -23,3 +23,12 @@ declare
     function measuretests:getMeasureLabelAttr($node as element()) {
         measure:getMeasureLabelAttr($node)
 };
+
+declare
+    %test:args("4")         %test:assertEmpty
+    %test:args("foo")       %test:assertEmpty
+    %test:args("108")       %test:assertExists
+    function measuretests:resolveMultiMeasureRests($measureN as xs:string) as node()* {
+        doc("testdata/multiMeasureRests.xml")/mei:mdiv =>
+        measure:resolveMultiMeasureRests($measureN)
+};
