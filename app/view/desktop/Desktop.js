@@ -172,7 +172,7 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
         });
 
         if(help == null) {
-            help = Ext.create('EdiromOnline.view.window.HelpWindow', me.getSizeAndPosition(500, 400));
+            help = Ext.create('EdiromOnline.view.window.HelpWindow', me.getSizeAndPosition(750, 600));
             me.addWindow(help);
             help.show();
 
