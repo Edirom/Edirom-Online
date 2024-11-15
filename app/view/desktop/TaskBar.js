@@ -43,6 +43,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
                     'sortVertically',
                     'openConcordanceNavigator',
                     'openSearchWindow',
+                    'openAboutWindow',
                     'switchLanguage');
 
         me.windowSort = new Ext.toolbar.Toolbar(me.getWindowSortConfig());

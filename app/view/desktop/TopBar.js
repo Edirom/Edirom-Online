@@ -61,10 +61,7 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
             id: 'aboutBtn',
             cls: 'taskLinkButton about',
             text: getLangString('view.desktop.TaskBar_about'),
-            renderTo: Ext.getBody(),
-            handler: function() {
-                alert('You clicked the button!');
-            }
+            action: 'openAboutWindow'
         });
 
         me.searchTextField = Ext.create('Ext.form.TextField', {
