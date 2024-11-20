@@ -66,12 +66,6 @@ Ext.define('EdiromOnline.view.window.about.AboutWindow', {
                 xtype: 'panel',
                 flex: 1,
                 html: '<div id="' + this.id + '_textCont" class="textViewContent"></div>'
-            },
-            // read property project.version from build.xml
-            {
-                xtype: 'panel',
-                flex: 1,
-                html: '<div class="aboutVersion">Version: ' + /* TODO: version no. here (from build.xml?) */ '###' + '</div>'
             }
             
         ];
