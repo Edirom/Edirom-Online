@@ -1,15 +1,29 @@
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
-
 <div align="center">
  
-**[Showcases](https://github.com/Edirom/Edirom-Online#showcases) •
-[Get started](https://github.com/Edirom/Edirom-Online#get-started) • 
-[Dependencies](https://github.com/Edirom/Edirom-Online#dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online#roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online#contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online#get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online#code-of-Conduct) • 
-[License](https://github.com/Edirom/Edirom-Online#license)**
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml)
+[![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases)
+[![GitHub license](https://img.shields.io/github/license/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/blob/main/LICENSE)
+[![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md) 
+[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133)
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online.svg?type=small)](https://app.fossa.com/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online?ref=badge_small)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5347861.svg)](https://doi.org/10.5281/zenodo.7472503) 
+
+</div>
+
+<hr/>
+
+<div align="center"> 
+ 
+**[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
+[Get started](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#code-of-conduct) • 
+[Citation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#citation)
+[License](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#license)**
 
 </div>
 
@@ -132,6 +146,11 @@ Even if you are not ready (yet) to contribute to this wonderful project, maybe i
 ## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct]. By participating in this project you agree to abide by its terms.
+
+## Citation
+
+Please cite the software/repository using the information provided under "Cite this repository" on the right hand side. The APA and BIBTeX citations are fed by information from the CITATION.cff file in this repository which you can also use as a source.
+If you intend to cite unreleased branches or commits please use the commit hash in the citation. 
 
 ## License
 

@@ -1,0 +1,59 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Edirom Online
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Benjamin W.
+    family-names: Bohl
+  - given-names: Daniel
+    family-names: Röwenstrunk
+  - given-names: Nikolaos
+    family-names: Beer
+  - given-names: Dennis
+    family-names: Ried
+  - given-names: Peter
+    family-names: Stadler
+  - given-names: Kristin
+    family-names: Herold
+  - given-names: Daniel
+    family-names: Jettka
+  - given-names: Johannes
+    family-names: Kepper
+  - given-names: Anna Maria
+    family-names: Neubert
+  - given-names: Dennis
+    family-names: Friedl
+  - given-names: Stefan
+    family-names: Münnich
+  - given-names: Elena
+    family-names: Schilke
+  - given-names: Hizkiel
+    family-names: Alemayehu
+  - given-names: Salome
+    family-names: Obert
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.7472503
+    description: Edirom Online
+repository-code: 'https://github.com/Edirom/Edirom-Online'
+abstract: >-
+  Edirom Online is a software for the presentation and
+  analysis of critical musical editions in a digital format,
+  particularly in the fields of musicology and philology.
+  Edirom Online supports various data formats commonly used
+  in digital humanities, such as TEI (Text Encoding
+  Initiative) for textual data and MEI (Music Encoding
+  Initiative) for musical data, that is visualized with
+  Verovio. This allows for the integration of different data
+  formats, starting in the early days with texts, images and
+  music and adding audio and even film within a single
+  edition.
+license: GPL-3.0
+commit: e5ec44251aefcea3c74c9226aa0b5be64e1c88f9
+version: v1.0.0-beta.5
+date-released: '2022-12-22'
