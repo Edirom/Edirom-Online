@@ -53,10 +53,6 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
                 const releaseDate = citation.match(/^date\-released: '(.*)'/m)[1];
                 const doi = citation.match(/value: ([0-9]+\.[0-9]+\/zenodo\.[0-9]+)/)[1];
 
-                
-
-
-
                 view.setResult(`
                     <div class="tei_body">
                         <h1>About ${title}</h1>
@@ -74,7 +70,6 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
                         </section>
                     </div>
                     `);
-                
 
             }, this)
         );
