@@ -122,6 +122,7 @@
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Taktauswahl" />
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Auswahl von Satz/Nummer"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Stimmenauswahl"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>
