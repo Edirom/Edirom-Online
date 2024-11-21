@@ -30,7 +30,7 @@ authors:
     family-names: Alemayehu
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.14196509
+    value: 10.5281/zenodo.5347861
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
 abstract: >-
@@ -46,6 +46,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-commit: e5ec44251aefcea3c74c9226aa0b5be64e1c88f9
-version: v1.0.0-beta.6
+version: v1.0.0
 date-released: '2024-11-20'
