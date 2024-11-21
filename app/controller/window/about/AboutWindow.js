@@ -42,7 +42,40 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
         window.doAJAXRequest('resources/CITATION.cff',
             'GET', {}, 
             Ext.bind(function(response){
-                view.setResult('<pre>'+response.responseText+'</pre>');
+                
+                const citation = response.responseText;
+
+                // find keys in citation
+                const version = citation.match(/^version: (.*)/m)[1];
+                const title = citation.match(/^title: (.*)/m)[1];
+                const license = citation.match(/^license: (.*)/m)[1];
+                const repoUrl = citation.match(/^repository\-code: '(.*)'/m)[1];
+                const releaseDate = citation.match(/^date\-released: '(.*)'/m)[1];
+                const doi = citation.match(/value: ([0-9]+\.[0-9]+\/zenodo\.[0-9]+)/)[1];
+
+                
+
+
+
+                view.setResult(`
+                    <div class="tei_body">
+                        <h1>About ${title}</h1>
+                        <section class="teidiv0">
+                            <p>Version: ${version}</p>
+                            <p>Release date: ${releaseDate}</p>
+                            <p>DOI: <a href="https://doi.org/${doi}">${doi}</a></p>
+                            <p>${getLangString('view.window.about.AboutWindow_License')}: ${license}</p>
+                            <p>GitHub: <a href="${repoUrl}">${repoUrl}</a></p>
+                            <p>Contributors: <br/>
+                                <a href="${repoUrl}/graphs/contributors" title="See contributors to ${title} GitHub project">
+                                <img height="50px" id="github-contributors" src="https://contrib.rocks/image?repo=${repoUrl.replace(/^https?:\/\/github.com\//, '')}" alt="Avatars of contributors to ${title} in GitHub" />
+                                </a>
+                            </p>
+                        </section>
+                    </div>
+                    `);
+                
+
             }, this)
         );
     }
