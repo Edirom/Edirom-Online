@@ -42,7 +42,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
         window.doAJAXRequest('resources/CITATION.cff',
             'GET', {}, 
             Ext.bind(function(response){
-                view.setResult(response.responseText);
+                view.setResult('<pre>'+response.responseText+'</pre>');
             }, this)
         );
     }
