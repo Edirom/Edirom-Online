@@ -16,24 +16,24 @@ declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option output:media-type "text/plain";
-declare option output:method "text";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('uri', '')
-let $mei := doc($uri)/root()
+let $mei := doc($uri)
 
 let $ret :=
     for $part in ($mei//mei:instrumentation/mei:instrVoice | $mei//mei:perfMedium//mei:perfRes)
     let $hasNoAttrSameas := not(exists($part/@sameas))
     return
-        concat(
-            '{label: "', eutil:getPartLabel($part, 'perfRes'),
-            '", id:"', $part/@xml:id,
-            '", selectedByDefault:', $hasNoAttrSameas,
-            ', selected:', $hasNoAttrSameas, '}'
-        )
+        map {
+            "label": eutil:getPartLabel($part, 'perfRes'),
+            "id": $part/string(@xml:id),
+            "selectedByDefault": $hasNoAttrSameas,
+            "selected": $hasNoAttrSameas
+        }
 
 return
-    concat('[', string-join($ret, ','), ']')
+    array { $ret }

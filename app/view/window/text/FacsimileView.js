@@ -22,7 +22,7 @@ Ext.define("EdiromOnline.view.window.text.FacsimileView", {
 
     requires: [
         "EdiromOnline.view.window.image.ImageViewer",
-        "EdiromOnline.view.window.image.OpenSeaDragonViewer",
+        "EdiromOnline.view.window.image.OpenSeaDragonViewer"
     ],
 
     alias: "widget.facsimileView",
