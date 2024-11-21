@@ -21,7 +21,6 @@ declare option output:omit-xml-declaration "yes";
 
 let $lang := request:get-parameter('lang', 'en')
 let $idPrefix := request:get-parameter('idPrefix', '')
-let $uri := request:get-parameter('uri', '')
 let $contextPath := request:get-context-path()
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
@@ -46,7 +45,7 @@ let $doc :=
             <param name="tocDepth" value="1"/>
             <param name="graphicsPrefix" value="help/"/>
             <param name="contextPath" value="{$contextPath}"/>
-            <param name="docUri" value="{$uri}"/>
+            <param name="docUri" value="''"/>
         </parameters>
     )
 
