@@ -120,7 +120,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             let $sourceID := functx:substring-after-last(substring-before($doc, '.xml'), '/')
             let $sourceIdent := mriSource:getTitleData($sourceID, $workID, $lang)
             let $sourceType      := $sourceIdent?type
-            let $sourceSiglum    := mriSource:getCriticalReportSiglum($sourceID, $workID, $lang)
+            let $sourceSiglum    := mriSource:getCriticalReportSiglum($sourceID, $workID)
             
             let $source := $sourceType
             let $siglum := $sourceSiglum

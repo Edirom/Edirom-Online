@@ -34,20 +34,16 @@ import module namespace console="http://exist-db.org/xquery/console";
 declare namespace request="http://exist-db.org/xquery/request";
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 
+declare namespace conf="https://www.maxreger.info/conf";
+
 declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
 
 let $uri := request:get-parameter('uri', '')
 
-let $options := annotation:annotationsGetOptions($uri)
-let $optionAnnotType := annotation:validateAnnotationOptions($options, 'annotType')
-let $optionAnnotCategory := annotation:validateAnnotationOptions($options, 'annotCategory')
-let $optionAnnotPriority := annotation:validateAnnotationOptions($options, 'annotPriority')
+let $configResource := doc('xmldb:exist:///db/apps/mriExistDBconf/config.xml')
+let $rwaOnlineUrl := $configResource//conf:rwaOnlineURL
+let $getAnnotationsRequestURL := concat($rwaOnlineUrl, '/resources/xql/getAnnotations.xql?uri=', $uri)
+let $queryResult := hc:send-request(<hc:request href="{$getAnnotationsRequestURL}" method="get"/>)[2]
 
 return 
-    concat('
-        {
-            "success": true,
-            "total": ', count(annotation:filterAnnotations($uri, $optionAnnotType, $optionAnnotCategory, $optionAnnotPriority)), ',
-            "annotations": [', annotation:annotationsToJSON($uri), ']
-        }
-    ')
+    $queryResult
