@@ -27,8 +27,6 @@ xquery version "3.1";
 : @author <a href="mailto:nikolaos.beer@uni-paderborn.de">Nikolaos Beer</a>
 :)
 
-import module namespace annotation="http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-
 import module namespace console="http://exist-db.org/xquery/console";
 
 declare namespace request="http://exist-db.org/xquery/request";
