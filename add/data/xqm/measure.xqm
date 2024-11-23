@@ -85,7 +85,8 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
 };
 
 (:~
- : Returns an attribute from a measure for labeling
+ : Returns a label for a measure, taken either from the `@label` attribute 
+ : if present or the `@n` attribute otherwise. 
  :
  : @param $measure The measure to be processed
  : @return the string value of the `@label` or the `@n` attribute if present, the empty sequence otherwise.
