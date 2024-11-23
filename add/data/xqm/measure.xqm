@@ -93,7 +93,7 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
 declare function measure:getMeasureLabelAttr($measure as node()) as xs:string {
 
     if(exists($measure[@label])) then (
-        $measure/@label
+        $measure/@label => data()
     ) else (
         $measure/@n
     )
