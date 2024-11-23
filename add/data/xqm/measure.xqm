@@ -95,7 +95,7 @@ declare function measure:getMeasureLabelAttr($measure as node()) as xs:string {
     if(exists($measure[@label])) then (
         $measure/@label => data()
     ) else (
-        $measure/@n
+        $measure/@n => data()
     )
 };
 
