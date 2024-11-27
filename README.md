@@ -111,6 +111,13 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
 * in **eXist-db Package Manager** click on the "Edirom Online" entry - you will be directed to the running Edirom at `http://localhost:8080/exist/apps/Edirom-Online/index.html`
 
+## Documentation
+
+Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
+* [Customize] Edirom Online and content
+* Edirom Online – [Release Workflow]
+* [Setup Edirom Online] on a local machine
+
 ## Dependencies
 
 Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
@@ -171,6 +178,10 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Bargheer: Edition]: https://github.com/Edirom/Bargheer-Edition
 [eXist-db]: https://exist-db.org/
 [Verovio]: https://www.verovio.org/index.xhtml
+[docs]: /docs
+[Customize]: docs/customize.md
+[Release Workflow]: docs/release-workflow.md
+[Setup Edirom Online]: docs/setup.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
