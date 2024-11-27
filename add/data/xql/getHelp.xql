@@ -45,6 +45,7 @@ let $doc :=
             <param name="tocDepth" value="1"/>
             <param name="graphicsPrefix" value="help/"/>
             <param name="contextPath" value="{$contextPath}"/>
+            (: == passing empty value for docUri (XSLT expects xs:anyURI, but ExtJS view does not provide value) -> github#480 == :)
             <param name="docUri" value="''"/>
         </parameters>
     )
