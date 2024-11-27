@@ -5,8 +5,12 @@ while getopts "d" flag; do
    d) # Handle the -d flag
    # run docker
    echo "Running in Docker..."
+    # remove -d from the list of input arguments
+    shift $((OPTIND-1)) 
+    # set a variable OPTIONS with the remaining input arguments to pass to the build command
+    OPTIONS=${@} 
     # run docker
-    docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:latest /bin/bash -c "./build.sh testing; exit"
+    docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:latest ./build.sh $OPTIONS
    exit
    ;;   
    \?)
@@ -27,6 +31,3 @@ ant build-plus
 
 # build xar
 ant xar
-
-exit
-
