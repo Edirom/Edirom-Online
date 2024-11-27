@@ -141,6 +141,11 @@ Even if you are not ready (yet) to contribute to this wonderful project, maybe i
 
 Please note that this project is released with a [Contributor Code of Conduct]. By participating in this project you agree to abide by its terms.
 
+## Citation
+
+Please cite the software/repository using the information provided under "Cite this repository" on the right hand side. The APA and BIBTeX citations are fed by information from the CITATION.cff file in this repository which you can also use as a source.
+If you intend to cite unreleased branches or commits please use the commit hash in the citation. 
+
 ## License
 
 Edirom Online is released to the public under the terms of the [GNU GPL v.3] open source license.
