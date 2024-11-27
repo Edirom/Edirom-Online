@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: ftr/113-improve-citability
+        ref: ftr/478-add-more-badges
     - uses: fair-software/howfairis-github-action@0.2.1
       name: Measure compliance with fair-software.eu recommendations
       env:
