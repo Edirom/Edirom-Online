@@ -11,7 +11,7 @@ xquery version "3.1";
  : @author <a href="mailto:bohl@edirom.de">Benjamin W. Bohl</a>
  :)
 
-module namespace eutil = "http://www.edirom.de/xquery/util";
+module namespace eutil = "http://www.edirom.de/xquery/eutil";
 
 (: IMPORTS ================================================================= :)
 
