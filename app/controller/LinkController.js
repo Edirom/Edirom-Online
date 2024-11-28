@@ -76,7 +76,7 @@ Ext.define('EdiromOnline.controller.LinkController', {
             }else if(singleUri.match(/^edirom:\/\//)) {
                 this.parseEdiromLink(singleUri);
 
-            }else if(singleUri.match(/^xmldb:exist:\/\//) || singleUri.match(/^textgrid:/)) {
+            }else if(singleUri.match(/^xmldb:exist:\/\//)) {
 
                 if(config['useExisting']) {
                     var win = existingWindows.findBy(function(win) {

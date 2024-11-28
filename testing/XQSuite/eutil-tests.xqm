@@ -38,3 +38,14 @@ declare
     function eut:test-getLocalizedTitle($node as element(), $lang as xs:string?) as xs:string {
         eutil:getLocalizedTitle($node, $lang)
 };
+
+declare
+    %test:arg("uri")                %test:assertEmpty
+    %test:arg("uri", "")            %test:assertEmpty
+    %test:args("foo")               %test:assertEmpty
+    %test:args("https://edirom.de") %test:assertXPath("/html")
+    %test:args("xmldb:exist://db/apps/Edirom-Online/data/locale/edirom-lang-de.xml")    %test:assertXPath("/langFile")
+    %test:args("/db/apps/Edirom-Online/data/locale/edirom-lang-de.xml")                 %test:assertXPath("/langFile")
+    function eut:test-getDoc($uri as xs:string?) as document-node()? {
+        eutil:getDoc($uri)
+};

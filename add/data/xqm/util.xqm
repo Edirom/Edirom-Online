@@ -129,23 +129,19 @@ declare function eutil:getLocalizedTitle($node as node(), $lang as xs:string?) a
             ('[No title found!]')
 
 };
+
 (:~
  : Returns a document
  :
  : @param $uri The URIs of the documents to process
  : @return The document
  :)
-declare function eutil:getDoc($uri) {
-
-    if(starts-with($uri, 'textgrid:')) then(
-        let $session := request:get-cookie-value('edirom_online_textgrid_sessionId')
-        return
-            doc('http://textgridlab.org/1.0/tgcrud/rest/' || $uri || '/data?sessionId=' || $session)
-    
-    ) else (
-        doc($uri)
-    )
-
+declare function eutil:getDoc($uri as xs:string?) as document-node()? {
+    if(empty($uri) or ($uri eq ""))
+    then util:log("warn", "No document URI provided")
+    else if(doc-available($uri))
+    then doc($uri)
+    else util:log("warn", "Unable to load document at " || $uri)
 };
 
 (:~
@@ -268,7 +264,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
 
     let $base := system:get-module-load-path()
-    let $file := doc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
+    let $file := eutil:getDoc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
     
     let $string := $file//entry[@key = $key]/string(@value)
     let $string := functx:replace-multi($string, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)

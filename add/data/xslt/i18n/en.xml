@@ -6,8 +6,27 @@
     <entry xml:id="titleStmt">Title Statement</entry>
     <!-- marc keys : http://www.loc.gov/marc/relators/relaterm.html  -->
     <entry xml:id="cmp">Composer</entry>
+    <entry xml:id="cnd">Conductor</entry>
+    <entry xml:id="csl">Consultant</entry>
+    <entry xml:id="dst">Distributor</entry>
+    <entry xml:id="dtc">Data contributor</entry>
+    <entry xml:id="edt">Editor</entry>
+    <entry xml:id="fnd">Funder</entry>
+    <entry xml:id="led">Lead</entry>
     <entry xml:id="mcp">Music copyist</entry>
+    <entry xml:id="mus">Musiker</entry>
+    <entry xml:id="mrk">Markup Editor</entry>
+    <entry xml:id="pbd">Verlagsleiter</entry>
+    <entry xml:id="pbl">Herausgeber</entry>
+    <entry xml:id="pdr">Project director</entry>
+    <entry xml:id="rce">Tontechnik</entry>
+    <entry xml:id="rth">Research team head</entry>
     <entry xml:id="scr">Scribe</entry>
+    <entry xml:id="spn">Sponsor</entry>
+    <!-- Identifier Klassen -->
+    <entry xml:id="labelCode">Labelcode</entry>
+    <entry xml:id="orderNo">Order number</entry>
+    <entry xml:id="EAN">Article number (EAN)</entry>
     <!-- Titelei -->
     <entry xml:id="publication">Publikation</entry>
     <entry xml:id="series">Series</entry>
@@ -86,12 +105,25 @@
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
     <!-- MEI -->
+    <entry xml:id="annot">Annotation</entry>
+    <entry xml:id="componentGrp">Components</entry>
+    <entry xml:id="expressionList">Expressions</entry>
     <entry xml:id="handList">Scribes</entry>
-    <entry xml:id="puStmt">Publication</entry>
-    <entry xml:id="puPlace">Place</entry>
-
-
+    
+    <entry xml:id="corpName">Corporation name</entry>
+    <entry xml:id="captureMode">Capturing mode</entry>
+    <entry xml:id="carrierForm">Carrier form</entry>
+    <entry xml:id="fileChar">File characteristics</entry>
+    <entry xml:id="playingSpeed">Playing speed</entry>
+    <entry xml:id="relationList">FRBR-relations</entry>
+    <entry xml:id="soundChan">Sound channels</entry>
+    
+    <!-- MEI & TEI -->
+    <entry xml:id="ptr">Link</entry>
+    <entry xml:id="pubPlace">Publication Place</entry>
+    <entry xml:id="pubStmt">Publication Statement</entry>
     <!-- TEI -->
+    <entry xml:id="abstract">Abstract</entry>
     <entry xml:id="additional">Additional information</entry>
     <entry xml:id="additions">Additions</entry>
     <entry xml:id="availability">Availability</entry>
@@ -106,8 +138,8 @@
     <entry xml:id="material">Material</entry>
     <entry xml:id="msName">Manuscript name</entry>
     <entry xml:id="msIdentifier">Location</entry>
+    <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publication</entry>
-    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
     <entry xml:id="seriesStmt">Series</entry>
     <entry xml:id="title_a">Title (analytic)</entry>
     <entry xml:id="title_m">Title (monographic)</entry>
@@ -120,15 +152,16 @@
     <entry xml:id="settlement">Settlement</entry>
     <entry xml:id="supportDesc">Support Description</entry>
     <entry xml:id="handDesc">Description of Hands</entry>
+    <entry xml:id="handNotes">Notes on hands</entry>
     <entry xml:id="itemList">Item List</entry>
-    <entry xml:id="pubStmt">Publication Statement</entry>
+    <entry xml:id="placeName">Place name</entry>
+    
     <entry xml:id="respStmt">Responsibility</entry>
-    <entry xml:id="pubPlace">Publication Place</entry>
     <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
 
     <entry xml:id="Encoders">Encoders</entry>
     <entry xml:id="binding">Binding</entry>
-    <entry xml:id="leavesCount">(leaves)</entry>
+    <entry xml:id="leavesCount">(leaves)</entry>    
     <entry xml:id="manuscript">manuscript</entry>
     <entry xml:id="imprint_publisher">Publisher</entry>
     <entry xml:id="analytic">Work</entry>
@@ -136,9 +169,15 @@
 
     <entry xml:id="leaf">leaf</entry>
     <entry xml:id="cm">cm</entry>
-
+    
+    <entry xml:id="title_desc">Descriptive title</entry>
+    <entry xml:id="title_main">Main title</entry>
+    <entry xml:id="title_sub">Subordinate title</entry>
+    
     <!-- FreiDi /content -->
     <entry xml:id="width">width</entry>
     <entry xml:id="height">height</entry>
     <entry xml:id="descLink">Source Description</entry>
+    <entry xml:id="singers">Singers</entry>
+    <entry xml:id="musicians">Musicians</entry>
 </language>

@@ -20,7 +20,7 @@
     <entry xml:id="pbl">Herausgeber</entry>
     <entry xml:id="pdr">Project director</entry>
     <entry xml:id="rce">Tontechnik</entry>
-    <entry xml:id="rth">Research tem head</entry>
+    <entry xml:id="rth">Research team head</entry>
     <entry xml:id="scr">Schreiber</entry>
     <entry xml:id="spn">Sponsor</entry>
     <!-- Identifier Klassen -->
@@ -109,9 +109,6 @@
     <entry xml:id="componentGrp">Bestandteile</entry>
     <entry xml:id="expressionList">Expressionen</entry>
     <entry xml:id="handList">Schreiber</entry>
-    <entry xml:id="pubStmt">Publikation</entry>
-    <entry xml:id="pupPlace">Ort</entry>
-
 
     <entry xml:id="corpName">Körperschaft</entry>
     <entry xml:id="captureMode">Aufnahmemodus</entry>
@@ -123,6 +120,8 @@
     
     <!-- MEI & TEI -->
     <entry xml:id="ptr">Link</entry>
+    <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
+    <entry xml:id="pubStmt">Informationen zur Publikation</entry>
     
     <!-- TEI -->
     <entry xml:id="abstract">Editorische Zusammenfassung</entry>
@@ -142,7 +141,6 @@
     <entry xml:id="msIdentifier">Repositorium</entry>
     <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publikation</entry>
-    <entry xml:id="profileDesc">Nicht-bibliographische Aspekte</entry>
     <entry xml:id="seriesStmt">Reihe</entry>
     <entry xml:id="title_a">Titel (analytisch)</entry>
     <entry xml:id="title_m">Titel (monographisch)</entry>
@@ -158,9 +156,8 @@
     <entry xml:id="handNotes">Schreiber-Anmerkungen</entry>
     <entry xml:id="itemList">Exemplar(e)</entry>
     <entry xml:id="placeName">Ort</entry>
-    <entry xml:id="pubStmt">Informationen zur Publikation</entry>
+    
     <entry xml:id="respStmt">Verantwortlich</entry>
-    <entry xml:id="pubPlace">Ort der Veröffentlichung</entry>
    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
 
     
@@ -183,7 +180,6 @@
     <entry xml:id="width">Breite</entry>
     <entry xml:id="height">Höhe</entry>
     <entry xml:id="descLink">Quellenbeschreibung</entry>
-    
-<entry xml:id="singers">Sänger</entry>
+    <entry xml:id="singers">Sänger</entry>
     <entry xml:id="musicians">Musiker</entry>
 </language>
