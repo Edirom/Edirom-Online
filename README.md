@@ -1,17 +1,16 @@
 <div align="center">
- 
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml)
-[![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases)
-[![GitHub license](https://img.shields.io/github/license/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/blob/main/LICENSE)
+
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml) 
 [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md) 
-[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133)
-[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online.svg?type=small)](https://app.fossa.com/projects/custom%2B48617%2Fgithub.com%2FEdirom%2FEdirom-Online?ref=badge_small)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5347861.svg)](https://doi.org/10.5281/zenodo.7472503) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases) 
+[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133) 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/9746/badge)](https://www.bestpractices.dev/projects/9746)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8B%20%20%E2%97%8B-orange)](https://fair-software.eu)
+[![DOI](https://zenodo.org/badge/5966814.svg)](https://zenodo.org/badge/latestdoi/5966814)
 
 </div>
 
-<hr/>
 
 <div align="center"> 
  

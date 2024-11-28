@@ -7,12 +7,9 @@ jobs:
     name: "fair-software"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ftr/113-improve-citability
-    - uses: fair-software/howfairis-github-action@0.2.1
-      name: Measure compliance with fair-software.eu recommendations
-      env:
-        PYCHARM_HOSTED: "Trick colorama into displaying colored output" 
-      with:
-        MY_REPO_URL: "https://github.com/${{ github.repository }}"
+      - uses: fair-software/howfairis-github-action@0.2.1
+        name: Measure compliance with fair-software.eu recommendations
+        env:
+          PYCHARM_HOSTED: "Trick colorama into displaying colored output" 
+        with:
+          MY_REPO_URL: "https://github.com/${{ github.repository }}"
