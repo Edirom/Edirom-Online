@@ -12,7 +12,7 @@ module namespace work = "http://www.edirom.de/xquery/work";
 
 (: IMPORTS ================================================================= :)
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "eutil.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/eutil" at "eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 

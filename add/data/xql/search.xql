@@ -8,7 +8,7 @@ xquery version "3.1";
 import module namespace kwic = "http://exist-db.org/xquery/kwic";
 import module namespace transform="http://exist-db.org/xquery/transform";
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/eutil.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
