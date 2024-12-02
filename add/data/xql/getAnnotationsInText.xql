@@ -17,6 +17,8 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
+
 
 (: OPTION DECLARATIONS ===================================================== :)
 
@@ -29,10 +31,10 @@ declare option output:media-type "application/json";
     @param $elems The elements to check (most likely measures and zones)
     @returns A sequence of annotation elements
 :)
-declare function local:findAnnotations($uri as xs:string) as element(mei:annot)* {
+declare function local:findAnnotations($uri as xs:string, $edition as xs:string) as element(mei:annot)* {
     
     (: TODO: check if annotations hold URIs or IDRefs :)
-    collection('/db/contents')//mei:annot[matches(@plist, $uri)]
+    collection(eutil:getPreference('edition_path', $edition))//mei:annot[matches(@plist, $uri)]
 };
 
 declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*)* {
@@ -64,10 +66,11 @@ declare function local:getAnnotations($uriSharp as xs:string, $annotations as el
             }
     }
 };
+let $edition := request:get-parameter('edition', '')
 
 let $uri := request:get-parameter('uri', '')
 let $uriSharp := concat($uri, '#')
-let $annotations := local:findAnnotations($uri)
+let $annotations := local:findAnnotations($uri,$edition)
 
 return 
     local:getAnnotations($uriSharp, $annotations)
