@@ -80,11 +80,7 @@ let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '')
 let $edition := request:get-parameter('edition', '')
 let $imageserver := eutil:getPreference('image_server', $edition)
 
-let $imagePrefix :=
-    if ($imageserver = 'leaflet') then
-    (eutil:getPreference('leaflet_prefix', $edition))
-    else
-        (eutil:getPreference('image_prefix', $edition))
+let $imagePrefix := eutil:getPreference('image_prefix', $edition)
 
 let $xsl :=
     if ($xslInstruction) then
