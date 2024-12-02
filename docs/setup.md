@@ -24,7 +24,7 @@ If you want to customize it, you need to build it and create a xar-package by yo
 - to **build** the Edirom Online we need *[Sencha Cmd](https://www.sencha.com/)*, but we can use the sencha-cmd-docker-image by @bwbohl instead of installing sencha on our own.
     - download and run the sencha-cmd-image:
       ```
-      docker run --rm -it -v `pwd`:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest)
+      docker run --rm -it -v `pwd`:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
       ```
     - this will build a docker-container giving us the opportunity to execute commands inside the container, but we still have access to the current directory, the terminal-prefix will change to something like this: `root@d5f2f1591708:/app#`
     - execute the build-script: `sh build.sh`
