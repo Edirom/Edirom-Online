@@ -198,13 +198,11 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
             me.addWindow(win);
             win.show();
 
-        }else if(win != me.getActiveWindow())
+        }else {
             win.show();
-
-        else
-            win.hide();
+        }
             
-        //win.doSearch(term);
+        win.doSearch(term);
     },
 
     getSizeAndPosition: function(maxWidth, maxHeight) {

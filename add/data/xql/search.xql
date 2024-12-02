@@ -8,6 +8,7 @@ xquery version "3.1";
 import module namespace kwic = "http://exist-db.org/xquery/kwic";
 import module namespace transform="http://exist-db.org/xquery/transform";
 
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
@@ -22,17 +23,18 @@ declare namespace tei = "http://www.tei-c.org/ns/1.0";
 declare option output:method "xhtml";
 declare option output:media-type "text/html";
 
-(: VARIABLE DECLARATIONS =================================================== :)
-
-declare variable $lang := request:get-parameter('lang', '');
-
 (: FUNCTION DECLARATIONS =================================================== :)
 
-declare function local:filter($node as node(), $mode as xs:string) as xs:string? {
+(:~
+ : Callback function for `kwic:get-summary`
+ : Contrary to the documentation at https://exist-db.org/exist/apps/doc/kwic (1Q18)
+ : this function has to return a node(), see https://github.com/eXist-db/exist/issues/4239
+ :)
+declare function local:filter($node as node(), $mode as xs:string) as node()? {
     if ($mode eq 'before') then
-        concat($node, ' ')
+        text { concat($node, ' ') }
     else
-        concat(' ', $node)
+        text { concat(' ', $node) }
 };
 
 declare function local:getPath($node as node()) as xs:string {
@@ -48,6 +50,8 @@ declare function local:getPath($node as node()) as xs:string {
 
 (: QUERY BODY ============================================================== :)
 
+let $lang := request:get-parameter('lang', '')
+let $edition := request:get-parameter('edition', '')
 let $term := request:get-parameter('term', '')
 
 let $trans :=
@@ -75,15 +79,14 @@ let $return :=
         
         let $search :=
             if (string-length($term) gt 0) then (
-                collection('/db')//tei:text[ft:query(., $term)]/ancestor::tei:TEI
-                | collection('/db')//tei:title[ft:query(., $term)]/ancestor::tei:TEI
-                | collection('/db')//mei:mei[ft:query(., $term)]
-                | collection('/db')//mei:title[ft:query(., $term)]/ancestor::mei:mei
-                | collection('/db')//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
-                | collection('/db')//mei:annot[contains(@xml:id, $term)]
+                edition:collection($edition)//tei:text[ft:query(., $term)]/ancestor::tei:TEI
+                | edition:collection($edition)//tei:title[ft:query(., $term)]/ancestor::tei:TEI
+                | edition:collection($edition)//mei:mei[ft:query(., $term)]
+                | edition:collection($edition)//mei:title[ft:query(., $term)]/ancestor::mei:mei
+                | edition:collection($edition)//mei:annot[ft:query(., $term)][@type eq 'editorialComment']
+                | edition:collection($edition)//mei:annot[contains(@xml:id, $term)]
             ) else
                 ()
-        
         return (
             
             if (count($search) gt 0) then (
@@ -166,7 +169,8 @@ let $return :=
                                                 else
                                                     ()
                                             }?path={$path}&amp;term={replace($term, '"', '\\"')}');"/>,
-                                    util:function(xs:QName("local:filter"), 2))
+                                    local:filter#2
+                                    )
                                 }</div>
                         ,
                         if ($hitCount gt 3) then
