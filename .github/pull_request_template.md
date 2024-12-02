@@ -9,7 +9,7 @@ Refs #
 <!--- Include details of your testing environment, and the tests you ran. -->
 
 ## Types of changes
-<!--- What types of changes does your code introduce? Please DELETEE options that are not relevant. -->
+<!--- What types of changes does your code introduce? Please DELETE options that are not relevant. -->
 - Bug fix (non-breaking change which fixes an issue)
 - New feature (non-breaking change which adds functionality)
 - Breaking change (fix or feature that would cause existing functionality to change)
