@@ -21,6 +21,7 @@ declare option output:omit-xml-declaration "yes";
 
 let $lang := request:get-parameter('lang', 'en')
 let $idPrefix := request:get-parameter('idPrefix', '')
+let $contextPath := request:get-context-path()
 
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
@@ -35,7 +36,7 @@ let $doc :=
         </parameters>
     )
 
-let $xsl := doc('../xslt/teiBody2HTML.xsl')
+let $xsl := doc('../xslt/tei/profiles/edirom-body/teiBody2HTML.xsl')
 let $doc :=
     transform:transform($doc, $xsl,
         <parameters>
@@ -43,6 +44,9 @@ let $doc :=
             <param name="lang" value="{$lang}"/>
             <param name="tocDepth" value="1"/>
             <param name="graphicsPrefix" value="help/"/>
+            <param name="contextPath" value="{$contextPath}"/>
+            (: == passing empty value for docUri (XSLT expects xs:anyURI, but ExtJS view does not provide value) -> github#480 == :)
+            <param name="docUri" value="''"/>
         </parameters>
     )
 
