@@ -15,7 +15,7 @@ module namespace annotation = "http://www.edirom.de/xquery/annotation";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition="http://www.edirom.de/xquery/edition" at "edition.xqm";
-import module namespace eutil="http://www.edirom.de/xquery/util" at "util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/eutil" at "eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 

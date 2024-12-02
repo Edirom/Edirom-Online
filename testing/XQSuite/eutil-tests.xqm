@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace eut = "http://www.edirom.de/xquery/xqsuite/eutil-tests";
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "xmldb:exist:///db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "xmldb:exist:///db/apps/Edirom-Online/data/xqm/eutil.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
