@@ -46,6 +46,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
                 const citation = response.responseText;
 
                 // find keys in citation
+                const abstract = String(citation.match(/^abstract:\s>-\n(\s+.*\n)+/gm)).replace(/^abstract:\s>-\n/, '');
                 const version = citation.match(/^version: (.*)/m)[1];
                 const title = citation.match(/^title: (.*)/m)[1];
                 const license = citation.match(/^license: (.*)/m)[1];
@@ -57,6 +58,7 @@ Ext.define('EdiromOnline.controller.window.about.AboutWindow', {
                     <div class="tei_body">
                         <h1>About ${title}</h1>
                         <section class="teidiv0">
+                            <p>${abstract}</p>
                             <p>Version: ${version}</p>
                             <p>Release date: ${releaseDate}</p>
                             <p>DOI: <a href="https://doi.org/${doi}">${doi}</a></p>
