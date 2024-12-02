@@ -62,7 +62,7 @@ Ext.define('EdiromOnline.controller.window.source.SourceView', {
                 var data = response.responseText;
 
                 var movements = Ext.create('Ext.data.Store', {
-                    fields: ['id', 'name'],
+                    fields: ['id', 'name', 'parts'],
                     data: Ext.JSON.decode(data)
                 });
 
