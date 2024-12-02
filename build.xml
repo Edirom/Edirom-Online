@@ -45,6 +45,7 @@
             </filterset>
         </copy>
         <copy file="${build.dir}/resources/pix/ViFE-logo-small-144x144-trans.png" tofile="${build.dir}/icon.png" overwrite="true"/>
+        <copy file="${basedir}/CITATION.cff" tofile="${build.dir}/resources/CITATION.cff" overwrite="true"/>
     </target>
     
     <target name="xar">
