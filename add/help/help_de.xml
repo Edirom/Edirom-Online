@@ -99,7 +99,7 @@
             <p>Die Benutzeroberfläche von <term type="ediromGui" key="global_appName"/> ist in verschiedene Abschnitte geteilt. Am oberen und unteren Rand des Fensters befindet sich die <ptr target="#toolbar_top"/> und die <ptr target="#help_view.desktop.TaskBar"/>, durch die alle wichtigen Funktionen der Anwendung erreicht werden können. 
                Der Bereich zwischen den beiden Leisten ist der <ptr target="#workspace"/>, und in der rechten oberen Ecke des Fensters befindet sich der <ptr target="#navigator"/>.</p>
             <figure>
-               <graphic url="images/fullscreen_en.png"/>
+               <graphic url="help/images/fullscreen_en.png"/>
                <head>Eine exemplarische Ansicht des <term type="ediromGui" key="global_appName"/> Fenster, das die <term type="ediromGui" key="view.desktop.TopBar"/> (oben), die <term type="ediromGui" key="view.desktop.TaskBar"/> (unten), den <term type="ediromGui" key="view.desktop.Desktop"/>, und den <term type="ediromGui" key="view.navigator.Navigator"/> (rechts oben) zeigt.</head>
             </figure>
             
@@ -109,7 +109,7 @@
                     <term type="ediromGui" key="view.desktop.TopBar"/>
                </head>
                <figure>
-                  <graphic url="images/menubar_en.png"/>
+                  <graphic url="help/images/menubar_en.png"/>
                   <head>Detailansicht der <term type="ediromGui" key="view.desktop.TopBar"/>.
                   </head>
                <!--<note type="editorialc">Prepare closeup screenshot of top toolbar.</note>-->
@@ -123,7 +123,7 @@
                      <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/>
                   </head>
                   <figure>
-                     <graphic url="images/go-home.png"/>
+                     <graphic url="help/images/go-home.png"/>
                      <p>Der <term type="ediromGui" key="view.desktop.TopBar_homeBtn"/> öffnet den Startdialog der Anwendung erneut.</p>
                </figure>
                   </div>
@@ -142,7 +142,7 @@
                      <term type="ediromGui" key="view.desktop.TopBar_searchField"/>
                   </head>
                   <figure>
-                     <graphic url="images/searchField.png"/>
+                     <graphic url="help/images/searchField.png"/>
                      <p>Wenn die vergrößernde Lupe geklickt wird, wird das <term type="ediromGui" key="view.desktop.TaskBar_searchWin"/> geöffnet. Sollte eine Anfrage in das <term type="ediromGui" key="view.desktop.TopBar_searchField"/> direkt in der Menüleiste eingegeben werden, kann direkt im Suchfeld gearbeiten werden<!-- TODO insert ediromGui term -->, wohingegen besagter Button die Suche nur öffnet. 
                         Die genaue Funktionen des Suchfensters<!-- TODO insert ediromGui term -->, können in folgendem Kapitel nachgelesen werden (<ptr target="#help_controller.window.Window_searchView"/><!-- TODO app corresp chapter on search -->).</p>
                   </figure>
@@ -158,7 +158,7 @@
                   Der <term type="ediromGui" key="view.navigator.Navigator"/> enthält eine editionsspezifische Liste von Objekten, die in potenziellen Kategorien organisiert sind. 
                   Wenn ein Element in der Liste angeklickt wird, wird das dazugehörige Objekt im Fenster des Workspaces geöffnet.</p>
                <figure>
-                  <graphic url="images/navigator_en.png"/>
+                  <graphic url="help/images/navigator_en.png"/>
                   <head>Ein exemplarischer Navigator. Zu Beachten ist die Leiste am rechten Rand.</head>
                </figure>
                <p>Falls der Navigator viele Objekte beinhaltet, gibt es die Möglichkeit mit dem Scrollbalken am rechten Rand des Fensters durch die Inhalte zu navigieren.
@@ -183,7 +183,7 @@
                   <term type="ediromGui" key="view.desktop.TaskBar"/>
                </head>
                <figure>
-                  <graphic url="images/taskBar_en.png"/>
+                  <graphic url="help/images/taskBar_en.png"/>
                   <head>Detaillierte Ansicht der <term type="ediromGui" key="view.desktop.TaskBar"/>
                   </head>
                </figure>
@@ -193,7 +193,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_Sort_grid"/>
                   </head>
                   <figure>
-                     <graphic url="images/arrangeButtons_grid.png"/>
+                     <graphic url="help/images/arrangeButtons_grid.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird die Anordung aller offenen Fenster in die Abschnitte eines Rastergitters unterstützt.</p>
                </figure>
                   </div>
@@ -202,7 +202,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_Sort_horizontal"/>
                   </head>
                   <figure>
-                     <graphic url="images/arrangeButtons_horizontal.png"/>
+                     <graphic url="help/images/arrangeButtons_horizontal.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird die Anordung aller offenen Fenster in horizontale Reihen unterstützt.</p>
                </figure>
                   </div>
@@ -211,7 +211,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/>
                   </head>
                   <figure>
-                     <graphic url="images/arrangeButtons_vertical.png"/>
+                     <graphic url="help/images/arrangeButtons_vertical.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird die Anordung aller offenen Fenster in vertikale Reihen unterstützt.</p>
                </figure>
                   </div>
@@ -220,7 +220,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>
                   </head>
                   <figure>
-                     <graphic url="images/measureNumbers.png"/>
+                     <graphic url="help/images/measureNumbers.png"/>
                      <p>Wenn der <term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/>-Knopf geklickt wird, wird die Anzeige bzw. das Verstecken von Taktnummern in allen Fenstern unterstützt.</p>
                </figure>
                </div>
@@ -229,7 +229,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_annotations"/>
                   </head>
                   <figure>
-                     <graphic url="images/annotations.png"/>
+                     <graphic url="help/images/annotations.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird die Anzeige bzw. das Verstecken von Annotationssymbolen global in allen Fenstern unterstützt. Für weitere Details, siehe <ptr target="#windows"/>.</p>
                      <p>Allerdings können die Filteroptionen für die Annotationen (siehe <ptr target="#filtering"/>) nur in den jeweiligen <term type="ediromGui" key="view.window.TopBar"/> zu individuellen Fenstern konfiguriert werden.</p>
                </figure>
@@ -239,7 +239,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_Desktop"/>
                   </head>
                   <figure>
-                     <graphic url="images/workspace-switcher.png"/>
+                     <graphic url="help/images/workspace-switcher.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird das Öffnen eines neuen Desktop in <term type="ediromGui" key="global_appName"/> unterstützt. Damit wird ein komplett neues Set von Fenstern geöffnet, ohne den Inhalt des aktuellen Desktops zu verändern.</p>
                  </figure>
                </div> 
@@ -248,7 +248,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/>
                   </head>
                   <figure>
-                     <graphic url="images/concordanceNavigator.png"/>
+                     <graphic url="help/images/concordanceNavigator.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird das <ptr target="#concordanceNavigator"/>-Fenster geöffnet.</p>
                   </figure>
                   </div>
@@ -269,7 +269,7 @@
                      <term type="ediromGui" key="view.desktop.TaskBar_help"/>
                   </head>
                   <figure>
-                     <graphic url="images/help.png"/>
+                     <graphic url="help/images/help.png"/>
                      <p>Wenn dieser Knopf geklickt wird, wird das <term>Hilfe (Edirom User Manual)</term> angezeigt bzw. in den Vordergrund verschoben.</p>
                   </figure>
                   </div>
@@ -284,7 +284,7 @@
             <p>Das <term type="ediromGui" key="view.desktop.TaskBar_search"/> Fenster kann entweder durch das Klicken des <term type="ediromGui" key="view.desktop.TaskBar_search"/>-Knopfs (vergrößernde Lupe) in der <term type="ediromGui" key="view.desktop.TopBar"/> oder durch die Eingabe einer Suchanfrage in das <term type="ediromGui" key="view.desktop.TopBar_searchField"/> geöffnet werden.
                Es wird sodann eine text-basierte Suche auf allen Inhalten der Edition ausgeführt.</p>   
             <figure>
-               <graphic url="images/searchWindow_en.png"/>
+               <graphic url="help/images/searchWindow_en.png"/>
             </figure>
             <p>Nachdem eine Suchanfrage ausgeführt wurde, werden alle Ergebnisse mit entsprechenden Inhalten (Textdokument, Annotation, usw.) gruppiert.
                Einzelne Suchergebnisse werden gegebenenfalls extra hervorgehoben.</p>
@@ -350,7 +350,7 @@
                  from the objects listed here or via the application's <ptr
                      target="#help_controller.window.Window_searchView"/> window.</p>-->
              <figure>
-                <graphic url="images/navigator_en.png"/>
+                <graphic url="help/images/navigator_en.png"/>
                 <head>Beispiel eines Navigators. Zu beachten ist der Rollbalken auf der linken Seite.</head>
              </figure>
            <p>Die Zahl der Objekte, die im <term type="ediromGui" key="view.navigator.Navigator"/> angezeigt werden, können die Größe des Feldes überschreiten. 
@@ -374,8 +374,8 @@
             <!-- TODO: WHAT?! amk 2014-06-18 -->
             <p>mehrere Konkordanzen und editions spez</p>
             <figure>
-               <graphic url="images/concNav_en.png"/>
-               <graphic url="images/concNav2_en.png"/>
+               <graphic url="help/images/concNav_en.png"/>
+               <graphic url="help/images/concNav2_en.png"/>
                <head>
                   <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> mit und ohne den zusätzlichen Drop-Down-Menüs.</head>
             </figure>
@@ -452,15 +452,15 @@
             </p>
             <p xml:id="w10892aab3b1b1c19b5">Am rechten Ende der Titelleiste befinden sich drei Knöpfe:</p>
             <figure>
-               <graphic url="images/windowButtons_minimize.png"/>
+               <graphic url="help/images/windowButtons_minimize.png"/>
                <p>Der Klick auf das <term type="EdiromGui" key="window.minimize"/>-Symbol hat zur Folge, dass das Fenster in die <term type="ediromGui" key="view.desktop.TaskBar"/> gezogen bzw. verkleinert wird.</p>
             </figure>
             <figure>
-               <graphic url="images/windowButtons_maximize.png"/>
+               <graphic url="help/images/windowButtons_maximize.png"/>
                <p>Der Klick auf das <term type="EdiromGui" key="window.maximize"/>-Symbol hat zur Folge, dass das Fenster auf den aktuellen Desktop vergrößert wird.</p>
             </figure>
             <figure>
-               <graphic url="images/windowButtons_close.png"/>
+               <graphic url="help/images/windowButtons_close.png"/>
                <p>Mit dem Klick auf das Symbol wird das Fenster geschlossen.<!-- TODO not implemented : This can also be done via the keyboard shortcut 'Ctrl+W' (in Windows) or 'Cmd+W' (in Mac OS X)--><!-- TODO not implemented -->.</p>
             </figure>
             <p>Fenster können mithilfe von <term type="ediromGui" key="clickAndHoldDragging"/> an jeder Kante oder Ecke in ihrer Größe verändert werden. Damit wird die individuelle Anpassung an die verschiedenen Arbeitsumgebungen garantiert.</p>
@@ -552,27 +552,27 @@
                </list>
                <p>Die <term type="ediromGui" key="view.window.BottomBar"/> enthält folgende Kontroll-Werkzeuge für die Navigation innerhalb des Inhalts der Quellen:</p>
                <figure>
-                  <graphic url="images/pageView.png"/>
+                  <graphic url="help/images/pageView.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>
                      <lb/>wechselt zu einer seitenbasierten Navigation der Quelle.</p>
                </figure>
                <figure>
-                  <graphic url="images/barView.png"/>
+                  <graphic url="help/images/barView.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>
                      <lb/>wechselt zu einer taktbasierten Navigation der Quelle.</p>
                </figure>
                <figure>
-                  <graphic url="images/slider.png"/>
+                  <graphic url="help/images/slider.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_zoomSlider"/>
                      <lb/>erlaubt in bzw. aus der vorliegenden Seite hinaus bzw. heraus zu zoomen.</p>
                </figure>
                <figure>
-                  <graphic url="images/zoom-fit.png"/>
+                  <graphic url="help/images/zoom-fit.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_fitView"/>
                   <lb/>passt die aktuelle Quelle an das Fenster an.</p>
                </figure>
                <figure>
-                  <graphic url="images/prev-box-next.png"/>
+                  <graphic url="help/images/prev-box-next.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_measureSpinner"/> bzw. <term type="ediromGui" key="view.window.source.SourceView_PageBasedView_pageSpinner"/>
                      <lb/>Die Nummer, die im Nummernfeld angezeigt wird zeigt entweder die derzeitige Nummer (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) oder Taktnummer (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>) an.
                         Das Wechseln auf eine andere Seite oder einen anderen Takt ist entweder durch das Klicken auf die Pfeilköpfe (vor- bzw. rückwärtsblättern) oder durch die Eingabe einer Zahl in das Nummernfeld (mögliche Nummern werden als Drop-Down-Menü angezeigt) möglich.
@@ -580,17 +580,17 @@
                </figure>
                <p>Einige zusätzliche Kontroll-Werkezeuge erscheinen in der <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>:</p>
                <figure>
-                  <graphic url="images/SourceView_measureBasedCombo.png"/>
+                  <graphic url="help/images/SourceView_measureBasedCombo.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>
                      <lb/>Es kann der Satz ausgewählt werden, dessen Takte angezeit werden sollen.</p>
                </figure>
                <figure>
-                  <graphic url="images/selectVoices.png"/>
+                  <graphic url="help/images/selectVoices.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_selectVoices"/>
                      <lb/>Es können die Bestandteile ausgewählt werden, die angezeit werden sollen. Dieses Kontroll-Werkzeug ist nur verfügbar, wenn verschiedene Bestandteile gekennzeichnet sind.</p>
                </figure>
                <figure>
-                  <graphic url="images/SourceView_measureBasedRange.png"/>
+                  <graphic url="help/images/SourceView_measureBasedRange.png"/>
                   <p><term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>
                      <lb/>In dieses Eingabefeld kann die Zahl der Takte eingegeben werden, die angezeigt werden sollen.</p>
                </figure>
@@ -737,27 +737,27 @@
                </list>
                 <p>Des Weiteren wurden die folgenden Kontroll-Werkzeuge zu der <term type="ediromGui" key="view.window.BottomBar"/> hinzugefügt.</p>
                 <figure>
-                   <graphic url="images/view-list-details-symbolic.png"/>
+                   <graphic url="help/images/view-list-details-symbolic.png"/>
                    <p><term type="ediromGui" key="view.window.AnnotationView_ListView"/>
                       <lb/>Resultiert in der Ansicht der generellen Liste der Annotationen.</p>
                </figure>
                <figure>
-                  <graphic url="images/go-previous.png"/>
+                  <graphic url="help/images/go-previous.png"/>
                   <p><term type="ediromGui" key="view.window.AnnotationView_PreviousAnnotation"/>
                      <lb/>Resultiert in der vorhergehenden Annotation in Berücksichtung der Filter und Sortierungsoptionen, die in der <term type="view.window.AnnotationView_ListView"/> spezifiziert wurden.</p>
                </figure>
                 <figure>
-                   <graphic url="images/go-next.png"/>
+                   <graphic url="help/images/go-next.png"/>
                    <p><term type="ediromGui" key="view.window.AnnotationView_NextAnnotation"/>
                       <lb/>Resultiert in der nachfolgenden Annotation in Berücksichtung der Filter und Sortierungsoptionen, die in der <term type="view.window.AnnotationView_ListView"/> spezifiziert wurden.</p>
                </figure>
                <figure>
-                  <graphic url="images/openAllWindows.png"/>
+                  <graphic url="help/images/openAllWindows.png"/>
                   <p><term type="ediromGui" key="view.window.AnnotationView_OpenAll"/>
                      <lb/>Öffnet die detaillierte Ansicht aller Quellen, die in Zusammenhang mit der aktuell ausgewählte Annotation stehen.</p>
                </figure>
                <figure>
-                  <graphic url="images/closeAllWindows.png"/>
+                  <graphic url="help/images/closeAllWindows.png"/>
                   <p><term type="ediromGui" key="view.window.AnnotationView_CloseAll"/>
                      <lb/>Nur verfügbar, wenn die <term type="ediromGui" key="view.window.AnnotationView_OpenAll"/> vorhergehend ausgeführt wurde, schließt alle zugehörigen Fenster.</p>
                </figure>
@@ -806,7 +806,7 @@
             Der spezifische Gebrauch dieser Optionen hängt von den vorbereiteten Editionsrichtlinen ab (z.B. die Kategorien, die tatsächlich verwendet wurden). 
             Deshalb sollte die folgende Beschreibung nicht als komplette Dokumentation gesehen werden, sondern eher als eine Einführung in die grundsätlichen Konzepte dieser Überlegung.</p>
          <figure>
-            <graphic url="images/annotationOverview.png"/>
+            <graphic url="help/images/annotationOverview.png"/>
             <head>Ein exemplarischer Screenshot eines Annotationssymbols, das den Tooltip einer einzelnen Annotation zeigt.</head>
          </figure>
          <div type="div2">
@@ -814,15 +814,15 @@
             <p>Eine <term type="ediromGui" key="view.window.AnnotationView_Priority"/> gibt einen Hinweis auf die Wichtigkeit der Annotation.
                Die Visualisierung der <term type="ediromGui" key="view.window.AnnotationView_Priority"/> im <ptr target="#help_controller.window.Window_sourceView"/> wird durch eine Farbcodierung der Symbole erreicht:</p>
             <figure>
-               <graphic url="images/annotGeneric1.png"/>
+               <graphic url="help/images/annotGeneric1.png"/>
                <p><hi rend="italic">Priorität 1</hi> Annotationen beziehen sich auf die editionsspezifischen Schlüsselprobleme, die im Interesse aller Leser der Edition sind und sind mit der Farbe rot markiert.</p>
             </figure>
             <figure>
-               <graphic url="images/annotGeneric2.png"/>
+               <graphic url="help/images/annotGeneric2.png"/>
                <p><hi rend="italic">Priorität 2</hi> Annotationen beziehen sich auf wichtige Aspekte der Edition, die aber nicht von größter Bedeutung für die Edition als sich sind. Diese Annotationen sind rot/gelb markiert.</p>
             </figure>
             <figure>
-               <graphic url="images/annotGeneric3.png"/>
+               <graphic url="help/images/annotGeneric3.png"/>
                <p><hi rend="italic">Priorität 3</hi> Annotationen enthalten Beobachtungen des Editor, die normalerweise nur für die Dokumentquellen interessant sind und nicht weiter erwähnenswert in editorischer Perspektive. Diese Annotationen sind mit gelb markiert.</p>
             </figure>
          </div>
@@ -842,18 +842,18 @@
                <row>
                   <cell>Partitur</cell>
                   <cell>
-                     <graphic url="images/annotNotation1.png"/>
-                        <graphic url="images/annotNotation2.png"/>
-                     <graphic url="images/annotNotation3.png"/>
+                     <graphic url="help/images/annotNotation1.png"/>
+                        <graphic url="help/images/annotNotation2.png"/>
+                     <graphic url="help/images/annotNotation3.png"/>
                   </cell>
                </row>
                <row>
                   <cell>Expressive Kennzeichnung</cell>
                   <cell>
                      <figure>
-                        <graphic url="images/annotExpr1.png"/>
-                     <graphic url="images/annotExpr2.png"/>
-                           <graphic url="images/annotExpr3.png"/>
+                        <graphic url="help/images/annotExpr1.png"/>
+                     <graphic url="help/images/annotExpr2.png"/>
+                           <graphic url="help/images/annotExpr3.png"/>
                         </figure>
                   </cell>
                </row>
@@ -861,9 +861,9 @@
                   <cell>Choral Text</cell>
                   <cell>
                      <figure>
-                        <graphic url="images/annotText1.png"/>
-                     <graphic url="images/annotText2.png"/>
-                           <graphic url="images/annotText3.png"/>
+                        <graphic url="help/images/annotText1.png"/>
+                     <graphic url="help/images/annotText2.png"/>
+                           <graphic url="help/images/annotText3.png"/>
                         </figure>
                   </cell>
                </row>
@@ -871,9 +871,9 @@
                   <cell>Kombination verschiedener Kategorien</cell>
                   <cell>
                      <figure>
-                        <graphic url="images/annotGeneric1.png"/>
-                     <graphic url="images/annotGeneric2.png"/>
-                           <graphic url="images/annotGeneric3.png"/>
+                        <graphic url="help/images/annotGeneric1.png"/>
+                     <graphic url="help/images/annotGeneric2.png"/>
+                           <graphic url="help/images/annotGeneric3.png"/>
                         </figure>
                   </cell>
                </row>
