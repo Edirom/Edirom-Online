@@ -34,7 +34,7 @@ declare option output:media-type "application/json";
 declare function local:findAnnotations($uri as xs:string, $edition as xs:string) as element(mei:annot)* {
     
     (: TODO: check if annotations hold URIs or IDRefs :)
-    collection(eutil:getPreference('edition_path', $edition))//mei:annot[matches(@plist, $uri)]
+    edition:collection($edition)//mei:annot[matches(@plist, $uri)]
 };
 
 declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*)* {
