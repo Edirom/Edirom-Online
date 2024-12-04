@@ -209,94 +209,68 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     setMovements: function(movements) {
         var me = this;
+        var gotomenu_display = getPreference('gotomenu_display');
 
         me.movements = movements;
         me.measureBasedView.setMovements(movements);
 
-        /* copy from OPERA
-         * TODO: cleanup and make partwise global option; probably implement possibility to order parts */
-        var partwise = true;
-        
         var movementItems = [];
         var partList = [];
         var partNames =[];
         
-        movements.data.each(function(movement){
-        
-            if (movement.data.parts === null){
+        movements.data.each(function(movement) {
+            if(movement.data.parts === null) {
                 movementItems.push({
                     text: movement.get('name'),
                     handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
                 });
-            }
-            else
-            {
-                if (partwise)
-                {
-                    movement.data.parts.forEach(function(part){
+            } else {
+                if(gotomenu_display == 'partwise') {
+                    movement.data.parts.forEach(function(part) {
                         var exists = partNames.indexOf(part.name);
                         var obj = {
-                                 text: part.name,
-                                 menu: []
-                             };
+                            text: part.name,
+                            menu: []
+                        };
                         if (exists === -1) {
                             partNames.push(part.name);
                             partList.push(obj);
                             exists = partNames.length - 1;
-                        } /*else {*/
-                             var menu_mov = {
-                                         text: movement.get('name'),
-                                         handler: Ext.bind(me.gotoMovement, me, part.id, true)
-                                     }
+                        }
+                        var menu_mov = {
+                            text: movement.get('name'),
+                            handler: Ext.bind(me.gotoMovement, me, part.id, true)
+                        }
 
-                             partList[exists].menu.push(menu_mov);
-                        /*}*/
+                        partList[exists].menu.push(menu_mov);
                     });
-                }
-                else
-                {
+                } else {
                     var parts = [];
-        
                     movement.data.parts.forEach(function(part){
                         parts.push(part);
                     });
-                    
-                    if (movement.data.parts === null)
-                    {
-                        movementItems.push({
-                            text: movement.get('name'),
-                            handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
-                        });
-                        partList.forEach(function(item){
-                            movementItems.push(item);
-                        });
-                    }
-                    else 
-                    {
         
-                        var partItems = [];
-                        parts.forEach(function(part){
-                            partItems.push({
-                                text: part.name,
-                                handler: Ext.bind(me.gotoMovement, me, part.id, true)
-                            });
+                    var partItems = [];
+                    parts.forEach(function(part){
+                        partItems.push({
+                            text: part.name,
+                            handler: Ext.bind(me.gotoMovement, me, part.id, true)
                         });
-                        movementItems.push({
-                            text: movement.get('name'),
-                            menu: [ partItems ]
-                        });
-                    }
+                    });
+                    
+                    movementItems.push({
+                        text: movement.get('name'),
+                        menu: partItems
+                    });
                 }
             }
-
         });
-        
-        if(partwise) {
-            partList.forEach(function(item){
+
+        if(gotomenu_display == 'partwise') {
+            partList.forEach(function(item) {
                 movementItems.push(item);
             });
         }
-        /* end OPERA stuff */
 
         me.gotoMenu.menu.add({
             id: me.id + '_gotoMovement',
