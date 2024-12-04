@@ -57,6 +57,13 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
             action: 'openSearchWindow'
         });
 
+        me.aboutButton = Ext.create('Ext.button.Button', {
+            id: 'aboutBtn',
+            cls: 'taskLinkButton about',
+            text: getLangString('view.desktop.TaskBar_about'),
+            action: 'openAboutWindow'
+        });
+
         me.searchTextField = Ext.create('Ext.form.TextField', {
             width: 180,
             id: 'searchTextFieldTop'
@@ -82,7 +89,8 @@ Ext.define('EdiromOnline.view.desktop.TopBar', {
                     	me.workCombo,
                         '->',
                         me.searchTextField,
-                        me.searchButton
+                        me.searchButton,
+                        me.aboutButton
                 ]
             })
         ];

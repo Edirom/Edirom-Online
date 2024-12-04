@@ -64,6 +64,7 @@
         <entry key="view.desktop.TaskBar_home" value="Startseite"/>
         <entry key="view.desktop.TaskBar_work" value="Werk wählen"/>
         <entry key="view.desktop.TaskBar_search" value="Suche"/>
+        <entry key="view.desktop.TaskBar_about" value="About"/>
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
         <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
@@ -99,6 +100,8 @@
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Show" value="Anzeigen"/>
         
         <entry key="view.window.search.SearchWindow_Title" value="Suche"/>
+        <entry key="view.window.about.AboutWindow_Title" value="About Edirom Online"/>
+        <entry key="view.window.about.AboutWindow_License" value="Lizenz"/>
         <entry key="view.window.source.SourceView_categoriesMenu" value="Kategorien…"/>
         <entry key="view.window.source.SourceView_prioMenu" value="Prioritäten…"/>
         <entry key="view.window.source.SourceView_gotoMovement" value="Gehe zu Satz/Nummer…"/>
@@ -122,6 +125,7 @@
         <entry key="view.window.source.SourceView_MeasureBasedView_previousMeasure" value="Vorheriger Takt"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_measureSpinner" value="Taktauswahl" />
         <entry key="view.window.source.SourceView_MeasureBasedView_nextMeasure" value="Nächster Takt"/>
+        <entry key="view.window.source.SourceView_MeasureBasedView_movementSelectorBox" value="Auswahl von Satz/Nummer"/>
         <entry key="view.window.source.SourceView_MeasureBasedView_selectVoices" value="Stimmenauswahl"/>
         <entry key="view.window.text.TextView_annotMenu" value="Anmerkungen"/>
         <entry key="view.window.text.TextView_showAnnotations" value="Anmerkungen ein-/ausblenden"/>

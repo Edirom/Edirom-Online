@@ -1,15 +1,28 @@
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
-
 <div align="center">
+
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml) 
+[![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases) 
+[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133) 
+[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/9746/badge)](https://www.bestpractices.dev/projects/9746)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8B%20%20%E2%97%8B%20%20%E2%97%8B-orange)](https://fair-software.eu)
+[![DOI](https://zenodo.org/badge/5966814.svg)](https://zenodo.org/badge/latestdoi/5966814)
+
+</div>
+
+
+<div align="center"> 
  
-**[Showcases](https://github.com/Edirom/Edirom-Online#-Showcases) •
-[Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
-[Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online#-Contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online#-Get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online#-Code-of-Conduct) • 
-[License](https://github.com/Edirom/Edirom-Online#-License)**
+**[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
+[Get started](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#code-of-conduct) • 
+[Citation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#citation)
+[License](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#license)**
 
 </div>
 
@@ -24,7 +37,7 @@ To get some practical insights, look at these projects and editions that already
 
 **Clarinet quintet op.34 by Weber**
 
-The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with , annotations and texts.
+The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
   * publication of [Webers clarinet quintet]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
@@ -97,9 +110,25 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
 * in **eXist-db Package Manager** click on the "Edirom Online" entry - you will be directed to the running Edirom at `http://localhost:8080/exist/apps/Edirom-Online/index.html`
 
+## Documentation
+
+Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
+* [Customize] Edirom Online and content
+* Edirom Online – [Release Workflow]
+* [Setup Edirom Online] on a local machine
+
 ## Dependencies
 
 Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
+
+For running the tests provided in the [ANT build file] we rely on `xmllint` 
+and `SaxonHE`. 
+On a Debian based Linux system these can be installed with `apt-get install 
+libsaxonhe-java libxml2-utils`. 
+If SaxonHE is not available from your classpath by default you might need to 
+explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib 
+/usr/share/java/ run-all-tests`. 
+
 
 ## Roadmap
 
@@ -124,6 +153,11 @@ Even if you are not ready (yet) to contribute to this wonderful project, maybe i
 
 Please note that this project is released with a [Contributor Code of Conduct]. By participating in this project you agree to abide by its terms.
 
+## Citation
+
+Please cite the software/repository using the information provided under "Cite this repository" on the right hand side. The APA and BIBTeX citations are fed by information from the CITATION.cff file in this repository which you can also use as a source.
+If you intend to cite unreleased branches or commits please use the commit hash in the citation. 
+
 ## License
 
 Edirom Online is released to the public under the terms of the [GNU GPL v.3] open source license.
@@ -143,6 +177,10 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Bargheer: Edition]: https://github.com/Edirom/Bargheer-Edition
 [eXist-db]: https://exist-db.org/
 [Verovio]: https://www.verovio.org/index.xhtml
+[docs]: /docs
+[Customize]: docs/customize.md
+[Release Workflow]: docs/release-workflow.md
+[Setup Edirom Online]: docs/setup.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
@@ -162,7 +200,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
-
+[ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
 
 <!--
 # EdiromOnline/app

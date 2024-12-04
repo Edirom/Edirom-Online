@@ -6,7 +6,7 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
@@ -486,36 +486,13 @@ declare function local:getTextSummary($doc, $facsBasePath) {
 declare function local:getImagePath($server, $edition) {
     (:let $server :=  eutil:getPreference('image_server', request:get-parameter('edition', '')) :)
     
-    let $i_path := if ($server = 'leaflet') then
-        (eutil:getPreference('leaflet_prefix', $edition))
-    else
-        (eutil:getPreference('image_prefix', $edition))
+    let $i_path := eutil:getPreference('image_prefix', $edition)
     
     return
         $i_path
 
 };
 
-declare function local:getImagePathLeaflet($doc) {
-    if ($doc//mei:source//mei:titlePage/@facs) then
-        (
-        let $tile_path := $doc//mei:source//mei:titlePage[1]/@facs
-        return
-            $tile_path
-        )
-    else
-        if ($doc//mei:facsimile/mei:surface/mei:graphic) then
-            (
-            let $tile_path := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target
-            let $width := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@width
-            let $height := $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@height
-            return
-                concat($tile_path, '§', $width, '§', $height)
-            
-            )
-        else
-            ()
-};
 
 declare function local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri) {
     let $test := <div>
@@ -542,22 +519,14 @@ let $edition := request:get-parameter('edition', '')
 let $server := eutil:getPreference('image_server', $edition)
 let $imagePrefix := local:getImagePath($server, $edition)
 (:eutil:getPreference('image_prefix', request:get-parameter('edition', '')):)
-let $imagePath := local:getImagePathLeaflet($doc)
 (:$doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target:)
-(:local:getImagePathLeaflet($imagePrefix, $doc//mei:facsimile/mei:surface[1]/mei:graphic[1]/@target):)
 
 return
     if ($type = 'work') then (
-        if ($server = 'leaflet') then
-            (local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri))
-        else
-            (local:getWorkSummary($doc, $docUri))
+        local:getWorkSummary($doc, $docUri)
         
     ) else if ($type = 'source') then (
-            if ($server = 'leaflet') then
-                (local:getOutput($doc, $imagePrefix, $server, $imagePath, $type, $docUri))
-            else
-                (local:getSourceSummary($doc, $imagePrefix, $server))
+            local:getSourceSummary($doc, $imagePrefix, $server)
     ) else if ($type = 'text') then
         (local:getTextSummary($doc, $imagePrefix))
     else
