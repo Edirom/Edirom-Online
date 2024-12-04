@@ -313,7 +313,7 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
     
     if (request:get-parameter("lang", "") != "") then
         request:get-parameter("lang", "")
-    else if(eutil:getPreference('application_language', edition:findEdition($edition)) != '') then
+    else if(eutil:getPreference('application_language', edition:findEdition($edition))) then
         eutil:getPreference('application_language', edition:findEdition($edition))
     else    
         'de'
