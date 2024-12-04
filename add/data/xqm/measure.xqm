@@ -254,12 +254,12 @@ declare function measure:analyzeLabels($measure as node()) as xs:string* {
  : @return The measures coverd by the multi-measure rest
  :)
 declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) as node()* {
-    let $measureNNumber := number($measureN)
+    let $measureNNumber := $measureN/number()
     return
-        if ($mdiv//mei:measure/@label) then (
-            $mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(substring-before(@label, '–')))]
+        if ($mdiv//mei:measure[.//mei:multiRest][@label]) then (
+            $mdiv//mei:measure[.//mei:multiRest][substring-before(@label, '–')/number() <= $measureNNumber][.//mei:multiRest/@num/number() gt ($measureNNumber - substring-before(@label, '–')/number())]
         ) else (
-            $mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))]
+            $mdiv//mei:measure[.//mei:multiRest][@n/number() lt $measureNNumber][.//mei:multiRest/@num/number() gt ($measureNNumber - @n/number())]
         )
 };
 
