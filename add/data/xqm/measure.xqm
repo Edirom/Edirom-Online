@@ -91,7 +91,7 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
  : @param $measure The measure to be processed
  : @return the string value of the `@label` or the `@n` attribute if present, the empty sequence otherwise.
  :)
-declare function measure:getMeasureLabelAttr($measure as node()) as xs:string {
+declare function measure:getMeasureLabelAttr($measure as element(mei:measure)) as xs:string? {
 
     if(exists($measure[@label])) then (
         $measure/@label => data()
