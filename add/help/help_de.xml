@@ -4,47 +4,35 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title><term type="ediromGui" key="global_appName"/> Help</title>
-            <author xml:id="bwb">
-               <persName>Benjamin W. Bohl</persName>
-               <affiliation>DFG-Projekt "Digitale Musikedition" (Edirom)
-                  <address>
-                     <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
-                     <addrLine>Gartenstraße 20</addrLine>
-                     <addrLine>D-32756 Detmold</addrLine>
-                  </address>
-               </affiliation>
-            </author>
-         <author xml:id="dr">
-               <persName>Daniel Röwenstrunk</persName>
-               <affiliation>Freischütz Digital
-                  <address>
-                            <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
-                     <addrLine>Gartenstraße 20</addrLine>
-                     <addrLine>D-32756 Detmold</addrLine>
-                  </address>
-               </affiliation>
-            </author>
+                <title><term type="ediromGui" key="global_appName"/> Hilfe</title>
+               <respStmt>
+                  <resp>Author</resp>
+                  <persName xml:id="bwb" ref="https://orcid.org/0000-0001-7217-9167">Benjamin W. Bohl</persName>
+                  <persName xml:id="dr" ref="https://orcid.org/0000-0001-6271-2095">Daniel Röwenstrunk</persName>
+                  <persName xml:id="kh" ref="https://orcid.org/0000-0003-2915-353X">Kristin Herold</persName>
+               </respStmt>
+               <respStmt>
+                  <resp>Translation</resp>
+                  <persName xml:id="amn" ref="https://orcid.org/0000-0002-7528-1842">Anna Maria Neubert</persName>
+               </respStmt>
          </titleStmt>
          <publicationStmt>
-            <publisher>Virtueller Forschungsverbund Edirom</publisher>
-                <date when="2013-08-01"/>
-         <availability>
-            <licence/>
-         </availability>
+            <publisher ref="www.edirom.de">Virtueller Forschungsverbund Edirom</publisher>
+            <availability>
+               <licence target="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</licence>
+            </availability>
          </publicationStmt>
          <sourceDesc>
-         <p>Written in Open Office by Edirom Project http://www.edirom.de. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/></p>
+            <p>Written in Open Office by Edirom Project (DFG) https://edirom.de/edirom-projekt/. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/></p>
          </sourceDesc>
       </fileDesc>
       <revisionDesc>
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
-         <change when="2014-06-16" who="#amk">* replaced existing german help with currently better english version;</change>
-         <change when="2014-06-16" who="#amk">* translated en to de;</change>
-         <change when="2014-06-17" who="#amk">* translated en to de;</change>
-         <change when="2014-06-18" who="#amk">* translated en to de;</change>
+         <change when="2014-06-16" who="#amn">replaced existing german help with currently better english version;</change>
+         <change from="2014-06-16" to="2014-06-18" who="#amn">translated en to de;</change>
+         <change when="2024-12-05" who="#kh">update metadata (add orcid, delete old addresses etc.)</change>
       </revisionDesc>
    </teiHeader>
    <text>
