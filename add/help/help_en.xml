@@ -5,55 +5,49 @@
       <fileDesc>
          <titleStmt>
             <title><term type="ediromGui" key="global_appName"/> Help</title>
-            <author xml:id="bwb">
-               <persName>Benjamin W. Bohl</persName>
-               <affiliation>DFG-Projekt "Digitale Musikedition" (Edirom)
-                  <address>
-                     <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
-                     <addrLine>Gartenstraße 20</addrLine>
-                     <addrLine>D-32756 Detmold</addrLine>
-                  </address>
-               </affiliation>
-            </author>
-            <author xml:id="dr">
-               <persName>Daniel Röwenstrunk</persName>
-               <affiliation>Freischütz Digital
-                  <address>
-                            <addrLine>Musikwissenschaftliches Seminar Detmold/Paderborn</addrLine>
-                     <addrLine>Gartenstraße 20</addrLine>
-                     <addrLine>D-32756 Detmold</addrLine>
-                  </address>
-               </affiliation>
-            </author>
+            <respStmt>
+               <resp>Author</resp>
+               <persName xml:id="bwb" ref="https://orcid.org/0000-0001-7217-9167">Benjamin W. Bohl</persName>
+               <persName xml:id="dr" ref="https://orcid.org/0000-0001-6271-2095">Daniel Röwenstrunk</persName>
+               <persName xml:id="kh" ref="https://orcid.org/0000-0003-2915-353X">Kristin Herold</persName>
+            </respStmt>         
          </titleStmt>
          <publicationStmt>
-            <publisher>Virtueller Forschungsverbund Edirom</publisher>
-            <date when="2013-08-01"/>
+            <publisher ref="www.edirom.des">Virtueller Forschungsverbund Edirom</publisher>
             <availability>
-               <licence/>
+               <licence target="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</licence>
             </availability>
          </publicationStmt>
          <sourceDesc>
-            <p>Written in Open Office by Edirom Project http://www.edirom.de. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/></p>
+            <p>Written in Open Office by Edirom Project (DFG) https://edirom.de/edirom-projekt/. Converted to TEI P5 using oxgarage, see <ptr target="#change_1"/></p>
          </sourceDesc>
       </fileDesc>
       <revisionDesc>
          <!-- TODO: remove trailing whitespaces -->
          <!-- TODO: concept for GUI description and further information -->
          <!-- TODO: how to deal with tei:hi elements? -->
+         <change when="2024-12-05" who="#kh">update metadata (add orcid, delete old addresses etc.)</change>
          <change when="2013-08-08" who="#bwb">* added description of searchWindow; deactivated link to missing preferences section;</change>
-         <change when="2013-08-07T15:23:00" who="#bwb">* corrected long lang_vars in pull request;</change>
-         <change when="2013-08-01T15:53:00" who="#bwb">* removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</change>
-         <change when="2013-08-01" who="#bwb">* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</change>
+         <change when="2013-08-07" who="#bwb">* corrected long lang_vars in pull request;</change>
+         <change when="2013-08-01" who="#bwb">
+            <list>
+               <item>removed tei:q around some terms as terms now with css class .term; added TODO comments searchView and preferences;</item>
+               <item>* removed generated IDs from conversion to TEI P5; * where applicable, inserted tei:head in tei:figure; * overhauled priority images to match new figure-structure; * prettified XML indentation; wrapped annotation categories table with figure; * added description of Annotation View's TaskBar Buttons; added TaskBar screenshot; * corrected figure head of Tool Bar;* changed ID from toolbar_bottom to help_view.desktop.TaskBar; * added description of annotationOverview.png; * added TODO comments; * matched EdiromHelp SVN and GitHub; * added workspace-switcher.png;</item>
+            </list>
+         </change>
          <change when="2013-07-30" who="#bwb">*overhauled structure of button entries; * corrected some typos; * added missing button descriptions in annotation-view;</change>
          <change when="2013-07-22" who="#bwb">* deleted comment with manually edited TOC; * provided description of annotation-view; * deleted description of annotations window; * reworked chapter on annotations; * made all ediromGui terms empty elements; * removed some generated xml:id attributes;</change>
          <change when="2013-07-11" who="#bwb" xml:id="change_6">reworked preferences description; made preferences description a comment due to implementation status</change>
          <change when="2013-07-03" who="#bwb">updated occurrences of "Edirom Online" to <term type="ediromGui" key="global_appName"/></change>
          <change from="2013-04-02" to="2013-04-03" who="#bwb" xml:id="change_4">reworked text from "toolbar" onwards; created separate chapters for <ptr target="#toolbar_top"/> and <ptr target="#help_view.desktop.TaskBar"/>; added description for the buttons in help_view.desktop.TaskBar; reworked chapter on windows; inserted passages on views;</change>
-         <change when="2013-03-25" who="#bwb">Moved tei:head/@xml:id to parent tei:div using headId2parentDivId.xquery; removed leading line breaks in tei:head elements; rephrased "installation" and inserted tei:note[@type='editorial'] on insertion of installation information; changed old corresponding parts on installation into xml comments; wrapped 'Installation' and 'Application Startup' with 'Preparation' div; removed 'id_' from all @xml:id; rephrased 'Application Startup'; comletely reworkeg 'GUI' chapter; inserted TODO comments;</change>
-         <change when="2013-03-25" who="#bwb">Updated Ids and Anchors using scripts/anchorId2parentId.xquery; deleted empty lines; deleted back-to-top links; changed tei:graphic/@src to point to original pix of Edirom Viewer Help;created first help_en.pdf using standard oXygen tranformation scenario for TEI P5 to PDF;</change>
-         <change when="2013-03-25" who="#bwb">Updated document name to "Edirom Online Help"; inserted me as author with xml:id for change references; changed pubStmt to unpublished; removed leading '../../0119a239-cd85-4b1a-9a15-abf5ffea2131/' from every tei:graphic/@url; introduce4d tei:body/tei:head;</change>
-         <change when="2013-03-25" who="#bwb" xml:id="change_1">Converted from HTML version to TEI P5 using oxgarage web sercice</change>
+         <change when="2013-03-25" who="#bwb">
+            <list>
+               <item>Moved tei:head/@xml:id to parent tei:div using headId2parentDivId.xquery; removed leading line breaks in tei:head elements; rephrased "installation" and inserted tei:note[@type='editorial'] on insertion of installation information; changed old corresponding parts on installation into xml comments; wrapped 'Installation' and 'Application Startup' with 'Preparation' div; removed 'id_' from all @xml:id; rephrased 'Application Startup'; comletely reworkeg 'GUI' chapter; inserted TODO comments;</item>
+               <item>Updated Ids and Anchors using scripts/anchorId2parentId.xquery; deleted empty lines; deleted back-to-top links; changed tei:graphic/@src to point to original pix of Edirom Viewer Help;created first help_en.pdf using standard oXygen tranformation scenario for TEI P5 to PDF;</item>
+               <item>Updated document name to "Edirom Online Help"; inserted me as author with xml:id for change references; changed pubStmt to unpublished; removed leading '../../0119a239-cd85-4b1a-9a15-abf5ffea2131/' from every tei:graphic/@url; introduce4d tei:body/tei:head;</item>
+               <item xml:id="change_1">Converted from HTML version to TEI P5 using oxgarage web sercice</item>
+            </list>
+         </change>
       </revisionDesc>
    </teiHeader>
    <text>
