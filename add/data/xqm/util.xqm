@@ -285,7 +285,7 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
  : @param $edition The current edition URI
  : @return The preference value
  :)
-declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string {
+declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string? {
 
     (: Try to load a custom preferences file :)
     let $prefFileCustom := 
