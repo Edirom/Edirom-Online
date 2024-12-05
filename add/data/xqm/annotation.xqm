@@ -14,8 +14,8 @@ module namespace annotation = "http://www.edirom.de/xquery/annotation";
 
 (: IMPORTS ================================================================= :)
 
-import module namespace edition="http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace eutil="http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace edition="http://www.edirom.de/xquery/edition" at "edition.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/eutil" at "eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
@@ -157,11 +157,7 @@ declare function annotation:getContent($anno as element(), $idPrefix as xs:strin
     
     let $edition := request:get-parameter('edition', '')
     let $imageserver :=  eutil:getPreference('image_server', $edition)
-    let $imageBasePath :=
-        if($imageserver = 'leaflet') then
-            (eutil:getPreference('leaflet_prefix', $edition))
-        else
-            (eutil:getPreference('image_prefix', $edition))
+    let $imageBasePath := eutil:getPreference('image_prefix', $edition)
     
     let $language := eutil:getLanguage($edition)
     

@@ -10,11 +10,13 @@ import module namespace functx = "http://www.functx.com";
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:media-type "text/plain";
+declare option output:method "text";
 
 (: QUERY BODY ============================================================== :)
 
@@ -47,9 +49,9 @@ let $internal :=
             let $measureN := functx:substring-after-last($internalId, '_')
             return (
                 if ($doc/id($mdivId)//mei:measure/@label) then
-                    $doc/id($mdivId)//mei:measure[@label eq $measureN][1]
+                    $doc/id($mdivId)//mei:measure[@label][1]
                 else
-                    $doc/id($mdivId)//mei:measure[@n eq $measureN][1]
+                    $doc/id($mdivId)//mei:measure[@n][1]
             )
         ) else
             ($internal)

@@ -172,7 +172,7 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
         });
 
         if(help == null) {
-            help = Ext.create('EdiromOnline.view.window.HelpWindow', me.getSizeAndPosition(500, 400));
+            help = Ext.create('EdiromOnline.view.window.HelpWindow', me.getSizeAndPosition(750, 600));
             me.addWindow(help);
             help.show();
 
@@ -198,13 +198,34 @@ Ext.define('EdiromOnline.view.desktop.Desktop', {
             me.addWindow(win);
             win.show();
 
+        }else {
+            win.show();
+        }
+            
+        win.doSearch(term);
+    },
+
+    openAboutWindow: function() {
+
+        var me = this;
+        var win = null;
+
+        me.getActiveWindowsSet().each(function(window) {
+            if(Ext.getClassName(window) == 'EdiromOnline.view.window.about.AboutWindow')
+                win = window;
+        });
+
+        if(win == null) {
+            win = Ext.create('EdiromOnline.view.window.about.AboutWindow', me.getSizeAndPosition(700, 600));
+            me.addWindow(win);
+            win.show();
+
         }else if(win != me.getActiveWindow())
             win.show();
 
         else
             win.hide();
-            
-        //win.doSearch(term);
+    
     },
 
     getSizeAndPosition: function(maxWidth, maxHeight) {

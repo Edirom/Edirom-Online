@@ -16,11 +16,13 @@ import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/wor
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
@@ -28,12 +30,8 @@ let $uri := request:get-parameter('editionId', '')
 let $workUris := edition:getWorkUris($uri)
 
 return
-(: JSON serialization of map instad of text serialization with concat :)
-    concat(
-        '[',
-        string-join(
-            for $workUri in $workUris
-            return
-                work:toJSON($workUri, $uri)
-        , ','),
-    ']')
+    array {
+        for $workUri in $workUris
+        return
+            work:details($workUri, $uri)
+    }

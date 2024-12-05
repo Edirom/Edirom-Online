@@ -32,6 +32,7 @@ Ext.define('EdiromOnline.Application', {
         'desktop.TaskBar',
         'desktop.TopBar',
         'navigator.Navigator',
+        'window.about.AboutWindow',
         'window.AnnotationView',
         'window.HeaderView',
         'window.HelpWindow',
@@ -182,7 +183,9 @@ Ext.define('EdiromOnline.Application', {
     
     openStartDocuments: function() {
         var me = this;
-        var uris = me.getController('PreferenceController').getPreference('start_documents_uri');
-        window.loadLink(uris);
+        var uris = me.getController('PreferenceController').getPreference('start_documents_uri', true);
+        if(uris){
+            window.loadLink(uris);
+        }
     }
 });

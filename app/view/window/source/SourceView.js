@@ -146,62 +146,91 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
     setAnnotationFilter: function(priorities, categories) {
         var me = this;
 
-        var prioritiesItems = [];
-        priorities.each(function(priority) {
-            prioritiesItems.push({
-                text: priority.get('name'),
-                priorityId: priority.get('id'),
-                checked: true,
-                handler: Ext.bind(me.annotationFilterChanged, me)
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
+            console.log('View: SourceView: setAnnotationFilter');
+            console.log('priorities');
+            console.log(priorities);
+            console.log('categories');
+            console.log(categories);
+
+        }
+
+        if(priorities.data.length > 0) {
+            var prioritiesItems = [];
+            priorities.each(function(priority) {
+                prioritiesItems.push({
+                    text: priority.get('name'),
+                    priorityId: priority.get('id'),
+                    checked: true,
+                    handler: Ext.bind(me.annotationFilterChanged, me)
+                });
             });
-        });
 
-        me.annotPrioritiesMenu = Ext.create('Ext.menu.Menu', {
-             items: prioritiesItems
-        });
-
-        me.annotMenu.menu.add({
-            id: me.id + '_annotCategoryFilter',
-            text: getLangString('view.window.source.SourceView_prioMenu'),
-            menu: me.annotPrioritiesMenu
-        });
-
-        var categoriesItems = [];
-        categories.each(function(category) {
-            categoriesItems.push({
-                text: category.get('name'),
-                categoryId: category.get('id'),
-                checked: true,
-                handler: Ext.bind(me.annotationFilterChanged, me)
+            me.annotPrioritiesMenu = Ext.create('Ext.menu.Menu', {
+                items: prioritiesItems
             });
-        });
 
-        me.annotCategoriesMenu = Ext.create('Ext.menu.Menu', {
-             items: categoriesItems
-        });
+            me.annotMenu.menu.add({
+                id: me.id + '_annotCategoryFilter',
+                text: getLangString('view.window.source.SourceView_prioMenu'),
+                menu: me.annotPrioritiesMenu
+            });
+        }
 
-        me.annotMenu.menu.add({
-            id: me.id + '_annotPriorityFilter',
-            text: getLangString('view.window.source.SourceView_categoriesMenu'),
-            menu: me.annotCategoriesMenu
-        });
+        if(categories.data.length > 0){
+            var categoriesItems = [];
+            categories.each(function(category) {
+                categoriesItems.push({
+                    text: category.get('name'),
+                    categoryId: category.get('id'),
+                    checked: true,
+                    handler: Ext.bind(me.annotationFilterChanged, me)
+                });
+            });
+
+            me.annotCategoriesMenu = Ext.create('Ext.menu.Menu', {
+                items: categoriesItems
+            });
+
+            me.annotMenu.menu.add({
+                id: me.id + '_annotPriorityFilter',
+                text: getLangString('view.window.source.SourceView_categoriesMenu'),
+                menu: me.annotCategoriesMenu
+            });
+        }
     },
 
     annotationFilterChanged: function(item, event) {
         var me = this;
 
+        // if me.annotationsVisible is false do nothing
         if(!me.annotationsVisible) return;
 
+        // set visible Priorities
         var visiblePriorities = [];
-        me.annotPrioritiesMenu.items.each(function(item) {
-            if(item.checked)
-                visiblePriorities.push(item.priorityId);
-        });
+
+        // iterate over corresponding menu to get priorities
+        if(me.annotPrioritiesMenu != null && me.annotPrioritiesMenu.items.length != 0) {
+            me.annotPrioritiesMenu.items.each(function(item) {
+                if(item.checked)
+                    visiblePriorities.push(item.priorityId);
+            });
+        } else {
+            visiblePriorities.push('undefined');
+        }
+
+        // set visible categories
         var visibleCategories = [];
-        me.annotCategoriesMenu.items.each(function(item) {
-            if(item.checked)
-                visibleCategories.push(item.categoryId);
-        });
+
+        // iterate over corresponding menu to get categories
+        if(me.annotCategoriesMenu != null && me.annotCategoriesMenu.items.length != 0) {
+            me.annotCategoriesMenu.items.each(function(item) {
+                if(item.checked)
+                    visibleCategories.push(item.categoryId);
+            });
+        } else {
+            visibleCategories.push('undefined');
+        }
 
         me.pageBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
         me.measureBasedView.annotationFilterChanged(visibleCategories, visiblePriorities);
@@ -209,15 +238,22 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     setMovements: function(movements) {
         var me = this;
+        
+        // get preference for movement / part - order
         var gotomenu_display = getPreference('gotomenu_display');
 
+        // set me.movements to submitted JSON array
         me.movements = movements;
+
+        // set meovements for measureBaseView
         me.measureBasedView.setMovements(movements);
 
+        // initialize movementItems, partList, partNames variables
         var movementItems = [];
         var partList = [];
         var partNames =[];
         
+        // iterate over submitted movements and push them to movementItems variable
         movements.data.each(function(movement) {
             if(movement.data.parts === null) {
                 movementItems.push({
@@ -272,9 +308,17 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
             });
         }
 
+
+        // check if contains more than one item and save to variable as boolean
+        var isDisabled = ((movementItems.length <= 1) ? true : false);
+
+        // add gotoMovement entry to goto menu
         me.gotoMenu.menu.add({
             id: me.id + '_gotoMovement',
             text: getLangString('view.window.source.SourceView_gotoMovement'),
+            cls: 'gotoMovement',
+            disabled: isDisabled,
+            disabledCls: 'x-disabled',
             menu: {
                 items: movementItems
             }
@@ -608,12 +652,18 @@ Ext.define('EdiromOnline.view.window.source.GotoMsg', {
 
         me.title = getLangString('view.window.source.SourceView_GotoMsg_Title');
 
+        // check if contains more than one item and save to variable as boolean
+        var isDisabled = ((me.movements.data.length <= 1) ? true : false);
+
         me.combo = Ext.create('Ext.form.ComboBox', {
             fieldLabel: getLangString('view.window.source.SourceView_GotoMsg_MovmentNumber'),
             store: me.movements,
             queryMode: 'local',
             displayField: 'name',
-            valueField: 'id'
+            valueField: 'id',
+            cls: 'gotoMovement',
+            disabled: isDisabled,
+            disabledCls: 'x-disabled'
         });
 
         me.field = Ext.create('Ext.form.field.Text', {

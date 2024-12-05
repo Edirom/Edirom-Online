@@ -19,15 +19,14 @@
  */
 Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     extend: 'EdiromOnline.view.window.View',
-    
+
     requires: [
         'EdiromOnline.view.window.image.ImageViewer',
         'EdiromOnline.view.window.image.OpenSeaDragonViewer',
-        'EdiromOnline.view.window.image.LeafletFacsimile',
         'Ext.selection.CheckboxModel',
         'Ext.layout.container.Border'
     ],
-    
+
     alias : 'widget.measureBasedView',
 
     layout: {
@@ -36,11 +35,11 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
     },
 
     border: 0,
-    
+
     cls: 'measureBasedView',
-    
+
     measures: null,
-   
+
     initComponent: function () {
 
         var me = this;
@@ -54,15 +53,16 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         this.callParent();
     },
-    
+
     getUri: function() {
         return this.owner.uri;
     },
-    
+
     createToolbarEntries: function() {
 
         var me = this;
 
+        // create movementComboBox
         me.mdivSelector = Ext.create('Ext.form.ComboBox', {
             store: Ext.create('Ext.data.Store', {
                     fields: ['id', 'name'],
@@ -75,6 +75,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             margin: '0 0 0 0',
             id: 'mdiv_combo_' + me.id,
             hidden: true,
+            cls: 'movementCombo',
+            disabled: false,
+            disabledCls: 'x-disabled',
             listeners:{
                 scope: me,
                 'select': me.setMdiv
@@ -83,11 +86,11 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         me.measureSpinner = Ext.create('EdiromOnline.view.window.source.MeasureSpinner', {
             width: 121,
-            cls: 'pageSpinner', //TODO
+            cls: 'pageSpinner', //TODO adjust class to measureSpinner and add in SCSS
             owner: me,
             hidden: true
         });
-        
+
         me.intervalSpinner = Ext.create('EdiromOnline.view.window.source.IntervalSpinner', {
             value: 1,
             maxValue: 99,
@@ -95,9 +98,9 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             hideLabel: true,
             hidden: true
         });
-        
+
         me.intervalSpinner.on('change', me.measureSpinner.onIntervalChange, me.measureSpinner);
-        
+
         me.voiceFilter = Ext.create('Ext.button.Button', {
             handler: function() {
                 me.showVoiceFilterDialog();
@@ -108,23 +111,23 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             disabled: true,
             hidden: true
         });
-        
+
         var settingsContainer = Ext.create('Ext.container.Container', {
             layout: 'hbox'
         });
         settingsContainer.add(me.voiceFilter);
-        
+
         me.separator1 = Ext.create('Ext.toolbar.Separator', {hidden: true});
         me.separator2 = Ext.create('Ext.toolbar.Separator', {hidden: true});
-        
+
         return [me.mdivSelector, me.separator1, me.measureSpinner, me.intervalSpinner, me.separator2, settingsContainer];
     },
-    
+
     fitFacsimile: function() {
         var me = this;
         me.setMeasure(me.measureSpinner.combo, me.measureSpinner.combo.getStore());
     },
-    
+
     hideToolbarEntries: function() {
         var me = this;
         me.mdivSelector.hide();
@@ -134,7 +137,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         me.separator1.hide();
         me.separator2.hide();
     },
-    
+
     showToolbarEntries: function() {
         var me = this;
         me.mdivSelector.show();
@@ -147,25 +150,44 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
     setMdiv: function(combo, records, eOpts) {
         var me = this;
-        
+
         if(me.mdivSelected == combo.getValue()) return;
-        
+
         me.mdivSelected = combo.getValue();
         me.fireEvent('mdivSelected', me.mdivSelected, me);
     },
 
     setMovements: function(movements) {
         var me = this;
+
+        // set view movements to submitted movements
         me.movements = movements;
-        
+
+        // initialize variable data
         var data = [];
+
+        // create a reduced array from me.movements in variable data without movements wrapper
         movements.data.each(function(elem) {
             data.push(elem.data);
         });
+
+        console.log(me.mdivSelector);
+
+        // push data variable to view's mdivSelector store
         me.mdivSelector.getStore().loadData(data);
-        
+
+        // ? set a value on mdivSelector
         if(me.owner.window.internalIdType != 'measure')
             me.mdivSelector.setValue(data[0]['id']);
+
+        // check if data contains more than one item and save to variable as boolean
+        var isDisabled = ((data.length <= 1) ? true : false);
+
+        // set disabled state on views mdivSelector
+        if (isDisabled) {
+            me.mdivSelector.disable();
+        }
+
     },
 
     setMeasures: function(measures) {
@@ -179,31 +201,31 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
         }else if(me.imageSet.getCount() > 0)
         */
-        
+
            me.measureSpinner.setMeasure(me.measures.getAt(0));
     },
-    
+
     showMeasure: function(movementId, measureId, measureCount) {
         var me = this;
-        
-       
+
+
       // if(me.mdivSelector.getValue() != movementId) {
 
         me.mdivSelector.setValue(movementId);
         me.setMdiv(me.mdivSelector);
       //  }
-       
+
         if(typeof me.measures === 'undefined' || me.measures === null) {
-        	
+
             Ext.defer(me.showMeasure, 300, me, [movementId, measureId, measureCount], false);
             return;
         }
-     
+
         me.measureSpinner.setMeasure(measureId, measureCount);
     },
-    
+
     setMeasure: function(combo, store, measureCount) {
-		
+
         var me = this;
 
         if(typeof store.getById !== 'function')
@@ -215,69 +237,69 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
         });
 
         var id = combo.getValue();
-        
+
         me.measures = store.getById(id);
-        
+
         if(me.measures === null){
         	return;
         }
-        
+
         Ext.Array.each(me.measures.get('measures'), function(m) {
-            
+
             var voice = m['voice'];
             var partLabel = m['partLabel'];
-            
+
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
-            
+
                 var viewer = me.viewers.get(voice);
-                
+
                 if(typeof viewer == 'undefined') {
                     viewer = Ext.create('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                         owner: me,
                         partLabel: partLabel
                     });
-                    
+
                     me.viewers.add(voice, viewer);
                     me.add(viewer);
                 }
-    
+
                 viewer.show();
             }
         });
 
         Ext.Array.each(me.measures.get('measures'), function(m) {
-            
+
             var voice = m['voice'];
-            
+
             if(voice == 'score' || me.parts.getById(voice.substr(1)).get('selected')) {
                 var viewer = me.viewers.get(voice);
-                
+
                 viewer.setMeasure(m, measureCount);
             }
         });
     },
-    
+
     reloadDisplay: function() {
         var me = this;
-        
+
         var measureCount = me.intervalSpinner.getValue();
         me.measureSpinner.reloadMeasure(measureCount);
     },
-    
+
     setParts: function(parts) {
         var me = this;
-        
+
         me.parts = parts;
         if(me.parts.getTotalCount() > 0)
             me.voiceFilter.enable();
-            
+
         me.setMdiv(me.mdivSelector);
     },
-    
+
     showVoiceFilterDialog: function() {
-    
+
         var me = this;
-    
+
         me.grid = Ext.create('Ext.grid.Panel', {
                 border: false,
                 flex: 1,
@@ -285,7 +307,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
                 columns: [{ text: 'Part', dataIndex: 'label', flex: 1 }],
                 store: me.parts
         });
-       
+
         me.partsDialog = Ext.create('Ext.window.Window', {
             title: 'Parts selection',
             height: 400,
@@ -326,45 +348,45 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
             }
             ]
         });
-        
+
         me.partsDialog.show();
-        
+
         me.grid.getSelectionModel().deselectAll(true);
-        
+
         me.parts.each(function(record) {
-            
+
             if(record.get('selected'))
                 me.grid.getSelectionModel().select(record, true, true);
         });
     },
-    
+
     onPartsSelectionChange: function() {
-    
+
         var me = this;
-        
+
         var selected = me.grid.getSelectionModel().getSelection();
         me.parts.each(function(record) {
-            record.set('selected', Ext.Array.contains(selected, record));            
+            record.set('selected', Ext.Array.contains(selected, record));
         });
-        
+
         me.partsDialog.close();
         me.reloadDisplay();
     },
-    
+
     getContentConfig: function() {
         var me = this;
         return {
             id: this.id
         };
     },
-    
+
     setContentConfig: function(config) {
         var me = this;
         try {
             me.reloadDisplay();
         }catch(e) {}
     },
-    
+
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
 
@@ -376,25 +398,25 @@ Ext.define('EdiromOnline.view.window.source.MeasureBasedView', {
 
 Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
     extend: 'Ext.panel.Panel',
-    
+
     mixins: {
         observable: 'Ext.util.Observable'
     },
-    
+
     alias : 'widget.horizontalMeasureViewer',
-     
+
     layout: {
         type: 'hbox',
         align: 'stretch'
     },
     /*layout: 'fit',*/
-    
+
     flex: 1,
-    
+
     border: false,
-    
+
     partLabel: '',
-    
+
     style: {
         borderColor: 'black',
         borderStyle: 'solid',
@@ -403,34 +425,31 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         borderLeft: 0,
         borderRight: 0
     },
-    
+
     initComponent: function () {
 
         var me = this;
-        
+
         me.addEvents('showMeasure',
             'measureVisibilityChange',
             'annotationsVisibilityChange',
             'overlayVisibilityChange');
-        
+
         // SourceView
         me.owner.owner.on('measureVisibilityChange', me.onMeasureVisibilityChange, me);
         me.owner.owner.on('annotationsVisibilityChange', me.onAnnotationsVisibilityChange, me);
         me.owner.owner.on('overlayVisiblityChange', me.onOverlayVisibilityChange, me);
-               
+
         var image_server = getPreference('image_server');
-        var viewer = null;   	
-    	if(image_server === 'leaflet'){
-    		viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {flex: 1, width: '100%', partLabel: me.partLabel});
-    	}
-    	else if(image_server === 'openseadragon'){
+        var viewer = null;
+    	if(image_server === 'openseadragon'){
     		viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {flex: 1, width: '100%', partLabel: me.partLabel});
     	}else {
     		viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1, partLabel: me.partLabel});
     	}
-       
+
         viewer.on('imageChanged', me.onViewerImageChange, me);
-        
+
         me.imageViewers = [viewer];
 
         me.items = [
@@ -439,63 +458,63 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
 
         me.callParent();
     },
-    
+
     onMeasureVisibilityChange: function(view, state) {
         var me = this;
-        
+
         Ext.Array.each(me.imageViewers, function(viewer) {
             if(viewer.isVisible()) {
                 me.fireEvent('measureVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri);
             }
         });
     },
-    
+
     onAnnotationsVisibilityChange: function(view, state) {
         var me = this;
-        
+
         Ext.Array.each(me.imageViewers, function(viewer) {
             if(viewer.isVisible()) {
                 me.fireEvent('annotationsVisibilityChange', viewer, state, viewer.imgId, me.owner.owner.uri, me.owner.owner);
             }
         });
     },
-    
+
     onOverlayVisibilityChange: function(view, state) {
         var me = this;
-        
+
         Ext.Array.each(me.imageViewers, function(viewer) {
             if(viewer.isVisible()) {
                 me.fireEvent('overlayVisiblityChange', viewer, me.owner.owner.overlaysVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);
             }
         });
     },
-    
+
     onViewerImageChange: function(viewer, path, pageId) {
         var me = this;
         me.fireEvent('measureVisibilityChange', viewer, me.owner.owner.measuresVisible, viewer.imgId, me.owner.owner.uri);
         me.fireEvent('annotationsVisibilityChange', viewer, me.owner.owner.annotationsVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);
         me.fireEvent('overlayVisiblityChange', viewer, me.owner.owner.overlaysVisible, viewer.imgId, me.owner.owner.uri, me.owner.owner);
     },
-    
+
     setMeasure: function(measure, measureCount) {
         var me = this;
-        
+
         if(me.measure == measure && me.owner.intervalSpinner.getValue() == measureCount) return;
-        
+
         me.measure = measure;
         if(typeof measureCount != 'undefined' && typeof measureCount != 'object' ) me.owner.intervalSpinner.setValue(measureCount);
-        
+
         me.fireEvent('showMeasure', me, me.owner.getUri(), me.measure['id'], me.owner.intervalSpinner.getValue());
     },
-    
+
     showMeasure: function(data) {
-    
+
         var me = this;
-        
+
         Ext.Array.each(me.imageViewers, function(viewer) {
             viewer.hide();
         });
-        
+
         var grouped = {};
         var groupKeys = [];
         var overallWidth = 0;
@@ -503,11 +522,11 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
         var actPage = '';
         var actSystem = 0;
         var lastULX = 0;
-        
+
         var image_server = getPreference('image_server');
-        
+
         Ext.Array.each(data, function(d) {
-            
+
             var pageId = d['pageId'];
             if(actPage != pageId) {
                 viewerCount++;
@@ -515,48 +534,46 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
                 actSystem = 0;
                 lastULX = 0;
             }
-            
+
             var ulx = d['ulx'];
             if(lastULX > Number(ulx)) {
                 viewerCount++;
                 actSystem++;
             }
-            
+
             lastULX = Number(ulx);
-            
+
             var groupKey = pageId + '_' + actSystem;
             Ext.Array.include(groupKeys, groupKey);
-            
+
             if(typeof grouped[groupKey] == 'undefined')
                 grouped[groupKey] = {pageId: pageId, width: 0, measures: []};
-            
+
             grouped[groupKey].measures.push(d);
 
             var width = Number(d['lrx']) - Number(d['ulx']);
             grouped[groupKey].width += width;
             overallWidth += width;
-            
+
             if(typeof me.imageViewers[viewerCount - 1] == 'undefined') {
-            
-            
-           	var viewer = null;   	
-       		if(image_server === 'leaflet'){
-       			viewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile', {height: '100%', flex:1});
-       		} else if(image_server === 'openseadragon'){
+
+
+           	var viewer = null;
+       		if(image_server === 'openseadragon'){
        			viewer = Ext.create('EdiromOnline.view.window.image.OpenSeaDragonViewer', {height: '100%', flex:1});
        		} else{
        			viewer = Ext.create('EdiromOnline.view.window.image.ImageViewer', {flex: 1});
        		}
-            
+
                 viewer.on('imageChanged', me.onViewerImageChange, me);
-            
+
                 me.imageViewers[viewerCount - 1] = viewer;
                 me.add(me.imageViewers[viewerCount - 1]);
             }
-            
+
             me.imageViewers[viewerCount - 1].show();
         });
-        
+
         /*
          [{
             measureId:"bar-1211019",
@@ -572,98 +589,100 @@ Ext.define('EdiromOnline.view.window.source.HorizontalMeasureViewer', {
          },{
             measureId:"bar-12120210",
             zoneId:"zone_bar-12120210",
-            pageId:"facsimile-121102", 
-            path: "edition-74338555/work-1/source-12/00000008.jpg", 
-            width: "1307", 
-            height: "948", 
-            ulx: "139", 
-            uly: "51", 
-            lrx: "315", 
+            pageId:"facsimile-121102",
+            path: "edition-74338555/work-1/source-12/00000008.jpg",
+            width: "1307",
+            height: "948",
+            ulx: "139",
+            uly: "51",
+            lrx: "315",
             lry: "836"
          }]
          */
-        
+
         for(var i = 0; i < viewerCount; i++) {
-            
+
             var viewer = me.imageViewers[i];
             var group = grouped[groupKeys[i]];
             viewer.flex = group.width / overallWidth;
         }
-        
+
         me.forceComponentLayout();
-        
+
         for(var i = 0; i < viewerCount; i++) {
-            
+
             var viewer = me.imageViewers[i];
             var group = grouped[groupKeys[i]];
-            
-            if(group.measures[0]['path'] != viewer.imgPath || image_server === 'leaflet') {
+
+            if(group.measures[0]['path'] != viewer.imgPath) {
                 viewer.clear();
                 viewer.showImage(group.measures[0]['path'], group.measures[0]['width'], group.measures[0]['height'], group.measures[0]['pageId']);
             }
-            
+
             var ulx = Number.MAX_VALUE;
             var uly = Number.MAX_VALUE;
             var lrx = Number.MIN_VALUE;
             var lry = Number.MIN_VALUE;
-            
+
             Ext.Array.each(group.measures, function(d) {
                 if(Number(d['ulx']) < ulx) ulx = Number(d['ulx']);
                 if(Number(d['uly']) < uly) uly = Number(d['uly']);
                 if(Number(d['lrx']) > lrx) lrx = Number(d['lrx']);
                 if(Number(d['lry']) > lry) lry = Number(d['lry']);
             });
-            
+
             var width = lrx - ulx;
             var height = lry - uly;
-            
+
             viewer.showRect(ulx, uly, width, height, true);
         }
     },
-    
+
     annotationFilterChanged: function(visibleCategories, visiblePriorities) {
         var me = this;
 
 
 		var image_server = getPreference('image_server');
-     
+
         Ext.Array.each(me.imageViewers, function(viewer) {
             var annotations = viewer.getShapes('annotations');
 
- 			if(image_server === 'leaflet'){   
-            	//viewer.removeShapes('annotations');
-            	viewer.addAnnotations(annotations);
-        		//viewer.removeDeselectedAnnotations(visibleCategories, visiblePriorities);
-        		
-       		}
-			else{
-
-                var fn = Ext.bind(function(annotation) {
-                var annotDiv = viewer.getShapeElem(annotation);
+            var fn = Ext.bind(function(annotation) {
+                var annotDiv = viewer.getShapeElem(annotation.id);
 
                 var className = annotDiv.dom.className.replace('annotIcon', '').trim();
                 var classes = className.split(' ');
-    
-                var hasCategory = false;
-                var hasPriority = false;
-    
+
+                var matchesCategoryFilter = false;
+                var matchesPriorityFilter = false;
+
+                // iterate over annotation class attribute values to see if they match visibleCategories or visiblePriorities
                 for(var i = 0; i < classes.length; i++) {
-                    hasCategory |= Ext.Array.contains(visibleCategories, classes[i]);
-                    hasPriority |= Ext.Array.contains(visiblePriorities, classes[i]);
+                    matchesCategoryFilter |= Ext.Array.contains(visibleCategories, classes[i]);
+
+                    matchesPriorityFilter |= Ext.Array.contains(visiblePriorities, classes[i]);
                 }
-    
-                if(hasCategory & hasPriority)
+
+                // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                if( matchesCategoryFilter == false & visibleCategories == 'undefined') {
+                    matchesCategoryFilter = true;
+                }
+                // if filter results are falsey check if visibleCategories are undefined and if so assign true
+                if( matchesPriorityFilter == false & visiblePriorities == 'undefined') {
+                    matchesPriorityFilter = true;
+                }
+
+                if(matchesCategoryFilter & matchesPriorityFilter)
                     annotDiv.removeCls('hidden');
                 else
                     annotDiv.addCls('hidden');
             }, me);
-            
+
             if (typeof annotations !== 'undefined') {
                 if(annotations.each)
                     annotations.each(fn);
                 else
                     Ext.Array.each(annotations, fn);
-            }
             }
         });
 
@@ -677,21 +696,21 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
     alias : 'widget.measureSpinner',
 
     layout: 'hbox',
-    
+
     mdivSelected: -1,
-    
+
     combo: null,
 
     initComponent: function () {
 
         var me = this;
-        
+
         me.items = [
         ];
         me.callParent();
-        
+
         if(me.owner.mdivSelected)
-            me.mdivSelected = me.owner.mdivSelected; 
+            me.mdivSelected = me.owner.mdivSelected;
     },
 
     next: function() {
@@ -722,15 +741,15 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
        if(this.combo !== null){
        	 this.combo.setValue(id);
        	 this.owner.setMeasure(this.combo, this.combo.store, measureCount);
-       }      
-        
+       }
+
     },
-    
+
     setStore: function(store) {
         var me = this;
-       
+
         me.removeAll();
-        
+
         me.combo = Ext.create('Ext.form.ComboBox', {
             width: 35,
             hideTrigger: true,
@@ -741,7 +760,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
             cls: 'pageInputBox',
             autoSelect: true
         });
-        
+
         me.add([
             {
                 xtype: 'button',
@@ -766,7 +785,7 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
 
         this.combo.on('select', this.owner.setMeasure, this.owner);
     },
-    
+
     onIntervalChange: function(field, newValue, oldValue, opts) {
         this.owner.setMeasure(this.combo, this.combo.store);
     }
@@ -774,10 +793,10 @@ Ext.define('EdiromOnline.view.window.source.MeasureSpinner', {
 
 Ext.define('EdiromOnline.view.window.source.IntervalSpinner', {
     extend: 'Ext.form.Spinner',
-    
+
     step: 1,
     size: 4,
-    
+
     onSpinUp: function() {
         var me = this;
         if (!me.readOnly) {
@@ -785,7 +804,7 @@ Ext.define('EdiromOnline.view.window.source.IntervalSpinner', {
             if(me.getValue() !== '') {
                 val = parseInt(me.getValue());
             }
-            
+
             if(val + me.step <= me.maxValue)
                 me.setValue(val + me.step);
         }
@@ -797,7 +816,7 @@ Ext.define('EdiromOnline.view.window.source.IntervalSpinner', {
             if(me.getValue() !== '') {
                 val = parseInt(me.getValue());
             }
-            
+
             if(val - me.step >= me.minValue)
                 me.setValue(val - me.step);
         }

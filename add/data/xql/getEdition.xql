@@ -13,13 +13,18 @@ xquery version "3.1";
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 
+(: NAMESPACE DECLARATIONS ================================================== :)
+
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace request = "http://exist-db.org/xquery/request";
+
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";
+declare option output:method "json";
+declare option output:media-type "application/json";
 
 (: QUERY BODY ============================================================== :)
 
 let $uri := request:get-parameter('id', '')
 return
-    (:TODO use map an serialization options :)
-    edition:toJSON($uri)
+    edition:details($uri)

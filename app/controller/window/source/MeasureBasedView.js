@@ -156,7 +156,17 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
     onAnnotationsVisibilityChange: function(viewer, visible, pageId, uri, sourceView, args) {
         var me = this;
         
+
+        if(typeof(debug) !== 'undefined' && debug !== null && debug) {
+            console.log('controller: MeasureBasedView: onAnnotationsVisibilityChange');
+        }
+
         if(visible) {
+
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
+                console.log('visible: ' + visible);
+            }
+
             window.doAJAXRequest('data/xql/getAnnotationsOnPage.xql',
                 'GET', 
                 {
@@ -176,6 +186,11 @@ Ext.define('EdiromOnline.controller.window.source.MeasureBasedView', {
                 }, this)
             );
         }else {
+
+            if(typeof(debug) !== 'undefined' && debug !== null && debug) {
+                console.log('visible: ' + visible);
+            }
+
             viewer.removeShapes('annotations');
         }
     },

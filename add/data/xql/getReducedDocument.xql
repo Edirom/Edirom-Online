@@ -6,27 +6,28 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace system = "http://exist-db.org/xquery/system";
+declare namespace transform = "http://exist-db.org/xquery/transform";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
-(:declare option exist:serialize "method=text media-type=text/plain omit-xml-declaration=yes";:)
+declare option output:media-type "text/html";
+declare option output:method "xhtml";
+declare option output:indent "yes";
+declare option output:omit-xml-declaration "yes";
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 
-declare variable $imagePrefix :=
-    if ($imageserver = 'leaflet') then
-        (eutil:getPreference('leaflet_prefix', $edition))
-    else
-        (eutil:getPreference('image_prefix', $edition));
+declare variable $imagePrefix := eutil:getPreference('image_prefix', $edition);
 
 (: QUERY BODY ============================================================== :)
 

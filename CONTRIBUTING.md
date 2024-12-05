@@ -1,208 +1,58 @@
 # Edirom Online Contributing Guidelines
 
-# General Guidelines
+- [How to contribute](#how-to-contribute)
+  * [Bug reports](#bug-reports)
+  * [Feature requests](#feature-requests)
+  * [Contributing code and documentation](#contributing-code-and-documentation)
+    + [Commit messages](#commit-messages) 
+- [Release Process](#release-process)
+- [Versioning](#versioning)
 
-* do not combine code-linting and content work in one commit
+## How to contribute
 
-## Whitespace handling
+Edirom-Online is a free and open-source software and we appreciate to receive contributions from our community!  
+So first of all, thank you for considering contributing to Edirom-Online! When you do so, please try to follow these guidelines.
 
-1. Use whitespaces, not tabs to indent code
-2. Close file with a newline character
+### Bug reports
 
-# XQuery Styleguide
+If you think you found a bug in Edirom-Online, first please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a similar issue has already been opened. If not, please [open an issue](https://github.com/Edirom/Edirom-Online/issues/new?assignees=&labels=&projects=&template=problem-report.md&title=%5BBUG%5D). We implemented a [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/problem-report.md) for problems and bugs to get as much information about the bug as possible, e.g. how the problem can be reproduced. Provide as much information as you can.
 
-For formatting of XQuery files we generally rely on the basic configuration of Synchrosoft’s oXygen XML software family and its “Format & Indent” function.
+### Feature requests
 
-## xqDoc
+If you think, Edirom-Online should have a feature that does not exist already, please search our [issues list](https://github.com/Edirom/Edirom-Online/issues) in case a wish for a similar feature was already reported. If not, please [open an issue](https://github.com/Edirom/Edirom-Online/issues/new?assignees=&labels=Type%3A+feature+request&projects=&template=feature_request.md&title=%5Bftr%5D) and describe the feature using our [template](https://github.com/Edirom/Edirom-Online/blob/develop/.github/ISSUE_TEMPLATE/feature_request.md) for new features. 
 
-We use [xqDoc](https://xqdoc.org) for documenting the XQueries in this repository. Please refer to the section [xqDoc Comments](https://xqdoc.org/xqdoc_comments_doc.html) of the xqDoc-website for details on formatting the documentation comment blocks.
+### Contributing code and documentation
 
-* XQuery modules must have a library module xqDoc comment preceding the module declaration.
-* Function declarations must have a library module xqDoc function comment preceding the function.
+If you would like to contribute to Edirom-Online developing a new feature or working on a bug fix, your contribution is highly appreciated and we kindly ask you to take the following guidelines into concern. 
+The active contributors have agreed to organise their work along the so-called 'git-flow-workflow' ([Driessen 2010](https://nvie.com/posts/a-successful-git-branching-model/)) to foster a clean and traceable development process. The following instructions will ensure this workflow.
 
-## XQuery document structure
+* Check the [network graph](https://github.com/Edirom/Edirom-Online/network) to see all the other forks of other persons to make sure, nobody else is already working on the topic, you want to start to address.
+* Please discuss your idea first in an [issue](https://github.com/Edirom/Edirom-Online/issues). If there is no issue for your idea yet, please **open an issue**. There might be different ways to solve a problem and we want to make sure to find the right approach before spending time on a PR that cannot be merged.
+* **Fork** the `Edirom/Edirom-Online` repository into your own account, e.g. `username/Edirom-Online`. (Exception: If you plan to develop in a team (only in this case!), open a dedicated branch on the Edirom-Online repository.)
+* Create a **dedicated branch** for your fix or feature on your repository, e.g. `ftr-some-new-feature`.
+* Make your changes, while you can commit to your branch as many times as you like.
+* It is essential to **test** your modifications before committing or issuing a pull request. A recommended way is running a local eXist-db v5.3.0+ container and deploying your local build of Edirom Online together with some test-data, e.g. the [Edirom Edition Example](https://github.com/Edirom/EditionExample). For other deployment methods, please see our documentation in the [wiki](https://github.com/Edirom/Edirom-Online/wiki). 
+* After finishing your work, you can open a **pull request** to `Edirom/Edirom-Online` and fill in our [PR-template](https://github.com/Edirom/Edirom-Online/tree/develop/.github/pull_request_template.md) to describe what your pull request wants to implement. Make sure, that you MUST address the developer-branch.
+* Each pull request should implement ONE feature or bugfix. If you want to add or fix more than one thing, submit more than one pull request.
+* Your submission will be **reviewed** afterwards. If you are asked to make changes, you can push these changes to your original branch and the pull request will be automatically updated.
+* You may then delete your dedicated branch, after your pull request was merged into the `Edirom/Edirom-Online` repository.
 
-### XQuery version declaration
+#### Commit messages
 
-```xquery
-xquery version 3.1;
-```
+Please make sure to provide meaningful and understandable commit messsages, that should have the following structure and content:
+* `summary`: use imperative and summarize changes in around 50 characters or less, e.g. "Remove deprecated methods"  
+* `body`: explain what, why and how e.g. "This commit adds ... Specifically, we have added ..."
+* `footer`: reference or close issues using e.g. `Refs #123, 456` or `Refs #206`or `Fixes #210` or `Closes #789`
 
-### Beginning comments
+## Release Process
 
-For now, the beginning comments should only include the following:
+Releases are discussed and declared by the Edirom community. The planned scope of features and bug fixes of upcoming releases can be read from corresponding [milestones](https://github.com/Edirom/Edirom-Online/milestones), and eventually you can also see here  where contributions are most urgent needed. The Edirom community uses the functionality of Github projects to track the development of Edirom-Online using the project [Edirom Development](https://github.com/orgs/Edirom/projects/4/views/1). 
 
-```xquery
-(:
- : Copyright: For LICENSE-Details please refer to the LICENSE file in the root directory of this repository.
- :)
+The most recent 'stable' version of Edirom-Online is always found on the 'main' branch, where all releases are tagged from. The most recent 'work in progress' is found on the 'develop' branch. 
 
- ```
-The beginning comments and the structuring comments (see below) of the prolog are separated by a blank line.
+## Versioning
 
-### Prolog
-
-1. The parts of the prolog, are introduced by a comment followed by a new line.
-2. The below form of the comments and the order of the parts is prescriptive.
-3. Each part of the prolog ends with a blank line.
-
-```xquery
-(: IMPORTS ================================================================= :)
-
-```
-
-Sort imports by type:
-1. All `import module namespace` statements registered with eXist-db
-2. All `import module namespace` statements of custom modules that are not registered with eXist-db. Always use relative URIs for unregistered `import module namespace` statements.
-3. Separate groups with a blank line.
-4. In the groups sort alphabetically by prefix.
-
-```xquery
-(: NAMESPACE DECLARATIONS ================================================== :)
-
-```
-
-All `declare namespace` statements, sorted alphabetically by prefix.
-
-```xquery
-(: OPTION DECLARATIONS ===================================================== :)
+The Edirom-Online Versions follow the ['semantic' versioning scheme](http://semver.org), 'X.Y.Z'. 'X' is a major release, often defined by the presence of backward-incompatible changes to the schema. 'Y' is a minor release, defined by backward compatible changes (i.e., added, but not removed, features). 'Z' is the 'patch' number, indicating a release that fixes or clarifies existing functionality.
 
 
-```
-All `declare option` statements.
-
-```xquery
-(: VARIABLE DECLARATIONS =================================================== :)
-
-```
-1. Use `declare variable` statements for all required external parameters
-2. All global variable declarations, i.e. `declare variable` statements.
-3. Separate these two groups with a blank line.
-4. In the groups, sort alphabetically.
-
-```xquery
-(: FUNCTION DECLARATIONS =================================================== :)
-
-```
-
-1. All `declare function` statements.
-2. All function declarations have to be preceded by an xqDoc comment.
-3. The xqDoc comment and function declaration belonging together are not separated by blank lines – not even one ;-)
-4. The comment-function-groups are separated by blank lines.
-
-A prototypical example:
-
-```xquery
-(: FUNCTION DECLARATIONS =========================================== :)
-
-(:~
- :
- :)
-declare function eg:addComment($comment as xs:string, $function as function())
-as xs:string
-{
-   …
-}
-
-(:~
- :)
-declare function eg:addComment($comment as xs:string, $function as function())
-as xs:string
-{
-   …
-}
-```
-
-### Query body
-
-The Query body start after a structuring comment as follows:
-
-```xquery
-(: QUERY BODY ============================================================== :)
-
-```
-
-#### Strings
-
-Note: this is derived from the current usage in Edirom-Online code
-
-* escape with U+00027 APOSTROPHE: `'`
-
-### Literal results
-
-TODO: how should literal results be indented, especially when they are long, e.g., as in the case of [getAudioPlayer.xql](add/data/xql/getAudioPlayer.xql).
-
-### let statements
-
-Short variable definitions should be in a single line:
-
-```xquery
-let $lang := 'de'
-```
-
-Longer assignments, especially when the contain if-else-statements or FLWOR-expressions, should break after `:=` and then indent a further level, before following the rules applicable to the respective statements, e.g.:
-
-```xquery
-let $elems :=
-   for $p in $participants
-   let $id := substring-after($p, '#')
-   return doc($doc)/id($id)
-```
-
-### Function declarations
-
-```xquery
-(:~
- : XQdoc comment
- :
- …
- :
- :)
-declare function prefix:function-name( $paramOne as datatype, §paramTwo as datatype )
-as datatype
-{
-   …
-};
-
-```
-
-- [ ] at the moment return datatypes and opening curly braces of function declarations are still in the same line as the `declare function` statement
-- [ ] break long function argument
-
-### HowTo ToDo:s
-
-- [ ] literal results formatting
-- [ ] nested return statements
-- [ ] parenthesis placement
-
-
-# Javascript
-
-## AJAX calls
-
-The class `EdiromOnline.controller.AJAXController` provides a central method `doAJAXRequest` for performing AJAX requests. The method is provided globally as `window.doAJAXRequest`.
-
-`doAJAXRequest` takes the following arguments:
-
-* `url`: The URL of the requestet site or end point.
-* `method`: The HTTP method like `PUT`, `GET`, `POST`.
-* `params`: An object containing key-value-pairs of parameters for the request.
-* `successFn`: A callback function which is called when the AJAX request was successfull.
-* `retryNo`: The number of retries, if the requests fails. Standard is 2 retries.
-* `async`: Defines the async parameter for AJAX calls. Default is 'true'.
-
-An example of using the function would be:
-
-```javascript
-window.doAJAXRequest('data/xql/getAnnotationMeta.xql',
-    'GET',
-    {
-        uri: uri,
-        lang: lang
-    },
-    Ext.bind(function(response){
-        view.setMeta(response.responseText);
-    }, this)
-);
-```
 

@@ -15,36 +15,38 @@ import module namespace edition = "http://www.edirom.de/xquery/edition" at "../x
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
+declare namespace response = "http://exist-db.org/xquery/response";
 
 (: OPTION DECLARATIONS ===================================================== :)
 
-declare option exist:serialize "method=xhtml media-type=text/html omit-xml-declaration=yes indent=yes";
+declare option output:media-type "application/xml";
+declare option output:method "xml";
+declare option output:indent "yes";
 
 (: QUERY BODY ============================================================== :)
 
 let $mode := request:get-parameter('mode', '')
 let $edition := request:get-parameter('edition', '')
 
-(:let $base := concat('file:', system:get-module-load-path()):)
-(:let $file := doc(concat($base, '/../prefs/edirom-prefs.xml')):)
-let $file := doc('../prefs/edirom-prefs.xml')
+let $file := doc($edition:default-prefs-location)
 
 let $projectFile := doc(edition:getPreferencesURI($edition))
 
 return
     if ($mode = 'json') then (
-        concat(
-            '{',
-                string-join((
-                    for $entry in $file//entry
-                    return
-                        concat('"', $entry/string(@key), '":"', $entry/string(@value), '"'),
-                    for $entry in $projectFile//entry
-                    return
-                        concat('"', $entry/string(@key), '":"', $entry/string(@value), '"')
-                ), ','),
-            '}'
-        )
+        let $serializationParameters := "method=text media-type=application/json encoding=utf-8"
+        let $outputOptions :=
+            <output:serialization-parameters>
+                <output:method>json</output:method>
+            </output:serialization-parameters>
+        let $data := 
+            map:merge((
+                $file//entry ! map:entry(./string(@key), ./string(@value)), 
+                $projectFile//entry ! map:entry(./string(@key), ./string(@value))  
+            ))
+        return
+            response:stream($data => serialize($outputOptions), $serializationParameters)
     ) else
         ($file)

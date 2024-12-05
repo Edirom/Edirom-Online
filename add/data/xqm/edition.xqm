@@ -14,29 +14,35 @@ module namespace edition = "http://www.edirom.de/xquery/edition";
 
 import module namespace functx="http://www.functx.com";
 
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "eutil.xqm";
+
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace edirom = "http://www.edirom.de/ns/1.3";
+declare namespace util = "http://exist-db.org/xquery/util";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
+
+(: VARIABLE DECLARATIONS =================================================== :)
+
+declare variable $edition:default-prefs-location as xs:string := '../prefs/edirom-prefs.xml';
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns a JSON representation of an Edition
+ : Returns a map object with details about an Edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The JSON representation
+ : @return a map object with the keys "id", "doc", and "name" 
  :)
-declare function edition:toJSON($uri as xs:string) as xs:string {
+declare function edition:details($uri as xs:string) as map(*) {
     
     let $edition := doc($uri)/edirom:edition
     return
-        concat('
-            {',
-        'id: "', $edition/string(@xml:id), '", ',
-        'doc: "', $uri, '", ',
-        'name: "', $edition/edirom:editionName, '"',
-        '}')
+        map {
+            "id": $edition/string(@xml:id),
+            "doc": $uri,
+            "name": $edition/edirom:editionName
+        }
 };
 
 (:~
@@ -75,7 +81,10 @@ declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:strin
         if(doc-available($uri)) then
             doc($uri)
         else
-            doc(edition:findEdition($uri))
+            if(edition:findEdition($uri)) then
+                doc(edition:findEdition($uri))
+            else
+                ()
     )
     return
         if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "") then
@@ -118,16 +127,15 @@ declare function edition:getLanguageCodesSorted($uri as xs:string) as xs:string 
 };
 
 (:~
- : Returns the URI for the preferences file
+ : Returns the URI of the preferences file for a given edition
  :
  : @param $uri The URI of the Edition's document to process
- : @return The URI of the preference file
+ : @return The URI of the edition's preference file or the default edirom preferences as fallback
  :)
-declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
-    
-    if(doc($uri)//edirom:preferences/@xlink:href => string()) then(
-        doc($uri)//edirom:preferences/@xlink:href => string()
-    ) else ('../prefs/edirom-prefs.xml')
+declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
+    if(doc-available($uri) and doc($uri)//edirom:preferences/@xlink:href => string()) 
+    then(doc($uri)//edirom:preferences/@xlink:href => string()) 
+    else $edition:default-prefs-location
 };
 
 (:~
@@ -138,7 +146,7 @@ declare function edition:getPreferencesURI($uri as xs:string) as xs:string {
  : @param $editionID The '@xml:id' of the edirom:edition document to process
  : @return The URI of the Edition file
  :)
-declare function edition:findEdition($editionID as xs:string?) as xs:string {
+declare function edition:findEdition($editionID as xs:string?) as xs:string? {
     
     if(not($editionID) or $editionID eq '') then(
         let $edition := (collection('/db/apps')//edirom:edition)[1]
@@ -169,12 +177,11 @@ declare function edition:getName($uri as xs:string) as xs:string {
 (:~
  : Returns the frontend URI of the edition, e.g. if the edirom:edition file
  : submitted via $editionUri is xmldb:exist///db/apps/editionFolder/edition.xml
- : and the $contextPath is /exist the string returned woud be /exist/apps/editionFolder
+ : and the $contextPath is /exist the string returned would be /exist/apps/editionFolder
  :
- : @param $editionUri The xmldb-collection-path of the edition
- : @param $contextPath the request:get-context-path() of the frontend
- :
- : @return xs:string
+ : @param $editionUri The URI of the Edition's document to process
+ : @param $contextPath The request:get-context-path() of the frontend
+ : @return The frontend URI of the edition
  :)
 declare function edition:getFrontendUri($editionUri as xs:string, $contextPath as xs:string) as xs:string {
 
@@ -182,4 +189,19 @@ declare function edition:getFrontendUri($editionUri as xs:string, $contextPath a
 
     return
         string-join(($contextPath, $editionContext), '/')
+};
+
+(:~
+ : Returns the documents contained in the collection specified by the
+ : `edition_path` parameter in the edition's preference file.
+ : If `$editionUri` is the empty sequence or no information is found
+ : for `edition_path`, the empty sequence is returned.
+ :
+ : @param $edition The URI of the Edition's document to process
+ : @return The document nodes contained in or under the given collection
+ :)
+declare function edition:collection($editionUri as xs:string?) as document-node()* {
+    if($editionUri and eutil:getPreference('edition_path', $editionUri))
+    then collection(eutil:getPreference('edition_path', $editionUri))
+    else util:log('warn', 'No edition provided')
 };
