@@ -66,8 +66,8 @@ declare function local:getAnnotations($uriSharp as xs:string, $annotations as el
             }
     }
 };
-let $edition := request:get-parameter('edition', '')
 
+let $edition := request:get-parameter('edition', '')
 let $uri := request:get-parameter('uri', '')
 let $uriSharp := concat($uri, '#')
 let $annotations := local:findAnnotations($uri,$edition)
