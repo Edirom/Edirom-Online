@@ -40,47 +40,15 @@
         <titlePage>
         <titlePart>Hilfe (Bedienungsanleitung) </titlePart>
         <argument>
-           <p>Dieses Dokument enthält eine allgemeine Einführung in die Benutzung von <term type="ediromGui" key="global_appName"/> und beschreibt die grundlegenden Funktionen der Software. Möglicherweise sind nicht alle Optionen, die im Folgenden beschrieben werden in jeder Edition verfügbar.
-              Dies ist unter anderem der Tatsache geschuldet, dass Inhalte projektspezifisch angelegt werden und jede Edition, die <term type="ediromGui" key="global_appName"/> benutzt, den individuellen Editionsrichtlinien und - konzepten unterliegt. 
-              Des Weiteren kann es aus editions-spezifischen Gründen sein, dass manche Versionen mehrere Optionen und Erweiterungen enthalten, die nicht in diesem Dokument aufgeführt und erklärt sind.</p>
+           <p>Dieses Dokument enthält eine allgemeine Einführung in die Benutzung von <term type="ediromGui" key="global_appName"/>. Es beschreibt die grundlegenden Funktionen der Software. Möglicherweise sind nicht alle Optionen, die im Folgenden beschrieben werden in jeder Edition verfügbar,
+              da Inhalte projektspezifisch angelegt werden und jede Editionihren individuellen Editionsrichtlinien unterliegt. 
+              Des Weiteren ist es aus editions-spezifischen Gründen möglich, dass manche Versionen Erweiterungen enthalten, die nicht in diesem Dokument aufgeführt und erklärt sind.</p>
          </argument>
        </titlePage>
        <pb/>
        <divGen type="toc"/>
      </front>
      <body>
-      <!--<div>
-         <divGen type="toc"/>
-      </div>-->
-        
-      <!-- PREPARATION =============================================== -->
-         <div type="div1" xml:id="preparation">
-            <head>Vorbereitung</head>
-            <div type="div2" xml:id="installation">
-               <head>Installation </head>
-               <p><term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt und muss deshalb auf einem Server aufgesetzt werden. 
-                  Sollten Fragen auftauchen, wie <term type="ediromGui" key="global_appName"/> auf einem Server aufgesetzt werden muss, kann das Edirom Projekt (<ref target="http://www.edirom.de">http://www.edirom.de</ref>) kontaktiert werden.</p>
-               <p>Nichtsdestotrotz kann eine auf <term type="ediromGui" key="global_appName"/> basierende Edition aber auch auf anderen Datenträger gespeichert und verbreitet werden.
-                  Dies erfordert jedoch die lokale Installation auf einem Computer. Sollte die vorliegende Version der <term type="ediromGui" key="global_appName"/> eine solch verbreitete 
-                  Ausgabe sein, kann der entsprechende Autor oder Verlag kontaktiert werden, um weitere Informationen rund um die Installation auf dem Computer zu erhalten.</p>
-<!--               <note type="editorial">Projektspezifische Informationen zur Installationsroutine sollten nachfolgend als XML-Kommentare eingeschoben werden.</note>-->
-               <!--<div type="div2">
-                  <head>Windows </head>
-                  <p>If <hi rend="italic">AutoRun</hi> is activated in Windows, the Edirom installation program will open automatically when the DVD is inserted. Otherwise, start the program by running the <hi rend="italic">setup.exe</hi> file on the DVD. Follow the instructions provided in the installation program. Once installation is complete, you'll see the application listed in the <hi rend="italic">Start menu</hi> under <hi rend="italic">All Programs</hi> as '<hi rend="italic">Edirom</hi>' or a different name, depending on the edition.</p>
-               </div>-->
-               <!--<div type="div2">
-                  <head>Mac OS X </head>
-                  <p>If you're an Apple user, simply copy the Edirom application from the DVD to any directory on the hard drive (e.g., Applications). From there, double-click the application to start it.</p>
-               </div>-->
-            </div>
-            <div type="div2" xml:id="starting">
-               <head>Start der Anwendung </head>
-              <p><term type="ediromGui" key="global_appName"/> wurde als eine Web-Anwendung entwickelt. Die einzige Systemvorgabe, um <term type="ediromGui" key="global_appName"/> vernünftig ausführen zu können, ist die Installation eines Javascript-fähigen Browsers.</p>
-              <p>Sollte die aktuelle Version von <term type="ediromGui" key="global_appName"/> installiert werden müssen, kann rund um Fragen, die die Installation auf dem persönlichen Rechner betreffen, der entsprechende Autor oder Verlag kontaktiert werden.</p>
-               <!--<note type="editorial">Projektspezifische Informationen zum Start der Anwendung sollten entweder darüber, also den vorhergehenden Paragraphen ersetzend, oder nachfolgend eingeschoben werden.</note>-->
-            </div>
-         </div>
-        
       <!-- USER INTERFACE ========================================================= -->
          <div type="div1" xml:id="gui">
             <head>Benutzeroberfläche</head>
