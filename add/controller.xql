@@ -36,7 +36,6 @@ return
         <dispatch xmlns="http://exist.sourceforge.net/NS/exist">
             <forward url="index.xql">
                 <add-parameter name="lang" value="{$langVal}"/>
-                <add-parameter name="exist:controller" value="{$exist:controller}"/>
             </forward>
         </dispatch>
     (:else if (starts-with($exist:path, "/data")) then
