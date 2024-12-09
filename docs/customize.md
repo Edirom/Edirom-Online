@@ -18,15 +18,15 @@
 # Customize Edirom Online
 
 ## Annotations
-change the **layout** for annotations (3 are predefined), using predefined preferences
+change the **layout** for annotations (3 are predefined), using predefined [preferences]
 * `<entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>`
 
 ## CSS
-Add a **custom CSS file**, using predefined preferences
+Add a **custom CSS file**, using predefined [preferences]
 * `<entry key="additional_css_path" value="xmldb:exist:///db/apps/baudiData/editions/baudi-14-2b84beeb/edirom/css/style.css"/>`
 
 ## Image server ###
-**switch the image server** from digilib to openseadragon (IIIF), using predefined preferences
+**switch the image server** from digilib to openseadragon (IIIF), using predefined [preferences]
 * `<entry key="image_server" value="openseadragon"/>`
 
 ## Topbar
@@ -41,8 +41,10 @@ de/activate **work switch**
 * un/comment [`Edirom-Online/app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L82)
 
 ## Welcome window
-**define** a welcome window
+**define** a welcome window, using predefined [preferences]
 * `<entry key="start_documents_uri" value="xmldb:exist:///db/apps/baudiData/editions/baudi-14-2b84beeb/edirom/introduction.xml"/>`
+
+[preferences]: ../add/data/prefs/edirom-prefs.xml
 
 # Customize content
 
