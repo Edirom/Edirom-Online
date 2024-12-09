@@ -27,7 +27,7 @@ declare
         <identifier>P1-PA<rend rend='sup'>1</rend></identifier> – Autographe Partitur</title>
         <title type='main'>Autographe Partitur</title>
         <title type='sub'>Manifestation</title></titleStmt>", 
-        "de")       %test:assertEquals("unknown") %test:pending("Ticket https://github.com/Edirom/Edirom-Online/issues/103")
+        "de")       %test:assertEquals("P1-PA1 – Autographe Partitur")
     %test:args("<titleStmt xmlns='http://www.tei-c.org/ns/1.0'>
         <title type='main'>Autographe Partitur</title>
         <title type='sub'>Manifestation</title></titleStmt>", 
