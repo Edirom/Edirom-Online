@@ -310,7 +310,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
 
         // check if contains more than one item and save to variable as boolean
-        var isDisabled = ((movementItems.length <= 1) ? true : false);
+        var isDisabled = ((movementItems.length < 1) ? true : false);
 
         // add gotoMovement entry to goto menu
         me.gotoMenu.menu.add({
