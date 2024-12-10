@@ -19,6 +19,7 @@ import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Ed
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
+declare namespace xhtml="http://www.w3.org/1999/xhtml";
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
@@ -112,11 +113,11 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
     let $measureParentElem := local-name($measure/parent::node())
     return
         if($measureParentElem = 'supplied') then (
-            <span class="supplied">{'[' || $measureLabel || ']'}</span>
+            <xhtml:span class="supplied">{'[' || $measureLabel || ']'}</xhtml:span>
         ) else if($measureParentElem = 'del') then (
-            <span class="del">{$measureLabel}</span>
+            <xhtml:span class="del">{$measureLabel}</xhtml:span>
         ) else (
-            <span>{$measureLabel}</span>
+            <xhtml:span>{$measureLabel}</xhtml:span>
         )
 };
 
@@ -142,13 +143,13 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
                 let $measureLabel := measure:makeMeasureLabelCritical($measure, $measureLabel)
                 let $measureLabel := ($measureLabel || '–' || number($measureLabel) + number($measure//mei:multiRest/@num) - 1)
                 return
-                    <span>{$measureLabel}</span>
+                    <xhtml:span>{$measureLabel}</xhtml:span>
             ) else if ($measureZoneRefCount gt 1) then (
                 for $label in $measuresZoneRef
                 return
                     measure:makeMeasureLabelCritical($label, $label/string(@label))
             ) else if ($measure//mei:multiRest) then (
-                <span>{$measureLabel || '–' || (number($measureLabel) + number($measure//mei:multiRest/@num) - 1)}</span>
+                <xhtml:span>{$measureLabel || '–' || (number($measureLabel) + number($measure//mei:multiRest/@num) - 1)}</xhtml:span>
             ) else (
                 measure:makeMeasureLabelCritical($measure, $measureLabel)
             )
@@ -157,7 +158,7 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
             return
                 measure:getRegMeasureLabel($measure/parent::mei:reg)
         ) else (
-            <span>noLabel</span>
+            <xhtml:span>noLabel</xhtml:span>
         )
 
     return
@@ -172,7 +173,7 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
  :)
 declare function measure:joinMeasureLabels($labels as node()*) as node() {
 
-    <span>{
+    <xhtml:span>{
         for $label at $pos in functx:distinct-deep($labels)
         return
             if($pos = 1) then (
@@ -180,7 +181,7 @@ declare function measure:joinMeasureLabels($labels as node()*) as node() {
             ) else(
                 '/',$label
             )
-    }</span>
+    }</xhtml:span>
 };
 
 (:~
@@ -197,7 +198,7 @@ declare function measure:getRegMeasureLabel($reg as node()) as node() {
     let $measureStop := $measures[$measuresCount]
     let $measureLabel := measure:getMeasureLabelAttr($measureStart) || '–' || measure:getMeasureLabelAttr($measureStop)
     return
-        <span>{$measureLabel}</span>
+        <xhtml:span>{$measureLabel}</xhtml:span>
 };
 
 (:~
