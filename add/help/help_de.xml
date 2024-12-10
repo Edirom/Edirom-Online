@@ -51,7 +51,8 @@
          <div type="div1" xml:id="gui">
             <head>Anwendungsoberfläche</head>
             <p>Die Anwendungsoberfläche von <term type="ediromGui" key="global_appName"/> besteht aus verschiedenen Bereichen. Am oberen Rand befindet sich die <ptr target="#toolbar_top"/>, am unteren Rand die <ptr target="#taskbar"/>. 
-               Der Bereich dazwischen ist der <term type="ediromGui" key="view.desktop.Desktop"/>, innerhalb dessen alle innenliegenden Anwendungsfenster geöffnet werden um den Inhalt einer Edition anzuzeigen und Zugang zu weiteren Funktionen zu erhalten. Rechts befindet sich die <ptr target="#navigator"/>.</p>
+               Der Bereich dazwischen ist der <term type="ediromGui" key="view.desktop.Desktop"/>, innerhalb dessen alle innenliegenden Anwendungsfenster geöffnet werden um den Inhalt einer Edition anzuzeigen und Zugang zu weiteren Funktionen zu erhalten. Rechts befindet sich die <ptr target="#navigator"/>.
+            </p>
             <figure>
                <graphic url="help/images/fullscreen_en.png"/>
                <head>Eine exemplarische Ansicht des <term type="ediromGui" key="global_appName"/> Fensters, das die <term type="ediromGui" key="view.desktop.TopBar"/> (oben), die <term type="ediromGui" key="view.desktop.TaskBar"/> (unten), den <term type="ediromGui" key="view.desktop.Desktop"/> und die <term type="ediromGui" key="view.navigator.Navigator"/> (rechts) zeigt.</head>
@@ -62,8 +63,8 @@
                <head>
                     <term type="ediromGui" key="view.desktop.TopBar"/>
                </head>
-               <p>Am linken Rand der <term type="ediromGui" key="view.desktop.TopBar"/> befindet sich der <term type="ediiromGui" key="view.desktop.TaskBar_home"/>.
-                  Daneben ist die <term type="ediromGui" key="comboBox"/>. Diese ermöglicht eine Auswahl der verschiedenen enthaltenen Werke innerhalb einer Edition und versucht damit den Aufbau eines "klassischen" gedruckten Editionsband mit mehreren enthaltenen Werken nachzuempfinden. Die <term type="ediromGui" key="comboBox"/> und damit das Verpacken mehrerer Werke in eine Edition (analog früherem Editionsband) wird in neueren <term type="ediromGui" key="global_appName"/> Versionen seltener verwendet und an deren Stelle erscheint der Name der einzelnen Edition.
+               <p>Am linken Rand der <term type="ediromGui" key="view.desktop.TopBar"/> befindet sich der <term type="ediromGui" key="view.desktop.TaskBar_home"/>.
+                  Daneben ist die <term type="ediromGui" key="comboBox"/>. Diese ermöglicht eine Auswahl der verschiedenen enthaltenen Werke innerhalb einer Edition und versucht damit den Aufbau eines "klassischen" gedruckten Editionsbandes mit mehreren enthaltenen Werken nachzuempfinden. Die <term type="ediromGui" key="comboBox"/> und damit das Verpacken mehrerer Werke in eine Edition (analog früherem Editionsband) wird in neueren <term type="ediromGui" key="global_appName"/> Versionen seltener verwendet und an deren Stelle erscheint der Name der einzelnen Werk-Edition.
                   Rechts befindet sich die Eingabe für die <ptr target="#search"/> und ein Button, der ein <term type="ediromGui" key="view.desktop.TaskBar_about"/>-Fenster öffnet.
                </p>
                <figure>
@@ -165,10 +166,10 @@
             <head>
                <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/>
             </head>
-            <p>Der Navigator für <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/> ermöglicht das quellenübergreifende Navigieren in allen entsprechenden Faksimiles bzw. Partituren. 
+            <p>Der Navigator für <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Title"/> ermöglicht das quellenübergreifende Navigieren in allen entsprechenden Faksimiles bzw. der Edition. 
                Ein weiteres Beispiel der Anwendung ist die Konkordanz von Partituren und den dazugehörigen Versen eines Librettos um die musikalischen Anweisungen neben den bestimmten Verszeilen gleichzeitig betrachten zu können.
                Das Vorhandensein der besagten Konkordanzen ist jedoch von der jeweiligen Edition abhängig.
-               Sollte die ausgewählte Konkordanz weitere Untergliederungen, wie z.B. Sätze, beinhalten, wird ein zweites Drop-Down-Menü zur Auswahl erscheinen. 
+               Sollte die ausgewählte Konkordanz weitere Untergliederungen, wie z.B. Sätze, beinhalten, wird ein zweites Drop-Down-Menü zur Auswahl erscheinen.
             </p>
             <figure>
                <graphic url="help/images/concNav_en.png"/>
@@ -179,7 +180,7 @@
             <p>Unter der Schiebeleiste befindet sich der Knopf <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. 
                Dieser muss geklickt werden, um den ausgewählten Takt in allen offenen Quellen des Desktops zu öffnen.
                Es kann auch vor- bzw. rückwärts auf Taktebene innerhalb der Quellen navigiert werden, insdem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
-               Sollte der ausgewählt Takt aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet <!-- TODO check implementation -->.</p>
+               Sollte der ausgewählt Takt aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet.</p>
             </div>
 
          <!-- CONTENT WINDOWS -->
@@ -187,10 +188,10 @@
             <head>Fenster mit Inhalt</head>
             <p>Oben an einem Fenster mit Inhalt befindet sich eine Zeile, die den Titel des geöffneten Objekts anzeigt.
             Unter der Titelzeile hat jedes Fenster eine <term type="ediromGui" key="view.window.TopBar"/>.
-               Links in der <term type="ediromGui" key="view.window.TopBar"/> befindet sich die <term type="ediromGui" key="comboBox"/>, mit der zwischen verschiedenen <term type="ediromGui" key="views"/> des aktuell geöffneten Fensters gewechselt werden kann, z.B. <ptr target="#view_text"/>, <ptr target="#facsimileView"/>, <ptr target="#view_XML"/>.
-            Je nach ausgewählter Ansicht kann am unteren Rand jedes Fenster kann die <term type="ediromGui" key="view.window.BottomBar"/> angezeigt sein, die unterschiedlche Werkzeuge zum Manipulieren der verschiedenen Objekte bereitstellt.</p>
+            Links in der <term type="ediromGui" key="view.window.TopBar"/> befindet sich die <term type="ediromGui" key="comboBox"/>, mit der zwischen verschiedenen <term type="ediromGui" key="views"/> des aktuell geöffneten Fensters gewechselt werden kann, z.B. <ptr target="#view_text"/>, <ptr target="#facsimileView"/>, <ptr target="#view_XML"/>.
+            Je nach ausgewählter Ansicht kann am unteren Rand des Fenster die <term type="ediromGui" key="view.window.BottomBar"/> angezeigt sein, die unterschiedlche Werkzeuge zum Manipulieren der verschiedenen Objekte bereitstellt.</p>
                
-            <!-- content windows TEXT-VIEW  -->
+            <!-- content windows TEXT-VIEW -->
             <div type="div2" xml:id="view_text">
                <head>
                   <term type="ediromGui" key="controller.window.Window_textView"/>
@@ -215,13 +216,11 @@
                   </head>
                   <p>In der <term type="ediromGui" key="view.window.TopBar"/> gibt es die folgenden weiteren Menüs.</p>
                
-               
-                  <div type="div4" xml:id="facsimileView_toolbar_viewMenu">
-                     <head>
-                        <term type="ediromGui" key="view.window.source.SourceView_viewMenu"/>
-                     </head>
-                     <p>Unter <term type="ediromGui" key="view.window.text.TextView_viewMenu"/> 
-                        gibt es folgende Unterpunkte:</p>
+                  <!-- content windows Faksimile toolbar VIEWMENU -->
+                  <p>
+                     <hi rend="bold"><term type="ediromGui" key="view.window.source.SourceView_viewMenu"/></hi><lb/>
+                     Unter <term type="ediromGui" key="view.window.text.TextView_viewMenu"/> 
+                        gibt es folgende Unterpunkte:
                      <list type="gloss">
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_showMeasures"/>
@@ -238,13 +237,13 @@
                         <item>Der Menüeintrag zeigt bzw. verbirgt vorhandene Schichten in den Noten, wenn diese von der Edition bereitgestellt wurden.
                            Diese Schichten könnten beispielsweise farbige Bemerkungen zur visuellen Hervorherbung der Hinzufügungen im Autograph oder in den Faksimiles sein.</item>
                      </list>
-                  </div>
-                  
-                  <div type="div4" xml:id="help_view.window.source.SourceView_annotationsMenu">
-                     <head>
-                        <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/>
-                     </head>
-                     <p>Unter <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/> gibt es folgende Unterpunkte.</p>
+                  </p>
+                  <!-- content windows Faksimile toolbar ANNOTATIONSMENU -->
+                  <p>
+                     <hi rend="bold">
+                        <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/><lb/>
+                     </hi>
+                     Unter <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/> gibt es folgende Unterpunkte.
                      <list type="gloss">
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_ShowAnnotations"/>
@@ -262,46 +261,30 @@
                         </label>
                         <item>Filtermöglichkeit der Anmerkungen nach Kategorien.</item>
                      </list>
-                  </div>
-                  
-                  <div type="div4" xml:id="view.window.source.SourceView_gotoMenu">
-                  <head>
-                     <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/>
-                  </head>
-                  <p>Das <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/> hat folgende Funktionen:</p>
+                  </p>
+                  <!-- content windows Faksimile toolbar ANNOTATIONSMENU -->
+                  <p>
+                  <hi rend="bold">
+                     <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/><lb/>
+                  </hi>
+                  Das <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/> hat folgende Funktionen:
                   <list type="gloss">
                      <label>
                         <term type="ediromGui" key="view.window.source.SourceView_gotoMeasure"/>
                      </label>
-                     <item>Die Option öffnet einen Dialog, in den gewünschte Satz- und Takt-Nummer eingetragen werden können.</item>
+                     <item>Die Option öffnet einen Dialog, in den gewünschte Satz- und Takt-Nummern eingetragen werden können.</item>
                      <label>
                         <term type="ediromGui" key="view.window.source.SourceView_gotoMovement"/>
                      </label>
                      <item>Auflistung aller Sätze bzw. editionsspezifisch angelegte Abschnitte innerhalb einer Quelle.</item>
                   </list>
-               </div>
+               </p>
                </div>
                <!-- content windows Faksimile TASKBAR -->
                <div type="div3" xml:id="facsimileView_taskbar">
                   <head>
                      <term type="ediromGui" key="view.window.BottomBar"/>
                   </head>
-                  <p>
-                     <list type="gloss">
-                        <label>
-                           <term type="ediromGui" key="view.window.source.SourceView_viewMenu"/>
-                        </label>
-                        <item><term type="ediromGui" key="view.window.source.SourceView_showMeasures"/></item>
-                        <label>
-                           <term type="ediromGui" key="view.window.source.SourceView_annotationsMenu"/>
-                        </label>
-                        <item>erlaubt die Anordung übereinander liegender Annotationssymbole (für eine detaillierte Beschreibung siehe: <ptr target="#help_view.window.source.SourceView_annotationsMenu"/>)</item>
-                        <label>
-                           <term type="ediromGui" key="view.window.source.SourceView_gotoMenu"/>
-                        </label>
-                        <item>erlaubt das Springen zu bestimmten Takten oder Sätzen in der aktuellen Quelle (für eine detaillierte Beschreibung siehe: <ptr target="#view.window.source.SourceView_gotoMenu"/>)</item>
-                     </list>
-                  </p>
                   <p>Die <term type="ediromGui" key="view.window.BottomBar"/> enthält folgende Werkzeuge für die Navigation innerhalb des Inhalts der Quellen:</p>
                   <figure>
                      <graphic url="help/images/pageView.png"/>
@@ -309,19 +292,19 @@
                   </figure>
                   <figure>
                      <graphic url="help/images/barView.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: wechselt zu einer taktbasierten Navigation der Quelle. Bei Aktivierung dieser Ansicht erscheinen die drei folgenden zusätzliche Werkzeuge in der <term type="ediromGui" key="view.window.BottomBar"/>.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: wechselt zu einer taktbasierten Navigation der Quelle. Bei Aktivierung dieser Ansicht erscheinen die drei folgenden zusätzlichen Werkzeuge in der <term type="ediromGui" key="view.window.BottomBar"/>.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedCombo.png"/>
-                     <head><term type="ediromGui" key="view.window.BottomBar"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: Es kann der Satz ausgewählt werden, dessen Takte angezeit werden sollen.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: Es kann der Satz ausgewählt werden, dessen Takte angezeigt werden sollen.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/selectVoices.png"/>
-                     <head><term type="ediromGui" key="view.window.BottomBar"/>, <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_selectVoices"/>: Es können eeinzeelne Stimmen ausgewählt werden. Dieses Werkzeug ist nur verfügbar, wenn verschiedene Stimmen in der Codierung gekennzeichnet sind.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_selectVoices"/>: Es können einzelne Stimmen ausgewählt werden. Dieses Werkzeug ist nur verfügbar, wenn verschiedene Stimmen in der Codierung gekennzeichnet sind.</head>
                    </figure>  
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedRange.png"/>
-                     <head><term type="ediromGui" key="view.window.BottomBar"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Eingabe eines Taktumfangs, durch den "geblättert" werden soll.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Eingabe eines Taktumfangs, durch den "geblättert" werden soll.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/slider.png"/>
@@ -341,7 +324,7 @@
                </div>
             </div>
    
-            <!-- XML-VIEW -->
+            <!-- content windows XML-VIEW -->
             <div type="div2" xml:id="view_XML">
                <head>
                   <term type="ediromGui" key="controller.window.Window_xmlView"/>
@@ -363,8 +346,8 @@
                </list>
             </div>
             
-            <!-- annotation VIEW -->
-             <div type="div2" xml:id="help_ontroller.window.Window_annotationView">
+            <!-- content windows ANNOTATION VIEW -->
+             <div type="div2" xml:id="annotationView">
                 <head>
                    <term type="ediromGui" key="controller.window.Window_annotationView"/>
                 </head>
@@ -375,15 +358,15 @@
                      <label><term type="ediromGui" key="view.window.AnnotationView_No"/></label>
                      <item>Zeigt die laufende Nummer der Annotationen an.</item>
                      <label><term type="ediromGui" key="view.window.AnnotationView_TitleLabel"/></label>
-                     <item>Titel der Annotation, der Gegenstand der Annotation verdeutlicht.</item>
+                     <item>Titel der Annotation, der den Gegenstand der Annotation verdeutlicht.</item>
                      <label><term type="ediromGui" key="view.window.AnnotationView_Categories"/></label>
-                     <item>Kategorien an, die einer Annotation zugeordnet werden können.</item>
+                     <item>Kategorien, die einer Annotation zugeordnet werden können.</item>
                      <label><term type="ediromGui" key="view.window.AnnotationView_Priority"/></label>
                      <item>Priorität, die einer Annotation zugewiesen werden kann.</item>
                      <label><term type="ediromGui" key="view.window.AnnotationView_Source"/></label>
                      <item>Quelle(n), in denen die Annotation vorkommt.</item>
                   </list>
-                </p>
+                </p><lb/>
                <p>Ein Klick auf eine Kopfzeilen-Kategorie ordnet die Daten auf- bzw. absteigend neu an.
                   Ein Pfeil in der rechten Ecke der Kopfzeile bei mouse-over öffnet ein Kontextmenü mit folgenden Einstellungsmöglichkeiten:
                   <list type="bulleted">
@@ -403,11 +386,11 @@
                       <label><term type="ediromGui" key="view.window.AnnotationView_ListView"/></label>
                      <item>Liste mit <term type="ediromGui" key="view.window.AnnotationView_Source"/> und <term type="ediromGui" key="view.window.AnnotationView_TitleLabel"/>.</item>
                   </list>
-               </p>
-                <p>Die <term type="ediromGui" key="view.window.BottomBar"/> enthält folgende Werkzeuge.</p>
-                <figure>
-                   <graphic url="help/images/view-list-details-symbolic.png"/>
-                   <head>(Rückkehr zur) <term type="ediromGui" key="view.window.AnnotationView_ListView"/></head>
+               </p><lb/>
+               <p>Die <term type="ediromGui" key="view.window.BottomBar"/> enthält folgende Werkzeuge.</p>
+               <figure>
+                  <graphic url="help/images/view-list-details-symbolic.png"/>
+                  <head>(Rückkehr zur) <term type="ediromGui" key="view.window.AnnotationView_ListView"/></head>
                </figure>
                <figure>
                   <graphic url="help/images/go-previous.png"/>
@@ -433,7 +416,7 @@
             <head>Arbeiten mit Annotationen</head>
             <p>Annotationen, die aus dem Kritischen Bericht einer Edition kommen, können in <term type="ediromGui" key="global_appName"/> auf unterschiedliche Weise geöffnet werden.
                <lb/>(1) Symbole, die bereits in der Quelle angezeigt werden, liefern bereits eine große Bandbreite an Informationen. Durch einen Doppelklick kann dadurch auch der komplette Kritische Bericht erreicht werden.
-               <lb/>(2) Der komplette Kritische Bericht einer Edition ist üblicherweise als <ptr type="ediromGui" target="#help_ontroller.window.Window_annotationView"/> unter dem Menüpunkt <term key="view.window.TobBar_View"/> in der <term type="ediromGui" key="view.window.TopBar"/> verfügbar. Wie bereits oben erwähnt, bieten einige Editionen auch einen Einstieg in den kritischen Bericht als Eintrag in der <term type="ediromGui" key="view.navigator.Navigator"/> an.</p>
+               <lb/>(2) Der komplette Kritische Bericht einer Edition ist üblicherweise als <ptr type="ediromGui" target="#annotationView"/> unter dem Menüpunkt <term key="view.window.TobBar_View"/> in der <term type="ediromGui" key="view.window.TopBar"/> verfügbar. Wie bereits oben erwähnt, bieten einige Editionen auch einen Einstieg in den kritischen Bericht als Eintrag in der <term type="ediromGui" key="view.navigator.Navigator"/> an.</p>
             <p>Ferner liefert <term type="ediromGui" key="global_appName"/> die Möglichkeit, Annotationen in <term type="ediromGui" key="view.window.AnnotationView_Categories"/> und <term type="ediromGui" key="view.window.AnnotationView_Priority"/> einzuteilen.
                Der Gebrauch dieser Optionen hängt von den Editionsrichtlinen ab (z.B. den Kategorien, die tatsächlich verwendet wurden). 
                Deshalb sollte die folgende Beschreibung nicht als komplette Dokumentation gesehen werden, sondern eher als eine Einführung in die grundsätlichen Konzepte dieser Überlegung.</p>
@@ -441,6 +424,8 @@
                <graphic url="help/images/annotationOverview.png"/>
                <head>Ein exemplarischer Screenshot eines Annotationssymbols, das den Tooltip einer einzelnen Annotation zeigt.</head>
             </figure>
+            
+            <!-- working with annotations PRIORITY -->
             <div type="div2">
                <head><term type="ediromGui" key="view.window.AnnotationView_Priority"/></head>
                <p>Eine <term type="ediromGui" key="view.window.AnnotationView_Priority"/> gibt einen Hinweis auf die Wichtigkeit der Annotation.
@@ -451,13 +436,15 @@
                </figure>
                <figure>
                   <graphic url="help/images/annotGeneric2.png"/>
-                  <p><hi rend="italic">Priorität 2</hi> Annotationen beziehen sich auf wichtige Aspekte der Edition, die aber nicht von größter Bedeutung für die Edition sind und sind rot/gelb markiert.</p>
+                  <p><hi rend="italic">Priorität 2</hi> Annotationen beziehen sich auf wichtige Aspekte der Edition, die aber nicht von größter Bedeutung für die Edition sind und sind orange markiert.</p>
                </figure>
                <figure>
                   <graphic url="help/images/annotGeneric3.png"/>
                   <p><hi rend="italic">Priorität 3</hi> Annotationen enthalten editorische Beobachtungen, die normalerweise nur für die Dokumentquellen interessant sind. Diese Annotationen sind mit gelb markiert.</p>
                </figure>
             </div>
+            
+            <!-- working with annotations CATEGORY -->
             <div type="div2">
                <head><term type="ediromGui" key="view.window.AnnotationView_Categories"/></head>
                <p>Annotationen können einer oder mehreren <term type="ediromGui" key="view.window.AnnotationView_Categories"/> zugeordnet seein, die jeweils eigene Symbol haben. 
