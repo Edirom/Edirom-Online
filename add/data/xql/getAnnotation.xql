@@ -8,7 +8,7 @@ xquery version "3.1";
 
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)

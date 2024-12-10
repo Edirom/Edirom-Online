@@ -43,6 +43,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
                     'sortVertically',
                     'openConcordanceNavigator',
                     'openSearchWindow',
+                    'openAboutWindow',
                     'switchLanguage');
 
         me.windowSort = new Ext.toolbar.Toolbar(me.getWindowSortConfig());
@@ -73,7 +74,7 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
             me.windowBar3,
             me.windowBar4,
             '-',
-            //me.helpPrefs,
+            me.helpPrefs,
             me.tray
         ];
 
@@ -238,8 +239,8 @@ Ext.define('EdiromOnline.view.desktop.TaskBar', {
         return {
             width: 64,
             items: [
-                me.helpButton,
-                me.langButton/*,
+                me.helpButton/*,
+                me.langButton,
                 me.prefButton*/
             ]
         };

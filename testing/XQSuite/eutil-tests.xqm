@@ -2,7 +2,7 @@ xquery version "3.1";
 
 module namespace eut = "http://www.edirom.de/xquery/xqsuite/eutil-tests";
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "xmldb:exist:///db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "xmldb:exist:///db/apps/Edirom-Online/data/xqm/eutil.xqm";
 
 declare namespace mei="http://www.music-encoding.org/ns/mei";
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -37,4 +37,15 @@ declare
         "de")       %test:assertEquals("Autographe Partitur")
     function eut:test-getLocalizedTitle($node as element(), $lang as xs:string?) as xs:string {
         eutil:getLocalizedTitle($node, $lang)
+};
+
+declare
+    %test:arg("uri")                %test:assertEmpty
+    %test:arg("uri", "")            %test:assertEmpty
+    %test:args("foo")               %test:assertEmpty
+    %test:args("https://edirom.de") %test:assertXPath("/html")
+    %test:args("xmldb:exist://db/apps/Edirom-Online/data/locale/edirom-lang-de.xml")    %test:assertXPath("/langFile")
+    %test:args("/db/apps/Edirom-Online/data/locale/edirom-lang-de.xml")                 %test:assertXPath("/langFile")
+    function eut:test-getDoc($uri as xs:string?) as document-node()? {
+        eutil:getDoc($uri)
 };

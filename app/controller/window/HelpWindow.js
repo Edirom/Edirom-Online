@@ -42,7 +42,6 @@ Ext.define('EdiromOnline.controller.window.HelpWindow', {
         window.doAJAXRequest('data/xql/getHelp.xql',
             'GET', 
             {
-                uri: win.uri,
                 lang: window.getLanguage(),
                 idPrefix: win.id
             },
