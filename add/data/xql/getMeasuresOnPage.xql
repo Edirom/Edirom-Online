@@ -11,7 +11,7 @@ xquery version "3.1";
 
 (: IMPORTS ================================================================= :)
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/eutil" at "/db/apps/Edirom-Online/data/xqm/eutil.xqm";
 
 import module namespace measure = "http://www.edirom.de/xquery/measure" at "/db/apps/Edirom-Online/data/xqm/measure.xqm";
 

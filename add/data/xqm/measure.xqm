@@ -14,7 +14,7 @@ module namespace measure = "http://www.edirom.de/xquery/measure";
 
 import module namespace functx="http://www.functx.com";
 
-import module namespace eutil="http://www.edirom.de/xquery/util" at "/db/apps/Edirom-Online/data/xqm/util.xqm";
+import module namespace eutil="http://www.edirom.de/xquery/eutil" at "/db/apps/Edirom-Online/data/xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
