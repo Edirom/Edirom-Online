@@ -206,7 +206,7 @@ declare function measure:getRegMeasureLabel($reg as node()) as node() {
  : @param $measure The measure to be processed
  : @return The value of the rest as string
  :)
-declare function measure:getMRest($measure) as xs:string {
+declare function measure:getMRest($measure as element(mei:measure)) as xs:string {
 
     if($measure//mei:mRest) then (
         string('1')
