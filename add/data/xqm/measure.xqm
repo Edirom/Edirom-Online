@@ -256,7 +256,7 @@ declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as 
     let $measureNNumber := number($measureN)
     return
         if ($mdiv//mei:measure[.//mei:multiRest][@label]) then (
-            number($mdiv//mei:measure[.//mei:multiRest][substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt (number($measureNNumber - substring-before(@label, '–')))]
+            $mdiv//mei:measure[.//mei:multiRest][number(substring-before(@label, '–')) <= $measureNNumber][.//mei:multiRest/number(@num) gt number($measureNNumber - substring-before(@label, '–'))]
         ) else (
             $mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))]
         )
