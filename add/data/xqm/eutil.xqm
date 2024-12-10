@@ -215,12 +215,17 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
     let $part := $measureOrPerfRes/ancestor::mei:part
     let $voiceRef := $part//mei:staffDef/@decls
     let $voiceID := substring-after($voiceRef, '#')
+    let $voiceElem := $measureOrPerfRes/ancestor::mei:mei/id($voiceID)
 
     let $perfResLabel :=
-        if($type eq 'measure') then
-            ($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/(@label|@codedval))
+        if($type eq 'measure' and $voiceElem[@label]) then
+            ($voiceElem/@label)
+        else if($type eq 'measure' and $voiceElem[@codedval]) then
+            ($voiceElem/@codedval)
+        else if ($measureOrPerfRes[@label]) then
+            ($measureOrPerfRes/@label)
         else
-            ($measureOrPerfRes/(@label|@codedval))
+            ($measureOrPerfRes/@codedval)
 
     let $dictKey := 'perfMedium.perfRes.' || functx:substring-before-if-contains($perfResLabel,'.')
 
