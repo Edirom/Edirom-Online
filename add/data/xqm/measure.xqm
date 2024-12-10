@@ -127,7 +127,7 @@ declare function measure:makeMeasureLabelCritical($measure as node(), $measureLa
  : @param $measure The measure to be processed
  : @return A span containing the label
  :)
-declare function measure:getMeasureLabel($measure as node()) as node() {
+declare function measure:getMeasureLabel($measure as element(mei:measure)) as element(xhtml:span) {
 
     let $measureLabel := measure:getMeasureLabelAttr($measure)
     let $measureID := $measure/@xml:id
