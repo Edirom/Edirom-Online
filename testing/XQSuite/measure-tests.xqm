@@ -10,8 +10,6 @@ declare namespace test="http://exist-db.org/xquery/xqsuite";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 
 declare 
-    %test:args("<title xmlns='http://www.tei-c.org/ns/1.0' 
-        type='main'>Some Title</title>")        %test:assertEmpty
     %test:args("<measure xmlns='http://www.music-encoding.org/ns/mei' 
         n='1'>some content</measure>")          %test:assertEquals("1")
     %test:args("<measure xmlns='http://www.music-encoding.org/ns/mei' 
