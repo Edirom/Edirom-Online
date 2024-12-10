@@ -255,7 +255,7 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         
         // iterate over submitted movements and push them to movementItems variable
         movements.data.each(function(movement) {
-            if(movement.data.parts === null) {
+            if(movement.data.parts.length === 0) {
                 movementItems.push({
                     text: movement.get('name'),
                     handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
@@ -307,7 +307,6 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
                 movementItems.push(item);
             });
         }
-
 
         // check if contains more than one item and save to variable as boolean
         var isDisabled = ((movementItems.length < 1) ? true : false);
