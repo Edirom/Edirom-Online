@@ -267,7 +267,7 @@ declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as 
  :
  : @param $mei The sourcefile
  : @param $surface The surface to look at
- : @returns A list of json objects with measure information
+ : @returns A sequence of map objects with measure information
  :)
 declare function measure:getMeasuresOnPage($mei as node(), $surface as node()) as map(*)* {
 
