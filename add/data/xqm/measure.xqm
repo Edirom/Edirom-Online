@@ -250,7 +250,7 @@ declare function measure:analyzeLabel($measure as element(mei:measure)) as xs:st
  :
  : @param $mdiv The mdiv to be processed
  : @param $measureN The number of the measure to be resolved
- : @return The measures coverd by the multi-measure rest
+ : @return The measures covered by the multi-measure rest
  :)
 declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) as node()* {
     let $measureNNumber := number($measureN)
