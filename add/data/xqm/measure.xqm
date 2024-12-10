@@ -37,7 +37,7 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
 
         let $measureNs :=
             for $measure in $mdiv//mei:measure
-            return measure:analyzeLabels($measure)
+            return measure:analyzeLabel($measure)
 
         let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
 
@@ -224,24 +224,22 @@ declare function measure:getMRest($measure as element(mei:measure)) as xs:string
  : @param $measure The measure to be processed
  : @return An array of strings
  :)
-declare function measure:analyzeLabels($measure as element(mei:measure)) as xs:string* {
+declare function measure:analyzeLabel($measure as element(mei:measure)) as xs:string* {
 
-    let $labels := $measure/@label
+    let $label := $measure/@label
 
-    let $labelsAnalyzed :=
-        for $label in $labels
-        return
-            if (contains($label, '–')) then (
-                let $first := substring-before($label, '–')
-                let $last := substring-after($label, '–')
-                let $steps := xs:integer(number($last) - number($first) + number(1))
-                for $i in 1 to $steps
-                return string(number($first) + $i - 1)
-            ) else ($label)
+    let $labelAnalyzed := if (contains($label, '–')) then(
+                            let $first := substring-before($label, '–')
+                            let $last := substring-after($label, '–')
+                            let $steps := xs:integer(number($last) - number($first) + number(1))
+                            for $i in 1 to $steps
+                            return
+                                string(number($first) + $i - 1)
+                           ) else ($label)
 
-      return
-        if($labels) then (
-            $labelsAnalyzed
+    return
+       if($label) then (
+            $labelAnalyzed
         ) else (
             $measure/@n
         )
