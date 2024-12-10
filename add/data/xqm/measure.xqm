@@ -108,7 +108,7 @@ declare function measure:getMeasureLabelAttr($measure as element(mei:measure)) a
  : @param $measureLabel The label of the measure
  : @return A span containing the label
  :)
-declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel as xs:string)  as node() {
+declare function measure:makeMeasureLabelCritical($measure as node(), $measureLabel as xs:string)  as element(xhtml:span) {
 
     let $measureParentElem := local-name($measure/parent::node())
     return
