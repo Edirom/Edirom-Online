@@ -171,7 +171,7 @@ declare function measure:getMeasureLabel($measure as node()) as node() {
  : @param $labels The measure to be processed
  : @return A span containing the joined label
  :)
-declare function measure:joinMeasureLabels($labels as node()*) as node() {
+declare function measure:joinMeasureLabels($labels as node()*) as element(xhtml:span) {
 
     <xhtml:span>{
         for $label at $pos in functx:distinct-deep($labels)
