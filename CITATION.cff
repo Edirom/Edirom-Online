@@ -1,0 +1,60 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Edirom Online
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Daniel
+    family-names: Röwenstrunk
+    orcid: https://orcid.org/0000-0001-6271-2095
+  - given-names: Peter
+    family-names: Stadler
+    orcid: https://orcid.org/0000-0002-2544-1481
+  - given-names: Benjamin W.
+    family-names: Bohl
+    orcid: https://orcid.org/0000-0001-7217-9167
+  - given-names: Nikolaos
+    family-names: Beer
+    orcid: https://orcid.org/0009-0005-4739-5227
+  - given-names: Kristin
+    family-names: Herold
+    orcid: https://orcid.org/0000-0003-2915-353X
+  - given-names: Daniel
+    family-names: Jettka
+    orcid: https://orcid.org/0000-0002-2375-2227
+  - given-names: Stefan
+    family-names: Münnich
+    orcid: https://orcid.org/0000-0002-0744-5374
+  - given-names: Dennis
+    family-names: Ried
+    orcid: https://orcid.org/0000-0001-5545-2088
+  - given-names: Dennis
+    family-names: Friedl
+    orcid: https://orcid.org/0009-0000-4410-4627
+  - given-names: Hizkiel
+    family-names: Alemayehu
+    orcid: https://orcid.org/0009-0006-3345-086X
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.5347861
+    description: Edirom Online
+repository-code: 'https://github.com/Edirom/Edirom-Online'
+abstract: >-
+  Edirom Online is a software for the presentation and
+  analysis of critical musical editions in a digital format,
+  particularly in the fields of musicology and philology.
+  Edirom Online supports various data formats commonly used
+  in digital humanities, such as TEI (Text Encoding
+  Initiative) for textual data and MEI (Music Encoding
+  Initiative) for musical data, that is visualized with
+  Verovio. This allows for the integration of different data
+  formats, starting in the early days with texts, images and
+  music and adding audio and even film within a single
+  edition.
+license: GPL-3.0
+version: v1.0.0
+date-released: '2024-11-20'

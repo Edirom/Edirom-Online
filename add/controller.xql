@@ -3,7 +3,7 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition="http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "data/xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "data/xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 

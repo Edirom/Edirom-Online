@@ -64,6 +64,7 @@
         <entry key="view.desktop.TaskBar_home" value="Home"/>
         <entry key="view.desktop.TaskBar_work" value="Select work"/>
         <entry key="view.desktop.TaskBar_search" value="Search"/>
+        <entry key="view.desktop.TaskBar_about" value="About"/>
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Open search window"/>
         <entry key="view.desktop.TaskBar_Sort_grid" value="Sort windows in grid"/>
@@ -99,6 +100,8 @@
         <entry key="view.window.concordanceNavigator.ConcordanceNavigator_Show" value="Show"/>
         
         <entry key="view.window.search.SearchWindow_Title" value="Search"/>
+        <entry key="view.window.about.AboutWindow_Title" value="About Edirom Online"/>
+        <entry key="view.window.about.AboutWindow_License" value="License"/>
         <entry key="view.window.source.SourceView_categoriesMenu" value="Categories…"/>
         <entry key="view.window.source.SourceView_prioMenu" value="Priorities…"/>
         <entry key="view.window.source.SourceView_gotoMovement" value="Go to movement/number…"/>
