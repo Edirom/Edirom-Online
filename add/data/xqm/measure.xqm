@@ -190,7 +190,7 @@ declare function measure:joinMeasureLabels($labels as node()*) as node() {
  : @param $reg The reg element (containing measure) to be processed
  : @return The label as string
  :)
-declare function measure:getRegMeasureLabel($reg as node()) as node() {
+declare function measure:getRegMeasureLabel($reg as node()) as element(xhtml:span) {
 
     let $measures := $reg/mei:measure
     let $measuresCount := count($measures)
