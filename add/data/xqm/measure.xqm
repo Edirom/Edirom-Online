@@ -223,7 +223,7 @@ declare function measure:getMRest($measure as element(mei:measure)) as xs:string
  : @param $measure The measure to be processed
  : @return An array of strings
  :)
-declare function measure:analyzeLabels($measure as node()) as xs:string* {
+declare function measure:analyzeLabels($measure as element(mei:measure)) as xs:string* {
 
     let $labels := $measure/@label
 
