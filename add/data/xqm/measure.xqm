@@ -222,7 +222,7 @@ declare function measure:getMRest($measure as element(mei:measure)) as xs:string
  : Returns resolved labels
  :
  : @param $measure The measure to be processed
- : @return An array of strings
+ : @return A sequence of strings
  :)
 declare function measure:analyzeLabel($measure as element(mei:measure)) as xs:string* {
 
