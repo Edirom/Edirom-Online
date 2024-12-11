@@ -7,33 +7,27 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace annotation = "http://www.edirom.de/xquery/annotation" at "../xqm/annotation.xqm";
-
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
-
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-
 declare namespace request = "http://exist-db.org/xquery/request";
 
 
 (: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "json";
-
 declare option output:media-type "application/json";
 
 
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $uri := request:get-parameter('uri', '');
-
 declare variable $edition := request:get-parameter('edition', '');
-
-declare variable $edition_path := eutil:getPreference('edition_path', $edition);
 
 
 (: FUNCTION DECLARATIONS =================================================== :)
@@ -89,13 +83,13 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 
 (: QUERY BODY ============================================================== :)
 
-let $mei := doc($uri)/root()
-
-let $annots := collection($edition_path)//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
+let $mei := doc($uri)
+let $editionCollection := edition:collection($edition_path)
+let $annots := $editionCollection//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 let $categories :=
     for $category in local:getDistinctCategories($annots)
-    let $categoryElement := (collection($edition_path)/id($category)[mei:label or mei:name])[1]
+    let $categoryElement := ($editionCollection/id($category)[mei:label or mei:name])[1]
     let $name := annotation:category_getName($categoryElement, eutil:getLanguage($edition))
     order by $name
     return
@@ -106,7 +100,7 @@ let $categories :=
 
 let $prios :=
     for $priority in local:getDistinctPriorities($annots)
-    let $name := annotation:getPriorityLabel((collection($edition_path)//id($priority)[mei:label or mei:name])[1])
+    let $name := annotation:getPriorityLabel(($editionCollection/id($priority)[mei:label or mei:name])[1])
     order by $name
     return
         map {
