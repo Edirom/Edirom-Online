@@ -30,3 +30,12 @@ declare
         doc("testdata/multiMeasureRests.xml")/mei:mdiv =>
         measure:resolveMultiMeasureRests($measureN)
 };
+
+declare
+    %test:args("xacea1fff-da53-42b4-bb5e-e814e1ca653a")       %test:assertXPath("/xhtml:span[parent::xhtml:span][.='107']")
+    %test:args("x9cafb006-025b-4019-9430-936ab85a62db")       %test:assertXPath("/xhtml:span[parent::xhtml:span][.='108']")
+    %test:args("xf48dfa96-2cf1-43e5-8fbf-ec8d1dca7501")       %test:assertXPath("/xhtml:span[parent::xhtml:span][.='110']")
+    function measuretests:getMeasureLabel($measureID as xs:string) as element(xhtml:span) {
+        doc("testdata/multiMeasureRests.xml")/id($measureID) =>
+        measure:getMeasureLabel()
+};
