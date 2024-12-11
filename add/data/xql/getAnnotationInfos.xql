@@ -84,7 +84,7 @@ declare function local:getDistinctPriorities($annots as element()*) as xs:string
 (: QUERY BODY ============================================================== :)
 
 let $mei := doc($uri)
-let $editionCollection := edition:collection($edition_path)
+let $editionCollection := edition:collection($edition)
 let $annots := $editionCollection//mei:annot[matches(@plist, $uri)] | $mei//mei:annot
 
 let $categories :=
