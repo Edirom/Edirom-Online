@@ -163,7 +163,7 @@
                      <graphic url="help/images/workspace-switcher.png"/>
                      <head><term type="ediromGui" key="view.desktop.Desktop"/></head>
                   </figure>
-                  <p>Der Button mit den zwei horizontalen Pfeilen löst den Befehl <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> aus und es öffnet sich der Navigator für <ptr target="#concordanceNavigator"/>, Details zur Bedienung des Konkordanz-Navigators finden sich im entsprechenden Abschnitt.</p>
+                  <p>The button with the two horizontal arrows triggers the <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> command, and the navigator for <ptr target="#concordanceNavigator"/> opens. Details on how to use the concordance navigator can be found in the corresponding section.
                   <figure>
                      <graphic url="help/images/concordanceNavigator.png"/>
                      <head><term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/></head>
@@ -209,7 +209,7 @@
                <head>
                   <term type="ediromGui" key="controller.window.Window_textView"/>
                </head>
-               <p>If the content of a window is text-based, e.g. a TEI file, the entry for <term type="ediromGui" key="controller.window.Window_textView"/> is within a <term><term type="ediromGui" key= "view.window.TobBar_View"/>Menu</term> window available.
+               <p>If the content of a window is text-based, e.g. a TEI file, the entry for <term type="ediromGui" key="controller.window.Window_textView"/> is within a <term><term type="ediromGui" key="view.window.TobBar_View"/>Menu</term> window available.
                   The <term type="ediromGui" key="controller.window.Window_textView"/> appears in a similar form to a web page and may contain links to other content.
                </p>
             </div>
@@ -328,7 +328,7 @@
                   <figure>
                      <graphic url="help/images/prev-box-next.png"/>
                      <head><term type="ediromGui" key="view.window.source.SourceView_PageBasedView_pageSpinner"/> or <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_measureSpinner"/></head>
-                     <p>The number in the number field shows the current page number (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) or measure number (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView "/>).
+                     <p>The number in the number field shows the current page number (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) or measure number (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>).
                         Switching to another page or measure is possible by clicking on the arrow heads or entering a number in the number field.
                         The possible numbers correspond to the source, so they do not always start with 1 and can also contain alphanumeric characters.</p>
                   </figure>
@@ -387,7 +387,7 @@
                   </list>
                </p>
                <p>Double-clicking on an entry in the annotation list opens the detailed view of the annotation.
-                  In the <term type="ediromGui" key="view.window.TopBar"/> under <term type="ediromGui" key="view.window.AnnotationView_Display"/>the associated sources can be arranged as follows.
+                  In the <term type="ediromGui" key="view.window.TopBar"/> under <term type="ediromGui" key="view.window.AnnotationView_Display"/> the associated sources can be arranged as follows.
                   <list type="gloss">
                      <label><term type="ediromGui" key="view.window.AnnotationView_Grid"/></label>
                      <item>Shows the images from all associated sources in a grid. By double-clicking on an individual object, it can be displayed in the <term type="ediromGui" key="view.window.AnnotationView_Single"/> (see below).</item>
@@ -428,7 +428,7 @@
               <p>Annotations that come from an edition's Critical Report can be opened in different ways in <term type="ediromGui" key="global_appName"/>.
                  <lb/>(1) Symbols that are already displayed in the source already provide a wide range of information. The complete critical report can also be accessed by double-clicking.
                  <lb/>(2) The complete critical report of an edition is usually available as <ptr type="ediromGui" target="#annotationView"/> under the menu item <term key="view.window.TobBar_View"/> in the <term type="ediromGui" key="view.window.TopBar"/> available. As already mentioned above, some editions also offer an entry into the critical report as a topic in the <term type="ediromGui" key="view.navigator.Navigator"/>.</p>
-              <p>Furthermore, <term type="ediromGui" key="global_appName"/> provides the option to create annotations in <term type="ediromGui" key="view.window.AnnotationView_Categories"/> and <term type="ediromGui" key=" view.window.AnnotationView_Priority"/>.
+              <p>Furthermore, <term type="ediromGui" key="global_appName"/> provides the option to create annotations in <term type="ediromGui" key="view.window.AnnotationView_Categories"/> and <term type="ediromGui" key="view.window.AnnotationView_Priority"/>.
                  The use of these options depends on the edition guidelines (e.g. the categories that were actually used). 
                  Therefore, the following description should not be viewed as a complete documentation, but rather as an introduction to the basic concepts of this consideration.</p>
               <figure>
