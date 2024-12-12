@@ -3,6 +3,7 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "data/xqm/edition.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "data/xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
@@ -20,8 +21,8 @@ declare option output:omit-xml-declaration "yes";
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter("edition", "");
-declare variable $editionUri := if($edition) then edition:findEdition($edition) else();
-declare variable $preferences := if($editionUri) then(doc(edition:getPreferencesURI($editionUri))) else();
+declare variable $editionUri := edition:findEdition($edition);
+declare variable $additional_css_path := eutil:getPreference('additional_css_path', $editionUri);
 
 let $eoEditionFiles := collection('/db/apps')//edirom:edition[@xml:id]
 let $eoEditionFilesCount := count($eoEditionFiles)
@@ -77,9 +78,9 @@ let $eoIndexPage :=  <html>
                                     ()
                                 else
                                     (<!-- TODO if prefs css then include here -->,
-                                     if ($preferences//entry[@key = "additional_css_path" and @value != ''])
+                                     if ($additional_css_path)
                                      then
-                                        <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($preferences//entry[@key = 'additional_css_path']/@value, 'xmldb:exist:///db/')), '/')}"/>
+                                        <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($additional_css_path, 'xmldb:exist:///db/')), '/')}"/>
                                      else (),
                                      <script type="text/javascript" src="app.js"/>,
                                      <!-- **WHERE TO OPEN LINKS** -->,
