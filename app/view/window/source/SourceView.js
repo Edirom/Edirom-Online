@@ -255,7 +255,8 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         
         // iterate over submitted movements and push them to movementItems variable
         movements.data.each(function(movement) {
-            if(movement.data.parts.length === 0) {
+            // check if parts exist and if they have ids
+            if(movement.data.parts.length === 0 || movement.data.parts[0].id === null || movement.data.parts[0].id === "") {
                 movementItems.push({
                     text: movement.get('name'),
                     handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
