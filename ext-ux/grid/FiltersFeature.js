@@ -715,7 +715,7 @@ filters[0][data][value]="someValue3"&
         // otherwise scrub the object of filter data
         } else {
             var regex, key;
-            regex = new RegExp('^' + this.paramPrefix + '\[[0-9]+\]');
+            regex = new RegExp('^' + this.paramPrefix + '[[0-9]+]');
             for (key in p) {
                 if (regex.test(key)) {
                     delete p[key];
