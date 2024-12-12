@@ -163,7 +163,7 @@
                      <graphic url="help/images/workspace-switcher.png"/>
                      <head><term type="ediromGui" key="view.desktop.Desktop"/></head>
                   </figure>
-                  <p>The button with the two horizontal arrows triggers the <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> command, and the navigator for <ptr target="#concordanceNavigator"/> opens. Details on how to use the concordance navigator can be found in the corresponding section.
+                  <p>The button with the two horizontal arrows triggers the <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> command, and the navigator for <ptr target="#concordanceNavigator"/> opens. Details on how to use the concordance navigator can be found in the corresponding section.</p>
                   <figure>
                      <graphic url="help/images/concordanceNavigator.png"/>
                      <head><term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/></head>
