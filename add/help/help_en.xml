@@ -146,7 +146,7 @@
                      <graphic url="help/images/arrangeButtons_vertical.png"/>
                      <head><term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/></head>
                   </figure>
-                  <p>The bars of facsimiles and editions are usually provided with bar numbers; these can be shown and hidden for all open windows with musical content using the fourth button from the left.</p>
+                  <p>The <term type="ediromGui" key="Bar"/>s of facsimiles and editions are usually provided with numbers; these can be shown and hidden for all open windows with musical content using the fourth button from the left.</p>
                   <figure>
                      <graphic url="help/images/measureNumbers.png"/>
                      <head><term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/></head>
@@ -191,16 +191,16 @@
                     <head><term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> with and without additional drop-down menu.</head>
                 </figure>
                 <p>Below the slider is the button <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. 
-                  This must be clicked to open the selected measure in all open sources on the desktop.
-                  You can also navigate forward or backward at the measure level within the sources using the arrows to the right and left of the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/> button.
-                  However, if the selected measure occurs in other sources that are not currently open, a button will appear at the bottom right that opens all other sources and rearranges the windows</p>
+                   This must be clicked to open the selected <term type="ediromGui" key="Bar"/> in all open sources on the desktop.
+                   You can also navigate forward or backward at the <term type="ediromGui" key="Bar"/> level within the sources using the arrows to the right and left of the <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/> button.
+                   However, if the selected <term type="ediromGui" key="Bar"/> occurs in other sources that are not currently open, a button will appear at the bottom right that opens all other sources and rearranges the windows</p>
             </div>
 
          <!-- CONTENT WINDOWS -->
          <div type="div1" xml:id="windows">
             <head>Content windows</head>
             <p>At the top of a window with content there is a line that shows the title of the open object.
-               Under the title bar, each window has a <term type="ediromGui" key="view.window.TopBar"/>.
+               Under the title, each window has a <term type="ediromGui" key="view.window.TopBar"/>.
                On the left in the <term type="ediromGui" key="view.window.TopBar"/> is the <term type="ediromGui" key="comboBox"/>, with which you can switch between different <term type="ediromGui" key="views"/> of the currently open window, e.g. <ptr target="#view_text"/>, <ptr target="#facsimileView"/>, <ptr target="#view_XML"/>.
                Depending on the view selected, the <term type="ediromGui" key="view.window.BottomBar"/> may be displayed at the bottom of the window, which provides different tools for manipulating the various objects.</p>
             
@@ -236,8 +236,8 @@
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_showMeasures"/>
                         </label>
-                        <item>The option supports the control of the display of measure numbers from the current source.
-                           Measure numbers appear in the middle of each measure.</item>
+                        <item>The option supports the control of the display of <term type="ediromGui" key="Bar"/> numbers from the current source.
+                           In the middle of each <term type="ediromGui" key="Bar"/> the number is shown.</item>
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_fitView"/>
                         </label>
@@ -283,7 +283,7 @@
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_gotoMeasure"/>
                         </label>
-                        <item>The option opens a dialog in which the desired division and measure number can be entered.</item>
+                        <item>The option opens a dialog in which the desired division and <term type="ediromGui" key="Bar"/> number can be entered.</item>
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_gotoMovement"/>
                         </label>
@@ -303,11 +303,11 @@
                   </figure>
                   <figure>
                      <graphic url="help/images/barView.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: switches to measure-based navigation of the source. When this view is activated, the following three additional tools appear in the <term type="ediromGui" key="view.window.BottomBar"/>.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: switches to <term type="ediromGui" key="Bar"/>-based navigation of the source. When this view is activated, the following three additional tools appear in the <term type="ediromGui" key="view.window.BottomBar"/>.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedCombo.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: The movement whose measures should be displayed can be selected.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: The movement whose <term type="ediromGui" key="Bar"/>s should be displayed can be selected.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/selectVoices.png"/>
@@ -315,7 +315,7 @@
                   </figure>  
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedRange.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Enter a measure range through which you want to scroll.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Enter a <term type="ediromGui" key="Bar"/> range through which you want to scroll.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/slider.png"/>
@@ -328,8 +328,8 @@
                   <figure>
                      <graphic url="help/images/prev-box-next.png"/>
                      <head><term type="ediromGui" key="view.window.source.SourceView_PageBasedView_pageSpinner"/> or <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_measureSpinner"/></head>
-                     <p>The number in the number field shows the current page number (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) or measure number (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>).
-                        Switching to another page or measure is possible by clicking on the arrow heads or entering a number in the number field.
+                     <p>The number in the number field shows the current page number (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) or <term type="ediromGui" key="Bar"/> number (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>).
+                        Switching to another page or <term type="ediromGui" key="Bar"/> is possible by clicking on the arrow heads or entering a number in the number field.
                         The possible numbers correspond to the source, so they do not always start with 1 and can also contain alphanumeric characters.</p>
                   </figure>
                </div>
