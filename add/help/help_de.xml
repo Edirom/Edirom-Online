@@ -131,7 +131,7 @@
                   <graphic url="help/images/arrangeButtons_vertical.png"/>
                   <head><term type="ediromGui" key="view.desktop.TaskBar_Sort_vertical"/></head>
                </figure>
-               <p>Die Takte von Faksimiles und Noteneditionen sind meistens mit Taktnummern versehen, diese können mit dem vierten Button von links für alle geöffneten Fenster mit musikalischem Inhalt ein- und ausgeblendet werden.</p>
+               <p>Die <term type="ediromGui" key="Bar"/>e von Faksimiles und Noteneditionen sind meistens mit Nummern versehen, diese können mit dem vierten Button von links für alle geöffneten Fenster mit musikalischem Inhalt ein- und ausgeblendet werden.</p>
                <figure>
                      <graphic url="help/images/measureNumbers.png"/>
                      <head><term type="ediromGui" key="view.desktop.TaskBar_measureNumbers"/></head>
@@ -173,9 +173,9 @@
                   <term type="ediromGui" key="view.desktop.TaskBar_concordanceNav"/> mit und ohne zusätzliches Drop-Down-Menü.</head>
             </figure>
             <p>Unter der Schiebeleiste befindet sich der Knopf <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. 
-               Dieser muss geklickt werden, um den ausgewählten Takt in allen offenen Quellen des Desktops zu öffnen.
-               Es kann auch vor- bzw. rückwärts auf Taktebene innerhalb der Quellen navigiert werden, indem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
-               Sollte der ausgewählte Takt aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet.</p>
+               Dieser muss geklickt werden, um den ausgewählten <term type="ediromGui" key="Bar"/> in allen offenen Quellen des Desktops zu öffnen.
+               Es kann auch vor- bzw. rückwärts auf <term type="data" key="ediromGui"/>-Ebene innerhalb der Quellen navigiert werden, indem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
+               Sollte der ausgewählte <term type="ediromGui" key="Bar"/> aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet.</p>
             </div>
 
          <!-- CONTENT WINDOWS -->
@@ -220,8 +220,8 @@
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_showMeasures"/>
                         </label>
-                        <item>Die Option unterstützt die Kontrolle der Einblendung von Taktnumern der vorliegenden Quelle.
-                           Taktnummern erscheinen in der Mitte des jeweiligen Taktes.</item>
+                        <item>Die Option unterstützt die Kontrolle der Einblendung von <term type="ediromGui" key="Bar"/>-Nummern der vorliegenden Quelle.
+                           <term type="ediromGui" key="Bar"/>-Nummern erscheinen in der Mitte vom jeweiligen <term type="ediromGui" key="Bar"/>.</item>
                         <label>
                            <term type="ediromGui" key="view.window.source.SourceView_fitView"/>
                         </label>
@@ -267,7 +267,7 @@
                      <label>
                         <term type="ediromGui" key="view.window.source.SourceView_gotoMeasure"/>
                      </label>
-                     <item>Die Option öffnet einen Dialog, in den gewünschte Satz- und Takt-Nummern eingetragen werden können.</item>
+                     <item>Die Option öffnet einen Dialog, in den gewünschte Satz- und <term type="ediromGui" key="Bar"/>-Nummern eingetragen werden können.</item>
                      <label>
                         <term type="ediromGui" key="view.window.source.SourceView_gotoMovement"/>
                      </label>
@@ -287,11 +287,11 @@
                   </figure>
                   <figure>
                      <graphic url="help/images/barView.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: wechselt zu einer taktbasierten Navigation der Quelle. Bei Aktivierung dieser Ansicht erscheinen die drei folgenden zusätzlichen Werkzeuge in der <term type="ediromGui" key="view.window.BottomBar"/>.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>: wechselt zu einer <term type="ediromGui" key="Bar"/>basierten Navigation der Quelle. Bei Aktivierung dieser Ansicht erscheinen die drei folgenden zusätzlichen Werkzeuge in der <term type="ediromGui" key="view.window.BottomBar"/>.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedCombo.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: Es kann der Satz ausgewählt werden, dessen Takte angezeigt werden sollen.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedCombo"/>: Es kann der Satz ausgewählt werden, dessen <term type="ediromGui" key="Bar"/>e angezeigt werden sollen.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/selectVoices.png"/>
@@ -299,7 +299,7 @@
                    </figure>  
                   <figure>
                      <graphic url="help/images/SourceView_measureBasedRange.png"/>
-                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Eingabe eines Taktumfangs, durch den "geblättert" werden soll.</head>
+                     <head><term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>, <term type="ediromGui" key="view.window.source.SourceView_measureBasedRange"/>: Eingabe eines <term type="ediromGui" key="Bar"/>-Umfangs, durch den "geblättert" werden soll.</head>
                   </figure>
                   <figure>
                      <graphic url="help/images/slider.png"/>
@@ -312,8 +312,8 @@
                   <figure>
                      <graphic url="help/images/prev-box-next.png"/>
                      <head><term type="ediromGui" key="view.window.source.SourceView_PageBasedView_pageSpinner"/> bzw. <term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView_measureSpinner"/></head>
-                        <p>Die Zahl im Nummernfeld zeigt die derzeitige Seitenzahl (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) oder Taktzahl (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>) an.
-                           Das Wechseln auf eine andere Seite oder einen anderen Takt ist durch das Klicken auf die Pfeilköpfe oder die Eingabe einer Zahl in das Nummernfeld möglich.
+                     <p>Die Zahl im Nummernfeld zeigt die derzeitige Seitenzahl (<term type="ediromGui" key="view.window.source.SourceView_PageBasedView"/>) oder <term type="ediromGui" key="Bar"/>zahl (<term type="ediromGui" key="view.window.source.SourceView_MeasureBasedView"/>) an.
+                        Das Wechseln auf eine andere Seite oder einen anderen <term type="ediromGui" key="Bar"/> ist durch das Klicken auf die Pfeilköpfe oder die Eingabe einer Zahl in das Nummernfeld möglich.
                            Die möglichen Zahlen korrespondieren mit der Quelle, beginnen also nicht immer mit 1 und können auch alphanumerische Charaktere enthalten.</p>
                   </figure>
                </div>
