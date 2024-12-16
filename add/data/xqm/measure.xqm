@@ -28,9 +28,9 @@ declare namespace xhtml="http://www.w3.org/1999/xhtml";
  :
  : @param $mei the mei file
  : @param $mdivID the ID of the mdiv
- : @return Maps (as strings)
+ : @return Maps
  :)
-declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs:string* {
+declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as map(*)* {
 
     if($mei//mei:parts) then (
         let $mdiv := $mei/id($mdivID)
@@ -56,18 +56,18 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
                 for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
                 let $voiceRef := $part//mei:staffDef/@decls
                 return
-                    concat(
-                        '{id:"', $measure/@xml:id, '",
-                        voice: "', $voiceRef, '",
-                        partLabel: "', eutil:getPartLabel($measure, 'measure'),
-                    '"}')
+                    map{
+                        'id:' : $measure/@xml:id,
+                        'voice' : $voiceRef,
+                        'partLabel' : eutil:getPartLabel($measure, 'measure')
+                    }
             return
-                concat('{',
-                    'id: "measure_', $mdiv/@xml:id, '_', $measureN, '", ',
-                    'measures: [', string-join($measures, ','), '], ',
-                    'mdivs: ["', $mdiv/@xml:id, '"], ',
-                    'name: "', $measureN, '"',
-                '}')
+                map{
+                    'id' : 'measure_' || $mdiv/@xml:id || '_' || $measureN,
+                    'measures' : array{ string-join($measures, ',') },
+                    'mdivs' : array{ $mdiv/@xml:id },
+                    'name' : $measureN
+                }
     ) else (
         for $measure in $mei/id($mdivID)//mei:measure
         let $hasLabel := exists($measure[@label])
@@ -76,12 +76,15 @@ declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as xs
         let $measure := $measures[1]
         let $measureLabel := measure:getMeasureLabelAttr($measure)
         return
-            concat('{',
-                'id: "', $measure/@xml:id, '", ',
-                'measures: [{id:"', $measure/@xml:id, '", voice: "score"}], ',
-                'mdivs: ["', $measure/ancestor::mei:mdiv[1]/@xml:id, '"], ',
-                'name: "', $measureLabel, '"',
-            '}')
+            map {
+                'id' : $measure/@xml:id,
+                'measures' : map {
+                                    'id' : $measure/@xml:id, 
+                                    'voice' : 'score'
+                                  },
+                'mdivs' : array { $measure/ancestor::mei:mdiv[1]/@xml:id },
+                'name' : $measureLabel
+            }
     )
 };
 
