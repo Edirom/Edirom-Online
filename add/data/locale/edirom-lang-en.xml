@@ -145,7 +145,7 @@
         <entry key="view.desktop.TaskBar_btnDesktop" value="Taskbar"/>
         <entry key="view.window.TopBar" value="Window toolbar"/>
         <entry key="view.window.BottomBar" value="Window taskbar"/>
-        <entry key="view.navigator.Navigator" value="Navigator"/>
+        <entry key="view.navigator.Navigator" value="Content overview"/>
         <entry key="global_appName" value="Edirom Online"/>
         <entry key="clickAndHoldDragging" value="dragging"/>
         <entry key="drag-and-drop" value="drag-and-drop"/>

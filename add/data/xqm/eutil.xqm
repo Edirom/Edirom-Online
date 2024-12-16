@@ -281,15 +281,22 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
  : @param $edition The current edition URI
  : @return The preference value
  :)
-declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string {
+declare function eutil:getPreference($key as xs:string, $edition as xs:string?) as xs:string? {
 
-    let $preferencesFile := 
+    (: Try to load a custom preferences file :)
+    let $prefFileCustom := 
         try { doc(edition:getPreferencesURI($edition)) }
-        catch * { util:log-system-out('Failed to load preferences') }
-
+        catch * { util:log-system-out('Failed to load the custom preferences file') }
+    
     return
-        $preferencesFile//entry[@key = $key]/@value => string()
-
+        (: If there is a value for the key in the custom preferences file :)
+        if($prefFileCustom//entry/@key = $key) then
+            $prefFileCustom//entry[@key = $key]/@value => string()
+        (: If not, take the value for the key in the default preferences file :)
+        else
+            try { doc($edition:default-prefs-location)//entry[@key = $key]/@value => string() }
+            (: If the key is not in the default file, then there should be an error :)
+            catch * { util:log-system-out(concat('Failed to find the key `', $key, '` in default preferences file')) }
 };
 
 (:~
@@ -299,16 +306,13 @@ declare function eutil:getPreference($key as xs:string, $edition as xs:string?) 
  : @return The language key
  :)
 declare function eutil:getLanguage($edition as xs:string?) as xs:string {
-
+    
     if (request:get-parameter("lang", "") != "") then
         request:get-parameter("lang", "")
-    
-    else if(request:get-cookie-names() = 'edirom-language') then
-        request:get-cookie-value('edirom-language')
-    
-    else
+    else if(eutil:getPreference('application_language', edition:findEdition($edition))) then
         eutil:getPreference('application_language', edition:findEdition($edition))
-
+    else    
+        'de'
 };
 
 (:~

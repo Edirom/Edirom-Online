@@ -157,7 +157,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
 declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs:string {
     
     (: Work :)
-    if (exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium))) then
+    if (exists($doc//mei:mei) and exists($doc//(mei:workDesc|mei:workList)/mei:work) and not(exists($doc//mei:perfMedium))) then
         (eutil:getLocalizedTitle(($doc//mei:work)[1]/mei:titleStmt[1], $lang))
     else if (exists($doc/root()/mei:work)) then
         (eutil:getLocalizedTitle($doc/root()/mei:work, $lang))
