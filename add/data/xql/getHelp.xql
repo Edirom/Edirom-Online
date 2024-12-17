@@ -41,7 +41,7 @@ let $base := eutil:get-app-collection()
 
 let $baseXslt := $base ||'/data/xslt/'
 
-let $doc := doc(concat('../../help/help_', $lang, '.xml'))
+let $docUri := string-join(($base,concat('help/help_', $lang, '.xml')), '/')
 
 let $contextPath :=
     if(starts-with(document-uri($doc), '/db')) then
@@ -72,7 +72,7 @@ let $doc :=
             <param name="tocDepth" value="1"/>
             <param name="contextPath" value="{$contextPath}"/>
             (: == passing empty value for docUri (XSLT expects xs:anyURI, but ExtJS view does not provide value) -> github#480 == :)
-            <param name="docUri" value="''"/>
+            <param name="docUri" value="{$docUri}"/>
         </parameters>
     )
 
