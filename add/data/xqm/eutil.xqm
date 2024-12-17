@@ -335,6 +335,17 @@ declare function eutil:get-app-base-url() as xs:string? {
 };
 
 (:~
+ : Returns the xmldb-uri to the Edirom Online install directory
+ :
+ : @return xs:string absolute xmldb-uri to Edirom Online
+ :)
+declare function eutil:get-app-collection() as xs:string {
+
+    functx:substring-before-last(functx:substring-before-last(replace(system:get-module-load-path(), 'embedded-eXist-server', ''),'/'),'/')
+
+};
+
+(:~
  : Sorts a sequence of numeric-alpha values or nodes (e.g. 1, 1a, 1b, 2) 
  : This is an adaption of functx:sort-as-numeric()
  :
