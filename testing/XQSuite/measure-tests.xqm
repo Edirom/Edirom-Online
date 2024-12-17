@@ -39,3 +39,14 @@ declare
         doc("testdata/multiMeasureRests.xml")/id($measureID) =>
         measure:getMeasureLabel()
 };
+
+declare
+    %test:args("xacea1fff-da53-42b4-bb5e-e814e1ca653a")       %test:assertEquals("107")
+    %test:args("x9cafb006-025b-4019-9430-936ab85a62db")       %test:assertEquals("108","109")
+    %test:args("xf48dfa96-2cf1-43e5-8fbf-ec8d1dca7501")       %test:assertEquals("110a")
+    %test:args("x10f96702-291d-4d4e-962a-755a4eed2507")       %test:assertEquals("104","105","106","107")
+    %test:args("foo")       %test:assertEmpty
+    function measuretests:analyzeLabel($measureID as xs:string) as xs:string* {
+        doc("testdata/multiMeasureRests.xml")/id($measureID) =>
+        measure:analyzeLabel()
+};

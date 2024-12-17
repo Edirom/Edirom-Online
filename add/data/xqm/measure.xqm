@@ -223,29 +223,27 @@ declare function measure:getMRest($measure as element(mei:measure)) as xs:string
 
 (:~
  : Returns resolved labels
+ : E.g., for a measure with the label "3-5" this function will return "3,4,5";
+ : for a measure with the n attribute "4a" this function will return "4a". 
  :
  : @param $measure The measure to be processed
- : @return A sequence of strings
+ : @return A sequence of measure numbers or labels
  :)
 declare function measure:analyzeLabel($measure as element(mei:measure)) as xs:string* {
-
-    let $label := $measure/@label
-
-    let $labelAnalyzed := if (contains($label, '–')) then(
-                            let $first := substring-before($label, '–')
-                            let $last := substring-after($label, '–')
-                            let $steps := xs:integer(number($last) - number($first) + number(1))
-                            for $i in 1 to $steps
-                            return
-                                string(number($first) + $i - 1)
-                           ) else ($label)
-
-    return
-       if($label) then (
-            $labelAnalyzed
-        ) else (
-            $measure/@n
+    if($measure/@label)
+    then (
+        if (matches($measure/@label, '^\d+[\-–]\d+$'))
+        then (
+            let $first := functx:substring-before-match($measure/@label, '[\-–]') => number()
+            let $last := functx:substring-after-match($measure/@label, '[\-–]') => number()
+            let $steps := ($last - $first + 1) => xs:integer()
+            for $i in 1 to $steps
+            return
+                string($first + $i - 1)
         )
+        else $measure/@label => data()
+    )
+    else $measure/@n => data()
 };
 
 (:~

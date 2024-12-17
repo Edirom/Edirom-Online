@@ -61,7 +61,7 @@
             </layer>
          </staff>
       </measure>
-      <measure xml:id="x9cafb006-025b-4019-9430-936ab85a62db" right="rptend" n="108">
+      <measure xml:id="x9cafb006-025b-4019-9430-936ab85a62db" right="rptend" n="108" label="108-109">
          <staff xml:id="x734d85be-0016-46cb-870f-c83832a5a9db" n="1">
             <layer xml:id="x329eefc9-112e-45be-8d11-6192be6b9eba" n="1">
                <multiRest xml:id="xe9ace48e-8c8f-4e09-b148-669c9c622787" num="2"/>
@@ -98,7 +98,7 @@
          </annot>
       </measure>
       <scoreDef xml:id="xbcc97ddb-c2e5-41f0-84f6-a3e2d1909894" key.sig="3f"/>
-      <measure xml:id="xf48dfa96-2cf1-43e5-8fbf-ec8d1dca7501" left="rptstart" n="110">
+      <measure xml:id="xf48dfa96-2cf1-43e5-8fbf-ec8d1dca7501" left="rptstart" n="110" label="110a">
          <staff xml:id="x64f97717-d198-4b1a-b781-6007919e8a7b" n="1">
             <layer xml:id="xa984364c-714a-4831-a1c5-749fb4f351ac" n="1">
                <mRest xml:id="x2bacf22c-62aa-4cd1-bc00-32c369d05f4c"/>
@@ -135,7 +135,7 @@
             >Trio</dir>
 
       </measure>
-      <measure xml:id="x10f96702-291d-4d4e-962a-755a4eed2507" n="111">
+      <measure xml:id="x10f96702-291d-4d4e-962a-755a4eed2507" n="111" label="104–107">
          <staff xml:id="x7e05edae-3d98-41be-9bdc-c63e1d554e52" n="1">
             <layer xml:id="xb462a6e2-6ab4-4409-80ef-ba1d680c2ec4" n="1">
                <mRest xml:id="x3e2c9f49-a52c-4f5c-8e44-e8c5a3c73386"/>
@@ -168,5 +168,6 @@
             startid="#x762b7489-482f-4b1e-8ba7-1ace39afe415" tstamp="1.000000"
             endid="#x09d63b7f-dd86-4abc-b7b5-e05763317358" tstamp2="5m+1.0000" layer="1"/>
       </measure>
+      <measure xml:id="foo"/>
    </section>
 </mdiv>
