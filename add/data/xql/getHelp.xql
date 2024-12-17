@@ -4,6 +4,11 @@ xquery version "3.1";
  :)
 
 
+(: IMPORTS ================================================================= :)
+
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
+
+
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -32,7 +37,9 @@ let $lang := request:get-parameter('lang', 'en')
 
 let $idPrefix := request:get-parameter('idPrefix', '')
 
-let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
+let $base := eutil:get-app-collection()
+
+let $baseXslt := $base ||'/data/xslt/'
 
 let $doc := doc(concat('../../help/help_', $lang, '.xml'))
 
@@ -50,7 +57,7 @@ let $xsl := doc('../xslt/edirom_langReplacement.xsl')
 let $doc := 
     transform:transform($doc, $xsl,
         <parameters>
-            <param name="base" value="{concat($base, '/../xslt/')}"/>
+            <param name="base" value="{$baseXslt}"/>
             <param name="lang" value="{$lang}"/>
         </parameters>
     )
@@ -60,7 +67,7 @@ let $xsl := doc('../xslt/tei/profiles/edirom-body/teiBody2HTML.xsl')
 let $doc :=
     transform:transform($doc, $xsl,
         <parameters>
-            <param name="base" value="{concat($base, '/../xslt/')}"/>
+            <param name="base" value="{$baseXslt}"/>
             <param name="lang" value="{$lang}"/>
             <param name="tocDepth" value="1"/>
             <param name="contextPath" value="{$contextPath}"/>
