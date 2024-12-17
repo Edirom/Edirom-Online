@@ -174,7 +174,7 @@
             </figure>
             <p>Unter der Schiebeleiste befindet sich der Knopf <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>. 
                Dieser muss geklickt werden, um den ausgewählten <term type="ediromGui" key="Bar"/> in allen offenen Quellen des Desktops zu öffnen.
-               Es kann auch vor- bzw. rückwärts auf <term type="data" key="ediromGui"/>-Ebene innerhalb der Quellen navigiert werden, indem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
+               Es kann auch vor- bzw. rückwärts auf <term type="ediromGui" key="Bar"/>-Ebene innerhalb der Quellen navigiert werden, indem die Pfeile rechts und links des <term type="ediromGui" key="view.window.concordanceNavigator.ConcordanceNavigator_Show"/>-Knopfs verwendet werden.
                Sollte der ausgewählte <term type="ediromGui" key="Bar"/> aber in anderen Quellen vorkommen, die aktuell nicht geöffnet sind, erscheint unten rechts ein Knopf, der alle weiteren Quellen öffnet und die Fenster neu ordnet.</p>
             </div>
 
