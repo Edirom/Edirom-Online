@@ -4,9 +4,7 @@ xquery version "3.1";
  :)
 
 (:~
-    Returns a JSON sequence with all measures on a specific page.
-
-    @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
+    Returns a JSON array with all measures on a specific page.
 :)
 
 (: IMPORTS ================================================================= :)
@@ -34,9 +32,11 @@ let $uri := request:get-parameter('uri', '')
 
 let $surfaceId := request:get-parameter('pageId', '')
 
-let $mei := doc($uri)/root()
+let $mei := eutil:getDoc($uri)
 
 let $surface := $mei/id($surfaceId)
 
 return
-    measure:getMeasuresOnPage($mei, $surface)
+    array {
+        measure:getMeasuresOnPage($mei, $surface)
+    }

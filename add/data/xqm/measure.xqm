@@ -30,7 +30,7 @@ declare namespace xhtml="http://www.w3.org/1999/xhtml";
  : @param $mdivID the ID of the mdiv
  : @return An Array of maps
  :)
-declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as array(*) {
+declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as map(*)* {
 
     if($mei//mei:parts) then (
         let $mdiv := $mei/id($mdivID)
