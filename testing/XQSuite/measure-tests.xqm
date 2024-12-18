@@ -22,6 +22,8 @@ declare
         measure:getMeasureLabelAttr($node)
 };
 
+(: The function `measure:resolveMultiMeasureRests#2` is currently commented out :)
+(:
 declare
     %test:args("4")         %test:assertEmpty
     %test:args("foo")       %test:assertEmpty
@@ -30,6 +32,7 @@ declare
         doc("testdata/multiMeasureRests.xml")/mei:mdiv =>
         measure:resolveMultiMeasureRests($measureN)
 };
+:)
 
 declare
     %test:args("xacea1fff-da53-42b4-bb5e-e814e1ca653a")       %test:assertXPath("/xhtml:span[parent::xhtml:span][.='107']")
