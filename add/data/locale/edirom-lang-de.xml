@@ -68,8 +68,8 @@
         <entry key="view.desktop.TaskBar_Desktop" value="Desktop {0}"/>
         <entry key="view.desktop.TaskBar_searchWin" value="Öffne Suchfenster"/>
         <entry key="view.desktop.TaskBar_Sort_grid" value="Im Raster anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_vertical" value="Übereinander anordnen"/>
-        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Nebeneinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_vertical" value="Nebeneinander anordnen"/>
+        <entry key="view.desktop.TaskBar_Sort_horizontal" value="Übereinander anordnen"/>
         <entry key="view.desktop.TopBar_homeBtnLabel" value="Edirom Online"/>
         <entry key="view.window.AnnotationView_Title" value="Anmerkungen"/>
         <entry key="view.window.AnnotationView_No" value="Nr."/>
@@ -138,14 +138,14 @@
         
         <!-- naming gui elements -->
         <entry key="view.desktop.Desktop" value="Desktop"/>
-        <entry key="view.desktop.TopBar" value="Symbolleiste"/>
+        <entry key="view.desktop.TopBar" value="Toolbar"/>
         <entry key="view.desktop.TopBar_searchField" value="Suchfeld"/>
         <entry key="view.desktop.TopBar_homeBtn" value="{key=view.desktop.TaskBar_home} Button"/>
-        <entry key="view.desktop.TaskBar" value="Task-Leiste"/>
+        <entry key="view.desktop.TaskBar" value="Taskbar"/>
         <entry key="view.desktop.TaskBar_btnDesktop" value="Button der Task-Leiste"/>
-        <entry key="view.window.TopBar" value="Symbolleiste im Fenster"/>
-        <entry key="view.window.BottomBar" value="Task-Leiste im Fenster"/>
-        <entry key="view.navigator.Navigator" value="Navigator"/>
+        <entry key="view.window.TopBar" value="Fenster-Toolbar"/>
+        <entry key="view.window.BottomBar" value="Fenster-Taskleiste"/>
+        <entry key="view.navigator.Navigator" value="Inhaltsübersicht"/>
         <entry key="global_appName" value="Edirom Online"/>
         <entry key="clickAndHoldDragging" value="dragging"/>
         <entry key="drag-and-drop" value="Drag-and-Drop"/>
@@ -178,6 +178,7 @@
         <entry key="Annotation_plus_Title" value="Anmerkung: {0}"/>
         <entry key="Bars_from_to" value="Takte {0} bis {1}"/>
         <entry key="Bar_n" value="Takt {0}"/>
+        <entry key="Bar" value="Takt"/>
         <!-- XSL-FO specific -->
         <entry key="contentsWord" value="Inhaltsverzeichnis"/>
         
