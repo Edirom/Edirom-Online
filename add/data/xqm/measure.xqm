@@ -24,71 +24,6 @@ declare namespace xhtml="http://www.w3.org/1999/xhtml";
 (: FUNCTION DECLARATIONS =================================================== :)
 
 (:~
- : Returns maps for each measure containing measure ID, measures (if multiRest), mdiv ID and a label
- :
- : @param $mei the mei file
- : @param $mdivID the ID of the mdiv
- : @return An Array of maps
- :)
-declare function measure:getMeasures($mei as node(), $mdivID as xs:string) as map(*)* {
-
-    if($mei//mei:parts) then (
-        let $mdiv := $mei/id($mdivID)
-
-        let $measureNs :=
-            for $measure in $mdiv//mei:measure
-            return measure:analyzeLabel($measure)
-
-        let $measureNsDistinct := distinct-values(eutil:sort-as-numeric-alpha($measureNs))
-
-        return
-            for $measureN in $measureNsDistinct
-            let $measures := measure:resolveMultiMeasureRests($mdiv, $measureN)
-
-            let $measures :=
-                for $part in $mdiv//mei:part
-                let $partMeasures :=
-                    if($part//mei:measure/@label) then (
-                        $part//mei:measure[@label = $measureN][1]
-                    ) else (
-                        $part//mei:measure[@n = $measureN][1]
-                    )
-                for $measure in $partMeasures | $measures[ancestor::mei:part = $part]
-                let $voiceRef := $part//mei:staffDef/@decls
-                return
-                    map{
-                        'id:' : $measure/@xml:id,
-                        'voice' : $voiceRef,
-                        'partLabel' : eutil:getPartLabel($measure, 'measure')
-                    }
-            return
-                map{
-                    'id' : 'measure_' || $mdiv/@xml:id || '_' || $measureN,
-                    'measures' : array{ string-join($measures, ',') },
-                    'mdivs' : array{ $mdiv/@xml:id },
-                    'name' : $measureN
-                }
-    ) else (
-        for $measure in $mei/id($mdivID)//mei:measure
-        let $hasLabel := exists($measure[@label])
-        let $attr := if($hasLabel)then('label')else('n')
-        let $measures := $mei/id($mdivID)//mei:measure[@*[local-name() = $attr] = $measure/@*[local-name() = $attr]]
-        let $measure := $measures[1]
-        let $measureLabel := measure:getMeasureLabelAttr($measure)
-        return
-            map {
-                'id' : $measure/@xml:id,
-                'measures' : map {
-                                    'id' : $measure/@xml:id, 
-                                    'voice' : 'score'
-                                  },
-                'mdivs' : array { $measure/ancestor::mei:mdiv[1]/@xml:id },
-                'name' : $measureLabel
-            }
-    )
-};
-
-(:~
  : Returns a label for a measure, taken either from the `@label` attribute 
  : if present or the `@n` attribute otherwise. 
  :
@@ -253,6 +188,8 @@ declare function measure:analyzeLabel($measure as element(mei:measure)) as xs:st
  : @param $measureN The number of the measure to be resolved
  : @return The measures covered by the multi-measure rest
  :)
+(: This does not work, see discussion at https://github.com/Edirom/Edirom-Online/pull/302  :)
+(:
 declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as xs:string) as node()* {
     let $measureNNumber := number($measureN)
     return
@@ -262,6 +199,7 @@ declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as 
             $mdiv//mei:measure[.//mei:multiRest][number(@n) lt $measureNNumber][.//mei:multiRest/number(@num) gt ($measureNNumber - number(@n))]
         )
 };
+:)
 
 (:~
  : Finds all measures on a page.
@@ -270,9 +208,10 @@ declare function measure:resolveMultiMeasureRests($mdiv as node(), $measureN as 
  : @param $surface The surface to look at
  : @returns A sequence of map objects with measure information
  :)
-declare function measure:getMeasuresOnPage($mei as node(), $surface as node()) as map(*)* {
+declare function measure:getMeasuresOnPage($mei as document-node()?, $surface as element(mei:surface)) as map(*)* {
 
-    for $zone in $surface/mei:zone[@type='measure']
+    for $zone in $surface/mei:zone[@type='measure'][@xml:id]
+    (: do we need to compute an id for zones without @xml:id? :)
     let $zoneRef := concat('#', $zone/@xml:id)
     (:
      : The first predicate with `contains` is just a rough estimate to narrow down the result set.
