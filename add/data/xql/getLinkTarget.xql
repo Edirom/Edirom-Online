@@ -206,7 +206,7 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
         return $eventualTitles[1]
     
     else
-        (string('unknown'))
+        ('[No title found!]')
 };
 
 (: QUERY BODY ============================================================== :)
