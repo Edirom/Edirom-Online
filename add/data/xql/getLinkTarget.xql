@@ -192,10 +192,18 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
     (: HTML :)
     else if ($type = 'html') then
         ($doc//head/data(title))
+    
+    else if($type = 'unknown') then
+    
+        let $eventualTitleContainers := ($doc//mei:titleStmt, $doc/tei:titleStmt)
+        let $eventualTitles := (
+            for $et in $eventualTitleContainers return
+                eutil:getLocalizedTitle($eventualTitleContainers[1], $lang),
+            for $t in $doc//*:title return
+                $t => normalize-space()
+        )
         
-    (: MEI fallback if no title is found :)
-    else if (exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1])) then
-        (eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
+        return $eventualTitles[1]
     
     else
         (string('unknown'))
