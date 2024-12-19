@@ -158,8 +158,16 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
     
     (: Work :)
     if ($type = 'work') then
-    (: will fail for MEI v3 or older :)
-        eutil:getLocalizedTitle(($doc//mei:work)[1], $lang)
+        
+        let $workTitleContainer := (
+            (: MEI 3 and older :)
+            ($doc//mei:work)[1]/mei:titleStmt,
+            (: MEI 4 and newer :)
+            ($doc//mei:work)[1]
+        )[1]
+    
+        return
+            eutil:getLocalizedTitle($workTitleContainer, $lang)
     
     (: Recording :)
     else if (exists($doc//mei:mei) and exists($doc//mei:recording)) then
