@@ -173,11 +173,13 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
     else if ($type = 'recording') then
         (eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
     
-    (: Source / Score :)
+    (: Source / Score  MEI 4 and newer :)
     else if ($type = 'source' and exists($doc//mei:manifestation/mei:titleStmt)) then
         (string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
         ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
         => normalize-space())
+     
+     (: Source / Score  MEI 3 and older :)
     else if ($type = 'source' and exists($doc//mei:source/mei:titleStmt)) then
         (string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
         ($doc//mei:source)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
