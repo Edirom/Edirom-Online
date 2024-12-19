@@ -238,6 +238,9 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
 
     setMovements: function(movements) {
         var me = this;
+        
+        // get preference for movement / part - order
+        var gotomenu_display = getPreference('gotomenu_display');
 
         // set me.movements to submitted JSON array
         me.movements = movements;
@@ -245,19 +248,69 @@ Ext.define('EdiromOnline.view.window.source.SourceView', {
         // set meovements for measureBaseView
         me.measureBasedView.setMovements(movements);
 
-        // initialize movementItems variable
+        // initialize movementItems, partList, partNames variables
         var movementItems = [];
-
+        var partList = [];
+        var partNames =[];
+        
         // iterate over submitted movements and push them to movementItems variable
-        movements.each(function(movement) {
-            movementItems.push({
-                text: movement.get('name'),
-                handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
-            });
+        movements.data.each(function(movement) {
+            // check if parts exist and if they have ids
+            if(movement.data.parts.length === 0 || movement.data.parts[0].id === null || movement.data.parts[0].id === "") {
+                movementItems.push({
+                    text: movement.get('name'),
+                    handler: Ext.bind(me.gotoMovement, me, movement.get('id'), true)
+                });
+            } else {
+                if(gotomenu_display == 'partwise') {
+                    movement.data.parts.forEach(function(part) {
+                        var exists = partNames.indexOf(part.name);
+                        var obj = {
+                            text: part.name,
+                            menu: []
+                        };
+                        if (exists === -1) {
+                            partNames.push(part.name);
+                            partList.push(obj);
+                            exists = partNames.length - 1;
+                        }
+                        var menu_mov = {
+                            text: movement.get('name'),
+                            handler: Ext.bind(me.gotoMovement, me, part.id, true)
+                        }
+
+                        partList[exists].menu.push(menu_mov);
+                    });
+                } else {
+                    var parts = [];
+                    movement.data.parts.forEach(function(part){
+                        parts.push(part);
+                    });
+        
+                    var partItems = [];
+                    parts.forEach(function(part){
+                        partItems.push({
+                            text: part.name,
+                            handler: Ext.bind(me.gotoMovement, me, part.id, true)
+                        });
+                    });
+                    
+                    movementItems.push({
+                        text: movement.get('name'),
+                        menu: partItems
+                    });
+                }
+            }
         });
 
+        if(gotomenu_display == 'partwise') {
+            partList.forEach(function(item) {
+                movementItems.push(item);
+            });
+        }
+
         // check if contains more than one item and save to variable as boolean
-        var isDisabled = ((movementItems.length <= 1) ? true : false);
+        var isDisabled = ((movementItems.length < 1) ? true : false);
 
         // add gotoMovement entry to goto menu
         me.gotoMenu.menu.add({

@@ -82,9 +82,8 @@ let $eoIndexPage :=  <html>
                                      then
                                         <link rel="stylesheet" href="{string-join((request:get-context-path(), substring-after($additional_css_path, 'xmldb:exist:///db/')), '/')}"/>
                                      else (),
-                                     <script type="text/javascript" src="app.js"/>,
-                                     <!-- **WHERE TO OPEN LINKS** -->,
-                                     <base target="_blank"/>)
+                                     <script type="text/javascript" src="app.js"/>
+                                     )
                             }
                         </head>
                         <body class="x-body">

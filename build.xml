@@ -32,6 +32,11 @@
                 <include name="data/xslt/tei/Stylesheets/common/"/>
                 <include name="data/xslt/tei/Stylesheets/VERSION"/>
                 <include name="help/**"/>
+                <exclude name="help/images/">
+                    <!-- exclude help images here because the below filterset
+                         would alter their contents and render them unreadable.
+                         Will be copied in anoter copy statement without filterset. -->
+                </exclude>
                 <include name="index/**"/>
             </fileset>
             <fileset dir="${basedir}">
@@ -43,6 +48,13 @@
                 <filter token="project.title" value="${project.title}"/>
                 <filter token="repo.target" value="${repo.target}"/>
             </filterset>
+        </copy>
+        <copy todir="${build.dir}" preservelastmodified="true">
+            <!-- copy help images in separate copy statement because above filterset
+                 would modify their contents and render them unreadable -->
+            <fileset dir="${basedir}/add">
+                <include name="help/images/"/>
+            </fileset>
         </copy>
         <copy file="${build.dir}/resources/pix/ViFE-logo-small-144x144-trans.png" tofile="${build.dir}/icon.png" overwrite="true"/>
         <copy file="${basedir}/CITATION.cff" tofile="${build.dir}/resources/CITATION.cff" overwrite="true"/>
