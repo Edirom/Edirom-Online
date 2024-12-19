@@ -170,7 +170,7 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
             eutil:getLocalizedTitle($workTitleContainer, $lang)
     
     (: Recording :)
-    else if (exists($doc//mei:mei) and exists($doc//mei:recording)) then
+    else if ($type = 'recording') then
         (eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
     
     (: Source / Score :)
@@ -188,7 +188,7 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
         (eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
     
     (: Text :)
-    else if (exists($doc/tei:TEI)) then
+    else if ($type = 'text') then
         (eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
     
     (: HTML :)
