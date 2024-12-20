@@ -81,6 +81,9 @@ let $eoIndexPage :=  <html>
                             <script src="resources/js/ace/ace.js" type="text/javascript" charset="utf-8"/>
                             <script src="resources/js/ace/mode-xml.js" type="text/javascript" charset="utf-8"/>
                             
+                            <!-- **Edirom Audio Player Web Component** -->
+                            <script src="resources/js/edirom-audio-player/edirom-audio-player.js" type="text/javascript" charset="utf-8"></script>
+        
                             <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
                             {
                                 if(($eoEditionUrisCount gt 1 or $eoEditionUrisCount eq 0) and not($edition)) then

@@ -5,3 +5,6 @@
 	path = add/data/xslt/tei/Stylesheets
 	url = https://github.com/TEIC/Stylesheets
 	branch = released
+[submodule "resources/js/edirom-audio-player"]
+	path = resources/js/edirom-audio-player
+	url = https://github.com/Edirom/edirom-audio-player.git
