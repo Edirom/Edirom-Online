@@ -266,17 +266,11 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
     let $base := system:get-module-load-path()
     let $file := eutil:getDoc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
     
-    let $string := 
-        if($file//entry[@key = $key]) 
-        then (
-            $file//entry[@key = $key]/string(@value)
-        ) else (
-            'noValueFound'
-        )  
+    let $string := $file//entry[@key = $key]/string(@value)
     let $string := functx:replace-multi($string, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)
 
     return
-        $string
+        if($string) then $string else 'noValueFound'
 
 };
 
