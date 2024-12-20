@@ -39,6 +39,8 @@ To get some practical insights, look at these projects and editions that already
 
 The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
   * publication of [Webers clarinet quintet]
+  * code of Edirom-Online Release [v1.0.0-beta.4 (Emeritus)]
+  * data of [clarinet quintet: Edition]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
 
@@ -169,6 +171,8 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Paderborn University]: https://www.uni-paderborn.de/en/
 [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen]: https://edirom.de/edirom-projekt/
 [Webers clarinet quintet]: https://klarinettenquintett.weber-gesamtausgabe.de/
+[v1.0.0-beta.4 (Emeritus)]: https://github.com/Edirom/Edirom-Online/releases/tag/v1.0.0-beta.4
+[clarinet quintet: Edition]: https://git.uni-paderborn.de/wega/klarinettenquintett-edirom
 [Freischütz digital]: https://freischuetz-digital.de/
 [Webers Freischütz]: https://edition.freischuetz-digital.de/
 [Freischütz: Edirom-Online]: https://github.com/Freischuetz-Digital/Edirom-Online
