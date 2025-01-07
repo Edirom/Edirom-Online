@@ -204,6 +204,7 @@ declare function eutil:getDocumentLabel($doc as xs:string, $edition as xs:string
 declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:string) as xs:string {
 
     (: request:get-parameter('lang', '') doesn't work?? [DeRi]:)
+    (: replace with eutil:getLanguage($edition) or similar:)
 
     let $lang :=
         if(request:get-parameter('lang', '') = '') then
@@ -214,12 +215,17 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
     let $part := $measureOrPerfRes/ancestor::mei:part
     let $voiceRef := $part//mei:staffDef/@decls
     let $voiceID := substring-after($voiceRef, '#')
+    let $voiceElem := $measureOrPerfRes/ancestor::mei:mei/id($voiceID)
 
     let $perfResLabel :=
-        if($type eq 'measure') then
-            ($measureOrPerfRes/ancestor::mei:mei/id($voiceID)/@label)
-        else
+        if($type eq 'measure' and $voiceElem[@label]) then
+            ($voiceElem/@label)
+        else if($type eq 'measure' and $voiceElem[@codedval]) then
+            ($voiceElem/@codedval)
+        else if ($measureOrPerfRes[@label]) then
             ($measureOrPerfRes/@label)
+        else
+            ($measureOrPerfRes/@codedval)
 
     let $dictKey := 'perfMedium.perfRes.' || functx:substring-before-if-contains($perfResLabel,'.')
 
@@ -266,7 +272,9 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
     let $base := system:get-module-load-path()
     let $file := eutil:getDoc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
     
-    let $string := $file//entry[@key = $key]/string(@value)
+    let $string := if($file//entry[@key = $key]) then (
+                        $file//entry[@key = $key]/string(@value)
+                    ) else('noValueFound')
     let $string := functx:replace-multi($string, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)
 
     return

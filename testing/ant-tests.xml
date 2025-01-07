@@ -32,7 +32,7 @@
         
         <!-- Parse the results and check for errors -->
         <exec executable="xmllint" dir="${temp.dir}" outputproperty="error.count">
-            <arg line="--xpath &quot;count(//testcase[failure])&quot; xqunit-tests-results.xml"/>
+            <arg line="--xpath &quot;count(//testcase[failure|error])&quot; xqunit-tests-results.xml"/>
         </exec>
         
         <!-- Load the results and output to the logs -->
