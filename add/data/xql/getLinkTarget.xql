@@ -185,6 +185,10 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
         ($doc//mei:source)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
         => normalize-space())
     
+    (: MEI fallback if no title is found :)
+    else if (exists($doc//mei:mei) and exists(($doc//mei:titleStmt)[1])) then
+        (eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
+
     (: Text :)
     else if ($type = 'text') then
         (eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
@@ -195,10 +199,10 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
     
     else if($type = 'unknown') then
     
-        let $eventualTitleContainers := ($doc//mei:titleStmt, $doc/tei:titleStmt)
+        let $eventualTitleContainers := ($doc//mei:titleStmt, $doc//tei:titleStmt)
         let $eventualTitles := (
             for $et in $eventualTitleContainers return
-                eutil:getLocalizedTitle($eventualTitleContainers[1], $lang),
+                eutil:getLocalizedTitle($et, $lang),
             for $t in $doc//*:title return
                 $t => normalize-space()
         )
