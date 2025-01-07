@@ -154,7 +154,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
 (:~
  : Returns the window title for an edirom-object
  :)
-declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs:string {
+declare function local:getWindowTitle($doc as node(), $type as xs:string) as xs:string {
     
     (: Work :)
     if ($type = 'work') then
