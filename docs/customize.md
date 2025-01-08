@@ -48,6 +48,10 @@ de/activate **work switch**
 
 # Customize content
 
+## Table of content
+
+On the right of an Edirom-Online you see the table of content, technically called "the Navigator". You can edit and fill this area in the `navigatorDefinition` Element of the edition-file in your data-package. An example is the [navigator](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/edition.xml?ref_type=heads#L13) of the clarinet quintet.
+
 ## SVG overlays
 Edirom Online offers the possibility to add SVG overlays to source images that can be switched on and off dynamically. Defining such an overlay requires two steps.
 
