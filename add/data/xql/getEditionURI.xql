@@ -12,6 +12,7 @@ xquery version "3.1";
 (: IMPORTS ================================================================= :)
 
 import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
@@ -27,7 +28,6 @@ declare option output:method "text";
 
 let $uri := request:get-parameter('uri', '')
 return
-    if (doc-available($uri)) then
-        ($uri)
-    else
-        (edition:findEdition($uri))
+    if (edition:getEditionURI($uri))
+    then edition:getEditionURI($uri)
+    else edition:findEditionUris()[1]
