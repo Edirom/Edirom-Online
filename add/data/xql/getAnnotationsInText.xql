@@ -39,14 +39,14 @@ declare function local:findAnnotations($uri as xs:string, $edition as xs:string)
     edition:collection($edition)//mei:annot[matches(@plist, $uri)]
 };
 
-declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*)* {
+declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*) {
     array {
         for $annotation in $annotations
         let $id := $annotation/string(@xml:id)
         let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
         let $prio := $annotation/mei:ptr[@type = "priority"]/replace(@target, '#', '')
         let $cat := $annotation/mei:ptr[@type = "categories"]/replace(@target, '#', '')
-        let $plist as array(*)* :=
+        let $plist as array(*) :=
             array {
                 for $p in tokenize($annotation/@plist, '\s+')
                 return
