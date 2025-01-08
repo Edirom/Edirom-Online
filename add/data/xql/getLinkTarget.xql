@@ -37,7 +37,7 @@ declare variable $uri := request:get-parameter('uri', '');
 (:~
  : Returns a view for an edirom object
  :)
-declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
+declare function local:getView($type as xs:string, $docUri as xs:string, $doc as document-node()?) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type, '_'),
         'uri':if ($type = ('mei_textView', 'desc_xmlView')) then
@@ -124,7 +124,7 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
 (:~
  : Returns the views for an edirom object
  :)
-declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
+declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as document-node()?) as map(*)* {
     
     let $views := (
         (:'desc_summaryView',:)
@@ -154,7 +154,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
 (:~
  : Returns the window title for an edirom-object
  :)
-declare function local:getWindowTitle($doc as node(), $type as xs:string) as xs:string {
+declare function local:getWindowTitle($doc as document-node()?, $type as xs:string) as xs:string {
     
     (: Work :)
     if ($type = 'work') then
