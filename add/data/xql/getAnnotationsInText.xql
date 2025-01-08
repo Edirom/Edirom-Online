@@ -9,6 +9,10 @@ xquery version "3.1";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
+(: IMPORTS ================================================================= :)
+
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace ft = "http://exist-db.org/xquery/lucene";
@@ -17,8 +21,6 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
-import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
-
 
 (: OPTION DECLARATIONS ===================================================== :)
 
