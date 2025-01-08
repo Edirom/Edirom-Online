@@ -7,6 +7,7 @@
   * [Topbar](#topbar)
   * [Welcome window](#welcome-window)
 - [Customize content](#customize-content)
+  * [Table of content](#table-of-contents)
   * [SVG overlays](#svg-overlays)
   * [Windows](#windows)
 - [Links](#links)
