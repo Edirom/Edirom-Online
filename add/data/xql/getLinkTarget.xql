@@ -194,8 +194,8 @@ declare function local:getWindowTitle($doc as document-node()?, $type as xs:stri
         (eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
     
     (: HTML :)
-    else if ($type = 'html') then
-        ($doc//head/data(title))
+    else if ($type = 'html' and not(functx:all-whitespace($doc//*:head/*:title))) then
+        $doc//*:head/*:title => normalize-space()
     
     else if($type = 'unknown') then
     
