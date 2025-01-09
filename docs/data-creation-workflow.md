@@ -1,9 +1,18 @@
 # Workflow how to prepare data for an edirom edition
 
+* [Prepare repositories](#prepare-repositories)
+* [Images](#images)
+* [Create measure-zones](#create-measure-zones)
+* [MEI](#mei)
+* [TEI](#tei)
+* [Annotations](#annotations)
+* [Concordances](#concordances)
+* [Examples of Edirom editions](#examples-of-edirom-editions)
+
 In the description of how to [setup](docs/setup.md) Edirom Online on a local machine there is the assumption you already have a data package.
-In the early days of Edirom there was a (meanwhile deprecated) Edirom Editor that supported the data creation for writing annotations, creating zones for measures, creating concordances and the creation of the necessary data package.
+In the early days of Edirom there was a (meanwhile deprecated) Edirom Editor that supported the data creation for writing annotations, creating zones for measures, creating concordances and it created the data package.
 So this document trys to describe the workflow to generate data for an Edirom Edition.
-If you beyond that also want to customize Edirom Online and the content have a look to the [customize.md](docs/customize.md).
+If you beyond that also want to customize Edirom Online and the content, eg the table of content of your edition shown in the online publication, have a look to the [customize.md](docs/customize.md).
 
 ## Prepare repositories
 
@@ -42,7 +51,7 @@ Make sure to modify them accordingly in the `termList` of your work-file. See `t
 
 The Edirom-Online has the option to navigate through different sources and the edition in parallel with the concordance navigator. To make this happen, a concordance of corresponding measures of different sources have to be added as `concordance` Element to the edition-file. See an [example](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/edition.xml?ref_type=heads#L148) in the clarinet quintet edition data.
 
-## Examples of Edirom data packages
+## Examples of Edirom editions
 
 While thinking about the structure and the content your edition should have the following examples might be of any help for you.
 * Weber, [_Klarinettenquintett op.34_](https://klarinettenquintett.weber-gesamtausgabe.de/)
