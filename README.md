@@ -148,8 +148,8 @@ If you encounter a security issue in the code, please see the [Security Policy](
 ## Get in touch
 
 Even if you are not ready (yet) to contribute to this wonderful project, maybe instead you just have a question or want to get to know the people involved in the project a little better, here are some ideas for you: 
-* there is an [Edirom mailinglist] with the option for selfsubscription
-* the edirom community is meeting regularly every month at the first wednesday of a month, more information will be promoted via the mailinglist
+* there is an [Edirom mailinglist] with the option for selfsubscription, we send invitations to the community meetings via this list and we have Edirom related discussions on this list
+* the edirom community is meeting regularly every month at the first wednesday of a month, see the [wiki] for more information and meeting minutes
 * start a discussion at [GitHub Discussions]
 
 ## Code of Conduct
@@ -203,6 +203,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [building Edirom locally]: https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#building-locally
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
 [Edirom mailinglist]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
+[wiki]: https://github.com/Edirom/Edirom-Online/wiki
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
