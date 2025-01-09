@@ -118,6 +118,7 @@ Some useful information regarding documentation is captured in the [docs] folder
 * [Customize] Edirom Online and content
 * Edirom Online – [Release Workflow]
 * [Setup Edirom Online] on a local machine
+* a data creation [workflow] for the Edirom-Online
 
 ## Dependencies
 
@@ -185,6 +186,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Customize]: docs/customize.md
 [Release Workflow]: docs/release-workflow.md
 [Setup Edirom Online]: docs/setup.md
+[workflow]: docs/data-creation-workflow.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
