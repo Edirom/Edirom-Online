@@ -135,11 +135,8 @@ declare function source:getSiglum($source as xs:string) as xs:string? {
 
     let $doc := doc($source)
     let $elems := $doc//mei:*[@type eq 'siglum']
-    let $siglum :=
-        if(exists($elems)) then
-            ($elems[1]//text())
-        else
-            ()
-
-    return $siglum
+    return
+        if(exists($elems))
+        then $elems[1] => normalize-space()
+        else ()
 };
