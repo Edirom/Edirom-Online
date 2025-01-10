@@ -206,8 +206,8 @@ declare function local:getWindowTitle($doc as document-node()?, $type as xs:stri
             for $t in $doc//*:title return
                 $t => normalize-space()
         )
-        
-        return $eventualTitles[1]
+        (: ensure to return a string when $eventualTitles is the empty sequence :)
+        return $eventualTitles[1] => string()
     
     else
         ('[No title found!]')
