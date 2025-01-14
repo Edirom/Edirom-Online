@@ -41,7 +41,7 @@ declare function edition:details($uri as xs:string) as map(*) {
         map {
             "id": $edition/string(@xml:id),
             "doc": $uri,
-            "name": $edition/edirom:editionName
+            "name": $edition/edirom:editionName => fn:normalize-space()
         }
 };
 
