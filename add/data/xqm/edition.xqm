@@ -159,14 +159,14 @@ declare function edition:getEditionURI($editionIDorPath as xs:string?) as xs:str
 
 (:~
  : Returns the name of the edition specified by $uri
+ : This is a shortcut function for `edition:details($uri)?name`
+ : and might get deprecated in the future.
  :
  : @param $uri The URI of the Edition's document to process
  : @return the text contents of edirom:edition/edirom:editionName
  :)
 declare function edition:getName($uri as xs:string) as xs:string {
-
-    doc($uri)/edirom:edition/edirom:editionName => fn:normalize-space()
-
+    edition:details($uri)?name
 };
 
 (:~
