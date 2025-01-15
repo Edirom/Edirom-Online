@@ -110,8 +110,9 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
         else
             (local:getTextNotePrecedingContent($preceding))
 };
+
 (:~
- : This function returns a map with details of annotation participants from a specific music source
+ : This function returns a sequence of maps with details of annotation participants from a specific music source
  :
  : @param $participants a prefiltered sequence of annotation URIs pointing to $doc
  : @param $doc a URI pointing to the MEI document
@@ -181,7 +182,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             'origW': $imgWidth
         }
 
-        let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
+        let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems))
 
         where count($elems) gt 0
 
@@ -202,24 +203,22 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             }
 };
 
-declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
+declare function local:getSourceLinkTarget($elems as node()*) as xs:string? {
     if (local-name($elems[1]) eq 'zone')
     then
-        ($elems[1]/string(@xml:id))
+        ($elems[1]/data(@xml:id))
     else
         if (count($elems) > 1)
         then
-            (
-            let $elemsSorted := for $elem in $elems
+            let $elemsSorted :=
+                for $elem in $elems
                 order by count($elem/preceding::*)
-            return
-                $elem
+                return
+                    $elem
             return
                 concat($elemsSorted[1]/@xml:id, '?tstamp2=', (count($elems) - 1), 'm+0')
-            )
         else
-            ($elems[1]/string(@xml:id))
-
+            ($elems[1]/data(@xml:id))
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
@@ -360,13 +359,13 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     This function generates an image path for a specific zone on an image.
     Based on a path prefix and a width.
 
-    @param $basePath The base path prefix for the image databse
-    @param $zone The zone with coordiantes on the image
-    @param $width The width the image should be loaded with
+    @param $zone The zone with coordinates on the image
+    @param $imgWidth The width the image should be loaded with
+    @param $imgHeight The height the image should be loaded with
 
     @return A URL pointing to an image based as xs:string
 :)
-declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:int, $imgHeight as xs:int) as xs:string {
+declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:double, $imgHeight as xs:double) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
 
     let $imgX := number($zone/@ulx)
