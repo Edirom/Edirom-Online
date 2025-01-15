@@ -318,8 +318,8 @@ declare function local:getZone($elem as element()) as element()? {
 (:~
  : Returns type of a zone
  :)
-declare function local:getType($zones as element()*) as xs:string {
-    $zones[1]/@type (: TODO: besser machen :)
+declare function local:getType($zones as element()*) as xs:string? {
+    $zones[1]/data(@type) (: TODO: besser machen (sagt Daniel) :)
 };
 
 declare function local:getBoundingZone($zones as element()*) as element() {
