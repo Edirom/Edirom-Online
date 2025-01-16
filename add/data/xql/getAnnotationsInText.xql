@@ -49,13 +49,12 @@ declare function local:getAnnotations($uriSharp as xs:string, $annotations as el
         let $plist as array(*) :=
             array {
                 for $p in tokenize($annotation/@plist, '\s+')
+                where starts-with($p, $uriSharp)
                 return
-                    if (starts-with($p, $uriSharp)) then
-                        (concat('{id:"', $id, '__', substring-after($p, $uriSharp), '"}'))
-                    else
-                        ()
+                    map {
+                        'id': concat( $id, '__', substring-after($p, $uriSharp))
+                    }
             }
-        let $plist := string-join($plist, ',')
         return
             map {
                 'id': $id,
