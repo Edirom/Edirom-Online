@@ -120,7 +120,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.id + '_textCont div.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -220,7 +220,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.id + '_textCont div.annotation');
         Ext.Array.each(annos, function(anno) {
             Ext.get(anno).hide();
         });
