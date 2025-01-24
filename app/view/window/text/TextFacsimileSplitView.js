@@ -411,7 +411,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     
     getActivePage: function() {
         var me = this;
-        return me.activePage.get('id');
+        return (typeof me.activePage !== 'undefined' && me.activePage !== null?me.activePage.get('id'):null);
     },
 
 	setChapters: function (chapters) {
