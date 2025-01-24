@@ -145,7 +145,7 @@ Ext.define('EdiromOnline.controller.window.text.TextFacsimileSplitView', {
     onAnnotationsVisibilityChange: function(view, visible) {
         var me = this;
 
-        if(visible)
+        if(visible && view.getActivePage() !== null)
             window.doAJAXRequest('data/xql/getAnnotationsInText.xql',
                 'GET', 
                 {
