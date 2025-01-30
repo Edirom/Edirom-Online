@@ -35,8 +35,9 @@ let $albumCover := $doc//mei:graphic[@type = 'cover']/string(@target)
 let $records :=
     for $rec in $doc//mei:recording
     let $recSource := $doc//mei:source[@xml:id = substring-after($rec/@decls, '#')]
-    let $recTitle := $recSource/mei:titleStmt/mei:title
-    let $avFile := $rec/mei:avFile[1]/string(@target)
+    let $recTitle := $recSource/mei:titleStmt/string-join(mei:title, ', ')
+    let $src := $rec/mei:avFile[1]/string(@target)
+    let $mimetype := $rec/mei:avFile[1]/string(@mimetype)
     return
     (:TODO map instead of concatenation :)
 
@@ -44,13 +45,12 @@ let $records :=
         "title": "' || replace($recTitle, '"', '\\"') || '",
         "composer": "' || replace($artist, '"', '\\"') || '",
         "work": "' || replace($album, '"', '\\"') || '",
-        "src": "' || $avFile || '",
+        "src": "' || $src || '",
+        "type": "' || $mimetype || '",
         "cover_art_url": "' || $albumCover || '"' || '
     }'
 
-let $audioConfig := '[' ||
-        replace(string-join($records, ', '), '\n', '')
-    || ']'
+let $audioConfig := '[' || replace(string-join($records, ', '), '\n', '') || ']'
 
 return
     $audioConfig
