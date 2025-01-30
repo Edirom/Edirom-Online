@@ -40,19 +40,34 @@ Ext.define('EdiromOnline.controller.window.audio.AudioView', {
         view.initialized = true;
 
         var uri = view.uri;
-        var type = view.type;
+        
+        window.doAJAXRequest('data/xql/getAudio.xql',
+            'GET', 
+            {
+                uri: uri
+            },
+            Ext.bind(function(response){
+                var audioConfig = response.responseText;
 
-        view.setResult(`
-             <edirom-audio-player tracks='[
-                {"title": "Mercy", "composer": "Vernon Maytone", "work": "Brotheration Reggae 2015", "src": "https://pixabay.com/de/music/download/id-140277.mp3", "type": "audio/mpeg"},
-                {"title": "Walk Good", "composer": "Daddy Roy", "work": "Brotheration Records 2016", "src": "https://pixabay.com/de/music/download/id-140285.mp3", "type": "audio/mpeg"}, 
-                {"title": "To be free", "composer": "Composer 1", "work": "Own work", "src": "https://upload.wikimedia.org/wikipedia/commons/1/12/03may2020-tobefree.mp3", "type": "audio/mpeg"}, 
-                {"title": "A Tale of Distant Lands", "composer": "Robert Schumann", "work": "Own work", "src": "https://upload.wikimedia.org/wikipedia/commons/e/ec/A_Tale_of_Distant_Lands.mp3", "type": "audio/mpeg"}, 
-                {"title": "Funky Souls", "composer": "Amarià", "work": "Soundcloud: Funky Souls (2019)", "src": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Amari%C3%A0_-_Funky_Souls_%282019%29.mp3", "type": "audio/mpeg"}]'
-                height="500px" width="500px" state="pause" track="0" start="0.0" end="" playbackrate="1.0" playbackmode="repeat" displaymode="controls-lg">
-            </edirom-audio-player>
+                settings = `{
+                    "height":"200px",
+                    "playlist":"true",
+                    "progressbar":"true",
+                    "tracks":"${audioConfig.replaceAll('"', '&quot;')}"
+                }`;
 
-        `);
+/**
+                            {"title": "Mercy", "composer": "Vernon Maytone", "work": "Brotheration Reggae 2015", "src": "https://pixabay.com/de/music/download/id-140277.mp3", "type": "audio/mpeg"},
+                            {"title": "Walk Good", "composer": "Daddy Roy", "work": "Brotheration Records 2016", "src": "https://pixabay.com/de/music/download/id-140285.mp3", "type": "audio/mpeg"}, 
+                            {"title": "To be free", "composer": "Composer 1", "work": "Own work", "src": "https://upload.wikimedia.org/wikipedia/commons/1/12/03may2020-tobefree.mp3", "type": "audio/mpeg"}, 
+                            {"title": "A Tale of Distant Lands", "composer": "Robert Schumann", "work": "Own work", "src": "https://upload.wikimedia.org/wikipedia/commons/e/ec/A_Tale_of_Distant_Lands.mp3", "type": "audio/mpeg"}, 
+                            {"title": "Funky Souls", "composer": "Amarià", "work": "Soundcloud: Funky Souls (2019)", "src": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Amari%C3%A0_-_Funky_Souls_%282019%29.mp3", "type": "audio/mpeg"} */
+
+                view.setContent(settings);
+
+            }, this)
+        );
+
     }
 
 });

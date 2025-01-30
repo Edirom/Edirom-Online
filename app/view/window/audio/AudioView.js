@@ -20,27 +20,48 @@ Ext.define('EdiromOnline.view.window.audio.AudioView', {
 
     extend: 'EdiromOnline.view.window.View',
 
-    requires: [
-    ],
-
+    requires: [ ],
     alias : 'widget.audioView',
-
-    layout: 'fit',
-    
+    layout: 'fit',    
     cls: 'audioView',
 
+    // default settings
+    settings: {
+        'tracks': '[{"title": "Mercy", "composer": "Vernon Maytone", "work": "Brotheration Reggae 2015", "src": "https://pixabay.com/de/music/download/id-140277.mp3", "type": "audio/mpeg"}]',
+        'height': '500px',
+        'width': '500px',
+        'state': 'pause',
+        'track': '0',
+        'start': '0.0',
+        'end': '',
+        'playbackrate': '1.0',
+        'playbackmode': 'one',
+        'playlist': 'true',
+        'progressbar': 'true'
+    },
+
+
     initComponent: function () {
-
         var me = this;
-
-        me.html = '<div id="' + me.id + '_audioCont" class="audioViewContent"></div>';
-
+        me.html = '<div id="' + me.id + '_audioCont" class="audioCont"></div>';
         me.callParent();
     },
 
-    setResult: function(text) {
-        Ext.fly(this.id + '_textCont').update(text);
+
+    setContent: function(data) {
+        
+        // loop through data and overwrite settings
+        data = Ext.decode(data);
+        for (var key in data) {
+            this.settings[key] = data[key];
+        }
+
+        // set up custom element
+        text = "<edirom-audio-player id='" + this.id + "_audioPlayer' tracks='"+this.settings.tracks+"' height='"+this.settings.height+"' width='"+this.settings.width+"' state='"+this.settings.state+"' track='"+this.settings.track+"' start='"+this.settings.start+"' end='"+this.settings.end+"' playbackrate='"+this.settings.playbackrate+"' playbackmode='"+this.settings.playbackmode+"' playlist='"+this.settings.playlist+"' progressbar='"+this.settings.progressbar+"'></edirom-audio-player>";
+
+        Ext.fly(this.id + '_audioCont').update(text);
         this.fireEvent('documentLoaded', this);
+
     },
 
     close: function() {
