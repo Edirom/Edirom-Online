@@ -222,7 +222,9 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
         var annos = Ext.query('#' + me.id + '_textCont div.annotation');
         Ext.Array.each(annos, function(anno) {
-            Ext.get(anno).hide();
+            var a = Ext.get(anno);
+            a.setVisibilityMode(Ext.Element.DISPLAY);
+            a.hide();
         });
     },
 
