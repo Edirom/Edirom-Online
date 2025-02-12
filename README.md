@@ -64,8 +64,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 ## Get started
 
-Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db].  
-Please be aware, the software is still under high development and has to be seen as beta software.
+Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db]. 
 
 ### Cloning this repository
 
@@ -106,7 +105,7 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
   * Login with "admin:[empty]"
 * build and deploy **xar of Edirom**
   * also see [building Edirom locally] above
-  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-beta.5-[TIMESTAMP].xar`
+  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-[TIMESTAMP].xar`
 * build **xar of sample data** for deploying at exist-db
   * also see [building sample data]
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
