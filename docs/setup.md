@@ -36,7 +36,7 @@ If you want to customize it, you need to build it and create a xar-package by yo
       root@d5f2f1591708:/app# 
       ``` 
   - the Edirom Online-package is built, we can leave docker-container: `exit`
-  - the directory `build-xar/` was created inside the Edirom-Online repository and contains the built xar-file of Edirom Online: `Edirom-Online-1.0.0-beta.6-20240926-1521.xar` (version and date-strings will vary)
+  - the directory `build-xar/` was created inside the Edirom-Online repository and contains the built xar-file of Edirom Online: `Edirom-Online-1.0.0-20250213-1739.xar` (version and date-strings will vary)
 - navigate back to the edirom-base-directory: `cd ..`
 
 ## Build data package
@@ -77,7 +77,7 @@ Also at this step we can use a docker image, instead of downloading exist on our
         ``` 
     - you might also want to save that password, because it wont be shown elsewhere
 - go to "Package Manager" in the menu on the left and upload the two previously generated xar-packages
-    - `Edirom-Online-1.0.0-beta.6-20240927-0804.xar`
+    - `Edirom-Online-1.0.0-2025213-1739.xar` (version and date-string varies)
     - `EditionExample-0.1.xar`
 - once the upload is finished, the edirom will be available here: [`http://localhost:8080/exist/apps/Edirom-Online/index.html`](http://localhost:8080/exist/apps/Edirom-Online/index.html) (if not, a reload of the browser window may help)
 - you can stop the docker container with `^+C` (Mac) or `CTRL+C` (Windows and Linux) or force-stop it by closing the terminal
