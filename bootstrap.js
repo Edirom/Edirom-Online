@@ -2079,9 +2079,9 @@ Ext.ClassManager.addNameAliasMappings({
   "ExtThemeNeptune.toolbar.Paging": [],
   "ExtThemeNeptune.toolbar.Toolbar": []
 });
-Ext.setVersion("ext-theme-base", "4.2.1");
-Ext.setVersion("ext-theme-neutral", "4.2.1");
-Ext.setVersion("ext-theme-neptune", "4.2.1");
+Ext.setVersion("ext-theme-base", "5.1.1");
+Ext.setVersion("ext-theme-neutral", "5.1.1");
+Ext.setVersion("ext-theme-neptune", "5.1.1");
 Ext.setVersion("eoTheme", "1.0.0");
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/Component.js");;
 Ext.Loader.loadScript("ext/packages/ext-theme-neptune/overrides/toolbar/Toolbar.js");;
