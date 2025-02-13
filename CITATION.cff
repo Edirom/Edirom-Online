@@ -1,6 +1,3 @@
-# This CITATION.cff file was generated with cffinit.
-# Visit https://bit.ly/cffinit to generate yours today!
-
 cff-version: 1.2.0
 title: Edirom Online
 message: >-
@@ -8,36 +5,49 @@ message: >-
   metadata from this file.
 type: software
 authors:
-  - given-names: Daniel
-    family-names: Röwenstrunk
-    orcid: https://orcid.org/0000-0001-6271-2095
-  - given-names: Peter
-    family-names: Stadler
-    orcid: https://orcid.org/0000-0002-2544-1481
   - given-names: Benjamin W.
     family-names: Bohl
     orcid: https://orcid.org/0000-0001-7217-9167
+  - given-names: Daniel
+    family-names: Röwenstrunk
+    orcid: https://orcid.org/0000-0001-6271-2095
   - given-names: Nikolaos
     family-names: Beer
     orcid: https://orcid.org/0009-0005-4739-5227
-  - given-names: Kristin
-    family-names: Herold
-    orcid: https://orcid.org/0000-0003-2915-353X
+  - given-names: Peter
+    family-names: Stadler
+    orcid: https://orcid.org/0000-0002-2544-1481
   - given-names: Daniel
     family-names: Jettka
     orcid: https://orcid.org/0000-0002-2375-2227
-  - given-names: Stefan
-    family-names: Münnich
-    orcid: https://orcid.org/0000-0002-0744-5374
-  - given-names: Dennis
-    family-names: Ried
-    orcid: https://orcid.org/0000-0001-5545-2088
-  - given-names: Dennis
-    family-names: Friedl
-    orcid: https://orcid.org/0009-0000-4410-4627
+  - given-names: Kristin
+    family-names: Herold
+    orcid: https://orcid.org/0000-0003-2915-353X
   - given-names: Hizkiel
     family-names: Alemayehu
     orcid: https://orcid.org/0009-0006-3345-086X
+  - given-names: Dennis
+    family-names: Friedl
+    orcid: https://orcid.org/0009-0000-4410-4627
+  - given-names: Dennis
+    family-names: Ried
+    orcid: https://orcid.org/0000-0001-5545-2088
+  - given-names: Johannes
+    family-names: Kepper
+    orcid: https://orcid.org/0000-0003-4891-260X
+  - given-names: Silke
+    family-names: Reich
+    orcid: https://orcid.org/0009-0007-8817-0299
+  - given-names: Anna Maria
+    family-names: Neubert
+    orcid: https://orcid.org/0000-0002-7528-1842
+  - given-names: Stefan
+    family-names: Münnich
+    orcid: https://orcid.org/0000-0002-0744-5374
+  - given-names: Elena
+    family-names: Schilke
+  - given-names: Salome
+    family-names: Obert
 identifiers:
   - type: doi
     value: 10.5281/zenodo.5347861
@@ -57,4 +67,4 @@ abstract: >-
   edition.
 license: GPL-3.0
 version: v1.0.0
-date-released: '2024-11-20'
+date-released: '2025-02-13'

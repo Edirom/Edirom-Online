@@ -28,7 +28,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  :)
 declare function teitext:isText($uri as xs:string) as xs:boolean {
 
-    exists(doc($uri)/tei:TEI)
+    exists(eutil:getDoc($uri)/tei:TEI)
 
 };
 
@@ -40,8 +40,6 @@ declare function teitext:isText($uri as xs:string) as xs:boolean {
  :)
 declare function teitext:getLabel($uri as xs:string, $edition as xs:string) as xs:string {
 
-    let $language := eutil:getLanguage($edition)
-
-    return doc($uri)//tei:titleStmt/data(tei:title[not(@xml:lang) or @xml:lang = $language])
+    eutil:getLocalizedTitle(eutil:getDoc($uri), eutil:getLanguage($edition))
 
 };

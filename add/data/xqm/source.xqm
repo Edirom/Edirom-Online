@@ -70,7 +70,7 @@ declare function source:getLabels($sources as xs:string*, $edition as xs:string)
  :)
 declare function source:getLabel($source as xs:string, $edition as xs:string) as xs:string {
 
-    let $sourceDoc := doc($source)
+    let $sourceDoc := eutil:getDoc($source)
     let $language := eutil:getLanguage($edition)
 
     let $label :=
@@ -85,7 +85,7 @@ declare function source:getLabel($source as xs:string, $edition as xs:string) as
         if($label) then
             ($label)
         else
-            (doc($source)//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language])
+            ($sourceDoc//mei:meiHead/mei:fileDesc/mei:titleStmt/mei:title[not(@xml:lang) or @xml:lang = $language])
 
     let $label :=
         if($label) then
@@ -112,7 +112,7 @@ declare function source:getSigla($sources as xs:string*) as xs:string {
 };
 
 (:~
- : Returns an array of source sigla
+ : Returns a sequence of source sigla
  :
  : @param $sources The URIs of the Sources' documents to process
  : @return The sigla
@@ -133,13 +133,10 @@ declare function source:getSiglaAsArray($sources as xs:string*) as xs:string* {
  :)
 declare function source:getSiglum($source as xs:string) as xs:string? {
 
-    let $doc := doc($source)
+    let $doc := eutil:getDoc($source)
     let $elems := $doc//mei:*[@type eq 'siglum']
-    let $siglum :=
-        if(exists($elems)) then
-            ($elems[1]//text())
-        else
-            ()
-
-    return $siglum
+    return
+        if(exists($elems))
+        then $elems[1] => normalize-space()
+        else ()
 };

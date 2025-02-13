@@ -21,11 +21,20 @@ declare option output:omit-xml-declaration "yes";
 (: VARIABLE DECLARATIONS =================================================== :)
 
 declare variable $edition := request:get-parameter("edition", "");
-declare variable $editionUri := edition:findEdition($edition);
-declare variable $additional_css_path := eutil:getPreference('additional_css_path', $editionUri);
+declare variable $editionUri := edition:getEditionURI($edition);
 
-let $eoEditionFiles := collection('/db/apps')//edirom:edition[@xml:id]
-let $eoEditionFilesCount := count($eoEditionFiles)
+(: if no valid $editionUri is provided by the request we have to check the whole database :)
+let $eoEditionUris :=
+    if($editionUri)
+    then $editionUri
+    else edition:findEditionUris()
+let $eoEditionUrisCount := count($eoEditionUris)
+
+(: if we have only one valid $editionUri we can look for edition specific CSS :)
+let $additional_css_path :=
+    if($eoEditionUrisCount eq 1)
+    then eutil:getPreference('additional_css_path', $eoEditionUris)
+    else ()
 
 let $comment := comment{"
  *  Edirom Online
@@ -74,7 +83,7 @@ let $eoIndexPage :=  <html>
                             
                             <link rel="stylesheet" href="resources/EdiromOnline-all.css"/>
                             {
-                                if(($eoEditionFilesCount gt 1 or $eoEditionFilesCount eq 0) and not($edition)) then
+                                if(($eoEditionUrisCount gt 1 or $eoEditionUrisCount eq 0) and not($edition)) then
                                     ()
                                 else
                                     (<!-- TODO if prefs css then include here -->,
@@ -87,27 +96,25 @@ let $eoIndexPage :=  <html>
                             }
                         </head>
                         <body class="x-body">
-                            {if(($eoEditionFilesCount gt 1 or $eoEditionFilesCount eq 0) and not($edition)) then
+                            {if(($eoEditionUrisCount gt 1 or $eoEditionUrisCount eq 0) and not($edition)) then
                                 (<div class="container" style="margin: 8.75%;">
                                     <img src="resources/pix/ViFE-logo-small-144x144-trans.png"/>
                                     <h1 style="margin-top:5px;">Edirom Online</h1>
-                                    {if($eoEditionFilesCount eq 0 and not($edition)) then
+                                    {if($eoEditionUrisCount eq 0 and not($edition)) then
                                         (<h3 class="navigatorCategoryTitle">Es wurden keine Editionen gefunden.</h3>)
                                      else
                                         (<h3 class="navigatorCategoryTitle">Bitte Edition auswählen</h3>,
                                          <ul>
                                             {
-                                                for $eoEditionFile in $eoEditionFiles
-                                                    let $editionUri := document-uri($eoEditionFile/root())
-                                                    let $editionID := $eoEditionFile/string(@xml:id)
-                                                    let $editionName := $eoEditionFile/edirom:editionName/text() => normalize-space()
+                                                for $editionUri in $eoEditionUris
+                                                    let $editionDetails := edition:details($editionUri)
                                                     let $editionLanguages := edition:getLanguageCodesSorted($editionUri)
                                                     return (
                                                         <li class="navigatorItem" style="padding-bottom: 0.75em;">
-                                                            <i>{$editionName}</i>
+                                                            <i>{$editionDetails?name}</i>
                                                             <ul>{
                                                                 for $lang in $editionLanguages return
-                                                                <li><a class="x-btn" href="index.html?edition={$editionID}&amp;lang={$lang}">{$lang}</a></li>
+                                                                <li><a class="x-btn" href="index.html?edition={$editionDetails?id}&amp;lang={$lang}">{$lang}</a></li>
                                                             }</ul>
                                                         </li>
                                                     )

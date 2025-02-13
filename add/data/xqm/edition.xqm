@@ -41,7 +41,7 @@ declare function edition:details($uri as xs:string) as map(*) {
         map {
             "id": $edition/string(@xml:id),
             "doc": $uri,
-            "name": $edition/edirom:editionName
+            "name": $edition/edirom:editionName => fn:normalize-space()
         }
 };
 
@@ -50,11 +50,14 @@ declare function edition:details($uri as xs:string) as map(*) {
  :
  : @return The list of URIs
  :)
-declare function edition:getUris() as xs:string* {
+declare function edition:findEditionUris() as xs:string* {
     
-    for $edition in collection('/db/apps')//edirom:edition
+    for $edition in collection('/db/apps')/edirom:edition
+    let $document-uri := document-uri($edition/root())
+    (: exclude editions found within the testing collection :)
+    where not(contains($document-uri, 'testing/XQSuite/data'))
     return
-        'xmldb:exist://' || document-uri($edition/root())
+        'xmldb:exist://' || $document-uri
 };
 
 (:~
@@ -77,15 +80,7 @@ declare function edition:getWorkUris($uri as xs:string) as xs:string* {
  :)
 declare function edition:getLanguageFileURI($uri as xs:string, $lang as xs:string) as xs:string {
 
-    let $doc := (
-        if(doc-available($uri)) then
-            doc($uri)
-        else
-            if(edition:findEdition($uri)) then
-                doc(edition:findEdition($uri))
-            else
-                ()
-    )
+    let $doc := edition:getEditionURI($uri) => eutil:getDoc()
     return
         if ($doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string() != "") then
             $doc//edirom:language[@xml:lang eq $lang]/@xlink:href => string()
@@ -139,39 +134,39 @@ declare function edition:getPreferencesURI($uri as xs:string?) as xs:string {
 };
 
 (:~
- : Returns the URI of the edition specified by the submitted $editionID parameter.
- : If $editionID is the empty string, returns the URI of the first edition found in '/db/apps'.
- : If the submitted $editionID already qualifies to read a document, return $editionID unaltered.
+ : Returns the URI of the edition specified by the submitted $editionIDorPath parameter.
  :
- : @param $editionID The '@xml:id' of the edirom:edition document to process
+ : @param $editionIDorPath The '@xml:id' of or the database path to the edirom:edition document to process
  : @return The URI of the Edition file
  :)
-declare function edition:findEdition($editionID as xs:string?) as xs:string? {
-    
-    if(not($editionID) or $editionID eq '') then(
-        let $edition := (collection('/db/apps')//edirom:edition)[1]
-        return 'xmldb:exist://' || document-uri($edition/root())
-    
-    ) else if(doc-available($editionID)) (:already a qualified URI :) then
-        $editionID
-    
-    else (
-        let $edition := collection('/db/apps')//edirom:edition/id($editionID)
-        return
-            'xmldb:exist://' || document-uri($edition/root())
-        )
+declare function edition:getEditionURI($editionIDorPath as xs:string?) as xs:string? {
+    (: $editionID is the empty sequence or the empty string :)
+    if(not($editionIDorPath))
+    then ()
+
+    (: $editionID is a resolvable file path with an edirom:edition root element :)
+    else if(doc-available($editionIDorPath))
+    then doc($editionIDorPath)/edirom:edition ! concat('xmldb:exist://', document-uri(./root()))
+
+    (: $editionID is a resolvable xml:id that points at an edirom:edition :)
+    (: since there are potentially multiple documents with the same xml:id we fall back to returning only the first one :)
+    else if (collection('/db/apps')/id($editionIDorPath)/self::edirom:edition)
+    then (collection('/db/apps')/id($editionIDorPath)/self::edirom:edition)[1] ! concat('xmldb:exist://', document-uri(./root()))
+
+    (: for everything else the empty sequence will be returned :)
+    else ()
 };
 
 (:~
  : Returns the name of the edition specified by $uri
+ : This is a shortcut function for `edition:details($uri)?name`
+ : and might get deprecated in the future.
  :
  : @param $uri The URI of the Edition's document to process
  : @return the text contents of edirom:edition/edirom:editionName
  :)
 declare function edition:getName($uri as xs:string) as xs:string {
-
-    doc($uri)/edirom:edition/edirom:editionName => fn:normalize-space()
-
+    edition:details($uri)?name
 };
 
 (:~
