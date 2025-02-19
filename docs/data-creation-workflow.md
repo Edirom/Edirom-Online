@@ -44,8 +44,16 @@ You can write your text-files like introductions to your edition in html or TEI.
 
 ## Annotations
 
-Annotations have to be added to `notesStmt` in the work-file of your data-package. For an example see the work-file of the [EditionExample](https://github.com/Edirom/EditionExample/blob/develop/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml). You can modify the categories and priorities for annotations. 
-Make sure to modify them accordingly in the `termList` of your work-file. See `termList classcode="#ediromCategory"` for [category](https://github.com/Edirom/EditionExample/blob/1b2361e9b92a0c1b19def754a8dcd8d7acdbfeb1/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml#L112C21-L112C59) and `termList classcode="#ediromPriority"` for [priority](https://github.com/Edirom/EditionExample/blob/1b2361e9b92a0c1b19def754a8dcd8d7acdbfeb1/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml#L174C21-L174C59) of the EditionExample. 
+You can add annotations to your edition and it is possible to provide the annotations with a category and a priority. In general Edirom-Online is looking for annotations encoded with the `annot` Element, but it is not strictly set, where an edition project decides to capture these `annot` elements in their edition. 
+
+**Annotations in work-file**
+
+A lot of editions capture their `annot` Elements inside the `notesStmt` in the work-file of their data-package. For an example see the work-file of the [EditionExample](https://github.com/Edirom/EditionExample/blob/develop/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml). 
+As mentioned above, you can modify the categories and priorities for annotations, which is done also in the work-file of the EditionExample. Make sure to modify them accordingly in the `termList` of your work-file. See `termList classcode="#ediromCategory"` for [category](https://github.com/Edirom/EditionExample/blob/1b2361e9b92a0c1b19def754a8dcd8d7acdbfeb1/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml#L112C21-L112C59) and `termList classcode="#ediromPriority"` for [priority](https://github.com/Edirom/EditionExample/blob/1b2361e9b92a0c1b19def754a8dcd8d7acdbfeb1/content/works/edirom_work_291f7ad8-9bb8-45eb-9186-801dec2f80d9.xml#L174C21-L174C59) of the EditionExample. 
+
+**Annotations in MEI source-file**
+
+Another approach to capture annotations is the encoding of `annot` Elements to an MEI source-file. In [Webers clarinet quintet](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom) the annotations are encoded inside the [source-file](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/sources/source-4-MEI.xml) of the edition directly inside the `measure` where the annotation starts. The edition of the clarinet quintet captures the definition of used priorities and categories of their annotations also in the same source-file in the header within the `taxonomy`element.
 
 ## Concordances
 
