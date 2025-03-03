@@ -72,7 +72,11 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 	        var lang = me.getURLParameter("lang");
 	        if(lang) {
 		        return lang;
-	        } else {
+	        }
+            else if(me.preferences[key]) {
+                return me.preferences[key];
+            }
+            else {
 		        return "en";
 	        }
         }

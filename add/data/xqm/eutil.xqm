@@ -244,10 +244,10 @@ declare function eutil:getPartLabel($measureOrPerfRes as node(), $type as xs:str
  : Returns a language specific string
  :
  : @param $key The key to search for
- : @param $values The values to include into the string
- : @return The string
+ : @param $values The values to replace the placeholders with (from the language string)
+ : @return The looked up language string from a language file
  :)
-declare function eutil:getLanguageString($key as xs:string, $values as xs:string*) as xs:string {
+declare function eutil:getLanguageString($key as xs:string, $values as xs:string*) as xs:string? {
 
     eutil:getLanguageString($key, $values, eutil:getLanguage(''))
 
@@ -255,23 +255,57 @@ declare function eutil:getLanguageString($key as xs:string, $values as xs:string
 
 (:~
  : Returns a language specific string from the locale/edirom-lang files
+ : NB, the project specific language dictionaries are not being queried here.
+ : Please use the four-arity version for this!
  :
  : @param $key The key to search for
- : @param $values The values to include into the string
- : @param $lang The language
- : @return The string
+ : @param $values The values to replace the placeholders with (from the language string)
+ : @param $lang The language code (e.g. "de" or "en")
+ : @return The looked up language string from a language file
  :)
-declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string {
+declare function eutil:getLanguageString($key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string? {
 
-    let $base := system:get-module-load-path()
-    let $file := eutil:getDoc(concat($base, '/../locale/edirom-lang-', $lang, '.xml'))
+    let $file := eutil:getDoc(concat('../locale/edirom-lang-', $lang, '.xml'))
     
-    let $string := $file//entry[@key = $key]/string(@value)
-    let $string := functx:replace-multi($string, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)
+    let $langString := $file//entry[@key = $key]/string(@value)
 
     return
-        $string
+        if($langString) 
+        (: replace placeholders in the language string with values provided to the function as parameter :)
+        then functx:replace-multi($langString, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)
+        else util:log('error', concat('Failed to find the key `', $key, '` in the Edirom default language file'))
 
+};
+
+(:~
+ : Returns a language specific string from the locale/edirom-lang files or project specific language files.
+ : The latter takes precedence.
+ :
+ : @param $edition The URI of the Edition's document to process
+ : @param $key The key to search for
+ : @param $values The values to replace the placeholders with (from the language string) 
+ : @param $lang The language code (e.g. "de" or "en")
+ : @return The looked up language string from a language file
+ :)
+declare function eutil:getLanguageString($edition as xs:string, $key as xs:string, $values as xs:string*, $lang as xs:string) as xs:string? {
+
+    (: Try to load a custom language file :)
+    let $langFileCustom := 
+        try { doc(edition:getLanguageFileURI($edition, $lang)) }
+        catch * { util:log-system-out('Failed to load the custom language file for edition "' || $edition || '"') }
+    
+    let $langString :=
+        (: If there is a value for the key in the custom language file :)
+        if($langFileCustom//entry/@key = $key) then
+            $langFileCustom//entry[@key = $key]/@value => string()
+        (: If not, take the value for the key in the default language file :)
+        else
+            eutil:getDoc(concat('../locale/edirom-lang-', $lang, '.xml'))//entry[@key = $key]/@value => string()
+    return
+        if($langString) 
+        (: replace placeholders in the language string with values provided to the function as parameter :)
+        then functx:replace-multi($langString, for $i in (0 to (count($values) - 1)) return concat('\{',$i,'\}'), $values)
+        else util:log('error', concat('Failed to find the key `', $key, '` in any language file'))
 };
 
 (:~
@@ -309,8 +343,8 @@ declare function eutil:getLanguage($edition as xs:string?) as xs:string {
     
     if (request:get-parameter("lang", "") != "") then
         request:get-parameter("lang", "")
-    else if(eutil:getPreference('application_language', edition:findEdition($edition))) then
-        eutil:getPreference('application_language', edition:findEdition($edition))
+    else if(eutil:getPreference('application_language', edition:getEditionURI($edition))) then
+        eutil:getPreference('application_language', edition:getEditionURI($edition))
     else    
         'de'
 };

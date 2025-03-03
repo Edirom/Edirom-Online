@@ -28,5 +28,6 @@
         <entry key="image_server" value="digilib"/>
         <entry key="edition_path" value="/db/apps/contents"/>
         <entry key="start_documents_uri" value=""/>
+        <entry key="gotomenu_display" value="partwise"/>
     </entries>
 </prefs>

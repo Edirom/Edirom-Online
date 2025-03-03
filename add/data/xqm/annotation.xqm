@@ -100,7 +100,7 @@ declare function annotation:toJSON($anno as element(), $edition as xs:string) as
             if(doc-available($p)) then
                 (doc($p))
             else
-                (collection(eutil:getPreference('edition_path', $edition))//id($p)/root())
+                edition:collection($edition)/id($p)/root()
         return
             if ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']) then
                 ($pDoc//mei:sourceDesc/mei:source/mei:identifier[@type = 'siglum']/text())

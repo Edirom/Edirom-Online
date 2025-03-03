@@ -27,7 +27,16 @@ let $movements as array(*)* :=
         return
             map {
                 'id': $movement/string(@xml:id),
-                'name': $movement/string(@label)
+                'name': $movement/string(@label),
+                'parts': array {
+                    for $part in $movement//mei:part
+                    return
+                        map {
+                            'id': $part/string(@xml:id),
+                            'name': $part/string(@label)
+                        }
+                }
+
         }
     }
 

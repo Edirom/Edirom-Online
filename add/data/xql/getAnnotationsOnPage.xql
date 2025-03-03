@@ -15,30 +15,24 @@ xquery version "3.1";
 
 import module namespace functx = "http://www.functx.com";
 
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
 import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace ft = "http://exist-db.org/xquery/lucene";
-
 declare namespace mei = "http://www.music-encoding.org/ns/mei";
-
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-
 declare namespace request = "http://exist-db.org/xquery/request";
-
 declare namespace svg = "http://www.w3.org/2000/svg";
-
 declare namespace xlink = "http://www.w3.org/1999/xlink";
-
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
 
 (: OPTION DECLARATIONS ===================================================== :)
 
 declare option output:method "json";
-
 declare option output:media-type "application/json";
 
 
@@ -108,7 +102,7 @@ declare function local:findAnnotations($edition as xs:string, $uri as xs:string,
     
     (: TODO: search in other documents and in other collections :)
     (: TODO: check if annotations hold URIs or IDRefs :)
-    let $annots := collection(eutil:getPreference('edition_path', $edition))//mei:annot
+    let $annots := edition:collection($edition)//mei:annot
     let $ret :=
         for $id in $elemIds
         

@@ -9,6 +9,10 @@ xquery version "3.1";
     @author <a href="mailto:roewenstrunk@edirom.de">Daniel Röwenstrunk</a>
 :)
 
+(: IMPORTS ================================================================= :)
+
+import module namespace edition = "http://www.edirom.de/xquery/edition" at "../xqm/edition.xqm";
+
 (: NAMESPACE DECLARATIONS ================================================== :)
 
 declare namespace ft = "http://exist-db.org/xquery/lucene";
@@ -17,8 +21,6 @@ declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare namespace request = "http://exist-db.org/xquery/request";
 declare namespace xlink = "http://www.w3.org/1999/xlink";
 declare namespace xmldb = "http://exist-db.org/xquery/xmldb";
-import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
-
 
 (: OPTION DECLARATIONS ===================================================== :)
 
@@ -37,23 +39,22 @@ declare function local:findAnnotations($uri as xs:string, $edition as xs:string)
     edition:collection($edition)//mei:annot[matches(@plist, $uri)]
 };
 
-declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*)* {
+declare function local:getAnnotations($uriSharp as xs:string, $annotations as element()*) as array(*) {
     array {
         for $annotation in $annotations
         let $id := $annotation/string(@xml:id)
         let $uri := concat('xmldb:exist://', document-uri($annotation/root()), '#', $id)
         let $prio := $annotation/mei:ptr[@type = "priority"]/replace(@target, '#', '')
         let $cat := $annotation/mei:ptr[@type = "categories"]/replace(@target, '#', '')
-        let $plist as array(*)* :=
+        let $plist as array(*) :=
             array {
                 for $p in tokenize($annotation/@plist, '\s+')
+                where starts-with($p, $uriSharp)
                 return
-                    if (starts-with($p, $uriSharp)) then
-                        (concat('{id:"', $id, '__', substring-after($p, $uriSharp), '"}'))
-                    else
-                        ()
+                    map {
+                        'id': concat( $id, '__', substring-after($p, $uriSharp))
+                    }
             }
-        let $plist := string-join($plist, ',')
         return
             map {
                 'id': $id,
