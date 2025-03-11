@@ -19,15 +19,28 @@ while getopts "d" flag; do
  esac
 done
 
+# Welcome
+echo "*********************************************"
+echo "* Welcome to the Edirom Online build script *"
+echo "*********************************************"
+echo ""
 
 # cleaning the build dir
+echo "Cleaning…"
+echo "---------"
 sencha ant clean
 
 # building the app
+echo "Building Edirom Online frontend…"
+echo "-----------------"
 sencha app build $1
 
 # get additional stuff for exist-db
+echo "Copying additional resources to build directory…"
+echo "------------------------------------------------"
 ant build-plus
 
 # build xar
+echo "Packaging Edirom Online as XAR archive…"
+echo "---------------------------------------"
 ant xar
