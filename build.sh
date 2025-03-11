@@ -25,6 +25,9 @@ echo "* Welcome to the Edirom Online build script *"
 echo "*********************************************"
 echo ""
 
+# set shell to exit if any command fails
+set -e
+
 # cleaning the build dir
 echo "Cleaning…"
 echo "---------"
