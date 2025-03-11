@@ -77,9 +77,16 @@ Ext.define('EdiromOnline.controller.LanguageController', {
     },
     
     getLanguage: function() {
-        if(window.getCookie('edirom-language') !== '')
-            return window.getCookie('edirom-language');
-        
-        return getPreference('application_language');
+        /* since removing the cookie, this throws an error because 'application_language' is called before it is defined.
+        * see issue #504
+        * this is a quick fix, language / preferences handling needs some rework
+        */ 
+        try {
+            return getPreference('application_language');
+        }
+        catch (err) {
+            console.log('"application_language" not found, using "en" as default.\n');
+            return 'en'
+        }
     }
 });

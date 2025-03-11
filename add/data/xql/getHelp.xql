@@ -25,6 +25,11 @@ let $idPrefix := request:get-parameter('idPrefix', '')
 let $base := replace(system:get-module-load-path(), 'embedded-eXist-server', '') (:TODO:)
 
 let $doc := doc(concat('../../help/help_', $lang, '.xml'))
+let $contextPath := if(starts-with(document-uri($doc), '/db'))
+                    then substring-after(document-uri($doc), '/db')
+                    else document-uri($doc)
+let $contextPath := substring-before($contextPath, concat('help/help_', $lang, '.xml'))
+let $contextPath := request:get-context-path() || $contextPath
 
 let $xsl := doc('../xslt/edirom_langReplacement.xsl')
 let $doc := 
@@ -35,14 +40,16 @@ let $doc :=
         </parameters>
     )
 
-let $xsl := doc('../xslt/teiBody2HTML.xsl')
+let $xsl := doc('../xslt/tei/profiles/edirom-body/teiBody2HTML.xsl')
 let $doc :=
     transform:transform($doc, $xsl,
         <parameters>
             <param name="base" value="{concat($base, '/../xslt/')}"/>
             <param name="lang" value="{$lang}"/>
             <param name="tocDepth" value="1"/>
-            <param name="graphicsPrefix" value="help/"/>
+            <param name="contextPath" value="{$contextPath}"/>
+            (: == passing empty value for docUri (XSLT expects xs:anyURI, but ExtJS view does not provide value) -> github#480 == :)
+            <param name="docUri" value="''"/>
         </parameters>
     )
 

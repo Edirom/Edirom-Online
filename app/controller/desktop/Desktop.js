@@ -34,6 +34,9 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
             'topbar button[action=openSearchWindow]': {
                 click: this.onOpenSearchWindow
             },
+            'topbar button[action=openAboutWindow]': {
+                click: this.onOpenAboutWindow
+            },
             'topbar #searchTextFieldTop': {
                 specialkey: this.onSpecialKey
             }
@@ -92,6 +95,11 @@ Ext.define('EdiromOnline.controller.desktop.Desktop', {
         var me = this;
         var term = button.textField.getValue();
         me.desktop.openSearchWindow(term);
+    },
+
+    onOpenAboutWindow: function(button, event, args) {
+        var me = this;
+        me.desktop.openAboutWindow();
     },
 
     switchDesktop: function(desk) {

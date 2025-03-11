@@ -43,9 +43,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
             
         me.image_server = getPreference('image_server');
     	
-    	if(me.image_server === 'leaflet'){
-    		me.imageViewer = Ext.create('EdiromOnline.view.window.image.LeafletFacsimile');
-    	}else if(me.image_server === "openseadragon") {
+    	if(me.image_server === "openseadragon") {
             me.imageViewer = Ext.create(
                 "EdiromOnline.view.window.image.OpenSeaDragonViewer",
             );
@@ -261,7 +259,9 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
         var me = this;
         var annos = Ext.query('#' + me.id + '_textCont span.annotation');
         Ext.Array.each(annos, function(anno) {
-            Ext.get(anno).hide();
+            var a = Ext.get(anno);
+            a.setVisibilityMode(Ext.Element.DISPLAY);
+            a.hide();
         });
     },
 
@@ -413,7 +413,7 @@ Ext.define('EdiromOnline.view.window.text.TextFacsimileSplitView', {
     
     getActivePage: function() {
         var me = this;
-        return me.activePage.get('id');
+        return (typeof me.activePage !== 'undefined' && me.activePage !== null?me.activePage.get('id'):null);
     },
 
 	setChapters: function (chapters) {

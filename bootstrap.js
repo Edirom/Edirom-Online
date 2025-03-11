@@ -45,6 +45,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.about.AboutWindow": [],
   "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.controller.window.iFrameView": [],
@@ -78,6 +79,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.View": [],
   "EdiromOnline.view.window.Window": [],
   "EdiromOnline.view.window.XmlView": [],
+  "EdiromOnline.view.window.about.AboutWindow": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
@@ -85,11 +87,8 @@ Ext.ClassManager.addNameAlternateMappings({
   "EdiromOnline.view.window.audio.AudioView": [],
   "EdiromOnline.view.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.view.window.iFrameView": [],
-  "EdiromOnline.view.window.image.ImageLeafletContainer": [],
-  "EdiromOnline.view.window.image.ImageLeafletDetails": [],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
-  "EdiromOnline.view.window.image.LeafletFacsimile": [],
   "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
   "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [],
@@ -959,6 +958,7 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.controller.window.SummaryView": [],
   "EdiromOnline.controller.window.WindowController": [],
   "EdiromOnline.controller.window.XmlView": [],
+  "EdiromOnline.controller.window.about.AboutWindow": [],
   "EdiromOnline.controller.window.audio.AudioView": [],
   "EdiromOnline.controller.window.concordanceNavigator.ConcordanceNavigator": [],
   "EdiromOnline.controller.window.iFrameView": [],
@@ -1019,6 +1019,9 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.XmlView": [
     "widget.xmlView"
   ],
+  "EdiromOnline.view.window.about.AboutWindow": [
+    "widget.aboutWindow"
+  ],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout1": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout2": [],
   "EdiromOnline.view.window.annotationLayouts.AnnotationLayout3": [],
@@ -1032,17 +1035,8 @@ Ext.ClassManager.addNameAliasMappings({
   "EdiromOnline.view.window.iFrameView": [
     "widget.iFrameView"
   ],
-  "EdiromOnline.view.window.image.ImageLeafletContainer": [
-    "widget.layout-horizontal-box"
-  ],
-  "EdiromOnline.view.window.image.ImageLeafletDetails": [
-    "widget.layout-vertical-box"
-  ],
   "EdiromOnline.view.window.image.ImageLoader": [],
   "EdiromOnline.view.window.image.ImageViewer": [],
-  "EdiromOnline.view.window.image.LeafletFacsimile": [
-    "widget.leafletmapview"
-  ],
   "EdiromOnline.view.window.image.OpenSeaDragonViewer": [],
   "EdiromOnline.view.window.image.VerovioImage": [],
   "EdiromOnline.view.window.search.SearchWindow": [

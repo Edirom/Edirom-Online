@@ -14,7 +14,7 @@ xquery version "3.1";
 
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 
 (: NAMESPACE DECLARATIONS ================================================== :)
 
@@ -33,10 +33,7 @@ declare variable $lang := request:get-parameter('lang', '');
 declare variable $edition := request:get-parameter('edition', '');
 declare variable $imageserver := eutil:getPreference('image_server', $edition);
 declare variable $uri := request:get-parameter('uri', '');
-declare variable $imageBasePath := if ($imageserver = 'leaflet') then
-    (eutil:getPreference('leaflet_prefix', $edition))
-else
-    (eutil:getPreference('image_prefix', $edition));
+declare variable $imageBasePath := eutil:getPreference('image_prefix', $edition);
 
 (: FUNCTION DECLARATIONS =================================================== :)
 
@@ -113,8 +110,9 @@ declare function local:getTextNotePrecedingContent($elem as element()) as xs:str
         else
             (local:getTextNotePrecedingContent($preceding))
 };
+
 (:~
- : This function returns a map with details of annotation participants from a specific music source
+ : This function returns a sequence of maps with details of annotation participants from a specific music source
  :
  : @param $participants a prefiltered sequence of annotation URIs pointing to $doc
  : @param $doc a URI pointing to the MEI document
@@ -184,7 +182,7 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             'origW': $imgWidth
         }
 
-        let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems, $zones))
+        let $linkUri := concat('xmldb:exist://', document-uri($graphic/root()), '#', local:getSourceLinkTarget($elems))
 
         where count($elems) gt 0
 
@@ -205,24 +203,22 @@ declare function local:getSourceParticipants($participants as xs:string*, $doc a
             }
 };
 
-declare function local:getSourceLinkTarget($elems as node()*, $zones as node()*) as xs:string {
+declare function local:getSourceLinkTarget($elems as node()*) as xs:string? {
     if (local-name($elems[1]) eq 'zone')
     then
-        ($elems[1]/string(@xml:id))
+        ($elems[1]/data(@xml:id))
     else
         if (count($elems) > 1)
         then
-            (
-            let $elemsSorted := for $elem in $elems
+            let $elemsSorted :=
+                for $elem in $elems
                 order by count($elem/preceding::*)
-            return
-                $elem
+                return
+                    $elem
             return
                 concat($elemsSorted[1]/@xml:id, '?tstamp2=', (count($elems) - 1), 'm+0')
-            )
         else
-            ($elems[1]/string(@xml:id))
-
+            ($elems[1]/data(@xml:id))
 };
 
 declare function local:groupParticipants($participants as xs:string*, $doc as xs:string) as xs:string* {
@@ -321,8 +317,8 @@ declare function local:getZone($elem as element()) as element()? {
 (:~
  : Returns type of a zone
  :)
-declare function local:getType($zones as element()*) as xs:string {
-    $zones[1]/@type (: TODO: besser machen :)
+declare function local:getType($zones as element()*) as xs:string? {
+    $zones[1]/data(@type) (: TODO: besser machen (sagt Daniel) :)
 };
 
 declare function local:getBoundingZone($zones as element()*) as element() {
@@ -344,19 +340,13 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     let $imgHeight := number($graphic/@height)
     let $isAbsolute := starts-with($imagePath, 'http')
 
-    let $fields :=
-        if ($imageserver = 'leaflet') then
-            (substring-before($imagePath, '.'))
-        else
-            ()
+    let $fields := ()
 
     return
         if ($isAbsolute) then
             $imagePath
         else
             switch ($imageserver)
-                case 'leaflet'
-                    return concat($basePath, $fields)
                 case 'openseadragon'
                     return concat($basePath, translate($imagePath, '/', '!'))
                 default
@@ -369,13 +359,13 @@ declare function local:getImageAreaPath($basePath as xs:string, $graphic as elem
     This function generates an image path for a specific zone on an image.
     Based on a path prefix and a width.
 
-    @param $basePath The base path prefix for the image databse
-    @param $zone The zone with coordiantes on the image
-    @param $width The width the image should be loaded with
+    @param $zone The zone with coordinates on the image
+    @param $imgWidth The width the image should be loaded with
+    @param $imgHeight The height the image should be loaded with
 
     @return A URL pointing to an image based as xs:string
 :)
-declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:int, $imgHeight as xs:int) as xs:string {
+declare function local:getImageAreaParams($zone as element()?, $imgWidth as xs:double, $imgHeight as xs:double) as xs:string {
     let $graphic := $zone/../mei:graphic[@type = 'facsimile']
 
     let $imgX := number($zone/@ulx)

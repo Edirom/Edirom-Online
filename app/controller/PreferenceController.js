@@ -64,6 +64,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
     getPreference: function(key, lax) {
         var me = this;
 
+        // if key does not exist but lax is true, return null
         if(!me.preferences[key] && lax)
             return null;
         
@@ -71,7 +72,11 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
 	        var lang = me.getURLParameter("lang");
 	        if(lang) {
 		        return lang;
-	        } else {
+	        }
+            else if(me.preferences[key]) {
+                return me.preferences[key];
+            }
+            else {
 		        return "en";
 	        }
         }
@@ -86,7 +91,7 @@ Ext.define('EdiromOnline.controller.PreferenceController', {
                 key: key,
                 level: 'warn' //warn, error, fatal
             });
-
+        
             return null;
         }
 

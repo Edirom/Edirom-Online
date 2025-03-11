@@ -1,15 +1,28 @@
-[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/docker-ci.yml) [![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
-
 <div align="center">
+
+[![Build](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml/badge.svg?branch=develop&event=push)](https://github.com/Edirom/Edirom-Online/actions/workflows/pre-release.yml) 
+[![NFDI4C Registry](https://nfdi4culture.de/fileadmin/user_upload/registry/badges/nfdi4culturebadge.svg)](https://nfdi4culture.de/id/E3648) 
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![GitHub release](https://img.shields.io/github/v/release/Edirom/Edirom-Online.svg)](https://github.com/Edirom/Edirom-Online/releases) 
+[![FAIR checklist badge](https://fairsoftwarechecklist.net/badge.svg)](https://fairsoftwarechecklist.net/v0.2?f=31&a=32113&i=32300&r=133) 
+[![OpenSSF Best Practices](https://bestpractices.coreinfrastructure.org/projects/9746/badge)](https://bestpractices.coreinfrastructure.org/projects//9746)
+[![fair-software.eu](https://img.shields.io/badge/fair--software.eu-%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F%20%20%E2%97%8F-green)](https://fair-software.eu)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5347861.svg)](https://doi.org/10.5281/zenodo.5347861)
+
+</div>
+
+
+<div align="center"> 
  
-**[Show cases](https://github.com/Edirom/Edirom-Online#-Show-cases) • 
-[Get started](https://github.com/Edirom/Edirom-Online#-Get-started) • 
-[Dependencies](https://github.com/Edirom/Edirom-Online#-Dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online#-Roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online#-Contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online#-Get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online#-Code-of-Conduct) • 
-[License](https://github.com/Edirom/Edirom-Online#-License)**
+**[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
+[Get started](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-started) • 
+[Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
+[Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
+[Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
+[Get in touch](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-in-touch) • 
+[Code of Conduct](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#code-of-conduct) • 
+[Citation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#citation)
+[License](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#license)**
 
 </div>
 
@@ -18,14 +31,16 @@
 Edirom-Online is a software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows for the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
 The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
 
-## Show cases
+## Showcases
 
 To get some practical insights, look at these projects and editions that already use Edirom-Online.
 
 **Clarinet quintet op.34 by Weber**
 
-The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with , annotations and texts.
+The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
   * publication of [Webers clarinet quintet]
+  * code of Edirom-Online Release [v1.0.0-beta.4 (Emeritus)]
+  * data of [clarinet quintet: Edition]
   
   <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
 
@@ -49,8 +64,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 ## Get started
 
-Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db].  
-Please be aware, the software is still under high development and has to be seen as beta software.
+Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db]. 
 
 ### Cloning this repository
 
@@ -91,15 +105,32 @@ When you have your system prepared with all Sencha Cmd prerequisites or you have
   * Login with "admin:[empty]"
 * build and deploy **xar of Edirom**
   * also see [building Edirom locally] above
-  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-beta.5-[TIMESTAMP].xar`
+  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-[TIMESTAMP].xar`
 * build **xar of sample data** for deploying at exist-db
   * also see [building sample data]
   * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
 * in **eXist-db Package Manager** click on the "Edirom Online" entry - you will be directed to the running Edirom at `http://localhost:8080/exist/apps/Edirom-Online/index.html`
 
+## Documentation
+
+Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
+* [Customize] Edirom Online and content
+* Edirom Online – [Release Workflow]
+* [Setup Edirom Online] on a local machine
+* a data creation [workflow] for the Edirom-Online
+
 ## Dependencies
 
 Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
+
+For running the tests provided in the [ANT build file] we rely on `xmllint` 
+and `SaxonHE`. 
+On a Debian based Linux system these can be installed with `apt-get install 
+libsaxonhe-java libxml2-utils`. 
+If SaxonHE is not available from your classpath by default you might need to 
+explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib 
+/usr/share/java/ run-all-tests`. 
+
 
 ## Roadmap
 
@@ -109,18 +140,25 @@ See the [Edirom-Online milestones] for more details.
 
 ## Contributing
 
-After all this information, you decided to conribute to Edirom-Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+After all this information, you decided to contribute to Edirom-Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+
+If you encounter a security issue in the code, please see the [Security Policy](.github/SECURITY.md) for further guidance.
 
 ## Get in touch
 
 Even if you are not ready (yet) to contribute to this wonderful project, maybe instead you just have a question or want to get to know the people involved in the project a little better, here are some ideas for you: 
-* there is an [Edirom mailinglist] with the option for selfsubscription
-* the edirom community is meeting regularly every month at the first wednesday of a month, more information will be promoted via the mailinglist
+* there is an [Edirom mailinglist] with the option for selfsubscription, we send invitations to the community meetings via this list and we have Edirom related discussions on this list
+* the edirom community is meeting regularly every month at the first wednesday of a month, see the [wiki] for more information and meeting minutes
 * start a discussion at [GitHub Discussions]
 
 ## Code of Conduct
 
 Please note that this project is released with a [Contributor Code of Conduct]. By participating in this project you agree to abide by its terms.
+
+## Citation
+
+Please cite the software/repository using the information provided under "Cite this repository" on the right hand side. The APA and BIBTeX citations are fed by information from the CITATION.cff file in this repository which you can also use as a source.
+If you intend to cite unreleased branches or commits please use the commit hash in the citation. 
 
 ## License
 
@@ -133,6 +171,8 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Paderborn University]: https://www.uni-paderborn.de/en/
 [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen]: https://edirom.de/edirom-projekt/
 [Webers clarinet quintet]: https://klarinettenquintett.weber-gesamtausgabe.de/
+[v1.0.0-beta.4 (Emeritus)]: https://github.com/Edirom/Edirom-Online/releases/tag/v1.0.0-beta.4
+[clarinet quintet: Edition]: https://git.uni-paderborn.de/wega/klarinettenquintett-edirom
 [Freischütz digital]: https://freischuetz-digital.de/
 [Webers Freischütz]: https://edition.freischuetz-digital.de/
 [Freischütz: Edirom-Online]: https://github.com/Freischuetz-Digital/Edirom-Online
@@ -141,6 +181,11 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Bargheer: Edition]: https://github.com/Edirom/Bargheer-Edition
 [eXist-db]: https://exist-db.org/
 [Verovio]: https://www.verovio.org/index.xhtml
+[docs]: /docs
+[Customize]: docs/customize.md
+[Release Workflow]: docs/release-workflow.md
+[Setup Edirom Online]: docs/setup.md
+[workflow]: docs/data-creation-workflow.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
@@ -157,10 +202,11 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [building Edirom locally]: https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#building-locally
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
 [Edirom mailinglist]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
+[wiki]: https://github.com/Edirom/Edirom-Online/wiki
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
-
+[ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
 
 <!--
 # EdiromOnline/app

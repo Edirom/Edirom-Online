@@ -9,7 +9,7 @@ import module namespace functx = "http://www.functx.com";
 import module namespace request = "http://exist-db.org/xquery/request";
 import module namespace xmldb = "http://exist-db.org/xquery/xmldb";
 
-import module namespace eutil = "http://www.edirom.de/xquery/util" at "../xqm/util.xqm";
+import module namespace eutil = "http://www.edirom.de/xquery/eutil" at "../xqm/eutil.xqm";
 import module namespace source = "http://www.edirom.de/xquery/source" at "../xqm/source.xqm";
 import module namespace teitext = "http://www.edirom.de/xquery/teitext" at "../xqm/teitext.xqm";
 import module namespace work = "http://www.edirom.de/xquery/work" at "../xqm/work.xqm";
@@ -37,7 +37,7 @@ declare variable $uri := request:get-parameter('uri', '');
 (:~
  : Returns a view for an edirom object
  :)
-declare function local:getView($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)? {
+declare function local:getView($type as xs:string, $docUri as xs:string, $doc as document-node()?) as map(*)? {
     let $baseMap := map {
         'type': substring-after($type, '_'),
         'uri':if ($type = ('mei_textView', 'desc_xmlView')) then
@@ -101,10 +101,13 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
 
         else if ($type = 'mei_annotationView') then
             (exists($doc//mei:annot[@type = 'editorialComment']))
-
-        else if ($type = 'xml_xmlView') then
+        
+        else if($type = 'html_iFrameView') then
             (true())
-
+        
+        else if($type = 'xml_xmlView') then
+            (true())
+        
         else if ($type = 'desc_xmlView') then
             (exists($doc//mei:annot[@type = 'descLink']))
 
@@ -121,8 +124,8 @@ declare function local:getView($type as xs:string, $docUri as xs:string, $doc as
 (:~
  : Returns the views for an edirom object
  :)
-declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as node()+) as map(*)* {
-
+declare function local:getViews($type as xs:string, $docUri as xs:string, $doc as document-node()?) as map(*)* {
+    
     let $views := (
         (:'desc_summaryView',:)
         'desc_headerView',
@@ -134,6 +137,7 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
         'tei_facsimileView',
         'tei_textFacsimileSplitView',
         'mei_annotationView',
+        'html_iFrameView',
         'xml_xmlView',
         'desc_xmlView'
     )
@@ -150,23 +154,32 @@ declare function local:getViews($type as xs:string, $docUri as xs:string, $doc a
 (:~
  : Returns the window title for an edirom-object
  :)
-declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs:string {
-
+declare function local:getWindowTitle($doc as document-node()?, $type as xs:string) as xs:string {
+    
     (: Work :)
-    if (exists($doc//mei:mei) and exists($doc//mei:workDesc/mei:work) and not(exists($doc//mei:perfMedium))) then
-        (eutil:getLocalizedTitle(($doc//mei:work)[1]/mei:titleStmt[1], $lang))
-    else if (exists($doc/root()/mei:work)) then
-        (eutil:getLocalizedTitle($doc/root()/mei:work, $lang))
-
+    if ($type = 'work') then
+        
+        let $workTitleContainer := (
+            (: MEI 3 and older :)
+            ($doc//mei:work)[1]/mei:titleStmt,
+            (: MEI 4 and newer :)
+            ($doc//mei:work)[1]
+        )[1]
+    
+        return
+            eutil:getLocalizedTitle($workTitleContainer, $lang)
+    
     (: Recording :)
-    else if (exists($doc//mei:mei) and exists($doc//mei:recording)) then
+    else if ($type = 'recording') then
         (eutil:getLocalizedTitle($doc//mei:fileDesc/mei:titleStmt[1], $lang))
-
-    (: Source / Score :)
+    
+    (: Source / Score  MEI 4 and newer :)
     else if ($type = 'source' and exists($doc//mei:manifestation/mei:titleStmt)) then
         (string-join((eutil:getLocalizedTitle(($doc//mei:manifestation)[1]/mei:titleStmt[1], $lang),
         ($doc//mei:manifestation)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
         => normalize-space())
+     
+     (: Source / Score  MEI 3 and older :)
     else if ($type = 'source' and exists($doc//mei:source/mei:titleStmt)) then
         (string-join((eutil:getLocalizedTitle(($doc//mei:source)[1]/mei:titleStmt[1], $lang),
         ($doc//mei:source)[1]//mei:identifier[lower-case(@type) = 'shelfmark'][1]), ' | ')
@@ -177,15 +190,27 @@ declare function local:getWindowTitle($doc as node()+, $type as xs:string) as xs
         (eutil:getLocalizedTitle(($doc//mei:titleStmt)[1], $lang))
 
     (: Text :)
-    else if (exists($doc/tei:TEI)) then
+    else if ($type = 'text') then
         (eutil:getLocalizedTitle($doc//tei:fileDesc/tei:titleStmt[1], $lang))
 
     (: HTML :)
-    else if ($type = 'html') then
-        ($doc//head/data(title))
-
+    else if ($type = 'html' and not(functx:all-whitespace($doc//*:head/*:title))) then
+        $doc//*:head/*:title => normalize-space()
+    
+    else if($type = 'unknown') then
+    
+        let $eventualTitleContainers := ($doc//mei:titleStmt, $doc//tei:titleStmt)
+        let $eventualTitles := (
+            for $et in $eventualTitleContainers return
+                eutil:getLocalizedTitle($et, $lang),
+            for $t in $doc//*:title return
+                $t => normalize-space()
+        )
+        (: ensure to return a string when $eventualTitles is the empty sequence :)
+        return $eventualTitles[1] => string()
+    
     else
-        (string('unknown'))
+        ('[No title found!]')
 };
 
 (: QUERY BODY ============================================================== :)
