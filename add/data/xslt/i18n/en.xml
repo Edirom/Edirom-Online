@@ -28,7 +28,7 @@
     <entry xml:id="orderNo">Order number</entry>
     <entry xml:id="EAN">Article number (EAN)</entry>
     <!-- Titelei -->
-    <entry xml:id="publication">Publikation</entry>
+    <entry xml:id="publication">Publication</entry>
     <entry xml:id="series">Series</entry>
     <entry xml:id="publicationDate">Publication Date</entry>
     <!-- Veröffentlichung -->
@@ -104,17 +104,19 @@
     <entry xml:id="workTitle">Title</entry>
     <entry xml:id="unpub">Unpublished</entry>
     <entry xml:id="geogName">Place</entry>
+
     <!-- MEI -->
     <entry xml:id="annot">Annotation</entry>
-    <entry xml:id="componentGrp">Components</entry>
-    <entry xml:id="expressionList">Expressions</entry>
-    <entry xml:id="handList">Scribes</entry>
-    
-    <entry xml:id="corpName">Corporation name</entry>
     <entry xml:id="captureMode">Capturing mode</entry>
     <entry xml:id="carrierForm">Carrier form</entry>
+    <entry xml:id="componentGrp">Components</entry>
+    <entry xml:id="corpName">Corporation name</entry>
+    <entry xml:id="expressionList">Expressions</entry>
     <entry xml:id="fileChar">File characteristics</entry>
+    <entry xml:id="handList">Scribes</entry>
+    <entry xml:id="manifestationList">FRBR manifestations</entry>
     <entry xml:id="playingSpeed">Playing speed</entry>
+    <entry xml:id="pupPlace">Ort</entry>
     <entry xml:id="relationList">FRBR-relations</entry>
     <entry xml:id="soundChan">Sound channels</entry>
     
@@ -133,6 +135,7 @@
     <entry xml:id="fileDesc">File Information</entry>
     <entry xml:id="foliation">Foliation</entry>
     <entry xml:id="imprint">Publication</entry>
+    <entry xml:id="langUsage">Sprachgebrauch</entry>
     <entry xml:id="listWit">Witnesses considered</entry>
     <entry xml:id="listBibl">Bibliography</entry>
     <entry xml:id="material">Material</entry>
@@ -140,7 +143,10 @@
     <entry xml:id="msIdentifier">Location</entry>
     <entry xml:id="orgName">Organisation</entry>
     <entry xml:id="publicationStmt">Publication</entry>
+    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
+    <entry xml:id="rendition">Rendition</entry>
     <entry xml:id="seriesStmt">Series</entry>
+    <entry xml:id="tagsDecl">Description of tag usage</entry>
     <entry xml:id="title_a">Title (analytic)</entry>
     <entry xml:id="title_m">Title (monographic)</entry>
     <entry xml:id="title_j">Title (journal)</entry>
@@ -155,18 +161,16 @@
     <entry xml:id="handNotes">Notes on hands</entry>
     <entry xml:id="itemList">Item List</entry>
     <entry xml:id="placeName">Place name</entry>
-    
     <entry xml:id="respStmt">Responsibility</entry>
-    <entry xml:id="profileDesc">Non-bibliographic aspects</entry>
-
+    
     <entry xml:id="Encoders">Encoders</entry>
     <entry xml:id="binding">Binding</entry>
-    <entry xml:id="leavesCount">(leaves)</entry>    
+    <entry xml:id="leavesCount">(leaves)</entry>
     <entry xml:id="manuscript">manuscript</entry>
     <entry xml:id="imprint_publisher">Publisher</entry>
     <entry xml:id="analytic">Work</entry>
     <entry xml:id="monogr">Publication</entry>
-
+    
     <entry xml:id="leaf">leaf</entry>
     <entry xml:id="cm">cm</entry>
     
