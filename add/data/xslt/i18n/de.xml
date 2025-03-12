@@ -162,7 +162,6 @@
     <entry xml:id="handNotes">Schreiber-Anmerkungen</entry>
     <entry xml:id="itemList">Exemplar(e)</entry>
     <entry xml:id="placeName">Ort</entry>
-    <entry xml:id="profileDesc">Nicht-bibliographische Angaben</entry>
     <entry xml:id="respStmt">Verfasserangabe</entry>
     
     <entry xml:id="Encoders">Codierung</entry>
