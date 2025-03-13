@@ -28,6 +28,13 @@ echo ""
 # set shell to exit if any command fails
 set -e
 
+# check dependencies
+echo "Checking dependencies…"
+echo "----------------------"
+type sencha ant ruby >&2
+xargs=$(which gxargs || which xargs)
+echo ""
+
 # cleaning the build dir
 echo "Cleaning…"
 echo "---------"
