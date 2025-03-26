@@ -42,7 +42,7 @@ The third version of Webers clarinet quintet op.34 was created 2022 by Virtuelle
   * code of Edirom-Online Release [v1.0.0-beta.4 (Emeritus)]
   * data of [clarinet quintet: Edition]
   
-  <img src="./.github/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
+  <img src="./docs/images/EdiromOnline_WeberKlarinettenquintettOp34_2022.jpg" width="80%">
 
 **Freischütz Digital**
 
@@ -50,7 +50,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
   * publication of [Webers Freischütz]
   * code of [Freischütz: Edirom-Online]
 
-<img src="./.github/images/EdiromOnline_WeberFreischuetz_2015.jpg" width="80%">
+<img src="./docs/images/EdiromOnline_WeberFreischuetz_2015.jpg" width="80%">
 
 **Bargheer: Fiedellieder plus**
 
@@ -59,7 +59,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
   * code of [Bargheer: Edirom-Online]
   * data of [Bargheer: Edition]
 
-  <img src="./.github/images/EdiromOnline_BargheerFiedellieder_2013.jpg" width="80%">
+  <img src="./docs/images/EdiromOnline_BargheerFiedellieder_2013.jpg" width="80%">
  
 
 ## Get started
