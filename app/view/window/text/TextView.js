@@ -120,7 +120,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         var me = this;
 
         if(me.annotationsLoaded) {
-            var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+            var annos = Ext.query('#' + me.id + '_textCont div.annotation');
             Ext.Array.each(annos, function(anno) {
                 Ext.get(anno).show();
             });
@@ -130,8 +130,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
         me.annotationsLoaded = true;
 
-        var tpl = Ext.DomHelper.createTemplate('<span id="{0}" class="annotation {1} {2} {3}" data-edirom-annot-id="{3}"></span>');
-        
+        var tpl = Ext.DomHelper.createTemplate('<div class="annotation"><div id="{0}" class="annotIcon {1} {2} {3}" data-edirom-annot-id="{3}"></div></div>');
         tpl.compile();
 
         annotations.each(function(annotation) {
@@ -221,9 +220,11 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
 
     hideAnnotations: function() {
         var me = this;
-        var annos = Ext.query('#' + me.id + '_textCont span.annotation');
+        var annos = Ext.query('#' + me.id + '_textCont div.annotation');
         Ext.Array.each(annos, function(anno) {
-            Ext.get(anno).hide();
+            var a = Ext.get(anno);
+            a.setVisibilityMode(Ext.Element.DISPLAY);
+            a.hide();
         });
     },
 
@@ -243,6 +244,7 @@ Ext.define('EdiromOnline.view.window.text.TextView', {
         me.annotMenu =  Ext.create('Ext.button.Button', {
             text: getLangString('view.window.text.TextView_annotMenu'),
             indent: false,
+            cls: 'menuButton',
             menu : {
                 items: [
                     me.toggleAnnotationVisibility

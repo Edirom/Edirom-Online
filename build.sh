@@ -10,7 +10,7 @@ while getopts "d" flag; do
     # set a variable OPTIONS with the remaining input arguments to pass to the build command
     OPTIONS=${@} 
     # run docker
-    docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:latest ./build.sh $OPTIONS
+    docker run --rm -it -v `pwd`:/app --name sencha ghcr.io/bwbohl/sencha-cmd:2.1.0 ./build.sh $OPTIONS
    exit
    ;;   
    \?)

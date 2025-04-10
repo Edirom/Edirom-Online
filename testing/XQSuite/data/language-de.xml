@@ -1,0 +1,8 @@
+<langFile>
+    <lang>de</lang>
+    <version>1.0</version>
+    <entries>
+        <entry key="global_cancel" value="Test-Abbrechen"/>
+        <entry key="view.desktop.TaskBar_Desktop" value="Test-Desktop {0}"/>
+    </entries>
+</langFile>
