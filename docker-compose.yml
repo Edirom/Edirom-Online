@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  edirom-online-backend:
+    build:
+      context: ./backend  # Assumes Dockerfile is in the backend directory
+      dockerfile: Dockerfile
+      args:
+        - BRANCH=ftr/allow-cors
+    ports:
+      - "8080:8080"   # expose eXist-db
+    container_name: edirom-online-backend
+  edirom-online-frontend:
+    build:
+      context: ./frontend  # Assumes Dockerfile is in the frontend directory
+      dockerfile: Dockerfile
+      args:
+        - BRANCH=ftr-65-make-backend-url-configurable
+    ports:
+      - "8089:80"   # expose nginx
+    container_name: edirom-online-frontend
+    depends_on:
+      - edirom-online-backend

@@ -13,8 +13,11 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
+ARG REPO=https://github.com/Edirom/Edirom-Online-Backend.git
+ARG BRANCH=ftr/allow-cors
 
-# Install wget and unzip and ruby
+
+# Install wget and unzip and ruby and other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
         sudo \
@@ -23,7 +26,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         unzip \
 		libfreetype6 \
 		fontconfig \
-        ruby-full \
 	&& rm -rf /var/lib/apt/lists/*
 
 # Download and extract Apache Ant to opt folder
@@ -35,36 +37,30 @@ RUN wget --no-check-certificate --no-cookies http://archive.apache.org/dist/ant/
     unlink apache-ant-${ANT_VERSION}-bin.tar.gz && \
     unlink apache-ant-${ANT_VERSION}-bin.tar.gz.sha512
 
-# Download and install SenchaCmd Community Edition
-RUN curl --silent http://cdn.sencha.com/cmd/7.0.0.40/no-jre/SenchaCmd-7.0.0.40-linux-amd64.sh.zip -o /tmp/senchaCmd.zip && \
-    unzip /tmp/senchaCmd.zip -d /tmp  && \
-    unlink /tmp/senchaCmd.zip  && \
-    chmod o+x /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh && \
-    /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh -Dall=true -q -dir /opt/Sencha/Cmd/7.0.0.40 && \
-    unlink /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh
-
-# Put ant and sencha in the path
-ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
+# Put ant in the path
+ENV PATH="/opt/ant/bin:${PATH}"
 
 
-#########################
-# 2. Edirom-Online
-#########################
+###########################
+# 2. Edirom-Online Backend
+###########################
 
-# Clone and build Edirom-Online Backend
+# Get build for Edirom-Online Backend
 WORKDIR /opt/eo-backend
-RUN git clone https://github.com/Edirom/Edirom-Online-Backend.git . && \
-    ./build.sh
 
-# Clone and build Edirom-Online Frontend
-WORKDIR /opt/eo-frontend
-RUN git clone https://github.com/Edirom/Edirom-Online-Frontend.git . && \
-    ./build.sh
-
-# Clone and build Edition Example
-WORKDIR /opt/edition-example
-RUN git clone https://github.com/Edirom/EditionExample.git . && \
-    ant
+RUN if [ -n "$XAR" ]; then \
+        echo "Downloading Backend XAR from $XAR" && \
+        mkdir -p /opt/eo-backend/build-xar && \
+        curl -L "$XAR" -o /opt/eo-backend/build-xar/backend.xar; \
+    elif [ -n "$REPO" ]; then \
+        echo "Cloning from repo $REPO" && \
+        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
+        echo "Building Backend XAR..." && \
+        ant; \
+    else \
+        echo "Error: Either REPO (Backend Git repository URL) or XAR (Backend xar file URL) must be provided." && \
+        exit 1; \
+    fi
 
 
 #########################
@@ -75,5 +71,3 @@ FROM stadlerpeter/existdb:6
 
 # copy XARs to autodeploy directory of exist
 COPY --from=builder /opt/eo-backend/build-xar/*.xar ${EXIST_HOME}/autodeploy/
-COPY --from=builder /opt/eo-frontend/build-xar/*.xar ${EXIST_HOME}/autodeploy/
-COPY --from=builder /opt/edition-example/dist/*.xar ${EXIST_HOME}/autodeploy/
