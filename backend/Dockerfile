@@ -13,8 +13,9 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
+ARG XAR
 ARG REPO=https://github.com/Edirom/Edirom-Online-Backend.git
-ARG BRANCH=ftr/allow-cors
+ARG BRANCH=develop
 
 
 # Install wget and unzip and ruby and other dependencies

@@ -2,22 +2,34 @@ version: '3.8'
 
 services:
   edirom-online-backend:
-    build:
-      context: ./backend  # Assumes Dockerfile is in the backend directory
-      dockerfile: Dockerfile
-      args:
-        - BRANCH=ftr/allow-cors
-    ports:
-      - "8080:8080"   # expose eXist-db
     container_name: edirom-online-backend
-  edirom-online-frontend:
     build:
-      context: ./frontend  # Assumes Dockerfile is in the frontend directory
+      # location and name of backend Dockerfile
+      context: ./backend   
       dockerfile: Dockerfile
       args:
-        - BRANCH=ftr-65-make-backend-url-configurable
+        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
+        # XAR: ${BE_XAR}
+        # Git repository URL
+        REPO: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
+        # Git branch (set in terminal via "export BE_BRANCH=...")
+        BRANCH: ${BE_BRANCH:-develop}
     ports:
-      - "8089:80"   # expose nginx
+      # expose eXist-db
+      - "8080:8080"
+  edirom-online-frontend:
     container_name: edirom-online-frontend
-    depends_on:
-      - edirom-online-backend
+    build:
+      # location and name of frontend
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
+        # XAR: ${FE_XAR}
+        # Git repository URL
+        REPO: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
+        # Git branch (set in terminal via "export FE_BRANCH=...")
+        BRANCH: ${FE_BRANCH:-develop}
+    ports:
+      # expose nginx
+      - "8089:80"
