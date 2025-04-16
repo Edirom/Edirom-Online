@@ -64,52 +64,75 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 ## Get started
 
-Edirom Online is a web application written in XQuery and JavaScript, and designed for deployment in [eXist-db]. 
+Edirom-Online is a web application consisting of a backend module (written in XQuery) and a frontend module (written in JavaScript). The backend/frontend modularization was introduced in April 2025.
+
+The backend is designed for deployment in [eXist-db]. 
+The frontend can be deployed in different servers, e.g. [nginx]. 
+
+The present repository contains configuration for building the Edirom-Online environment with Docker.
+The following steps can be done to build.
 
 ### Cloning this repository
 
-Since this repository uses submodules for e.g. fonts, it is necessary to clone the repository recursively.
+Clone this repository to your machine with:
 
 ```bash
-git clone --recursive <project url>
+git clone <project url>
 ```
 
-If the submodules are not yet present after cloning, you can update them with:
+### Building and deploying locally
+
+For building and deploying Edirom-Online you need [Docker] and [Docker Compose] installed on your system.
+For a simple startup of the environment in the directory of the cloned repository enter:
 
 ```bash
-git submodule update --init --recursive
+docker compose up
 ```
 
-### Building locally
-
-For building Edirom Online you need *Sencha Cmd* installed on your system. You might want to refer to the [Sencha Cmd System Setup] section for more details.
-
-Alternatively, we recommend to use a Docker container image for building, e.g. [bwbohl/sencha-cmd]
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). You can change this by setting variables before starting the docker compose, e.g.
 
 ```bash
-docker run --rm -it -v /ABSOLUTE/PATH/TO/YOUR/LOCAL/EDIROM-ONLINE/CLONE:/app --name ediBuild ghcr.io/bwbohl/sencha-cmd:latest
+export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
+export BE_BRANCH=cool-feature-branch
+export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
+export BE_BRANCH=awesome-feature-branch
+docker compose up
 ```
 
-When you have your system prepared with all Sencha Cmd prerequisites or you have your docker container running you are now set up to execute the sencha build command. Do this by calling the build script included in this repository with one of the sencha build-type options (please refer to [sencha app build reference] for details), either in your native shell or in the container shell, e.g.:
+If you have set a variable you can also unset it again (to fall back to the defaults) and you can view the altered configuration via 
 
 ```bash
-./build.sh testing
+unset BE_REPO
+docker compose config
 ```
 
-### Starting an Edirom instance locally
+After the environment has been started the Edirom-Online is by default available at
 
-* prepare **exist-db**
-  * also see [exist-db via Docker]
-  * `docker run -it -d -p 8080:8080 -p 8443:8443 --name exist stadlerpeter/existdb:6` (see stadlerpeter/existdb)
-  * open in browser: `http://localhost:8080` (Note: there were problems opening this in Safari)
-  * Login with "admin:[empty]"
-* build and deploy **xar of Edirom**
-  * also see [building Edirom locally] above
-  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_REPO/build-xar/Edirom-Online-1.0.0-[TIMESTAMP].xar`
+frontend: `http://localhost:8089/`
+backend: `http://localhost:8080/`
+
+Please note: At this stage the Edirom-Online does not contain any data (edition).
+
+In the terminal logs of the `docker compose up` there is a section that gives information about an automatically set password for the eXist-db which you will need for backend access later on.
+
+```
+eXist-db  | ********************************
+eXist-db  | no admin password provided
+eXist-db  | setting password to iWcXSBjs2bwr5GkdcPecnxkJ
+eXist-db  | ********************************
+```
+
+
+### Adding data to the Edirom instance
+
+The following steps are used to deploy a sample edition to the Edirom-Online.
+
 * build **xar of sample data** for deploying at exist-db
-  * also see [building sample data]
-  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
-* in **eXist-db Package Manager** click on the "Edirom Online" entry - you will be directed to the running Edirom at `http://localhost:8080/exist/apps/Edirom-Online/index.html`
+  * see [building sample data]
+* deploy to the Edirom-Online backend
+  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in with admin password - see previous section) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
+* now you can visit the frontend to see the edition: `http://localhost:8089/`
+
 
 ## Documentation
 
@@ -180,6 +203,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Bargheer: Edirom-Online]: https://github.com/Edirom/Bargheer-EdiromOnline
 [Bargheer: Edition]: https://github.com/Edirom/Bargheer-Edition
 [eXist-db]: https://exist-db.org/
+[nginx]: https://nginx.org/
 [Verovio]: https://www.verovio.org/index.xhtml
 [docs]: /docs
 [Customize]: docs/customize.md
@@ -194,10 +218,9 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Edirom-Online milestones]: https://github.com/Edirom/Edirom-Online/milestones
 [ZenMEM]: https://www.uni-paderborn.de/zenmem
 [CONTRIBUTING]: CONTRIBUTING.md
-[Sencha Cmd System Setup]: https://docs.sencha.com/cmd/7.5.0/guides/intro_to_cmd.html#intro_to_cmd_-_system_setup
-[bwbohl/sencha-cmd]: https://github.com/bwbohl/sencha-cmd/pkgs/container/sencha-cmd
-[sencha app build reference]: https://docs.sencha.com/cmd/guides/advanced_cmd/cmd_reference.html#advanced_cmd-_-cmd_reference_-_sencha_app_build
 [exist-db via Docker]: https://exist-db.org/exist/apps/doc/docker
+[Docker]: https://docs.docker.com/
+[Docker Compose]: https://docs.docker.com/compose/
 [stadlerpeter/existdb]: https://hub.docker.com/r/stadlerpeter/existdb
 [building Edirom locally]: https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#building-locally
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building

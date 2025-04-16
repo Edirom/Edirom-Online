@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   edirom-online-backend:
-    container_name: edirom-online-backend
+    container_name: eXist-db
     build:
       # location and name of backend Dockerfile
       context: ./backend   
@@ -18,7 +18,7 @@ services:
       # expose eXist-db
       - "8080:8080"
   edirom-online-frontend:
-    container_name: edirom-online-frontend
+    container_name: nginx
     build:
       # location and name of frontend
       context: ./frontend
