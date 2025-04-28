@@ -141,9 +141,9 @@ For testing purposes you can also deploy multiple editions into one Edirom-Onlin
 
 Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
 * [Customize] Edirom-Online and content
-* Edirom-Online – [Release Workflow]
+* [Release Workflow] for the Edirom-Online
 * [Setup Edirom-Online] on a local machine
-* a data creation [workflow] for the Edirom-Online
+* [Data creation workflow] for the Edirom-Online
 
 ## Dependencies
 
@@ -173,9 +173,9 @@ If you encounter a security issue in the code, please see the [Security Policy](
 ## Get in touch
 
 Even if you are not ready (yet) to contribute to this wonderful project, maybe instead you just have a question or want to get to know the people involved in the project a little better, here are some ideas for you: 
-* there is an [Edirom mailinglist] with the option for selfsubscription, we send invitations to the community meetings via this list and we have Edirom related discussions on this list
-* the edirom community is meeting regularly every month at the first wednesday of a month, see the [wiki] for more information and meeting minutes
-* start a discussion at [GitHub Discussions]
+* The [Edirom mailing list] provides the option of self-subscription, we send invitations to the community meetings via this list and we have Edirom related discussions on this list
+* In the [wiki] you can find information and meeting minutes of the edirom community meetings which are regularly on the first Wednesday of the month
+* In [GitHub Discussions] you can start a discussion about any Edirom-Online related topic
 
 ## Code of Conduct
 
@@ -212,7 +212,7 @@ Edirom-Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Customize]: docs/customize.md
 [Release Workflow]: docs/release-workflow.md
 [Setup Edirom-Online]: docs/setup.md
-[workflow]: docs/data-creation-workflow.md
+[Data creation workflow]: docs/data-creation-workflow.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
@@ -224,7 +224,7 @@ Edirom-Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
-[Edirom mailinglist]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
+[Edirom mailing list]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
 [wiki]: https://github.com/Edirom/Edirom-Online/wiki
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
