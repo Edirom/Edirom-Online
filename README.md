@@ -89,7 +89,9 @@ For a simple startup of the environment in the directory of the cloned repositor
 docker compose up
 ```
 
-By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). You can change this by setting variables before starting the docker compose, e.g.
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+
+You can change this by setting variables before starting the docker compose, e.g.
 
 ```bash
 export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
@@ -108,8 +110,7 @@ docker compose config
 
 After the environment has been started the Edirom-Online is by default available at
 
-frontend: `http://localhost:8089/`
-backend: `http://localhost:8080/`
+[http://localhost:8089/](http://localhost:8089/)
 
 Please note: At this stage the Edirom-Online does not contain any data (edition).
 
@@ -130,21 +131,23 @@ The following steps are used to deploy a sample edition to the Edirom-Online.
 * build **xar of sample data** for deploying at exist-db
   * see [building sample data]
 * deploy to the Edirom-Online backend
-  * at `http://localhost:8080/exist/apps/dashboard/admin#` (signed-in with admin password - see previous section) go to "Package Manager" then "Upload" and select the xar file which (supposed above build-method was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
-* now you can visit the frontend to see the edition: `http://localhost:8089/`
+  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (signed-in with admin password - see previous section) go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
+* now you can visit the Edirom-Online frontend to see the edition again: [http://localhost:8089/](http://localhost:8089/)
+
+For testing purposes you can also deploy multiple editions into one Edirom-Online by using the same steps to build and deploy another xar package.
 
 
 ## Documentation
 
 Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
-* [Customize] Edirom Online and content
-* Edirom Online – [Release Workflow]
-* [Setup Edirom Online] on a local machine
+* [Customize] Edirom-Online and content
+* Edirom-Online – [Release Workflow]
+* [Setup Edirom-Online] on a local machine
 * a data creation [workflow] for the Edirom-Online
 
 ## Dependencies
 
-Edirom Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
+Edirom-Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom-Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
 
 For running the tests provided in the [ANT build file] we rely on `xmllint` 
 and `SaxonHE`. 
@@ -185,7 +188,7 @@ If you intend to cite unreleased branches or commits please use the commit hash 
 
 ## License
 
-Edirom Online is released to the public under the terms of the [GNU GPL v.3] open source license.
+Edirom-Online is released to the public under the terms of the [GNU GPL v.3] open source license.
 
 [Musikwissenschaftliches Seminar Detmold/Paderborn]: https://www.muwi-detmold-paderborn.de/
 [TEI]: https://tei-c.org/
@@ -208,7 +211,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [docs]: /docs
 [Customize]: docs/customize.md
 [Release Workflow]: docs/release-workflow.md
-[Setup Edirom Online]: docs/setup.md
+[Setup Edirom-Online]: docs/setup.md
 [workflow]: docs/data-creation-workflow.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
@@ -218,11 +221,8 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Edirom-Online milestones]: https://github.com/Edirom/Edirom-Online/milestones
 [ZenMEM]: https://www.uni-paderborn.de/zenmem
 [CONTRIBUTING]: CONTRIBUTING.md
-[exist-db via Docker]: https://exist-db.org/exist/apps/doc/docker
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
-[stadlerpeter/existdb]: https://hub.docker.com/r/stadlerpeter/existdb
-[building Edirom locally]: https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#building-locally
 [building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
 [Edirom mailinglist]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
 [wiki]: https://github.com/Edirom/Edirom-Online/wiki
