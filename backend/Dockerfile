@@ -69,6 +69,7 @@ RUN if [ -n "$XAR" ]; then \
 #########################
 
 FROM stadlerpeter/existdb:6
+ENV EXIST_PASSWORD=changeme
 
 # copy XARs to autodeploy directory of exist
 COPY --from=builder /opt/eo-backend/build-xar/*.xar ${EXIST_HOME}/autodeploy/

@@ -114,15 +114,6 @@ After the environment has been started the Edirom-Online is by default available
 
 Please note: At this stage the Edirom-Online does not contain any data (edition).
 
-In the terminal logs of the `docker compose up` there is a section that gives information about an automatically set password for the eXist-db which you will need for backend access later on.
-
-```
-eXist-db  | ********************************
-eXist-db  | no admin password provided
-eXist-db  | setting password to iWcXSBjs2bwr5GkdcPecnxkJ
-eXist-db  | ********************************
-```
-
 
 ### Adding data to the Edirom instance
 
@@ -131,7 +122,9 @@ The following steps are used to deploy a sample edition to the Edirom-Online.
 * build **xar of sample data** for deploying at exist-db
   * see [building sample data]
 * deploy to the Edirom-Online backend
-  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (signed-in with admin password - see previous section) go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
+  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
+  * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
+  * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
 * now you can visit the Edirom-Online frontend to see the edition again: [http://localhost:8089/](http://localhost:8089/)
 
 For testing purposes you can also deploy multiple editions into one Edirom-Online by using the same steps to build and deploy another xar package.
