@@ -47,7 +47,7 @@ Then open the command line of your computer (also known as Shell, PowerShell, Te
 git clone https://github.com/Edirom/Edirom-Online.git
 ```
 
-**Step 2**: In the commandline change into the directory of the cloned repository and start the Edirom-Online:
+**Step 2**: In the command line change into the directory of the cloned repository and start the Edirom-Online (starting all components can take several minutes):
 
 ```bash
 cd Edirom-Online
@@ -55,7 +55,7 @@ docker compose up
 ```
 
 **Step 3 (optional)**: By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
-You can change this by setting variables before starting the docker compose in the comandline, e.g.
+You can change this by setting variables before starting the docker compose in the command line, e.g.
 
 ```bash
 export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
@@ -72,26 +72,21 @@ unset BE_REPO
 docker compose config
 ```
 
-**Step 4**: After the environment has been started the Edirom-Online is by default available at
+**Step 4**: To add data to the Edirom-Online a so-called xar (extensible archive format) package has to be uploaded into the eXist-db. 
+If you do not have a xar package of an edition yet, you can take the following steps to upload the available example edition to the Edirom-Online.
 
-[http://localhost:8089/](http://localhost:8089/)
-
-Please note: At this stage the Edirom-Online does not contain any data (edition) yet.
-
-
-### Adding data to the Edirom-Online
-
-The following steps are used to deploy a sample edition to the Edirom-Online.
-
-* build **xar of sample data** for deploying at exist-db
+(a) build **xar of sample data** for deploying at exist-db
   * see [building sample data]
-* deploy to the Edirom-Online backend
+(b) upload to the Edirom-Online backend
   * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
   * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
   * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
-* now you can visit the Edirom-Online frontend to see the edition again: [http://localhost:8089/](http://localhost:8089/)
 
 For testing purposes you can also deploy multiple editions into one Edirom-Online by using the same steps to build and deploy another xar package.
+
+**Step 5**: After the environment has been setup the Edirom-Online is available at:
+
+[http://localhost:8089/](http://localhost:8089/)
 
 
 ### Further Documentation
