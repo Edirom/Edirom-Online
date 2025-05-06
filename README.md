@@ -32,7 +32,7 @@
 
 ## Get started
 
-Edirom-Online is a web application consisting of a backend module (written in XQuery and deployed in [eXist-db]) and a frontend module (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025.
+Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. 
 
 The present repository contains configuration for building the Edirom-Online environment with Docker.
 
@@ -40,21 +40,21 @@ The present repository contains configuration for building the Edirom-Online env
 
 Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
 
-Step 1: On your computer create and navigate to a directory for the Edirom-Online. 
+*Step 1*: On your computer create and navigate to a directory for the Edirom-Online. 
 Then open the command line of your computer (also known as Shell, PowerShell, Terminal) and clone the Edirom-Online Git repository to your machine with:
 
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git
 ```
 
-Step 2: In the commandline change into the directory of the cloned repository and start the Edirom-Online:
+*Step 2*: In the commandline change into the directory of the cloned repository and start the Edirom-Online:
 
 ```bash
 cd Edirom-Online
 docker compose up
 ```
 
-Step 3 (optional): By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+*Step 3 (optional)*: By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
 You can change this by setting variables before starting the docker compose in the comandline, e.g.
 
 ```bash
@@ -72,7 +72,7 @@ unset BE_REPO
 docker compose config
 ```
 
-Step 4: After the environment has been started the Edirom-Online is by default available at
+*Step 4*: After the environment has been started the Edirom-Online is by default available at
 
 [http://localhost:8089/](http://localhost:8089/)
 
