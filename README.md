@@ -74,10 +74,12 @@ docker compose config
 
 **Step 4**: To add data to the Edirom-Online a so-called xar (extensible archive format) package has to be uploaded into the eXist-db. 
 If you do not have a xar package of an edition yet, you can take the following steps to upload the available example edition to the Edirom-Online.
+If you have a xar file of an edition at hand go to step (b).
 
 (a) build **xar of sample data** for deploying at exist-db
   * see [building sample data]
-(b) upload to the Edirom-Online backend
+
+(b) upload the xar file to the Edirom-Online backend
   * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
   * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
   * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
