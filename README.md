@@ -23,7 +23,7 @@
 [Contributing](#contributing) • 
 [Get in touch](#get-in-touch) • 
 [Code of Conduct](#code-of-conduct) • 
-[Citation](#citation)
+[Citation](#citation) • 
 [License](#license)**
 
 </div>
@@ -32,7 +32,7 @@
 
 ## Get started
 
-Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. Further conceptual information can be found below in the sections [About] and [Showcases].
+Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. Further conceptual information can be found below, e.g. in the sections [About](#about-edirom-online) and [Showcases](#showcases).
 
 The present repository contains configuration for building the Edirom-Online environment with Docker.
 
