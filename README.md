@@ -35,6 +35,15 @@ The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Pad
 
 To get some practical insights, look at these projects and editions that already use Edirom-Online.
 
+ **OPEN Edirom**
+
+"Peter Joseph von Lindpaintner, Ouverture, Entreacte, Chöre und Lieder zu Goethes Faust nach der szenischen Einrichtung von Carl Seydelmann (1832)" was published in 2024 in the OPEN Edirom project. A model project carried out at the KreativInstitut.OWL in cooperation with the ZenMEM and the Mainz Academy of Sciences and Humanities in Mainz, OPEN Edirom devoloped and tested a stable and reusable workflow for open data publication and presentation of complex music philological data:  
+
+  * Dataset (v0.9.0: OPEN Faust Preview, 2024-09-27)  RADAR4Culture: DOI 10.22000/uupxmgkq94r0jpsk
+  * cEdirom (Daten v0.9.1, 2024-12-10, Visualisierung mit Edirom Online v1.0.0, 2025-02-13): https://open-faust.zenmem.de/
+  * GitLab: https://git.uni-paderborn.de/kio/open-faust
+  * Publications/documentation:https://ris.uni-paderborn.de/project/1064
+
 **Clarinet quintet op.34 by Weber**
 
 The third version of Webers clarinet quintet op.34 was created 2022 by Virtueller Forschungsverbund Edirom (ViFE) honoring Prof. Dr. Joachim Veit on the occasion of his retirement. The edition includes digital facsimiles, music that is encoded in MEI and visualized with [Verovio], annotations and texts.
@@ -60,7 +69,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
   * data of [Bargheer: Edition]
 
   <img src="./docs/images/EdiromOnline_BargheerFiedellieder_2013.jpg" width="80%">
- 
+  
 
 ## Get started
 
