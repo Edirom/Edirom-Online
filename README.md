@@ -14,8 +14,10 @@
 
 <div align="center"> 
  
-**[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
-[Get started](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-started) • 
+**[Installation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#installation) •
+[Further documentation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#further-documentation) •
+[About](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#about-edirom-online) • 
+[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
 [Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
 [Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
 [Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
@@ -28,10 +30,85 @@
 
 # Edirom-Online
 
+## Get started
+
+Edirom-Online is a web application consisting of a backend module (written in XQuery and deployed in [eXist-db]) and a frontend module (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025.
+
+The present repository contains configuration for building the Edirom-Online environment with Docker.
+
+### Installation
+
+Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
+
+Step 1: On your computer create and navigate to a directory for the Edirom-Online. 
+Then open the command line of your computer (also known as Shell, PowerShell, Terminal) and clone the Edirom-Online Git repository to your machine with:
+
+```bash
+git clone https://github.com/Edirom/Edirom-Online.git
+```
+
+Step 2: In the commandline change into the directory of the cloned repository and start the Edirom-Online:
+
+```bash
+cd Edirom-Online
+docker compose up
+```
+
+Step 3 (optional): By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+You can change this by setting variables before starting the docker compose in the comandline, e.g.
+
+```bash
+export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
+export BE_BRANCH=cool-feature-branch
+export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
+export BE_BRANCH=awesome-feature-branch
+docker compose up
+```
+
+If you have set a variable you can also unset it again (to fall back to the defaults) and you can view the altered configuration via 
+
+```bash
+unset BE_REPO
+docker compose config
+```
+
+Step 4: After the environment has been started the Edirom-Online is by default available at
+
+[http://localhost:8089/](http://localhost:8089/)
+
+Please note: At this stage the Edirom-Online does not contain any data (edition) yet.
+
+
+### Adding data to the Edirom-Online
+
+The following steps are used to deploy a sample edition to the Edirom-Online.
+
+* build **xar of sample data** for deploying at exist-db
+  * see [building sample data]
+* deploy to the Edirom-Online backend
+  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
+  * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
+  * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
+* now you can visit the Edirom-Online frontend to see the edition again: [http://localhost:8089/](http://localhost:8089/)
+
+For testing purposes you can also deploy multiple editions into one Edirom-Online by using the same steps to build and deploy another xar package.
+
+
+### Further Documentation
+
+Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
+* [Customize] Edirom-Online and content
+* [Release Workflow] for the Edirom-Online
+* [Manual setup] on a local machine
+* [Data creation workflow] for the Edirom-Online
+
+
+## About Edirom-Online
+
 Edirom-Online is a software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows for the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
 The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
 
-## Showcases
+### Showcases
 
 To get some practical insights, look at these projects and editions that already use Edirom-Online.
 
@@ -62,82 +139,6 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
   <img src="./docs/images/EdiromOnline_BargheerFiedellieder_2013.jpg" width="80%">
  
 
-## Get started
-
-Edirom-Online is a web application consisting of a backend module (written in XQuery) and a frontend module (written in JavaScript). The backend/frontend modularization was introduced in April 2025.
-
-The backend is designed for deployment in [eXist-db]. 
-The frontend can be deployed in different servers, e.g. [nginx]. 
-
-The present repository contains configuration for building the Edirom-Online environment with Docker.
-The following steps can be done to build.
-
-### Cloning this repository
-
-Clone this repository to your machine with:
-
-```bash
-git clone <project url>
-```
-
-### Building and deploying locally
-
-For building and deploying Edirom-Online you need [Docker] and [Docker Compose] installed on your system.
-For a simple startup of the environment in the directory of the cloned repository enter:
-
-```bash
-docker compose up
-```
-
-By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
-
-You can change this by setting variables before starting the docker compose, e.g.
-
-```bash
-export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
-export BE_BRANCH=cool-feature-branch
-export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
-export BE_BRANCH=awesome-feature-branch
-docker compose up
-```
-
-If you have set a variable you can also unset it again (to fall back to the defaults) and you can view the altered configuration via 
-
-```bash
-unset BE_REPO
-docker compose config
-```
-
-After the environment has been started the Edirom-Online is by default available at
-
-[http://localhost:8089/](http://localhost:8089/)
-
-Please note: At this stage the Edirom-Online does not contain any data (edition).
-
-
-### Adding data to the Edirom instance
-
-The following steps are used to deploy a sample edition to the Edirom-Online.
-
-* build **xar of sample data** for deploying at exist-db
-  * see [building sample data]
-* deploy to the Edirom-Online backend
-  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
-  * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
-  * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
-* now you can visit the Edirom-Online frontend to see the edition again: [http://localhost:8089/](http://localhost:8089/)
-
-For testing purposes you can also deploy multiple editions into one Edirom-Online by using the same steps to build and deploy another xar package.
-
-
-## Documentation
-
-Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
-* [Customize] Edirom-Online and content
-* [Release Workflow] for the Edirom-Online
-* [Setup Edirom-Online] on a local machine
-* [Data creation workflow] for the Edirom-Online
-
 ## Dependencies
 
 Edirom-Online depends heavily on the JavaScript framework [Ext JS] which is included in parts in our code base. We use Ext JS 4.2.1 in the GPL version. Edirom-Online also includes the [Raphaël] javascript library (MIT License) and the [ACE] editor (BSD license).
@@ -157,11 +158,13 @@ Until today Edirom-Online and its features were developed as one application wit
 With the help and under the guidance of the project "[Edirom-Online Reloaded]" (funded by the DFG, 2024–2026) Edirom will exprerience some major updates and improvements to achieve sustainability of the software, e.g features and functionalites will be modularized as [edirom web components] and also a separation of frontend and backend and a crucial reduction of dependencies especially regarding frameworks is envisaged. In addition [ZenMEM] will continue to support and coordinate the sustainable development of the Edirom-Online software.
 See the [Edirom-Online milestones] for more details.
 
+
 ## Contributing
 
 After all this information, you decided to contribute to Edirom-Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
 
 If you encounter a security issue in the code, please see the [Security Policy](.github/SECURITY.md) for further guidance.
+
 
 ## Get in touch
 
@@ -204,7 +207,7 @@ Edirom-Online is released to the public under the terms of the [GNU GPL v.3] ope
 [docs]: /docs
 [Customize]: docs/customize.md
 [Release Workflow]: docs/release-workflow.md
-[Setup Edirom-Online]: docs/setup.md
+[Manual setup]: docs/setup.md
 [Data creation workflow]: docs/data-creation-workflow.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
