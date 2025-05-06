@@ -14,17 +14,17 @@
 
 <div align="center"> 
  
-**[Installation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#installation) •
-[Further documentation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#further-documentation) •
-[About](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#about-edirom-online) • 
-[Showcases](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#showcases) •
-[Dependencies](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#dependencies) • 
-[Roadmap](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#roadmap) • 
-[Contributing](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#contributing) • 
-[Get in touch](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#get-in-touch) • 
-[Code of Conduct](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#code-of-conduct) • 
-[Citation](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#citation)
-[License](https://github.com/Edirom/Edirom-Online?tab=readme-ov-file#license)**
+**[Installation](#installation) •
+[Further documentation](#further-documentation) •
+[About](#about-edirom-online) • 
+[Showcases](#showcases) •
+[Dependencies](#dependencies) • 
+[Roadmap](#roadmap) • 
+[Contributing](#contributing) • 
+[Get in touch](#get-in-touch) • 
+[Code of Conduct](#code-of-conduct) • 
+[Citation](#citation)
+[License](#license)**
 
 </div>
 
@@ -32,7 +32,7 @@
 
 ## Get started
 
-Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. 
+Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. Further conceptual information can be found below in the sections [About] and [Showcases].
 
 The present repository contains configuration for building the Edirom-Online environment with Docker.
 
