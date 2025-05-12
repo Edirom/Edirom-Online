@@ -11,22 +11,22 @@
 * [Concordances](#concordances)
 * [Examples of Edirom editions](#examples-of-edirom-editions)
 
-In the description of how to [setup](docs/setup.md) Edirom Online on a local machine there is the assumption you already have a data package.
+In the description of how to [setup](docs/setup.md) Edirom-Online on a local machine there is the assumption you already have a data package.
 In the early days of Edirom there was a (meanwhile deprecated) Edirom Editor that supported the data creation for writing annotations, creating zones for measures, creating concordances and it created the data package.
-So this document trys to describe the workflow to generate data for an Edirom Edition.
-If you beyond that also want to customize Edirom Online and the content, eg the table of content of your edition shown in the online publication, have a look to the [customize.md](docs/customize.md).
+So this document tries to describe the workflow to generate data for an Edirom Edition.
+If you beyond that also want to customize Edirom-Online and the content, e.g. the table of content of your edition shown in the online publication, have a look at the [customize.md](docs/customize.md).
 
 ## Prepare repositories
 
 Start with the creation of two repositories on your own account or create an organization for your edition that will contain all the content.
-* software: create a fork of the [Edirom Online](https://github.com/Edirom/Edirom-Online) for your own edition for later edition-specific modifications to the software
+* software: create a fork of the [Edirom-Online](https://github.com/Edirom/Edirom-Online) for your own edition for later edition-specific modifications to the software
 * data: create a repository for your Edirom data, the [Edition Example](https://github.com/Edirom/EditionExample) might be helpful as a start, but you could fill up your data repository also on your own
 
 ## Prepare the working environment
 
-You can decide between three different ways to work with your edition data, that affects the editor you will choose.
+You can decide between three different ways to work with your edition data that affects the editor you will choose.
 1. eXide, the build-in XQuery IDE from eXist-db
-    - if you work with this editor, your changes will only be temporarely visible as long as your local edirom-online is running
+    - if you work with this editor, your changes will only be temporarily visible as long as your local Edirom-Online is running
     - it is more likely, you use this option only for testing small changes, but save your changes also permanently
 2. oXygen XML editor 
     - save changes locally
@@ -35,7 +35,7 @@ You can decide between three different ways to work with your edition data, that
       - alternatively press the “play-Button" after opening the file build.xml in oXygen
     - the directory /dist with a .xar file will be generated, that contains the build of your data package
     - put your newly built .xar file into the eXist package manager
-    - reload edirom-online and see changes
+    - reload Edirom-Online and see changes
 3. VS Code with exist-db plugin
     - install Visual Studio Code and within this editor the extension "existdb-vscode"
     - assuming you use the [Edition Example](https://github.com/Edirom/EditionExample/blob/develop/.existdb.json.sample) as a blueprint, make the following modifications to the file .existdb.json.sample; if not, add this file to your data package
@@ -47,22 +47,22 @@ You can decide between three different ways to work with your edition data, that
         - confirm pop-up question to install to existdb
         - see the symbol of a barrel next to "EditionExample” at the bottom right of the editor
         - click on the symbol of circling arrows to change from “off” to “on”, on the top you can read "synchronization", you have to click on it to start the connection
-      - write and save to your files and see all changes directly in edirom-online 
+      - write and save to your files and see all changes directly in Edirom-Online 
 
 ## Data structure of the edition
 
-According to the structure you can see in the Edition Example, there are different files that expext specific content. You can modify the files from the Edition Example or add your own content. You are not forced to follow the structure of the Edition Example, another edition that could also work for getting ideas how to modify and adapt data-structure is the clarinet quintet. Please make sure, you take care about all links and name changes accordingly.
+According to the structure you can see in the Edition Example, there are different files that expect specific content. You can modify the files from the Edition Example or add your own content. You are not forced to follow the structure of the Edition Example, another edition that could also work for getting ideas how to modify and adapt data-structure is the clarinet quintet. Please make sure, you take care about all links and name changes accordingly.
 - edition file
-  - change the information of the list of content ("Navigator") that is shown on the right of an edirom-online edition, e.g. the name of items in the [`navigatorDefinition`](https://github.com/Edirom/EditionExample/blob/290be01d3ff9f4605be3fa8ba6d4573e52e3d554/content/ediromEditions/edirom_edition_example.xml#L13) 
+  - change the information of the list of content ("Navigator") that is shown on the right of an Edirom-Online edition, e.g. the name of items in the [`navigatorDefinition`](https://github.com/Edirom/EditionExample/blob/290be01d3ff9f4605be3fa8ba6d4573e52e3d554/content/ediromEditions/edirom_edition_example.xml#L13) 
   - `concordances` can be added in this file
 - source files can contain measure zones, see [Create measure-zones](#create-measure-zones) for a description
 - the work file can contain annotations of your edition, see [Annotations](#annotations)
-- prefs.xml provides edition-specific preferences to edirom-online
+- prefs.xml provides edition-specific preferences to Edirom-Online
 
 ## Images
 
 Check if you have to host the images on your own or if the library or institution can provide you with iiif.
-If you have to host the images on your own, make sure the name of the images are fine to avoid possible later trouble (eg special characters, vowel mutation, spaces).
+If you have to host the images on your own, make sure the name of the images are fine to avoid possible later trouble (e.g. special characters, vowel mutation, spaces).
 Try to decide which sources should be part of your edition in an early stage, so you can have this step done as a whole.
 
 How to add images to your edition data:
@@ -81,7 +81,7 @@ Please take care about possible joint-measures in your images. If a measure is d
 
 ## MEI
 
-Of courses it is posssible to write MEI from scratch to your editor but more likely you use music notation software of your choice to enter your music.
+Of course it is possible to write MEI from scratch to your editor but more likely you use music notation software of your choice to enter your music.
 You need to save this as MEI if possible. If not, at least MusicXML should be possible as a format to choose. If you got MusicXML you can use [mei-friend](https://mei-friend.mdw.ac.at/) to import it and convert it to MEI.
 Also use mei-friend for proof-reading and adjustments to your MEI-file. 
 If you have already (old) MEI-files and you need to update them to a newer MEI version, you can use [MEI garage](https://meigarage.edirom.de/) to convert different MEI versions. The MEI garage uses scripts from [music-encoding/encoding-tools](https://github.com/music-encoding/encoding-tools), so choose on your own, if you want to use the scripts directly from music-encoding or the option with a graphical user interface of the MEI garage.
