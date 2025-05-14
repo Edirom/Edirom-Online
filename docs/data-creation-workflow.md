@@ -11,7 +11,7 @@
 * [Concordances](#concordances)
 * [Examples of Edirom editions](#examples-of-edirom-editions)
 
-In the description of how to [setup](docs/setup.md) Edirom-Online on a local machine there is the assumption you already have a data package.
+In the description of how to [setup](docs/setup.md) Edirom Online on a local machine there is the assumption you already have a data package.
 In the early days of Edirom there was a (meanwhile deprecated) Edirom Editor that supported the data creation for writing annotations, creating zones for measures, creating concordances and it created the data package.
 So this document tries to describe the workflow to generate data for an Edirom Edition.
 If you beyond that also want to customize Edirom-Online and the content, e.g. the table of content of your edition shown in the online publication, have a look at the [customize.md](docs/customize.md).
@@ -19,7 +19,7 @@ If you beyond that also want to customize Edirom-Online and the content, e.g. th
 ## Prepare repositories
 
 Start with the creation of two repositories on your own account or create an organization for your edition that will contain all the content.
-* software: create a fork of the [Edirom-Online](https://github.com/Edirom/Edirom-Online) for your own edition for later edition-specific modifications to the software
+* software: create a fork of the [Edirom Online](https://github.com/Edirom/Edirom-Online) for your own edition for later edition-specific modifications to the software
 * data: create a repository for your Edirom data, the [Edition Example](https://github.com/Edirom/EditionExample) might be helpful as a start, but you could fill up your data repository also on your own
 
 ## Prepare the working environment
@@ -31,7 +31,7 @@ You can decide between three different ways to work with your edition data that 
 2. oXygen XML editor 
     - save changes locally
     - if you chose the Edition Example as a blueprint and started to make changes to the data, you have to build your data package 
-      - open the terminal, navigate to your data package and enter ``` sh build ``` (needs ant installed on your machine)
+      - open the terminal, navigate to your data package and enter ``` ant ``` (needs ant installed on your machine)
       - alternatively press the “play-Button" after opening the file build.xml in oXygen
     - the directory /dist with a .xar file will be generated, that contains the build of your data package
     - put your newly built .xar file into the eXist package manager
