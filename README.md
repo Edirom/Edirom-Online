@@ -76,7 +76,7 @@ Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 #### Fast-lane installation
 
-To start the Edirom-Online with the EditionExample, create and navigate to a new directory on your computer, and enter this in the command line:
+To start the Edirom-Online with the EditionExample, create and navigate to a new directory on your computer, and enter the following in the command line. After a while the Edirom will be available at http://localhost:8089
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git . && docker compose up
 ```
