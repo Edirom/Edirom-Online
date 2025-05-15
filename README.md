@@ -14,10 +14,10 @@
 
 <div align="center"> 
  
-**[Installation](#installation) •
-[Further documentation](#further-documentation) •
-[About](#about-edirom-online) • 
+**[About](#about-edirom-online) • 
 [Showcases](#showcases) •
+[Installation](#installation) •
+[Further documentation](#further-documentation) •
 [Dependencies](#dependencies) • 
 [Roadmap](#roadmap) • 
 [Contributing](#contributing) • 
@@ -30,78 +30,14 @@
 
 # Edirom-Online
 
-## Get started
-
-Edirom-Online is a software for the **presentation and analysis of critical musical editions**. It is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. Further conceptual information can be found below, e.g. in the sections [About](#about-edirom-online) and [Showcases](#showcases).
-
-The present repository contains configuration for building the Edirom-Online environment with Docker.
-
-### Installation
-
-Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
-
-**Step 1**: On your computer create and navigate to a directory for the Edirom-Online. 
-Then open the command line of your computer (also known as Shell, PowerShell, Terminal) and clone the Edirom-Online Git repository to your machine with:
-
-```bash
-git clone https://github.com/Edirom/Edirom-Online.git
-```
-
-**Step 2**: In the command line change into the directory of the cloned repository and start the Edirom-Online (starting all components can take several minutes):
-
-```bash
-cd Edirom-Online
-docker compose up
-```
-
-**Step 3 (optional)**: By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
-You can change this by setting variables before starting the docker compose in the command line, e.g.
-
-```bash
-export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
-export BE_BRANCH=cool-feature-branch
-export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
-export BE_BRANCH=awesome-feature-branch
-docker compose up
-```
-
-If you have set a variable you can also unset it again (to fall back to the defaults) and you can view the altered configuration via 
-
-```bash
-unset BE_REPO
-docker compose config
-```
-
-**Step 4**: To add data to the Edirom-Online a so-called xar (extensible archive format) package has to be uploaded into the eXist-db. 
-For testing you can for instance use a [sample edition release](https://github.com/Edirom/EditionExample/releases) (download xar file listed under "Assets") or a release of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (download xar file at the bottom of the box).
-
-If you want to you can dive deeper into the process of [building sample data], but at this step the precompiled xar file is enough.
-
-Next, upload the xar file to the Edirom-Online backend
-  * at [http://localhost:8080/exist/apps/dashboard/admin#](http://localhost:8080/exist/apps/dashboard/admin#) (sign with password "changeme") 
-  * go to "User Manager" and to the account "admin" and change the default password to a safer password, note it at a secure place
-  * go to "Package Manager" then "Upload" and select the xar file which (supposed the build-method linked above was used) was built at `/PATH_TO_LOCAL_EDIROM_EDITION_EXAMPLE_REPO/build/EditionExample-0.1.xar`
-
-For testing purposes you can also deploy multiple editions (xar packages) into one Edirom-Online.
-
-**Step 5**: After the environment has been setup the Edirom-Online is available at:
-
-[http://localhost:8089/](http://localhost:8089/)
-
-
-### Further Documentation
-
-Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
-* [Customize] Edirom-Online and content
-* [Release Workflow] for the Edirom-Online
-* [Manual setup] on a local machine
-* [Data creation workflow] for the Edirom-Online
-
-
 ## About Edirom-Online
 
-Edirom-Online is a software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows for the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.  
+Edirom-Online is a software for the **presentation and analysis of critical musical editions** in a digital format, particularly in the fields of musicology and philology. Edirom-Online supports various data formats commonly used in digital humanities, such as [TEI] (Text Encoding Initiative) for textual data and [MEI] (Music Encoding Initiative) for musical data, that is visualized with [Verovio]. This allows for the integration of different data formats, starting in the early days with texts, images and music and adding audio and even film within a single edition.
+
 The Edirom idea was born in 2004 at [Musikwissenschaftliches Seminar Detmold/Paderborn] and even after several years of Edirom development, the success of Edirom based on the same core concepts as in the beginning continues with numerous projects using and developing Edirom tools and creating digital musical editions with this software. Edirom tools were originally developed by the project [Entwicklung von Werkzeugen für digitale Formen wissenschaftlich-kritischer Musikeditionen] (2006–2012) funded by the DFG. The development of Edirom is now maintained as a community effort while being strongly supported and accompanied by [Virtueller Forschungsverbund Edirom] (ViFE), primarily based at [Paderborn University]. ViFE aims to provide tools for scholars working with digital texts and music, especially those involved in editing historical documents.
+
+The Edirom-Online software is developed as a web application consisting of a [backend module](https://github.com/Edirom/Edirom-Online-Backend.git) (written in XQuery and deployed in [eXist-db]) and a [frontend module](https://github.com/Edirom/Edirom-Online-Frontend.git) (written in JavaScript and delpoyed in [nginx]). The backend/frontend modularization was introduced in April 2025 and led to a different setup routine. The present repository contains configuration for building the Edirom-Online environment with Docker.
+
 
 ### Showcases
 
@@ -133,6 +69,72 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
   <img src="./docs/images/EdiromOnline_BargheerFiedellieder_2013.jpg" width="80%">
  
+
+### Installation
+
+Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
+
+**Step 1**: Clone the Git repository.
+
+On your computer create and navigate to a directory for the Edirom-Online. 
+Then open the command line of your computer (also known as Shell, PowerShell, Terminal) and clone the Edirom-Online Git repository to your machine with:
+
+```bash
+git clone https://github.com/Edirom/Edirom-Online.git .
+```
+
+**Step 2 (optional)**: Specify the Edirom-Online version.
+
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+You can change this by setting variables before starting the docker compose in the command line, e.g.
+
+```bash
+export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
+export BE_BRANCH=cool-feature-branch
+export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
+export BE_BRANCH=awesome-feature-branch
+```
+
+If you have set a variable you can also unset it again (to fall back to the defaults) and you can check the changed configuration via, e.g. 
+
+```bash
+unset BE_REPO
+docker compose config
+```
+
+**Step 3 (optional)**: Specify an edition.
+
+By default the docker-compose.yml configuration starts the Edirom-Online with the [EditionExample](https://github.com/Edirom/EditionExample). You can use another edition (downloadable xar package) by setting the environment variable "EDITION_XAR":
+
+```bash
+export EDITION_XAR=https://example.com/your-edition.xar
+```
+
+You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
+If you want to you can dive deeper into the process of [building sample data], but at this step providing the public location of a xar file is enough.
+
+
+**Step 4**: Start Edirom-Online.
+
+The Edirom-Online is started via entering the following command in the command line:
+
+```bash
+docker compose up
+```
+
+After the environment has been setup (which may take several minutes) the Edirom-Online is available at:
+
+[http://localhost:8089/](http://localhost:8089/)
+
+
+### Further Documentation
+
+Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
+* [Customize] Edirom-Online and content
+* [Release Workflow] for the Edirom-Online
+* [Manual setup] on a local machine
+* [Data creation workflow] for the Edirom-Online
+
 
 ## Dependencies
 

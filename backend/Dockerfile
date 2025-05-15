@@ -16,6 +16,7 @@ ARG ANT_VERSION=1.10.12
 ARG XAR
 ARG REPO=https://github.com/Edirom/Edirom-Online-Backend.git
 ARG BRANCH=develop
+ARG EDITION
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -63,6 +64,14 @@ RUN if [ -n "$XAR" ]; then \
         exit 1; \
     fi
 
+RUN if [ -n "$EDITION" ]; then \
+        echo "Downloading Edition XAR from $EDITION" && \
+        mkdir -p /opt/eo-editions && \
+        curl -L "$EDITION" -o /opt/eo-editions/Edition-Example-0.1.xar; \
+    else \
+        echo "Note: EDITION_XAR not provided. Please add manually to eXist-db."; \
+    fi
+
 
 #########################
 # 3. Run/deploy eXist-db
@@ -72,4 +81,5 @@ FROM stadlerpeter/existdb:6
 ENV EXIST_PASSWORD=changeme
 
 # copy XARs to autodeploy directory of exist
+COPY --from=builder /opt/eo-editions/*.xar ${EXIST_HOME}/autodeploy/
 COPY --from=builder /opt/eo-backend/build-xar/*.xar ${EXIST_HOME}/autodeploy/
