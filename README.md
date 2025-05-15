@@ -74,6 +74,15 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
 
+#### Fast-lane:
+
+To start the Edirom-Online with the EditionExample, create and navigate to a new directory on your computer, and enter this in the command line:
+```bash
+git clone https://github.com/Edirom/Edirom-Online.git . && docker compose up
+```
+
+#### Step-by-step guide
+
 **Step 1**: Clone the Git repository.
 
 On your computer create and navigate to a directory for the Edirom-Online. 
