@@ -61,7 +61,7 @@ You can change this by setting variables before starting the docker compose in t
 export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
 export BE_BRANCH=cool-feature-branch
 export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
-export BE_BRANCH=awesome-feature-branch
+export FE_BRANCH=awesome-feature-branch
 docker compose up
 ```
 
