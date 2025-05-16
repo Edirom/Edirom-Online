@@ -76,8 +76,9 @@ How to add images to your edition data:
 
 ## Create measure-zones
 
-Use the [cartographer-app](https://github.com/Edirom/cartographer-app) to create zones for measures. The app uses the images and creates zones for measures that match the corresponding images and saves the zones in an MEI-file.
-Please take care about possible joint-measures in your images. If a measure is divided because of a line break in the facsimile it seems like two measures. You need to make this clear in the App that it is actually one measure consisting of two (or even more) zones so it can give you the correct number of measures.
+You can use the [cartographer-app](https://github.com/Edirom/cartographer-app) to create MEI representations of your sources. The app utilises information from IIIF manifests to generate references for each image within a source. You can define zones on each image to reference individual measures. All data is stored in an MEI file, which can be downloaded afterwards.
+To modify, add, or remove zones at a later stage, you can upload the MEI file and edit it accordingly.
+Please be aware of joint measures in your sources (e.g. due to system or accolade changes within a measure). In such cases, ensure that a single measure is linked to two or more zones, rather than creating separate measures.
 
 ## MEI
 
