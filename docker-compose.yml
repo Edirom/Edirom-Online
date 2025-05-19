@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   edirom-online-backend:
     container_name: eXist-db
@@ -14,7 +12,7 @@ services:
         REPO: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
         # Git branch (set in terminal via "export BE_BRANCH=...")
         BRANCH: ${BE_BRANCH:-develop}
-        EDITION: ${EDITION_XAR:-https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar}
+        EDITION: ${EDITION_XAR}
     ports:
       # expose eXist-db
       - "8080:8080"
