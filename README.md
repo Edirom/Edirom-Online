@@ -104,12 +104,18 @@ export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
 export FE_BRANCH=awesome-feature-branch
 ```
 
-If you have set a variable you can also unset it again (to fall back to the defaults) and you can check the changed configuration via, e.g. 
+If you have set a variable you can also unset it again (to fall back to the defaults):
 
 ```bash
 unset BE_REPO
+```
+
+You can also check the current docker compose configuration, and see the effect of the currently set environment variables, via:
+
+```bash
 docker compose config
 ```
+
 
 **Step 3 (optional)**: Specify an edition.
 
