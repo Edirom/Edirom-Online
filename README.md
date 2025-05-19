@@ -127,9 +127,9 @@ export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
-Option (b): By copying one or more edition xar packages to the directory **/backend/autodeploy** you can also pass editions into the Edirom Online.
+Option (b): By copying one or more edition xar packages to the directory **/backend/autodeploy** inside the directory of the cloned repository (from Step 1) you can also pass editions into the Edirom Online. You can for instance download xar packages from the release page listed in Option (a). 
 
-If you want to you can dive deeper into the process of [building sample data], but at this step providing the public location or a copy of a xar file is enough.
+If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
 **Step 4**: Start Edirom Online.
 
