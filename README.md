@@ -78,14 +78,14 @@ Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
 To start the Edirom Online with the EditionExample, create and navigate to a new directory on your computer, and enter the following in the command line. After a while the Edirom will be available at http://localhost:8089
 ```bash
-git clone https://github.com/Edirom/Edirom-Online.git . && docker compose up
+git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
 ```
 
 #### Step-by-step installation
 
 **Step 1**: Clone the Git repository.
 
-On your computer create and navigate to a directory for the Edirom Online. 
+On your computer create and navigate to a new directory for the Edirom Online. 
 Then open the command line of your computer (also known as Shell, PowerShell, Terminal) and clone the Edirom Online Git repository to your machine with:
 
 ```bash
