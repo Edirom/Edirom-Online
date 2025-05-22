@@ -139,9 +139,23 @@ The Edirom Online is started via entering the following command in the command l
 docker compose up
 ```
 
+Alternatively start in detached mode (running in background so that the terminal is writable after startup) by using the flag "-d" after the above command. 
+
+If this is not the first time that you started the Edirom Online on your machine and you want to fetch the latest versions of the Edirom Online Backend and Frontend use the following commands:
+
+```bash
+docker compose down --volumes --remove-orphans
+docker compose build --no-cache
+docker compose up
+```
+
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
 
 [http://localhost:8089/](http://localhost:8089/)
+
+**Step 5**: Stop Edirom Online.
+
+You can stop the environment by hitting Ctrl+C in the command line in which the Docker process is running. If you have used the detached mode, you can stop the environment by typing `docker compose down`.
 
 
 ### Further Documentation
