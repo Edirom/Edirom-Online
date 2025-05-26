@@ -1,7 +1,0 @@
-[submodule "packages/eoTheme/resources/fonts/euryanthe"]
-	path = packages/eoTheme/resources/fonts/euryanthe
-	url = https://github.com/Edirom/EuryantheFont
-[submodule "Stylesheets"]
-	path = add/data/xslt/tei/Stylesheets
-	url = https://github.com/TEIC/Stylesheets
-	branch = released

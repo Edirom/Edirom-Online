@@ -35,22 +35,15 @@ authors:
   - given-names: Johannes
     family-names: Kepper
     orcid: https://orcid.org/0000-0003-4891-260X
+  - given-names: Tobias
+    family-names: Bachmann
+    orcid: https://orcid.org/0009-0003-9952-7899
   - given-names: Silke
     family-names: Reich
     orcid: https://orcid.org/0009-0007-8817-0299
-  - given-names: Anna Maria
-    family-names: Neubert
-    orcid: https://orcid.org/0000-0002-7528-1842
-  - given-names: Stefan
-    family-names: Münnich
-    orcid: https://orcid.org/0000-0002-0744-5374
-  - given-names: Elena
-    family-names: Schilke
-  - given-names: Salome
-    family-names: Obert
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.5347861
+    value: 10.5281/zenodo.15516312
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
 abstract: >-
@@ -66,5 +59,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-version: v1.0.0
-date-released: '2025-02-13'
+version: v2.0.0
+date-released: '2025-05-26'
