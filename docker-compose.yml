@@ -9,7 +9,7 @@ services:
         # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
         # XAR: ${BE_XAR}
         # Git repository URL
-        REPO: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
+        REPO: ${BE_REPO:-https://github.com/VerDigital-UniPV/Edirom-Online-Backend.git}
         # Git branch (set in terminal via "export BE_BRANCH=...")
         BRANCH: ${BE_BRANCH:-develop}
         EDITION: ${EDITION_XAR}
@@ -26,7 +26,7 @@ services:
         # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
         # XAR: ${FE_XAR}
         # Git repository URL
-        REPO: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
+        REPO: ${FE_REPO:-https://github.com/VerDigital-UniPV/Edirom-Online-Frontend.git}
         # Git branch (set in terminal via "export FE_BRANCH=...")
         BRANCH: ${FE_BRANCH:-develop}
     ports:
