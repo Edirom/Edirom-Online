@@ -13,8 +13,7 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG XAR
-ARG REPO=https://github.com/Edirom/Edirom-Online-Backend.git
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend/releases/download/v1.0.1/Edirom-Online-Backend-1.0.1.xar
 ARG BRANCH=develop
 ARG EDITION
 
@@ -50,17 +49,17 @@ ENV PATH="/opt/ant/bin:${PATH}"
 # Get build for Edirom-Online Backend
 WORKDIR /opt/eo-backend
 
-RUN if [ -n "$XAR" ]; then \
+RUN if [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.xar$')" ]; then \
         echo "Downloading Backend XAR from $XAR" && \
         mkdir -p /opt/eo-backend/build-xar && \
         curl -L "$XAR" -o /opt/eo-backend/build-xar/backend.xar; \
-    elif [ -n "$REPO" ]; then \
+    elif [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.git$')" ]; then \
         echo "Cloning from repo $REPO" && \
-        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
+        git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
         echo "Building Backend XAR..." && \
         ant; \
     else \
-        echo "Error: Either REPO (Backend Git repository URL) or XAR (Backend xar file URL) must be provided." && \
+        echo "Error: $SOURCE must be reference to Backend Git repository URL or Backend xar file URL." && \
         exit 1; \
     fi
 

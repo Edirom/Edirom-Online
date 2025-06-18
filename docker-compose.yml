@@ -6,11 +6,8 @@ services:
       context: ./backend   
       dockerfile: Dockerfile
       args:
-        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
-        # XAR: ${BE_XAR}
-        # Git repository URL
-        REPO: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
-        # Git branch (set in terminal via "export BE_BRANCH=...")
+        SOURCE: ${BE_SOURCE:-https://github.com/Edirom/Edirom-Online-Backend/releases/download/v1.0.1/Edirom-Online-Backend-1.0.1.xar}
+        # SOURCE: ${BE_SOURCE:-https://github.com/Edirom/Edirom-Online-Backend.git}
         BRANCH: ${BE_BRANCH:-develop}
         EDITION: ${EDITION_XAR}
     ports:
@@ -23,10 +20,8 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
-        # XAR: ${FE_XAR}
-        # Git repository URL
-        REPO: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
+        SOURCE: ${FE_SOURCE:-https://github.com/Edirom/Edirom-Online-Frontend/releases/download/v1.0.1/Edirom-Online-Frontend-1.0.1.xar}
+        # SOURCE: ${FE_SOURCE:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         # Git branch (set in terminal via "export FE_BRANCH=...")
         BRANCH: ${FE_BRANCH:-develop}
     ports:

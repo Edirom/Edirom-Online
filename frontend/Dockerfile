@@ -13,8 +13,7 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG XAR
-ARG REPO=https://github.com/Edirom/Edirom-Online-Frontend.git
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend/releases/download/v1.0.1/Edirom-Online-Frontend-1.0.1.xar
 ARG BRANCH=develop
 
 
@@ -57,17 +56,19 @@ ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
 
 # Get build for Edirom-Online Frontend
 WORKDIR /opt/eo-frontend
-RUN if [ -n "$XAR" ]; then \
-        echo "Downloading Frontend XAR from $XAR" && \
+
+
+RUN if [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.xar$')" ]; then \
+        echo "Downloading Frontend XAR from $SOURCE" && \
         mkdir -p /opt/eo-frontend/build-xar && \
-        curl -L "$XAR" -o /opt/eo-frontend/build-xar/frontend.xar; \
-    elif [ -n "$REPO" ]; then \
-        echo "Cloning from repo $REPO" && \
-        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
+        curl -L "$SOURCE" -o /opt/eo-frontend/build-xar/frontend.xar; \
+    elif [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.git$')" ]; then \
+        echo "Cloning from repo $SOURCE" && \
+        git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
         echo "Building Frontend XAR..." && \
         ./build.sh; \
     else \
-        echo "Error: Either REPO (Frontend Git repository URL) or XAR (Frontend xar file URL) must be provided." && \
+        echo "Error: $SOURCE must be reference to Frontend Git repository URL or Frontend xar file URL." && \
         exit 1; \
     fi
 
