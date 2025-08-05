@@ -57,20 +57,27 @@ ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
 # Get build for Edirom-Online Frontend
 WORKDIR /opt/eo-frontend
 
-
-RUN if [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.xar$')" ]; then \
-        echo "Downloading Frontend XAR from $SOURCE" && \
-        mkdir -p /opt/eo-frontend/build-xar && \
-        curl -L "$SOURCE" -o /opt/eo-frontend/build-xar/frontend.xar; \
-    elif [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.git$')" ]; then \
-        echo "Cloning from repo $SOURCE" && \
-        git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
-        echo "Building Frontend XAR..." && \
-        ./build.sh; \
+RUN if [ -n "$SOURCE" ]; then \
+        case "$SOURCE" in \
+            *xar) \
+                echo "Downloading Frontend XAR from $SOURCE" && \
+                mkdir -p /opt/eo-frontend/build-xar && \
+                curl -L "$SOURCE" -o /opt/eo-frontend/build-xar/frontend.xar; \
+                echo "Unzipping Frontend XAR..." && \
+                unzip -o /opt/eo-frontend/build-xar/frontend.xar -d /opt/eo-frontend/build/ \
+                ;; \
+            *git) \
+                echo "Cloning from repo $SOURCE" && \
+                git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+                echo "Building Frontend XAR..." && \
+                ./build.sh; \
+                ;; \
+        esac; \
     else \
         echo "Error: $SOURCE must be reference to Frontend Git repository URL or Frontend xar file URL." && \
         exit 1; \
-    fi
+    fi 
+    
 
 
 #########################
