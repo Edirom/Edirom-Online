@@ -49,19 +49,25 @@ ENV PATH="/opt/ant/bin:${PATH}"
 # Get build for Edirom-Online Backend
 WORKDIR /opt/eo-backend
 
-RUN if [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.xar$')" ]; then \
-        echo "Downloading Backend XAR from $XAR" && \
-        mkdir -p /opt/eo-backend/build-xar && \
-        curl -L "$XAR" -o /opt/eo-backend/build-xar/backend.xar; \
-    elif [ -n "$SOURCE" ] && [ -z "$(echo "$SOURCE" | grep '\.git$')" ]; then \
-        echo "Cloning from repo $REPO" && \
-        git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
-        echo "Building Backend XAR..." && \
-        ant; \
+RUN if [ -n "$SOURCE" ]; then \
+        case "$SOURCE" in \
+            *xar) \
+                echo "Downloading Backend XAR from $SOURCE" && \
+                mkdir -p /opt/eo-backend/build-xar && \
+                curl -L "$SOURCE" -o /opt/eo-backend/build-xar/backend.xar; \
+                ;; \
+            *git) \
+                echo "Cloning from repo $SOURCE" && \
+                git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+                echo "Building Backend XAR..." && \
+                ant; \
+                ;; \
+        esac; \
     else \
         echo "Error: $SOURCE must be reference to Backend Git repository URL or Backend xar file URL." && \
         exit 1; \
-    fi
+    fi 
+    
 
 RUN if [ -n "$EDITION" ]; then \
         echo "Downloading Edition XAR from $EDITION" && \
