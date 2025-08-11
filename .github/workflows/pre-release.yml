@@ -76,7 +76,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install libxml2-utils
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
@@ -112,7 +112,7 @@ jobs:
         REPO: ${{ github.event.repository.name }}
 
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
