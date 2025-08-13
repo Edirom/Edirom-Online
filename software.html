@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Software – Edirom Online</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="container header-container">
+      <a href="index.html">
+        <img src="assets/logo.svg" alt="Edirom Online Logo" class="logo">
+      </a>
+      <nav>
+        <a href="about.html">About</a>
+        <a href="community.html">Community</a>
+        <a href="software.html" class="active">Software</a>
+        <a href="resources.html">Resources</a>
+        <a href="editions.html">Editions</a>
+        <a href="news.html" class="highlight">News</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="bg-light">
+      <div class="container">
+        <h3>Edirom-Online repository</h3>
+        <div class="text-center">
+        The <strong>Edirom Online</strong> software is developed as a web application consisting of a backend module and a frontend module.
+        The <a href="https://github.com/Edirom/Edirom-Online/" target="_blank" rel="noopener">Edirom-Online</a> repository serves as the <strong>entry point</strong> for both modules and the starting address for the <strong>community</strong>.
+          <br>
+          <a href="https://github.com/Edirom/Edirom-Online/releases" target="_blank" rel="noopener" class="btn btn-blue">Releases</a>
+          <a href="https://github.com/Edirom/Edirom-Online/tree/develop/docs" target="_blank" rel="noopener" class="btn btn-blue">Documentation</a>
+        </div>
+
+        <h4 class="software-section-title">Edirom Online Modules and API</h4>
+        <p class="software-section-desc">The backend/frontend modularization was introduced as Edirom Online v2.0.0 in April 2025.</p>
+        <div class="features-grid">
+          <div class="feature-box">
+            <h4>Frontend</h4>
+            <p>
+              A web application written in <em>JavaScript</em>, and deployed in <em>nginx</em>.<br>
+              <a href="https://github.com/Edirom/Edirom-Online-Frontend/" target="_blank" rel="noopener">Edirom-Online-Frontend</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Backend</h4>
+            <p>
+                The backend is written in <em>XQuery</em> and deployed in <em>eXist-db</em>.</br>
+              <a href="https://github.com/Edirom/Edirom-Online-Backend/" target="_blank" rel="noopener">Edirom-Online-Backend</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>API</h4>
+            <p>
+                The Edirom Online API is the description of the Edirom Online Backend. </br>
+              <a href="https://github.com/Edirom/Edirom-Online-API/" target="_blank" rel="noopener">Edirom-Online-API</a>
+            </p>
+          </div>
+        </div>
+
+        <h4 class="software-section-title">Web Components</h4>
+        <p class="software-section-desc">
+          Modular web components aim to extend Edirom Online with specialized features.
+          These components are intended to be used in the Edirom Online, but since they are completely independent modules they can be (re-)used in other contexts and web applications as well.
+          Most of them are still in development and will be integrated into the Edirom Online code base gradually.
+        </p>
+        <div class="features-grid">
+          <div class="feature-box">
+            <h4>Audio Player</h4>
+            <p>
+              Web component for audio in digital editions, based on the <em>HTML5</em> audio facility.</br>
+              <a href="https://github.com/Edirom/edirom-audio-player" target="_blank" rel="noopener">edirom-audio-player</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Verovio Renderer</h4>
+            <p>
+              Renders MEI music notation as <em>SVG</em> using <em>Verovio</em> directly in the browser.</br>
+              <a href="https://github.com/Edirom/edirom-verovio-renderer" target="_blank" rel="noopener">edirom-verovio-renderer</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Image Viewer</h4>
+            <p>
+              This web component displays <em>IIIF</em> tile sources using the <em>openseadragon</em> library.</br>
+              <a href="https://github.com/Edirom/edirom-image-viewer" target="_blank" rel="noopener">edirom-image-viewer</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Concordance Navigator</h4>
+            <p>
+              This web component provides a navigable overview of concordances.</br>
+              <a href="https://github.com/Edirom/edirom-concordance-navigator" target="_blank" rel="noopener">edirom-concordance-navigator</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Video Player</h4>
+            <p>
+              A web component for displaying video content in digital editions.</br>
+              <a href="https://github.com/Edirom/edirom-video-player" target="_blank" rel="noopener">edirom-video-player</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Window Manager</h4>
+            <p>
+              This web component displays and creates new windows using the <em>winbox</em> library.</br>
+              <a href="https://github.com/Edirom/edirom-window" target="_blank" rel="noopener">edirom-window</a>
+            </p>
+          </div>
+        </div>
+
+        <h4 class="software-section-title">Tools for data preparation</h4>
+        <p class="software-section-desc">Tools and resources for preparing and managing data for Edirom Online editions.</p>
+        <div class="features-grid">
+          <div class="feature-box">
+            <h4>Zone creator for measures</h4>
+            <p>
+              Identification of bounding boxes of measures in music documents.<br>
+              <a href="https://github.com/Edirom/cartographer-app" target="_blank" rel="noopener">cartographer-app</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Scripts and Queries</h4>
+            <p>
+              Scripts and queries useful for generating or modifying Edirom Online content.<br>
+              <a href="https://github.com/Edirom/edirom-online-scripts-and-queries" target="_blank" rel="noopener">edirom-online-scripts-and-queries</a>
+            </p>
+          </div>
+          <div class="feature-box">
+            <h4>Sample edition data set</h4>
+            <p>
+              Sample edition data set that can be installed in <em>eXist-db</em> alongside Edirom-Online.<br>
+              <a href="https://github.com/Edirom/EditionExample" target="_blank" rel="noopener">EditionExample</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>
+      <a href="https://github.com/Edirom/Edirom-Online">Edirom Online</a> is maintained by 
+      <a href="https://www.edirom.de">Virtueller Forschungsverbund Edirom (ViFE)</a>
+    </p>
+  </footer>
+</body>
+</html>
