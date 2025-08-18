@@ -142,9 +142,9 @@ docker compose up
 Alternatively start in detached mode (running in background so that the terminal is writable after startup) by using the flag "-d" after the above command. 
 
 > [!NOTE]
-> If you want to change the setup, e.g., switching to another branch fo Edirom Online Frontend or Edirom Online Backend or provide another edition XAR, the service has to be **rebuilt**.
+> If you want to change the setup, e.g., switching to another branch of Edirom Online Frontend or Edirom Online Backend or provide another edition XAR, the service has to be **rebuilt**.
 
-So if this is not the first time that you started the Edirom Online on your machine and you want to fetch the latest versions of the Edirom Online Backend and Frontend use the following commands
+So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands
 
 ```bash
 docker compose down --volumes --remove-orphans
