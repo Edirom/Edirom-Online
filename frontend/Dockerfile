@@ -13,8 +13,8 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend/releases/download/v1.0.1/Edirom-Online-Frontend-1.0.1.xar
-ARG BRANCH=develop
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
+ARG BRANCH=v1.0.1
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -57,28 +57,10 @@ ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
 # Get build for Edirom-Online Frontend
 WORKDIR /opt/eo-frontend
 
-RUN if [ -n "$SOURCE" ]; then \
-        case "$SOURCE" in \
-            *xar) \
-                echo "Downloading Frontend XAR from $SOURCE" && \
-                mkdir -p /opt/eo-frontend/build-xar && \
-                curl -L "$SOURCE" -o /opt/eo-frontend/build-xar/frontend.xar; \
-                echo "Unzipping Frontend XAR..." && \
-                unzip -o /opt/eo-frontend/build-xar/frontend.xar -d /opt/eo-frontend/build/ \
-                ;; \
-            *git) \
-                echo "Cloning from repo $SOURCE" && \
-                git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
-                echo "Building Frontend XAR..." && \
-                ./build.sh; \
-                ;; \
-        esac; \
-    else \
-        echo "Error: $SOURCE must be reference to Frontend Git repository URL or Frontend xar file URL." && \
-        exit 1; \
-    fi 
-    
-
+RUN echo "Cloning from repo $SOURCE" && \
+    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    echo "Building Frontend XAR..." && \
+    ./build.sh
 
 #########################
 # 3. Run/deploy nginx

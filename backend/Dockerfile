@@ -13,8 +13,8 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend/releases/download/v1.0.1/Edirom-Online-Backend-1.0.1.xar
-ARG BRANCH=develop
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
+ARG BRANCH=v1.0.1
 ARG EDITION
 
 
@@ -49,25 +49,10 @@ ENV PATH="/opt/ant/bin:${PATH}"
 # Get build for Edirom-Online Backend
 WORKDIR /opt/eo-backend
 
-RUN if [ -n "$SOURCE" ]; then \
-        case "$SOURCE" in \
-            *xar) \
-                echo "Downloading Backend XAR from $SOURCE" && \
-                mkdir -p /opt/eo-backend/build-xar && \
-                curl -L "$SOURCE" -o /opt/eo-backend/build-xar/backend.xar; \
-                ;; \
-            *git) \
-                echo "Cloning from repo $SOURCE" && \
-                git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
-                echo "Building Backend XAR..." && \
-                ant; \
-                ;; \
-        esac; \
-    else \
-        echo "Error: $SOURCE must be reference to Backend Git repository URL or Backend xar file URL." && \
-        exit 1; \
-    fi 
-    
+RUN echo "Cloning from repo $SOURCE" && \
+    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    echo "Building Backend XAR..." && \
+    ant
 
 RUN if [ -n "$EDITION" ]; then \
         echo "Downloading Edition XAR from $EDITION" && \
