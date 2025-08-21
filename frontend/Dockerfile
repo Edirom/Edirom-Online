@@ -66,7 +66,7 @@ RUN if [ -n "$XAR" ]; then \
         echo "Cloning from repo $REPO" && \
         git clone "$REPO" --branch "$BRANCH" --single-branch . && \
         echo "Building Frontend XAR..." && \
-        ./build.sh -b "${BACKEND}"; \
+        ./build.sh BACKEND=http://localhost:8078/exist/apps/Edirom-Online-Backend/; \
     else \
         echo "Error: Either REPO (Frontend Git repository URL) or XAR (Frontend xar file URL) must be provided." && \
         exit 1; \

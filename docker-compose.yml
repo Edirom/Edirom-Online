@@ -13,9 +13,9 @@ services:
         # Git branch (set in terminal via "export BE_BRANCH=...")
         BRANCH: ${BE_BRANCH:-develop}
         EDITION: ${EDITION_XAR}
-    ports:
+    ports: !override
       # expose eXist-db
-      - "8078:8078"
+      - "8078:8080"
   edirom-online-frontend:
     container_name: nginx
     build:
@@ -28,7 +28,7 @@ services:
         # Git repository URL
         REPO: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         # Git branch (set in terminal via "export FE_BRANCH=...")
-        BRANCH: ${FE_BRANCH:-develop}
+        BRANCH: ${FE_BRANCH:-ftr-82-make-backend-url-configurable-via-build-param}
     ports:
       # expose nginx
       - "8079:80"
