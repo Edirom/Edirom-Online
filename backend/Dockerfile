@@ -15,7 +15,7 @@ FROM openjdk:8-jre-slim as builder
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
 ARG BRANCH=v1.0.1
-ARG EDITION_XAR
+ARG EDITION
 
 
 # Install wget and unzip and ruby and other dependencies

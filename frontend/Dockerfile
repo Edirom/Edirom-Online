@@ -13,11 +13,9 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG XAR
-ARG REPO=https://github.com/Edirom/Edirom-Online-Frontend.git
-ARG BRANCH=develop
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
+ARG BRANCH=v1.0.1
 ARG BACKEND=http://localhost:8078/exist/apps/Edirom-Online-Backend
-
 
 # Install wget and unzip and ruby and other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -58,20 +56,11 @@ ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
 
 # Get build for Edirom-Online Frontend
 WORKDIR /opt/eo-frontend
-RUN if [ -n "$XAR" ]; then \
-        echo "Downloading Frontend XAR from $XAR" && \
-        mkdir -p /opt/eo-frontend/build-xar && \
-        curl -L "$XAR" -o /opt/eo-frontend/build-xar/frontend.xar; \
-    elif [ -n "$REPO" ]; then \
-        echo "Cloning from repo $REPO" && \
-        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
-        echo "Building Frontend XAR..." && \
-        ./build.sh BACKEND=http://localhost:8078/exist/apps/Edirom-Online-Backend/; \
-    else \
-        echo "Error: Either REPO (Frontend Git repository URL) or XAR (Frontend xar file URL) must be provided." && \
-        exit 1; \
-    fi
 
+RUN echo "Cloning from repo $SOURCE" && \
+    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    echo "Building Frontend XAR..." && \
+    ./build.sh BACKEND="$BACKEND"
 
 #########################
 # 3. Run/deploy nginx

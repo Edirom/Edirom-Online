@@ -6,12 +6,8 @@ services:
       context: ./backend   
       dockerfile: Dockerfile
       args:
-        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
-        # XAR: ${BE_XAR}
-        # Git repository URL
-        REPO: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
-        # Git branch (set in terminal via "export BE_BRANCH=...")
-        BRANCH: ${BE_BRANCH:-develop}
+        SOURCE: ${BE_SOURCE:-https://github.com/Edirom/Edirom-Online-Backend.git}
+        BRANCH: ${BE_BRANCH:-v1.0.1}
         EDITION: ${EDITION_XAR}
     ports: !override
       # expose eXist-db
@@ -23,12 +19,9 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        # TODO: direct reference to XAR package (and prioritize XAR vs REPO)
-        # XAR: ${FE_XAR}
-        # Git repository URL
-        REPO: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
-        # Git branch (set in terminal via "export FE_BRANCH=...")
+        SOURCE: ${FE_SOURCE:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         BRANCH: ${FE_BRANCH:-ftr-82-make-backend-url-configurable-via-build-param}
+        BACKEND: ${BE_URL:-http://localhost:8078/exist/apps/Edirom-Online-Backend}
     ports:
       # expose nginx
       - "8079:80"
