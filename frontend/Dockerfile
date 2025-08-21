@@ -16,6 +16,7 @@ ARG ANT_VERSION=1.10.12
 ARG XAR
 ARG REPO=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=develop
+ARG BACKEND=http://localhost:8078/exist/apps/Edirom-Online-Backend
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -65,7 +66,7 @@ RUN if [ -n "$XAR" ]; then \
         echo "Cloning from repo $REPO" && \
         git clone "$REPO" --branch "$BRANCH" --single-branch . && \
         echo "Building Frontend XAR..." && \
-        ./build.sh; \
+        ./build.sh -b "${BACKEND}"; \
     else \
         echo "Error: Either REPO (Frontend Git repository URL) or XAR (Frontend xar file URL) must be provided." && \
         exit 1; \
