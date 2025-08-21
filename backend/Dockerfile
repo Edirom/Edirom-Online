@@ -57,7 +57,7 @@ RUN echo "Cloning from repo $SOURCE" && \
 RUN if [ -n "$EDITION" ]; then \
         echo "Downloading Edition XAR from $EDITION" && \
         mkdir -p /opt/eo-editions && \
-        curl -L "$EDITION" -o /opt/eo-editions/edition.xar; \
+        curl -L "$EDITION" -O --output-dir "/opt/eo-editions/"; \
     else \
         mkdir -p /opt/eo-editions && \
         echo "Note: EDITION_XAR not provided. Please add manually to eXist-db."; \
