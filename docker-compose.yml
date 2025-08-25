@@ -21,7 +21,7 @@ services:
       args:
         SOURCE: ${FE_SOURCE:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         BRANCH: ${FE_BRANCH:-ftr-82-make-backend-url-configurable-via-build-param}
-        BACKEND: ${BE_URL:-http://localhost:8078/exist/apps/Edirom-Online-Backend}
+        BACKEND_URL: ${BE_URL:-http://localhost:8078/exist/apps/Edirom-Online-Backend}
     ports:
       # expose nginx
       - "8079:80"

@@ -69,16 +69,9 @@ RUN if [ -n "$EDITION" ]; then \
 #########################
 
 FROM stadlerpeter/existdb:6
-
-# Override any port-related ENV the base image might use (common names)
-ENV EXIST_HTTP_PORT=8078 \
-    EXIST_PORT=8078
-
-# Declare the container port (informational; publishing requires -p or compose)
 EXPOSE 8078
 
 ENV EXIST_PASSWORD=changeme
-
 
 # add XARs to autodeploy directory of exist
 ADD ./autodeploy ${EXIST_HOME}/autodeploy/
