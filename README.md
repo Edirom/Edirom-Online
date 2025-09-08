@@ -94,7 +94,7 @@ git clone https://github.com/Edirom/Edirom-Online.git .
 
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
-By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (*current release, e.g. v1.0.1*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (*current release, e.g. v1.0.1*). 
 You can change this by setting variables before starting the docker compose in the command line, e.g.
 
 ```bash
