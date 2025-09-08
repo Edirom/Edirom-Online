@@ -149,7 +149,7 @@ So if you changed the setup or you want to fetch the latest versions of the Edir
 ```bash
 docker compose down --volumes --remove-orphans && /
 docker compose build --no-cache && /
-docker compose up
+docker compose up && /
 
 ```
 
