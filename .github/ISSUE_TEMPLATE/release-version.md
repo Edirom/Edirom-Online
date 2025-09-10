@@ -11,9 +11,9 @@ based on [Edirom-Online Release Workflow](https://github.com/Edirom/Edirom-Onlin
 
 Release preparation timeline
 - [ ] create and plan next milestone (assign issues, set priorities, identify and name topic/s): *link milestone*
-- [ ] set and send reminder for issue solving: DD.MM.YYYY
-- [ ] set end date for test phase: DD.MM.YYYY
+- [ ] set dates for test phase: DD.MM.YYYY - DD.MM.YYYY
 - [ ] set date for release: DD.MM.YYYY
+- [ ] send announcement about dates to community
 
 Preparations on [zenodo.org](https://zenodo.org)
 - [ ] go to previous version and click "New version"
