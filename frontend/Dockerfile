@@ -15,11 +15,7 @@ FROM openjdk:8-jre-slim as builder
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=v1.0.1
-<<<<<<< HEAD
 ARG BACKEND_URL=http://localhost:8078/exist/apps/Edirom-Online-Backend
-=======
-
->>>>>>> develop
 
 # Install wget and unzip and ruby and other dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -64,11 +60,8 @@ WORKDIR /opt/eo-frontend
 RUN echo "Cloning from repo $SOURCE" && \
     git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
     echo "Building Frontend XAR..." && \
-<<<<<<< HEAD
     sh build.sh BACKEND="$BACKEND_URL"
-=======
-    ./build.sh
->>>>>>> develop
+
 
 #########################
 # 3. Run/deploy nginx
