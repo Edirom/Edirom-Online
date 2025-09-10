@@ -94,7 +94,7 @@ git clone https://github.com/Edirom/Edirom-Online.git .
 
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
-By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (*current release, e.g. v1.0.1*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (*current release, e.g. v1.0.1*). 
 You can change this by setting variables before starting the docker compose in the command line, e.g.
 
 ```bash
@@ -144,12 +144,13 @@ Alternatively start in detached mode (running in background so that the terminal
 > [!NOTE]
 > If you want to change the setup, e.g., switching to another branch of Edirom Online Frontend or Edirom Online Backend or provide another edition XAR, the service has to be **rebuilt**.
 
-So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands
+So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
 ```bash
-docker compose down --volumes --remove-orphans
-docker compose build --no-cache
-docker compose up
+docker compose down --volumes --remove-orphans && /
+docker compose build --no-cache && /
+docker compose up && /
+ 
 ```
 
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
