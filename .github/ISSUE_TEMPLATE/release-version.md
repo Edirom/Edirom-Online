@@ -62,3 +62,6 @@ Publication on [zenodo.org](https://zenodo.org)
 Clean-up
 - [ ] delete branch *release/vX.Y.Z*
 - [ ] announce new version to Edirom-Online community
+
+Plan next release
+- [ ] create new release issue
