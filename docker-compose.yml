@@ -6,7 +6,7 @@ services:
       context: ./backend   
       dockerfile: Dockerfile
       args:
-        SOURCE: ${BE_SOURCE:-https://github.com/Edirom/Edirom-Online-Backend.git}
+        SOURCE: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
         BRANCH: ${BE_BRANCH:-v1.0.1}
         EDITION: ${EDITION_XAR}
     ports:
@@ -19,7 +19,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        SOURCE: ${FE_SOURCE:-https://github.com/Edirom/Edirom-Online-Frontend.git}
+        SOURCE: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         BRANCH: ${FE_BRANCH:-v1.0.1}
     ports:
       # expose nginx
