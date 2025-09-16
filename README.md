@@ -251,7 +251,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [CONTRIBUTING]: CONTRIBUTING.md
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
-[building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
+[building sample data]: https://github.com/Edirom/Edirom-Online/blob/develop/docs/setup.md#build-data-package
 [Edirom mailing list]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
 [wiki]: https://github.com/Edirom/Edirom-Online/wiki
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions

@@ -81,12 +81,7 @@ Also at this step we can use a docker image, instead of downloading exist on our
 - once the exist-db is ready, you can open its dashboard in your browser: [`http://localhost:8080/exist/apps/dashboard/index.html`](http://localhost:8080/exist/apps/dashboard/index.html)
 - login to the exist-db via the "Login" button in the top right corner:
     - user: admin
-    - pass: will be random-generated, but printed in the exist-db container output above, it looks like that:
-        ```
-        no admin password provided
-        setting password to Thh3Mj3iUYG2OYpakbslXiTs
-        ``` 
-    - you might also want to save that password, because it wont be shown elsewhere
+    - pass: the default is "changeme" (without "" around the word), you can change the default password in the [dockerfile](https://github.com/Edirom/Edirom-Online/blob/fee20389874de6eb8ab01d133a26d7f17cb11f33/backend/Dockerfile#L72)
 - go to "Package Manager" in the menu on the left and upload the two previously generated xar-packages
     - `Edirom-Online-Backend-1.0.0-2025213-1739.xar` (version and date-string varies)
     - `Edirom-Online-Frontend-1.0.0-2025213-1739.xar` (version and date-string varies)
