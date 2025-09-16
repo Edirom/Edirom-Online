@@ -91,7 +91,7 @@ If you have old MEI files that need updating to a newer MEI version, you can use
 
 For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
 Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
-For both elements Edirom Online
+For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
 
 ## TEI
 
