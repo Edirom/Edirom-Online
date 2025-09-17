@@ -33,6 +33,7 @@ Checkout develop branch: `git checkout develop`
 Checkout new release branch: `git checkout -b release/vX.Y.Z develop`
 - [ ] update CITATION.cff (date, contributors, version, DOI)
 - [ ] bump version number everywhere (find/replace in code), e.g. in build.xml
+- [ ] if applicable, update version number of backend/frontend in docker-compose.yml
 - [ ] commit version release branch
 - [ ] build .xar and test it
 
