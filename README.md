@@ -72,7 +72,7 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 ### Installation
 
-Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
+Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed. The 'docker' command must be available in the terminal.
 
 #### Fast-lane installation
 
@@ -80,6 +80,8 @@ To start the Edirom Online with the EditionExample, create and navigate to a new
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
 ```
+
+* On Windows machines the command 'export' has to be renamed to 'set'.
 
 #### Step-by-step installation
 
@@ -91,6 +93,8 @@ Then open the command line of your computer (also known as Shell, PowerShell, Te
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git .
 ```
+
+* If you do not use Git, it is possible to download a zip or tar archive from the [Releases](https://github.com/Edirom/Edirom-Online/releases), unzip the archive, and  then navigate into it.
 
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
@@ -104,11 +108,15 @@ export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
 export FE_BRANCH=awesome-feature-branch
 ```
 
+* On Windows machines the command 'export' has to be renamed to 'set'.
+
 If you have set a variable you can also unset it again (to fall back to the defaults):
 
 ```bash
 unset BE_REPO
 ```
+
+* On Windows machines the unset command has to be called as 'set BE_REPO='. 
 
 You can also check the current docker compose configuration, and see the effect of the currently set environment variables, via:
 
@@ -124,6 +132,8 @@ Option (a): By setting the environment variable **EDITION_XAR** you can provide 
 ```bash
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
 ```
+
+* On Windows machines the command 'export' has to be renamed to 'set'.
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
@@ -147,9 +157,7 @@ Alternatively start in detached mode (running in background so that the terminal
 So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
 ```bash
-docker compose down --volumes --remove-orphans && /
-docker compose build --no-cache && /
-docker compose up && /
+docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up
  
 ```
 
