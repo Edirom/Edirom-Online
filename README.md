@@ -81,7 +81,7 @@ To start the Edirom Online with the EditionExample, create and navigate to a new
 git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
 ```
 
-* On Windows machines the command 'export' has to be renamed to 'set'.
+&ast; On Windows machines the command `export` has to be renamed to `set`.
 
 #### Step-by-step installation
 
@@ -94,7 +94,7 @@ Then open the command line of your computer (also known as Shell, PowerShell, Te
 git clone https://github.com/Edirom/Edirom-Online.git .
 ```
 
-* If you do not use Git, it is possible to download a zip or tar archive from the [Releases](https://github.com/Edirom/Edirom-Online/releases), unzip the archive, and  then navigate into it.
+&ast; If you do not use Git, it is possible to download a zip or tar archive from the [Releases](https://github.com/Edirom/Edirom-Online/releases), unzip the archive, and  then navigate into it.
 
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
@@ -108,7 +108,7 @@ export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
 export FE_BRANCH=awesome-feature-branch
 ```
 
-* On Windows machines the command 'export' has to be renamed to 'set'.
+&ast; On Windows machines the command `export` has to be renamed to `set`.
 
 If you have set a variable you can also unset it again (to fall back to the defaults):
 
@@ -116,7 +116,7 @@ If you have set a variable you can also unset it again (to fall back to the defa
 unset BE_REPO
 ```
 
-* On Windows machines the unset command has to be called as 'set BE_REPO='. 
+&ast; On Windows machines the command has to be called as `set BE_REPO=`. 
 
 You can also check the current docker compose configuration, and see the effect of the currently set environment variables, via:
 
@@ -133,7 +133,7 @@ Option (a): By setting the environment variable **EDITION_XAR** you can provide 
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
 ```
 
-* On Windows machines the command 'export' has to be renamed to 'set'.
+* On Windows machines the command `export` has to be renamed to `set`.
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
