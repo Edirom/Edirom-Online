@@ -127,7 +127,7 @@ docker compose config
 
 **Step 3 (optional)**: Specify an edition.
 
-Option (a): By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
+**Option A**: By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
 
 ```bash
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
@@ -137,7 +137,7 @@ export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
-Option (b): By copying one or more edition xar packages to the directory **/backend/autodeploy** inside the directory of the cloned repository (from Step 1) you can also pass editions into the Edirom Online. You can for instance download xar packages from the release page listed in Option (a). 
+**Option B**: By copying one or more edition xar packages to the directory **/backend/autodeploy** inside the directory of the cloned repository (from Step 1) you can also pass editions into the Edirom Online. You can for instance download xar packages from the release page listed in Option (a). 
 
 If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
@@ -157,8 +157,7 @@ Alternatively start in detached mode (running in background so that the terminal
 So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
 ```bash
-docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up
- 
+docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up 
 ```
 
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
