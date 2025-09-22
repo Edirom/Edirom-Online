@@ -133,7 +133,7 @@ Option (a): By setting the environment variable **EDITION_XAR** you can provide 
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
 ```
 
-* On Windows machines the command `export` has to be renamed to `set`.
+&ast; On Windows machines the command `export` has to be renamed to `set`.
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
