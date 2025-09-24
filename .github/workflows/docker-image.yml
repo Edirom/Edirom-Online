@@ -1,0 +1,57 @@
+name: Deploy gh-pages Docker Image
+
+on:
+  push:
+    branches:
+      - gh-pages  # Run only when gh-pages branch is updated
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: deploy-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy-gh-pages:
+    runs-on: ubuntu-latest
+    steps:
+      # 1) Checkout the gh-pages branch contents
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2) Log in to GHCR
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3) Generate metadata (tags & labels)
+      - name: Extract Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/edirom/edirom-online-gh-pages
+          tags: |
+            type=raw,value=gh-pages
+            type=sha
+
+      # 4) Build and push Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # 5) Trigger deployment via Keel
+      - name: Trigger Keel deploy
+        run: |
+          curl -X POST https://keel1.edirom.de/v1/webhooks/native \
+            -H 'Content-Type: application/json' \
+            -d '{"name":"ghcr.io/edirom/edirom-online-gh-pages","tag":"gh-pages"}'
