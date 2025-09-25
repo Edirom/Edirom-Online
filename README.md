@@ -131,7 +131,19 @@ Option (b): By copying one or more edition xar packages to the directory **/back
 
 If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
-**Step 4**: Start Edirom Online.
+**Step 4 (optional)**: Set ports.
+
+The default configuration of Edirom Online starts the backend service on port 8080 and the frontend service on port 8089 of your machine. If you want to make these service run on other ports you can specify these by setting the corresponding environment variables:
+
+```bash
+# set the backend port
+export BE_PORT=8081
+
+# set the frontend port
+export BE_PORT=8090
+```
+
+**Step 5**: Start Edirom Online.
 
 The Edirom Online is started via entering the following command in the command line:
 
