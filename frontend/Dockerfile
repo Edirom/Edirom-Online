@@ -15,6 +15,7 @@ FROM openjdk:8-jre-slim as builder
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=v1.0.1
+ARG BE_PORT
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -59,6 +60,15 @@ WORKDIR /opt/eo-frontend
 
 RUN echo "Cloning from repo $SOURCE" && \
     git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    if [ -n "$BE_PORT" && "$BE_PORT" != "8080" ]; then \
+        echo "Setting backend port" && \
+        if  [ -f "./local.properties" ]; then \
+            sed -i '/^backend\.port=/d' local.properties; \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        else \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        fi \
+    fi && \
     echo "Building Frontend XAR..." && \
     ./build.sh
 
