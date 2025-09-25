@@ -2,8 +2,7 @@ name: Deploy gh-pages Docker Image
 
 on:
   push:
-    branches:
-      - gh-pages  # Run only when gh-pages branch is updated
+    branches: [gh-pages]
 
 permissions:
   contents: read
@@ -17,19 +16,9 @@ jobs:
   deploy-gh-pages:
     runs-on: ubuntu-latest
     steps:
-      # 1) Checkout the gh-pages branch contents
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2) Compute image name (lowercase for Docker/OCI)
-      - name: Compute image name
-        id: vars
-        shell: bash
-        run: |
-          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
-          echo "repo_url=https://github.com/${GITHUB_REPOSITORY}" >> "$GITHUB_OUTPUT"
-
-      # 3) Log in to GHCR
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -37,21 +26,15 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # 4) Generate metadata (tags & labels)
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ steps.vars.outputs.image }}
+          images: ghcr.io/edirom/edirom-online
           tags: |
             type=raw,value=gh-pages
             type=sha
-          labels: |
-            org.opencontainers.image.source=${{ steps.vars.outputs.repo_url }}
-            org.opencontainers.image.title=${{ github.repository }}
-            org.opencontainers.image.description=Docker image for the gh-pages branch of ${{ github.repository }}
 
-      # 5) Build and push Docker image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
@@ -59,11 +42,9 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
 
-      # 6) Trigger deployment via Keel (dynamic image name)
       - name: Trigger Keel deploy
         run: |
           curl -X POST https://keel1.edirom.de/v1/webhooks/native \
             -H 'Content-Type: application/json' \
-            -d '{"name":"${{ steps.vars.outputs.image }}","tag":"gh-pages"}'
+            -d '{"name":"ghcr.io/edirom/edirom-online","tag":"gh-pages"}'
