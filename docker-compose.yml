@@ -21,6 +21,8 @@ services:
       args:
         SOURCE: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         BRANCH: ${FE_BRANCH:-v1.0.1}
+        # Backend port for frontend configuration
+        BE_PORT: ${BE_PORT:-8080}
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
