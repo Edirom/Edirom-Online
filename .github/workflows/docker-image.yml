@@ -42,9 +42,3 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-
-      - name: Trigger Keel deploy
-        run: |
-          curl -X POST https://keel1.edirom.de/v1/webhooks/native \
-            -H 'Content-Type: application/json' \
-            -d '{"name":"ghcr.io/edirom/edirom-online","tag":"gh-pages"}'
