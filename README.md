@@ -77,11 +77,16 @@ Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 #### Fast-lane installation
 
 To start the Edirom Online with the EditionExample, create and navigate to a new directory on your computer, and enter the following in the command line. After a while the Edirom will be available at http://localhost:8089
+
+Mac/Linux:
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
 ```
 
-&ast; On Windows machines the command `export` has to be renamed to `set`.
+Windows:
+```bash
+git clone https://github.com/Edirom/Edirom-Online.git . && set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
+```
 
 #### Step-by-step installation
 
@@ -101,6 +106,7 @@ git clone https://github.com/Edirom/Edirom-Online.git .
 By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (*current release, e.g. v1.0.1*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (*current release, e.g. v1.0.1*). 
 You can change this by setting variables before starting the docker compose in the command line, e.g.
 
+Mac/Linux:
 ```bash
 export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
 export BE_BRANCH=cool-feature-branch
@@ -108,15 +114,25 @@ export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
 export FE_BRANCH=awesome-feature-branch
 ```
 
-&ast; On Windows machines the command `export` has to be renamed to `set`.
+Windows:
+```bash
+set BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
+set BE_BRANCH=cool-feature-branch
+set FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
+set FE_BRANCH=awesome-feature-branch
+```
 
 If you have set a variable you can also unset it again (to fall back to the defaults):
 
+Mac/Linux:
 ```bash
 unset BE_REPO
 ```
 
-&ast; On Windows machines the command has to be called as `set BE_REPO=`. 
+Windows:
+```bash
+set BE_REPO=
+```
 
 You can also check the current docker compose configuration, and see the effect of the currently set environment variables, via:
 
@@ -129,11 +145,15 @@ docker compose config
 
 **Option A**: By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
 
+Mac/Linux:
 ```bash
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
 ```
 
-&ast; On Windows machines the command `export` has to be renamed to `set`.
+Windows:
+```bash
+set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
+```
 
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
@@ -163,6 +183,8 @@ docker compose down --volumes --remove-orphans && docker compose build --no-cach
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
 
 [http://localhost:8089/](http://localhost:8089/)
+
+If it does not show up directly, try a reload of the page.
 
 **Step 5**: Stop Edirom Online.
 
