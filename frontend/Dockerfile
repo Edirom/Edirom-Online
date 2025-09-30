@@ -61,7 +61,7 @@ WORKDIR /opt/eo-frontend
 RUN echo "Cloning from repo $SOURCE" && \
     git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
     if [ -n "$BE_PORT" ] && [ "$BE_PORT" != "8080" ]; then \
-        echo "Setting backend port"; \
+        echo "Writing backend.port=$BE_PORT to local.properties…"; \
         if [ -f "./local.properties" ]; then \
             sed -i '/^backend\.port=/d' local.properties; \
             echo "backend.port=$BE_PORT" >> local.properties; \
