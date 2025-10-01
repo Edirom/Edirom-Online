@@ -8,6 +8,7 @@
   - [Create measure-zones](#create-measure-zones)
   - [MEI](#mei)
   - [TEI](#tei)
+  - [Edirom Online data features](#edirom-online-data-features)
   - [Annotations](#annotations)
   - [Concordances](#concordances)
   - [Examples of Edirom editions](#examples-of-edirom-editions)
@@ -87,9 +88,34 @@ You need to save this as MEI if possible. If not, MusicXML should at least be a 
 You can also use MEI-friend to proofread and make adjustments to your MEI file.
 If you have old MEI files that need updating to a newer MEI version, you can use [MEI garage](https://meigarage.edirom.de/) to convert between different MEI versions. The MEI Garage uses scripts from [music-encoding/encoding-tools](https://github.com/music-encoding/encoding-tools),  so choose whether to use the scripts directly from Music-Encoding or the MEI Garage option with a graphical user interface.
 
+**Attribute n vs label**
+
+For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
+Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
+For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
+
 ## TEI
 
 You can write the text sections of your editions, such as introductions in HTML or TEI. If you need to convert them into other text formats, you can use [TEI garage](https://teigarage.tei-c.org/).
+
+## Edirom Online data features
+
+Edirom Online is sensitive to some special features in your edition data that are not covered by the standard definitions of MEI or TEI. This is a short explanation of these features.
+
+**Source Descriptions**
+
+```xml
+<annot type="descLink" plist="xmldb:exist:///db/apps/weber-klarinettenquintett-eol-emeritus/texts/sourceDesc-1.xml"/>
+```
+
+If Edirom Online deems an MEI file to be a source, it looks for an `mei:annot`element with the `@type` attribute set to `descLink`. The `@plist` attribute of this element is interpreted as xmldb-link to a source description. The source description has to be encoded in TEI. Two new views will be added to the source window:
+
+1. Source Description
+2. XML Source Description
+
+There is no absolute rule, where the descLink-annot has to be in the MEI structure of a source. In the case of multiple `mei:annot[@type="descLink]" Edirom Online will pick the first one in document order.
+
+As this feature was introduced prior to the introduction of [FRBR](https://music-encoding.org/guidelines/v5/content/metadata.html#FRBR) (Functional Requirements of Bibliographic Records, more information on FRBR can be found in the [FRBR Bibliography](https://www.ifla.org/g/bcm-rg/frbr-bibliography/)) features in MEI it has been common practice to put it into a `mei:notesStmt` which could already appear in the `mei:fileDesc`. Putting the `mei:noteStmt` into `mei:manifestation` or `mei:item` (depnding on the nature of the source being described) adds FRBR-semantic sugar.
 
 ## Annotations
 

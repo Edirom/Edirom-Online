@@ -13,9 +13,9 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG XAR
-ARG REPO=https://github.com/Edirom/Edirom-Online-Frontend.git
-ARG BRANCH=develop
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
+ARG BRANCH=v1.1.0
+ARG BE_PORT
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -57,20 +57,20 @@ ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
 
 # Get build for Edirom-Online Frontend
 WORKDIR /opt/eo-frontend
-RUN if [ -n "$XAR" ]; then \
-        echo "Downloading Frontend XAR from $XAR" && \
-        mkdir -p /opt/eo-frontend/build-xar && \
-        curl -L "$XAR" -o /opt/eo-frontend/build-xar/frontend.xar; \
-    elif [ -n "$REPO" ]; then \
-        echo "Cloning from repo $REPO" && \
-        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
-        echo "Building Frontend XAR..." && \
-        ./build.sh; \
-    else \
-        echo "Error: Either REPO (Frontend Git repository URL) or XAR (Frontend xar file URL) must be provided." && \
-        exit 1; \
-    fi
 
+RUN echo "Cloning from repo $SOURCE" && \
+    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    if [ -n "$BE_PORT" ] && [ "$BE_PORT" != "8080" ]; then \
+        echo "Writing backend.port=$BE_PORT to local.properties…"; \
+        if [ -f "./local.properties" ]; then \
+            sed -i '/^backend\.port=/d' local.properties; \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        else \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        fi \
+    fi && \
+    echo "Building Frontend XAR..." && \
+    ./build.sh
 
 #########################
 # 3. Run/deploy nginx
