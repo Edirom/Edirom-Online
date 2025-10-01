@@ -140,7 +140,7 @@ The default configuration of Edirom Online starts the backend service on port 80
 export BE_PORT=8081
 
 # set the frontend port
-export BE_PORT=8090
+export FE_PORT=8090
 ```
 
 **Step 5**: Start Edirom Online.
