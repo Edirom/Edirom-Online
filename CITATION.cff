@@ -50,7 +50,7 @@ authors:
     family-names: Obert
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.5347861
+    value: 10.5281/zenodo.17241033
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
 abstract: >-
@@ -66,5 +66,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-version: v1.0.0
-date-released: '2025-02-13'
+version: v2.1.0
+date-released: '2025-10-01'
