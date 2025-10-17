@@ -118,7 +118,7 @@ jobs:
         path: xars
 
     - name: Create dev-release
-      uses: ncipollo/release-action@v1.18.0
+      uses: ncipollo/release-action@v1.20.0
       with:
         allowUpdates: true
         artifacts: ${{ github.workspace }}/xars/Edirom-Online-*.xar

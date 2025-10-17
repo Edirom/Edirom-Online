@@ -88,6 +88,12 @@ You need to save this as MEI if possible. If not, MusicXML should at least be a 
 You can also use MEI-friend to proofread and make adjustments to your MEI file.
 If you have old MEI files that need updating to a newer MEI version, you can use [MEI garage](https://meigarage.edirom.de/) to convert between different MEI versions. The MEI Garage uses scripts from [music-encoding/encoding-tools](https://github.com/music-encoding/encoding-tools),  so choose whether to use the scripts directly from Music-Encoding or the MEI Garage option with a graphical user interface.
 
+**Attribute n vs label**
+
+For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
+Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
+For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
+
 ## TEI
 
 You can write the text sections of your editions, such as introductions in HTML or TEI. If you need to convert them into other text formats, you can use [TEI garage](https://teigarage.tei-c.org/).

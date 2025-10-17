@@ -94,7 +94,7 @@ git clone https://github.com/Edirom/Edirom-Online.git .
 
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
-By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (branch *develop*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (branch *develop*). 
+By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (*current release, e.g. v1.0.1*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (*current release, e.g. v1.0.1*). 
 You can change this by setting variables before starting the docker compose in the command line, e.g.
 
 ```bash
@@ -131,7 +131,19 @@ Option (b): By copying one or more edition xar packages to the directory **/back
 
 If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
-**Step 4**: Start Edirom Online.
+**Step 4 (optional)**: Set ports.
+
+The default configuration of Edirom Online starts the backend service on port 8080 and the frontend service on port 8089 of your machine. If you want to make these service run on other ports you can specify these by setting the corresponding environment variables:
+
+```bash
+# set the backend port
+export BE_PORT=8081
+
+# set the frontend port
+export FE_PORT=8090
+```
+
+**Step 5**: Start Edirom Online.
 
 The Edirom Online is started via entering the following command in the command line:
 
@@ -144,12 +156,13 @@ Alternatively start in detached mode (running in background so that the terminal
 > [!NOTE]
 > If you want to change the setup, e.g., switching to another branch of Edirom Online Frontend or Edirom Online Backend or provide another edition XAR, the service has to be **rebuilt**.
 
-So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands
+So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
 ```bash
-docker compose down --volumes --remove-orphans
-docker compose build --no-cache
-docker compose up
+docker compose down --volumes --remove-orphans && /
+docker compose build --no-cache && /
+docker compose up && /
+ 
 ```
 
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
@@ -250,7 +263,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [CONTRIBUTING]: CONTRIBUTING.md
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
-[building sample data]: https://github.com/Edirom/EditionExample?tab=readme-ov-file#building
+[building sample data]: https://github.com/Edirom/Edirom-Online/blob/develop/docs/setup.md#build-data-package
 [Edirom mailing list]: https://lists.uni-paderborn.de/mailman/listinfo/edirom-l
 [wiki]: https://github.com/Edirom/Edirom-Online/wiki
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions

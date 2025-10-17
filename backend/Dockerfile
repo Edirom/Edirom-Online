@@ -13,9 +13,8 @@
 FROM openjdk:8-jre-slim as builder
 
 ARG ANT_VERSION=1.10.12
-ARG XAR
-ARG REPO=https://github.com/Edirom/Edirom-Online-Backend.git
-ARG BRANCH=develop
+ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
+ARG BRANCH=v1.1.0
 ARG EDITION
 
 
@@ -50,19 +49,10 @@ ENV PATH="/opt/ant/bin:${PATH}"
 # Get build for Edirom-Online Backend
 WORKDIR /opt/eo-backend
 
-RUN if [ -n "$XAR" ]; then \
-        echo "Downloading Backend XAR from $XAR" && \
-        mkdir -p /opt/eo-backend/build-xar && \
-        curl -L "$XAR" -o /opt/eo-backend/build-xar/backend.xar; \
-    elif [ -n "$REPO" ]; then \
-        echo "Cloning from repo $REPO" && \
-        git clone "$REPO" --branch "$BRANCH" --single-branch . && \
-        echo "Building Backend XAR..." && \
-        ant; \
-    else \
-        echo "Error: Either REPO (Backend Git repository URL) or XAR (Backend xar file URL) must be provided." && \
-        exit 1; \
-    fi
+RUN echo "Cloning from repo $SOURCE" && \
+    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    echo "Building Backend XAR..." && \
+    ant
 
 RUN if [ -n "$EDITION" ]; then \
         echo "Downloading Edition XAR from $EDITION" && \

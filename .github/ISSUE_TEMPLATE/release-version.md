@@ -9,6 +9,12 @@ assignees: ''
 
 based on [Edirom-Online Release Workflow](https://github.com/Edirom/Edirom-Online/blob/develop/docs/release-workflow.md)
 
+Release preparation timeline
+- [ ] create and plan next milestone (assign issues, set priorities, identify and name topic/s): *link milestone*
+- [ ] set dates for test phase: DD.MM.YYYY - DD.MM.YYYY
+- [ ] set date for release: DD.MM.YYYY
+- [ ] send announcement about dates to community
+
 Preparations on [zenodo.org](https://zenodo.org)
 - [ ] go to previous version and click "New version"
 - [ ] reserve a DOI -> *insert here*
@@ -27,6 +33,7 @@ Checkout develop branch: `git checkout develop`
 Checkout new release branch: `git checkout -b release/vX.Y.Z develop`
 - [ ] update CITATION.cff (date, contributors, version, DOI)
 - [ ] bump version number everywhere (find/replace in code), e.g. in build.xml
+- [ ] if applicable, update version number of backend/frontend in docker-compose.yml
 - [ ] commit version release branch
 - [ ] build .xar and test it
 
@@ -56,3 +63,6 @@ Publication on [zenodo.org](https://zenodo.org)
 Clean-up
 - [ ] delete branch *release/vX.Y.Z*
 - [ ] announce new version to Edirom-Online community
+
+Plan next release
+- [ ] create new release issue
