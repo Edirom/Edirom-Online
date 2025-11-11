@@ -10,7 +10,7 @@
 # 1. Build Environment
 #########################
 
-FROM openjdk:8-jre-slim as builder
+FROM adoptopenjdk:8-jdk-hotspot as builder
 
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
