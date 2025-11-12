@@ -206,6 +206,7 @@ See the [Edirom Online milestones] for more details.
 ## Contributing
 
 After all this information, you decided to contribute to Edirom Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+We also prepared a document, to become familiar with the general [project management workflow] of this software. 
 
 If you encounter a security issue in the code, please see the [Security Policy](.github/SECURITY.md) for further guidance.
 
@@ -261,6 +262,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Edirom Online milestones]: https://github.com/Edirom/Edirom-Online/milestones
 [ZenMEM]: https://www.uni-paderborn.de/zenmem
 [CONTRIBUTING]: CONTRIBUTING.md
+[project management workflow]: docs/project_management_workflow.md
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
 [building sample data]: https://github.com/Edirom/Edirom-Online/blob/develop/docs/setup.md#build-data-package
