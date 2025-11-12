@@ -27,7 +27,7 @@ This keeps project tracking consistent and up to date without manual interventio
 
 ## Milestones and Releases
 
--  **[Milestone](https://github.com/Edirom/Edirom-Online/milestones)** correspond to planned release versions (e.g., `v1.0.0`, `v2.2.0`).
+-  **[Milestones](https://github.com/Edirom/Edirom-Online/milestones)** correspond to planned release versions (e.g., `v1.0.0`, `v2.2.0`).
 - Each milestone collects all issues and PRs targeted for that release.
 - Before release, issues are reviewed to ensure they meet acceptance criteria. 
 
