@@ -200,7 +200,7 @@ explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib
 
 Until 2025, Edirom Online and its features were developed as a single, monolithic application based on the JavaScript framework Ext JS (last used version: Ext JS 4.2.1). As part of the architectural modernization of the software, **Edirom Online was split into separate frontend and backend repositories in April 2025**, enabling a cleaner structure, independent deployment, and improved long-term maintainability.
 
-With support from the DFG-funded project [Edirom Online Reloaded] (2024–2026), the software is currently undergoing significant **modernization steps**:
+With support from the DFG-funded project [Edirom Online Reloaded] (2024–2027), the software is currently undergoing significant **modernization steps**:
 
 - modularizing major features into [edirom web components],  
 - reducing external (framework) dependencies to ensure sustainability,  
