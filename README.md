@@ -196,10 +196,22 @@ explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib
 
 ## Roadmap
 
-Until today Edirom Online and its features were developed as one application with strong dependencies on the JavaScript framework [Ext JS] (current version Ext JS 4.2.1) like mentioned above. Frontend and backend are currently living in this one application. Regarding to Edirom Online's release plans ExtJS is planned to be updated in the near future until ExtJS 7.0.0.
-With the help and under the guidance of the project "[Edirom Online Reloaded]" (funded by the DFG, 2024–2026) Edirom will exprerience some major updates and improvements to achieve sustainability of the software, e.g features and functionalites will be modularized as [edirom web components] and also a separation of frontend and backend and a crucial reduction of dependencies especially regarding frameworks is envisaged. In addition [ZenMEM] will continue to support and coordinate the sustainable development of the Edirom Online software.
-See the [Edirom Online milestones] for more details.
+## Roadmap
 
+Until 2025, Edirom Online and its features were developed as a single, monolithic application based on the JavaScript framework Ext JS (last used version: Ext JS 4.2.1). As part of the architectural modernization of the software, **Edirom Online was split into separate frontend and backend repositories in April 2025**, enabling a cleaner structure, independent deployment, and improved long-term maintainability.
+
+With support from the DFG-funded project [Edirom Online Reloaded] (2024–2026), the software is currently undergoing significant **modernization steps**:
+
+- modularizing major features into [edirom web components],  
+- reducing external (framework) dependencies to ensure sustainability,  
+- improving code structure and quality through refactoring and targeted updates,  
+- coordinating sustainable development with the support of the broader Edirom community and [ZenMEM].
+
+To track progress, upcoming release plans, and ongoing development activities, please refer to the **milestone pages** of all three repositories:
+
+- [Edirom Online milestones] (main application)  
+- [Edirom Online Frontend milestones]
+- [Edirom Online Backend milestones]
 
 ## Contributing
 
@@ -258,6 +270,8 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [edirom web components]: https://github.com/Edirom/edirom-web-components-demonstrator
 [Edirom Online Reloaded]: https://www.uni-paderborn.de/projekt/1332
 [Edirom Online milestones]: https://github.com/Edirom/Edirom-Online/milestones
+[Edirom Online Frontend milestones]: https://github.com/Edirom/Edirom-Online-Frontend/milestones
+[Edirom Online Backend milestones]: https://github.com/Edirom/Edirom-Online-Backend/milestones
 [ZenMEM]: https://www.uni-paderborn.de/zenmem
 [CONTRIBUTING]: CONTRIBUTING.md
 [project management workflow]: docs/project_management_workflow.md
@@ -270,40 +284,3 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
 [ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
-
-<!--
-# EdiromOnline/app
-
-This folder contains the javascript files for the application.
-
-# EdiromOnline/resources
-
-This folder contains static resources (typically an `"images"` folder as well).
-
-# EdiromOnline/overrides
-
-This folder contains override classes. All overrides in this folder will be 
-automatically included in application builds if the target class of the override
-is loaded.
-
-# EdiromOnline/sass/etc
-
-This folder contains misc. support code for sass builds (global functions, 
-mixins, etc.)
-
-# EdiromOnline/sass/src
-
-This folder contains sass files defining css rules corresponding to classes
-included in the application's javascript code build.  By default, files in this 
-folder are mapped to the application's root namespace, 'EdiromOnline'. The
-namespace to which files in this directory are matched is controlled by the
-app.sass.namespace property in EdiromOnline/.sencha/app/sencha.cfg. 
-
-# EdiromOnline/sass/var
-
-This folder contains sass files defining sass variables corresponding to classes
-included in the application's javascript code build.  By default, files in this 
-folder are mapped to the application's root namespace, 'EdiromOnline'. The
-namespace to which files in this directory are matched is controlled by the
-app.sass.namespace property in EdiromOnline/.sencha/app/sencha.cfg. 
--->
