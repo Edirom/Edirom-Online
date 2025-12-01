@@ -50,7 +50,7 @@ ENV PATH="/opt/ant/bin:${PATH}"
 WORKDIR /opt/eo-backend
 
 RUN echo "Cloning from repo $SOURCE" && \
-    git clone "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    git clone --recurse-submodules "$SOURCE" --branch "$BRANCH" --single-branch . && \
     echo "Building Backend XAR..." && \
     ant
 
