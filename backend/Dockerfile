@@ -10,7 +10,7 @@
 # 1. Build Environment
 #########################
 
-FROM adoptopenjdk:8-jdk-hotspot as builder
+FROM eclipse-temurin:8-jdk-focal as builder
 
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
