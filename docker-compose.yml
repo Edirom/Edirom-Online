@@ -6,7 +6,7 @@ services:
       context: ./backend   
       dockerfile: Dockerfile
       args:
-        SOURCE: ${BE_REPO:-https://github.com/VerDigital-UniPV/Edirom-Online-Backend.git}
+        SOURCE: ${BE_REPO:-https://github.com/Edirom/Edirom-Online-Backend.git}
         BRANCH: ${BE_BRANCH:-develop}
         EDITION: ${EDITION_XAR}
     ports:
@@ -19,7 +19,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        SOURCE: ${FE_REPO:-https://github.com/VerDigital-UniPV/Edirom-Online-Frontend.git}
+        SOURCE: ${FE_REPO:-https://github.com/Edirom/Edirom-Online-Frontend.git}
         BRANCH: ${FE_BRANCH:-develop}
         # Backend port for frontend configuration
         BE_PORT: ${BE_PORT:-8080}
