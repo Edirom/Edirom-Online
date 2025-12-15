@@ -72,13 +72,22 @@ The digital edition of Webers Freischütz was developed by the project "[Freisch
 
 ### Installation
 
-Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed.
+Prerequisites: [Docker Desktop](https://www.docker.com/products/docker-desktop/) has to be installed. The 'docker' command must be available in the terminal.
 
 #### Fast-lane installation
 
 To start the Edirom Online with the EditionExample, create and navigate to a new directory on your computer, and enter the following in the command line. After a while the Edirom will be available at http://localhost:8089
+
+Mac/Linux:
 ```bash
 git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
+```
+
+Windows (enter as single commands):
+```bash
+git clone https://github.com/Edirom/Edirom-Online.git .
+set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
+docker compose up
 ```
 
 #### Step-by-step installation
@@ -92,11 +101,14 @@ Then open the command line of your computer (also known as Shell, PowerShell, Te
 git clone https://github.com/Edirom/Edirom-Online.git .
 ```
 
+&ast; If you do not use Git, it is possible to download a zip or tar archive from the [Releases](https://github.com/Edirom/Edirom-Online/releases), unzip the archive, and  then navigate into it.
+
 **Step 2 (optional)**: Specify the Edirom Online version (for developers).
 
 By default the docker-compose.yml configuration fetches the backend from https://github.com/Edirom/Edirom-Online-Backend.git (*current release, e.g. v1.0.1*) and the frontend from https://github.com/Edirom/Edirom-Online-Frontend.git (*current release, e.g. v1.0.1*). 
 You can change this by setting variables before starting the docker compose in the command line, e.g.
 
+Mac/Linux:
 ```bash
 export BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
 export BE_BRANCH=cool-feature-branch
@@ -104,10 +116,24 @@ export FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
 export FE_BRANCH=awesome-feature-branch
 ```
 
+Windows:
+```bash
+set BE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Backend.git
+set BE_BRANCH=cool-feature-branch
+set FE_REPO=https://github.com/YOUR-FORK-OF/Edirom-Online-Frontend.git
+set FE_BRANCH=awesome-feature-branch
+```
+
 If you have set a variable you can also unset it again (to fall back to the defaults):
 
+Mac/Linux:
 ```bash
 unset BE_REPO
+```
+
+Windows:
+```bash
+set BE_REPO=
 ```
 
 You can also check the current docker compose configuration, and see the effect of the currently set environment variables, via:
@@ -119,15 +145,21 @@ docker compose config
 
 **Step 3 (optional)**: Specify an edition.
 
-Option (a): By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
+**Option A**: By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
 
+Mac/Linux:
 ```bash
 export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
 ```
 
+Windows:
+```bash
+set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
+```
+
 You can get links to edition xar packages for instance from the [sample edition releases](https://github.com/Edirom/EditionExample/releases) (copy link to xar file listed under "Assets") or releases of the [Klarinettenquintett op. 34 WeV P.11](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/releases) (copy link to xar file at the bottom of the box). 
 
-Option (b): By copying one or more edition xar packages to the directory **/backend/autodeploy** inside the directory of the cloned repository (from Step 1) you can also pass editions into the Edirom Online. You can for instance download xar packages from the release page listed in Option (a). 
+**Option B**: By copying one or more edition xar packages to the directory **/backend/autodeploy** inside the directory of the cloned repository (from Step 1) you can also pass editions into the Edirom Online. You can for instance download xar packages from the release page listed in Option (a). 
 
 If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
@@ -135,12 +167,22 @@ If you want to you can also dive into the process of [building sample data] your
 
 The default configuration of Edirom Online starts the backend service on port 8080 and the frontend service on port 8089 of your machine. If you want to make these service run on other ports you can specify these by setting the corresponding environment variables:
 
+Mac/Linux:
 ```bash
 # set the backend port
 export BE_PORT=8081
 
 # set the frontend port
 export FE_PORT=8090
+```
+
+Windows:
+```bash
+# set the backend port
+set BE_PORT=8081
+
+# set the frontend port
+set FE_PORT=8090
 ```
 
 **Step 5**: Start Edirom Online.
@@ -158,16 +200,26 @@ Alternatively start in detached mode (running in background so that the terminal
 
 So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
+
+Mac/Linux:
 ```bash
-docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up
- 
+docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up 
+```
+
+Windows (enter as single commands):
+```bash
+docker compose down --volumes --remove-orphans
+docker compose build --no-cache
+docker compose up 
 ```
 
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
 
 [http://localhost:8089/](http://localhost:8089/)
 
-**Step 5**: Stop Edirom Online.
+If it does not show up directly, try a reload of the page.
+
+**Step 6**: Stop Edirom Online.
 
 You can stop the environment by hitting Ctrl+C in the command line in which the Docker process is running. If you have used the detached mode, you can stop the environment by typing `docker compose down`.
 
