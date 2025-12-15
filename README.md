@@ -83,9 +83,11 @@ Mac/Linux:
 git clone https://github.com/Edirom/Edirom-Online.git . && export EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
 ```
 
-Windows:
+Windows (enter as single commands):
 ```bash
-git clone https://github.com/Edirom/Edirom-Online.git . && set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar && docker compose up
+git clone https://github.com/Edirom/Edirom-Online.git .
+set EDITION_XAR=https://github.com/Edirom/EditionExample/releases/download/v0.1.1/EditionExample-0.1.1.xar
+docker compose up
 ```
 
 #### Step-by-step installation
@@ -198,8 +200,17 @@ Alternatively start in detached mode (running in background so that the terminal
 
 So if you changed the setup or you want to fetch the latest versions of the Edirom Online Backend and Frontend after you have built it already use the following commands (NOTE: you can copy/paste all lines, including the last line break completely into the terminal)
 
+
+Mac/Linux:
 ```bash
 docker compose down --volumes --remove-orphans && docker compose build --no-cache && docker compose up 
+```
+
+Windows (enter as single commands):
+```bash
+docker compose down --volumes --remove-orphans
+docker compose build --no-cache
+docker compose up 
 ```
 
 After the environment has been setup (which may take several minutes) the Edirom Online is available at:
