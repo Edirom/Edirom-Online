@@ -161,7 +161,29 @@ You can get links to edition xar packages for instance from the [sample edition 
 
 If you want to you can also dive into the process of [building sample data] yourself, but at this step providing the public location or a copy of a xar file is enough.
 
-**Step 4**: Start Edirom Online.
+**Step 4 (optional)**: Set ports.
+
+The default configuration of Edirom Online starts the backend service on port 8080 and the frontend service on port 8089 of your machine. If you want to make these service run on other ports you can specify these by setting the corresponding environment variables:
+
+Mac/Linux:
+```bash
+# set the backend port
+export BE_PORT=8081
+
+# set the frontend port
+export FE_PORT=8090
+```
+
+Windows:
+```bash
+# set the backend port
+set BE_PORT=8081
+
+# set the frontend port
+set FE_PORT=8090
+```
+
+**Step 5**: Start Edirom Online.
 
 The Edirom Online is started via entering the following command in the command line:
 
@@ -186,7 +208,7 @@ After the environment has been setup (which may take several minutes) the Edirom
 
 If it does not show up directly, try a reload of the page.
 
-**Step 5**: Stop Edirom Online.
+**Step 6**: Stop Edirom Online.
 
 You can stop the environment by hitting Ctrl+C in the command line in which the Docker process is running. If you have used the detached mode, you can stop the environment by typing `docker compose down`.
 
@@ -215,14 +237,25 @@ explicitly point ANT at it by providing the `-lib` parameter, e.g. `ant -lib
 
 ## Roadmap
 
-Until today Edirom Online and its features were developed as one application with strong dependencies on the JavaScript framework [Ext JS] (current version Ext JS 4.2.1) like mentioned above. Frontend and backend are currently living in this one application. Regarding to Edirom Online's release plans ExtJS is planned to be updated in the near future until ExtJS 7.0.0.
-With the help and under the guidance of the project "[Edirom Online Reloaded]" (funded by the DFG, 2024–2026) Edirom will exprerience some major updates and improvements to achieve sustainability of the software, e.g features and functionalites will be modularized as [edirom web components] and also a separation of frontend and backend and a crucial reduction of dependencies especially regarding frameworks is envisaged. In addition [ZenMEM] will continue to support and coordinate the sustainable development of the Edirom Online software.
-See the [Edirom Online milestones] for more details.
+Until 2025, Edirom Online and its features were developed as a single, monolithic application based on the JavaScript framework Ext JS (last used version: Ext JS 4.2.1). As part of the architectural modernization of the software, **Edirom Online was split into separate frontend and backend repositories in April 2025**, enabling a cleaner structure, independent deployment, and improved long-term maintainability.
 
+With support from the DFG-funded project [Edirom Online Reloaded] (2024–2027), the software is currently undergoing significant **modernization steps**:
+
+- modularizing major features into [edirom web components],  
+- reducing external (framework) dependencies to ensure sustainability,  
+- improving code structure and quality through refactoring and targeted updates,  
+- coordinating sustainable development with the support of the broader Edirom community and [ZenMEM].
+
+To track progress, upcoming release plans, and ongoing development activities, please refer to the **milestone pages** of all three repositories:
+
+- [Edirom Online milestones] (main application)  
+- [Edirom Online Frontend milestones]
+- [Edirom Online Backend milestones]
 
 ## Contributing
 
 After all this information, you decided to contribute to Edirom Online, that is awesome! We prepared a [CONTRIBUTING] file to help start your Edirom-Aventure now.
+We also prepared a document, to become familiar with the general [project management workflow] of this software. 
 
 If you encounter a security issue in the code, please see the [Security Policy](.github/SECURITY.md) for further guidance.
 
@@ -276,8 +309,11 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [edirom web components]: https://github.com/Edirom/edirom-web-components-demonstrator
 [Edirom Online Reloaded]: https://www.uni-paderborn.de/projekt/1332
 [Edirom Online milestones]: https://github.com/Edirom/Edirom-Online/milestones
+[Edirom Online Frontend milestones]: https://github.com/Edirom/Edirom-Online-Frontend/milestones
+[Edirom Online Backend milestones]: https://github.com/Edirom/Edirom-Online-Backend/milestones
 [ZenMEM]: https://www.uni-paderborn.de/zenmem
 [CONTRIBUTING]: CONTRIBUTING.md
+[project management workflow]: docs/project_management_workflow.md
 [Docker]: https://docs.docker.com/
 [Docker Compose]: https://docs.docker.com/compose/
 [building sample data]: https://github.com/Edirom/Edirom-Online/blob/develop/docs/setup.md#build-data-package
@@ -287,40 +323,3 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
 [ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
-
-<!--
-# EdiromOnline/app
-
-This folder contains the javascript files for the application.
-
-# EdiromOnline/resources
-
-This folder contains static resources (typically an `"images"` folder as well).
-
-# EdiromOnline/overrides
-
-This folder contains override classes. All overrides in this folder will be 
-automatically included in application builds if the target class of the override
-is loaded.
-
-# EdiromOnline/sass/etc
-
-This folder contains misc. support code for sass builds (global functions, 
-mixins, etc.)
-
-# EdiromOnline/sass/src
-
-This folder contains sass files defining css rules corresponding to classes
-included in the application's javascript code build.  By default, files in this 
-folder are mapped to the application's root namespace, 'EdiromOnline'. The
-namespace to which files in this directory are matched is controlled by the
-app.sass.namespace property in EdiromOnline/.sencha/app/sencha.cfg. 
-
-# EdiromOnline/sass/var
-
-This folder contains sass files defining sass variables corresponding to classes
-included in the application's javascript code build.  By default, files in this 
-folder are mapped to the application's root namespace, 'EdiromOnline'. The
-namespace to which files in this directory are matched is controlled by the
-app.sass.namespace property in EdiromOnline/.sencha/app/sencha.cfg. 
--->

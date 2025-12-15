@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         submodules: 'recursive'
       
@@ -35,7 +35,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
@@ -55,7 +55,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Install libsaxonhe-java for XQuery support
         run: |
           sudo apt-get update
@@ -70,13 +70,13 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Install libxml2-utils for xmllint
       run: |
         sudo apt-get update
         sudo apt-get install libxml2-utils
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v7
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
@@ -104,7 +104,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     - name: Delete dev-release
       run: gh release delete dev --cleanup-tag -y
       env:
@@ -112,7 +112,7 @@ jobs:
         REPO: ${{ github.event.repository.name }}
 
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v7
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
