@@ -46,17 +46,8 @@ If you want to customize the frontend or the backend, you need to build and crea
       ```
       sh build.sh -d
       ```
-<<<<<<< HEAD
-      BUILD SUCCESSFUL 
-      Total time: 17 seconds 
-      root@d5f2f1591708:/app# 
-      ``` 
-  - the Edirom Online-package is built, we can leave docker-container: `exit`
-  - the directory `build-xar/` was created inside the Edirom-Online repository and contains the built xar-file of Edirom Online: `Edirom-Online-1.0.0-20250213-1739.xar` (version and date-strings will vary)
-=======
   - the Edirom-Online Frontend package is built
   - the directory `build-xar/` was created inside the Edirom-Online Frontend repository and contains the built xar-file of Edirom-Online Frontend: `Edirom-Online-Frontend-1.0.0-20250213-1739.xar` (version and date-strings will vary)
->>>>>>> release/v2.0.0
 - navigate back to the edirom-base-directory: `cd ..`
 
 ## Build data package
