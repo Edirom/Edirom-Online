@@ -14,7 +14,7 @@ FROM eclipse-temurin:8-jdk-focal as builder
 
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
-ARG BRANCH=v1.1.0
+ARG BRANCH=v1.2.0
 ARG BE_PORT
 
 
