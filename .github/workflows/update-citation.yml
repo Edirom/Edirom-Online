@@ -1,0 +1,50 @@
+name: Update CITATION.cff metadata
+
+on:
+  push:
+    paths-ignore:
+      - CITATION.cff
+
+permissions:
+  contents: write
+
+jobs:
+  update-citation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Update or add commit and date-released fields
+        run: |
+          COMMIT_HASH="${GITHUB_SHA}"
+          TODAY="$(date -u +'%Y-%m-%d')"
+
+          # Update or add commit field
+          if grep -q "^commit:" CITATION.cff; then
+            sed -i "s/^commit:.*/commit: ${COMMIT_HASH}/" CITATION.cff
+          else
+            echo "commit: ${COMMIT_HASH}" >> CITATION.cff
+          fi
+
+          # Update or add date-released field
+          if grep -q "^date-released:" CITATION.cff; then
+            sed -i "s/^date-released:.*/date-released: ${TODAY}/" CITATION.cff
+          else
+            echo "date-released: ${TODAY}" >> CITATION.cff
+          fi
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add CITATION.cff
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update CITATION.cff commit and date-released [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
