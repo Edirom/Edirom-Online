@@ -46,7 +46,7 @@ identifiers:
     value: 10.5281/zenodo.17953544
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
-commit: 7eabd11b9c447d5f8e40f351bdf78ab07da446db
+commit: cac5688fc3afce0fb7bf9401a27cb824536c96a2
 abstract: >-
   Edirom Online is a software for the presentation and
   analysis of critical musical editions in a digital format,
@@ -61,4 +61,4 @@ abstract: >-
   edition.
 license: GPL-3.0
 version: v2.2.0
-date-released: 2025-12-22
+date-released: 2026-01-19
