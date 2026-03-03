@@ -2,8 +2,13 @@ name: Update CITATION.cff metadata
 
 on:
   push:
+    branches:
+      - main
     paths-ignore:
       - CITATION.cff
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
