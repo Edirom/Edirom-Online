@@ -23,12 +23,12 @@ change the **layout** for annotations (3 are predefined), using predefined [pref
 * `<entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>`
 
 ## CSS
-Add a **custom CSS file**, using predefined [preferences]
+Add a **custom CSS file**, using predefined edition preferences
 * `<entry key="additional_css_path" value="xmldb:exist:///db/apps/edirom/edition-example/custom/style.css"/>`
 
 For this to work, make sure that:
-* the path to the edition's preferences file is correctly provided in the edition file - see an example for the [preferences file path in the EditionExample edition file](https://github.com/Edirom/EditionExample/blob/v0.2.0/content/ediromEditions/edirom_edition_example.xml#L8).
-* the directory path for the edition (part after `xmldb:exist:///db/apps/`, in the example this is `edirom/edition-example`) is correctly set in the [target info given in repo.xml](https://github.com/Edirom/EditionExample/blob/v0.2.0/repo.xml#L10)
+* the path to the edition's preferences file is correctly provided in your edition file - see an example for the [preferences file path in the EditionExample edition file](https://github.com/Edirom/EditionExample/blob/v0.2.0/content/ediromEditions/edirom_edition_example.xml#L8).
+* the directory path for the edition (part after `xmldb:exist:///db/apps/`, in the example this is `/edirom/edition-example`) is correctly set in the [target info given in repo.xml](https://github.com/Edirom/EditionExample/blob/v0.2.0/repo.xml#L10)
 * the relative path to the custom CSS file is correct (in the example above the last part of the URI: `custom/style.css`)
 
 
