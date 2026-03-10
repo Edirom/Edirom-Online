@@ -6,6 +6,15 @@ body {
   color: #333;
   line-height: 1.6;
 }
+
+/* Lists */
+ul, ol {
+  margin: 8px 0;
+  padding-left: 30px;
+}
+li {
+  margin: 4px 0;
+}
 a { text-decoration: none; color: inherit; }
 
 /* Header */
