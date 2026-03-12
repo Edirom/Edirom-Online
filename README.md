@@ -333,4 +333,4 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
-[ANT build file]: https://github.com/Edirom/Edirom-Online/blob/develop/build.xml
+
