@@ -5,10 +5,10 @@
 - check third party dependencies
   - [ ] Verovio
   - [ ] [jQuery](https://github.com/Edirom/Edirom-Online-Frontend/blob/6c55fbaaa7063f823c8a2c2c6ed5c5359d6f69e2/index.html#L40), latest [jQuery release](https://releases.jquery.com) 
-  - [ ] [TEI stylesheets](https://github.com/Edirom/Edirom-Online-Backend/blob/c27ad19c93828e348250e37b7531c202ac10e460/build.xml#L22)
-  - [ ] [Euryanthe](https://github.com/Edirom/Edirom-Online-Frontend/blob/a79c49c85e2173f84cc5426a035a42450142fa89/build.xml#L26)
+  - [ ] TEI stylesheets
+  - [ ] Euryanthe
 - `git checkout -b rel/2.2.0 develop`
-- bump version in build.xml
+- bump version
 - commit version release branch
 - build `.xar` and test it.
 - `git checkout main`
