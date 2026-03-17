@@ -23,6 +23,7 @@ services:
         BRANCH: ${FE_BRANCH:-v1.2.0}
         # Backend port for frontend configuration
         BE_PORT: ${BE_PORT:-8080}
+        SENCHA_BUILD_ENV: ${SENCHA_BUILD_ENV:-production}
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"

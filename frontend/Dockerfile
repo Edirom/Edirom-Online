@@ -16,6 +16,7 @@ ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=v1.2.0
 ARG BE_PORT
+ARG SENCHA_BUILD_ENV=production
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -70,7 +71,7 @@ RUN echo "Cloning from repo $SOURCE" && \
         fi \
     fi && \
     echo "Building Frontend XAR..." && \
-    ./build.sh
+    sencha app build ${SENCHA_BUILD_ENV}
 
 #########################
 # 3. Run/deploy nginx

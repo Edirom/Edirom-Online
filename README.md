@@ -185,7 +185,21 @@ set BE_PORT=8081
 set FE_PORT=8090
 ```
 
-**Step 5**: Start Edirom Online.
+**Step 5 (optional)**: Set Sencha build options for frontend.
+
+For other build outputs as defined in the [Sencha Cmd CLI reference] you can set the respective option through an environmental variable, e.g., for a testing build (unminified output, useful during development):
+
+Mac/Linux:
+```bash
+export SENCHA_BUILD_ENV=testing
+```
+
+Windows:
+```bash
+set SENCHA_BUILD_ENV=testing
+```
+
+**Step 6**: Start Edirom Online.
 
 The Edirom Online is started via entering the following command in the command line:
 
@@ -219,7 +233,7 @@ After the environment has been setup (which may take several minutes) the Edirom
 
 If it does not show up directly, try a reload of the page.
 
-**Step 6**: Stop Edirom Online.
+**Step 7**: Stop Edirom Online.
 
 You can stop the environment by hitting Ctrl+C in the command line in which the Docker process is running. If you have used the detached mode, you can stop the environment by typing `docker compose down`.
 
@@ -333,4 +347,5 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [GitHub Discussions]: https://github.com/Edirom/Edirom-Online/discussions
 [Contributor Code of Conduct]: CODE_OF_CONDUCT.md
 [GNU GPL v.3]: http://www.gnu.org/copyleft/gpl.html
+[Sencha Cmd CLI reference]: https://docs.sencha.com/cmd/7.0.0/guides/cli_reference.html
 
