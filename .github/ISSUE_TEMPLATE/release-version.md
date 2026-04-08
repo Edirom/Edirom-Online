@@ -42,7 +42,6 @@ Checkout main branch: `git checkout main`
 Release on [github.com](https://github.com) 
 - [ ] Go to tag vX.Y.Z and click "Release from Tag"
 - [ ] auto-generate the release description
-- [ ] upload the tested Edirom-Online-X.Y.Z.xar (asset)
 - [ ] publish the release on GitHub - *link GitHub release*
 
 Checkout develop branch: `git checkout develop`
