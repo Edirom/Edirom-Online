@@ -32,7 +32,7 @@ Checkout develop branch: `git checkout develop`
 
 Checkout new release branch: `git checkout -b release/vX.Y.Z develop`
 - [ ] update CITATION.cff (date, contributors, version, DOI)
-- [ ] bump version number everywhere (find/replace in code), e.g. in build.xml
+- [ ] bump version number everywhere (find/replace in code)
 - [ ] if applicable, update version number of backend/frontend in docker-compose.yml
 - [ ] commit version release branch
 - [ ] build .xar and test it
@@ -54,11 +54,12 @@ Release on [github.com](https://github.com)
 Checkout develop branch: `git checkout develop`
 - [ ] `git merge --no-ff release/vX.Y.Z` (release branch into develop)
 
-Publication on [zenodo.org](https://zenodo.org)
+Publication
 - [ ] edit publication draft
 - [ ] remove placeholder file and upload files copied from *GitHub release*
 - [ ] double-check metadata
 - [ ] publish on Zenodo (with updated files) -> *link publication DOI*
+- [ ] Update Klarinettenquintett with new Edirom Online version
 
 Clean-up
 - [ ] delete branch *release/vX.Y.Z*

@@ -90,5 +90,53 @@ Also at this step we can use a docker image, instead of downloading exist on our
 - you can stop the docker container with `^+C` (Mac) or `CTRL+C` (Windows and Linux) or force-stop it by closing the terminal
 - once you stopped the exist-db docker container, you can start it with the following command: `docker start existdb` and after a short time the Edirom-Online will be available again. `docker stop existdb` will stop it.
 
+## Run Edirom-Online in Docker Container
+
+Start both the frontend and backend containers:
+
+```bash
+docker compose up -d
+```
+
+This command launches two containers:
+- A frontend container (Nginx web server)
+- A backend container (application server)
+
+### Dynamic Backend URL Configuration
+
+The frontend needs to know where to send requests to your backend. Instead of hardcoding the backend URL during the build process, you can configure it dynamically using a `config.json` file.
+
+**When to use this:**
+- Your backend runs on a different domain or port than the default
+- You want to reuse the same frontend build across different environments (development, staging, production)
+- Your backend URL changes depending on your deployment setup
+
+**How to configure it:**
+
+1. Create a `config.json` file in your working directory with the following content:
+
+```json
+{
+  "backendURL": "http://127.0.0.1:8081/"
+}
+```
+
+Replace `http://127.0.0.1:8081/` with your actual backend URL.
+
+2. Copy this file into the frontend container's web root directory:
+
+```bash
+docker cp config.json <nginx-container-name>:/usr/share/nginx/html/config.json
+```
+
+**Explanation:**
+- `/usr/share/nginx/html` is the directory inside the Nginx container where the frontend app and its files are served from
+- This is the standard web root directory for the Nginx web server
+- The `config.json` file must be placed in this same directory so the frontend app can access it
+
+Replace `<nginx-container-name>` with the actual name of your Nginx container (you can find it by running `docker ps`).
+
+The frontend will now use the backend URL from your configuration file for all requests to the backend.
+
 ---
 *first version of this file was written by @feuerbart, 26./27.9.2024 at the [Edirom-Summer-School](https://ess.uni-paderborn.de/) in discussion with @riedde and @krHERO*

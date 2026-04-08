@@ -35,7 +35,7 @@ jobs:
 
     - name: Upload Artifacts to action run
       if: github.repository == 'Edirom/Edirom-Online'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         # The name that the artifact will be made available under
         name: EdiromOnline_${{ steps.short-sha.outputs.sha }}.zip
@@ -76,7 +76,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install libxml2-utils
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
@@ -112,13 +112,13 @@ jobs:
         REPO: ${{ github.event.repository.name }}
 
     - name: Download artifact from previous job
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: ${{ needs.build.outputs.artifact_name }}
         path: xars
 
     - name: Create dev-release
-      uses: ncipollo/release-action@v1.20.0
+      uses: ncipollo/release-action@v1.21.0
       with:
         allowUpdates: true
         artifacts: ${{ github.workspace }}/xars/Edirom-Online-*.xar
