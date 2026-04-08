@@ -14,12 +14,12 @@ authors:
   - given-names: Nikolaos
     family-names: Beer
     orcid: https://orcid.org/0009-0005-4739-5227
-  - given-names: Peter
-    family-names: Stadler
-    orcid: https://orcid.org/0000-0002-2544-1481
   - given-names: Daniel
     family-names: Jettka
     orcid: https://orcid.org/0000-0002-2375-2227
+  - given-names: Peter
+    family-names: Stadler
+    orcid: https://orcid.org/0000-0002-2544-1481
   - given-names: Kristin
     family-names: Herold
     orcid: https://orcid.org/0000-0003-2915-353X
@@ -29,9 +29,6 @@ authors:
   - given-names: Dennis
     family-names: Friedl
     orcid: https://orcid.org/0009-0000-4410-4627
-  - given-names: Dennis
-    family-names: Ried
-    orcid: https://orcid.org/0000-0001-5545-2088
   - given-names: Johannes
     family-names: Kepper
     orcid: https://orcid.org/0000-0003-4891-260X
@@ -41,9 +38,15 @@ authors:
   - given-names: Silke
     family-names: Reich
     orcid: https://orcid.org/0009-0007-8817-0299
+  - given-names: Dennis
+    family-names: Ried
+    orcid: https://orcid.org/0000-0001-5545-2088
+  - given-names: Francesco
+    family-names: Maccarini
+    orcid: https://orcid.org/0000-0002-0219-5898
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.17953544
+    value: 10.5281/zenodo.19453056
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
 commit: 07675df1aa896966b2071d6dc06829220dfceb6b
@@ -60,5 +63,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-version: v2.2.0
-date-released: 2026-03-02
+version: v2.3.0
+date-released: 2026-04-08
