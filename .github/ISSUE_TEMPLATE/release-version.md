@@ -22,15 +22,14 @@ Preparations on [zenodo.org](https://zenodo.org)
 - [ ] upload a placeholder file
 - [ ] save draft -> *link here*
 
-Checkout develop branch: `git checkout develop`
+Prepare and checkout new release in branch
 - [ ] have a look into release milestone and manage last issues and PRs
-
-Checkout new release branch: `git checkout -b release/vX.Y.Z develop`
+- [ ] `git checkout develop` and `git pull`
+- [ ] `git checkout -b release/vX.Y.Z develop`
 - [ ] update CITATION.cff (date, contributors, version, DOI)
-- [ ] bump version number everywhere (find/replace in code)
-- [ ] if applicable, update version number of backend/frontend in docker-compose.yml
-- [ ] commit version release branch
-- [ ] build .xar and test it
+- [ ] bump version numbers (also frontend/backend) everywhere (find/replace in code), e.g. in build.xml
+- [ ] `git add [... changed files ...]` and `git commit -m "new version updates"`
+- [ ] build and test it
 
 Checkout main branch: `git checkout main`
 - [ ] `git merge --no-ff release/vX.Y.Z` (release branch into main)
