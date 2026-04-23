@@ -10,6 +10,7 @@
   - [TEI](#tei)
   - [Edirom Online data features](#edirom-online-data-features)
   - [Annotations](#annotations)
+  - [Preferences](#preferences)
   - [Concordances](#concordances)
   - [Examples of Edirom editions](#examples-of-edirom-editions)
 
@@ -130,7 +131,7 @@ As mentioned above, you can modify the categories and priorities for annotations
 
 Another approach to capturing annotations is to encode the `annot` elements in an MEI source file. In [Webers clarinet quintet](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom) the annotations are encoded directly inside the [source-file](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/sources/source-4-MEI.xml) of the edition, in the `measure` in which the annotation begins. The edition of the clarinet quintet also defines the priorities and categories of their annotations in the same source file, in the header within the `taxonomy`element.
 
-## Prefs
+## Preferences
 
 ### Available Properties
 
