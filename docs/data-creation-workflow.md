@@ -58,7 +58,7 @@ As you can see from the Edition Example, the structure consists of different fil
   - `concordances` can be added in this file.
 - Source files can contain measure zones; see [Create measure-zones](#create-measure-zones) for a description.
 - The work file can contain annotations of your edition. See [Annotations](#annotations) for a description.
-- The `prefs.xml` file provides edition-specific preferences for Edirom Online.
+- The `prefs.xml` file provides edition-specific preferences for Edirom Online. See [Preferences](#preferences) for a description.
 
 ## Images
 
@@ -129,6 +129,35 @@ As mentioned above, you can modify the categories and priorities for annotations
 **Annotations in MEI source-file**
 
 Another approach to capturing annotations is to encode the `annot` elements in an MEI source file. In [Webers clarinet quintet](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom) the annotations are encoded directly inside the [source-file](https://git.uni-paderborn.de/wega/klarinettenquintett-edirom/-/blob/main/edition/sources/source-4-MEI.xml) of the edition, in the `measure` in which the annotation begins. The edition of the clarinet quintet also defines the priorities and categories of their annotations in the same source file, in the header within the `taxonomy`element.
+
+## Prefs
+
+### Available Properties
+
+| Property | Purpose |
+|----------|---------|
+| `application_language` | The default UI language (e.g. `de` for German, `en` for English) |
+| `annotation_layout` | Specifies the layout mode for displaying annotations in the interface |
+| `image_prefix` | URL prefix for image server requests to the Digilib image service |
+| `image_server` | The image server backend to use (e.g. `digilib`) |
+| `edition_path` | Database path where edition resources are stored (e.g. `/db/apps/contents`) |
+| `start_documents_uri` | Document URI to load automatically on application startup (leave empty for default) |
+| `gotomenu_display` | Display mode for the navigation menu; options include `partwise` for part-based navigation |
+
+### Optional Web Components
+
+Additional integrations (e.g. authentication via Keycloak) can be enabled by uncommenting and configuring the `<web-components>` section.
+```xml
+<web-components>
+    <web-component key="edirom_keycloak_handler">
+        <option key="url" value="https://keycloak.edirom.de" />
+        <option key="realm" value="realmName" />
+        <option key="client_id" value="resource-name" />
+        <option key="script"
+            value="resources/web-components/edirom-keycloak-handler/keycloak-handler.js" />
+    </web-component>
+</web-components>
+```
 
 ## Concordances
 
