@@ -11,6 +11,6 @@ jobs:
         name: Measure compliance with fair-software.eu recommendations
         env:
           PYCHARM_HOSTED: "Trick colorama into displaying colored output" 
-          APIKEY_GITHUB: "vifebot:${{ secrets.VIFEBOTS_GITHUB_TOKEN }}"
+          APIKEY_GITHUB: "someuser:${{ secrets.VIFEBOTS_GITHUB_TOKEN }}"
         with:
           MY_REPO_URL: "https://github.com/${{ github.repository }}"
