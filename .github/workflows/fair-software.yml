@@ -1,16 +1,37 @@
+# Adapted from https://github.com/fair-software/howfairis-github-action
+# License: Apache License 2.0
+
 name: fair-software
 
-on: push
+# This workflow is triggered on pushes to the main branch and on tags starting with 'v'.
+on:
+  push:
+    branches:
+      - main
+  tag:
+    - 'v*'
 
 jobs:
   verify:
     name: "fair-software"
     runs-on: ubuntu-latest
     steps:
+      - name: Check GitHub API rate limit (with APIKEY_GITHUB)
+        shell: bash
+        env:
+          APIKEY_GITHUB: ${{ secrets.VIFEBOTS_GITHUB_TOKEN }} # format: user:token
+        run: |
+          USERNAME="${APIKEY_GITHUB%%:*}"
+          TOKEN="${APIKEY_GITHUB#*:}"
+
+          echo "Checking as user: $USERNAME"
+          curl -sS -u "$USERNAME:$TOKEN" https://api.github.com/rate_limit \
+            | jq '.resources.core, .rate'
+
       - uses: fair-software/howfairis-github-action@0.2.1
         name: Measure compliance with fair-software.eu recommendations
         env:
           PYCHARM_HOSTED: "Trick colorama into displaying colored output" 
-          APIKEY_GITHUB: "someuser:${{ secrets.VIFEBOTS_GITHUB_TOKEN }}"
+          APIKEY_GITHUB: "vifebot:${{ secrets.VIFEBOTS_GITHUB_TOKEN }}"
         with:
           MY_REPO_URL: "https://github.com/${{ github.repository }}"
