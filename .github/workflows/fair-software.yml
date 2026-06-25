@@ -1,12 +1,6 @@
 name: fair-software
 
-# trigger when either a push to main or a new tag starting with 'v' is created
-on:
-  push:
-    branches:
-      - main
-    tags:
-      - 'v*'
+on: push
 
 jobs:
   verify:
