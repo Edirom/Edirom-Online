@@ -1,6 +1,12 @@
 name: fair-software
 
-on: push
+# trigger when either a push to main or a new tag starting with 'v' is created
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
 
 jobs:
   verify:
@@ -11,5 +17,6 @@ jobs:
         name: Measure compliance with fair-software.eu recommendations
         env:
           PYCHARM_HOSTED: "Trick colorama into displaying colored output" 
+          APIKEY_GITHUB: "vifebot:${{ secrets.VIFEBOTS_GITHUB_TOKEN }}"
         with:
           MY_REPO_URL: "https://github.com/${{ github.repository }}"
