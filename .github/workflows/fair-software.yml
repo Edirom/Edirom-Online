@@ -4,12 +4,12 @@
 name: fair-software
 
 # This workflow is triggered on pushes to the main branch and on tags starting with 'v'.
-on:
-  push:
-    branches:
-      - main
-  tag:
-    - 'v*'
+on: push
+#  push:
+#    branches:
+#      - main
+#  tags:
+#    - 'v*'
 
 jobs:
   verify:
