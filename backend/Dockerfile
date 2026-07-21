@@ -14,8 +14,9 @@ FROM eclipse-temurin:21 as builder
 
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
-ARG BRANCH=v1.3.0
+ARG BRANCH=v1.4.0
 ARG EDITION
+ARG ROASTER_VERSION=1.11.0
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -64,6 +65,11 @@ RUN if [ -n "$EDITION" ]; then \
         echo "Note: EDITION_XAR not provided. Please add manually to eXist-db."; \
     fi
 
+RUN echo "Downloading dependencies..." && \
+    mkdir -p /opt/roaster && \
+    cd /opt/roaster && \
+    curl -L -O "https://exist-db.org/exist/apps/public-repo/public/roaster-${ROASTER_VERSION}.xar";
+
 
 #########################
 # 3. Run/deploy eXist-db
@@ -78,3 +84,4 @@ ADD ./autodeploy ${EXIST_HOME}/autodeploy/
 # copy built XARs to autodeploy directory of exist
 COPY --from=builder /opt/eo-backend/build-xar/*.xar ${EXIST_HOME}/autodeploy/
 COPY --from=builder /opt/eo-editions/*.xar ${EXIST_HOME}/autodeploy/
+COPY --from=builder /opt/roaster/*.xar ${EXIST_HOME}/autodeploy/
