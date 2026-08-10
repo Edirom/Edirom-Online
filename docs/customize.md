@@ -1,11 +1,12 @@
 # Customize Edirom Online and content
 
 - [Customize Edirom Online](#customize-edirom-online)
-  * [Annotations](#annotations)
-  * [CSS](#css)
-  * [Image server](#image-server)
-  * [Topbar](#topbar)
-  * [Welcome window](#welcome-window)
+  * [Set annotation window layout](#set-annotation-window-layout)
+  * [Add custom CSS](#add-custom-css)
+  * [Inject custom JavaScript](#inject-custom-javascript)
+  * [Set image server](#set-image-server)
+  * [Customize topbar](#customize-topbar)
+  * [Set a welcome window](#set-a-welcome-window)
 - [Customize content](#customize-content)
   * [Table of content](#table-of-contents)
   * [SVG overlays](#svg-overlays)
