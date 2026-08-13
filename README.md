@@ -185,6 +185,23 @@ set BE_PORT=8081
 set FE_PORT=8090
 ```
 
+**Step 4b (optional)**: Set the WebSocket server URL.
+
+The frontend of Edirom Online can optionally connect to a WebSocket server (e.g. for session features such as QR-code based device linking). By default no WebSocket server is configured and these features are disabled in the frontend. You can specify the WebSocket server URL by setting the corresponding environment variable:
+
+Mac/Linux:
+```bash
+export WS_URL=ws://localhost:8081
+```
+
+Windows:
+```bash
+set WS_URL=ws://localhost:8081
+```
+
+> [!NOTE]
+> If you change `WS_URL` (or any other setup variable), the frontend service has to be **rebuilt** (see Step 6).
+
 **Step 5 (optional)**: Set Sencha build options for frontend.
 
 For other build outputs as defined in the [Sencha Cmd CLI reference] you can set the respective option through an environmental variable, e.g., for a testing build (unminified output, useful during development):
