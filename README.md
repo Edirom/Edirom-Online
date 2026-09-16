@@ -245,6 +245,7 @@ Some useful information regarding documentation is captured in the [docs] folder
 * [Release Workflow] for the Edirom Online
 * [Manual setup] on a local machine
 * [Data creation workflow] for the Edirom Online
+* [MEI Taxonomies Support] in Edirom Online
 
 
 ## Dependencies
@@ -328,6 +329,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Release Workflow]: docs/release-workflow.md
 [Manual setup]: docs/setup.md
 [Data creation workflow]: docs/data-creation-workflow.md
+[MEI Taxonomies Support]: docs/mei-taxonomies-support.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com 
 [ACE]: http://ace.ajax.org
