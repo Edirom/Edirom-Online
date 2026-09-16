@@ -1,0 +1,202 @@
+#!/bin/bash
+# eo – Edirom Online builder task runner
+# Available inside the edirom-builder container via /usr/local/bin/eo
+
+set -e
+
+EXIST_URL="http://local-edirom-online-backend:${BE_PORT:-8080}"
+EXIST_CREDS="admin:changeme"
+VERBOSE=false
+APP_URI="http://www.edirom.de/apps/EdiromOnlineBackend"
+FE_DIR="/opt/eo-frontend"
+BE_DIR="/opt/eo-backend"
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+exist_query() {
+    curl -s -u "$EXIST_CREDS" -X POST \
+        -H "Content-Type: application/xml" \
+        -d "<query xmlns=\"http://exist.sourceforge.net/NS/exist\"><text>$1</text></query>" \
+        "$EXIST_URL/exist/rest/db"
+}
+
+# Like exist_query but suppresses output unless VERBOSE=true
+exist_op() {
+    if $VERBOSE; then
+        exist_query "$1"
+    else
+        exist_query "$1" > /dev/null
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Commands
+# ---------------------------------------------------------------------------
+
+cmd_build_frontend() {
+    echo "==> Building frontend (Sencha Cmd)..."
+    cd "$FE_DIR" && sencha app build production
+    # TODO build environment parmaeter from .env or variable
+}
+
+cmd_build_backend() {
+    echo "==> Building backend (Ant)..."
+    cd "$BE_DIR" && ant
+}
+
+cmd_build_all() {
+    cmd_build_backend
+    cmd_build_frontend
+}
+
+cmd_deploy_backend() {
+    local do_build=false
+    local yes=false
+
+    while [ "$#" -gt 0 ]; do
+        case "$1" in
+            --build)          do_build=true ;;
+            --yes|-y)         yes=true ;;
+            --verbose|-v)     VERBOSE=true ;;
+            *) echo "Unknown option: $1" >&2; cmd_help; exit 1 ;;
+        esac
+        shift
+    done
+
+    if $do_build; then
+        cmd_build_backend || { echo "Build failed — aborting deploy." >&2; exit 1; }
+    fi
+
+    # Find the most recent XAR
+    local XAR
+    XAR=$(ls -t "$BE_DIR/build-xar/Edirom-Online-Backend-"*.xar 2>/dev/null | head -1)
+    if [ -z "$XAR" ]; then
+        echo "No XAR found in $BE_DIR/build-xar/ — run 'eo build backend' first." >&2
+        exit 1
+    fi
+    local XAR_NAME
+    XAR_NAME=$(basename "$XAR")
+    # Extract version from filename: Edirom-Online-Backend-<version>.xar
+    local XAR_VERSION="${XAR_NAME#Edirom-Online-Backend-}"
+    XAR_VERSION="${XAR_VERSION%.xar}"
+
+    # Check if the app is currently deployed
+    local deployed_check
+    deployed_check=$(exist_query \
+        "if (repo:list()[. = '$APP_URI']) then 'deployed' else 'not-deployed'" \
+        2>/dev/null || echo "not-deployed")
+
+    if echo "$deployed_check" | grep -q "deployed"; then
+        # Try to get the deployed version from the package descriptor
+        local deployed_version
+        deployed_version=$(exist_query \
+            "let \$pkg := collection('/db/system/repo')//package[@name='$APP_URI']/@version return string(\$pkg)" \
+            2>/dev/null | sed -n 's/.*<exist:value[^>]*>\([^<]*\)<.*/\1/p' || echo "unknown")
+
+        echo "Currently deployed: $APP_URI (version: $deployed_version)"
+        echo "XAR to install:     $XAR_NAME (version: $XAR_VERSION)"
+
+        if [ "$deployed_version" = "$XAR_VERSION" ]; then
+            echo "Warning: The same version ($XAR_VERSION) is already deployed."
+        else
+            echo "Warning: Version mismatch — deployed=$deployed_version, XAR=$XAR_VERSION"
+        fi
+
+        if ! $yes; then
+            printf "Undeploy and redeploy? [y/N] "
+            read -r answer
+            if [ "$answer" != "y" ] && [ "$answer" != "Y" ]; then
+                echo "Aborted."
+                exit 0
+            fi
+        fi
+
+        echo "==> Undeploying $APP_URI..."
+        exist_op "repo:undeploy('$APP_URI')"
+        echo "==> Removing $APP_URI from repository..."
+        exist_op "repo:remove('$APP_URI')"
+    else
+        echo "No existing deployment found — installing fresh."
+    fi
+
+    echo "==> Uploading $XAR_NAME..."
+    if $VERBOSE; then
+        curl -s -u "$EXIST_CREDS" -X PUT \
+            -H "Content-Type: application/octet-stream" \
+            -T "$XAR" \
+            "$EXIST_URL/exist/rest/db/system/repo/$XAR_NAME"
+    else
+        curl -s -u "$EXIST_CREDS" -X PUT \
+            -H "Content-Type: application/octet-stream" \
+            -T "$XAR" \
+            "$EXIST_URL/exist/rest/db/system/repo/$XAR_NAME" > /dev/null
+    fi
+
+    echo "==> Installing and deploying..."
+    exist_op "repo:install-and-deploy-from-db('/db/system/repo/$XAR_NAME')"
+
+    echo "Done: $APP_URI ($XAR_VERSION) deployed."
+}
+
+cmd_logs() {
+    cat <<EOF
+'eo logs' is not available from inside the builder container.
+
+To tail backend logs, run on the host:
+  docker compose logs --follow edirom-online-backend-local-source
+
+Or for the default backend service:
+  docker compose logs --follow edirom-online-backend
+EOF
+}
+
+cmd_help() {
+    cat <<EOF
+Usage: eo <command> [options]
+
+Commands:
+  build frontend            Build the frontend with Sencha Cmd
+  build backend             Build the backend with Ant
+  build all                 Build backend then frontend
+
+  deploy backend            Deploy the latest backend XAR to eXist-db
+    --build                 Run 'eo build backend' before deploying
+    --yes, -y               Skip confirmation prompt when already deployed
+    --verbose, -v           Show eXist-db responses for each operation
+
+  logs                      Show how to access container logs from the host
+
+  help                      Show this help message
+EOF
+}
+
+# ---------------------------------------------------------------------------
+# Dispatch
+# ---------------------------------------------------------------------------
+
+COMMAND="${1:-help}"
+SUB="${2:-}"
+
+case "$COMMAND" in
+    build)
+        shift
+        case "$SUB" in
+            frontend) shift; cmd_build_frontend "$@" ;;
+            backend)  shift; cmd_build_backend "$@" ;;
+            all)      shift; cmd_build_all "$@" ;;
+            *) echo "Unknown build target: $SUB" >&2; cmd_help; exit 1 ;;
+        esac
+        ;;
+    deploy)
+        shift
+        case "$SUB" in
+            backend) shift; cmd_deploy_backend "$@" ;;
+            *) echo "Unknown deploy target: $SUB" >&2; cmd_help; exit 1 ;;
+        esac
+        ;;
+    logs)      cmd_logs ;;
+    help|--help|-h) cmd_help ;;
+    *) echo "Unknown command: $COMMAND" >&2; cmd_help; exit 1 ;;
+esac
