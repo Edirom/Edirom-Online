@@ -46,10 +46,10 @@ authors:
     orcid: https://orcid.org/0000-0002-0219-5898
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.19453056
+    value: 10.5281/zenodo.21394150
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
-commit: 3f3790b41177e5f640b86e5bdb2a69f98dd74509
+commit: adebe340920b12b6f2508b54c75895a4eaa25e25
 abstract: >-
   Edirom Online is a software for the presentation and
   analysis of critical musical editions in a digital format,
@@ -63,5 +63,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-version: v2.3.0
-date-released: 2026-04-08
+version: v2.4.0
+date-released: 2026-07-21

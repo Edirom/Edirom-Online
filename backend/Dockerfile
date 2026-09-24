@@ -14,7 +14,7 @@ FROM eclipse-temurin:21 as builder
 
 ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
-ARG BRANCH=v1.3.0
+ARG BRANCH=v1.4.0
 ARG EDITION
 ARG ROASTER_VERSION=1.11.0
 

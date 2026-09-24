@@ -80,7 +80,7 @@ How to add images to your edition data:
 
 You can use the [cartographer-app](https://github.com/Edirom/cartographer-app) to create MEI representations of your sources. The app utilises information from IIIF manifests to generate references for each image within a source. You can define zones on each image to reference individual measures. All data is stored in an MEI file, which can be downloaded afterwards.
 To modify, add, or remove zones at a later stage, you can upload the MEI file and edit it accordingly.
-Please be aware of joint measures in your sources (e.g. due to system or accolade changes within a measure). In such cases, ensure that a single measure is linked to two or more zones, rather than creating separate measures.
+Please be aware of joint measures in your sources (e.g. due to system or accolade changes within a measure). In such cases, ensure that a single measure is linked to two or more zones, rather than creating separate measures. Each fragment needs its own zone carrying `type="measure"`, and the zones should be listed in the facs-attribute in reading order, because Edirom Online lays the fragments out in the order it finds them there.
 
 ## MEI
 
@@ -94,6 +94,20 @@ If you have old MEI files that need updating to a newer MEI version, you can use
 For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
 Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
 For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
+
+Whichever of the two applies is what Edirom Online calls the measure's *designation*. It is the number shown in the measure spinner, and it is what a reference to that measure is built from, so it should be the number a reader would recognise.
+
+Two characters must not appear in a label-attribute you want to reference: an underscore, and whitespace or a semicolon. The first breaks the reference apart, the second breaks the lists that references travel in. An alphanumeric label such as `2b` is fine; `2 b` and `2_b` are not.
+
+**One measure standing for several**
+
+A measure can account for more than one measure number. Edirom Online recognises two encodings for that, and in both cases every number becomes selectable in its own right while still showing the one measure — and therefore the one zone — that represents it.
+
+*A range in the label.* State the span in the label-attribute using an en dash (U+2013), e.g. `label="38–46"`. The en dash is significant here: a label containing one is read as a range, so do not use it for anything else. Both bounds have to be numbers.
+
+*A multiRest.* Where a part rests for several measures, encode the rest once and let `multiRest/@num` state how many measures it stands for. The designation of the measure carrying the rest has to be a number, because Edirom Online counts `@num` forward from it. A designation such as `2b` cannot be expanded, and that part will then be missing from every measure of the rest but the first.
+
+If you encode both an abbreviated and an expanded form of the same passage — the multiRest under `abbr`, the individual measures under `expan` — Edirom Online reads the expansion and ignores the abbreviated measure, so the numbers are not counted twice. An `abbr` with no `expan` beside it is expanded from `@num` as described above.
 
 ## TEI
 

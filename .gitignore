@@ -8,9 +8,15 @@ Thumbs.db
 /data
 /tmp
 *.xpr
+
 local.properties
 .idea/
 .existdb.json
 .vscode/settings.json
 backend/autodeploy/*.xar
 .env
+
+# Selenium / pytest
+__pycache__/
+.pytest_cache/
+tests/selenium/report.html
