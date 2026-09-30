@@ -1,11 +1,12 @@
 # Customize Edirom Online and content
 
 - [Customize Edirom Online](#customize-edirom-online)
-  * [Annotations](#annotations)
-  * [CSS](#css)
-  * [Image server](#image-server)
-  * [Topbar](#topbar)
-  * [Welcome window](#welcome-window)
+  * [Set annotation window layout](#set-annotation-window-layout)
+  * [Add custom CSS](#add-custom-css)
+  * [Inject custom JavaScript](#inject-custom-javascript)
+  * [Set image server](#set-image-server)
+  * [Customize topbar](#customize-topbar)
+  * [Set a welcome window](#set-a-welcome-window)
 - [Customize content](#customize-content)
   * [Table of content](#table-of-contents)
   * [SVG overlays](#svg-overlays)
@@ -18,11 +19,11 @@
 
 # Customize Edirom Online
 
-## Annotations
-change the **layout** for annotations (3 are predefined), using predefined [preferences]
+## Set annotation window layout
+Change the **layout** for annotations (3 are predefined), using predefined [preferences]
 * `<entry key="annotation_layout" value="EdiromOnline.view.window.annotationLayouts.AnnotationLayout1"/>`
 
-## CSS
+## Add custom CSS
 Add a **custom CSS file**, using predefined edition preferences
 * `<entry key="additional_css_path" value="xmldb:exist:///db/apps/edirom/edition-example/custom/style.css"/>`
 
@@ -31,12 +32,20 @@ For this to work, make sure that:
 * the directory path for the edition (part after `xmldb:exist:///db/apps/`, in the example this is `/edirom/edition-example`) is correctly set in the [target info given in repo.xml](https://github.com/Edirom/EditionExample/blob/v0.2.0/repo.xml#L10)
 * the relative path to the custom CSS file is correct (in the example above the last part of the URI: `custom/style.css`)
 
+## Inject custom JavaScript
+Add a **custom JS file**, using predefined edition preferences
+* `<entry key="plugin_any-name" value="../path-to-edition-package/path-to-js-file/custom.js"/>`
 
-## Image server ###
+For this to work, make sure that:
+* the path to the JS file is relative to the edition's package directory, e.g. if your edition package is `db/apps/edirom/edition-example` and your JS file is located in `db/apps/edirom/edition-example/custom/custom.js`, the value of the preference should be `../custom/custom.js`
+* an example can be seen in the [Bargheer edition preferences](https://github.com/Edirom/Bargheer-Edition/blob/851b5ede7407a7e20629d194876127bca6badae7/prefs.xml#L17)
+* any number of JS files can be added, just make sure to use a unique name for the preference key, e.g. `plugin_custom1`, `plugin_custom2`, etc.
+
+## Set image server 
 **switch the image server** from digilib to openseadragon (IIIF), using predefined [preferences]
 * `<entry key="image_server" value="openseadragon"/>`
 
-## Topbar
+## Customize topbar
 change the **logo** of the edition
 * edit [`app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L72)
 * then edit [`Edirom-Online/packages/eoTheme/sass/var/button/Button.scss`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/packages/eoTheme/sass/var/button/Button.scss#L215)
@@ -47,11 +56,12 @@ de/activate **search**
 de/activate **work switch**
 * un/comment [`Edirom-Online/app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L82)
 
-## Welcome window
+## Set a welcome window
 **define** a welcome window, using predefined [preferences]
 * `<entry key="start_documents_uri" value="xmldb:exist:///db/apps/baudiData/editions/baudi-14-2b84beeb/edirom/introduction.xml"/>`
 
 [preferences]: ../add/data/prefs/edirom-prefs.xml
+
 
 # Customize content
 
