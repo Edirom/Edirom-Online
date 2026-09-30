@@ -35,21 +35,21 @@ authors:
   - given-names: Tobias
     family-names: Bachmann
     orcid: https://orcid.org/0009-0003-9952-7899
+  - given-names: Francesco
+    family-names: Maccarini
+    orcid: https://orcid.org/0000-0002-0219-5898
   - given-names: Silke
     family-names: Reich
     orcid: https://orcid.org/0009-0007-8817-0299
   - given-names: Dennis
     family-names: Ried
     orcid: https://orcid.org/0000-0001-5545-2088
-  - given-names: Francesco
-    family-names: Maccarini
-    orcid: https://orcid.org/0000-0002-0219-5898
 identifiers:
   - type: doi
-    value: 10.5281/zenodo.21394150
+    value: 10.5281/zenodo.23062504
     description: Edirom Online
 repository-code: 'https://github.com/Edirom/Edirom-Online'
-commit: adebe340920b12b6f2508b54c75895a4eaa25e25
+commit: 420fb53378170e5dde5e2e1e63ee3c1394aff6a1
 abstract: >-
   Edirom Online is a software for the presentation and
   analysis of critical musical editions in a digital format,
@@ -63,5 +63,5 @@ abstract: >-
   music and adding audio and even film within a single
   edition.
 license: GPL-3.0
-version: v2.4.0
-date-released: 2026-07-21
+version: v2.5.0
+date-released: 2026-09-30
