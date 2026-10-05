@@ -74,7 +74,18 @@ How to add images to your edition data:
    - Add this MEI file to the sources directory.
    - Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
 2. Locally stored images
-   - To be continued ...
+   * Put all images of one source directly into one folder (no sub-folders), in page order, e.g. `page_001.jpg`, `page_002.jpg`, … Use JPG, PNG or TIFF.
+   * Start Edirom Online together with Cantaloupe (IIIF image server) and Cartographer from your Edirom-Online folder:
+```bash
+     export IMAGES_DIR=/full/path/to/your/image/folder
+     docker compose --profile cantaloupe --profile cartographer up
+```
+     (Tip: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
+   * Cantaloupe serves your images and automatically creates an IIIF manifest: http://localhost:8000/manifest.json
+   * Import this manifest into the local Cartographer (http://localhost:8081) and download it as an MEI file.
+   * Add this MEI file to the sources directory.
+   * Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
+   * Note: the images are served from your own computer (`localhost`), so they are only visible while Cantaloupe is running. For a published edition, the images have to be hosted on a public IIIF server (see point 1).
 
 ## Create measure-zones
 
