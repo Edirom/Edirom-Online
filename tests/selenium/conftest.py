@@ -17,7 +17,7 @@ edition must already be deployed in your local eXist-db (i.e. listed in
 EDITION_XAR in docker-compose.yml or loaded manually).
 
 Available profiles:
-  edirom_edition_example          — EditionExample v0.2.0 (default)
+  edirom_edition_example          — EditionExample v0.2.1 (default)
   edition-27830471                — Weber Klarinettenquintett op. 34 v1.1.1
 -------------------------------------------------------------------------------
 """
