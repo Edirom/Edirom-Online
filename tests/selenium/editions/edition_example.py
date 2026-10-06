@@ -1,6 +1,6 @@
 """
-Edition profile: EditionExample v0.2.0
-https://github.com/Edirom/EditionExample/releases/tag/v0.2.0
+Edition profile: EditionExample v0.2.1
+https://github.com/Edirom/EditionExample/releases/tag/v0.2.1
 
 Content:
   - 2 MEI sources: "Trüber Abschied (Erstdruck)" and "(Manuskript)"
@@ -12,7 +12,7 @@ _BASE = "xmldb:exist:///db/apps/edirom/edition-example/content"
 
 profile = EditionProfile(
     edition_id="edirom_edition_example",
-    name="EditionExample v0.2.0",
+    name="EditionExample v0.2.1",
     base_uri=_BASE,
     edition_xml_path="ediromEditions/edirom_edition_example.xml",
     has_working_search=True,
