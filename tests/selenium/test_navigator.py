@@ -5,37 +5,38 @@ The Navigator is the panel on the right side of Edirom Online.
 It acts as a table of contents: it lists all items of an edition
 (sources, works, texts etc.) grouped into categories.
 
-Navigator structure (rendered by getNavigatorConfig.xql):
-  <div id="navigator">
-    <div class="navigatorCategory">
-      <div class="navigatorCategoryTitle">Quellen</div>
-      <div id="...-items">
-        <div class="navigatorItem" onclick="loadLink(...)">Quelle A</div>
-        ...
-      </div>
-    </div>
-    ...
-  </div>
+Navigator structure (since Edirom Online v1.4.0):
+  <div id="navigator">                          ExtJS panel
+    <edirom-navigator navigator-data="{...}">   web component, data from
+      #shadow-root (open)                       getNavigatorConfig.xql?mode=json
+        <div class="navigatorCategory">
+          <div class="navigatorCategoryTitle">Quellen</div>
+          <div>
+            <div class="navigatorItem" id="navItem-...">Quelle A</div>
+            ...
 
-Items use onclick="loadLink(...)" directly on the div — there are no <a> tags.
-External links use onclick="window.open(...)" and open in a new browser tab.
+Categories and items live in the shadow DOM, so the Navigator page object
+looks them up via the component's shadow_root. Items have no onclick
+attribute: clicking dispatches a load-links-request event, and the frontend
+calls loadLink() with the item's targets from navigator-data.
 
-Internal link format:
-  loadLink('xmldb:exist:///db/apps/<edition>/<path>', {})
-  The xmldb:exist:/// prefix maps to the eXist-db REST API:
-  http://localhost:8080/exist/rest/db/apps/<edition>/<path>
+Target format:
+  xmldb:exist:///db/apps/<edition>/<path>[optional config]
+    → opens a content window. The xmldb:exist:/// prefix maps to the
+      eXist-db REST API: http://localhost:8080/exist/rest/db/apps/<edition>/<path>
+  http(s)://... or mailto:...
+    → opens a new browser tab (window.open)
 
 Content of these tests:
   1. Navigator panel is visible after the app loads
   2. Navigator shows at least one category heading
   3. Navigator shows at least one clickable item
-  4. Every item has a valid (non-empty) onclick attribute
+  4. Every item has at least one link target
   5. Every internal item's target file exists in eXist-db (no typos in paths)
   6. Clicking an internal item opens a content window
   7. Clicking an external item opens a new browser tab
   8. Navigator can be resized by dragging its resize handle
 """
-import re
 import urllib.request
 import pytest
 from selenium.webdriver.common.by import By
@@ -93,15 +94,7 @@ class TestNavigator:
             FAILED → No categories rendered — check getNavigatorConfig.xql or edition data
         """
         AppPage(driver).open()
-        nav = Navigator(driver)
-
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(nav.CATEGORIES),
-            message="No category headings found in Navigator."
-        )
-
-        categories = driver.find_elements(*nav.CATEGORIES)
+        categories = Navigator(driver).wait_for_categories()
         assert len(categories) >= 1, "Expected at least one Navigator category."
 
     def test_navigator_shows_items(self, driver):
@@ -116,56 +109,43 @@ class TestNavigator:
         """
         AppPage(driver).open()
         nav = Navigator(driver)
-
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(nav.ITEMS),
-            message="No items found in Navigator."
-        )
+        nav.wait_for_items()
 
         count = nav.get_item_count()
         assert count >= 1, "Expected at least one Navigator item."
 
-    def test_all_items_have_valid_onclick(self, driver):
+    def test_all_items_have_targets(self, driver):
         """
         WHAT THIS TESTS:
-            Every Navigator item must have a non-empty onclick attribute —
-            either loadLink(...) for internal files or window.open(...) for
-            external URLs. An item without onclick (or with an empty one) would
-            silently do nothing when clicked.
+            Every Navigator item must have at least one link target in the
+            navigator-data of the <edirom-navigator> component — an xmldb:exist
+            URI for internal files or an http(s)/mailto URL for external links.
+            An item without a target would silently do nothing when clicked.
 
-            This test does NOT click anything. It reads the DOM attributes
-            directly, so it runs in under a second regardless of item count.
+            This test does NOT click anything. It reads the navigator-data
+            attribute directly, so it runs in under a second regardless of
+            item count.
 
             Whether clicking actually opens a window is verified by
             test_clicking_item_opens_window (internal) and
             test_clicking_external_item_opens_browser_tab (external).
 
         HOW TO READ THE RESULT:
-            PASSED → Every item has a valid onclick attribute
-            FAILED → One or more items are missing onclick or have an empty value
-                     (the assertion message lists the affected item IDs)
+            PASSED → Every item has at least one target
+            FAILED → One or more items have no target
+                     (the assertion message lists the affected items)
         """
         AppPage(driver).open()
         nav = Navigator(driver)
 
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(nav.ITEMS),
-            message="No Navigator items found."
-        )
-
-        items = driver.find_elements(*nav.ITEMS)
-        broken = []
-        for item in items:
-            onclick = item.get_attribute("onclick") or ""
-            if not onclick.strip():
-                broken.append(
-                    item.get_attribute("id") or item.text.strip() or "(unknown)"
-                )
+        broken = [
+            item["name"] or item["id"] or "(unknown)"
+            for item in nav.get_item_data()
+            if not nav.target_uris(item["targets"])
+        ]
 
         assert not broken, (
-            f"{len(broken)} Navigator item(s) have no onclick attribute:\n"
+            f"{len(broken)} Navigator item(s) have no link target:\n"
             + "\n".join(f"  - {name}" for name in broken)
         )
 
@@ -174,14 +154,16 @@ class TestNavigator:
         WHAT THIS TESTS:
             Every internal Navigator item's target file must actually exist in
             eXist-db. A typo in a file path (e.g. 'souces' instead of 'sources')
-            would produce a valid onclick attribute but fail silently when clicked.
+            would produce a valid-looking target but fail silently when clicked.
 
-            This test parses the onclick attribute of every item, extracts the
-            xmldb:exist:// URI, and makes a HEAD request to the eXist-db REST API
-            to confirm the file is there. No browser interaction is needed.
+            This test reads the targets of every item from navigator-data,
+            takes each xmldb:exist:// URI, and makes a HEAD request to the
+            eXist-db REST API to confirm the file is there. No browser
+            interaction is needed.
 
-            Fragment identifiers (#element-id) are stripped before checking —
-            they point to elements within the file, not separate files.
+            Config blocks ([width:900]) and fragment identifiers (#element-id)
+            are stripped before checking — the fragments point to elements
+            within the file, not separate files.
 
         HOW TO READ THE RESULT:
             PASSED  → All internal item targets exist in eXist-db
@@ -190,39 +172,26 @@ class TestNavigator:
         AppPage(driver).open()
         nav = Navigator(driver)
 
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(nav.ITEMS),
-            message="No Navigator items found."
-        )
-
-        items = driver.find_elements(*nav.ITEMS)
         missing = []
 
-        for item in items:
-            onclick = item.get_attribute("onclick") or ""
-            # Extract the first quoted string from loadLink('...', ...)
-            match = re.search(r"loadLink\(['\"]([^'\"]+)['\"]", onclick)
-            if not match:
-                continue  # external or empty — handled by other tests
+        for item in nav.get_item_data():
+            for xmldb_uri in nav.target_uris(item["targets"]):
+                rest_url = xmldb_to_rest_url(xmldb_uri)
+                if not rest_url:
+                    continue  # external URL — covered by the external link test
 
-            xmldb_uri = match.group(1)
-            rest_url = xmldb_to_rest_url(xmldb_uri)
-            if not rest_url:
-                continue
+                try:
+                    req = urllib.request.Request(rest_url, method="HEAD")
+                    with urllib.request.urlopen(req, timeout=5) as resp:
+                        status = resp.status
+                except urllib.error.HTTPError as e:
+                    status = e.code
+                except Exception as e:
+                    status = str(e)
 
-            try:
-                req = urllib.request.Request(rest_url, method="HEAD")
-                with urllib.request.urlopen(req, timeout=5) as resp:
-                    status = resp.status
-            except urllib.error.HTTPError as e:
-                status = e.code
-            except Exception as e:
-                status = str(e)
-
-            if status != 200:
-                label = item.text.strip() or item.get_attribute("id") or "(unknown)"
-                missing.append(f"  - {label}: {xmldb_uri} → HTTP {status}")
+                if status != 200:
+                    label = item["name"] or item["id"] or "(unknown)"
+                    missing.append(f"  - {label}: {xmldb_uri} → HTTP {status}")
 
         assert not missing, (
             f"{len(missing)} Navigator item target(s) not found in eXist-db:\n"
@@ -236,24 +205,21 @@ class TestNavigator:
             loadLink(), which opens a content window in the main area.
             This works for all file types: MEI, TEI, HTML, etc.
 
-            Items with external URLs (window.open) are excluded here —
+            Items with external URLs (http/https/mailto) are excluded here —
             they are covered by test_clicking_external_item_opens_browser_tab.
 
         HOW TO READ THE RESULT:
             PASSED  → A content window appeared after clicking an internal item
-            SKIPPED → Edition has no internal Navigator items
+            SKIPPED → Edition has no visible internal Navigator items
             FAILED  → Click did not trigger loadLink(), or window did not open
         """
         AppPage(driver).open()
         nav = Navigator(driver)
 
+        if not nav.open_first_internal_item():
+            pytest.skip("No visible internal Navigator items (xmldb:exist) found in this edition.")
+
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        internal_items = driver.find_elements(*nav.INTERNAL_ITEMS)
-        if not internal_items:
-            pytest.skip("No internal Navigator items (loadLink) found in this edition.")
-
-        nav.open_first_internal_item()
-
         wait.until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".ediromWindow")),
             message="No content window appeared after clicking an internal Navigator item."
@@ -262,30 +228,23 @@ class TestNavigator:
     def test_clicking_external_item_opens_browser_tab(self, driver):
         """
         WHAT THIS TESTS:
-            Some Navigator items point to external URLs (onclick="window.open(...)").
-            Clicking such an item opens a new browser tab instead of an ediromWindow.
+            Some Navigator items point to external URLs (http/https/mailto).
+            Clicking such an item opens a new browser tab (window.open)
+            instead of an ediromWindow.
 
         HOW TO READ THE RESULT:
             PASSED  → A new browser tab opened after clicking the external item
-            SKIPPED → Edition has no external Navigator items
+            SKIPPED → Edition has no visible external Navigator items
             FAILED  → No new tab opened after clicking
         """
         AppPage(driver).open()
         nav = Navigator(driver)
 
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(nav.ITEMS),
-            message="No Navigator items found."
-        )
-
-        external_items = driver.find_elements(*nav.EXTERNAL_ITEMS)
-        if not external_items:
-            pytest.skip("No external Navigator items (window.open) found in this edition.")
-
         handles_before = driver.window_handles
-        external_items[0].click()
+        if not nav.open_first_external_item():
+            pytest.skip("No visible external Navigator items (http/https/mailto) found in this edition.")
 
+        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
         wait.until(
             lambda d: len(d.window_handles) > len(handles_before),
             message="No new browser tab opened after clicking an external Navigator item."
