@@ -187,7 +187,7 @@ set FE_PORT=8090
 
 **Step 4b (optional)**: Set the WebSocket server URL.
 
-The frontend of Edirom Online can optionally connect to a WebSocket server to enable the **Connected Workspace** feature. By default no WebSocket server is configured and these features are disabled in the frontend. You can specify the WebSocket server URL by setting the corresponding environment variable:
+The frontend of Edirom Online can optionally connect to a WebSocket server to enable the [Connected Workspace] feature. By default no WebSocket server is configured and these features are disabled in the frontend. You can specify the WebSocket server URL by setting the corresponding environment variable:
 
 Mac/Linux:
 ```bash
