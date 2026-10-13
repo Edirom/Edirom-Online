@@ -17,6 +17,7 @@ ARG SOURCE=https://github.com/Edirom/Edirom-Online-Backend.git
 ARG BRANCH=v1.5.0
 ARG EDITION
 ARG ROASTER_VERSION=1.11.0
+ARG FE_PORT
 
 
 # Install wget and unzip and ruby and other dependencies
@@ -52,6 +53,15 @@ WORKDIR /opt/eo-backend
 
 RUN echo "Cloning from repo $SOURCE" && \
     git clone --recurse-submodules "$SOURCE" --branch "$BRANCH" --single-branch . && \
+    if [ -n "$FE_PORT" ] && [ "$FE_PORT" != "8089" ]; then \
+        echo "Writing frontend.port=$FE_PORT to local.properties…"; \
+        if [ -f "./local.properties" ]; then \
+            sed -i '/^frontend\.port=/d' local.properties; \
+            echo "frontend.port=$FE_PORT" >> local.properties; \
+        else \
+            echo "frontend.port=$FE_PORT" >> local.properties; \
+        fi \
+    fi && \
     echo "Building Backend XAR..." && \
     ant
 
