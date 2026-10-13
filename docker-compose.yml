@@ -10,7 +10,7 @@ services:
         BRANCH: ${BE_BRANCH:-v1.5.0}
         EDITION: ${EDITION_XAR}
         # Frontend port for cross-origin authenitcation
-        BE_PORT: ${FE_PORT:-8089}
+        FE_PORT: ${FE_PORT:-8089}
     ports:
       # expose eXist-db
       - "${BE_PORT:-8080}:8080"
