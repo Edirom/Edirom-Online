@@ -92,7 +92,8 @@ If you have old MEI files that need updating to a newer MEI version, you can use
 **Attribute n vs label**
 
 For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
-Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
+Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, e.g. label="1verso" for surface (=page) or label="2b" for measure. A measure that is merely interrupted by a line or system break is not such a case, even if the source repeats its number at the start of the new system: it remains a single measure linked to two or more zones (see [Create measure-zones](#create-measure-zones)), e.g. `<measure n="204" xml:id="bar-172575" facs="#zone_bar-172574 #zone_bar-172575"/>`.
+
 For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
 
 Whichever of the two applies is what Edirom Online calls the measure's *designation*. It is the number shown in the measure spinner, and it is what a reference to that measure is built from, so it should be the number a reader would recognise.
