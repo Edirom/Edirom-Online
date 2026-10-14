@@ -27,3 +27,25 @@ services:
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
+  cantaloupe:
+    container_name: cantaloupe
+    profiles: ["cantaloupe"]
+    build:
+      context: ./cantaloupe
+      dockerfile: Dockerfile
+    volumes:
+      - ${IMAGES_DIR:-./images}:/images:ro
+    environment:
+      JAVA_XMX: ${CANTALOUPE_XMX:-2g}
+    ports:
+      - "8182:8182"   # images:   http://localhost:8182/iiif/3/<file name>
+      - "8000:8000"   # manifest: http://localhost:8000/manifest.json
+
+  cartographer:
+    container_name: cartographer
+    profiles: ["cartographer"]
+    image: ghcr.io/edirom/cartographer-app:${CARTOGRAPHER_VERSION:-2.0.0}
+    environment:
+      APP_PUBLIC_PATH: /
+    ports:
+      - "${CARTOGRAPHER_PORT:-8081}:80"
