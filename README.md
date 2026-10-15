@@ -268,11 +268,11 @@ You can stop the environment by hitting Ctrl+C in the command line in which the 
 ### Further Documentation
 
 Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:
-
 - [Customize] Edirom Online and content
 - [Release Workflow] for the Edirom Online
 - [Manual setup] on a local machine
 - [Data creation workflow] for the Edirom Online
+- [MEI Taxonomies Support] in Edirom Online
 - [Connected Workspace] for using Edirom Online on several devices at once
 
 ## Dependencies
@@ -356,6 +356,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Manual setup]: docs/setup.md
 [Data creation workflow]: docs/data-creation-workflow.md
 [Connected Workspace]: docs/connected-workspace.md
+[MEI Taxonomies Support]: docs/mei-taxonomies-support.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com
 [ACE]: http://ace.ajax.org
