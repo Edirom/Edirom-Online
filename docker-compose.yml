@@ -27,19 +27,22 @@ services:
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
-  cantaloupe:
-    container_name: cantaloupe
-    profiles: ["cantaloupe"]
-    build:
-      context: ./cantaloupe
-      dockerfile: Dockerfile
-    volumes:
-      - ${IMAGES_DIR:-./images}:/images:ro
+  digilib:
+    container_name: digilib
+    profiles: ["digilib"]
+    image: robcast/digilib:release-2.13.0
     environment:
-      JAVA_XMX: ${CANTALOUPE_XMX:-2g}
+      BASEDIR_LIST: /images
+      # Must be non-empty, otherwise digilib's info.json generation crashes.
+      IIIF_IMAGE_BASE_URL: http://localhost:8182/digilib/Scaler/IIIF
+      IIIF_MANIFEST_BASE_URL: http://localhost:8182/digilib/Manifester/IIIF
+    volumes:
+      # Mounted as a named subdir so the manifest identifier is stable ("source").
+      - ${IMAGES_DIR:-./images}:/images/source:ro
     ports:
-      - "8182:8182"   # images:   http://localhost:8182/iiif/3/<file name>
-      - "8000:8000"   # manifest: http://localhost:8000/manifest.json
+      # images:   http://localhost:8182/digilib/Scaler/IIIF/3/source!<file name>/full/max/0/default.jpg
+      # manifest: http://localhost:8182/digilib/Manifester/IIIF/3/source
+      - "8182:8080"
 
   cartographer:
     container_name: cartographer
