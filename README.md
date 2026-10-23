@@ -265,6 +265,26 @@ If it does not show up directly, try a reload of the page.
 
 You can stop the environment by hitting Ctrl+C in the command line in which the Docker process is running. If you have used the detached mode, you can stop the environment by typing `docker compose down`.
 
+
+#### Optional: serve local images for data creation
+
+To prepare local facsimile images for an edition you can start two optional services alongside the backend and frontend: **digilib** (an IIIF image server that also auto-generates IIIF manifests) and the **Cartographer** app. Point `IMAGES_DIR` at a folder of images and enable the corresponding Docker Compose profiles:
+
+Mac/Linux:
+```bash
+export IMAGES_DIR=/full/path/to/your/image/folder
+docker compose --profile digilib --profile cartographer up
+```
+
+Windows:
+```bash
+set IMAGES_DIR=C:\full\path\to\your\image\folder
+docker compose --profile digilib --profile cartographer up
+```
+
+digilib serves a IIIF manifest of your images at http://localhost:8182/digilib/Manifester/IIIF/3/source (each sub-folder of `IMAGES_DIR` becomes its own manifest at `…/3/source!<subfolder>`), which you can import into the Cartographer app at http://localhost:8081. See the [Data creation workflow] for the full process.
+
+
 ### Further Documentation
 
 Some useful information regarding documentation is captured in the [docs] folder of this repo. It contains:

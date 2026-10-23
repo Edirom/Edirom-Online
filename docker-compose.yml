@@ -29,3 +29,28 @@ services:
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
+  digilib:
+    container_name: digilib
+    profiles: ["digilib"]
+    image: robcast/digilib:release-2.13.0
+    environment:
+      BASEDIR_LIST: /images
+      # Must be non-empty, otherwise digilib's info.json generation crashes.
+      IIIF_IMAGE_BASE_URL: http://localhost:8182/digilib/Scaler/IIIF
+      IIIF_MANIFEST_BASE_URL: http://localhost:8182/digilib/Manifester/IIIF
+    volumes:
+      # Mounted as a named subdir so the manifest identifier is stable ("source").
+      - ${IMAGES_DIR:-./images}:/images/source:ro
+    ports:
+      # images:   http://localhost:8182/digilib/Scaler/IIIF/3/source!<file name>/full/max/0/default.jpg
+      # manifest: http://localhost:8182/digilib/Manifester/IIIF/3/source
+      - "8182:8080"
+
+  cartographer:
+    container_name: cartographer
+    profiles: ["cartographer"]
+    image: ghcr.io/edirom/cartographer-app:${CARTOGRAPHER_VERSION:-2.0.0}
+    environment:
+      APP_PUBLIC_PATH: /
+    ports:
+      - "${CARTOGRAPHER_PORT:-8081}:80"
