@@ -29,3 +29,13 @@ services:
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8.1
+    command: start-dev
+    profiles:
+      - keycloak
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+    ports:
+      - "127.0.0.1:8082:8080"
