@@ -32,20 +32,14 @@ services:
   digilib:
     container_name: digilib
     profiles: ["digilib"]
-    image: robcast/digilib:release-2.13.0
-    environment:
-      BASEDIR_LIST: /images
-      # Must be non-empty, otherwise digilib's info.json generation crashes.
-      IIIF_IMAGE_BASE_URL: http://localhost:8182/digilib/Scaler/IIIF
-      IIIF_MANIFEST_BASE_URL: http://localhost:8182/digilib/Manifester/IIIF
+    image: stadlerpeter/digilib-docker
     volumes:
-      # Mounted as a named subdir so the manifest identifier is stable ("source").
-      - ${IMAGES_DIR:-./images}:/images/source:ro
+      # Every folder in IMAGES_DIR gets its own manifest:
+      #   IMAGES_DIR itself → http://localhost:8182/Manifester/IIIF/3
+      #   IMAGES_DIR/<sub>  → http://localhost:8182/Manifester/IIIF/3/<sub>
+      - ${IMAGES_DIR:-./images}:/var/lib/digilib/images:ro
     ports:
-      # images:   http://localhost:8182/digilib/Scaler/IIIF/3/source!<file name>/full/max/0/default.jpg
-      # manifest: http://localhost:8182/digilib/Manifester/IIIF/3/source
       - "8182:8080"
-
   cartographer:
     container_name: cartographer
     profiles: ["cartographer"]

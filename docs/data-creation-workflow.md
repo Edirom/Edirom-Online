@@ -80,7 +80,7 @@ How to add images to your edition data:
      export IMAGES_DIR=/full/path/to/your/image/folder
      docker compose --profile digilib --profile cartographer up
 ```
-     (Tip: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
+     (Tip for macOS: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
    * digilib serves your images and automatically creates an IIIF manifest. digilib generates one manifest per folder, so you can serve several sources at once:
      * Images placed directly in `IMAGES_DIR` are available as: http://localhost:8182/digilib/Manifester/IIIF/3/source
      * Each sub-folder of `IMAGES_DIR` becomes its own manifest, with the sub-folder name appended after a `!`, e.g. a sub-folder `image2` is available as: http://localhost:8182/digilib/Manifester/IIIF/3/source!image2
