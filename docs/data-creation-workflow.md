@@ -83,7 +83,7 @@ How to add images to your edition data:
      (Tip for macOS: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
    * digilib serves your images and automatically creates an IIIF manifest. digilib generates one manifest per folder, so you can serve several sources at once:
      * The root folder `IMAGES_DIR` is available as: http://localhost:8182/Manifester/IIIF/
-     * Each sub-folder of `IMAGES_DIR` becomes its own manifest, with the sub-folder name appended after a `!`, e.g. a sub-folder `image2` is available as: http://localhost:8182/digilib/Manifester/IIIF/3/source!image2
+     * Each sub-folder of `IMAGES_DIR` becomes its own manifest, and sub-sub-folders are segmented by a `!`, e.g. a sub-folder `images2` is available as http://localhost:8182/Manifester/IIIF/images2 and its nested folder images2a as http://localhost:8182/Manifester/IIIF/images2!images2a
      * New images and folders are picked up on the next reload; no restart is needed.
    * Import the manifest of a source into the local Cartographer (http://localhost:8081) and download it as an MEI file. Repeat for each source.
    * Add this MEI file to the sources directory.
