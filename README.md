@@ -282,7 +282,7 @@ set IMAGES_DIR=C:\full\path\to\your\image\folder
 docker compose --profile digilib --profile cartographer up
 ```
 
-digilib serves a IIIF manifest of your images at http://localhost:8182/digilib/Manifester/IIIF/3/source (each sub-folder of `IMAGES_DIR` becomes its own manifest at `…/3/source!<subfolder>`), which you can import into the Cartographer app at http://localhost:8081. See the [Data creation workflow] for the full process.
+digilib serves a IIIF manifest of your images at http://localhost:8182/Manifester/IIIF/ (each sub-folder of `IMAGES_DIR` becomes its own manifest), which you can import into the Cartographer app at http://localhost:8081. See the [Data creation workflow] for the full process.
 
 
 ### Further Documentation
