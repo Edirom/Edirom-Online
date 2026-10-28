@@ -74,7 +74,21 @@ How to add images to your edition data:
    - Add this MEI file to the sources directory.
    - Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
 2. Locally stored images
-   - To be continued ...
+   * Put the images of each source into one folder, in page order, e.g. `page_001.jpg`, `page_002.jpg`, … Use JPG, PNG or TIFF. Avoid spaces in file names so the pages sort predictably.
+   * Start Edirom Online together with digilib (IIIF image server) and Cartographer from your Edirom-Online folder:
+```bash
+     export IMAGES_DIR=/full/path/to/your/image/folder
+     docker compose --profile digilib --profile cartographer up
+```
+     (Tip for macOS: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
+   * digilib serves your images and automatically creates an IIIF manifest for folders, so you can serve several sources at once:
+     * The root folder `IMAGES_DIR` is available as: http://localhost:8182/Manifester/IIIF/
+     * Each sub-folder of `IMAGES_DIR` becomes its own manifest, and sub-sub-folders are segmented by a `!`, e.g. a sub-folder `images2` is available as http://localhost:8182/Manifester/IIIF/images2 and its nested folder images2a as http://localhost:8182/Manifester/IIIF/images2!images2a
+     * New images and folders are picked up on the next reload; no restart is needed.
+   * Import the manifest of a source into the local Cartographer (http://localhost:8081) and download it as an MEI file. Repeat for each source.
+   * Add this MEI file to the sources directory.
+   * Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
+   * Note: the images are served from your own computer (`localhost`), so they are only visible while digilib is running. For a published edition, the images have to be hosted on a public IIIF server (see point 1).
 
 ## Create measure-zones
 
