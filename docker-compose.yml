@@ -29,3 +29,22 @@ services:
     ports:
       # expose nginx
       - "${FE_PORT:-8089}:80"
+  digilib:
+    container_name: digilib
+    profiles: ["digilib"]
+    image: stadlerpeter/digilib-docker
+    volumes:
+      # Every folder in IMAGES_DIR gets its own manifest:
+      #   IMAGES_DIR itself → http://localhost:8182/Manifester/IIIF/3
+      #   IMAGES_DIR/<sub>  → http://localhost:8182/Manifester/IIIF/3/<sub>
+      - ${IMAGES_DIR:-./images}:/var/lib/digilib/images:ro
+    ports:
+      - "8182:8080"
+  cartographer:
+    container_name: cartographer
+    profiles: ["cartographer"]
+    image: ghcr.io/edirom/cartographer-app:${CARTOGRAPHER_VERSION:-2.0.0}
+    environment:
+      APP_PUBLIC_PATH: /
+    ports:
+      - "${CARTOGRAPHER_PORT:-8081}:80"
