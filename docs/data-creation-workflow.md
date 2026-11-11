@@ -60,6 +60,7 @@ As you can see from the Edition Example, the structure consists of different fil
 - Source files can contain measure zones; see [Create measure-zones](#create-measure-zones) for a description.
 - The work file can contain annotations of your edition. See [Annotations](#annotations) for a description.
 - The `prefs.xml` file provides edition-specific preferences for Edirom Online. See [Preferences](#preferences) for a description.
+- If your repository contains a `CITATION.cff` file in its root, Edirom Online displays its citation metadata in the About window. This optional file describes how to cite your edition and its creators. The [MEI Metadata Toolkit](https://github.com/Edirom/mei-metadata-toolkit) provides tools to help create one from the MEI files in the edition.
 
 ## Images
 
