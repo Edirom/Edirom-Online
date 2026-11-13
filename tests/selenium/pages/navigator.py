@@ -121,6 +121,13 @@ class Navigator:
                         "targets": entry.get("targets") or "",
                     })
 
+        # Since the navigator got tabs (main navigation + concordance), navigator-data
+        # is a list of tabs: [{"id": "main", "name": ..., "navigatorDefinition": [...]}].
+        # Older frontends pass a single object {"navigatorDefinition": [...]}.
+        if isinstance(data, list):
+            tab = next((t for t in data if t.get("id") == "main"), data[0] if data else {})
+            data = tab
+
         walk(data.get("navigatorDefinition"))
         return items
 
