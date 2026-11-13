@@ -3,10 +3,10 @@ on:
   issues:
     types:
       - opened
-  pull_request:
+  pull_request_target: # safe here because the workflow doesn't check out or run any code from the PR
     types: 
       - opened
-jobs:
+jobs: # Please don't add a checkout step to this workflow.
   add-to-project:
     name: Add issue to project
     runs-on: ubuntu-latest
