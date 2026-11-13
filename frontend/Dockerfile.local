@@ -1,0 +1,95 @@
+#######################################
+# Multi-stage Dockerfile for building from a LOCAL clone of Edirom-Online-Frontend
+# (used by docker-compose.local-frontend.yml)
+# 1. Set up the build environment
+# 2. Build Edirom-Online packages
+# 3. Run the nginx and deploy frontend
+#######################################
+
+
+#########################
+# 1. Build Environment
+#########################
+
+FROM eclipse-temurin:8-jdk-focal as builder
+
+ARG ANT_VERSION=1.10.12
+ARG BE_PORT
+ARG WS_URL
+ARG SENCHA_BUILD_ENV=production
+
+
+# Install wget and unzip and ruby and other dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+        sudo \
+        wget \
+        git \
+        unzip \
+		libfreetype6 \
+		fontconfig \
+        ruby-full \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Download and extract Apache Ant to opt folder
+RUN wget --no-check-certificate --no-cookies http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
+    wget --no-check-certificate --no-cookies http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz.sha512 && \
+    echo "$(cat apache-ant-${ANT_VERSION}-bin.tar.gz.sha512) apache-ant-${ANT_VERSION}-bin.tar.gz" | sha512sum -c && \
+    tar -zvxf apache-ant-${ANT_VERSION}-bin.tar.gz -C /opt/ && \
+    ln -s /opt/apache-ant-${ANT_VERSION} /opt/ant && \
+    unlink apache-ant-${ANT_VERSION}-bin.tar.gz && \
+    unlink apache-ant-${ANT_VERSION}-bin.tar.gz.sha512
+
+# Download and install SenchaCmd Community Edition
+RUN curl --silent http://cdn.sencha.com/cmd/7.0.0.40/no-jre/SenchaCmd-7.0.0.40-linux-amd64.sh.zip -o /tmp/senchaCmd.zip && \
+    unzip /tmp/senchaCmd.zip -d /tmp  && \
+    unlink /tmp/senchaCmd.zip  && \
+    chmod o+x /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh && \
+    /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh -Dall=true -q -dir /opt/Sencha/Cmd/7.0.0.40 && \
+    unlink /tmp/SenchaCmd-7.0.0.40-linux-amd64.sh
+
+# Put ant and sencha in the path
+ENV PATH="/opt/ant/bin:/opt/Sencha/Cmd:${PATH}"
+
+
+############################
+# 2. Edirom-Online Frontend
+############################
+
+# Get build for Edirom-Online Frontend
+WORKDIR /opt/eo-frontend
+
+# Copy the local source (build context "src", see docker-compose.local-frontend.yml)
+COPY --from=src . .
+
+RUN rm -rf build && \
+    if [ -n "$BE_PORT" ] && [ "$BE_PORT" != "8080" ]; then \
+        echo "Writing backend.port=$BE_PORT to local.properties…"; \
+        if [ -f "./local.properties" ]; then \
+            sed -i '/^backend\.port=/d' local.properties; \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        else \
+            echo "backend.port=$BE_PORT" >> local.properties; \
+        fi \
+    fi && \
+    if [ -n "$WS_URL" ]; then \
+        echo "Writing ws.url=$WS_URL to local.properties…"; \
+        if [ -f "./local.properties" ]; then \
+            sed -i '/^ws\.url=/d' local.properties; \
+            echo "ws.url=$WS_URL" >> local.properties; \
+        else \
+            echo "ws.url=$WS_URL" >> local.properties; \
+        fi \
+    fi && \
+    echo "Building Frontend XAR..." && \
+    sencha app build ${SENCHA_BUILD_ENV}
+
+#########################
+# 3. Run/deploy nginx
+#########################
+
+# Use nginx as the base image
+FROM nginx:alpine
+
+# copy build files to directory
+COPY --from=builder /opt/eo-frontend/build/ /usr/share/nginx/html/

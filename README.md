@@ -148,6 +148,8 @@ You can also check the current docker compose configuration, and see the effect 
 docker compose config
 ```
 
+To build from your **local clones** of the backend and/or frontend instead (e.g. to test changes that are not pushed yet), see [Building from local clones].
+
 **Step 3.1 (optional)**: Specify an edition.
 
 **Option A**: By setting the environment variable **EDITION_XAR** you can provide a URL of a downloadable xar package (here the EditionExample:).
@@ -294,6 +296,7 @@ Some useful information regarding documentation is captured in the [docs] folder
 - [Data creation workflow] for the Edirom Online
 - [MEI Taxonomies Support] in Edirom Online
 - [Connected Workspace] for using Edirom Online on several devices at once
+- [Building from local clones] of the backend and frontend for development
 
 ## Dependencies
 
@@ -376,6 +379,7 @@ Edirom Online is released to the public under the terms of the [GNU GPL v.3] ope
 [Manual setup]: docs/setup.md
 [Data creation workflow]: docs/data-creation-workflow.md
 [Connected Workspace]: docs/connected-workspace.md
+[Building from local clones]: docs/local-development.md
 [MEI Taxonomies Support]: docs/mei-taxonomies-support.md
 [Ext JS]: https://www.sencha.com/products/extjs
 [Raphaël]: http://raphaeljs.com

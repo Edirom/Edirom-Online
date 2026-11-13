@@ -1,0 +1,10 @@
+# Build the backend from a LOCAL clone of Edirom-Online-Backend instead of GitHub.
+# Use together with docker-compose.yml, see docs/local-development.md:
+#   BE_LOCAL_SOURCE=/path/to/Edirom-Online-Backend \
+#   docker compose -f docker-compose.yml -f docker-compose.local-backend.yml up --build
+services:
+  edirom-online-backend:
+    build:
+      dockerfile: Dockerfile.local
+      additional_contexts:
+        src: ${BE_LOCAL_SOURCE:?Please set BE_LOCAL_SOURCE to your local clone of Edirom-Online-Backend}

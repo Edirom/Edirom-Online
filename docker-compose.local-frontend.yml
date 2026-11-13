@@ -1,0 +1,10 @@
+# Build the frontend from a LOCAL clone of Edirom-Online-Frontend instead of GitHub.
+# Use together with docker-compose.yml, see docs/local-development.md:
+#   FE_LOCAL_SOURCE=/path/to/Edirom-Online-Frontend \
+#   docker compose -f docker-compose.yml -f docker-compose.local-frontend.yml up --build
+services:
+  edirom-online-frontend:
+    build:
+      dockerfile: Dockerfile.local
+      additional_contexts:
+        src: ${FE_LOCAL_SOURCE:?Please set FE_LOCAL_SOURCE to your local clone of Edirom-Online-Frontend}
