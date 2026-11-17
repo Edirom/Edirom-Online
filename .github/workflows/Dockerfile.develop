@@ -1,0 +1,92 @@
+#########################
+# multi stage Dockerfile
+# 1. set up the build environment and build the expath-packages
+# 2. run the eXist-db
+#########################
+FROM eclipse-temurin:27-jre AS builder
+LABEL maintainer="Daniel Jettka"
+
+## Version of backend ("develop" or pattern "MAJOR.MINOR.PATCH", e.g. 1.5.0)
+ARG BACKEND_VERSION=develop
+
+## Version of frontend ("develop" or pattern "MAJOR.MINOR.PATCH", e.g. 1.5.0)
+ARG FRONTEND_VERSION=develop
+
+## Version of roaster
+ARG ROASTER_VERSION=1.11.0
+
+## Backend configuration
+ARG BACKEND_URL=http://localhost:8080/apps/Edirom-Online-Backend/
+ARG BACKEND_PATH=/apps/Edirom-Online-Backend
+
+## Edition URLs (space separated list of URLs)
+ARG EDITION_URLs="\
+https://github.com/Edirom/EditionExample/releases/download/dev/develop.xar \
+https://github.com/Edirom/Bargheer-Edition/releases/download/dev/develop.xar \
+https://git.uni-paderborn.de/-/project/9266/uploads/2e2d28d226356b645b94bbff0c1d6f8e/weber-klarinettenquintett-eol-emeritus-1.1.1-remoteScaler.xar \
+https://git.uni-paderborn.de/-/project/7994/uploads/89d9af36e439151a322013507337514e/open-faust-v0.9.2.xar"
+
+# install ant, curl and unzip
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ant curl unzip zip
+
+
+WORKDIR "/opt/packages"
+
+# Download backend xar package
+RUN echo "Downloading Edirom Online Backend xar..." && \
+    if [ "$BACKEND_VERSION" = "develop" ]; then \
+        curl -L "https://github.com/Edirom/Edirom-Online-Backend/releases/download/dev/develop.xar" \
+            -o "Edirom-Online-Backend-develop.xar"; \
+    else \
+        curl -L "https://github.com/Edirom/Edirom-Online-Backend/releases/download/v${BACKEND_VERSION}/Edirom-Online-Backend-${BACKEND_VERSION}.xar" \
+            -o "Edirom-Online-Backend-${BACKEND_VERSION}.xar"; \
+    fi
+
+
+# Download frontend xar package
+RUN echo "Downloading Edirom Online Frontend xar..." && \
+    if [ "$FRONTEND_VERSION" = "develop" ]; then \
+        curl -L "https://github.com/Edirom/Edirom-Online-Frontend/releases/download/dev/develop.xar" \
+            -o "Edirom-Online-Frontend-develop.xar"; \
+    else \
+        curl -L "https://github.com/Edirom/Edirom-Online-Frontend/releases/download/v${FRONTEND_VERSION}/Edirom-Online-Frontend-${FRONTEND_VERSION}.xar" \
+            -o "Edirom-Online-Frontend-${FRONTEND_VERSION}.xar"; \
+    fi
+
+# replace backendURL and backendPath value in config.json inside the Edirom-Online-Frontend xar package
+RUN unzip -o "Edirom-Online-Frontend-${FRONTEND_VERSION}.xar" "config.json" && \
+    sed -i "s|\"backendURL\": \".*\"|\"backendURL\": \"${BACKEND_URL}\"|g" config.json && \
+    sed -i "s|\"backendPath\": \".*\"|\"backendPath\": \"${BACKEND_PATH}\"|g" config.json && \
+    zip -q -f "Edirom-Online-Frontend-${FRONTEND_VERSION}.xar" "config.json" && \
+    rm config.json;
+
+# Download roaster xar package
+RUN echo "Downloading Roaster xar..." && \
+    curl -L -O "https://exist-db.org/exist/apps/public-repo/public/roaster-${ROASTER_VERSION}.xar";
+
+# Download edition xar packages
+RUN echo "Downloading Edition xar packages..." && \
+    i=0; \
+    for url in $EDITION_URLs; do \
+        filename=edition-$i.xar; \
+        curl -L "$url" -o "$filename"; \
+        i=$((i+1)); \
+    done
+
+#########################
+# Now running the eXist-db
+# and adding our freshly built and downloaded xar-packages
+#########################
+FROM stadlerpeter/existdb:6
+
+# add specific settings for this app 
+# For more details about the options see  
+# https://github.com/peterstadler/existdb-docker
+#ENV EXIST_ENV="production"
+ENV EXIST_CONTEXT_PATH="/"
+ENV EXIST_DEFAULT_APP_PATH="xmldb:exist:///db/apps/Edirom-Online-Frontend"
+
+# simply copy our xar packages
+# to the eXist-db autodeploy folder
+COPY --from=builder /opt/packages/*.xar ${EXIST_HOME}/autodeploy/
