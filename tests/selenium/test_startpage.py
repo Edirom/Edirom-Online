@@ -125,6 +125,15 @@ class TestStartPage:
             PASSED → No critical JS errors on startup
             FAILED → Check the printed error messages — they show exactly what went wrong
         """
+        # The browser session is shared by all tests and get_log() returns every
+        # message since it was last called, including those of earlier tests
+        # (e.g. a failed getEditions.xql request after test_page_responds, which
+        # loads the app without ?edition=). Leave the previous page first, so nothing
+        # it still logs while being left counts here, then discard everything
+        # collected so far: this test only checks its own page load.
+        driver.get("about:blank")
+        driver.get_log("browser")
+
         driver.get(EDITION_URL)
 
         # Wait for app to load first
