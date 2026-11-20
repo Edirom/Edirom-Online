@@ -25,6 +25,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from conftest import BASE_URL, EDITION_URL, DEFAULT_TIMEOUT
+from pages.app import find_taskbar
 
 
 # ---------------------------------------------------------------------------
@@ -104,9 +105,9 @@ class TestStartPage:
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
 
         # Wait until the TaskBar element appears in the DOM
-        # The ID 'ediromTaskbar' is defined in app/view/desktop/TaskBar.js line 33
+        # (ExtJS desktop: id 'ediromTaskbar'; web component: <edirom-taskbar>, see pages/app.py)
         taskbar = wait.until(
-            EC.presence_of_element_located((By.ID, "ediromTaskbar")),
+            find_taskbar,
             message=(
                 f"TaskBar did not appear within {DEFAULT_TIMEOUT} seconds.\n"
                 f"Check the browser console for JavaScript errors."
@@ -138,7 +139,7 @@ class TestStartPage:
 
         # Wait for app to load first
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(EC.presence_of_element_located((By.ID, "ediromTaskbar")))
+        wait.until(find_taskbar)
 
         # These resources are optional and expected to be missing — ignore their 404s
         EXPECTED_MISSING = ("favicon.ico", "config.json")
@@ -178,7 +179,7 @@ class TestStartPage:
         # heading (2+ editions → selection screen). Whichever appears first wins.
         wait.until(
             lambda d: (
-                d.find_elements(By.ID, "ediromTaskbar") or
+                find_taskbar(d) or
                 d.find_elements(By.CSS_SELECTOR, ".navigatorCategoryTitle")
             ),
             message="Neither TaskBar nor edition chooser appeared within the timeout."
@@ -203,7 +204,7 @@ class TestStartPage:
         driver.get(EDITION_URL)
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
         wait.until(
-            EC.presence_of_element_located((By.ID, "ediromTaskbar")),
+            find_taskbar,
             message=(
                 f"TaskBar did not appear when loading with ?edition= parameter.\n"
                 f"URL used: {EDITION_URL}"
