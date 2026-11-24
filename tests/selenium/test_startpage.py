@@ -144,11 +144,17 @@ class TestStartPage:
         # These resources are optional and expected to be missing — ignore their 404s
         EXPECTED_MISSING = ("favicon.ico", "config.json")
 
-        # Collect browser console errors, excluding known harmless 404s
+        # Known messages that are not errors of the app itself:
+        # ExtJS registers a window "unload" listener, which newer Chrome versions (first
+        # seen with Chrome 158) report as a permissions policy violation. It disappears
+        # once ExtJS is replaced.
+        KNOWN_MESSAGES = ("Permissions policy violation: unload",)
+
+        # Collect browser console errors, excluding known harmless 404s and messages
         severe_logs = [
             log for log in driver.get_log("browser")
             if log["level"] == "SEVERE"
-            and not any(name in log["message"] for name in EXPECTED_MISSING)
+            and not any(text in log["message"] for text in EXPECTED_MISSING + KNOWN_MESSAGES)
         ]
 
         # Print them for easier debugging if the test fails
