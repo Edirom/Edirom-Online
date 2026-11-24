@@ -114,6 +114,6 @@ def wait(driver):
     Use this when you need to wait for something specific to happen.
 
     Example in a test:
-        wait.until(EC.presence_of_element_located((By.ID, "ediromTaskbar")))
+        wait.until(EC.presence_of_element_located((By.ID, "navigator")))
     """
     return WebDriverWait(driver, DEFAULT_TIMEOUT)
