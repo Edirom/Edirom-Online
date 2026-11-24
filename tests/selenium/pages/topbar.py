@@ -14,7 +14,7 @@ Usage in a test:
     topbar.search("Allegro")
 """
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
@@ -93,17 +93,22 @@ class TopBar:
         self._clickable(self.SEARCH_BUTTON, self.PART_SEARCH_BUTTON).click()
 
     def get_work_switch_text(self):
-        """Return the text currently shown in the work switcher button (= current work title)."""
-        return self._clickable(self.WORK_SWITCH, self.PART_WORK_SWITCH).text
+        """Return the text currently shown in the work switcher (= current work title)."""
+        element = self._clickable(self.WORK_SWITCH, self.PART_WORK_SWITCH)
+        # <edirom-topbar> shows several works in a native <select>: only the selected entry counts
+        if element.tag_name.lower() == "select":
+            return Select(element).first_selected_option.text
+        return element.text
 
     def click_work_switch(self):
-        """Click the work switcher button to open the dropdown menu."""
+        """Click the work switcher to open the dropdown menu (not needed for a native <select>)."""
         self._clickable(self.WORK_SWITCH, self.PART_WORK_SWITCH).click()
 
     def get_work_menu_items(self):
         """
-        Wait for the work switcher dropdown and return its entries (one per work).
-        Call click_work_switch() first.
+        Return the entries of the work switcher (one per work).
+        For the ExtJS top bar call click_work_switch() first, then wait for its dropdown.
+        <edirom-topbar> uses a native <select> for several works, whose options are returned directly.
         """
         root = self._shadow_root()
         if root is None:
@@ -113,6 +118,11 @@ class TopBar:
             )
             return self.driver.find_elements(*self.WORK_MENU_ITEMS)
 
+        switch = root.find_element(By.CSS_SELECTOR, self.PART_WORK_SWITCH)
+        if switch.tag_name.lower() == "select":
+            return Select(switch).options
+
+        # Earlier versions of <edirom-topbar> opened a popup menu instead
         return self.wait.until(
             lambda _driver: root.find_elements(By.CSS_SELECTOR, self.PART_MENU_ITEMS),
             message="Work switcher dropdown did not open."
