@@ -60,7 +60,7 @@ To load images protected by Keycloak authentication, enable the `edirom-keycloak
         <option key="realm" value="realmName" />
         <option key="client_id" value="resourceName" />
         <option key="script"
-            value="resources/js/edirom-keycloak-handler-v.1.0.0/keycloak-handler.js" />
+            value="resources/js/edirom-keycloak-handler/keycloak-handler.js" />
     </web-component>
 </web-components>
 ...
