@@ -20,6 +20,27 @@
       "clientRoles": {}
     }
   ],
+  "clients": [
+    {
+      "clientId": "edirom-online",
+      "name": "Edirom Online local test client",
+      "protocol": "openid-connect",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:8089/*",
+        "http://localhost:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8089",
+        "http://localhost:8080"
+      ]
+    }
+  ],
   "users": [
     {
       "username": "test-editor",

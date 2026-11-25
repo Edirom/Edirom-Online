@@ -286,11 +286,25 @@ digilib serves a IIIF manifest of your images at http://localhost:8182/Manifeste
 
 #### Optional: run Keycloak
 
-Start the local Keycloak service on [http://localhost:8082](http://localhost:8082) with the `keycloak` profile:
+To enable Keycloak sign-in in the frontend, configure the local realm and client before building:
 
+Mac/Linux:
 ```bash
-docker compose --profile keycloak up keycloak
+export KEYCLOAK_URL=http://localhost:8082
+export KEYCLOAK_REALM=edirom-test-realm
+export KEYCLOAK_CLIENT_ID=edirom-online
+docker compose --profile keycloak up --build
 ```
+
+Windows:
+```bash
+set KEYCLOAK_URL=http://localhost:8082
+set KEYCLOAK_REALM=edirom-test-realm
+set KEYCLOAK_CLIENT_ID=edirom-online
+docker compose --profile keycloak up --build
+```
+
+The frontend build must use a revision containing the Keycloak integration. These settings are baked into the frontend at build time, so rebuild after changing them.
 
 At startup, Keycloak imports [edirom-test-realm.json](keycloak/edirom-test-realm.json), which creates the `edirom-test-realm` realm, `editors` and `reviewers` groups, and three test users. All test users use the password `test-password`. The admin console username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
 

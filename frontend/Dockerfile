@@ -17,6 +17,9 @@ ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=v1.5.0
 ARG BE_PORT
 ARG WS_URL
+ARG KEYCLOAK_URL
+ARG KEYCLOAK_REALM
+ARG KEYCLOAK_CLIENT_ID
 ARG SENCHA_BUILD_ENV=production
 
 
@@ -80,6 +83,9 @@ RUN echo "Cloning from repo $SOURCE" && \
             echo "ws.url=$WS_URL" >> local.properties; \
         fi \
     fi && \
+    if [ -n "$KEYCLOAK_URL" ]; then printf 'keycloak.url=%s\n' "$KEYCLOAK_URL" >> local.properties; fi && \
+    if [ -n "$KEYCLOAK_REALM" ]; then printf 'keycloak.realm=%s\n' "$KEYCLOAK_REALM" >> local.properties; fi && \
+    if [ -n "$KEYCLOAK_CLIENT_ID" ]; then printf 'keycloak.client-id=%s\n' "$KEYCLOAK_CLIENT_ID" >> local.properties; fi && \
     echo "Building Frontend XAR..." && \
     sencha app build ${SENCHA_BUILD_ENV}
 
