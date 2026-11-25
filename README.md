@@ -290,21 +290,23 @@ To enable Keycloak sign-in in the frontend, configure the local realm and client
 
 Mac/Linux:
 ```bash
+export FE_BRANCH=authentication
 export KEYCLOAK_URL=http://localhost:8082
 export KEYCLOAK_REALM=edirom-test-realm
 export KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak up --build
+docker compose --profile keycloak up --build --force-recreate
 ```
 
 Windows:
 ```bash
+set FE_BRANCH=authentication
 set KEYCLOAK_URL=http://localhost:8082
 set KEYCLOAK_REALM=edirom-test-realm
 set KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak up --build
+docker compose --profile keycloak up --build --force-recreate
 ```
 
-The frontend build must use a revision containing the Keycloak integration. These settings are baked into the frontend at build time, so rebuild after changing them.
+The default frontend branch (`v1.5.0`) does not contain the Keycloak integration. Use a branch that includes the host wiring (currently `authentication`) and set all three Keycloak variables before building; the values are baked into the frontend image. Check `http://localhost:8089/config.json` and confirm `keycloakURL`, `keycloakRealm`, and `keycloakClientId` are populated if the button is still missing.
 
 At startup, Keycloak imports [edirom-test-realm.json](keycloak/edirom-test-realm.json), which creates the `edirom-test-realm` realm, `editors` and `reviewers` groups, and three test users. All test users use the password `test-password`. The admin console username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
 
