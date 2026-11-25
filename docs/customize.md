@@ -1,20 +1,22 @@
 # Customize Edirom Online and content
 
+- [Customize Edirom Online and content](#customize-edirom-online-and-content)
 - [Customize Edirom Online](#customize-edirom-online)
-  * [Set annotation window layout](#set-annotation-window-layout)
-  * [Add custom CSS](#add-custom-css)
-  * [Inject custom JavaScript](#inject-custom-javascript)
-  * [Set image server](#set-image-server)
-  * [Customize topbar](#customize-topbar)
-  * [Set a welcome window](#set-a-welcome-window)
+  - [Set annotation window layout](#set-annotation-window-layout)
+  - [Add custom CSS](#add-custom-css)
+  - [Inject custom JavaScript](#inject-custom-javascript)
+  - [Set image server](#set-image-server)
+    - [Enable Keycloak-protected images](#enable-keycloak-protected-images)
+  - [Customize topbar](#customize-topbar)
+  - [Set a welcome window](#set-a-welcome-window)
 - [Customize content](#customize-content)
-  * [Table of content](#table-of-contents)
-  * [SVG overlays](#svg-overlays)
-  * [Windows](#windows)
+  - [Table of content](#table-of-content)
+  - [SVG overlays](#svg-overlays)
+  - [Windows](#windows)
 - [Links](#links)
-  * [Links to XML in the eXist-database](#links-to-xml-in-the-exist-database)
-  * [Links from outside Edirom Online](#links-from-outside-edirom-online)
-  * [JS](#js)
+  - [Links to XML in the eXist-database](#links-to-xml-in-the-exist-database)
+  - [Links from outside Edirom Online](#links-from-outside-edirom-online)
+  - [JS](#js)
     
 
 # Customize Edirom Online
@@ -44,6 +46,25 @@ For this to work, make sure that:
 ## Set image server 
 **switch the image server** from digilib to openseadragon (IIIF), using predefined [preferences]
 * `<entry key="image_server" value="openseadragon"/>`
+
+### Enable Keycloak-protected images
+
+To load images protected by Keycloak authentication, enable the `edirom-keycloak-handler` web component in the `prefs.xml` file in your data directory. Uncomment the `<web-components>` section or add the following snippet and replace the example values with your configuration:
+
+```xml
+...
+<entries/>
+<web-components>
+    <web-component key="edirom_keycloak_handler">
+        <option key="url" value="yourUrl" />
+        <option key="realm" value="realmName" />
+        <option key="client_id" value="resourceName" />
+        <option key="script"
+            value="resources/js/edirom-keycloak-handler-v.1.0.0/keycloak-handler.js" />
+    </web-component>
+</web-components>
+...
+```
 
 ## Customize topbar
 The top bar and the task bar are provided by the web component [`<edirom-desktop>`](https://github.com/Edirom/edirom-desktop).
