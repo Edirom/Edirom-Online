@@ -286,13 +286,15 @@ digilib serves a IIIF manifest of your images at http://localhost:8182/Manifeste
 
 #### Optional: run Keycloak
 
-Start the local Keycloak service on [http://localhost:8082](http://localhost:8082) with:
+Start the local Keycloak service on [http://localhost:8082](http://localhost:8082) with the `keycloak` profile:
 
 ```bash
-docker compose --profile keycloak up
+docker compose --profile keycloak up keycloak
 ```
 
-The local-development admin username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
+At startup, Keycloak imports [edirom-test-realm.json](keycloak/edirom-test-realm.json), which creates the `edirom-test-realm` realm, `editors` and `reviewers` groups, and three test users. All test users use the password `test-password`. The admin console username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
+
+Keycloak imports the file only when the realm does not already exist; changes to the file do not update an existing realm. To reload the fixture, delete `edirom-test-realm` in the Keycloak admin console and restart the service. These credentials are for local testing only.
 
 
 ### Further Documentation

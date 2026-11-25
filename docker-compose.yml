@@ -52,9 +52,11 @@ services:
     container_name: keycloak
     profiles: ["keycloak"]
     image: quay.io/keycloak/keycloak:26.0.7
-    command: start-dev
+    command: start-dev --import-realm
     environment:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./keycloak/edirom-test-realm.json:/opt/keycloak/data/import/edirom-test-realm.json:ro
     ports:
       - "127.0.0.1:8082:8080"

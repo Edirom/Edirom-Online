@@ -1,0 +1,73 @@
+{
+  "realm": "edirom-test-realm",
+  "enabled": true,
+  "displayName": "Edirom Test Realm",
+  "groups": [
+    {
+      "name": "editors",
+      "path": "/editors",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    },
+    {
+      "name": "reviewers",
+      "path": "/reviewers",
+      "subGroups": [],
+      "attributes": {},
+      "realmRoles": [],
+      "clientRoles": {}
+    }
+  ],
+  "users": [
+    {
+      "username": "test-editor",
+      "enabled": true,
+      "email": "test-editor@example.invalid",
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "Editor",
+      "groups": ["/editors"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test-password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "test-reviewer",
+      "enabled": true,
+      "email": "test-reviewer@example.invalid",
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "Reviewer",
+      "groups": ["/reviewers"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test-password",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "test-editor-reviewer",
+      "enabled": true,
+      "email": "test-editor-reviewer@example.invalid",
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "Editor Reviewer",
+      "groups": ["/editors", "/reviewers"],
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test-password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
