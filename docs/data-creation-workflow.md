@@ -174,6 +174,7 @@ Another approach to capturing annotations is to encode the `annot` elements in a
 | `edition_path` | Database path where edition resources are stored (e.g. `/db/apps/contents`) |
 | `start_documents_uri` | Document URI to load automatically on application startup (leave empty for default) |
 | `gotomenu_display` | Display mode for the navigation menu; options include `partwise` for part-based navigation |
+| `display_metadata_view` | Controls the Metadata tab for documents with an MEI or TEI header (`true` to show, `false` to hide; defaults to `true`) |
 
 ### Optional Web Components
 
