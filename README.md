@@ -294,7 +294,8 @@ export FE_BRANCH=authentication
 export KEYCLOAK_URL=http://localhost:8082
 export KEYCLOAK_REALM=edirom-test-realm
 export KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak up --build --force-recreate
+docker compose --profile keycloak build --no-cache edirom-online-frontend
+docker compose --profile keycloak up --force-recreate
 ```
 
 Windows:
@@ -303,10 +304,11 @@ set FE_BRANCH=authentication
 set KEYCLOAK_URL=http://localhost:8082
 set KEYCLOAK_REALM=edirom-test-realm
 set KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak up --build --force-recreate
+docker compose --profile keycloak build --no-cache edirom-online-frontend
+docker compose --profile keycloak up --force-recreate
 ```
 
-The default frontend branch (`v1.5.0`) does not contain the Keycloak integration. Use a branch that includes the host wiring (currently `authentication`) and set all three Keycloak variables before building; the values are baked into the frontend image. Check `http://localhost:8089/config.json` and confirm `keycloakURL`, `keycloakRealm`, and `keycloakClientId` are populated if the button is still missing.
+The default frontend branch (`v1.5.0`) does not contain the Keycloak integration. Use a branch that includes the host wiring (currently `authentication`) and set all three Keycloak variables before building; the values are baked into the frontend image. Docker caches the remote `git clone` step, so use `--no-cache` when rebuilding after frontend branch changes. Confirm the served `http://localhost:8089/app.js` refers to `cdn.jsdelivr.net/gh/Edirom/edirom-keycloak-handler@v.1.0.0/` if the old npm URL error persists.
 
 At startup, Keycloak imports [edirom-test-realm.json](keycloak/edirom-test-realm.json), which creates the `edirom-test-realm` realm, `editors` and `reviewers` groups, and three test users. All test users use the password `test-password`. The admin console username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
 
