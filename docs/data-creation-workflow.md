@@ -60,6 +60,7 @@ As you can see from the Edition Example, the structure consists of different fil
 - Source files can contain measure zones; see [Create measure-zones](#create-measure-zones) for a description.
 - The work file can contain annotations of your edition. See [Annotations](#annotations) for a description.
 - The `prefs.xml` file provides edition-specific preferences for Edirom Online. See [Preferences](#preferences) for a description.
+- If your repository contains a `CITATION.cff` file ([Citation File Format](https://citation-file-format.github.io/)) in its root, Edirom Online displays its citation metadata in the About window. This optional file describes how to cite your edition and its creators. The [MEI Metadata Toolkit](https://github.com/Edirom/mei-metadata-toolkit) provides tools to help create one from the MEI files in the edition.
 
 ## Images
 
@@ -74,7 +75,21 @@ How to add images to your edition data:
    - Add this MEI file to the sources directory.
    - Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
 2. Locally stored images
-   - To be continued ...
+   * Put the images of each source into one folder, in page order, e.g. `page_001.jpg`, `page_002.jpg`, … Use JPG, PNG or TIFF. Avoid spaces in file names so the pages sort predictably.
+   * Start Edirom Online together with digilib (IIIF image server) and Cartographer from your Edirom-Online folder:
+```bash
+     export IMAGES_DIR=/full/path/to/your/image/folder
+     docker compose --profile digilib --profile cartographer up
+```
+     (Tip for macOS: type `export IMAGES_DIR=` and drag the folder from Finder into the terminal to get the exact path.)
+   * digilib serves your images and automatically creates an IIIF manifest for folders, so you can serve several sources at once:
+     * The root folder `IMAGES_DIR` is available as: http://localhost:8182/Manifester/IIIF/
+     * Each sub-folder of `IMAGES_DIR` becomes its own manifest, and sub-sub-folders are segmented by a `!`, e.g. a sub-folder `images2` is available as http://localhost:8182/Manifester/IIIF/images2 and its nested folder images2a as http://localhost:8182/Manifester/IIIF/images2!images2a
+     * New images and folders are picked up on the next reload; no restart is needed.
+   * Import the manifest of a source into the local Cartographer (http://localhost:8081) and download it as an MEI file. Repeat for each source.
+   * Add this MEI file to the sources directory.
+   * Add a new entry to the navigatorDefinition in the edition file and take care to make the necessary modifications (e.g. paths).
+   * Note: the images are served from your own computer (`localhost`), so they are only visible while digilib is running. For a published edition, the images have to be hosted on a public IIIF server (see point 1).
 
 ## Create measure-zones
 
@@ -92,7 +107,8 @@ If you have old MEI files that need updating to a newer MEI version, you can use
 **Attribute n vs label**
 
 For [surface](https://music-encoding.org/guidelines/v5/elements/surface.html#attributes_full_tab) and [measure](https://music-encoding.org/guidelines/v5/elements/measure.html#attributes_full_tab) elements the n-attribute and label-attribute can be used according to the MEI guidelines.
-Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, eg label="1verso" for surface (=page) or label="2b" for measure. A very common use case is the repetition of a measure number in scores after a line break; in this case the n-attribute will increase its number, but the label-attribute will keep its value.
+Since the n-attribute captures the total number of elements, the measure or surface elements also provide a label-attribute, e.g. label="1verso" for surface (=page) or label="2b" for measure. A measure that is merely interrupted by a line or system break is not such a case, even if the source repeats its number at the start of the new system: it remains a single measure linked to two or more zones (see [Create measure-zones](#create-measure-zones)), e.g. `<measure n="204" xml:id="bar-172575" facs="#zone_bar-172574 #zone_bar-172575"/>`.
+
 For both elements the Edirom Online prioritizes the value of the label-attribute to be displayed in the edition and uses the n-attribute only, if no label-attribute is provided.
 
 Whichever of the two applies is what Edirom Online calls the measure's *designation*. It is the number shown in the measure spinner, and it is what a reference to that measure is built from, so it should be the number a reader would recognise.
@@ -158,6 +174,7 @@ Another approach to capturing annotations is to encode the `annot` elements in a
 | `edition_path` | Database path where edition resources are stored (e.g. `/db/apps/contents`) |
 | `start_documents_uri` | Document URI to load automatically on application startup (leave empty for default) |
 | `gotomenu_display` | Display mode for the navigation menu; options include `partwise` for part-based navigation |
+| `display_metadata_view` | Controls the Metadata tab for documents with an MEI or TEI header (`true` to show, `false` to hide; defaults to `true`) |
 
 ### Optional Web Components
 

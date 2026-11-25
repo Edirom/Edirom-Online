@@ -46,15 +46,26 @@ For this to work, make sure that:
 * `<entry key="image_server" value="openseadragon"/>`
 
 ## Customize topbar
+The top bar and the task bar are provided by the web component [`<edirom-desktop>`](https://github.com/Edirom/edirom-desktop).
+
 change the **logo** of the edition
-* edit [`app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L72)
-* then edit [`Edirom-Online/packages/eoTheme/sass/var/button/Button.scss`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/packages/eoTheme/sass/var/button/Button.scss#L215)
+* set the image path in `logo` in [`app/view/desktop/App.js`](https://github.com/Edirom/Edirom-Online-Frontend/blob/develop/app/view/desktop/App.js) of Edirom-Online-Frontend and rebuild the frontend
 
-de/activate **search**
-* un/comment [`Edirom-Online/app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L84)
+**work switch**
+* shown automatically: hidden when the edition has no works, the title of the work for one work, a dropdown for several works
 
-de/activate **work switch**
-* un/comment [`Edirom-Online/app/view/desktop/TopBar.js`](https://github.com/Edirom/Edirom-Online/blob/f8abab67bd86cb055859be8fdb9965602477e854/app/view/desktop/TopBar.js#L82)
+**search**
+* the search field cannot be hidden by configuration at the moment
+
+change **colors and fonts** of the top bar and the task bar
+* set the CSS custom properties of `<edirom-desktop>` in a [custom CSS file](#add-custom-css), e.g.:
+  ```css
+  edirom-desktop {
+      --edirom-desktop-bar-background: #e0e0e0;
+      --edirom-desktop-font: 14px/1.4 "Source Sans 3", sans-serif;
+  }
+  ```
+* all custom properties are listed in the [styling section of the edirom-desktop README](https://github.com/Edirom/edirom-desktop#styling)
 
 ## Set a welcome window
 **define** a welcome window, using predefined [preferences]

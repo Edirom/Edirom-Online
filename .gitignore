@@ -20,3 +20,4 @@ backend/autodeploy/*.xar
 __pycache__/
 .pytest_cache/
 tests/selenium/report.html
+tests/selenium/assets/

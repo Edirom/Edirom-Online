@@ -99,7 +99,8 @@ class TestTopBar:
 
     # -------------------------------------------------------------------------
     # WORK SWITCHER TESTS
-    # The TopBar contains a button (id="workSwitch") that displays the current
+    # The TopBar contains a button (ExtJS: id="workSwitch",
+    # <edirom-topbar>: part="work-switch") that displays the current
     # work title. When the edition has multiple works (Bände), clicking it
     # opens a dropdown menu to switch between them.
     # -------------------------------------------------------------------------
@@ -148,13 +149,7 @@ class TestTopBar:
         topbar = TopBar(driver)
         topbar.click_work_switch()
 
-        wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(
-            EC.presence_of_element_located(topbar.WORK_MENU_ITEMS),
-            message="Work switcher dropdown did not open."
-        )
-
-        items = driver.find_elements(*topbar.WORK_MENU_ITEMS)
+        items = topbar.get_work_menu_items()
         assert len(items) >= len(edition.works), (
             f"Expected {len(edition.works)} works in switcher menu, found {len(items)}."
         )

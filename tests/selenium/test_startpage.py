@@ -25,6 +25,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from conftest import BASE_URL, EDITION_URL, DEFAULT_TIMEOUT
+from pages.app import find_taskbar
 
 
 # ---------------------------------------------------------------------------
@@ -104,9 +105,9 @@ class TestStartPage:
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
 
         # Wait until the TaskBar element appears in the DOM
-        # The ID 'ediromTaskbar' is defined in app/view/desktop/TaskBar.js line 33
+        # (ExtJS desktop: id 'ediromTaskbar'; web component: <edirom-taskbar>, see pages/app.py)
         taskbar = wait.until(
-            EC.presence_of_element_located((By.ID, "ediromTaskbar")),
+            find_taskbar,
             message=(
                 f"TaskBar did not appear within {DEFAULT_TIMEOUT} seconds.\n"
                 f"Check the browser console for JavaScript errors."
@@ -125,20 +126,35 @@ class TestStartPage:
             PASSED → No critical JS errors on startup
             FAILED → Check the printed error messages — they show exactly what went wrong
         """
+        # The browser session is shared by all tests and get_log() returns every
+        # message since it was last called, including those of earlier tests
+        # (e.g. a failed getEditions.xql request after test_page_responds, which
+        # loads the app without ?edition=). Leave the previous page first, so nothing
+        # it still logs while being left counts here, then discard everything
+        # collected so far: this test only checks its own page load.
+        driver.get("about:blank")
+        driver.get_log("browser")
+
         driver.get(EDITION_URL)
 
         # Wait for app to load first
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
-        wait.until(EC.presence_of_element_located((By.ID, "ediromTaskbar")))
+        wait.until(find_taskbar)
 
         # These resources are optional and expected to be missing — ignore their 404s
         EXPECTED_MISSING = ("favicon.ico", "config.json")
 
-        # Collect browser console errors, excluding known harmless 404s
+        # Known messages that are not errors of the app itself:
+        # ExtJS registers a window "unload" listener, which newer Chrome versions (first
+        # seen with Chrome 158) report as a permissions policy violation. It disappears
+        # once ExtJS is replaced.
+        KNOWN_MESSAGES = ("Permissions policy violation: unload",)
+
+        # Collect browser console errors, excluding known harmless 404s and messages
         severe_logs = [
             log for log in driver.get_log("browser")
             if log["level"] == "SEVERE"
-            and not any(name in log["message"] for name in EXPECTED_MISSING)
+            and not any(text in log["message"] for text in EXPECTED_MISSING + KNOWN_MESSAGES)
         ]
 
         # Print them for easier debugging if the test fails
@@ -169,7 +185,7 @@ class TestStartPage:
         # heading (2+ editions → selection screen). Whichever appears first wins.
         wait.until(
             lambda d: (
-                d.find_elements(By.ID, "ediromTaskbar") or
+                find_taskbar(d) or
                 d.find_elements(By.CSS_SELECTOR, ".navigatorCategoryTitle")
             ),
             message="Neither TaskBar nor edition chooser appeared within the timeout."
@@ -194,7 +210,7 @@ class TestStartPage:
         driver.get(EDITION_URL)
         wait = WebDriverWait(driver, DEFAULT_TIMEOUT)
         wait.until(
-            EC.presence_of_element_located((By.ID, "ediromTaskbar")),
+            find_taskbar,
             message=(
                 f"TaskBar did not appear when loading with ?edition= parameter.\n"
                 f"URL used: {EDITION_URL}"

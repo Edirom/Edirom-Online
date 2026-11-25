@@ -4,11 +4,16 @@ Automated browser tests for Edirom Online. Selenium drives a real Chrome browser
 
 ## Prerequisites
 
-1. **Docker running** — the app must be reachable at http://localhost:8089:
+1. **Docker running** — the app must be reachable at http://localhost:8089.
+   The tests target the current `develop` state of Frontend and Backend:
    ```bash
    cd /Edirom-Online
-   docker compose up -d
+   FE_BRANCH=develop BE_BRANCH=develop docker compose up --build -d
    ```
+   Use `--build` whenever you want to test a newer state: Docker reuses
+   existing images, so without it you keep testing whatever version was built
+   last. The tests require Edirom Online v1.4.0 or later (the Navigator is a
+   web component since then).
 
 2. **Python packages** (once):
    ```bash

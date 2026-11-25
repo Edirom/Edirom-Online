@@ -16,6 +16,7 @@ ARG ANT_VERSION=1.10.12
 ARG SOURCE=https://github.com/Edirom/Edirom-Online-Frontend.git
 ARG BRANCH=v1.5.0
 ARG BE_PORT
+ARG WS_URL
 ARG SENCHA_BUILD_ENV=production
 
 
@@ -68,6 +69,15 @@ RUN echo "Cloning from repo $SOURCE" && \
             echo "backend.port=$BE_PORT" >> local.properties; \
         else \
             echo "backend.port=$BE_PORT" >> local.properties; \
+        fi \
+    fi && \
+    if [ -n "$WS_URL" ]; then \
+        echo "Writing ws.url=$WS_URL to local.properties…"; \
+        if [ -f "./local.properties" ]; then \
+            sed -i '/^ws\.url=/d' local.properties; \
+            echo "ws.url=$WS_URL" >> local.properties; \
+        else \
+            echo "ws.url=$WS_URL" >> local.properties; \
         fi \
     fi && \
     echo "Building Frontend XAR..." && \
