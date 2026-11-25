@@ -284,6 +284,16 @@ docker compose --profile digilib --profile cartographer up
 
 digilib serves a IIIF manifest of your images at http://localhost:8182/Manifester/IIIF/ (each sub-folder of `IMAGES_DIR` becomes its own manifest), which you can import into the Cartographer app at http://localhost:8081. See the [Data creation workflow] for the full process.
 
+#### Optional: run Keycloak
+
+Start the local Keycloak service on [http://localhost:8082](http://localhost:8082) with:
+
+```bash
+docker compose --profile keycloak up
+```
+
+The local-development admin username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
+
 
 ### Further Documentation
 
