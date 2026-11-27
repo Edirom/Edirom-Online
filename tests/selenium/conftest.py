@@ -90,8 +90,10 @@ def driver():
     chrome_options = Options()
 
     # Run in visible mode so you can WATCH what Selenium is doing.
-    # Once tests are stable, you can enable headless mode by uncommenting this line:
-    # chrome_options.add_argument("--headless")
+    # Set HEADLESS=1 to run without a browser window (e.g. in CI):
+    #   HEADLESS=1 pytest -v
+    if os.environ.get("HEADLESS", "").lower() in ("1", "true", "yes"):
+        chrome_options.add_argument("--headless=new")
 
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--no-sandbox")

@@ -52,11 +52,23 @@ test_startpage.py::TestStartPage::test_no_javascript_errors FAILED
 
 ## Headless mode
 
-The browser opens visibly by default. To run headless (e.g. in CI), uncomment
-the headless line in `conftest.py`:
-```python
-chrome_options.add_argument("--headless")
+The browser opens visibly by default. To run headless (e.g. in CI), set the
+`HEADLESS` environment variable:
+```bash
+HEADLESS=1 pytest -v
 ```
+
+## GitHub Action
+
+The tests run automatically for every pull request in
+[Edirom-Online-Frontend](https://github.com/Edirom/Edirom-Online-Frontend)
+(workflow `.github/workflows/selenium.yml` there). The workflow builds the
+frontend from the pull request branch and the backend from `develop`, deploys
+EditionExample v0.2.1 via `backend/autodeploy/`, and runs this test suite (from
+`develop` of this repository). The HTML report is attached to the workflow run.
+
+This means: a change to the tests on `develop` here takes effect in all
+following frontend pull requests.
 
 ## File structure
 
