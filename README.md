@@ -286,29 +286,16 @@ digilib serves a IIIF manifest of your images at http://localhost:8182/Manifeste
 
 #### Optional: run Keycloak
 
-To enable Keycloak sign-in in the frontend, configure the local realm and client before building:
+To rebuild and launch from scratch with Keycloak, run this from the repository root (Compose defaults the Keycloak settings to the local test realm):
 
-Mac/Linux:
 ```bash
 export FE_BRANCH=authentication
-export KEYCLOAK_URL=http://localhost:8082
-export KEYCLOAK_REALM=edirom-test-realm
-export KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak build --no-cache edirom-online-frontend
-docker compose --profile keycloak up --force-recreate
+docker compose --profile keycloak down --volumes --remove-orphans &&
+docker compose --profile keycloak build --no-cache &&
+docker compose --profile keycloak up -d
 ```
 
-Windows:
-```bash
-set FE_BRANCH=authentication
-set KEYCLOAK_URL=http://localhost:8082
-set KEYCLOAK_REALM=edirom-test-realm
-set KEYCLOAK_CLIENT_ID=edirom-online
-docker compose --profile keycloak build --no-cache edirom-online-frontend
-docker compose --profile keycloak up --force-recreate
-```
-
-The default frontend branch (`v1.5.0`) does not contain the Keycloak integration. Use a branch that includes the host wiring (currently `authentication`) and set all three Keycloak variables before building; the values are baked into the frontend image. Docker caches the remote `git clone` step, so use `--no-cache` when rebuilding after frontend branch changes. Confirm the served `http://localhost:8089/app.js` refers to `cdn.jsdelivr.net/gh/Edirom/edirom-keycloak-handler@v.1.0.0/` if the old npm URL error persists.
+The default frontend branch (`v1.5.0`) does not contain the Keycloak integration; `authentication` does. Override `FE_BRANCH` if using another branch with the host wiring. The settings are baked into the frontend image. This removes Compose-managed volumes and resets persisted service data. Confirm the served `http://localhost:8089/app.js` refers to `cdn.jsdelivr.net/gh/Edirom/edirom-keycloak-handler@v.1.0.0/` if the old npm URL error persists. The default Keycloak URL is for local development; override it for deployments where the browser cannot reach Keycloak at `localhost:8082`.
 
 At startup, Keycloak imports [edirom-test-realm.json](keycloak/edirom-test-realm.json), which creates the `edirom-test-realm` realm, `editors` and `reviewers` groups, and three test users. All test users use the password `test-password`. The admin console username defaults to `admin`; set `KEYCLOAK_ADMIN_PASSWORD` to change its default password (`admin`).
 

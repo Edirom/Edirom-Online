@@ -25,9 +25,9 @@ services:
         BE_PORT: ${BE_PORT:-8080}
         # WebSocket server URL for frontend configuration (empty = WebSocket features disabled)
         WS_URL: ${WS_URL:-}
-        KEYCLOAK_URL: ${KEYCLOAK_URL:-}
-        KEYCLOAK_REALM: ${KEYCLOAK_REALM:-}
-        KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID:-}
+        KEYCLOAK_URL: ${KEYCLOAK_URL:-http://localhost:8082}
+        KEYCLOAK_REALM: ${KEYCLOAK_REALM:-edirom-test-realm}
+        KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID:-edirom-online}
         SENCHA_BUILD_ENV: ${SENCHA_BUILD_ENV:-production}
     ports:
       # expose nginx
